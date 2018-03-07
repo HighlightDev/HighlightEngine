@@ -1,0 +1,25 @@
+C:\Documents and Settings\Константин\Мои документы\Visual Studio 2010\Projects\2DGameTable\2DGameTable\bin\Debug\2DGameTable.dll
+C:\Documents and Settings\Константин\Мои документы\Visual Studio 2010\Projects\2DGameTable\2DGameTable\obj\Debug\ResolveAssemblyReference.cache
+C:\Documents and Settings\Константин\Мои документы\Visual Studio 2010\Projects\2DGameTable\2DGameTable\obj\Debug\2DGameTable.dll
+C:\Documents and Settings\Константин\Мои документы\Visual Studio 2010\Projects\2DGameTable\2DGameTable\obj\Debug\2DGameTable.pdb
+C:\Documents and Settings\Константин\Мои документы\Visual Studio 2010\Projects\2DGameTable\2DGameTable\bin\Debug\2DGameTable.pdb
+D:\Мультимедиа\Visual Studio Projects\DLL\2DGameTable\2DGameTable\bin\Debug\2DGameTable.dll
+D:\Мультимедиа\Visual Studio Projects\DLL\2DGameTable\2DGameTable\bin\Debug\2DGameTable.pdb
+D:\Мультимедиа\Visual Studio Projects\DLL\2DGameTable\2DGameTable\obj\Debug\ResolveAssemblyReference.cache
+D:\Мультимедиа\Visual Studio Projects\DLL\2DGameTable\2DGameTable\obj\Debug\2DGameTable.dll
+D:\Мультимедиа\Visual Studio Projects\DLL\2DGameTable\2DGameTable\obj\Debug\2DGameTable.pdb
+D:\Мультимедиа\Visual Studio Projects\OpenTK Applications\Applications\MassiveGame\MassiveGame\DLL\2DGameTable\2DGameTable\bin\Debug\2DGameTable.dll
+D:\Мультимедиа\Visual Studio Projects\OpenTK Applications\Applications\MassiveGame\MassiveGame\DLL\2DGameTable\2DGameTable\bin\Debug\2DGameTable.pdb
+D:\Мультимедиа\Visual Studio Projects\OpenTK Applications\Applications\MassiveGame\MassiveGame\DLL\2DGameTable\2DGameTable\obj\Debug\2DGameTable.dll
+D:\Мультимедиа\Visual Studio Projects\OpenTK Applications\Applications\MassiveGame\MassiveGame\DLL\2DGameTable\2DGameTable\obj\Debug\2DGameTable.pdb
+D:\Мультимедиа\Visual Studio Projects\OpenTK Applications\Applications\MassiveGame\MassiveGame\DLL\2DGameTable\2DGameTable\bin\Debug\OpenTK.dll
+D:\Мультимедиа\Visual Studio Projects\OpenTK Applications\Applications\MassiveGame\MassiveGame\DLL\2DGameTable\2DGameTable\bin\Debug\OpenTK.pdb
+D:\Мультимедиа\Visual Studio Projects\OpenTK Applications\Applications\MassiveGame\MassiveGame\DLL\2DGameTable\2DGameTable\bin\Debug\OpenTK.xml
+D:\Мультимедиа\Visual Studio Projects\OpenTK Applications\Applications\MassiveGame\MassiveGame\DLL\2DGameTable\2DGameTable\obj\Debug\2DGameTable.csprojResolveAssemblyReference.cache
+C:\Users\dzinovev\Desktop\Универчик\project\MassiveGame\MassiveGame\MassiveGame\DLL\2DGameTable\2DGameTable\bin\Debug\2DGameTable.dll
+C:\Users\dzinovev\Desktop\Универчик\project\MassiveGame\MassiveGame\MassiveGame\DLL\2DGameTable\2DGameTable\bin\Debug\2DGameTable.pdb
+C:\Users\dzinovev\Desktop\Универчик\project\MassiveGame\MassiveGame\MassiveGame\DLL\2DGameTable\2DGameTable\bin\Debug\OpenTK.pdb
+C:\Users\dzinovev\Desktop\Универчик\project\MassiveGame\MassiveGame\MassiveGame\DLL\2DGameTable\2DGameTable\bin\Debug\OpenTK.xml
+C:\Users\dzinovev\Desktop\Универчик\project\MassiveGame\MassiveGame\MassiveGame\DLL\2DGameTable\2DGameTable\obj\Debug\2DGameTable.csprojResolveAssemblyReference.cache
+C:\Users\dzinovev\Desktop\Универчик\project\MassiveGame\MassiveGame\MassiveGame\DLL\2DGameTable\2DGameTable\obj\Debug\2DGameTable.dll
+C:\Users\dzinovev\Desktop\Универчик\project\MassiveGame\MassiveGame\MassiveGame\DLL\2DGameTable\2DGameTable\obj\Debug\2DGameTable.pdb

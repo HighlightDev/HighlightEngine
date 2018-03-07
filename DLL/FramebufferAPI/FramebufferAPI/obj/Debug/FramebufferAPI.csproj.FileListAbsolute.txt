@@ -1,0 +1,27 @@
+D:\Мультимедиа\Visual Studio Projects\OpenTK Applications\DLL\FramebufferAPI\FramebufferAPI\bin\Debug\FramebufferAPI.dll
+D:\Мультимедиа\Visual Studio Projects\OpenTK Applications\DLL\FramebufferAPI\FramebufferAPI\bin\Debug\FramebufferAPI.pdb
+D:\Мультимедиа\Visual Studio Projects\OpenTK Applications\DLL\FramebufferAPI\FramebufferAPI\bin\Debug\OpenTK.dll
+D:\Мультимедиа\Visual Studio Projects\OpenTK Applications\DLL\FramebufferAPI\FramebufferAPI\bin\Debug\TextureLoader.dll
+D:\Мультимедиа\Visual Studio Projects\OpenTK Applications\DLL\FramebufferAPI\FramebufferAPI\bin\Debug\OpenTK.pdb
+D:\Мультимедиа\Visual Studio Projects\OpenTK Applications\DLL\FramebufferAPI\FramebufferAPI\bin\Debug\OpenTK.xml
+D:\Мультимедиа\Visual Studio Projects\OpenTK Applications\DLL\FramebufferAPI\FramebufferAPI\bin\Debug\TextureLoader.pdb
+D:\Мультимедиа\Visual Studio Projects\OpenTK Applications\DLL\FramebufferAPI\FramebufferAPI\obj\Debug\FramebufferAPI.csprojResolveAssemblyReference.cache
+D:\Мультимедиа\Visual Studio Projects\OpenTK Applications\DLL\FramebufferAPI\FramebufferAPI\obj\Debug\FramebufferAPI.dll
+D:\Мультимедиа\Visual Studio Projects\OpenTK Applications\DLL\FramebufferAPI\FramebufferAPI\obj\Debug\FramebufferAPI.pdb
+D:\Мультимедиа\Visual Studio Projects\OpenTK Applications\Applications\MassiveGame\MassiveGame\DLL\FramebufferAPI\FramebufferAPI\obj\Debug\FramebufferAPI.dll
+D:\Мультимедиа\Visual Studio Projects\OpenTK Applications\Applications\MassiveGame\MassiveGame\DLL\FramebufferAPI\FramebufferAPI\obj\Debug\FramebufferAPI.pdb
+D:\Мультимедиа\Visual Studio Projects\OpenTK Applications\Applications\MassiveGame\MassiveGame\DLL\FramebufferAPI\FramebufferAPI\bin\Debug\FramebufferAPI.dll
+D:\Мультимедиа\Visual Studio Projects\OpenTK Applications\Applications\MassiveGame\MassiveGame\DLL\FramebufferAPI\FramebufferAPI\bin\Debug\FramebufferAPI.pdb
+D:\Мультимедиа\Visual Studio Projects\OpenTK Applications\Applications\MassiveGame\MassiveGame\DLL\FramebufferAPI\FramebufferAPI\bin\Debug\OpenTK.dll
+D:\Мультимедиа\Visual Studio Projects\OpenTK Applications\Applications\MassiveGame\MassiveGame\DLL\FramebufferAPI\FramebufferAPI\bin\Debug\TextureLoader.dll
+D:\Мультимедиа\Visual Studio Projects\OpenTK Applications\Applications\MassiveGame\MassiveGame\DLL\FramebufferAPI\FramebufferAPI\bin\Debug\OpenTK.pdb
+D:\Мультимедиа\Visual Studio Projects\OpenTK Applications\Applications\MassiveGame\MassiveGame\DLL\FramebufferAPI\FramebufferAPI\bin\Debug\OpenTK.xml
+D:\Мультимедиа\Visual Studio Projects\OpenTK Applications\Applications\MassiveGame\MassiveGame\DLL\FramebufferAPI\FramebufferAPI\bin\Debug\TextureLoader.pdb
+D:\Мультимедиа\Visual Studio Projects\OpenTK Applications\Applications\MassiveGame\MassiveGame\DLL\FramebufferAPI\FramebufferAPI\obj\Debug\FramebufferAPI.csprojResolveAssemblyReference.cache
+C:\Users\dzinovev\Desktop\Универчик\project\MassiveGame\MassiveGame\MassiveGame\DLL\FramebufferAPI\FramebufferAPI\bin\Debug\FramebufferAPI.dll
+C:\Users\dzinovev\Desktop\Универчик\project\MassiveGame\MassiveGame\MassiveGame\DLL\FramebufferAPI\FramebufferAPI\bin\Debug\FramebufferAPI.pdb
+C:\Users\dzinovev\Desktop\Универчик\project\MassiveGame\MassiveGame\MassiveGame\DLL\FramebufferAPI\FramebufferAPI\bin\Debug\TextureLoader.dll
+C:\Users\dzinovev\Desktop\Универчик\project\MassiveGame\MassiveGame\MassiveGame\DLL\FramebufferAPI\FramebufferAPI\bin\Debug\TextureLoader.pdb
+C:\Users\dzinovev\Desktop\Универчик\project\MassiveGame\MassiveGame\MassiveGame\DLL\FramebufferAPI\FramebufferAPI\obj\Debug\FramebufferAPI.csprojResolveAssemblyReference.cache
+C:\Users\dzinovev\Desktop\Универчик\project\MassiveGame\MassiveGame\MassiveGame\DLL\FramebufferAPI\FramebufferAPI\obj\Debug\FramebufferAPI.dll
+C:\Users\dzinovev\Desktop\Универчик\project\MassiveGame\MassiveGame\MassiveGame\DLL\FramebufferAPI\FramebufferAPI\obj\Debug\FramebufferAPI.pdb

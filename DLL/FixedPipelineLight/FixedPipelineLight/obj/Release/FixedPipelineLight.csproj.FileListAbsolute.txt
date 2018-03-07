@@ -1,0 +1,15 @@
+D:\Мультимедиа\Visual Studio Projects\DLL\FixedPipelineLight\FixedPipelineLight\bin\Release\FixedPipelineLight.dll
+D:\Мультимедиа\Visual Studio Projects\DLL\FixedPipelineLight\FixedPipelineLight\bin\Release\FixedPipelineLight.pdb
+D:\Мультимедиа\Visual Studio Projects\DLL\FixedPipelineLight\FixedPipelineLight\bin\Release\CMatrixMath.dll
+D:\Мультимедиа\Visual Studio Projects\DLL\FixedPipelineLight\FixedPipelineLight\bin\Release\CMatrixMath.pdb
+D:\Мультимедиа\Visual Studio Projects\DLL\FixedPipelineLight\FixedPipelineLight\obj\Release\ResolveAssemblyReference.cache
+D:\Мультимедиа\Visual Studio Projects\DLL\FixedPipelineLight\FixedPipelineLight\obj\Release\FixedPipelineLight.dll
+D:\Мультимедиа\Visual Studio Projects\DLL\FixedPipelineLight\FixedPipelineLight\obj\Release\FixedPipelineLight.pdb
+D:\Мультимедиа\Visual Studio Projects\ОперацияOpenTK\FixedPipelineLight\FixedPipelineLight\obj\Release\FixedPipelineLight.csprojResolveAssemblyReference.cache
+D:\Мультимедиа\Visual Studio Projects\ОперацияOpenTK\FixedPipelineLight\FixedPipelineLight\obj\Release\FixedPipelineLight.dll
+D:\Мультимедиа\Visual Studio Projects\ОперацияOpenTK\FixedPipelineLight\FixedPipelineLight\bin\Release\FixedPipelineLight.dll
+D:\Мультимедиа\Visual Studio Projects\ОперацияOpenTK\FixedPipelineLight\FixedPipelineLight\bin\Release\FixedPipelineLight.pdb
+D:\Мультимедиа\Visual Studio Projects\ОперацияOpenTK\FixedPipelineLight\FixedPipelineLight\bin\Release\OpenTK.dll
+D:\Мультимедиа\Visual Studio Projects\ОперацияOpenTK\FixedPipelineLight\FixedPipelineLight\bin\Release\OpenTK.pdb
+D:\Мультимедиа\Visual Studio Projects\ОперацияOpenTK\FixedPipelineLight\FixedPipelineLight\bin\Release\OpenTK.xml
+D:\Мультимедиа\Visual Studio Projects\ОперацияOpenTK\FixedPipelineLight\FixedPipelineLight\obj\Release\FixedPipelineLight.pdb

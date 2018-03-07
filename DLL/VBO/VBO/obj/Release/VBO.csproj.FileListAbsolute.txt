@@ -1,0 +1,27 @@
+D:\Мультимедиа\Visual Studio Projects\DLL\VBO\VBO\bin\Release\VBO.dll
+D:\Мультимедиа\Visual Studio Projects\DLL\VBO\VBO\bin\Release\VBO.pdb
+D:\Мультимедиа\Visual Studio Projects\DLL\VBO\VBO\bin\Release\CMatrixMath.dll
+D:\Мультимедиа\Visual Studio Projects\DLL\VBO\VBO\bin\Release\CMatrixMath.pdb
+D:\Мультимедиа\Visual Studio Projects\DLL\VBO\VBO\obj\Release\VBO.dll
+D:\Мультимедиа\Visual Studio Projects\DLL\VBO\VBO\obj\Release\VBO.pdb
+D:\Мультимедиа\Visual Studio Projects\DLL\VBO\VBO\obj\Release\VBO.csprojResolveAssemblyReference.cache
+D:\Мультимедиа\Visual Studio Projects\ОперацияOpenTK\VBO\VBO\obj\Release\VBO.csprojResolveAssemblyReference.cache
+D:\Мультимедиа\Visual Studio Projects\ОперацияOpenTK\VBO\VBO\obj\Release\VBO.dll
+D:\Мультимедиа\Visual Studio Projects\ОперацияOpenTK\VBO\VBO\bin\Release\VBO.dll
+D:\Мультимедиа\Visual Studio Projects\ОперацияOpenTK\VBO\VBO\bin\Release\VBO.pdb
+D:\Мультимедиа\Visual Studio Projects\ОперацияOpenTK\VBO\VBO\bin\Release\OpenTK.dll
+D:\Мультимедиа\Visual Studio Projects\ОперацияOpenTK\VBO\VBO\bin\Release\VectorMath.dll
+D:\Мультимедиа\Visual Studio Projects\ОперацияOpenTK\VBO\VBO\bin\Release\OpenTK.pdb
+D:\Мультимедиа\Visual Studio Projects\ОперацияOpenTK\VBO\VBO\bin\Release\OpenTK.xml
+D:\Мультимедиа\Visual Studio Projects\ОперацияOpenTK\VBO\VBO\bin\Release\VectorMath.pdb
+D:\Мультимедиа\Visual Studio Projects\ОперацияOpenTK\VBO\VBO\obj\Release\VBO.pdb
+D:\Мультимедиа\Visual Studio Projects\OpenTK Applications\DLL\VBO\VBO\bin\Release\VBO.dll
+D:\Мультимедиа\Visual Studio Projects\OpenTK Applications\DLL\VBO\VBO\bin\Release\VBO.pdb
+D:\Мультимедиа\Visual Studio Projects\OpenTK Applications\DLL\VBO\VBO\bin\Release\OpenTK.dll
+D:\Мультимедиа\Visual Studio Projects\OpenTK Applications\DLL\VBO\VBO\bin\Release\VectorMath.dll
+D:\Мультимедиа\Visual Studio Projects\OpenTK Applications\DLL\VBO\VBO\bin\Release\OpenTK.pdb
+D:\Мультимедиа\Visual Studio Projects\OpenTK Applications\DLL\VBO\VBO\bin\Release\OpenTK.xml
+D:\Мультимедиа\Visual Studio Projects\OpenTK Applications\DLL\VBO\VBO\bin\Release\VectorMath.pdb
+D:\Мультимедиа\Visual Studio Projects\OpenTK Applications\DLL\VBO\VBO\obj\Release\VBO.dll
+D:\Мультимедиа\Visual Studio Projects\OpenTK Applications\DLL\VBO\VBO\obj\Release\VBO.pdb
+D:\Мультимедиа\Visual Studio Projects\OpenTK Applications\DLL\VBO\VBO\obj\Release\VBO.csprojResolveAssemblyReference.cache

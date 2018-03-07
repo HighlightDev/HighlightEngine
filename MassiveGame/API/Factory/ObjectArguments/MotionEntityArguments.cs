@@ -1,0 +1,31 @@
+﻿using GpuGraphics;
+using OpenTK;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using TextureLoader;
+
+namespace MassiveGame.API.Factory.ObjectArguments
+{
+    public sealed class MotionEntityArguments : Arguments
+    {
+        public float Speed { private set; get; }
+        public int ID { private set; get; }
+        public Vector3 Translation { private set; get; }
+        public Vector3 Rotation { private set; get; }
+        public Vector3 Scale { private set; get; }
+
+        public MotionEntityArguments(string modelPath, string texturePath, string normalMapPath, string specularMapPath,
+            int id, float speed, Vector3 translation, Vector3 rotation, Vector3 scale)
+            : base(EngineObjectType.MOTION_ENTITY,  modelPath,  texturePath,  normalMapPath,  specularMapPath)
+        {
+            ID = id;
+            Speed = speed;
+            Translation = translation;
+            Rotation = rotation;
+            Scale = scale;
+        }
+    }
+}

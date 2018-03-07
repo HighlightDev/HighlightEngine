@@ -1,0 +1,29 @@
+D:\Мультимедиа\Visual Studio Projects\ОперацияOpenTK\VBO\VBO\obj\Debug\VBO.csprojResolveAssemblyReference.cache
+D:\Мультимедиа\Visual Studio Projects\ОперацияOpenTK\VBO\VBO\bin\Debug\VBO.dll
+D:\Мультимедиа\Visual Studio Projects\ОперацияOpenTK\VBO\VBO\bin\Debug\VBO.pdb
+D:\Мультимедиа\Visual Studio Projects\ОперацияOpenTK\VBO\VBO\bin\Debug\OpenTK.dll
+D:\Мультимедиа\Visual Studio Projects\ОперацияOpenTK\VBO\VBO\bin\Debug\VectorMath.dll
+D:\Мультимедиа\Visual Studio Projects\ОперацияOpenTK\VBO\VBO\bin\Debug\OpenTK.pdb
+D:\Мультимедиа\Visual Studio Projects\ОперацияOpenTK\VBO\VBO\bin\Debug\OpenTK.xml
+D:\Мультимедиа\Visual Studio Projects\ОперацияOpenTK\VBO\VBO\bin\Debug\VectorMath.pdb
+D:\Мультимедиа\Visual Studio Projects\ОперацияOpenTK\VBO\VBO\obj\Debug\VBO.dll
+D:\Мультимедиа\Visual Studio Projects\ОперацияOpenTK\VBO\VBO\obj\Debug\VBO.pdb
+D:\Мультимедиа\Visual Studio Projects\OpenTK Applications\DLL\VBO\VBO\bin\Debug\VBO.dll
+D:\Мультимедиа\Visual Studio Projects\OpenTK Applications\DLL\VBO\VBO\bin\Debug\VBO.pdb
+D:\Мультимедиа\Visual Studio Projects\OpenTK Applications\DLL\VBO\VBO\bin\Debug\OpenTK.dll
+D:\Мультимедиа\Visual Studio Projects\OpenTK Applications\DLL\VBO\VBO\bin\Debug\VectorMath.dll
+D:\Мультимедиа\Visual Studio Projects\OpenTK Applications\DLL\VBO\VBO\bin\Debug\OpenTK.pdb
+D:\Мультимедиа\Visual Studio Projects\OpenTK Applications\DLL\VBO\VBO\bin\Debug\OpenTK.xml
+D:\Мультимедиа\Visual Studio Projects\OpenTK Applications\DLL\VBO\VBO\bin\Debug\VectorMath.pdb
+D:\Мультимедиа\Visual Studio Projects\OpenTK Applications\DLL\VBO\VBO\obj\Debug\VBO.dll
+D:\Мультимедиа\Visual Studio Projects\OpenTK Applications\DLL\VBO\VBO\obj\Debug\VBO.pdb
+D:\Мультимедиа\Visual Studio Projects\OpenTK Applications\Applications\MassiveGame\MassiveGame\DLL\VBO\VBO\obj\Debug\VBO.dll
+D:\Мультимедиа\Visual Studio Projects\OpenTK Applications\Applications\MassiveGame\MassiveGame\DLL\VBO\VBO\obj\Debug\VBO.pdb
+D:\Мультимедиа\Visual Studio Projects\OpenTK Applications\Applications\MassiveGame\MassiveGame\DLL\VBO\VBO\bin\Debug\VBO.dll
+D:\Мультимедиа\Visual Studio Projects\OpenTK Applications\Applications\MassiveGame\MassiveGame\DLL\VBO\VBO\bin\Debug\VBO.pdb
+D:\Мультимедиа\Visual Studio Projects\OpenTK Applications\Applications\MassiveGame\MassiveGame\DLL\VBO\VBO\bin\Debug\OpenTK.dll
+D:\Мультимедиа\Visual Studio Projects\OpenTK Applications\Applications\MassiveGame\MassiveGame\DLL\VBO\VBO\bin\Debug\VectorMath.dll
+D:\Мультимедиа\Visual Studio Projects\OpenTK Applications\Applications\MassiveGame\MassiveGame\DLL\VBO\VBO\bin\Debug\OpenTK.pdb
+D:\Мультимедиа\Visual Studio Projects\OpenTK Applications\Applications\MassiveGame\MassiveGame\DLL\VBO\VBO\bin\Debug\OpenTK.xml
+D:\Мультимедиа\Visual Studio Projects\OpenTK Applications\Applications\MassiveGame\MassiveGame\DLL\VBO\VBO\bin\Debug\VectorMath.pdb
+D:\Мультимедиа\Visual Studio Projects\OpenTK Applications\Applications\MassiveGame\MassiveGame\DLL\VBO\VBO\obj\Debug\VBO.csprojResolveAssemblyReference.cache

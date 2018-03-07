@@ -1,0 +1,14 @@
+D:\Мультимедиа\Visual Studio Projects\OpenTK Applications\Applications\MassiveGame\MassiveGame\DLL\Programmable PipelineLight\Programmable PipelineLight\bin\Debug\Programmable PipelineLight.dll
+D:\Мультимедиа\Visual Studio Projects\OpenTK Applications\Applications\MassiveGame\MassiveGame\DLL\Programmable PipelineLight\Programmable PipelineLight\bin\Debug\Programmable PipelineLight.pdb
+D:\Мультимедиа\Visual Studio Projects\OpenTK Applications\Applications\MassiveGame\MassiveGame\DLL\Programmable PipelineLight\Programmable PipelineLight\bin\Debug\OpenTK.dll
+D:\Мультимедиа\Visual Studio Projects\OpenTK Applications\Applications\MassiveGame\MassiveGame\DLL\Programmable PipelineLight\Programmable PipelineLight\bin\Debug\OpenTK.pdb
+D:\Мультимедиа\Visual Studio Projects\OpenTK Applications\Applications\MassiveGame\MassiveGame\DLL\Programmable PipelineLight\Programmable PipelineLight\bin\Debug\OpenTK.xml
+D:\Мультимедиа\Visual Studio Projects\OpenTK Applications\Applications\MassiveGame\MassiveGame\DLL\Programmable PipelineLight\Programmable PipelineLight\obj\Debug\Programmable PipelineLight.dll
+D:\Мультимедиа\Visual Studio Projects\OpenTK Applications\Applications\MassiveGame\MassiveGame\DLL\Programmable PipelineLight\Programmable PipelineLight\obj\Debug\Programmable PipelineLight.pdb
+D:\Programming\OPENGL\MassiveGame\MassiveGame\DLL\Programmable PipelineLight\Programmable PipelineLight\bin\Debug\Programmable PipelineLight.dll
+D:\Programming\OPENGL\MassiveGame\MassiveGame\DLL\Programmable PipelineLight\Programmable PipelineLight\bin\Debug\Programmable PipelineLight.pdb
+D:\Programming\OPENGL\MassiveGame\MassiveGame\DLL\Programmable PipelineLight\Programmable PipelineLight\bin\Debug\OpenTK.pdb
+D:\Programming\OPENGL\MassiveGame\MassiveGame\DLL\Programmable PipelineLight\Programmable PipelineLight\bin\Debug\OpenTK.xml
+D:\Programming\OPENGL\MassiveGame\MassiveGame\DLL\Programmable PipelineLight\Programmable PipelineLight\obj\Debug\Programmable PipelineLight.csprojResolveAssemblyReference.cache
+D:\Programming\OPENGL\MassiveGame\MassiveGame\DLL\Programmable PipelineLight\Programmable PipelineLight\obj\Debug\Programmable PipelineLight.dll
+D:\Programming\OPENGL\MassiveGame\MassiveGame\DLL\Programmable PipelineLight\Programmable PipelineLight\obj\Debug\Programmable PipelineLight.pdb

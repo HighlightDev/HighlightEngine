@@ -1,0 +1,5 @@
+D:\Мультимедиа\Visual Studio Projects\CKeyboard\CKeyboard\bin\Debug\CKeyboard.dll
+D:\Мультимедиа\Visual Studio Projects\CKeyboard\CKeyboard\obj\Debug\ResolveAssemblyReference.cache
+D:\Мультимедиа\Visual Studio Projects\CKeyboard\CKeyboard\obj\Debug\CKeyboard.dll
+D:\Мультимедиа\Visual Studio Projects\CKeyboard\CKeyboard\obj\Debug\CKeyboard.pdb
+D:\Мультимедиа\Visual Studio Projects\CKeyboard\CKeyboard\bin\Debug\CKeyboard.pdb

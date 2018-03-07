@@ -1,0 +1,8 @@
+D:\Мультимедиа\Visual Studio Projects\ОперацияOpenTK\VectorMath\VectorMath\bin\Release\VectorMath.dll
+D:\Мультимедиа\Visual Studio Projects\ОперацияOpenTK\VectorMath\VectorMath\bin\Release\VectorMath.pdb
+D:\Мультимедиа\Visual Studio Projects\ОперацияOpenTK\VectorMath\VectorMath\bin\Release\OpenTK.dll
+D:\Мультимедиа\Visual Studio Projects\ОперацияOpenTK\VectorMath\VectorMath\bin\Release\OpenTK.pdb
+D:\Мультимедиа\Visual Studio Projects\ОперацияOpenTK\VectorMath\VectorMath\bin\Release\OpenTK.xml
+D:\Мультимедиа\Visual Studio Projects\ОперацияOpenTK\VectorMath\VectorMath\obj\Release\VectorMath.csprojResolveAssemblyReference.cache
+D:\Мультимедиа\Visual Studio Projects\ОперацияOpenTK\VectorMath\VectorMath\obj\Release\VectorMath.dll
+D:\Мультимедиа\Visual Studio Projects\ОперацияOpenTK\VectorMath\VectorMath\obj\Release\VectorMath.pdb

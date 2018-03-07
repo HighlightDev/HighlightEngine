@@ -1,0 +1,21 @@
+D:\Projects\C# Programs\OTKWinForm\OTKWinForm\bin\Debug\OTKWinForm.exe.config
+D:\Projects\C# Programs\OTKWinForm\OTKWinForm\bin\Debug\OTKWinForm.exe
+D:\Projects\C# Programs\OTKWinForm\OTKWinForm\bin\Debug\OTKWinForm.pdb
+D:\Projects\C# Programs\OTKWinForm\OTKWinForm\obj\Debug\OTKWinForm.csprojResolveAssemblyReference.cache
+D:\Projects\C# Programs\OTKWinForm\OTKWinForm\obj\Debug\OTKWinForm.OTKWinForm.resources
+D:\Projects\C# Programs\OTKWinForm\OTKWinForm\obj\Debug\OTKWinForm.Properties.Resources.resources
+D:\Projects\C# Programs\OTKWinForm\OTKWinForm\obj\Debug\OTKWinForm.csproj.GenerateResource.Cache
+D:\Projects\C# Programs\OTKWinForm\OTKWinForm\obj\Debug\OTKWinForm.exe
+D:\Projects\C# Programs\OTKWinForm\OTKWinForm\obj\Debug\OTKWinForm.pdb
+C:\Users\Admin\Desktop\tmep\OTKWinForm\OTKWinForm\OTKWinForm\bin\Debug\OTKWinForm.exe.config
+C:\Users\Admin\Desktop\tmep\OTKWinForm\OTKWinForm\OTKWinForm\obj\Debug\OTKWinForm.exe
+C:\Users\Admin\Desktop\tmep\OTKWinForm\OTKWinForm\OTKWinForm\obj\Debug\OTKWinForm.pdb
+C:\Users\Admin\Desktop\tmep\OTKWinForm\OTKWinForm\OTKWinForm\bin\Debug\OTKWinForm.exe
+C:\Users\Admin\Desktop\tmep\OTKWinForm\OTKWinForm\OTKWinForm\bin\Debug\OTKWinForm.pdb
+C:\Users\Admin\Desktop\tmep\OTKWinForm\OTKWinForm\OTKWinForm\obj\Debug\OTKWinForm.csprojResolveAssemblyReference.cache
+C:\Users\Admin\Desktop\tmep\OTKWinForm\OTKWinForm\OTKWinForm\obj\Debug\OTKWinForm.OTKWinForm.resources
+C:\Users\Admin\Desktop\tmep\OTKWinForm\OTKWinForm\OTKWinForm\obj\Debug\OTKWinForm.Properties.Resources.resources
+C:\Users\Admin\Desktop\tmep\OTKWinForm\OTKWinForm\OTKWinForm\obj\Debug\OTKWinForm.csproj.GenerateResource.Cache
+C:\Users\dzinovev\Desktop\Универчик\project\tmep\OTKWinForm\OTKWinForm\OTKWinForm\bin\Debug\OTKWinForm.exe.config
+C:\Users\dzinovev\Desktop\Универчик\project\tmep\OTKWinForm\OTKWinForm\OTKWinForm\obj\Debug\OTKWinForm.exe
+C:\Users\dzinovev\Desktop\Универчик\project\tmep\OTKWinForm\OTKWinForm\OTKWinForm\obj\Debug\OTKWinForm.pdb

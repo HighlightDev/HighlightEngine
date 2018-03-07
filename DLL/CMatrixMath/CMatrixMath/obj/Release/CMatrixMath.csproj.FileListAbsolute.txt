@@ -1,0 +1,5 @@
+D:\Мультимедиа\Visual Studio Projects\DLL\CMatrixMath\CMatrixMath\bin\Release\CMatrixMath.dll
+D:\Мультимедиа\Visual Studio Projects\DLL\CMatrixMath\CMatrixMath\bin\Release\CMatrixMath.pdb
+D:\Мультимедиа\Visual Studio Projects\DLL\CMatrixMath\CMatrixMath\obj\Release\CMatrixMath.dll
+D:\Мультимедиа\Visual Studio Projects\DLL\CMatrixMath\CMatrixMath\obj\Release\CMatrixMath.pdb
+D:\Мультимедиа\Visual Studio Projects\DLL\CMatrixMath\CMatrixMath\obj\Release\CMatrixMath.csprojResolveAssemblyReference.cache

@@ -1,0 +1,13 @@
+D:\Мультимедиа\Visual Studio Projects\DLL\2DGameTable\2DGameTable\bin\Release\2DGameTable.dll
+D:\Мультимедиа\Visual Studio Projects\DLL\2DGameTable\2DGameTable\bin\Release\2DGameTable.pdb
+D:\Мультимедиа\Visual Studio Projects\DLL\2DGameTable\2DGameTable\obj\Release\ResolveAssemblyReference.cache
+D:\Мультимедиа\Visual Studio Projects\DLL\2DGameTable\2DGameTable\obj\Release\2DGameTable.dll
+D:\Мультимедиа\Visual Studio Projects\DLL\2DGameTable\2DGameTable\obj\Release\2DGameTable.pdb
+D:\Мультимедиа\Visual Studio Projects\ОперацияOpenTK\2DGameTable\2DGameTable\bin\Release\2DGameTable.dll
+D:\Мультимедиа\Visual Studio Projects\ОперацияOpenTK\2DGameTable\2DGameTable\bin\Release\2DGameTable.pdb
+D:\Мультимедиа\Visual Studio Projects\ОперацияOpenTK\2DGameTable\2DGameTable\bin\Release\OpenTK.dll
+D:\Мультимедиа\Visual Studio Projects\ОперацияOpenTK\2DGameTable\2DGameTable\bin\Release\OpenTK.pdb
+D:\Мультимедиа\Visual Studio Projects\ОперацияOpenTK\2DGameTable\2DGameTable\bin\Release\OpenTK.xml
+D:\Мультимедиа\Visual Studio Projects\ОперацияOpenTK\2DGameTable\2DGameTable\obj\Release\2DGameTable.csprojResolveAssemblyReference.cache
+D:\Мультимедиа\Visual Studio Projects\ОперацияOpenTK\2DGameTable\2DGameTable\obj\Release\2DGameTable.dll
+D:\Мультимедиа\Visual Studio Projects\ОперацияOpenTK\2DGameTable\2DGameTable\obj\Release\2DGameTable.pdb

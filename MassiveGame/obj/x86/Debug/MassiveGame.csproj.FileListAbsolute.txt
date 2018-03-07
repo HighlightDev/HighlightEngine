@@ -1,0 +1,225 @@
+D:\Мультимедиа\Visual Studio Projects\MassiveGame\MassiveGame\obj\x86\Debug\ResolveAssemblyReference.cache
+D:\Мультимедиа\Visual Studio Projects\MassiveGame\MassiveGame\bin\Debug\MassiveGame.exe
+D:\Мультимедиа\Visual Studio Projects\MassiveGame\MassiveGame\obj\x86\Debug\MassiveGame.exe
+D:\Мультимедиа\Visual Studio Projects\MassiveGame\MassiveGame\obj\x86\Debug\MassiveGame.pdb
+D:\Мультимедиа\Visual Studio Projects\MassiveGame\MassiveGame\bin\Debug\MassiveGame.pdb
+D:\Мультимедиа\Visual Studio Projects\MassiveGame\MassiveGame\bin\Debug\2DGameTable.dll
+D:\Мультимедиа\Visual Studio Projects\MassiveGame\MassiveGame\bin\Debug\VBO.dll
+D:\Мультимедиа\Visual Studio Projects\MassiveGame\MassiveGame\bin\Debug\CMatrixMath.dll
+D:\Мультимедиа\Visual Studio Projects\MassiveGame\MassiveGame\bin\Debug\VBO.pdb
+D:\Мультимедиа\Visual Studio Projects\MassiveGame\MassiveGame\bin\Debug\CMatrixMath.pdb
+D:\Мультимедиа\Visual Studio Projects\MassiveGame\MassiveGame\bin\Debug\CKeyboard.dll
+D:\Мультимедиа\Visual Studio Projects\MyWorksAndGraphics\MassiveGame\MassiveGame\bin\Debug\MassiveGame.exe.config
+D:\Мультимедиа\Visual Studio Projects\MyWorksAndGraphics\MassiveGame\MassiveGame\obj\x86\Debug\MassiveGame.exe
+D:\Мультимедиа\Visual Studio Projects\MyWorksAndGraphics\MassiveGame\MassiveGame\obj\x86\Debug\MassiveGame.pdb
+D:\Мультимедиа\Visual Studio Projects\MyWorksAndGraphics\MassiveGame\MassiveGame\obj\x86\Debug\MassiveGame.csprojResolveAssemblyReference.cache
+D:\Мультимедиа\Visual Studio Projects\MyWorksAndGraphics\MassiveGame\MassiveGame\bin\Debug\MassiveGame.exe
+D:\Мультимедиа\Visual Studio Projects\MyWorksAndGraphics\MassiveGame\MassiveGame\bin\Debug\MassiveGame.pdb
+D:\Мультимедиа\Visual Studio Projects\MyWorksAndGraphics\MassiveGame\MassiveGame\bin\Debug\2DGameTable.dll
+D:\Мультимедиа\Visual Studio Projects\MyWorksAndGraphics\MassiveGame\MassiveGame\bin\Debug\CKeyboard.dll
+D:\Мультимедиа\Visual Studio Projects\MyWorksAndGraphics\MassiveGame\MassiveGame\bin\Debug\CMatrixMath.dll
+D:\Мультимедиа\Visual Studio Projects\MyWorksAndGraphics\MassiveGame\MassiveGame\bin\Debug\PhysicsBox.dll
+D:\Мультимедиа\Visual Studio Projects\MyWorksAndGraphics\MassiveGame\MassiveGame\bin\Debug\Programmable PipelineLight.dll
+D:\Мультимедиа\Visual Studio Projects\MyWorksAndGraphics\MassiveGame\MassiveGame\bin\Debug\ShaderPattern.dll
+D:\Мультимедиа\Visual Studio Projects\MyWorksAndGraphics\MassiveGame\MassiveGame\bin\Debug\TextureLoader.dll
+D:\Мультимедиа\Visual Studio Projects\MyWorksAndGraphics\MassiveGame\MassiveGame\bin\Debug\VBO.dll
+D:\Мультимедиа\Visual Studio Projects\MyWorksAndGraphics\MassiveGame\MassiveGame\bin\Debug\2DGameTable.pdb
+D:\Мультимедиа\Visual Studio Projects\MyWorksAndGraphics\MassiveGame\MassiveGame\bin\Debug\CKeyboard.pdb
+D:\Мультимедиа\Visual Studio Projects\MyWorksAndGraphics\MassiveGame\MassiveGame\bin\Debug\CMatrixMath.pdb
+D:\Мультимедиа\Visual Studio Projects\MyWorksAndGraphics\MassiveGame\MassiveGame\bin\Debug\PhysicsBox.pdb
+D:\Мультимедиа\Visual Studio Projects\MyWorksAndGraphics\MassiveGame\MassiveGame\bin\Debug\Programmable PipelineLight.pdb
+D:\Мультимедиа\Visual Studio Projects\MyWorksAndGraphics\MassiveGame\MassiveGame\bin\Debug\ShaderPattern.pdb
+D:\Мультимедиа\Visual Studio Projects\MyWorksAndGraphics\MassiveGame\MassiveGame\bin\Debug\TextureLoader.pdb
+D:\Мультимедиа\Visual Studio Projects\MyWorksAndGraphics\MassiveGame\MassiveGame\bin\Debug\VBO.pdb
+H:\MassiveGame\MassiveGame\bin\Debug\MassiveGame.exe.config
+H:\MassiveGame\MassiveGame\bin\Debug\MassiveGame.exe
+H:\MassiveGame\MassiveGame\bin\Debug\MassiveGame.pdb
+H:\MassiveGame\MassiveGame\bin\Debug\Tao.DevIl.dll
+H:\MassiveGame\MassiveGame\bin\Debug\Tao.OpenGl.dll
+H:\MassiveGame\MassiveGame\bin\Debug\Tao.DevIl.xml
+H:\MassiveGame\MassiveGame\bin\Debug\Tao.OpenGl.xml
+H:\MassiveGame\MassiveGame\bin\Debug\TextureLoader.pdb
+H:\MassiveGame\MassiveGame\bin\Debug\VBO.pdb
+H:\MassiveGame\MassiveGame\obj\x86\Debug\MassiveGame.csprojResolveAssemblyReference.cache
+H:\MassiveGame\MassiveGame\obj\x86\Debug\MassiveGame.AddModelForm.resources
+H:\MassiveGame\MassiveGame\obj\x86\Debug\MassiveGame.Properties.Resources.resources
+H:\MassiveGame\MassiveGame\obj\x86\Debug\MassiveGame.UserControl1.resources
+H:\MassiveGame\MassiveGame\obj\x86\Debug\MassiveGame.csproj.GenerateResource.Cache
+H:\MassiveGame\MassiveGame\obj\x86\Debug\MassiveGame.exe
+H:\MassiveGame\MassiveGame\obj\x86\Debug\MassiveGame.pdb
+D:\Projects\C# Programs\D.O.E\MassiveGame\MassiveGame\bin\Debug\MassiveGame.exe.config
+D:\Projects\C# Programs\D.O.E\MassiveGame\MassiveGame\bin\Debug\MassiveGame.exe
+D:\Projects\C# Programs\D.O.E\MassiveGame\MassiveGame\bin\Debug\MassiveGame.pdb
+D:\Projects\C# Programs\D.O.E\MassiveGame\MassiveGame\bin\Debug\Tao.DevIl.dll
+D:\Projects\C# Programs\D.O.E\MassiveGame\MassiveGame\bin\Debug\TextureLoader.dll
+D:\Projects\C# Programs\D.O.E\MassiveGame\MassiveGame\bin\Debug\VBO.dll
+D:\Projects\C# Programs\D.O.E\MassiveGame\MassiveGame\bin\Debug\Tao.DevIl.xml
+D:\Projects\C# Programs\D.O.E\MassiveGame\MassiveGame\bin\Debug\TextureLoader.pdb
+D:\Projects\C# Programs\D.O.E\MassiveGame\MassiveGame\bin\Debug\VBO.pdb
+D:\Projects\C# Programs\D.O.E\MassiveGame\MassiveGame\obj\x86\Debug\MassiveGame.csprojResolveAssemblyReference.cache
+D:\Projects\C# Programs\D.O.E\MassiveGame\MassiveGame\obj\x86\Debug\MassiveGame.AddModelForm.resources
+D:\Projects\C# Programs\D.O.E\MassiveGame\MassiveGame\obj\x86\Debug\MassiveGame.UI.MainUI.resources
+D:\Projects\C# Programs\D.O.E\MassiveGame\MassiveGame\obj\x86\Debug\MassiveGame.MeshCreationMaster.resources
+D:\Projects\C# Programs\D.O.E\MassiveGame\MassiveGame\obj\x86\Debug\MassiveGame.csproj.GenerateResource.Cache
+D:\Projects\C# Programs\D.O.E\MassiveGame\MassiveGame\obj\x86\Debug\MassiveGame.exe
+D:\Projects\C# Programs\D.O.E\MassiveGame\MassiveGame\obj\x86\Debug\MassiveGame.pdb
+G:\D.O.E\MassiveGame\MassiveGame\bin\Debug\MassiveGame.exe.config
+G:\D.O.E\MassiveGame\MassiveGame\bin\Debug\MassiveGame.exe
+G:\D.O.E\MassiveGame\MassiveGame\bin\Debug\MassiveGame.pdb
+G:\D.O.E\MassiveGame\MassiveGame\bin\Debug\TextureLoader.dll
+G:\D.O.E\MassiveGame\MassiveGame\bin\Debug\VBO.dll
+G:\D.O.E\MassiveGame\MassiveGame\bin\Debug\Tao.DevIl.xml
+G:\D.O.E\MassiveGame\MassiveGame\bin\Debug\TextureLoader.pdb
+G:\D.O.E\MassiveGame\MassiveGame\bin\Debug\VBO.pdb
+G:\D.O.E\MassiveGame\MassiveGame\obj\x86\Debug\MassiveGame.csprojResolveAssemblyReference.cache
+G:\D.O.E\MassiveGame\MassiveGame\obj\x86\Debug\MassiveGame.AddModelForm.resources
+G:\D.O.E\MassiveGame\MassiveGame\obj\x86\Debug\MassiveGame.UI.MainUI.resources
+G:\D.O.E\MassiveGame\MassiveGame\obj\x86\Debug\MassiveGame.MeshCreationMaster.resources
+G:\D.O.E\MassiveGame\MassiveGame\obj\x86\Debug\MassiveGame.csproj.GenerateResource.Cache
+G:\D.O.E\MassiveGame\MassiveGame\obj\x86\Debug\MassiveGame.exe
+G:\D.O.E\MassiveGame\MassiveGame\obj\x86\Debug\MassiveGame.pdb
+H:\D.O.E\MassiveGame\MassiveGame\bin\Debug\MassiveGame.exe.config
+H:\D.O.E\MassiveGame\MassiveGame\bin\Debug\MassiveGame.exe
+H:\D.O.E\MassiveGame\MassiveGame\bin\Debug\MassiveGame.pdb
+H:\D.O.E\MassiveGame\MassiveGame\bin\Debug\TextureLoader.dll
+H:\D.O.E\MassiveGame\MassiveGame\bin\Debug\VBO.dll
+H:\D.O.E\MassiveGame\MassiveGame\bin\Debug\TextureLoader.pdb
+H:\D.O.E\MassiveGame\MassiveGame\bin\Debug\VBO.pdb
+H:\D.O.E\MassiveGame\MassiveGame\obj\x86\Debug\ResolveAssemblyReference.cache
+H:\D.O.E\MassiveGame\MassiveGame\obj\x86\Debug\MassiveGame.AddModelForm.resources
+H:\D.O.E\MassiveGame\MassiveGame\obj\x86\Debug\MassiveGame.UI.MainUI.resources
+H:\D.O.E\MassiveGame\MassiveGame\obj\x86\Debug\MassiveGame.MeshCreationMaster.resources
+H:\D.O.E\MassiveGame\MassiveGame\obj\x86\Debug\GenerateResource.read.1.tlog
+H:\D.O.E\MassiveGame\MassiveGame\obj\x86\Debug\GenerateResource.write.1.tlog
+H:\D.O.E\MassiveGame\MassiveGame\obj\x86\Debug\MassiveGame.exe
+H:\D.O.E\MassiveGame\MassiveGame\obj\x86\Debug\MassiveGame.pdb
+D:\Projects\CSharpPrograms\D.O.E\MassiveGame\MassiveGame\obj\x86\Debug\MassiveGame.csprojResolveAssemblyReference.cache
+D:\Projects\CSharpPrograms\D.O.E\MassiveGame\MassiveGame\obj\x86\Debug\MassiveGame.UI.MainUI.resources
+D:\Projects\CSharpPrograms\D.O.E\MassiveGame\MassiveGame\obj\x86\Debug\MassiveGame.csproj.GenerateResource.Cache
+D:\Projects\CSharpPrograms\D.O.E\MassiveGame\MassiveGame\obj\x86\Debug\MassiveGame.exe
+D:\Projects\CSharpPrograms\D.O.E\MassiveGame\MassiveGame\obj\x86\Debug\MassiveGame.pdb
+D:\Projects\CSharpPrograms\D.O.E\new\MassiveGame\MassiveGame\obj\x86\Debug\MassiveGame.csprojResolveAssemblyReference.cache
+D:\Projects\CSharpPrograms\D.O.E\new\MassiveGame\MassiveGame\obj\x86\Debug\MassiveGame.UI.MainUI.resources
+D:\Projects\CSharpPrograms\D.O.E\new\MassiveGame\MassiveGame\obj\x86\Debug\MassiveGame.csproj.GenerateResource.Cache
+D:\Projects\CSharpPrograms\D.O.E\new\MassiveGame\MassiveGame\bin\Debug\MassiveGame.exe.config
+D:\Projects\CSharpPrograms\D.O.E\new\MassiveGame\MassiveGame\bin\Debug\MassiveGame.exe
+D:\Projects\CSharpPrograms\D.O.E\new\MassiveGame\MassiveGame\bin\Debug\MassiveGame.pdb
+D:\Projects\CSharpPrograms\D.O.E\new\MassiveGame\MassiveGame\bin\Debug\AssimpNet.dll
+D:\Projects\CSharpPrograms\D.O.E\new\MassiveGame\MassiveGame\bin\Debug\CParser.pdb
+D:\Projects\CSharpPrograms\D.O.E\new\MassiveGame\MassiveGame\bin\Debug\OpenTK.pdb
+D:\Projects\CSharpPrograms\D.O.E\new\MassiveGame\MassiveGame\bin\Debug\OpenTK.xml
+D:\Projects\CSharpPrograms\D.O.E\new\MassiveGame\MassiveGame\bin\Debug\PhysicsBox.pdb
+D:\Projects\CSharpPrograms\D.O.E\new\MassiveGame\MassiveGame\bin\Debug\Programmable PipelineLight.pdb
+D:\Projects\CSharpPrograms\D.O.E\new\MassiveGame\MassiveGame\bin\Debug\ShaderPattern.pdb
+D:\Projects\CSharpPrograms\D.O.E\new\MassiveGame\MassiveGame\bin\Debug\TextureLoader.pdb
+D:\Projects\CSharpPrograms\D.O.E\new\MassiveGame\MassiveGame\bin\Debug\VBO.pdb
+D:\Projects\CSharpPrograms\D.O.E\new\MassiveGame\MassiveGame\obj\x86\Debug\MassiveGame.exe
+D:\Projects\CSharpPrograms\D.O.E\new\MassiveGame\MassiveGame\obj\x86\Debug\MassiveGame.pdb
+D:\D.O.E\MassiveGame\MassiveGame\bin\Debug\MassiveGame.exe.config
+D:\D.O.E\MassiveGame\MassiveGame\bin\Debug\MassiveGame.exe
+D:\D.O.E\MassiveGame\MassiveGame\bin\Debug\MassiveGame.pdb
+D:\D.O.E\MassiveGame\MassiveGame\bin\Debug\AssimpNet.dll
+D:\D.O.E\MassiveGame\MassiveGame\bin\Debug\CParser.pdb
+D:\D.O.E\MassiveGame\MassiveGame\bin\Debug\OpenTK.pdb
+D:\D.O.E\MassiveGame\MassiveGame\bin\Debug\OpenTK.xml
+D:\D.O.E\MassiveGame\MassiveGame\bin\Debug\PhysicsBox.pdb
+D:\D.O.E\MassiveGame\MassiveGame\bin\Debug\Programmable PipelineLight.pdb
+D:\D.O.E\MassiveGame\MassiveGame\bin\Debug\ShaderPattern.pdb
+D:\D.O.E\MassiveGame\MassiveGame\bin\Debug\TextureLoader.pdb
+D:\D.O.E\MassiveGame\MassiveGame\bin\Debug\VBO.pdb
+D:\D.O.E\MassiveGame\MassiveGame\obj\x86\Debug\MassiveGame.csprojResolveAssemblyReference.cache
+D:\D.O.E\MassiveGame\MassiveGame\obj\x86\Debug\MassiveGame.UI.MainUI.resources
+D:\D.O.E\MassiveGame\MassiveGame\obj\x86\Debug\MassiveGame.csproj.GenerateResource.Cache
+D:\D.O.E\MassiveGame\MassiveGame\obj\x86\Debug\MassiveGame.exe
+D:\D.O.E\MassiveGame\MassiveGame\obj\x86\Debug\MassiveGame.pdb
+D:\Projects\CSharpPrograms\D.O.E\MassiveGame\MassiveGame\bin\Debug\MassiveGame.exe.config
+D:\Projects\CSharpPrograms\D.O.E\MassiveGame\MassiveGame\bin\Debug\MassiveGame.exe
+D:\Projects\CSharpPrograms\D.O.E\MassiveGame\MassiveGame\bin\Debug\MassiveGame.pdb
+D:\Projects\CSharpPrograms\D.O.E\MassiveGame\MassiveGame\bin\Debug\AssimpNet.dll
+D:\Projects\CSharpPrograms\D.O.E\MassiveGame\MassiveGame\bin\Debug\CParser.pdb
+D:\Projects\CSharpPrograms\D.O.E\MassiveGame\MassiveGame\bin\Debug\OpenTK.pdb
+D:\Projects\CSharpPrograms\D.O.E\MassiveGame\MassiveGame\bin\Debug\OpenTK.xml
+D:\Projects\CSharpPrograms\D.O.E\MassiveGame\MassiveGame\bin\Debug\PhysicsBox.pdb
+D:\Projects\CSharpPrograms\D.O.E\MassiveGame\MassiveGame\bin\Debug\Programmable PipelineLight.pdb
+D:\Projects\CSharpPrograms\D.O.E\MassiveGame\MassiveGame\bin\Debug\ShaderPattern.pdb
+D:\Projects\CSharpPrograms\D.O.E\MassiveGame\MassiveGame\bin\Debug\TextureLoader.pdb
+D:\Projects\CSharpPrograms\D.O.E\MassiveGame\MassiveGame\bin\Debug\VBO.pdb
+D:\Мультимедиа\Visual Studio Projects\OpenTK Applications\Applications\MassiveGame\MassiveGame\MassiveGame\bin\Debug\MassiveGame.exe.config
+D:\Мультимедиа\Visual Studio Projects\OpenTK Applications\Applications\MassiveGame\MassiveGame\MassiveGame\bin\Debug\MassiveGame.exe
+D:\Мультимедиа\Visual Studio Projects\OpenTK Applications\Applications\MassiveGame\MassiveGame\MassiveGame\bin\Debug\MassiveGame.pdb
+D:\Мультимедиа\Visual Studio Projects\OpenTK Applications\Applications\MassiveGame\MassiveGame\MassiveGame\bin\Debug\AssimpNet.dll
+D:\Мультимедиа\Visual Studio Projects\OpenTK Applications\Applications\MassiveGame\MassiveGame\MassiveGame\bin\Debug\CParser.pdb
+D:\Мультимедиа\Visual Studio Projects\OpenTK Applications\Applications\MassiveGame\MassiveGame\MassiveGame\bin\Debug\PhysicsBox.pdb
+D:\Мультимедиа\Visual Studio Projects\OpenTK Applications\Applications\MassiveGame\MassiveGame\MassiveGame\bin\Debug\Programmable PipelineLight.pdb
+D:\Мультимедиа\Visual Studio Projects\OpenTK Applications\Applications\MassiveGame\MassiveGame\MassiveGame\bin\Debug\ShaderPattern.pdb
+D:\Мультимедиа\Visual Studio Projects\OpenTK Applications\Applications\MassiveGame\MassiveGame\MassiveGame\bin\Debug\TextureLoader.pdb
+D:\Мультимедиа\Visual Studio Projects\OpenTK Applications\Applications\MassiveGame\MassiveGame\MassiveGame\bin\Debug\VBO.pdb
+D:\Мультимедиа\Visual Studio Projects\OpenTK Applications\Applications\MassiveGame\MassiveGame\MassiveGame\obj\x86\Debug\MassiveGame.csprojResolveAssemblyReference.cache
+D:\Мультимедиа\Visual Studio Projects\OpenTK Applications\Applications\MassiveGame\MassiveGame\MassiveGame\obj\x86\Debug\MassiveGame.UI.MainUI.resources
+D:\Мультимедиа\Visual Studio Projects\OpenTK Applications\Applications\MassiveGame\MassiveGame\MassiveGame\obj\x86\Debug\MassiveGame.csproj.GenerateResource.Cache
+D:\Мультимедиа\Visual Studio Projects\OpenTK Applications\Applications\MassiveGame\MassiveGame\MassiveGame\obj\x86\Debug\MassiveGame.exe
+D:\Мультимедиа\Visual Studio Projects\OpenTK Applications\Applications\MassiveGame\MassiveGame\MassiveGame\obj\x86\Debug\MassiveGame.pdb
+D:\Мультимедиа\Visual Studio Projects\OpenTK Applications\Applications\MassiveGame\MassiveGame\MassiveGame\bin\Debug\2DGameTable.dll
+D:\Мультимедиа\Visual Studio Projects\OpenTK Applications\Applications\MassiveGame\MassiveGame\MassiveGame\bin\Debug\CParser.dll
+D:\Мультимедиа\Visual Studio Projects\OpenTK Applications\Applications\MassiveGame\MassiveGame\MassiveGame\bin\Debug\FramebufferAPI.dll
+D:\Мультимедиа\Visual Studio Projects\OpenTK Applications\Applications\MassiveGame\MassiveGame\MassiveGame\bin\Debug\PhysicsBox.dll
+D:\Мультимедиа\Visual Studio Projects\OpenTK Applications\Applications\MassiveGame\MassiveGame\MassiveGame\bin\Debug\Programmable PipelineLight.dll
+D:\Мультимедиа\Visual Studio Projects\OpenTK Applications\Applications\MassiveGame\MassiveGame\MassiveGame\bin\Debug\ShaderPattern.dll
+D:\Мультимедиа\Visual Studio Projects\OpenTK Applications\Applications\MassiveGame\MassiveGame\MassiveGame\bin\Debug\TextureLoader.dll
+D:\Мультимедиа\Visual Studio Projects\OpenTK Applications\Applications\MassiveGame\MassiveGame\MassiveGame\bin\Debug\VBO.dll
+D:\Мультимедиа\Visual Studio Projects\OpenTK Applications\Applications\MassiveGame\MassiveGame\MassiveGame\bin\Debug\VectorMath.dll
+D:\Мультимедиа\Visual Studio Projects\OpenTK Applications\Applications\MassiveGame\MassiveGame\MassiveGame\bin\Debug\2DGameTable.pdb
+D:\Мультимедиа\Visual Studio Projects\OpenTK Applications\Applications\MassiveGame\MassiveGame\MassiveGame\bin\Debug\FramebufferAPI.pdb
+D:\Мультимедиа\Visual Studio Projects\OpenTK Applications\Applications\MassiveGame\MassiveGame\MassiveGame\bin\Debug\VectorMath.pdb
+D:\Programming\OPENGL\MassiveGame\MassiveGame\MassiveGame\obj\x86\Debug\MassiveGame.csprojResolveAssemblyReference.cache
+D:\Programming\OPENGL\MassiveGame\MassiveGame\MassiveGame\obj\x86\Debug\MassiveGame.UI.MainUI.resources
+D:\Programming\OPENGL\MassiveGame\MassiveGame\MassiveGame\obj\x86\Debug\MassiveGame.csproj.GenerateResource.Cache
+D:\Programming\OPENGL\MassiveGame\MassiveGame\MassiveGame\obj\x86\Debug\MassiveGame.exe
+D:\Programming\OPENGL\MassiveGame\MassiveGame\MassiveGame\obj\x86\Debug\MassiveGame.pdb
+D:\Programming\OPENGL\MassiveGame\MassiveGame\MassiveGame\bin\Debug\MassiveGame.exe.config
+D:\Programming\OPENGL\MassiveGame\MassiveGame\MassiveGame\bin\Debug\MassiveGame.exe
+D:\Programming\OPENGL\MassiveGame\MassiveGame\MassiveGame\bin\Debug\MassiveGame.pdb
+D:\Programming\OPENGL\MassiveGame\MassiveGame\MassiveGame\bin\Debug\2DGameTable.dll
+D:\Programming\OPENGL\MassiveGame\MassiveGame\MassiveGame\bin\Debug\CParser.dll
+D:\Programming\OPENGL\MassiveGame\MassiveGame\MassiveGame\bin\Debug\FramebufferAPI.dll
+D:\Programming\OPENGL\MassiveGame\MassiveGame\MassiveGame\bin\Debug\PhysicsBox.dll
+D:\Programming\OPENGL\MassiveGame\MassiveGame\MassiveGame\bin\Debug\Programmable PipelineLight.dll
+D:\Programming\OPENGL\MassiveGame\MassiveGame\MassiveGame\bin\Debug\ShaderPattern.dll
+D:\Programming\OPENGL\MassiveGame\MassiveGame\MassiveGame\bin\Debug\TextureLoader.dll
+D:\Programming\OPENGL\MassiveGame\MassiveGame\MassiveGame\bin\Debug\VBO.dll
+D:\Programming\OPENGL\MassiveGame\MassiveGame\MassiveGame\bin\Debug\VectorMath.dll
+D:\Programming\OPENGL\MassiveGame\MassiveGame\MassiveGame\bin\Debug\AssimpNet.dll
+D:\Programming\OPENGL\MassiveGame\MassiveGame\MassiveGame\bin\Debug\2DGameTable.pdb
+D:\Programming\OPENGL\MassiveGame\MassiveGame\MassiveGame\bin\Debug\CParser.pdb
+D:\Programming\OPENGL\MassiveGame\MassiveGame\MassiveGame\bin\Debug\FramebufferAPI.pdb
+D:\Programming\OPENGL\MassiveGame\MassiveGame\MassiveGame\bin\Debug\PhysicsBox.pdb
+D:\Programming\OPENGL\MassiveGame\MassiveGame\MassiveGame\bin\Debug\Programmable PipelineLight.pdb
+D:\Programming\OPENGL\MassiveGame\MassiveGame\MassiveGame\bin\Debug\ShaderPattern.pdb
+D:\Programming\OPENGL\MassiveGame\MassiveGame\MassiveGame\bin\Debug\TextureLoader.pdb
+D:\Programming\OPENGL\MassiveGame\MassiveGame\MassiveGame\bin\Debug\VBO.pdb
+D:\Programming\OPENGL\MassiveGame\MassiveGame\MassiveGame\bin\Debug\VectorMath.pdb
+C:\Users\dzinovev\Desktop\Универчик\project\MassiveGame\MassiveGame\MassiveGame\MassiveGame\bin\Debug\MassiveGame.exe.config
+C:\Users\dzinovev\Desktop\Универчик\project\MassiveGame\MassiveGame\MassiveGame\MassiveGame\bin\Debug\MassiveGame.exe
+C:\Users\dzinovev\Desktop\Универчик\project\MassiveGame\MassiveGame\MassiveGame\MassiveGame\bin\Debug\MassiveGame.pdb
+C:\Users\dzinovev\Desktop\Универчик\project\MassiveGame\MassiveGame\MassiveGame\MassiveGame\bin\Debug\2DGameTable.dll
+C:\Users\dzinovev\Desktop\Универчик\project\MassiveGame\MassiveGame\MassiveGame\MassiveGame\bin\Debug\CParser.dll
+C:\Users\dzinovev\Desktop\Универчик\project\MassiveGame\MassiveGame\MassiveGame\MassiveGame\bin\Debug\FramebufferAPI.dll
+C:\Users\dzinovev\Desktop\Универчик\project\MassiveGame\MassiveGame\MassiveGame\MassiveGame\bin\Debug\PhysicsBox.dll
+C:\Users\dzinovev\Desktop\Универчик\project\MassiveGame\MassiveGame\MassiveGame\MassiveGame\bin\Debug\ShaderPattern.dll
+C:\Users\dzinovev\Desktop\Универчик\project\MassiveGame\MassiveGame\MassiveGame\MassiveGame\bin\Debug\TextureLoader.dll
+C:\Users\dzinovev\Desktop\Универчик\project\MassiveGame\MassiveGame\MassiveGame\MassiveGame\bin\Debug\VBO.dll
+C:\Users\dzinovev\Desktop\Универчик\project\MassiveGame\MassiveGame\MassiveGame\MassiveGame\bin\Debug\VectorMath.dll
+C:\Users\dzinovev\Desktop\Универчик\project\MassiveGame\MassiveGame\MassiveGame\MassiveGame\bin\Debug\AssimpNet.dll
+C:\Users\dzinovev\Desktop\Универчик\project\MassiveGame\MassiveGame\MassiveGame\MassiveGame\bin\Debug\2DGameTable.pdb
+C:\Users\dzinovev\Desktop\Универчик\project\MassiveGame\MassiveGame\MassiveGame\MassiveGame\bin\Debug\CParser.pdb
+C:\Users\dzinovev\Desktop\Универчик\project\MassiveGame\MassiveGame\MassiveGame\MassiveGame\bin\Debug\FramebufferAPI.pdb
+C:\Users\dzinovev\Desktop\Универчик\project\MassiveGame\MassiveGame\MassiveGame\MassiveGame\bin\Debug\PhysicsBox.pdb
+C:\Users\dzinovev\Desktop\Универчик\project\MassiveGame\MassiveGame\MassiveGame\MassiveGame\bin\Debug\ShaderPattern.pdb
+C:\Users\dzinovev\Desktop\Универчик\project\MassiveGame\MassiveGame\MassiveGame\MassiveGame\bin\Debug\TextureLoader.pdb
+C:\Users\dzinovev\Desktop\Универчик\project\MassiveGame\MassiveGame\MassiveGame\MassiveGame\bin\Debug\VBO.pdb
+C:\Users\dzinovev\Desktop\Универчик\project\MassiveGame\MassiveGame\MassiveGame\MassiveGame\bin\Debug\VectorMath.pdb
+C:\Users\dzinovev\Desktop\Универчик\project\MassiveGame\MassiveGame\MassiveGame\MassiveGame\obj\x86\Debug\MassiveGame.UI.MainUI.resources
+C:\Users\dzinovev\Desktop\Универчик\project\MassiveGame\MassiveGame\MassiveGame\MassiveGame\obj\x86\Debug\MassiveGame.csproj.GenerateResource.Cache
+C:\Users\dzinovev\Desktop\Универчик\project\MassiveGame\MassiveGame\MassiveGame\MassiveGame\obj\x86\Debug\MassiveGame.exe
+C:\Users\dzinovev\Desktop\Универчик\project\MassiveGame\MassiveGame\MassiveGame\MassiveGame\obj\x86\Debug\MassiveGame.pdb
+C:\Users\dzinovev\Desktop\Универчик\project\MassiveGame\MassiveGame\MassiveGame\MassiveGame\obj\x86\Debug\MassiveGame.csprojResolveAssemblyReference.cache

@@ -1,0 +1,460 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{043B5CD0-86B5-412E-9368-763BBAB92248}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>MassiveGame</RootNamespace>
+    <AssemblyName>MassiveGame</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
+    <FileAlignment>512</FileAlignment>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <UseVSHostingProcess>true</UseVSHostingProcess>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="AudioEngine, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Debug\AudioEngine.dll</HintPath>
+    </Reference>
+    <Reference Include="OpenTK, Version=1.1.0.0, Culture=neutral, PublicKeyToken=bad199fe84eb3df4, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Debug\OpenTK.dll</HintPath>
+    </Reference>
+    <Reference Include="OpenTK.GLControl, Version=1.1.0.0, Culture=neutral, PublicKeyToken=bad199fe84eb3df4, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Debug\OpenTK.GLControl.dll</HintPath>
+    </Reference>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AI\GridManager.cs" />
+    <Compile Include="API\Collector\ResourcePool.cs" />
+    <Compile Include="API\Collector\ModelCollect\ModelCollection.cs" />
+    <Compile Include="API\Collector\ModelCollect\ModelPool.cs" />
+    <Compile Include="API\Collector\ModelCollect\VaoAllocator.cs" />
+    <Compile Include="API\Collector\RawModel.cs" />
+    <Compile Include="API\Collector\ShaderCollect\ShaderAllocator.cs" />
+    <Compile Include="API\Collector\ShaderCollect\ShaderCollection.cs" />
+    <Compile Include="API\Collector\ShaderCollect\ShaderPool.cs" />
+    <Compile Include="API\Collector\RenderTargetCollect\RenderTargetAllocator.cs" />
+    <Compile Include="API\Collector\RenderTargetCollect\RenderTargetCollection.cs" />
+    <Compile Include="API\Collector\RenderTargetCollect\RenderTargetPool.cs" />
+    <Compile Include="API\Collector\TextureCollect\TextureAllocator.cs" />
+    <Compile Include="API\Collector\TextureCollect\TextureCollection.cs" />
+    <Compile Include="API\Collector\TextureCollect\TexturePool.cs" />
+    <Compile Include="API\Collision Handler\CollisionBoxReaction.cs" />
+    <Compile Include="API\Collision Handler\CollisionMissReaction.cs" />
+    <Compile Include="API\Collision Handler\CollisionWallReaction.cs" />
+    <Compile Include="API\Collision Handler\IReaction.cs" />
+    <Compile Include="API\EventHandlers\KeyboardHandler.cs" />
+    <Compile Include="API\Factory\EngineObjectCreator.cs" />
+    <Compile Include="API\Factory\EngineObjectType.cs" />
+    <Compile Include="API\Factory\ICreator.cs" />
+    <Compile Include="API\Factory\MotionEntity.cs" />
+    <Compile Include="API\Factory\ObjectArguments\Arguments.cs" />
+    <Compile Include="API\Factory\ObjectArguments\MotionEntityArguments.cs" />
+    <Compile Include="API\Factory\ObjectArguments\StaticEntityArguments.cs" />
+    <Compile Include="API\Factory\StaticEntity.cs" />
+    <Compile Include="API\IDgenerator\IdGenerator.cs" />
+    <Compile Include="API\MouseObjectDetector\MousePicker.cs" />
+    <Compile Include="Camera\Camera.cs" />
+    <Compile Include="Camera\LiteCamera.cs" />
+    <Compile Include="Debug\UiPanel\UiFrameMaster.cs" />
+    <Compile Include="RenderCore\DefaultFrameBuffer.cs" />
+    <Compile Include="RenderCore\IDrawable.cs" />
+    <Compile Include="RenderCore\Lights\DirectionalLight.cs" />
+    <Compile Include="RenderCore\Lights\Material.cs" />
+    <Compile Include="RenderCore\Lights\PointLight.cs" />
+    <Compile Include="RenderCore\Lights\ShaderLight.cs" />
+    <Compile Include="RenderCore\Lights\SpotLight.cs" />
+    <Compile Include="Water\WaterReflectionEntityShader.cs" />
+    <Compile Include="Water\WaterRefractionEntityShader.cs" />
+    <Compile Include="RenderCore\RenderAPI.cs" />
+    <Compile Include="Core\RenderMap.cs" />
+    <Compile Include="Debug\Log.cs" />
+    <Compile Include="Debug\UiPanel\UiFrame.cs" />
+    <Compile Include="Debug\UiPanel\UiFrameShader.cs" />
+    <Compile Include="Engine Foundation\DOUEngine.cs" />
+    <Compile Include="Engine Foundation\Split Renderer\Renderer.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Engine Foundation\Split Renderer\RendererAPI.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Engine Foundation\Split Renderer\RendererEventHandlers.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Entities\Environment Entities\EnvironmentEntities.cs" />
+    <Compile Include="Entities\Environment Entities\EnvironmentEntitiesShader.cs" />
+    <Compile Include="Entities\Move Enities\MotionEntities.cs" />
+    <Compile Include="Entities\Move Enities\MotionEntityShader.cs" />
+    <Compile Include="Entities\Move Enities\Player.cs" />
+    <Compile Include="Entities\Plant Enitites\PlantBuilderMaster.cs" />
+    <Compile Include="Entities\Plant Enitites\PlantReadyMaster.cs" />
+    <Compile Include="Entities\Plant Enitites\PlantShader.cs" />
+    <Compile Include="Entities\Plant Enitites\PlantUnit.cs" />
+    <Compile Include="Entities\Plant Enitites\PlantUserAttributeBuilder.cs" />
+    <Compile Include="Entities\Plant Enitites\TrialGrass\Grass.cs" />
+    <Compile Include="Entities\Plant Enitites\TrialGrass\GrassShader.cs" />
+    <Compile Include="Entities\Static Enities\Building.cs" />
+    <Compile Include="Entities\Static Enities\StaticEntities.cs" />
+    <Compile Include="Entities\Static Enities\StaticEntityShader.cs" />
+    <Compile Include="EntityComponents\MistComponent.cs" />
+    <Compile Include="EntityComponents\WindComponent.cs" />
+    <Compile Include="GraphicsEffects\GodRaysFBO.cs" />
+    <Compile Include="GraphicsEffects\GodRaysRenderer.cs" />
+    <Compile Include="GraphicsEffects\GodRaysShader.cs" />
+    <Compile Include="GraphicsEffects\LensFlareFBO.cs" />
+    <Compile Include="GraphicsEffects\LensFlareRenderer.cs" />
+    <Compile Include="GraphicsEffects\LensFlareShader.cs" />
+    <Compile Include="Light visualization\LampShader.cs" />
+    <Compile Include="Light visualization\VisualizeLight.cs" />
+    <Compile Include="Mirror\CustomDepthShader.cs" />
+    <Compile Include="Mirror\SimpleClearDepthShader.cs" />
+    <Compile Include="PostFX\PostProcessBase.cs" />
+    <Compile Include="PostFX\PostProcessBloom.cs" />
+    <Compile Include="PostFX\PostProcessFramebuffer.cs" />
+    <Compile Include="PostFX\PostProcessResult.cs" />
+    <Compile Include="RenderCore\ResolveTextureShader.cs" />
+    <Compile Include="RenderCore\ScreenQuad.cs" />
+    <Compile Include="RenderCore\Shadows\BasicShadowShader.cs" />
+    <Compile Include="RenderCore\Shadows\ShadowBase.cs" />
+    <Compile Include="RenderCore\Shadows\ShadowDirectionalLight.cs" />
+    <Compile Include="RenderCore\Shadows\ShadowMapCache.cs" />
+    <Compile Include="RenderCore\Shadows\ShadowOrthoBuilder.cs" />
+    <Compile Include="RenderCore\Shadows\ShadowTypes.cs" />
+    <Compile Include="RenderCore\StencilPassShader.cs" />
+    <Compile Include="RenderCore\Visibility\FrustumCulling.cs" />
+    <Compile Include="RenderCore\Visibility\IVisible.cs" />
+    <Compile Include="RenderCore\Visibility\LightAffectionApi.cs" />
+    <Compile Include="RenderCore\Visibility\VisibilityApi.cs" />
+    <Compile Include="PostFX\PostprocessFBO.cs" />
+    <Compile Include="PostFX\PostprocessRenderer.cs" />
+    <Compile Include="PostFX\PostprocessShader.cs" />
+    <Compile Include="RenderCore\Visibility\ILightAffection.cs" />
+    <Compile Include="Settings\ProjectFolders.cs" />
+    <Compile Include="Sun\DayCycle\DayLightCycle.cs" />
+    <Compile Include="Sun\DayCycle\DayPhases.cs" />
+    <Compile Include="Sun\DayCycle\LightInterpolation.cs" />
+    <Compile Include="Sun\DayCycle\Phase.cs" />
+    <Compile Include="Terrain\TerrainBuilder.cs" />
+    <Compile Include="Terrain\TerrainRayIntersaction.cs" />
+    <Compile Include="Entities\Entity.cs" />
+    <Compile Include="Mirror\Mirror.cs" />
+    <Compile Include="Mirror\MirrorFBO.cs" />
+    <Compile Include="Mirror\MirrorShader.cs" />
+    <Compile Include="RawModels\BuildingModels.cs" />
+    <Compile Include="RawModels\PlantModels.cs" />
+    <Compile Include="RawModels\PlayerModels.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="Skybox\Skybox.cs" />
+    <Compile Include="Skybox\SkyboxShader.cs" />
+    <Compile Include="Sun\SunRenderer.cs" />
+    <Compile Include="Sun\SunShader.cs" />
+    <Compile Include="Terrain\Terrain.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Terrain\TerrainShader.cs" />
+    <Compile Include="Textures\TextureSet.cs" />
+    <Compile Include="UI\MainUI.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\MainUI.Designer.cs">
+      <DependentUpon>MainUI.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Water\WaterFBO.cs" />
+    <Compile Include="Water\WaterEntity.cs" />
+    <Compile Include="Water\WaterRefractionTerrainShader.cs" />
+    <Compile Include="Water\WaterReflectionTerrainShader.cs" />
+    <Compile Include="Water\WaterShader.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include=".NETFramework,Version=v4.0,Profile=Client">
+      <Visible>False</Visible>
+      <ProductName>Microsoft .NET Framework 4 Client Profile %28x86 and x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>Клиентский профиль .NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Windows.Installer.3.1">
+      <Visible>False</Visible>
+      <ProductName>Установщик Windows 3.1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="Audio\ambient\howling_wind_u1.ogg" />
+    <None Include="Audio\ambient\wind_city_1.ogg" />
+    <None Include="Audio\material\actor\collide\clothes1.ogg" />
+    <None Include="Audio\material\actor\collide\clothes2.ogg" />
+    <None Include="Audio\material\actor\collide\clothes3.ogg" />
+    <None Include="Audio\material\actor\step\earth1.ogg" />
+    <None Include="Audio\material\actor\step\earth2.ogg" />
+    <None Include="Audio\material\actor\step\earth3.ogg" />
+    <None Include="Audio\material\actor\step\earth4.ogg" />
+    <None Include="Audio\material\actor\step\grass1.ogg" />
+    <None Include="Audio\material\actor\step\grass2.ogg" />
+    <None Include="Audio\material\actor\step\grass3.ogg" />
+    <None Include="Audio\material\actor\step\grass4.ogg" />
+    <None Include="Audio\material\actor\step\new_wood1.ogg" />
+    <None Include="Audio\material\actor\step\new_wood2.ogg" />
+    <None Include="Audio\material\actor\step\new_wood3.ogg" />
+    <None Include="Audio\material\actor\step\new_wood4.ogg" />
+    <None Include="ModelFiles\ASCIIExport\bmw.ASE" />
+    <None Include="ModelFiles\ASCIIExport\building.ASE" />
+    <None Include="ModelFiles\ASCIIExport\teapot_model.ASE" />
+    <None Include="ModelFiles\cathedra_HighPoly.obj" />
+    <None Include="ModelFiles\City_House_2_BI.obj" />
+    <None Include="ModelFiles\COLLADA\City_House_2_BI.dae" />
+    <None Include="ModelFiles\COLLADA\Dragon 2.5_dae.dae" />
+    <None Include="ModelFiles\COLLADA\house.dae" />
+    <None Include="ModelFiles\COLLADA\house2.dae" />
+    <None Include="ModelFiles\COLLADA\Rock.dae" />
+    <None Include="ModelFiles\COLLADA\TAtestCube4.dae" />
+    <None Include="ModelFiles\COLLADA\testModel.dae" />
+    <None Include="ModelFiles\COLLADA\testModel2.dae" />
+    <None Include="ModelFiles\COLLADA\testModel3.dae" />
+    <None Include="ModelFiles\GothicLamp.obj" />
+    <None Include="ModelFiles\grassBillboard.obj" />
+    <None Include="ModelFiles\grassBillboard2.obj" />
+    <None Include="ModelFiles\hause2.obj" />
+    <None Include="ModelFiles\house3.obj" />
+    <None Include="ModelFiles\playerCube.obj" />
+    <None Include="ModelFiles\stall.obj" />
+    <None Include="ModelFiles\TAtestCube.obj" />
+    <None Include="ModelFiles\TAtestCube2.obj" />
+    <None Include="ModelFiles\TAtestHouse.obj" />
+    <None Include="ModelFiles\wall_1_door.obj" />
+    <None Include="ModelFiles\wall_1_without_door.obj" />
+    <None Include="ModelFiles\wall_2_without_door.obj" />
+    <None Include="ModelFiles\wall_3.obj" />
+    <None Include="ModelFiles\wall_4_door.obj" />
+    <None Include="ModelFiles\wall_5_door.obj" />
+    <None Include="ModelFiles\wall_5_without_door.obj" />
+    <None Include="ModelFiles\wall_6_door.obj" />
+    <None Include="Shaders\waterRefractionEntityFS.glsl" />
+    <None Include="Shaders\waterReflectionEntityFS.glsl" />
+    <None Include="Shaders\waterRefractionEntityVS.glsl" />
+    <None Include="Shaders\waterReflectionEntityVS.glsl" />
+    <None Include="Shaders\stencilPassFS.glsl" />
+    <None Include="Shaders\stencilPassVS.glsl" />
+    <None Include="Shaders\basicShadowFS.glsl" />
+    <None Include="Shaders\basicShadowVS.glsl" />
+    <None Include="Shaders\buildingFShader.glsl" />
+    <None Include="Shaders\buildingSpecialFShader.glsl" />
+    <None Include="Shaders\buildingSpecialGShader.glsl" />
+    <None Include="Shaders\buildingSpecialVShader.glsl" />
+    <None Include="Shaders\buildingVShader.glsl" />
+    <None Include="Shaders\envFS.glsl" />
+    <None Include="Shaders\envVS.glsl" />
+    <None Include="Shaders\godrayFS.glsl" />
+    <None Include="Shaders\godrayVS.glsl" />
+    <None Include="Shaders\grassFS.glsl" />
+    <None Include="Shaders\grassGS.glsl" />
+    <None Include="Shaders\grassVS.glsl" />
+    <None Include="Shaders\lampFS.glsl" />
+    <None Include="Shaders\lampGS.glsl" />
+    <None Include="Shaders\lampVS.glsl" />
+    <None Include="Shaders\lensFlareFS.glsl" />
+    <None Include="Shaders\lensFlareVS.glsl" />
+    <None Include="Shaders\mirrorFS.glsl" />
+    <None Include="Shaders\mirrorVS.glsl" />
+    <None Include="Shaders\plantFragmentShader.glsl" />
+    <None Include="Shaders\plantVertexShader.glsl" />
+    <None Include="Shaders\playerFragmentShader.glsl" />
+    <None Include="Shaders\playerVertexShader.glsl" />
+    <None Include="Shaders\polyFS.glsl" />
+    <None Include="Shaders\polyGS.glsl" />
+    <None Include="Shaders\polyVS.glsl" />
+    <None Include="Shaders\postprocessFS.glsl" />
+    <None Include="Shaders\postprocessVS.glsl" />
+    <None Include="Shaders\resolveTextureFS.glsl" />
+    <None Include="Shaders\resolveTextureVS.glsl" />
+    <None Include="Shaders\skyboxFragmentShader.glsl" />
+    <None Include="Shaders\skyboxVertexShader.glsl" />
+    <None Include="Shaders\sunFS.glsl" />
+    <None Include="Shaders\sunVS.glsl" />
+    <None Include="Shaders\terrainFragmentShader.glsl" />
+    <None Include="Shaders\terrainVertexShader.glsl" />
+    <None Include="Shaders\uiFS.glsl" />
+    <None Include="Shaders\uiVS.glsl" />
+    <None Include="Shaders\waterFS.glsl" />
+    <None Include="Shaders\waterRefractionTerrainFS.glsl" />
+    <None Include="Shaders\waterReflectionTerrainFS.glsl" />
+    <None Include="Shaders\waterRefractionTerrainVS.glsl" />
+    <None Include="Shaders\waterReflectionTerrainVS.glsl" />
+    <None Include="Shaders\waterVS.glsl" />
+    <None Include="Textures\SpecularMaps\specular1.dds" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="UI\MainUI.resx">
+      <DependentUpon>MainUI.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Audio\ambient\wav\howling_wind_u1.wav" />
+    <Content Include="Audio\ambient\wav\wind_city_1.wav" />
+    <Content Include="Audio\bounce.wav" />
+    <Content Include="Audio\material\actor\collide\wav\clothes1.wav" />
+    <Content Include="Audio\material\actor\collide\wav\clothes2.wav" />
+    <Content Include="Audio\material\actor\collide\wav\clothes3.wav" />
+    <Content Include="Audio\material\actor\step\wav\earth1.wav" />
+    <Content Include="Audio\material\actor\step\wav\earth2.wav" />
+    <Content Include="Audio\material\actor\step\wav\earth3.wav" />
+    <Content Include="Audio\material\actor\step\wav\earth4.wav" />
+    <Content Include="Audio\material\actor\step\wav\grass1.wav" />
+    <Content Include="Audio\material\actor\step\wav\grass2.wav" />
+    <Content Include="Audio\material\actor\step\wav\grass3.wav" />
+    <Content Include="Audio\material\actor\step\wav\grass4.wav" />
+    <Content Include="Audio\material\actor\step\wav\new_wood1.wav" />
+    <Content Include="Audio\material\actor\step\wav\new_wood2.wav" />
+    <Content Include="Audio\material\actor\step\wav\new_wood3.wav" />
+    <Content Include="Audio\material\actor\step\wav\new_wood4.wav" />
+    <Content Include="Debug\ProjectLogs.txt" />
+    <Content Include="Textures\GrassTextures\fern.png" />
+    <Content Include="Textures\GrassTextures\grass1.png" />
+    <Content Include="Textures\GrassTextures\grass2.png" />
+    <Content Include="Textures\GrassTextures\grass3.png" />
+    <Content Include="Textures\GrassTextures\grass4.png" />
+    <Content Include="Textures\HeightMaps\00.bmp" />
+    <Content Include="Textures\HeightMaps\01.bmp" />
+    <Content Include="Textures\HeightMaps\heightmap.png" />
+    <Content Include="Textures\Multitextures\blendMap.png" />
+    <Content Include="Textures\Multitextures\grass.png" />
+    <Content Include="Textures\Multitextures\grassFlowers.png" />
+    <Content Include="Textures\Multitextures\heightmap.png" />
+    <Content Include="Textures\Multitextures\mud.png" />
+    <Content Include="Textures\Multitextures\NewLandscape\snow01.jpg" />
+    <Content Include="Textures\Multitextures\NewLandscape\snow01_n.png" />
+    <Content Include="Textures\Multitextures\NewLandscape\tundra02.jpg" />
+    <Content Include="Textures\Multitextures\NewLandscape\tundra02_n.png" />
+    <Content Include="Textures\Multitextures\NewLandscape\volcanictundrarocks01.jpg" />
+    <Content Include="Textures\Multitextures\NewLandscape\volcanictundrarocks01_n.png" />
+    <Content Include="Textures\Multitextures\path.png" />
+    <Content Include="Textures\Multitextures\wood.png" />
+    <Content Include="Textures\NormalMaps\NM.jpg" />
+    <Content Include="Textures\NormalMaps\NM1.jpg" />
+    <Content Include="Textures\NormalMaps\NormalMap.png" />
+    <Content Include="Textures\SimpleTextures\3.jpg" />
+    <Content Include="Textures\SimpleTextures\snow123.jpg" />
+    <Content Include="Textures\SimpleTextures\troll.jpg" />
+    <Content Include="Textures\SimpleTextures\UkrFlag.jpg" />
+    <Content Include="Textures\Skybox\Day\Back.bmp" />
+    <Content Include="Textures\Skybox\Day\bottom.bmp" />
+    <Content Include="Textures\Skybox\Day\Front.bmp" />
+    <Content Include="Textures\Skybox\Day\Left.bmp" />
+    <Content Include="Textures\Skybox\Day\Right.bmp" />
+    <Content Include="Textures\Skybox\Day\top.bmp" />
+    <Content Include="Textures\Skybox\Night\back.png" />
+    <Content Include="Textures\Skybox\Night\bottom.png" />
+    <Content Include="Textures\Skybox\Night\front.png" />
+    <Content Include="Textures\Skybox\Night\left.png" />
+    <Content Include="Textures\Skybox\Night\right.png" />
+    <Content Include="Textures\Skybox\Night\top.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\DLL\2DGameTable\2DGameTable\2DGameTable.csproj">
+      <Project>{9692cef8-193d-4696-9820-9d26c94294a0}</Project>
+      <Name>2DGameTable</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DLL\CParser\CRender\CParser.csproj">
+      <Project>{f257e347-38d2-4542-a898-40fb05b0852b}</Project>
+      <Name>CParser</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DLL\FramebufferAPI\FramebufferAPI\FramebufferAPI.csproj">
+      <Project>{48cdf51f-a311-4d4b-b7f5-a9d11afd67f8}</Project>
+      <Name>FramebufferAPI</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DLL\PhysicsBox\PhysicsBox\PhysicsBox.csproj">
+      <Project>{3b045858-f0f0-41e3-825b-c1c6bb3799f7}</Project>
+      <Name>PhysicsBox</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DLL\ShaderPattern\ShaderPattern\ShaderPattern.csproj">
+      <Project>{0f8acded-024c-4b24-a383-745098ca3432}</Project>
+      <Name>ShaderPattern</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DLL\TextureLoader\TextureLoader\TextureLoader\TextureLoader.csproj">
+      <Project>{670bf72d-9cbe-425c-a429-9902ae702047}</Project>
+      <Name>TextureLoader</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DLL\VBO\VBO\VBO.csproj">
+      <Project>{3a22604c-9c06-4423-b1a3-606c1cc5cd54}</Project>
+      <Name>VBO</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DLL\VectorMath\VectorMath\VectorMath.csproj">
+      <Project>{2fafbe7a-4393-46c9-9463-04d211f3eab1}</Project>
+      <Name>VectorMath</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

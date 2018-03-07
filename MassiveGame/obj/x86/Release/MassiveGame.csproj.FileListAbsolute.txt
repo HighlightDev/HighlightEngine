@@ -1,0 +1,118 @@
+D:\Мультимедиа\Visual Studio Projects\MassiveGame\MassiveGame\bin\Release\MassiveGame.exe
+D:\Мультимедиа\Visual Studio Projects\MassiveGame\MassiveGame\bin\Release\MassiveGame.pdb
+D:\Мультимедиа\Visual Studio Projects\MassiveGame\MassiveGame\bin\Release\2DGameTable.dll
+D:\Мультимедиа\Visual Studio Projects\MassiveGame\MassiveGame\bin\Release\CKeyboard.dll
+D:\Мультимедиа\Visual Studio Projects\MassiveGame\MassiveGame\obj\x86\Release\ResolveAssemblyReference.cache
+D:\Мультимедиа\Visual Studio Projects\MassiveGame\MassiveGame\obj\x86\Release\MassiveGame.exe
+D:\Мультимедиа\Visual Studio Projects\MassiveGame\MassiveGame\obj\x86\Release\MassiveGame.pdb
+D:\Мультимедиа\Visual Studio Projects\MassiveGame\MassiveGame\bin\Release\CMatrixMath.dll
+D:\Мультимедиа\Visual Studio Projects\MassiveGame\MassiveGame\bin\Release\VBO.dll
+D:\Мультимедиа\Visual Studio Projects\MassiveGame\MassiveGame\bin\Release\CMatrixMath.pdb
+D:\Мультимедиа\Visual Studio Projects\MassiveGame\MassiveGame\bin\Release\VBO.pdb
+D:\Мультимедиа\Visual Studio Projects\MassiveGame\MassiveGame\bin\Release\PhysicsBox.dll
+D:\Мультимедиа\Visual Studio Projects\MassiveGame\MassiveGame\bin\Release\PhysicsBox.pdb
+D:\Мультимедиа\Visual Studio Projects\MyWorksAndGraphics\MassiveGame\MassiveGame\obj\x86\Release\MassiveGame.exe
+D:\Мультимедиа\Visual Studio Projects\MyWorksAndGraphics\MassiveGame\MassiveGame\obj\x86\Release\MassiveGame.pdb
+D:\Мультимедиа\Visual Studio Projects\MyWorksAndGraphics\MassiveGame\MassiveGame\bin\Release\MassiveGame.exe
+D:\Мультимедиа\Visual Studio Projects\MyWorksAndGraphics\MassiveGame\MassiveGame\bin\Release\MassiveGame.pdb
+D:\Мультимедиа\Visual Studio Projects\MyWorksAndGraphics\MassiveGame\MassiveGame\bin\Release\2DGameTable.dll
+D:\Мультимедиа\Visual Studio Projects\MyWorksAndGraphics\MassiveGame\MassiveGame\bin\Release\CMatrixMath.pdb
+D:\Мультимедиа\Visual Studio Projects\MyWorksAndGraphics\MassiveGame\MassiveGame\bin\Release\PhysicsBox.pdb
+D:\Мультимедиа\Visual Studio Projects\MyWorksAndGraphics\MassiveGame\MassiveGame\bin\Release\VBO.pdb
+D:\Мультимедиа\Visual Studio Projects\MyWorksAndGraphics\MassiveGame\MassiveGame\bin\Release\2DGameTable.pdb
+D:\Мультимедиа\Visual Studio Projects\MyWorksAndGraphics\MassiveGame\MassiveGame\bin\Release\CMatrixMath.dll
+D:\Мультимедиа\Visual Studio Projects\MyWorksAndGraphics\MassiveGame\MassiveGame\bin\Release\PhysicsBox.dll
+D:\Мультимедиа\Visual Studio Projects\MyWorksAndGraphics\MassiveGame\MassiveGame\bin\Release\VBO.dll
+D:\Мультимедиа\Visual Studio Projects\MyWorksAndGraphics\MassiveGame\MassiveGame\bin\Release\Programmable PipelineLight.dll
+D:\Мультимедиа\Visual Studio Projects\MyWorksAndGraphics\MassiveGame\MassiveGame\bin\Release\Programmable PipelineLight.pdb
+D:\Мультимедиа\Visual Studio Projects\MyWorksAndGraphics\MassiveGame\MassiveGame\bin\Release\ShaderPattern.dll
+D:\Мультимедиа\Visual Studio Projects\MyWorksAndGraphics\MassiveGame\MassiveGame\bin\Release\ShaderPattern.pdb
+D:\Мультимедиа\Visual Studio Projects\MyWorksAndGraphics\MassiveGame\MassiveGame\obj\x86\Release\MassiveGame.csprojResolveAssemblyReference.cache
+D:\Мультимедиа\Visual Studio Projects\MyWorksAndGraphics\MassiveGame\MassiveGame\bin\Release\MassiveGame.exe.config
+D:\Мультимедиа\Visual Studio Projects\MyWorksAndGraphics\MassiveGame\MassiveGame\bin\Release\TextureLoader.dll
+D:\Мультимедиа\Visual Studio Projects\MyWorksAndGraphics\MassiveGame\MassiveGame\bin\Release\TextureLoader.pdb
+D:\Мультимедиа\Visual Studio Projects\MyWorksAndGraphics\MassiveGame\MassiveGame\bin\Release\CKeyboard.dll
+D:\Мультимедиа\Visual Studio Projects\MyWorksAndGraphics\MassiveGame\MassiveGame\bin\Release\CKeyboard.pdb
+D:\Мультимедиа\Visual Studio Projects\MyWorksAndGraphics\MassiveGame\MassiveGame\bin\Release\CRender.dll
+D:\Мультимедиа\Visual Studio Projects\ОперацияOpenTK\MassiveGame\MassiveGame\bin\Release\MassiveGame.exe.config
+D:\Мультимедиа\Visual Studio Projects\ОперацияOpenTK\MassiveGame\MassiveGame\obj\x86\Release\MassiveGame.exe
+D:\Мультимедиа\Visual Studio Projects\ОперацияOpenTK\MassiveGame\MassiveGame\obj\x86\Release\MassiveGame.pdb
+D:\Мультимедиа\Visual Studio Projects\ОперацияOpenTK\MassiveGame\MassiveGame\obj\x86\Release\MassiveGame.csprojResolveAssemblyReference.cache
+D:\Мультимедиа\Visual Studio Projects\ОперацияOpenTK\MassiveGame\MassiveGame\bin\Release\MassiveGame.exe
+D:\Мультимедиа\Visual Studio Projects\ОперацияOpenTK\MassiveGame\MassiveGame\bin\Release\MassiveGame.pdb
+D:\Мультимедиа\Visual Studio Projects\ОперацияOpenTK\MassiveGame\MassiveGame\bin\Release\2DGameTable.dll
+D:\Мультимедиа\Visual Studio Projects\ОперацияOpenTK\MassiveGame\MassiveGame\bin\Release\OpenTK.dll
+D:\Мультимедиа\Visual Studio Projects\ОперацияOpenTK\MassiveGame\MassiveGame\bin\Release\PhysicsBox.dll
+D:\Мультимедиа\Visual Studio Projects\ОперацияOpenTK\MassiveGame\MassiveGame\bin\Release\Programmable PipelineLight.dll
+D:\Мультимедиа\Visual Studio Projects\ОперацияOpenTK\MassiveGame\MassiveGame\bin\Release\ShaderPattern.dll
+D:\Мультимедиа\Visual Studio Projects\ОперацияOpenTK\MassiveGame\MassiveGame\bin\Release\TextureLoader.dll
+D:\Мультимедиа\Visual Studio Projects\ОперацияOpenTK\MassiveGame\MassiveGame\bin\Release\VBO.dll
+D:\Мультимедиа\Visual Studio Projects\ОперацияOpenTK\MassiveGame\MassiveGame\bin\Release\VectorMath.dll
+D:\Мультимедиа\Visual Studio Projects\ОперацияOpenTK\MassiveGame\MassiveGame\bin\Release\2DGameTable.pdb
+D:\Мультимедиа\Visual Studio Projects\ОперацияOpenTK\MassiveGame\MassiveGame\bin\Release\OpenTK.pdb
+D:\Мультимедиа\Visual Studio Projects\ОперацияOpenTK\MassiveGame\MassiveGame\bin\Release\OpenTK.xml
+D:\Мультимедиа\Visual Studio Projects\ОперацияOpenTK\MassiveGame\MassiveGame\bin\Release\PhysicsBox.pdb
+D:\Мультимедиа\Visual Studio Projects\ОперацияOpenTK\MassiveGame\MassiveGame\bin\Release\Programmable PipelineLight.pdb
+D:\Мультимедиа\Visual Studio Projects\ОперацияOpenTK\MassiveGame\MassiveGame\bin\Release\ShaderPattern.pdb
+D:\Мультимедиа\Visual Studio Projects\ОперацияOpenTK\MassiveGame\MassiveGame\bin\Release\TextureLoader.pdb
+D:\Мультимедиа\Visual Studio Projects\ОперацияOpenTK\MassiveGame\MassiveGame\bin\Release\VBO.pdb
+D:\Мультимедиа\Visual Studio Projects\ОперацияOpenTK\MassiveGame\MassiveGame\bin\Release\VectorMath.pdb
+D:\Мультимедиа\Visual Studio Projects\OpenTK Applications\Applications\MassiveGame\MassiveGame\bin\Release\MassiveGame.exe.config
+D:\Мультимедиа\Visual Studio Projects\OpenTK Applications\Applications\MassiveGame\MassiveGame\obj\x86\Release\MassiveGame.exe
+D:\Мультимедиа\Visual Studio Projects\OpenTK Applications\Applications\MassiveGame\MassiveGame\obj\x86\Release\MassiveGame.pdb
+D:\Мультимедиа\Visual Studio Projects\OpenTK Applications\Applications\MassiveGame\MassiveGame\bin\Release\MassiveGame.exe
+D:\Мультимедиа\Visual Studio Projects\OpenTK Applications\Applications\MassiveGame\MassiveGame\bin\Release\MassiveGame.pdb
+D:\Мультимедиа\Visual Studio Projects\OpenTK Applications\Applications\MassiveGame\MassiveGame\bin\Release\OpenTK.dll
+D:\Мультимедиа\Visual Studio Projects\OpenTK Applications\Applications\MassiveGame\MassiveGame\bin\Release\2DGameTable.pdb
+D:\Мультимедиа\Visual Studio Projects\OpenTK Applications\Applications\MassiveGame\MassiveGame\bin\Release\OpenTK.pdb
+D:\Мультимедиа\Visual Studio Projects\OpenTK Applications\Applications\MassiveGame\MassiveGame\bin\Release\OpenTK.xml
+D:\Мультимедиа\Visual Studio Projects\OpenTK Applications\Applications\MassiveGame\MassiveGame\bin\Release\PhysicsBox.pdb
+D:\Мультимедиа\Visual Studio Projects\OpenTK Applications\Applications\MassiveGame\MassiveGame\bin\Release\Programmable PipelineLight.pdb
+D:\Мультимедиа\Visual Studio Projects\OpenTK Applications\Applications\MassiveGame\MassiveGame\bin\Release\ShaderPattern.pdb
+D:\Мультимедиа\Visual Studio Projects\OpenTK Applications\Applications\MassiveGame\MassiveGame\bin\Release\TextureLoader.pdb
+D:\Мультимедиа\Visual Studio Projects\OpenTK Applications\Applications\MassiveGame\MassiveGame\bin\Release\VBO.pdb
+D:\Мультимедиа\Visual Studio Projects\OpenTK Applications\Applications\MassiveGame\MassiveGame\bin\Release\VectorMath.pdb
+D:\Мультимедиа\Visual Studio Projects\OpenTK Applications\Applications\MassiveGame\MassiveGame\obj\x86\Release\MassiveGame.csprojResolveAssemblyReference.cache
+D:\Мультимедиа\Visual Studio Projects\OpenTK Applications\Applications\MassiveGame\MassiveGame\bin\Release\Programmable PipelineLight.dll
+D:\Projects\C# Programs\MassiveGame\MassiveGame\bin\Release\MassiveGame.exe.config
+D:\Projects\C# Programs\MassiveGame\MassiveGame\obj\x86\Release\MassiveGame.exe
+D:\Projects\C# Programs\MassiveGame\MassiveGame\obj\x86\Release\MassiveGame.pdb
+D:\Projects\C# Programs\MassiveGame\MassiveGame\bin\Release\MassiveGame.exe
+D:\Projects\C# Programs\MassiveGame\MassiveGame\bin\Release\MassiveGame.pdb
+D:\Projects\C# Programs\MassiveGame\MassiveGame\bin\Release\2DGameTable.pdb
+D:\Projects\C# Programs\MassiveGame\MassiveGame\bin\Release\OpenTK.pdb
+D:\Projects\C# Programs\MassiveGame\MassiveGame\bin\Release\OpenTK.xml
+D:\Projects\C# Programs\MassiveGame\MassiveGame\bin\Release\PhysicsBox.pdb
+D:\Projects\C# Programs\MassiveGame\MassiveGame\bin\Release\Programmable PipelineLight.pdb
+D:\Projects\C# Programs\MassiveGame\MassiveGame\bin\Release\ShaderPattern.pdb
+D:\Projects\C# Programs\MassiveGame\MassiveGame\bin\Release\TextureLoader.pdb
+D:\Projects\C# Programs\MassiveGame\MassiveGame\bin\Release\VBO.pdb
+D:\Projects\C# Programs\MassiveGame\MassiveGame\bin\Release\VectorMath.pdb
+D:\Projects\C# Programs\MassiveGame\MassiveGame\obj\x86\Release\MassiveGame.csprojResolveAssemblyReference.cache
+D:\Конечная папка\C# Programs\D.O.E\MassiveGame\MassiveGame\bin\Release\MassiveGame.exe.config
+D:\Конечная папка\C# Programs\D.O.E\MassiveGame\MassiveGame\obj\x86\Release\MassiveGame.exe
+D:\Конечная папка\C# Programs\D.O.E\MassiveGame\MassiveGame\obj\x86\Release\MassiveGame.pdb
+D:\Конечная папка\C# Programs\D.O.E\MassiveGame\MassiveGame\bin\Release\MassiveGame.exe
+D:\Конечная папка\C# Programs\D.O.E\MassiveGame\MassiveGame\bin\Release\MassiveGame.pdb
+D:\Конечная папка\C# Programs\D.O.E\MassiveGame\MassiveGame\bin\Release\TextureLoader.dll
+D:\Конечная папка\C# Programs\D.O.E\MassiveGame\MassiveGame\bin\Release\TextureLoader.pdb
+D:\Конечная папка\C# Programs\D.O.E\MassiveGame\MassiveGame\obj\x86\Release\MassiveGame.csprojResolveAssemblyReference.cache
+D:\Projects\C# Programs\D.O.E\MassiveGame\MassiveGame\bin\Release\MassiveGame.exe.config
+D:\Projects\C# Programs\D.O.E\MassiveGame\MassiveGame\obj\x86\Release\MassiveGame.exe
+D:\Projects\C# Programs\D.O.E\MassiveGame\MassiveGame\obj\x86\Release\MassiveGame.pdb
+D:\Projects\C# Programs\D.O.E\MassiveGame\MassiveGame\bin\Release\MassiveGame.exe
+D:\Projects\C# Programs\D.O.E\MassiveGame\MassiveGame\bin\Release\MassiveGame.pdb
+D:\Projects\C# Programs\D.O.E\MassiveGame\MassiveGame\bin\Release\Tao.DevIl.dll
+D:\Projects\C# Programs\D.O.E\MassiveGame\MassiveGame\bin\Release\Tao.OpenGl.dll
+D:\Projects\C# Programs\D.O.E\MassiveGame\MassiveGame\bin\Release\TextureLoader.dll
+D:\Projects\C# Programs\D.O.E\MassiveGame\MassiveGame\bin\Release\Tao.DevIl.xml
+D:\Projects\C# Programs\D.O.E\MassiveGame\MassiveGame\bin\Release\Tao.OpenGl.xml
+D:\Projects\C# Programs\D.O.E\MassiveGame\MassiveGame\bin\Release\TextureLoader.pdb
+D:\Projects\C# Programs\D.O.E\MassiveGame\MassiveGame\obj\x86\Release\MassiveGame.csprojResolveAssemblyReference.cache
+D:\Projects\C# Programs\D.O.E\MassiveGame\MassiveGame\bin\Release\VBO.dll
+D:\Projects\C# Programs\D.O.E\MassiveGame\MassiveGame\bin\Release\VBO.pdb
+G:\D.O.E\MassiveGame\MassiveGame\bin\Release\MassiveGame.exe.config
+G:\D.O.E\MassiveGame\MassiveGame\obj\x86\Release\MassiveGame.exe
+G:\D.O.E\MassiveGame\MassiveGame\obj\x86\Release\MassiveGame.pdb
+D:\Projects\CSharpPrograms\D.O.E\new\MassiveGame\MassiveGame\bin\Release\MassiveGame.exe.config
+D:\Мультимедиа\Visual Studio Projects\OpenTK Applications\Applications\MassiveGame\MassiveGame\MassiveGame\bin\Release\MassiveGame.exe.config

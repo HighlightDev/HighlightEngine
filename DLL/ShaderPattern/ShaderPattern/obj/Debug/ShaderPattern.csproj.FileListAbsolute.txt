@@ -1,0 +1,15 @@
+D:\Мультимедиа\Visual Studio Projects\DLL\ShaderPattern\ShaderPattern\obj\Debug\ResolveAssemblyReference.cache
+D:\Мультимедиа\Visual Studio Projects\DLL\ShaderPattern\ShaderPattern\bin\Debug\ShaderPattern.dll
+D:\Мультимедиа\Visual Studio Projects\DLL\ShaderPattern\ShaderPattern\bin\Debug\ShaderPattern.pdb
+D:\Мультимедиа\Visual Studio Projects\DLL\ShaderPattern\ShaderPattern\bin\Debug\CMatrixMath.dll
+D:\Мультимедиа\Visual Studio Projects\DLL\ShaderPattern\ShaderPattern\bin\Debug\CMatrixMath.pdb
+D:\Мультимедиа\Visual Studio Projects\DLL\ShaderPattern\ShaderPattern\obj\Debug\ShaderPattern.dll
+D:\Мультимедиа\Visual Studio Projects\DLL\ShaderPattern\ShaderPattern\obj\Debug\ShaderPattern.pdb
+D:\Мультимедиа\Visual Studio Projects\OpenTK Applications\Applications\MassiveGame\MassiveGame\DLL\ShaderPattern\ShaderPattern\obj\Debug\ShaderPattern.dll
+D:\Мультимедиа\Visual Studio Projects\OpenTK Applications\Applications\MassiveGame\MassiveGame\DLL\ShaderPattern\ShaderPattern\obj\Debug\ShaderPattern.pdb
+D:\Мультимедиа\Visual Studio Projects\OpenTK Applications\Applications\MassiveGame\MassiveGame\DLL\ShaderPattern\ShaderPattern\bin\Debug\ShaderPattern.dll
+D:\Мультимедиа\Visual Studio Projects\OpenTK Applications\Applications\MassiveGame\MassiveGame\DLL\ShaderPattern\ShaderPattern\bin\Debug\ShaderPattern.pdb
+D:\Мультимедиа\Visual Studio Projects\OpenTK Applications\Applications\MassiveGame\MassiveGame\DLL\ShaderPattern\ShaderPattern\bin\Debug\OpenTK.dll
+D:\Мультимедиа\Visual Studio Projects\OpenTK Applications\Applications\MassiveGame\MassiveGame\DLL\ShaderPattern\ShaderPattern\bin\Debug\OpenTK.pdb
+D:\Мультимедиа\Visual Studio Projects\OpenTK Applications\Applications\MassiveGame\MassiveGame\DLL\ShaderPattern\ShaderPattern\bin\Debug\OpenTK.xml
+D:\Мультимедиа\Visual Studio Projects\OpenTK Applications\Applications\MassiveGame\MassiveGame\DLL\ShaderPattern\ShaderPattern\obj\Debug\ShaderPattern.csprojResolveAssemblyReference.cache

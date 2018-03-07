@@ -1,0 +1,12 @@
+﻿#version 400
+
+layout (location = 0) in vec3 vertex;
+layout (location = 2) in vec2 texCoord;
+
+out vec2 texCoords;
+
+void main(void){
+
+	texCoords = vec2(texCoord.x, 1 - texCoord.y);
+	gl_Position = vec4(vertex, 1.0);
+}

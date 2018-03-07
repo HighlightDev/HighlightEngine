@@ -1,0 +1,23 @@
+D:\Мультимедиа\Visual Studio Projects\DLL\ShaderPattern\ShaderPattern\bin\Release\ShaderPattern.dll
+D:\Мультимедиа\Visual Studio Projects\DLL\ShaderPattern\ShaderPattern\bin\Release\ShaderPattern.pdb
+D:\Мультимедиа\Visual Studio Projects\DLL\ShaderPattern\ShaderPattern\bin\Release\CMatrixMath.dll
+D:\Мультимедиа\Visual Studio Projects\DLL\ShaderPattern\ShaderPattern\bin\Release\CMatrixMath.pdb
+D:\Мультимедиа\Visual Studio Projects\DLL\ShaderPattern\ShaderPattern\obj\Release\ShaderPattern.dll
+D:\Мультимедиа\Visual Studio Projects\DLL\ShaderPattern\ShaderPattern\obj\Release\ShaderPattern.pdb
+D:\Мультимедиа\Visual Studio Projects\DLL\ShaderPattern\ShaderPattern\obj\Release\ShaderPattern.csprojResolveAssemblyReference.cache
+D:\Мультимедиа\Visual Studio Projects\ОперацияOpenTK\ShaderPattern\ShaderPattern\obj\Release\ShaderPattern.csprojResolveAssemblyReference.cache
+D:\Мультимедиа\Visual Studio Projects\ОперацияOpenTK\ShaderPattern\ShaderPattern\obj\Release\ShaderPattern.dll
+D:\Мультимедиа\Visual Studio Projects\ОперацияOpenTK\ShaderPattern\ShaderPattern\obj\Release\ShaderPattern.pdb
+D:\Мультимедиа\Visual Studio Projects\ОперацияOpenTK\ShaderPattern\ShaderPattern\bin\Release\ShaderPattern.dll
+D:\Мультимедиа\Visual Studio Projects\ОперацияOpenTK\ShaderPattern\ShaderPattern\bin\Release\ShaderPattern.pdb
+D:\Мультимедиа\Visual Studio Projects\ОперацияOpenTK\ShaderPattern\ShaderPattern\bin\Release\OpenTK.dll
+D:\Мультимедиа\Visual Studio Projects\ОперацияOpenTK\ShaderPattern\ShaderPattern\bin\Release\OpenTK.pdb
+D:\Мультимедиа\Visual Studio Projects\ОперацияOpenTK\ShaderPattern\ShaderPattern\bin\Release\OpenTK.xml
+D:\Мультимедиа\Visual Studio Projects\OpenTK Applications\DLL\ShaderPattern\ShaderPattern\bin\Release\ShaderPattern.dll
+D:\Мультимедиа\Visual Studio Projects\OpenTK Applications\DLL\ShaderPattern\ShaderPattern\bin\Release\ShaderPattern.pdb
+D:\Мультимедиа\Visual Studio Projects\OpenTK Applications\DLL\ShaderPattern\ShaderPattern\bin\Release\OpenTK.dll
+D:\Мультимедиа\Visual Studio Projects\OpenTK Applications\DLL\ShaderPattern\ShaderPattern\bin\Release\OpenTK.pdb
+D:\Мультимедиа\Visual Studio Projects\OpenTK Applications\DLL\ShaderPattern\ShaderPattern\bin\Release\OpenTK.xml
+D:\Мультимедиа\Visual Studio Projects\OpenTK Applications\DLL\ShaderPattern\ShaderPattern\obj\Release\ShaderPattern.csprojResolveAssemblyReference.cache
+D:\Мультимедиа\Visual Studio Projects\OpenTK Applications\DLL\ShaderPattern\ShaderPattern\obj\Release\ShaderPattern.dll
+D:\Мультимедиа\Visual Studio Projects\OpenTK Applications\DLL\ShaderPattern\ShaderPattern\obj\Release\ShaderPattern.pdb

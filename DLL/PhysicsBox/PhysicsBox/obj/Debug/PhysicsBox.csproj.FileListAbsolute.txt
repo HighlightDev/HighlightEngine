@@ -1,0 +1,30 @@
+D:\Мультимедиа\Visual Studio Projects\OpenTK Applications\Applications\MassiveGame\MassiveGame\DLL\PhysicsBox\PhysicsBox\bin\Debug\PhysicsBox.dll
+D:\Мультимедиа\Visual Studio Projects\OpenTK Applications\Applications\MassiveGame\MassiveGame\DLL\PhysicsBox\PhysicsBox\bin\Debug\PhysicsBox.pdb
+D:\Мультимедиа\Visual Studio Projects\OpenTK Applications\Applications\MassiveGame\MassiveGame\DLL\PhysicsBox\PhysicsBox\bin\Debug\OpenTK.dll
+D:\Мультимедиа\Visual Studio Projects\OpenTK Applications\Applications\MassiveGame\MassiveGame\DLL\PhysicsBox\PhysicsBox\bin\Debug\VectorMath.dll
+D:\Мультимедиа\Visual Studio Projects\OpenTK Applications\Applications\MassiveGame\MassiveGame\DLL\PhysicsBox\PhysicsBox\bin\Debug\OpenTK.pdb
+D:\Мультимедиа\Visual Studio Projects\OpenTK Applications\Applications\MassiveGame\MassiveGame\DLL\PhysicsBox\PhysicsBox\bin\Debug\OpenTK.xml
+D:\Мультимедиа\Visual Studio Projects\OpenTK Applications\Applications\MassiveGame\MassiveGame\DLL\PhysicsBox\PhysicsBox\bin\Debug\VectorMath.pdb
+D:\Мультимедиа\Visual Studio Projects\OpenTK Applications\Applications\MassiveGame\MassiveGame\DLL\PhysicsBox\PhysicsBox\obj\Debug\PhysicsBox.dll
+D:\Мультимедиа\Visual Studio Projects\OpenTK Applications\Applications\MassiveGame\MassiveGame\DLL\PhysicsBox\PhysicsBox\obj\Debug\PhysicsBox.pdb
+D:\Мультимедиа\Visual Studio Projects\OpenTK Applications\Applications\MassiveGame\MassiveGame\DLL\PhysicsBox\PhysicsBox\obj\Debug\PhysicsBox.csprojResolveAssemblyReference.cache
+D:\Programming\OPENGL\MassiveGame\MassiveGame\DLL\PhysicsBox\PhysicsBox\bin\Debug\PhysicsBox.dll
+D:\Programming\OPENGL\MassiveGame\MassiveGame\DLL\PhysicsBox\PhysicsBox\bin\Debug\PhysicsBox.pdb
+D:\Programming\OPENGL\MassiveGame\MassiveGame\DLL\PhysicsBox\PhysicsBox\bin\Debug\OpenTK.dll
+D:\Programming\OPENGL\MassiveGame\MassiveGame\DLL\PhysicsBox\PhysicsBox\bin\Debug\VectorMath.dll
+D:\Programming\OPENGL\MassiveGame\MassiveGame\DLL\PhysicsBox\PhysicsBox\bin\Debug\OpenTK.pdb
+D:\Programming\OPENGL\MassiveGame\MassiveGame\DLL\PhysicsBox\PhysicsBox\bin\Debug\OpenTK.xml
+D:\Programming\OPENGL\MassiveGame\MassiveGame\DLL\PhysicsBox\PhysicsBox\bin\Debug\VectorMath.pdb
+D:\Programming\OPENGL\MassiveGame\MassiveGame\DLL\PhysicsBox\PhysicsBox\obj\Debug\PhysicsBox.csprojResolveAssemblyReference.cache
+D:\Programming\OPENGL\MassiveGame\MassiveGame\DLL\PhysicsBox\PhysicsBox\obj\Debug\PhysicsBox.dll
+D:\Programming\OPENGL\MassiveGame\MassiveGame\DLL\PhysicsBox\PhysicsBox\obj\Debug\PhysicsBox.pdb
+C:\Users\dzinovev\Desktop\Универчик\project\MassiveGame\MassiveGame\MassiveGame\DLL\PhysicsBox\PhysicsBox\bin\Debug\PhysicsBox.dll
+C:\Users\dzinovev\Desktop\Универчик\project\MassiveGame\MassiveGame\MassiveGame\DLL\PhysicsBox\PhysicsBox\bin\Debug\PhysicsBox.pdb
+C:\Users\dzinovev\Desktop\Универчик\project\MassiveGame\MassiveGame\MassiveGame\DLL\PhysicsBox\PhysicsBox\bin\Debug\OpenTK.dll
+C:\Users\dzinovev\Desktop\Универчик\project\MassiveGame\MassiveGame\MassiveGame\DLL\PhysicsBox\PhysicsBox\bin\Debug\VectorMath.dll
+C:\Users\dzinovev\Desktop\Универчик\project\MassiveGame\MassiveGame\MassiveGame\DLL\PhysicsBox\PhysicsBox\bin\Debug\OpenTK.pdb
+C:\Users\dzinovev\Desktop\Универчик\project\MassiveGame\MassiveGame\MassiveGame\DLL\PhysicsBox\PhysicsBox\bin\Debug\OpenTK.xml
+C:\Users\dzinovev\Desktop\Универчик\project\MassiveGame\MassiveGame\MassiveGame\DLL\PhysicsBox\PhysicsBox\bin\Debug\VectorMath.pdb
+C:\Users\dzinovev\Desktop\Универчик\project\MassiveGame\MassiveGame\MassiveGame\DLL\PhysicsBox\PhysicsBox\obj\Debug\PhysicsBox.csprojResolveAssemblyReference.cache
+C:\Users\dzinovev\Desktop\Универчик\project\MassiveGame\MassiveGame\MassiveGame\DLL\PhysicsBox\PhysicsBox\obj\Debug\PhysicsBox.dll
+C:\Users\dzinovev\Desktop\Универчик\project\MassiveGame\MassiveGame\MassiveGame\DLL\PhysicsBox\PhysicsBox\obj\Debug\PhysicsBox.pdb

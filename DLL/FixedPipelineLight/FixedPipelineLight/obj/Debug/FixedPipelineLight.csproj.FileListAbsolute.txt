@@ -1,0 +1,7 @@
+D:\Мультимедиа\Visual Studio Projects\DLL\FixedPipelineLight\FixedPipelineLight\bin\Debug\FixedPipelineLight.dll
+D:\Мультимедиа\Visual Studio Projects\DLL\FixedPipelineLight\FixedPipelineLight\bin\Debug\FixedPipelineLight.pdb
+D:\Мультимедиа\Visual Studio Projects\DLL\FixedPipelineLight\FixedPipelineLight\bin\Debug\CMatrixMath.dll
+D:\Мультимедиа\Visual Studio Projects\DLL\FixedPipelineLight\FixedPipelineLight\bin\Debug\CMatrixMath.pdb
+D:\Мультимедиа\Visual Studio Projects\DLL\FixedPipelineLight\FixedPipelineLight\obj\Debug\ResolveAssemblyReference.cache
+D:\Мультимедиа\Visual Studio Projects\DLL\FixedPipelineLight\FixedPipelineLight\obj\Debug\FixedPipelineLight.dll
+D:\Мультимедиа\Visual Studio Projects\DLL\FixedPipelineLight\FixedPipelineLight\obj\Debug\FixedPipelineLight.pdb

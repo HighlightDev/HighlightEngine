@@ -1,0 +1,23 @@
+D:\Мультимедиа\Visual Studio Projects\DLL\Programmable PipelineLight\Programmable PipelineLight\bin\Release\Programmable PipelineLight.dll
+D:\Мультимедиа\Visual Studio Projects\DLL\Programmable PipelineLight\Programmable PipelineLight\bin\Release\Programmable PipelineLight.pdb
+D:\Мультимедиа\Visual Studio Projects\DLL\Programmable PipelineLight\Programmable PipelineLight\bin\Release\CMatrixMath.dll
+D:\Мультимедиа\Visual Studio Projects\DLL\Programmable PipelineLight\Programmable PipelineLight\bin\Release\CMatrixMath.pdb
+D:\Мультимедиа\Visual Studio Projects\DLL\Programmable PipelineLight\Programmable PipelineLight\obj\Release\Programmable PipelineLight.dll
+D:\Мультимедиа\Visual Studio Projects\DLL\Programmable PipelineLight\Programmable PipelineLight\obj\Release\Programmable PipelineLight.pdb
+D:\Мультимедиа\Visual Studio Projects\DLL\Programmable PipelineLight\Programmable PipelineLight\obj\Release\Programmable PipelineLight.csprojResolveAssemblyReference.cache
+D:\Мультимедиа\Visual Studio Projects\ОперацияOpenTK\Programmable PipelineLight\Programmable PipelineLight\obj\Release\Programmable PipelineLight.csprojResolveAssemblyReference.cache
+D:\Мультимедиа\Visual Studio Projects\ОперацияOpenTK\Programmable PipelineLight\Programmable PipelineLight\obj\Release\Programmable PipelineLight.dll
+D:\Мультимедиа\Visual Studio Projects\ОперацияOpenTK\Programmable PipelineLight\Programmable PipelineLight\obj\Release\Programmable PipelineLight.pdb
+D:\Мультимедиа\Visual Studio Projects\ОперацияOpenTK\Programmable PipelineLight\Programmable PipelineLight\bin\Release\Programmable PipelineLight.dll
+D:\Мультимедиа\Visual Studio Projects\ОперацияOpenTK\Programmable PipelineLight\Programmable PipelineLight\bin\Release\Programmable PipelineLight.pdb
+D:\Мультимедиа\Visual Studio Projects\ОперацияOpenTK\Programmable PipelineLight\Programmable PipelineLight\bin\Release\OpenTK.dll
+D:\Мультимедиа\Visual Studio Projects\ОперацияOpenTK\Programmable PipelineLight\Programmable PipelineLight\bin\Release\OpenTK.pdb
+D:\Мультимедиа\Visual Studio Projects\ОперацияOpenTK\Programmable PipelineLight\Programmable PipelineLight\bin\Release\OpenTK.xml
+D:\Мультимедиа\Visual Studio Projects\OpenTK Applications\DLL\Programmable PipelineLight\Programmable PipelineLight\bin\Release\Programmable PipelineLight.dll
+D:\Мультимедиа\Visual Studio Projects\OpenTK Applications\DLL\Programmable PipelineLight\Programmable PipelineLight\bin\Release\Programmable PipelineLight.pdb
+D:\Мультимедиа\Visual Studio Projects\OpenTK Applications\DLL\Programmable PipelineLight\Programmable PipelineLight\bin\Release\OpenTK.dll
+D:\Мультимедиа\Visual Studio Projects\OpenTK Applications\DLL\Programmable PipelineLight\Programmable PipelineLight\bin\Release\OpenTK.pdb
+D:\Мультимедиа\Visual Studio Projects\OpenTK Applications\DLL\Programmable PipelineLight\Programmable PipelineLight\bin\Release\OpenTK.xml
+D:\Мультимедиа\Visual Studio Projects\OpenTK Applications\DLL\Programmable PipelineLight\Programmable PipelineLight\obj\Release\Programmable PipelineLight.dll
+D:\Мультимедиа\Visual Studio Projects\OpenTK Applications\DLL\Programmable PipelineLight\Programmable PipelineLight\obj\Release\Programmable PipelineLight.pdb
+D:\Мультимедиа\Visual Studio Projects\OpenTK Applications\DLL\Programmable PipelineLight\Programmable PipelineLight\obj\Release\Programmable PipelineLight.csprojResolveAssemblyReference.cache

@@ -1,0 +1,101 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{DB8467C0-7D03-4537-8888-B081FB635F06}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>TestStencil</RootNamespace>
+    <AssemblyName>TestStencil</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="OpenTK">
+      <HintPath>..\..\..\..\Trial\2DTrial\2DTrial\bin\Debug\OpenTK.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Actor.cs" />
+    <Compile Include="BaseShader.cs" />
+    <Compile Include="MainWindow.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ScreenQuadActor.cs" />
+    <Compile Include="ScreenQuadShader.cs" />
+    <None Include="Models\dragon.obj" />
+    <None Include="Models\playerCube.obj" />
+    <None Include="Shaders\basicVS.glsl" />
+    <None Include="Shaders\basicFS.glsl" />
+    <None Include="Shaders\screenQuadFS.glsl" />
+    <None Include="Shaders\screenQuadVS.glsl" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\DLL\CParser\CRender\CParser.csproj">
+      <Project>{f257e347-38d2-4542-a898-40fb05b0852b}</Project>
+      <Name>CParser</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DLL\FramebufferAPI\FramebufferAPI\FramebufferAPI.csproj">
+      <Project>{48cdf51f-a311-4d4b-b7f5-a9d11afd67f8}</Project>
+      <Name>FramebufferAPI</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DLL\ShaderPattern\ShaderPattern\ShaderPattern.csproj">
+      <Project>{0f8acded-024c-4b24-a383-745098ca3432}</Project>
+      <Name>ShaderPattern</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DLL\TextureLoader\TextureLoader\TextureLoader\TextureLoader.csproj">
+      <Project>{670bf72d-9cbe-425c-a429-9902ae702047}</Project>
+      <Name>TextureLoader</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DLL\VBO\VBO\VBO.csproj">
+      <Project>{3a22604c-9c06-4423-b1a3-606c1cc5cd54}</Project>
+      <Name>VBO</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DLL\VectorMath\VectorMath\VectorMath.csproj">
+      <Project>{2FAFBE7A-4393-46C9-9463-04D211F3EAB1}</Project>
+      <Name>VectorMath</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

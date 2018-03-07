@@ -1,0 +1,27 @@
+D:\Мультимедиа\Visual Studio Projects\DLL\PhysicsBox\PhysicsBox\bin\Release\PhysicsBox.dll
+D:\Мультимедиа\Visual Studio Projects\DLL\PhysicsBox\PhysicsBox\bin\Release\PhysicsBox.pdb
+D:\Мультимедиа\Visual Studio Projects\DLL\PhysicsBox\PhysicsBox\bin\Release\CMatrixMath.dll
+D:\Мультимедиа\Visual Studio Projects\DLL\PhysicsBox\PhysicsBox\bin\Release\CMatrixMath.pdb
+D:\Мультимедиа\Visual Studio Projects\DLL\PhysicsBox\PhysicsBox\obj\Release\PhysicsBox.dll
+D:\Мультимедиа\Visual Studio Projects\DLL\PhysicsBox\PhysicsBox\obj\Release\PhysicsBox.pdb
+D:\Мультимедиа\Visual Studio Projects\DLL\PhysicsBox\PhysicsBox\obj\Release\PhysicsBox.csprojResolveAssemblyReference.cache
+D:\Мультимедиа\Visual Studio Projects\ОперацияOpenTK\PhysicsBox\PhysicsBox\obj\Release\PhysicsBox.csprojResolveAssemblyReference.cache
+D:\Мультимедиа\Visual Studio Projects\ОперацияOpenTK\PhysicsBox\PhysicsBox\obj\Release\PhysicsBox.dll
+D:\Мультимедиа\Visual Studio Projects\ОперацияOpenTK\PhysicsBox\PhysicsBox\bin\Release\PhysicsBox.dll
+D:\Мультимедиа\Visual Studio Projects\ОперацияOpenTK\PhysicsBox\PhysicsBox\bin\Release\PhysicsBox.pdb
+D:\Мультимедиа\Visual Studio Projects\ОперацияOpenTK\PhysicsBox\PhysicsBox\bin\Release\OpenTK.dll
+D:\Мультимедиа\Visual Studio Projects\ОперацияOpenTK\PhysicsBox\PhysicsBox\bin\Release\VectorMath.dll
+D:\Мультимедиа\Visual Studio Projects\ОперацияOpenTK\PhysicsBox\PhysicsBox\bin\Release\OpenTK.pdb
+D:\Мультимедиа\Visual Studio Projects\ОперацияOpenTK\PhysicsBox\PhysicsBox\bin\Release\OpenTK.xml
+D:\Мультимедиа\Visual Studio Projects\ОперацияOpenTK\PhysicsBox\PhysicsBox\bin\Release\VectorMath.pdb
+D:\Мультимедиа\Visual Studio Projects\ОперацияOpenTK\PhysicsBox\PhysicsBox\obj\Release\PhysicsBox.pdb
+D:\Мультимедиа\Visual Studio Projects\OpenTK Applications\DLL\PhysicsBox\PhysicsBox\bin\Release\PhysicsBox.dll
+D:\Мультимедиа\Visual Studio Projects\OpenTK Applications\DLL\PhysicsBox\PhysicsBox\bin\Release\PhysicsBox.pdb
+D:\Мультимедиа\Visual Studio Projects\OpenTK Applications\DLL\PhysicsBox\PhysicsBox\bin\Release\OpenTK.dll
+D:\Мультимедиа\Visual Studio Projects\OpenTK Applications\DLL\PhysicsBox\PhysicsBox\bin\Release\VectorMath.dll
+D:\Мультимедиа\Visual Studio Projects\OpenTK Applications\DLL\PhysicsBox\PhysicsBox\bin\Release\OpenTK.pdb
+D:\Мультимедиа\Visual Studio Projects\OpenTK Applications\DLL\PhysicsBox\PhysicsBox\bin\Release\OpenTK.xml
+D:\Мультимедиа\Visual Studio Projects\OpenTK Applications\DLL\PhysicsBox\PhysicsBox\bin\Release\VectorMath.pdb
+D:\Мультимедиа\Visual Studio Projects\OpenTK Applications\DLL\PhysicsBox\PhysicsBox\obj\Release\PhysicsBox.csprojResolveAssemblyReference.cache
+D:\Мультимедиа\Visual Studio Projects\OpenTK Applications\DLL\PhysicsBox\PhysicsBox\obj\Release\PhysicsBox.dll
+D:\Мультимедиа\Visual Studio Projects\OpenTK Applications\DLL\PhysicsBox\PhysicsBox\obj\Release\PhysicsBox.pdb
