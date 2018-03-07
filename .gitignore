@@ -2,3 +2,8 @@
 .vs/MassiveGame/v14/.suo
 CollisionEditor/.vs/CollisionEditor/v14/.suo
 CollisionEditor/OTKWinForm.v12.suo
+*.cache
+CollisionEditor/OTKWinForm/obj/Debug/DesignTimeResolveAssemblyReferencesInput.cache
+CollisionEditor/OTKWinForm/obj/Debug/DesignTimeResolveAssemblyReferencesInput.cache
+WFUIControls/obj/Debug/DesignTimeResolveAssemblyReferencesInput.cache
+TestStencil/obj/Debug/DesignTimeResolveAssemblyReferencesInput.cache
