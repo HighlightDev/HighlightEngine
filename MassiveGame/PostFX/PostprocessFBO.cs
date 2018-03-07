@@ -36,7 +36,7 @@ namespace MassiveGame
                     {
                         base.textures.genEmptyImg(2, 1366, 768, (int)All.Nearest, PixelInternalFormat.Rgb,
                             PixelFormat.Rgb, PixelType.UnsignedByte); //for screen image and blur
-                        base.textures.genEmptyImg(1, 1366, 768, (int)All.Nearest, PixelInternalFormat.DepthComponent24, PixelFormat.DepthComponent,
+                        base.textures.genEmptyImg(1, 1366, 768, (int)All.Nearest, PixelInternalFormat.Depth24Stencil8, PixelFormat.DepthStencil,
                             PixelType.Float); //for depth image
                         /*If lens flare or god rays are enabled - gen additional texture for result*/
                         if (LensFlareRenderer.LensFlareEnabled || GodRaysRenderer.GodRaysEnabled)
@@ -138,9 +138,9 @@ namespace MassiveGame
                 base.bindFramebuffer(1);
                 base.genRenderbuffers(1);
                 base.bindRenderbuffer(1);
-                base.renderbufferStorage(RenderbufferStorage.DepthComponent24, base.textures.Rezolution[0].widthRezolution,
+                base.renderbufferStorage(RenderbufferStorage.Depth24Stencil8, base.textures.Rezolution[0].widthRezolution,
                     base.textures.Rezolution[0].heightRezolution);
-                base.attachRenderbufferToFramebuffer(FramebufferAttachment.DepthAttachment, 1);
+                base.attachRenderbufferToFramebuffer(FramebufferAttachment.DepthStencilAttachment, 1);
             }
         }
 

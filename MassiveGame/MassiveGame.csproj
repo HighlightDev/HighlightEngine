@@ -381,6 +381,9 @@
     <Content Include="Textures\HeightMaps\00.bmp" />
     <Content Include="Textures\HeightMaps\01.bmp" />
     <Content Include="Textures\HeightMaps\heightmap.png" />
+    <Content Include="Textures\LensFlareTextures\lenscolor.png" />
+    <Content Include="Textures\LensFlareTextures\lensdirt.png" />
+    <Content Include="Textures\LensFlareTextures\lensstar.png" />
     <Content Include="Textures\Multitextures\blendMap.png" />
     <Content Include="Textures\Multitextures\grass.png" />
     <Content Include="Textures\Multitextures\grassFlowers.png" />

@@ -144,7 +144,8 @@ vec4 lensModifer(vec2 TC)
 	starColor *= 8;
     lensMod += starColor;
 
-    vec4 lensFlare = texture(bluredTexture, TC) * lensMod;
+    vec4 lensFlare = texture(bluredTexture, TC);
+    // * lensMod;
 	vec4 resultColor = texture(frameTexture, TC) + lensFlare;
     return resultColor;
 }

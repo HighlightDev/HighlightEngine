@@ -224,8 +224,8 @@ namespace MassiveGame.UI
             DOUEngine.Lights = new Light_visualization.VisualizeLight(ProjectFolders.TexturesPath + "/LightTextures/" + "light-bulb-icon (1).png"
                 , DOUEngine.PointLight);
 
-            DOUEngine.Ray = new GodRaysRenderer();
-            //DOUEngine.Lens = new LensFlareRenderer(TextureSet.LensFlareTextureSet, TextureSet.LensFlareTextureSet2);
+            //DOUEngine.Lens = new LensFlareRenderer();
+            //DOUEngine.Ray = new GodRaysRenderer();
             //DOUEngine.PostProc = new PostprocessRenderer(PostprocessType.DOF_BLUR);
             //DOUEngine.PostProc.BloomPass = 1;
             //DOUEngine.PostProc.BlurWidth = 18;
