@@ -25,3 +25,10 @@ C:\Users\dzinovev\Desktop\Универчик\project\MassiveGame\MassiveGame\Mas
 C:\Users\dzinovev\Desktop\Универчик\project\MassiveGame\MassiveGame\MassiveGame\DLL\FramebufferAPI\FramebufferAPI\obj\Debug\FramebufferAPI.csprojResolveAssemblyReference.cache
 C:\Users\dzinovev\Desktop\Универчик\project\MassiveGame\MassiveGame\MassiveGame\DLL\FramebufferAPI\FramebufferAPI\obj\Debug\FramebufferAPI.dll
 C:\Users\dzinovev\Desktop\Универчик\project\MassiveGame\MassiveGame\MassiveGame\DLL\FramebufferAPI\FramebufferAPI\obj\Debug\FramebufferAPI.pdb
+C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\DLL\FramebufferAPI\FramebufferAPI\bin\Debug\FramebufferAPI.dll
+C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\DLL\FramebufferAPI\FramebufferAPI\bin\Debug\FramebufferAPI.pdb
+C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\DLL\FramebufferAPI\FramebufferAPI\bin\Debug\TextureLoader.dll
+C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\DLL\FramebufferAPI\FramebufferAPI\bin\Debug\TextureLoader.pdb
+C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\DLL\FramebufferAPI\FramebufferAPI\obj\Debug\FramebufferAPI.csprojResolveAssemblyReference.cache
+C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\DLL\FramebufferAPI\FramebufferAPI\obj\Debug\FramebufferAPI.dll
+C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\DLL\FramebufferAPI\FramebufferAPI\obj\Debug\FramebufferAPI.pdb

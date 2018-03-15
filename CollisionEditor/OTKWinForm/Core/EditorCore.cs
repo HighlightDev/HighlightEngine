@@ -11,6 +11,7 @@ using System.Drawing;
 using TextureLoader;
 using OTKWinForm.IOCore;
 using OTKWinForm.RenderCore;
+using PhysicsBox.ComponentCore;
 
 namespace OTKWinForm.Core
 {
@@ -71,16 +72,23 @@ namespace OTKWinForm.Core
             skybox.Render(EditorCamera.ViewMatrix, projectionMatrix);
         }
 
-        public void CreateActor(string modelPath)
+        public Actor CreateActor(string modelPath)
         {
             if (actor != null)
+            {
                 actor.CleanUp();
+                ComponentCreator.RemoveComponentFromRoot(actor);
+            }
             actor = new Actor(new RenderCore.RawModel(ProxyModelLoader.LoadModel(modelPath)), DefaultTexture, DefaultShader);
+            ComponentCreator.AddComponentToRoot(actor);
+            return actor;
         }
 
         public Component CreateCollisionComponent()
         {
-            return new SceneComponent(new RawModel(ProxyModelLoader.LoadModel(CollisionBoxPath)), DefaultTexture, DefaultShader);
+            var component =  new SceneComponent(new RawModel(ProxyModelLoader.LoadModel(CollisionBoxPath)), DefaultTexture, DefaultShader);
+            ComponentCreator.AddComponentToRoot(component);
+            return component;
         }
 
         public void SetTexture(string texturePath)

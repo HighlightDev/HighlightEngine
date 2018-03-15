@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>OTKWinForm</RootNamespace>
     <AssemblyName>OTKWinForm</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <TargetFrameworkProfile />
@@ -44,6 +44,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -56,7 +57,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Core\Camera.cs" />
-    <Compile Include="Core\Component.cs" />
+    <Compile Include="Core\ComponentCreator.cs" />
     <Compile Include="Core\EditorCore.cs" />
     <Compile Include="Core\SceneComponent.cs" />
     <Compile Include="Core\Skybox.cs" />
@@ -69,6 +70,7 @@
     <Compile Include="GUI\AxesIcon.cs" />
     <Compile Include="IOCore\ProxyModelLoader.cs" />
     <Compile Include="IOCore\ProxyTextureLoader.cs" />
+    <Compile Include="IOCore\Serializer.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Core\Actor.cs" />

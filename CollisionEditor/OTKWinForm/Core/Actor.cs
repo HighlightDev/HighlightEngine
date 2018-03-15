@@ -1,6 +1,7 @@
 ﻿using GpuGraphics;
 using OpenTK;
 using OTKWinForm.RenderCore;
+using PhysicsBox.ComponentCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,7 +11,7 @@ using TextureLoader;
 
 namespace OTKWinForm.Core
 {
-    public class Actor
+    public class Actor : Component
     {
         private RawModel rawModel;
 
@@ -18,17 +19,6 @@ namespace OTKWinForm.Core
 
         private BasicShader shader;
         public Matrix4 WorldMatrix;
-
-        public Vector3 Translation { set; get; }
-        public Vector3 Rotation { set; get; }
-        public Vector3 Scale { set; get; }
-
-        private List<Component> attachedComponents;
-
-        public List<Component> GetComponents()
-        {
-            return attachedComponents;
-        }
 
         public void SetTexture(ITexture texture)
         {
@@ -45,12 +35,9 @@ namespace OTKWinForm.Core
             WorldMatrix *= Matrix4.CreateTranslation(Translation);
         }
 
-        public virtual void Tick(Matrix4 viewMatrix, Matrix4 projectionMatrix)
+        public override void Tick(Matrix4 viewMatrix, Matrix4 projectionMatrix)
         {
-            foreach (var component in attachedComponents)
-            {
-                component.Tick(viewMatrix, projectionMatrix);
-            }
+            base.Tick(viewMatrix, projectionMatrix);
         }
 
         public void Render(Matrix4 viewMatrix, Matrix4 projectionMatrix)
@@ -64,7 +51,7 @@ namespace OTKWinForm.Core
             VAOManager.renderBuffers(rawModel.Buffer, OpenTK.Graphics.OpenGL.PrimitiveType.Triangles);
             shader.stopProgram();
 
-            foreach (var item in attachedComponents)
+            foreach (var item in ChildrenComponents)
             {
                 SceneComponent comp = item as SceneComponent;
                 if (comp != null)
@@ -80,36 +67,19 @@ namespace OTKWinForm.Core
             this.texture = texture;
             rawModel = model;
             this.shader = shader;
-            attachedComponents = new List<Component>();
+        }
+
+        public Actor()
+        {
+            Scale = new Vector3(1);
+            Translation = new Vector3(0);
+            Rotation = new Vector3(0);
         }
 
         public void CleanUp()
         {
             shader.cleanUp();
             texture.CleanUp();
-        }
-
-        public void AttachComponent(Component component)
-        {
-            component.parentActor = this;
-            attachedComponents.Add(component);
-        }
-
-        public void AttachComponentToChildComponent(Component component, Int32 childrenComponentIndex)
-        {
-            attachedComponents[childrenComponentIndex].AttachComponent(component);
-            component = attachedComponents[childrenComponentIndex].parentComponent;
-        }
-
-        public void DetachComponent(Component component)
-        {
-            attachedComponents.Remove(component);
-            component.parentActor = null;
-        }
-
-        public void DetachComponentFromChildComponent(Component component, Int32 childrenComponentIndex)
-        {
-            attachedComponents[childrenComponentIndex].DetachComponent(component);
         }
     }
 }

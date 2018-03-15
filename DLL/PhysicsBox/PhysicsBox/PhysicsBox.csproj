@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
@@ -10,7 +10,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>PhysicsBox</RootNamespace>
     <AssemblyName>PhysicsBox</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
   </PropertyGroup>
@@ -40,6 +40,7 @@
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -53,16 +54,18 @@
     <Compile Include="CollisionDetector.cs" />
     <Compile Include="CollisionSphereBox.cs" />
     <Compile Include="CollisionQuad.cs" />
+    <Compile Include="ComponentCore\Component.cs" />
+    <Compile Include="ComponentCore\SerializationComponentWrapper.cs" />
     <Compile Include="GeometricMath.cs" />
+    <Compile Include="MathTypes\AABB.cs" />
+    <Compile Include="MathTypes\BoundBase.cs" />
     <Compile Include="MathTypes\ConvexVolume.cs" />
     <Compile Include="MathTypes\FMirrorMatrix.cs" />
     <Compile Include="MathTypes\FPlane.cs" />
     <Compile Include="MathTypes\FRay.cs" />
+    <Compile Include="MathTypes\OBB.cs" />
     <Compile Include="MovementStack.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

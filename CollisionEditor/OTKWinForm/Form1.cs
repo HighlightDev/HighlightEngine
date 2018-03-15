@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
@@ -12,6 +11,9 @@ using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL;
 using OTKWinForm.Core;
 using System.Threading;
+using PhysicsBox.ComponentCore;
+using OTKWinForm.IOCore;
+using System.IO;
 
 namespace OTKWinForm
 {
@@ -21,13 +23,14 @@ namespace OTKWinForm
         private Point PrevCursorPosition;
         private System.Threading.Timer timer;
 
-        private Core.Component selectedComponent;
-        private Actor selectedActor;
+        private Component selectedComponent;
 
         private bool[] enabledKeys;
 
         private bool bTreeViewDirty = false;
         private bool bTransformationPanelDirty = false;
+
+        private float ScaleFactor = 5;
 
         public OTKWinForm()
         {
@@ -46,8 +49,7 @@ namespace OTKWinForm
             string nodeText = e.Node.Text;
             if (nodeText == "Actor")
             {
-                selectedActor = Editor.actor;
-                selectedComponent = null;
+                selectedComponent = Editor.actor;
                 bTransformationPanelDirty = true;
             }
             else
@@ -55,8 +57,7 @@ namespace OTKWinForm
                 Int32 itemIndex = nodeText.IndexOf('_');
                 string idStr = nodeText.Replace(nodeText.Substring(0, itemIndex + 1), "");
                 UInt32 index = UInt32.Parse(idStr);
-                selectedActor = null;
-                selectedComponent = Core.Component.ComponentCreator.GetComponentById(index);
+                selectedComponent = ComponentCreator.GetComponentById(index);
                 bTransformationPanelDirty = true;
             }
         }
@@ -96,7 +97,7 @@ namespace OTKWinForm
                         treeView1.BeginUpdate();
                         treeView1.Nodes.Clear();
                         treeView1.Nodes.Add("Actor");
-                        AddTreeViewNodes(0, treeView1.Nodes[0].Nodes, Editor.actor.GetComponents());
+                        AddTreeViewNodes(0, treeView1.Nodes[0].Nodes, Editor.actor.ChildrenComponents);
                         treeView1.EndUpdate();
                         treeView1.ExpandAll();
                     }));
@@ -106,13 +107,7 @@ namespace OTKWinForm
             if (bTransformationPanelDirty)
             {
                 Vector3 translation = new Vector3(), rotation = new Vector3(), scale = new Vector3();
-                if (selectedActor != null)
-                {
-                    translation = selectedActor.Translation;
-                    rotation = selectedActor.Rotation;
-                    scale = selectedActor.Scale;
-                }
-                else if (selectedComponent != null)
+                if (selectedComponent != null)
                 {
                     translation = selectedComponent.Translation;
                     rotation = selectedComponent.Rotation;
@@ -128,9 +123,9 @@ namespace OTKWinForm
                     this.trackBarRotationY.Value = (Int32)(rotation.Y * 0.27f);
                     this.trackBarRotationZ.Value = (Int32)(rotation.Z * 0.27f);
 
-                    this.trackBarScaleX.Value = (Int32)(scale.X * 100f);
-                    this.trackBarScaleY.Value = (Int32)(scale.Y * 100f);
-                    this.trackBarScaleZ.Value = (Int32)(scale.Z * 100f);
+                    this.trackBarScaleX.Value = (Int32)(scale.X * (100f / ScaleFactor));
+                    this.trackBarScaleY.Value = (Int32)(scale.Y * (100f / ScaleFactor));
+                    this.trackBarScaleZ.Value = (Int32)(scale.Z * (100f / ScaleFactor));
                 }));
 
                 bTransformationPanelDirty = false;
@@ -142,83 +137,65 @@ namespace OTKWinForm
             if (sender == trackBarTranslationX)
             {
                 float value = (trackBarTranslationX.Value * 2) - 100.0f;
-                if (selectedActor != null)
-                    selectedActor.Translation = new Vector3(value, selectedActor.Translation.Y, selectedActor.Translation.Z);
-                else if (selectedComponent != null)
+                if (selectedComponent != null)
                     selectedComponent.Translation = new Vector3(value, selectedComponent.Translation.Y, selectedComponent.Translation.Z);
             }
             else if (sender == trackBarTranslationY)
             {
                 float value = (trackBarTranslationY.Value * 2) - 100.0f;
-                if (selectedActor != null)
-                    selectedActor.Translation = new Vector3(selectedActor.Translation.X, value, selectedActor.Translation.Z);
-                else if (selectedComponent != null)
+                if (selectedComponent != null)
                     selectedComponent.Translation = new Vector3(selectedComponent.Translation.X, value, selectedComponent.Translation.Z);
             }
             else if (sender == trackBarTranslationZ)
             {
                 float value = (trackBarTranslationZ.Value * 2) - 100.0f;
-                if (selectedActor != null)
-                    selectedActor.Translation = new Vector3(selectedActor.Translation.X, selectedActor.Translation.Y, value);
-                else if (selectedComponent != null)
+                if (selectedComponent != null)
                     selectedComponent.Translation = new Vector3(selectedComponent.Translation.X, selectedComponent.Translation.Y, value);
             }
             else if (sender == trackBarRotationX)
             {
                 float value = trackBarRotationX.Value * 3.6f;
-                if (selectedActor != null)
-                    selectedActor.Rotation = new Vector3(value, selectedActor.Rotation.Y, selectedActor.Rotation.Z);
-                else if (selectedComponent != null)
+                if (selectedComponent != null)
                     selectedComponent.Rotation = new Vector3(value, selectedComponent.Rotation.Y, selectedComponent.Rotation.Z);
             }
             else if (sender == trackBarRotationY)
             {
                 float value = trackBarRotationY.Value * 3.6f;
-                if (selectedActor != null)
-                    selectedActor.Rotation = new Vector3(selectedActor.Rotation.X, value, selectedActor.Rotation.Z);
-                else if (selectedComponent != null)
+                if (selectedComponent != null)
                     selectedComponent.Rotation = new Vector3(selectedComponent.Rotation.X, value, selectedComponent.Rotation.Z);
             }
             else if (sender == trackBarRotationZ)
             {
                 float value = trackBarRotationZ.Value * 3.6f;
-                if (selectedActor != null)
-                    selectedActor.Rotation = new Vector3(selectedActor.Rotation.X, selectedActor.Rotation.Y, value);
-                else if (selectedComponent != null)
+                if (selectedComponent != null)
                     selectedComponent.Rotation = new Vector3(selectedComponent.Rotation.X, selectedComponent.Rotation.Y, value);
             }
             else if (sender == trackBarScaleX)
             {
-                float value = trackBarScaleX.Value * 0.01f;
-                if (selectedActor != null)
-                    selectedActor.Scale = new Vector3(value, selectedActor.Scale.Y, selectedActor.Scale.Z);
-                else if (selectedComponent != null)
+                float value = trackBarScaleX.Value * (0.01f * ScaleFactor);
+                if (selectedComponent != null)
                     selectedComponent.Scale = new Vector3(value, selectedComponent.Scale.Y, selectedComponent.Scale.Z);
             }
             else if (sender == trackBarScaleY)
             {
-                float value = trackBarScaleY.Value * 0.01f;
-                if (selectedActor != null)
-                    selectedActor.Scale = new Vector3(selectedActor.Scale.X, value, selectedActor.Scale.Z);
-                else if (selectedComponent != null)
+                float value = trackBarScaleY.Value * (0.01f * ScaleFactor);
+                if (selectedComponent != null)
                     selectedComponent.Scale = new Vector3(selectedComponent.Scale.X, value, selectedComponent.Scale.Z);
             }
             else if (sender == trackBarScaleZ)
             {
-                float value = trackBarScaleZ.Value * 0.01f;
-                if (selectedActor != null)
-                    selectedActor.Scale = new Vector3(selectedActor.Scale.X, selectedActor.Scale.Y, value);
-                else if (selectedComponent != null)
+                float value = trackBarScaleZ.Value * (0.01f * ScaleFactor);
+                if (selectedComponent != null)
                     selectedComponent.Scale = new Vector3(selectedComponent.Scale.X, selectedComponent.Scale.Y, value);
             }
         }
 
-        private void AddTreeViewNodes(Int32 parentNodeIndex, TreeNodeCollection parentNodeCollection, List<Core.Component> childrenComponents)
+        private void AddTreeViewNodes(Int32 parentNodeIndex, TreeNodeCollection parentNodeCollection, List<Component> childrenComponents)
         {
             for (var i = 0; i < childrenComponents.Count; i++, parentNodeIndex++)
             {
                 parentNodeCollection.Add(childrenComponents[i].ToString());
-                AddTreeViewNodes(parentNodeIndex, parentNodeCollection[i].Nodes, childrenComponents[i].GetComponents());
+                AddTreeViewNodes(parentNodeIndex, parentNodeCollection[i].Nodes, childrenComponents[i].ChildrenComponents);
             }
         }
 
@@ -227,7 +204,7 @@ namespace OTKWinForm
             ClearBuffers();
             GL.Enable(EnableCap.DepthTest);
 
-            Editor.DisplayEditor();  
+            Editor.DisplayEditor();
 
             this.GLControl.SwapBuffers();
             this.GLControl.Invalidate();
@@ -235,7 +212,7 @@ namespace OTKWinForm
 
         private void GLControl_MouseDown(object sender, MouseEventArgs e)
         {
-            
+
         }
 
         private void GLControl_MouseMove(object sender, MouseEventArgs e)
@@ -254,10 +231,10 @@ namespace OTKWinForm
         private void button1_Click(object sender, EventArgs e)
         {
             OpenFileDialog dlg = new OpenFileDialog();
-            dlg.ShowDialog();
-            if (dlg.CheckPathExists)
+            var result = dlg.ShowDialog();
+            if (result == DialogResult.OK)
             {
-                Editor.CreateActor(dlg.FileName);
+                selectedComponent = Editor.CreateActor(dlg.FileName);
                 bTreeViewDirty = true;
             }
             dlg.Dispose();
@@ -266,19 +243,19 @@ namespace OTKWinForm
         private void button2_Click(object sender, EventArgs e)
         {
             OpenFileDialog dlg = new OpenFileDialog();
-            dlg.ShowDialog();
-            if (dlg.CheckPathExists)
+            var result = dlg.ShowDialog();
+            if (result == DialogResult.OK)
             {
                 Editor.SetTexture(dlg.FileName);
             }
             dlg.Dispose();
         }
 
-        
+
 
         private void GLControl_KeyDown(object sender, KeyEventArgs e)
         {
-          
+
         }
 
         private void GLControl_KeyPress(object sender, System.Windows.Forms.KeyPressEventArgs e)
@@ -307,12 +284,108 @@ namespace OTKWinForm
 
         private void button3_Click(object sender, EventArgs e)
         {
-            if (selectedComponent == null)
-                selectedActor.AttachComponent(Editor.CreateCollisionComponent());
-            else if (selectedActor == null)
+            if (selectedComponent != null)
+            {
                 selectedComponent.AttachComponent(Editor.CreateCollisionComponent());
-            bTreeViewDirty = true;
+                bTreeViewDirty = true;
+            }
         }
 
+        private SerializedComponentsContainer SetMementoComponent(Component serializableComponent)
+        {
+            SerializationComponentWrapper wrapper = new SerializationComponentWrapper(serializableComponent);
+            SerializedComponentsContainer container = new SerializedComponentsContainer(wrapper);
+            return container;
+        }
+
+        private void Serialize(SerializedComponentsContainer wrappedComponent, string pathToDir)
+        {
+            Serializer serializer = new Serializer();
+            serializer.SerializeComponent(wrappedComponent, pathToDir);
+        }
+
+        private SerializedComponentsContainer Deserialize(string pathToFile)
+        {
+            SerializedComponentsContainer deserializedComponent = null;
+            Serializer serializer = new Serializer();
+            deserializedComponent = serializer.DeserializerComponent(pathToFile);
+            return deserializedComponent;
+        }
+
+        private List<Component> GetMemento(Component parent, SerializedComponentsContainer wrappedComponent)
+        {
+            List<Component> result = new List<Component>();
+            foreach (var component in wrappedComponent.SerializedComponents)
+            {
+                if (component.Type == Component.ComponentType.SceneComponent)
+                {
+                    Component childComponent = Editor.CreateCollisionComponent();
+                    childComponent.ParentComponent = parent;
+                    CreateCollisionComponent(childComponent, component);
+                    result.Add(childComponent);
+                }
+            }
+            return result;
+        }
+
+        private void CreateCollisionComponent(Component Src, Component Dest)
+        {
+            Src.Bound = Dest.Bound;
+            Src.Translation = Dest.Translation;
+            Src.Rotation = Dest.Rotation;
+            Src.Scale = Dest.Scale;
+            Src.Type = Dest.Type;
+            foreach (Component destComponent in Dest.ChildrenComponents)
+            {
+                Component children = null;
+                if (destComponent.Type == Component.ComponentType.SceneComponent)
+                {
+                    children = Editor.CreateCollisionComponent();
+                    children.ParentComponent = Src;
+                    CreateCollisionComponent(children, destComponent);
+                }
+                else
+                {
+                    children = destComponent;
+                }
+                Src.ChildrenComponents.Add(children);
+            }
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            if (Editor.actor == null)
+                return;
+
+            SaveFileDialog dlg = new SaveFileDialog();
+            dlg.OverwritePrompt = false;
+            var result = dlg.ShowDialog();
+            if (result == DialogResult.OK)
+            {
+                SerializedComponentsContainer wrappedComponent = SetMementoComponent(Editor.actor);
+                Serialize(wrappedComponent, dlg.FileName);
+            }
+            dlg.Dispose();
+        }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            if (Editor.actor == null)
+                return;
+
+            OpenFileDialog dlg = new OpenFileDialog();
+            var result = dlg.ShowDialog();
+            if (result == DialogResult.OK)
+            {
+                var wrappedComponents = Deserialize(dlg.FileName);
+                if (wrappedComponents != null)
+                {
+                    ComponentCreator.ClearRoot();
+                    Editor.actor.ChildrenComponents = GetMemento(Editor.actor, wrappedComponents);
+                    bTreeViewDirty = true;
+                }
+            }
+            dlg.Dispose();
+        }
     }
 }
