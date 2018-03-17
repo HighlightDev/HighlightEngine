@@ -47,7 +47,7 @@ namespace OTKWinForm.Core
                 resultBound = new OBB(aabb.Origin, aabb.Extent, TransformMatrix);
             else
             {
-                aabb.TransformBound(TransformMatrix);
+                aabb.ScalePlusTranslation = TransformMatrix;
                 resultBound = aabb;
             }
             return resultBound;

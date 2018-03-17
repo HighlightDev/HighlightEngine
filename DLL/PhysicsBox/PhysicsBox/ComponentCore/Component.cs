@@ -16,11 +16,51 @@ namespace PhysicsBox.ComponentCore
             SceneComponent
         }
 
-        public Vector3 Translation { set; get; }
+        // If transformation was changed
+        protected bool bTransformationDirty = true;
 
-        public Vector3 Rotation { set; get; }
+        private Vector3 translation;
+        private Vector3 rotation;
+        private Vector3 scale;
 
-        public Vector3 Scale { set; get; }
+        public Vector3 Translation
+        {
+            set
+            {
+                translation = value;
+                bTransformationDirty = true;
+            }
+            get
+            {
+                return translation;
+            }
+        }
+
+        public Vector3 Rotation
+        {
+            set
+            {
+                rotation = value;
+                bTransformationDirty = true;
+            }
+            get
+            {
+                return rotation;
+            }
+        }
+
+        public Vector3 Scale
+        {
+            set
+            {
+                scale = value;
+                bTransformationDirty = true;
+            }
+            get
+            {
+                return scale;
+            }
+        }
 
         public ComponentType Type { set; get; }
 
@@ -30,6 +70,17 @@ namespace PhysicsBox.ComponentCore
 
         // For serialization collision bounds, maybe there is a better way
         public BoundBase Bound { set; get; }
+
+        // Return the base component (parent of all hierarchy)
+        public Component GetRootComponent()
+        {
+            Component component = this;
+            while (component.ParentComponent != null)
+            {
+                component = component.ParentComponent;
+            }
+            return component;
+        }
 
         public Matrix4 GetWorldMatrix()
         {
@@ -55,8 +106,47 @@ namespace PhysicsBox.ComponentCore
             return Type;
         }
 
+        public void UpdateTransformation()
+        {
+            UpdateBoundTransformationMatrices(this);
+        }
+
+        private void UpdateBoundTransformationMatrices(Component childComponent)
+        {
+            foreach (var component in childComponent.ChildrenComponents)
+            {
+                UpdateBoundTransformationMatrices(component);
+
+                // Update bounds transformation
+                Matrix4 parentTransformationMatrix = component.GetWorldMatrix();
+                Quaternion rotation = parentTransformationMatrix.ExtractRotation(true);
+                if (component.Bound.GetBoundType() == BoundBase.BoundType.AABB)
+                {
+                    if (rotation.Xyz.LengthSquared > 0.01)
+                        component.Bound = new OBB(component.Bound.Origin, component.Bound.Extent, parentTransformationMatrix);
+                    else
+                        (component.Bound as AABB).ScalePlusTranslation = parentTransformationMatrix;
+                }
+                else
+                {
+                    if (rotation.Xyz.LengthSquared > 0.01)
+                    {
+                        component.Bound = new AABB(component.Bound.Origin, component.Bound.Extent);
+                        (component.Bound as AABB).ScalePlusTranslation = parentTransformationMatrix;
+                    }
+                    else
+                        (component.Bound as OBB).TransformationMatrix = parentTransformationMatrix;
+                }
+            }
+        }
+
         public virtual void Tick(Matrix4 viewMatrix, Matrix4 projectionMatrix)
         {
+            if (bTransformationDirty)
+            {
+                UpdateTransformation();
+                bTransformationDirty = false;
+            }
             lock (this)
             {
                 foreach (var component in ChildrenComponents)

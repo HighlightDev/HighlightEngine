@@ -113,6 +113,7 @@
     <Compile Include="API\MouseObjectDetector\MousePicker.cs" />
     <Compile Include="Camera\Camera.cs" />
     <Compile Include="Camera\LiteCamera.cs" />
+    <Compile Include="ComponentCore\SceneComponent.cs" />
     <Compile Include="Debug\UiPanel\UiFrameMaster.cs" />
     <Compile Include="RenderCore\DefaultFrameBuffer.cs" />
     <Compile Include="RenderCore\IDrawable.cs" />

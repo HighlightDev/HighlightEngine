@@ -12,6 +12,7 @@ using MassiveGame.Core;
 using MassiveGame.RenderCore.Visibility;
 using MassiveGame.RenderCore.Lights;
 using MassiveGame.RenderCore;
+using PhysicsBox.ComponentCore;
 
 namespace MassiveGame
 {
@@ -20,16 +21,33 @@ namespace MassiveGame
         #region Definitions 
 
         protected float _leftX, _rightX, _nearZ, _farZ, _topY, _bottomY;
+
         protected bool _isInCameraView, _postConstructor;
+
         protected CollisionSphereBox _box;
+
         protected MistComponent _mist;
+
         protected RawModel _model;
+
         protected ITexture _texture;
+
         protected ITexture _normalMap;
+
         protected ITexture _specularMap;
+
         protected CollisionDetector collisionDetection;
+
         protected Vector3[] _verticesVectors;
+
         protected RenderMap LightVisibilityMap;
+
+        protected List<Component> Components;
+
+        public void SetComponents(List<Component> components)
+        {
+            Components = components;
+        }
 
         #region LightOptimization
 
@@ -182,7 +200,7 @@ namespace MassiveGame
         {
             Matrix4 ModelMatrix = Matrix4.Identity;
 
-            if (rotation[0] != 0 || rotation[1] != 0 || rotation[2] != 0)  //Если углы вращения нулевые - не делаем вращение
+            if (rotation[0] != 0 || rotation[1] != 0 || rotation[2] != 0)
             {
                 ModelMatrix *= Matrix4.CreateRotationX(MathHelper.DegreesToRadians(rotation.X));
                 ModelMatrix *= Matrix4.CreateRotationY(MathHelper.DegreesToRadians(rotation.Y));
@@ -191,9 +209,9 @@ namespace MassiveGame
 
             if (scale[0] != 0 && scale[1] != 0 && scale[2] != 0)
             {
-                if (scale[0] != 1 || scale[1] != 1 || scale[2] != 1)   //Если масштабирование эквивалентно 1 - нет смысла его делать
+                if (scale[0] != 1 || scale[1] != 1 || scale[2] != 1)
                 {
-                    ModelMatrix *= Matrix4.CreateScale(scale); //Дефолтное масштабирование
+                    ModelMatrix *= Matrix4.CreateScale(scale);
                 }
             }
             else
@@ -201,7 +219,7 @@ namespace MassiveGame
                 ModelMatrix *= Matrix4.CreateScale(1);
             }
 
-            if (translation[0] != 0.0f || translation[1] != 0.0f || translation[2] != 0.0f)  //Если трансляция присутствует - делаем
+            if (translation[0] != 0.0f || translation[1] != 0.0f || translation[2] != 0.0f)
             {
                 ModelMatrix *= Matrix4.CreateTranslation(translation);
             }
@@ -212,9 +230,12 @@ namespace MassiveGame
 
         #region Constructor
 
-        public Entity() { }
+        public Entity()
+        {
+            Components = new List<Component>();
+        }
         public Entity(string modelPath, string texturePath, string normalMapPath, string specularMapPath,
-            Vector3 translation, Vector3 rotation, Vector3 scale)
+            Vector3 translation, Vector3 rotation, Vector3 scale) : base()
         {
             this._translation = translation;
             this._rotation = rotation;
