@@ -86,9 +86,19 @@ namespace MassiveGame.API.Collector
             return renderTargetCollector.AllocateTextureBuffer(RenderTargetParam);
         }
 
+        public static Int32 GetModelReferenceCount(string key)
+        {
+            return modelCollector.GetModelReferenceCount(key);
+        }
+
         public static VAO GetModel(string key)
         {
             return modelCollector.GetModel(key);
+        }
+
+        public static void AddModelToRoot(VAO modelBuffer, string key)
+        {
+            modelCollector.AddModelToRoot(modelBuffer, key);
         }
 
         public static ITexture GetTexture(params string[] keys)

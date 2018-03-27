@@ -7,23 +7,22 @@ using System.Threading.Tasks;
 using System.IO;
 using System.Xml.Serialization;
 using System.Xml;
-using PhysicsBox.ComponentCore;
+
 using OpenTK;
-using OTKWinForm.Core;
 using System.Runtime.Serialization.Formatters.Binary;
 
-namespace OTKWinForm.IOCore
+namespace PhysicsBox.ComponentCore
 {
-    public class Serializer
+    public class ComponentSerializer
     {
         private BinaryFormatter serializer = null;
 
-        public Serializer()
+        public ComponentSerializer()
         {
             serializer = new BinaryFormatter();
         }
 
-        public void SerializeComponent(SerializedComponentsContainer componentContainer, string FileName)
+        public void SerializeComponents(SerializedComponentsContainer componentContainer, string FileName)
         {
             using (FileStream fileStream = new FileStream(FileName, FileMode.OpenOrCreate))
             {
@@ -31,7 +30,7 @@ namespace OTKWinForm.IOCore
             }
         }
 
-        public SerializedComponentsContainer DeserializerComponent(string PathToFile)
+        public SerializedComponentsContainer DeserializeComponents(string PathToFile)
         {
             SerializedComponentsContainer deserializedComponent = null;
             using (FileStream fileStream = new FileStream(PathToFile, FileMode.Open))

@@ -54,7 +54,10 @@ namespace OTKWinForm.Core
         public void TickEditor()
         {
             if (actor != null)
-                actor.Tick(EditorCamera.ViewMatrix, projectionMatrix);
+            {
+                Matrix4 viewMatrix = EditorCamera.ViewMatrix;
+                actor.Tick(ref projectionMatrix, ref viewMatrix);
+            }
         }
 
         private void RenderBasePass()

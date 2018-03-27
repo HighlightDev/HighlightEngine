@@ -147,27 +147,34 @@ namespace MassiveGame
 
         public override Matrix4 GetWorldMatrix()
         {
+            Matrix4 parentWorldMatrix = Matrix4.Identity;
+            if (ParentComponent != null)
+            {
+                parentWorldMatrix *= ParentComponent.GetWorldMatrix();
+            }
+
             Matrix4 modelMatrix = Matrix4.Identity;
             //Поворот
-            modelMatrix *= Matrix4.CreateRotationX(MathHelper.DegreesToRadians(_rotation.X));
-            modelMatrix *= Matrix4.CreateRotationY(MathHelper.DegreesToRadians(_rotation.Y));
-            modelMatrix *= Matrix4.CreateRotationZ(MathHelper.DegreesToRadians(_rotation.Z));
+            modelMatrix *= Matrix4.CreateRotationX(MathHelper.DegreesToRadians(Rotation.X));
+            modelMatrix *= Matrix4.CreateRotationY(MathHelper.DegreesToRadians(Rotation.Y));
+            modelMatrix *= Matrix4.CreateRotationZ(MathHelper.DegreesToRadians(Rotation.Z));
             //Масштабирование
-            modelMatrix *= Matrix4.CreateScale(base._scale);
+            modelMatrix *= Matrix4.CreateScale(Scale);
             //Перемещение
-            modelMatrix *= Matrix4.CreateTranslation(base._translation + base.Move);
+            modelMatrix *= Matrix4.CreateTranslation(Translation + base.Move);
+            modelMatrix *= parentWorldMatrix;
             return modelMatrix;
         }
 
         public Matrix4 GetMirrorMatrix(WaterEntity water)
         {
-            Vector3 currentPosition = base._translation + base.Move;
+            Vector3 currentPosition = Translation + base.Move;
             float translationPositionY = (2 * water.GetTranslation().Y) - currentPosition.Y;
             Matrix4 mirrorMatrix = Matrix4.Identity;
-            mirrorMatrix *= Matrix4.CreateRotationX(MathHelper.DegreesToRadians(_rotation.X));
-            mirrorMatrix *= Matrix4.CreateRotationY(MathHelper.DegreesToRadians(_rotation.Y));
-            mirrorMatrix *= Matrix4.CreateRotationZ(MathHelper.DegreesToRadians(_rotation.Z));
-            mirrorMatrix *= Matrix4.CreateScale(_scale.X, -_scale.Y, _scale.Z);
+            mirrorMatrix *= Matrix4.CreateRotationX(MathHelper.DegreesToRadians(Rotation.X));
+            mirrorMatrix *= Matrix4.CreateRotationY(MathHelper.DegreesToRadians(Rotation.Y));
+            mirrorMatrix *= Matrix4.CreateRotationZ(MathHelper.DegreesToRadians(Rotation.Z));
+            mirrorMatrix *= Matrix4.CreateScale(Scale.X, -Scale.Y, Scale.Z);
             mirrorMatrix *= Matrix4.CreateTranslation(currentPosition.X, translationPositionY, currentPosition.Z);
             return mirrorMatrix;
         }

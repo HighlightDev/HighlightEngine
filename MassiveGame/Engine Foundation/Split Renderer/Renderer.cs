@@ -26,6 +26,8 @@ using MassiveGame.Debug.UiPanel;
 using TextureLoader;
 using MassiveGame.API.Collector;
 using System.Threading;
+using PhysicsBox.ComponentCore;
+using MassiveGame.ComponentCore;
 
 namespace MassiveGame.UI
 {
@@ -162,6 +164,14 @@ namespace MassiveGame.UI
             DOUEngine.Player.SetMistComponent(DOUEngine.Mist);
             DOUEngine.Player.SetCollisionDetector(DOUEngine.Collision);
 
+            // TEST components
+            ComponentSerializer serializer = new ComponentSerializer();
+            SerializedComponentsContainer container = serializer.DeserializeComponents("Collision.cl");
+            Component parent = new Component();
+            parent.ChildrenComponents = container.SerializedComponents;
+            Component component = convertToSceneComponent(parent);
+            DOUEngine.Player.SetComponents(component.ChildrenComponents);
+
             modelPath = ProjectFolders.ModelsPath + "playerCube.obj";
             texturePath = ProjectFolders.MultitexturesPath + "b.png";
 
@@ -247,6 +257,29 @@ namespace MassiveGame.UI
 
             frame = new UiFrame(0, 0, 0.5f, 0.5f);
         }
+
+        #region TEST
+
+        private void convertToSceneComponentRecursive(Component existing, Component duplicate)
+        {
+            for (Int32 i = 0; i < existing.ChildrenComponents.Count; i++)
+            {
+                Component existingChild = existing.ChildrenComponents[i];
+                duplicate.ChildrenComponents.Add(new SceneComponent(existingChild));
+                Component duplicateChild = duplicate.ChildrenComponents[i];
+                duplicate.ChildrenComponents[i].ParentComponent = duplicate;
+                convertToSceneComponentRecursive(existingChild, duplicateChild);
+            }
+        }
+
+        private Component convertToSceneComponent(Component existing)
+        {
+            Component duplicate = new Component();
+            convertToSceneComponentRecursive(existing, duplicate);
+            return duplicate;
+        }
+
+        #endregion
 
         #region Constructors
         public MainUI()

@@ -16,12 +16,22 @@ namespace PhysicsBox.ComponentCore
             SceneComponent
         }
 
-        // If transformation was changed
-        protected bool bTransformationDirty = true;
+        public Component()
+        {
+            ChildrenComponents = new List<Component>();
+            Translation = new Vector3(0);
+            Rotation = new Vector3(0);
+            Scale = new Vector3(1);
+            bTransformationDirty = true;
+            ParentComponent = null;
+        }
 
-        private Vector3 translation;
-        private Vector3 rotation;
-        private Vector3 scale;
+        // If transformation was changed
+        protected bool bTransformationDirty;
+
+        protected Vector3 translation;
+        protected Vector3 rotation;
+        protected Vector3 scale;
 
         public Vector3 Translation
         {
@@ -82,7 +92,7 @@ namespace PhysicsBox.ComponentCore
             return component;
         }
 
-        public Matrix4 GetWorldMatrix()
+        public virtual Matrix4 GetWorldMatrix()
         {
             Matrix4 parentWorldMatrix = Matrix4.Identity;
             if (ParentComponent != null)
@@ -140,28 +150,20 @@ namespace PhysicsBox.ComponentCore
             }
         }
 
-        public virtual void Tick(Matrix4 viewMatrix, Matrix4 projectionMatrix)
+        public virtual void Tick(ref Matrix4 projectionMatrix, ref Matrix4 viewMatrix)
         {
-            if (bTransformationDirty)
-            {
-                UpdateTransformation();
-                bTransformationDirty = false;
-            }
             lock (this)
             {
+                if (bTransformationDirty)
+                {
+                    UpdateTransformation();
+                    bTransformationDirty = false;
+                }
                 foreach (var component in ChildrenComponents)
                 {
-                    component.Tick(viewMatrix, projectionMatrix);
+                    component.Tick(ref projectionMatrix, ref viewMatrix);
                 }
             }
-        }
-
-        public Component()
-        {
-            ChildrenComponents = new List<Component>();
-            Translation = new Vector3(0);
-            Rotation = new Vector3(0);
-            Scale = new Vector3(1);
         }
 
         public virtual void AttachComponent(Component component)

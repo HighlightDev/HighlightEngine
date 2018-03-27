@@ -1,8 +1,13 @@
 ﻿using GpuGraphics;
 using MassiveGame.API.Collector;
+
 using OpenTK;
+using OpenTK.Graphics;
+using OpenTK.Graphics.OpenGL;
+
 using PhysicsBox.ComponentCore;
 using PhysicsBox.MathTypes;
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,62 +18,116 @@ namespace MassiveGame.ComponentCore
 {
     public class SceneComponent : Component
     {
-        public void RenderBound(Matrix4 viewMatrix, ref Matrix4 projectionMatrix)
+        private VAO buffer = null;
+        private bool bPostConstructor = true;
+
+        public override void Tick(ref Matrix4 projectionMatrix, ref Matrix4 viewMatrix)
         {
-            float[,] renderCoordinates = new float[24, 3];
-            if (Bound is AABB)
+            if (bPostConstructor)
             {
-
+                if (ResourcePool.GetModelReferenceCount("CollisionBound") == 0)
+                    AddBoundModelToRoot();
+                else
+                    buffer = ResourcePool.GetModel("CollisionBound");
+                bPostConstructor = false;
             }
-            else if (Bound is OBB)
-            {
+            base.Tick(ref projectionMatrix, ref viewMatrix);
+            RenderBound(ref projectionMatrix, ref viewMatrix, System.Drawing.Color.Red);
+        }
 
-            }
+        public void RenderBound(ref Matrix4 projectionMatrix, ref Matrix4 viewMatrix, Color4 color)
+        {
+            Matrix4 worldMatrix = Matrix4.Identity;
+            if (Bound.GetBoundType() == BoundBase.BoundType.AABB)
+                worldMatrix = (Bound as AABB).ScalePlusTranslation;
+            else
+                worldMatrix = (Bound as OBB).TransformationMatrix;
 
-            //renderCoordinates[0, 0] = LBNCoordinates.X; _renderCoordinates[0, 1] = LBNCoordinates.Y; _renderCoordinates[0, 2] = LBNCoordinates.Z;
-            //renderCoordinates[1, 0] = RTFCoordinates.X; _renderCoordinates[1, 1] = LBNCoordinates.Y; _renderCoordinates[1, 2] = LBNCoordinates.Z;
-            //renderCoordinates[2, 0] = RTFCoordinates.X; _renderCoordinates[2, 1] = RTFCoordinates.Y; _renderCoordinates[2, 2] = LBNCoordinates.Z;
-            //renderCoordinates[3, 0] = LBNCoordinates.X; _renderCoordinates[3, 1] = RTFCoordinates.Y; _renderCoordinates[3, 2] = LBNCoordinates.Z;
-
-            //renderCoordinates[4, 0] = RTFCoordinates.X; _renderCoordinates[4, 1] = LBNCoordinates.Y; _renderCoordinates[4, 2] = LBNCoordinates.Z;
-            //renderCoordinates[5, 0] = RTFCoordinates.X; _renderCoordinates[5, 1] = LBNCoordinates.Y; _renderCoordinates[5, 2] = RTFCoordinates.Z;
-            //renderCoordinates[6, 0] = RTFCoordinates.X; _renderCoordinates[6, 1] = RTFCoordinates.Y; _renderCoordinates[6, 2] = RTFCoordinates.Z;
-            //renderCoordinates[7, 0] = RTFCoordinates.X; _renderCoordinates[7, 1] = RTFCoordinates.Y; _renderCoordinates[7, 2] = LBNCoordinates.Z;
-
-            //renderCoordinates[8, 0] = RTFCoordinates.X; _renderCoordinates[8, 1] = LBNCoordinates.Y; _renderCoordinates[8, 2] = RTFCoordinates.Z;
-            //renderCoordinates[9, 0] = LBNCoordinates.X; _renderCoordinates[9, 1] = LBNCoordinates.Y; _renderCoordinates[9, 2] = RTFCoordinates.Z;
-            //renderCoordinates[10, 0] = LBNCoordinates.X; _renderCoordinates[10, 1] = RTFCoordinates.Y; _renderCoordinates[10, 2] = RTFCoordinates.Z;
-            //renderCoordinates[11, 0] = RTFCoordinates.X; _renderCoordinates[11, 1] = RTFCoordinates.Y; _renderCoordinates[11, 2] = RTFCoordinates.Z;
-
-            //renderCoordinates[12, 0] = LBNCoordinates.X; _renderCoordinates[12, 1] = LBNCoordinates.Y; _renderCoordinates[12, 2] = RTFCoordinates.Z;
-            //renderCoordinates[13, 0] = LBNCoordinates.X; _renderCoordinates[13, 1] = LBNCoordinates.Y; _renderCoordinates[13, 2] = LBNCoordinates.Z;
-            //renderCoordinates[14, 0] = LBNCoordinates.X; _renderCoordinates[14, 1] = RTFCoordinates.Y; _renderCoordinates[14, 2] = LBNCoordinates.Z;
-            //renderCoordinates[15, 0] = LBNCoordinates.X; _renderCoordinates[15, 1] = RTFCoordinates.Y; _renderCoordinates[15, 2] = RTFCoordinates.Z;
-
-            //renderCoordinates[16, 0] = LBNCoordinates.X; _renderCoordinates[16, 1] = LBNCoordinates.Y; _renderCoordinates[16, 2] = LBNCoordinates.Z;
-            //renderCoordinates[17, 0] = RTFCoordinates.X; _renderCoordinates[17, 1] = LBNCoordinates.Y; _renderCoordinates[17, 2] = LBNCoordinates.Z;
-            //renderCoordinates[18, 0] = RTFCoordinates.X; _renderCoordinates[18, 1] = LBNCoordinates.Y; _renderCoordinates[18, 2] = RTFCoordinates.Z;
-            //renderCoordinates[19, 0] = LBNCoordinates.X; _renderCoordinates[19, 1] = LBNCoordinates.Y; _renderCoordinates[19, 2] = RTFCoordinates.Z;
-
-            //renderCoordinates[20, 0] = LBNCoordinates.X; _renderCoordinates[20, 1] = RTFCoordinates.Y; _renderCoordinates[20, 2] = LBNCoordinates.Z;
-            //renderCoordinates[21, 0] = RTFCoordinates.X; _renderCoordinates[21, 1] = RTFCoordinates.Y; _renderCoordinates[21, 2] = LBNCoordinates.Z;
-            //renderCoordinates[22, 0] = RTFCoordinates.X; _renderCoordinates[22, 1] = RTFCoordinates.Y; _renderCoordinates[22, 2] = RTFCoordinates.Z;
-            //renderCoordinates[23, 0] = LBNCoordinates.X; _renderCoordinates[23, 1] = RTFCoordinates.Y; _renderCoordinates[23, 2] = RTFCoordinates.Z;
+            Matrix4 modelViewMatrix = worldMatrix * viewMatrix;
 
             //GL.MatrixMode(MatrixMode.Projection);
             //GL.LoadMatrix(ref projectionMatrix);
             //GL.MatrixMode(MatrixMode.Modelview);
             //GL.LoadMatrix(ref modelViewMatrix);
-            //GL.Color4(Color);
-            //GL.EnableClientState(ArrayCap.VertexArray);
-            //GL.VertexPointer(3, VertexPointerType.Float, 0, _renderCoordinates);
-            //GL.DrawArrays(PrimitiveType.LineStrip, 0, _renderCoordinates.Length / 3);
-            //GL.DisableClientState(ArrayCap.VertexArray);
+            //GL.Color4(color);
+            //VAOManager.renderBuffers(buffer, PrimitiveType.LineStrip);
+
+
+            GL.MatrixMode(MatrixMode.Projection);
+            GL.LoadMatrix(ref projectionMatrix);
+            GL.MatrixMode(MatrixMode.Modelview);
+            GL.LoadMatrix(ref modelViewMatrix);
+            GL.Color4(color);
+            GL.EnableClientState(ArrayCap.VertexArray);
+            GL.VertexPointer(3, VertexPointerType.Float, 0, buffer.getBufferData().Vertices);
+            GL.DrawArrays(PrimitiveType.LineStrip, 0, buffer.getBufferData().getCountVertices());
+            GL.DisableClientState(ArrayCap.VertexArray);
         }
 
-        public SceneComponent()
+        private void AddBoundModelToRoot()
         {
+            Vector3 LBNCoordinates = Bound.GetMin();
+            Vector3 RTFCoordinates = Bound.GetMax();
 
+            float[,] renderCoordinates = new float[24, 3];
+
+            renderCoordinates[0, 0] = LBNCoordinates.X; renderCoordinates[0, 1] = LBNCoordinates.Y; renderCoordinates[0, 2] = LBNCoordinates.Z;
+            renderCoordinates[1, 0] = RTFCoordinates.X; renderCoordinates[1, 1] = LBNCoordinates.Y; renderCoordinates[1, 2] = LBNCoordinates.Z;
+            renderCoordinates[2, 0] = RTFCoordinates.X; renderCoordinates[2, 1] = RTFCoordinates.Y; renderCoordinates[2, 2] = LBNCoordinates.Z;
+            renderCoordinates[3, 0] = LBNCoordinates.X; renderCoordinates[3, 1] = RTFCoordinates.Y; renderCoordinates[3, 2] = LBNCoordinates.Z;
+
+            renderCoordinates[4, 0] = RTFCoordinates.X; renderCoordinates[4, 1] = LBNCoordinates.Y; renderCoordinates[4, 2] = LBNCoordinates.Z;
+            renderCoordinates[5, 0] = RTFCoordinates.X; renderCoordinates[5, 1] = LBNCoordinates.Y; renderCoordinates[5, 2] = RTFCoordinates.Z;
+            renderCoordinates[6, 0] = RTFCoordinates.X; renderCoordinates[6, 1] = RTFCoordinates.Y; renderCoordinates[6, 2] = RTFCoordinates.Z;
+            renderCoordinates[7, 0] = RTFCoordinates.X; renderCoordinates[7, 1] = RTFCoordinates.Y; renderCoordinates[7, 2] = LBNCoordinates.Z;
+
+            renderCoordinates[8, 0] = RTFCoordinates.X; renderCoordinates[8, 1] = LBNCoordinates.Y; renderCoordinates[8, 2] = RTFCoordinates.Z;
+            renderCoordinates[9, 0] = LBNCoordinates.X; renderCoordinates[9, 1] = LBNCoordinates.Y; renderCoordinates[9, 2] = RTFCoordinates.Z;
+            renderCoordinates[10, 0] = LBNCoordinates.X; renderCoordinates[10, 1] = RTFCoordinates.Y; renderCoordinates[10, 2] = RTFCoordinates.Z;
+            renderCoordinates[11, 0] = RTFCoordinates.X; renderCoordinates[11, 1] = RTFCoordinates.Y; renderCoordinates[11, 2] = RTFCoordinates.Z;
+
+            renderCoordinates[12, 0] = LBNCoordinates.X; renderCoordinates[12, 1] = LBNCoordinates.Y; renderCoordinates[12, 2] = RTFCoordinates.Z;
+            renderCoordinates[13, 0] = LBNCoordinates.X; renderCoordinates[13, 1] = LBNCoordinates.Y; renderCoordinates[13, 2] = LBNCoordinates.Z;
+            renderCoordinates[14, 0] = LBNCoordinates.X; renderCoordinates[14, 1] = RTFCoordinates.Y; renderCoordinates[14, 2] = LBNCoordinates.Z;
+            renderCoordinates[15, 0] = LBNCoordinates.X; renderCoordinates[15, 1] = RTFCoordinates.Y; renderCoordinates[15, 2] = RTFCoordinates.Z;
+
+            renderCoordinates[16, 0] = LBNCoordinates.X; renderCoordinates[16, 1] = LBNCoordinates.Y; renderCoordinates[16, 2] = LBNCoordinates.Z;
+            renderCoordinates[17, 0] = RTFCoordinates.X; renderCoordinates[17, 1] = LBNCoordinates.Y; renderCoordinates[17, 2] = LBNCoordinates.Z;
+            renderCoordinates[18, 0] = RTFCoordinates.X; renderCoordinates[18, 1] = LBNCoordinates.Y; renderCoordinates[18, 2] = RTFCoordinates.Z;
+            renderCoordinates[19, 0] = LBNCoordinates.X; renderCoordinates[19, 1] = LBNCoordinates.Y; renderCoordinates[19, 2] = RTFCoordinates.Z;
+
+            renderCoordinates[20, 0] = LBNCoordinates.X; renderCoordinates[20, 1] = RTFCoordinates.Y; renderCoordinates[20, 2] = LBNCoordinates.Z;
+            renderCoordinates[21, 0] = RTFCoordinates.X; renderCoordinates[21, 1] = RTFCoordinates.Y; renderCoordinates[21, 2] = LBNCoordinates.Z;
+            renderCoordinates[22, 0] = RTFCoordinates.X; renderCoordinates[22, 1] = RTFCoordinates.Y; renderCoordinates[22, 2] = RTFCoordinates.Z;
+            renderCoordinates[23, 0] = LBNCoordinates.X; renderCoordinates[23, 1] = RTFCoordinates.Y; renderCoordinates[23, 2] = RTFCoordinates.Z;
+
+            buffer = new VAO(new VBOArrayF(renderCoordinates));
+            VAOManager.genVAO(buffer);
+            VAOManager.setBufferData(OpenTK.Graphics.OpenGL.BufferTarget.ArrayBuffer, buffer);
+            ResourcePool.AddModelToRoot(buffer, "CollisionBound");
+        }
+
+        public SceneComponent() : base()
+        {
+        }
+
+        public SceneComponent(Component component, bool bCopyComponents = false) : base()
+        {
+            this.Bound = component.Bound;
+            if (bCopyComponents)
+            {
+                this.ChildrenComponents = component.ChildrenComponents;
+                this.ParentComponent = component.ParentComponent;
+            }
+            else
+            {
+                this.ChildrenComponents = new List<Component>();
+                this.ParentComponent = null;
+            }
+            this.Type = component.Type;
+            this.Translation = component.Translation;
+            this.Rotation = component.Rotation;
+            this.Scale = component.Scale;
         }
     }
 }

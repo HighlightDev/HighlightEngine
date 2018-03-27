@@ -15,6 +15,7 @@ namespace MassiveGame.UI
             renderBasePass(DOUEngine.Camera, redraw);
             renderLamps();
             renderCollisionBoxes();
+            TickEntities();
         }
 
         private void DepthPass()
@@ -72,6 +73,27 @@ namespace MassiveGame.UI
                 matrix[3, 1] = 0.0f;
                 matrix[3, 2] = 0.0f;
                 if (!Object.Equals(DOUEngine.SunReplica, null)) DOUEngine.SunReplica.CQuad.renderQuad(matrix, ref DOUEngine.ProjectionMatrix);
+            }
+        }
+
+        private void TickEntities()
+        {
+            Matrix4 viewMatrix = DOUEngine.Camera.getViewMatrix();
+
+            if (DOUEngine.Player != null)
+            {
+                if (DOUEngine.Player.IsInCameraView)
+                {
+                    DOUEngine.Player.Tick(ref DOUEngine.ProjectionMatrix, ref viewMatrix);
+                }
+            }
+
+            if (!Object.Equals(DOUEngine.Enemy, null))
+            {
+                if (DOUEngine.Enemy.IsInCameraView)
+                {
+                    DOUEngine.Enemy.Tick(ref DOUEngine.ProjectionMatrix, ref viewMatrix);
+                }
             }
         }
 

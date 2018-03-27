@@ -18,6 +18,28 @@ namespace MassiveGame.API.Collector.ModelCollect
             referenceCount = new Dictionary<string, int>();
         }
 
+        public void AddModelToRoot(VAO modelBuffer, string key)
+        {
+            bool bModelIsInRoot = modelDictionary.Any((keyValue) => { return keyValue.Key == key; });
+            if (bModelIsInRoot)
+                referenceCount[key]++;
+            else
+            {
+                modelDictionary.Add(key, modelBuffer);
+                referenceCount.Add(key, 1);
+            }
+        }
+
+        public Int32 GetModelReferenceCount(string key)
+        {
+            bool bModelIsInRoot = modelDictionary.Any((keyValue) => { return keyValue.Key == key; });
+            Int32 references = 0;
+            if (bModelIsInRoot)
+                references = referenceCount[key];
+
+            return references;
+        }
+
         public VAO RetrieveModel(string key)
         {
             return TryGetModel(key);

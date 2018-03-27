@@ -114,7 +114,10 @@
     <Compile Include="Camera\Camera.cs" />
     <Compile Include="Camera\LiteCamera.cs" />
     <Compile Include="ComponentCore\SceneComponent.cs" />
+    <Compile Include="Core\ISerializable.cs" />
     <Compile Include="Debug\UiPanel\UiFrameMaster.cs" />
+    <Compile Include="Physics\CollisionHeadUnit.cs" />
+    <Compile Include="Physics\CollisionUnit.cs" />
     <Compile Include="RenderCore\DefaultFrameBuffer.cs" />
     <Compile Include="RenderCore\IDrawable.cs" />
     <Compile Include="RenderCore\Lights\DirectionalLight.cs" />

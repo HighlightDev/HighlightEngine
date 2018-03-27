@@ -56,6 +56,7 @@
     <Compile Include="CollisionQuad.cs" />
     <Compile Include="ComponentCore\Component.cs" />
     <Compile Include="ComponentCore\SerializationComponentWrapper.cs" />
+    <Compile Include="ComponentCore\ComponentSerializer.cs" />
     <Compile Include="GeometricMath.cs" />
     <Compile Include="MathTypes\AABB.cs" />
     <Compile Include="MathTypes\BoundBase.cs" />

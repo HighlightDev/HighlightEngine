@@ -110,7 +110,7 @@ namespace MassiveGame
         public virtual void objectMove(directions direction, Terrain terrain)       //Move object in 5 directions
         {
             float heightStep = terrain.getLandscapeHeight(Box.getCenter().X, Box.getCenter().Z);
-            this._rotation.Y = this.setRotation(direction);
+            Rotation = new Vector3(rotation.X, setRotation(direction), rotation.Z);
             switch (direction)
             {
                 case directions.LEFT:
@@ -216,6 +216,9 @@ namespace MassiveGame
                 Move.Y,
                 (objectStack.FarZ + objectStack.NearZ) / 2 + Move.Z
             );
+
+            // Update bound's transformation
+            bTransformationDirty = true;
         }
 
         #region Position_stack_functions

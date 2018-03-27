@@ -11,6 +11,128 @@ namespace PhysicsBox
 {
     public static class GeometricMath
     {
+        public struct Interval
+        {
+            public float min;
+            public float max;
+        }
+
+        public static Interval GetInterval(AABB rect, Vector3 axis)
+        {
+            Interval result;
+            Vector3 min = rect.GetTransformedMin();
+            Vector3 max = rect.GetTransformedMax();
+
+            Vector3[] vertex =
+                {
+                new Vector3(min.X, max.Y, max.Y),
+                new Vector3(min.X, max.Y, min.Z),
+                new Vector3(min.X, min.Y, max.Z),
+                new Vector3(min.X, min.Y, min.Z),
+                new Vector3(max.X, max.Y, max.Z),
+                new Vector3(max.X, max.Y, min.Z),
+                new Vector3(max.X, min.Y, max.Z),
+                new Vector3(max.X, min.Y, min.Z)
+                };
+
+            result.min = result.max = ProjectVectorOnNormalizedVector(vertex[0] , axis);
+
+            for (Int32 i = 1; i < vertex.Length; i++)
+            {
+                float projection = ProjectVectorOnNormalizedVector(vertex[i], axis);
+                result.min = projection < result.min ? projection : result.min;
+                result.max = projection > result.max ? projection : result.max;
+            }
+
+            return result;
+        }
+
+        public static Interval GetInterval(OBB rect, Vector3 axis)
+        {
+            Interval result;
+            // translation 
+            Vector3 translation = rect.TransformationMatrix.ExtractTranslation();
+
+            // extract tangent vectors of bounding box
+            Vector3 obbTangentX = rect.TransformationMatrix.Row0.Xyz;
+            Vector3 obbTangentY = rect.TransformationMatrix.Row1.Xyz;
+            Vector3 obbTangentZ = rect.TransformationMatrix.Row2.Xyz;
+            
+            // extent and origin of bounding box
+            Vector3 extent = rect.Extent;
+            Vector3 position = rect.Origin;
+
+            // find all vertices of rotated bounding box
+            Vector3[] vertices = new Vector3[8];
+            vertices[0] = position + (obbTangentX * extent.X) + (obbTangentY * extent.Y) + (obbTangentY * extent.Z) + translation;
+            vertices[1] = position - (obbTangentX * extent.X) + (obbTangentY * extent.Y) + (obbTangentY * extent.Z) + translation;
+            vertices[2] = position + (obbTangentX * extent.X) - (obbTangentY * extent.Y) + (obbTangentY * extent.Z) + translation;
+            vertices[3] = position + (obbTangentX * extent.X) + (obbTangentY * extent.Y) - (obbTangentY * extent.Z) + translation;
+            vertices[4] = position - (obbTangentX * extent.X) - (obbTangentY * extent.Y) - (obbTangentY * extent.Z) + translation;
+            vertices[5] = position + (obbTangentX * extent.X) - (obbTangentY * extent.Y) - (obbTangentY * extent.Z) + translation;
+            vertices[7] = position - (obbTangentX * extent.X) + (obbTangentY * extent.Y) - (obbTangentY * extent.Z) + translation;
+            vertices[8] = position - (obbTangentX * extent.X) - (obbTangentY * extent.Y) + (obbTangentY * extent.Z) + translation;
+
+            result.min = result.max = ProjectVectorOnNormalizedVector(vertices[0], axis);
+            for (Int32 i = 1; i < vertices.Length; i++)
+            {
+                float projection = ProjectVectorOnNormalizedVector(vertices[i], axis);
+                result.min = projection < result.min ? projection : result.min;
+                result.max = projection > result.max ? projection : result.max;
+            }
+
+            return result;
+        }
+
+        public static bool OverlapOnAxis(AABB aabb, OBB obb, Vector3 axis)
+        {
+            var intervalAABB = GetInterval(aabb, axis);
+            var intervalOBB = GetInterval(obb, axis);
+            return ((intervalOBB.min <= intervalAABB.max) && (intervalAABB.min <= intervalOBB.max));
+        }
+
+        public static bool AABBOBB(AABB aabb, OBB obb)
+        {
+            Matrix3 RotationMatrix = new Matrix3(obb.TransformationMatrix);
+            Vector3[] testAxis = new Vector3[15];
+            testAxis[0] = aabb.GetTangetX();
+            testAxis[1] = aabb.GetTangetY();
+            testAxis[2] = aabb.GetTangetZ();
+            testAxis[3] = RotationMatrix.Row0.Normalized();
+            testAxis[4] = RotationMatrix.Row1.Normalized();
+            testAxis[5] = RotationMatrix.Row2.Normalized();
+            for (Int32 i = 0; i < 3; i++)
+            {
+                testAxis[6 + i * 3 + 0] = Vector3.Cross(testAxis[0], testAxis[i]);
+                testAxis[6 + i * 3 + 1] = Vector3.Cross(testAxis[1], testAxis[i]);
+                testAxis[6 + i * 3 + 2] = Vector3.Cross(testAxis[2], testAxis[i]);
+            }
+
+            for (Int32 i = 0; i < testAxis.Length; i++)
+            {
+                if (!OverlapOnAxis(aabb, obb, testAxis[i]))
+                    return false;
+            }
+            return true;
+        }
+
+        public static bool OBBOBB(OBB obb1, OBB obb2)
+        {
+            return false;
+        }
+
+        public static bool AABBAABB(AABB aabb1, AABB aabb2)
+        {
+            Vector3 max1 = aabb1.GetMax();
+            Vector3 min1 = aabb1.GetMin();
+            Vector3 max2 = aabb2.GetMax();
+            Vector3 min2 = aabb2.GetMin();
+
+            return (min1.X <= max2.X && max1.X >= min2.X) &&
+                    (min1.Y <= max2.Y && max1.Y >= min2.Y) &&
+                    (min1.Z <= max2.X && max1.Z >= min2.Z);
+        }
+
         /// <summary>
         /// Находит пересечение двух боксов
         /// </summary>

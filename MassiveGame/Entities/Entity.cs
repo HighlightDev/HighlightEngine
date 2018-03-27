@@ -16,7 +16,7 @@ using PhysicsBox.ComponentCore;
 
 namespace MassiveGame
 {
-    public abstract class Entity: IVisible, ILightAffection, IDrawable
+    public abstract class Entity: Component, IVisible, ILightAffection, IDrawable
     {
         #region Definitions 
 
@@ -42,11 +42,16 @@ namespace MassiveGame
 
         protected RenderMap LightVisibilityMap;
 
-        protected List<Component> Components;
-
         public void SetComponents(List<Component> components)
         {
-            Components = components;
+            foreach (Component child in components)
+                child.ParentComponent = this;
+            ChildrenComponents = components;
+        }
+
+        public override void Tick(ref Matrix4 projectionMatrix, ref Matrix4 viewMatrix)
+        {
+            base.Tick(ref projectionMatrix, ref viewMatrix);
         }
 
         #region LightOptimization
@@ -77,8 +82,6 @@ namespace MassiveGame
             }
         }
 
-        protected Vector3 _translation, _rotation, _scale;
-
         #endregion
 
         #region Interface_realization
@@ -101,11 +104,6 @@ namespace MassiveGame
         #endregion
 
         #region Getter
-
-        public virtual Matrix4 GetWorldMatrix()
-        {
-            return Matrix4.Identity;
-        }
 
         public VAO GetModel()
         {
@@ -196,22 +194,22 @@ namespace MassiveGame
 
         #region Transformation
 
-        protected Matrix4 BuildTransformationMatrix(ref Vector3 translation, ref Vector3 rotation, ref Vector3 scale)
+        protected Matrix4 BuildTransformationMatrix()
         {
             Matrix4 ModelMatrix = Matrix4.Identity;
 
-            if (rotation[0] != 0 || rotation[1] != 0 || rotation[2] != 0)
+            if (Rotation[0] != 0 || Rotation[1] != 0 || Rotation[2] != 0)
             {
-                ModelMatrix *= Matrix4.CreateRotationX(MathHelper.DegreesToRadians(rotation.X));
-                ModelMatrix *= Matrix4.CreateRotationY(MathHelper.DegreesToRadians(rotation.Y));
-                ModelMatrix *= Matrix4.CreateRotationZ(MathHelper.DegreesToRadians(rotation.Z));
+                ModelMatrix *= Matrix4.CreateRotationX(MathHelper.DegreesToRadians(Rotation.X));
+                ModelMatrix *= Matrix4.CreateRotationY(MathHelper.DegreesToRadians(Rotation.Y));
+                ModelMatrix *= Matrix4.CreateRotationZ(MathHelper.DegreesToRadians(Rotation.Z));
             }
 
-            if (scale[0] != 0 && scale[1] != 0 && scale[2] != 0)
+            if (Scale[0] != 0 && Scale[1] != 0 && Scale[2] != 0)
             {
-                if (scale[0] != 1 || scale[1] != 1 || scale[2] != 1)
+                if (Scale[0] != 1 || Scale[1] != 1 || Scale[2] != 1)
                 {
-                    ModelMatrix *= Matrix4.CreateScale(scale);
+                    ModelMatrix *= Matrix4.CreateScale(Scale);
                 }
             }
             else
@@ -219,9 +217,9 @@ namespace MassiveGame
                 ModelMatrix *= Matrix4.CreateScale(1);
             }
 
-            if (translation[0] != 0.0f || translation[1] != 0.0f || translation[2] != 0.0f)
+            if (Translation[0] != 0.0f || Translation[1] != 0.0f || Translation[2] != 0.0f)
             {
-                ModelMatrix *= Matrix4.CreateTranslation(translation);
+                ModelMatrix *= Matrix4.CreateTranslation(Translation);
             }
             return ModelMatrix;
         } 
@@ -232,19 +230,20 @@ namespace MassiveGame
 
         public Entity()
         {
-            Components = new List<Component>();
+            if (ChildrenComponents == null)
+                ChildrenComponents = new List<Component>();
         }
         public Entity(string modelPath, string texturePath, string normalMapPath, string specularMapPath,
             Vector3 translation, Vector3 rotation, Vector3 scale) : base()
         {
-            this._translation = translation;
-            this._rotation = rotation;
-            this._scale = scale;
+            Translation = translation; 
+            Rotation = rotation;
+            Scale = scale;
             _texture = ResourcePool.GetTexture(texturePath);
             _normalMap = ResourcePool.GetTexture(normalMapPath);
             _specularMap = ResourcePool.GetTexture(specularMapPath);
             _model = new RawModel(modelPath);
-            CopyVertices(_model.Buffer.getBufferData().Vertices, ref _translation, ref _rotation, ref _scale);
+            CopyVertices(_model.Buffer.getBufferData().Vertices);
 
             this._box = new CollisionSphereBox(_leftX, _rightX, _bottomY, _topY, _nearZ, _farZ, -1);
             this._isInCameraView = true;
@@ -253,9 +252,9 @@ namespace MassiveGame
             LightVisibilityMap = new RenderMap();
         }
 
-        private void CopyVertices(float[,] vertices, ref Vector3 translation, ref Vector3 rotation, ref Vector3 scale)
+        private void CopyVertices(float[,] vertices)
         {
-            var modelMatrix = BuildTransformationMatrix(ref translation, ref rotation, ref scale);
+            var modelMatrix = BuildTransformationMatrix();
             float[,] tempVertices = new float[vertices.GetLength(0), vertices.GetLength(1)];
             Buffer.BlockCopy(vertices, 0, tempVertices, 0, vertices.Length * sizeof(float));
             tempVertices = GetTransformedVertices(ref modelMatrix, tempVertices);

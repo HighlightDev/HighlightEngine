@@ -300,15 +300,15 @@ namespace OTKWinForm
 
         private void Serialize(SerializedComponentsContainer wrappedComponent, string pathToDir)
         {
-            Serializer serializer = new Serializer();
-            serializer.SerializeComponent(wrappedComponent, pathToDir);
+            ComponentSerializer serializer = new ComponentSerializer();
+            serializer.SerializeComponents(wrappedComponent, pathToDir);
         }
 
         private SerializedComponentsContainer Deserialize(string pathToFile)
         {
             SerializedComponentsContainer deserializedComponent = null;
-            Serializer serializer = new Serializer();
-            deserializedComponent = serializer.DeserializerComponent(pathToFile);
+            ComponentSerializer serializer = new ComponentSerializer();
+            deserializedComponent = serializer.DeserializeComponents(pathToFile);
             return deserializedComponent;
         }
 

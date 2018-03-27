@@ -35,9 +35,9 @@ namespace OTKWinForm.Core
             WorldMatrix *= Matrix4.CreateTranslation(Translation);
         }
 
-        public override void Tick(Matrix4 viewMatrix, Matrix4 projectionMatrix)
+        public override void Tick(ref Matrix4 projectionMatrix, ref Matrix4 viewMatrix)
         {
-            base.Tick(viewMatrix, projectionMatrix);
+            base.Tick(ref viewMatrix, ref projectionMatrix);
         }
 
         public void Render(Matrix4 viewMatrix, Matrix4 projectionMatrix)

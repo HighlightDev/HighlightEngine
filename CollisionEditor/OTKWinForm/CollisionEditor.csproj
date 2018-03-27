@@ -70,7 +70,6 @@
     <Compile Include="GUI\AxesIcon.cs" />
     <Compile Include="IOCore\ProxyModelLoader.cs" />
     <Compile Include="IOCore\ProxyTextureLoader.cs" />
-    <Compile Include="IOCore\Serializer.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Core\Actor.cs" />

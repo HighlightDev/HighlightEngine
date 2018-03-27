@@ -25,5 +25,15 @@ namespace MassiveGame.API.Collector.ModelCollect
         {
             this.modelCollection.ReleaseModel(key);
         }
+
+        public void AddModelToRoot(VAO modelBuffer, string key)
+        {
+            modelCollection.AddModelToRoot(modelBuffer, key);
+        }
+
+        public Int32 GetModelReferenceCount(string key)
+        {
+            return modelCollection.GetModelReferenceCount(key);
+        }
     }
 }

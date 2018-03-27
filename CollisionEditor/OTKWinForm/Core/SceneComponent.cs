@@ -31,9 +31,9 @@ namespace OTKWinForm.Core
             base.DetachComponent(component);
         }
 
-        public override void Tick(Matrix4 viewMatrix, Matrix4 projectionMatrix)
+        public override void Tick(ref Matrix4 projectionMatrix, ref Matrix4 viewMatrix)
         {
-            base.Tick(viewMatrix, projectionMatrix);
+            base.Tick(ref projectionMatrix, ref viewMatrix);
             Bound = CreateBound();
         }
 

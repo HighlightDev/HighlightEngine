@@ -20,6 +20,11 @@ namespace PhysicsBox.MathTypes
         public Component ParentComponent { set; get; }
         public Vector3 Origin { set; get; }
         public Vector3 Extent { set; get; }
+
+        protected Vector3 tangentX = new Vector3(1, 0, 0);
+        protected Vector3 tangentY = new Vector3(0, 1, 0);
+        protected Vector3 tangentZ = new Vector3(0, 0, 1);
+
         protected BoundType type;
 
         public BoundBase()
@@ -50,6 +55,21 @@ namespace PhysicsBox.MathTypes
         public BoundType GetBoundType()
         {
             return type;
+        }
+
+        public virtual Vector3 GetTangetX()
+        {
+            return tangentX;
+        }
+
+        public virtual Vector3 GetTangetY()
+        {
+            return tangentY;
+        }
+
+        public virtual Vector3 GetTangetZ()
+        {
+            return tangentZ;
         }
     }
 }
