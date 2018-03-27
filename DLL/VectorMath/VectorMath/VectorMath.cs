@@ -53,13 +53,13 @@ namespace VMath
             return new Matrix3(new Vector3(matrix.Row0), new Vector3(matrix.Row1), new Vector3(matrix.Row2));
         }
 
-        public static Vector3 GetMaxVector(Vector3 left, Vector3 right)
+        public static Vector3 ExtractMaxVector(Vector3 left, Vector3 right)
         {
             Vector3 max = new Vector3(Math.Max(left.X, right.X), Math.Max(left.Y, right.Y), Math.Max(left.Z, right.Z));
             return max;
         }
 
-        public static Vector3 GetMinVector(Vector3 left, Vector3 right)
+        public static Vector3 ExtractMinVector(Vector3 left, Vector3 right)
         {
             Vector3 min = new Vector3(Math.Min(left.X, right.X), Math.Max(left.Y, right.Y), Math.Max(left.Z, right.Z));
             return min;
