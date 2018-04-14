@@ -34,6 +34,7 @@ out vec3 toCameraVec;
 out vec3 SunDirection;
 out float mistContribution;
 out vec4 fragPosLightSpace;
+out vec3 positionInEyeSpace;
 
 float getMist(float density, float gradient, vec3 eyePos)
 {
@@ -56,6 +57,8 @@ void main(void)
 	vec3 EyeSpecularPosition = vec3(ViewMatrix * ModelMatrix * vec4(Vertex,1.0));
 	vec3 WorldDiffusePosition = vec3(ModelMatrix * vec4(Vertex,1.0));
 	pass_textureCoordinates = TexCoords.xy;
+
+    positionInEyeSpace = WorldDiffusePosition;
 
 	gl_ClipDistance[0] = dot(vec4(WorldDiffusePosition, 1.0), clipPlane);// Clipping beyond the plane
 

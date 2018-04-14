@@ -28,7 +28,8 @@ namespace MassiveGame
              mistDensity,
              mistGradient,
              mistColour,
-             time;
+             time,
+             cameraPosition;
 
         #endregion
 
@@ -60,37 +61,6 @@ namespace MassiveGame
          #endregion
 
          #region Setter
-
-         //public void setUniformValues(int sampler, Vector3 materialAmbient,
-         //   Vector3 materialDiffuse, Matrix4 ModelMatrix, Matrix4 ViewMatrix, Matrix4 ProjectionMatrix, DirectionalLight Sun,
-         //   WindComponent wind, float windLoop, Vector4 clipPlane, bool mistEnable, float mistDensity, float mistGradient, Vector3 mistColour)
-         //{
-         //    base.loadInteger(plantTexture, sampler);
-         //    base.loadVector(this.materialAmbient, materialAmbient);
-         //    base.loadVector(this.materialDiffuse, materialDiffuse);
-         //    base.loadMatrix(this.ModelMatrix, false, ModelMatrix);
-         //    base.loadMatrix(this.ViewMatrix, false, ViewMatrix);
-         //    base.loadMatrix(this.ProjectionMatrix, false, ProjectionMatrix);
-         //    /*If sun is enabled*/
-         //    if (Sun != null)
-         //    {
-         //        base.loadBool(this.sunEnable, true);
-         //        base.loadVector(this.sunDirection, Sun.Direction);
-         //        base.loadVector(this.sunAmbientColour, new Vector3(Sun.Ambient));
-         //        base.loadVector(this.sunDiffuseColour, new Vector3(Sun.Diffuse));
-         //    }
-         //    else { base.loadBool(this.sunEnable, false); }
-
-         //    base.loadVector(this.windDirection, wind.WindDirection);
-         //    base.loadFloat(this.windPower, wind.WindPower);
-         //    base.loadFloat(this.windLoop, windLoop);
-         //    base.loadVector(this.clipPlane, clipPlane);
-
-         //    base.loadBool(this.mistEnable, mistEnable);
-         //    base.loadFloat(this.mistDensity, mistDensity);
-         //    base.loadFloat(this.mistGradient, mistGradient);
-         //    base.loadVector(this.mistColour, mistColour);
-         //}
 
          public void setTextureSampler(int sampler)
          {
@@ -155,6 +125,11 @@ namespace MassiveGame
             {
                 base.loadBool(this.mistEnable, false);
             }
+        }
+
+        public void setCameraPosition(Vector3 cameraPosition)
+        {
+            base.loadVector(this.cameraPosition, cameraPosition);
         }
 
          #endregion

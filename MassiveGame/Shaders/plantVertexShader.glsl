@@ -10,7 +10,6 @@ layout (location = 9) in vec4 mCol1;
 layout (location = 10) in vec4 mCol2;
 layout (location = 11) in vec4 mCol3;
 
-//uniform mat4 ModelMatrix;
 uniform mat4 ViewMatrix;
 uniform mat4 ProjectionMatrix;
 uniform vec3 windDirection;
@@ -26,6 +25,7 @@ uniform float mistGradient;
 out vec2 pass_textureCoordinates;
 out vec3 surfaceNormal;
 out float mistContribution;
+out vec3 positionInEyeSpace;
 
 float getMist(in float density, in float gradient, in vec4 eyePos)
 {
@@ -59,9 +59,12 @@ void main(void)
 	);
 	
 	vec4 worldPos = ModelMatrix * vec4(Position,1.0);
+   
 	gl_ClipDistance[0] = dot(worldPos, clipPlane);	// Clipping beyond the plane
 
+
 	vec4 eyePos = ViewMatrix * worldPos;
+    positionInEyeSpace = eyePos.xyz;
 	pass_textureCoordinates = TexCoords;
 	surfaceNormal = (ModelMatrix * vec4(Normals, 0.0)).xyz;
 	

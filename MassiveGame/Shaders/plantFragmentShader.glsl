@@ -2,6 +2,9 @@
 
 layout (location = 0) out vec4 FragColor;
 
+#define DISAPPEAR_AREA_END 200
+#define DISAPPEAR_AREA_BEGIN 150
+
 uniform sampler2D plantTexture;
 
 uniform vec3 materialAmbient;
@@ -15,9 +18,12 @@ uniform vec3 sunAmbientColour;
 uniform bool mistEnable;
 uniform vec3 mistColour;
 
+uniform vec3 cameraPosition;
+
 in vec2 pass_textureCoordinates;
 in vec3 surfaceNormal;
 in float mistContribution;
+in vec3 positionInEyeSpace;
 
 vec3 lightCalculations(in vec3 normal, in vec3 sunDirection)
 {
@@ -28,6 +34,19 @@ vec3 lightCalculations(in vec3 normal, in vec3 sunDirection)
 
 void main(void)
 {
+    float alphaFactor = 1.0f;
+    float blendDistance = length(positionInEyeSpace - cameraPosition);
+   
+    if (blendDistance >= DISAPPEAR_AREA_BEGIN && blendDistance <= DISAPPEAR_AREA_END)
+    {
+        float invMaxVisibleArea = 1.0 / (DISAPPEAR_AREA_END - DISAPPEAR_AREA_BEGIN);
+        float visibilityCoef = (blendDistance - DISAPPEAR_AREA_BEGIN)  * invMaxVisibleArea;
+        alphaFactor = smoothstep(0.0, 1.0, visibilityCoef);
+        alphaFactor = 1 - alphaFactor;
+    }
+    else if (blendDistance > DISAPPEAR_AREA_END) 
+        discard;
+
 	vec3 normSunDirection = normalize(sunDirection);
 	normSunDirection = -normSunDirection;
 	vec3 normNormal = normalize(surfaceNormal);
@@ -54,11 +73,8 @@ void main(void)
 
 	/*If is mist enabled*/
 	if (mistEnable)
-	{
-		FragColor = mix(vec4(mistColour, 1.0), resultColour, mistContribution);
-	}
-	/*If is mist disabled*/
-	else {
-		FragColor = resultColour;
-	}
+        resultColour =  mix(vec4(mistColour, 1.0), resultColour, mistContribution);
+
+    resultColour.a = alphaFactor;
+    FragColor = resultColour;
 }

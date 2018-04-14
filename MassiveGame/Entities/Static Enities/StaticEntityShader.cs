@@ -37,7 +37,8 @@ namespace MassiveGame
             mistGradient,
             mistColour,
             directionalLightShadowMap,
-            directionalLightShadowMatrix;
+            directionalLightShadowMatrix,
+            cameraPosition;
         private int[] lightPosition = new int[MAX_LIGHTS_COUNT],
             attenuation = new int[MAX_LIGHTS_COUNT],
             diffuseColour = new int[MAX_LIGHTS_COUNT],
@@ -83,11 +84,17 @@ namespace MassiveGame
             clipPlane = base.getUniformLocation("clipPlane");
             directionalLightShadowMap = getUniformLocation("dirLightShadowMap");
             directionalLightShadowMatrix = getUniformLocation("dirLightShadowMatrix");
+            cameraPosition = getUniformLocation("cameraPosition");
         }
 
         #endregion
 
         #region Setter
+        public void SetCameraPosition(Vector3 CameraPosition)
+        {
+            loadVector(this.cameraPosition, CameraPosition);
+        }
+
         public void SetDiffuseMap(int diffuseMapSampler)
         {
             base.loadInteger(entityTexture, diffuseMapSampler);

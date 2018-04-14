@@ -188,6 +188,7 @@ namespace MassiveGame
                     }
                 }
 
+                _shader.setCameraPosition(camera.getPosition());
                 _shader.setTextureSampler(0);
                 _shader.setMaterial(_grassMaterial);
                 _shader.setViewMatrix(camera.getViewMatrix());

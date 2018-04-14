@@ -4,6 +4,9 @@ layout (location = 0) out vec4 FragColor;
 
 #define MAX_LIGHT_COUNT 5
 
+#define DISAPPEAR_AREA_END 200
+#define DISAPPEAR_AREA_BEGIN 150
+
 uniform sampler2D entitieTexture;
 uniform sampler2D normalMap;
 uniform sampler2D specularMap;
@@ -31,6 +34,8 @@ uniform vec3 mistColour;
 
 uniform bool normalMapEnableDisable;
 
+uniform vec3 cameraPosition;
+
 in vec2 pass_textureCoordinates;
 in vec3 surfaceDiffuseNormal;
 in vec3 surfaceSpecularNormal;
@@ -40,6 +45,7 @@ in vec3 toCameraVec;
 in vec3 SunDirection;
 in float mistContribution;
 in vec4 fragPosLightSpace;
+in vec3 positionInEyeSpace;
 
 #define SHADOWMAP_BIAS 0.005
 #define PCF_SAMPLES 2
@@ -123,6 +129,19 @@ float GetSunShadowFactor()
 
 void main()
 {
+    float alphaFactor = 1.0f;
+    float blendDistance = length(positionInEyeSpace - cameraPosition);
+   
+    if (blendDistance >= DISAPPEAR_AREA_BEGIN && blendDistance <= DISAPPEAR_AREA_END)
+    {
+        float invMaxVisibleArea = 1.0 / (DISAPPEAR_AREA_END - DISAPPEAR_AREA_BEGIN);
+        float visibilityCoef = (blendDistance - DISAPPEAR_AREA_BEGIN)  * invMaxVisibleArea;
+        alphaFactor = smoothstep(0.0, 1.0, visibilityCoef);
+        alphaFactor = 1 - alphaFactor;
+    }
+    else if (blendDistance > DISAPPEAR_AREA_END) 
+        discard;
+
 	vec3 normSunDirection = normalize(SunDirection);
     normSunDirection = -normSunDirection; 
 	// check if glowing is enabled
@@ -180,5 +199,7 @@ void main()
 	vec4 textureColour = texture2D(entitieTexture, pass_textureCoordinates);
 	vec4 resultColour = textureColour * vec4(totalLight, 1.0);
 
-	FragColor = mix(vec4(mistColour, 1.0), resultColour, mistContribution);
+    resultColour = mix(vec4(mistColour, 1.0), resultColour, mistContribution);
+    resultColour.a = alphaFactor;
+	FragColor = resultColour;
 }

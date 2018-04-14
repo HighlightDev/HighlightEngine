@@ -91,26 +91,48 @@ namespace PhysicsBox
             return ((intervalOBB.min <= intervalAABB.max) && (intervalAABB.min <= intervalOBB.max));
         }
 
+        public static bool OverlapOnAxis(OBB obb1, OBB obb2, Vector3 axis)
+        {
+            Interval obb1Interval = GetInterval(obb1, axis);
+            Interval obb2Interval = GetInterval(obb2, axis);
+            return ((obb1Interval.min <= obb2Interval.max) && (obb2Interval.min <= obb1Interval.max));
+        }
+
         public static bool AABBOBB(AABB aabb, OBB obb)
         {
             Matrix3 RotationMatrix = new Matrix3(obb.TransformationMatrix);
-            Vector3[] testAxis = new Vector3[15];
-            testAxis[0] = aabb.GetTangetX();
-            testAxis[1] = aabb.GetTangetY();
-            testAxis[2] = aabb.GetTangetZ();
-            testAxis[3] = RotationMatrix.Row0.Normalized();
-            testAxis[4] = RotationMatrix.Row1.Normalized();
-            testAxis[5] = RotationMatrix.Row2.Normalized();
-            for (Int32 i = 0; i < 3; i++)
+            Vector3[] testAxes = new Vector3[15];
+            testAxes[0] = aabb.GetTangetX();
+            testAxes[1] = aabb.GetTangetY();
+            testAxes[2] = aabb.GetTangetZ();
+            testAxes[3] = RotationMatrix.Row0.Normalized();
+            testAxes[4] = RotationMatrix.Row1.Normalized();
+            testAxes[5] = RotationMatrix.Row2.Normalized();
+
+            if (false)
             {
-                testAxis[6 + i * 3 + 0] = Vector3.Cross(testAxis[0], testAxis[i]);
-                testAxis[6 + i * 3 + 1] = Vector3.Cross(testAxis[1], testAxis[i]);
-                testAxis[6 + i * 3 + 2] = Vector3.Cross(testAxis[2], testAxis[i]);
+                // Maybe there are another axes:
+                testAxes[6] = Vector3.Cross(testAxes[0], testAxes[3]);
+                testAxes[7] = Vector3.Cross(testAxes[0], testAxes[4]);
+                testAxes[8] = Vector3.Cross(testAxes[0], testAxes[5]);
+                testAxes[9] = Vector3.Cross(testAxes[1], testAxes[3]);
+                testAxes[10] = Vector3.Cross(testAxes[1], testAxes[4]);
+                testAxes[11] = Vector3.Cross(testAxes[1], testAxes[5]);
+                testAxes[12] = Vector3.Cross(testAxes[2], testAxes[3]);
+                testAxes[13] = Vector3.Cross(testAxes[2], testAxes[4]);
+                testAxes[14] = Vector3.Cross(testAxes[2], testAxes[5]);
             }
 
-            for (Int32 i = 0; i < testAxis.Length; i++)
+            for (Int32 i = 0; i < 3; i++)
             {
-                if (!OverlapOnAxis(aabb, obb, testAxis[i]))
+                testAxes[6 + i * 3 + 0] = Vector3.Cross(testAxes[0], testAxes[i]);
+                testAxes[6 + i * 3 + 1] = Vector3.Cross(testAxes[1], testAxes[i]);
+                testAxes[6 + i * 3 + 2] = Vector3.Cross(testAxes[2], testAxes[i]);
+            }
+
+            for (Int32 i = 0; i < testAxes.Length; i++)
+            {
+                if (!OverlapOnAxis(aabb, obb, testAxes[i]))
                     return false;
             }
             return true;
@@ -118,7 +140,44 @@ namespace PhysicsBox
 
         public static bool OBBOBB(OBB obb1, OBB obb2)
         {
-            return false;
+            Matrix3 RotationMatrix1 = new Matrix3(obb1.TransformationMatrix);
+            Matrix3 RotationMatrix2 = new Matrix3(obb2.TransformationMatrix);
+            Vector3[] testAxes = new Vector3[15];
+            // axes of bounding box
+            testAxes[0] = RotationMatrix1.Row0.Normalized();
+            testAxes[1] = RotationMatrix1.Row1.Normalized();
+            testAxes[2] = RotationMatrix1.Row2.Normalized();
+            testAxes[3] = RotationMatrix2.Row0.Normalized();
+            testAxes[4] = RotationMatrix2.Row1.Normalized();
+            testAxes[5] = RotationMatrix2.Row2.Normalized();
+
+            if (false)
+            {
+                // Maybe there are another axes:
+                testAxes[6] = Vector3.Cross(testAxes[0], testAxes[3]);
+                testAxes[7] = Vector3.Cross(testAxes[0], testAxes[4]);
+                testAxes[8] = Vector3.Cross(testAxes[0], testAxes[5]);
+                testAxes[9] = Vector3.Cross(testAxes[1], testAxes[3]);
+                testAxes[10] = Vector3.Cross(testAxes[1], testAxes[4]);
+                testAxes[11] = Vector3.Cross(testAxes[1], testAxes[5]);
+                testAxes[12] = Vector3.Cross(testAxes[2], testAxes[3]);
+                testAxes[13] = Vector3.Cross(testAxes[2], testAxes[4]);
+                testAxes[14] = Vector3.Cross(testAxes[2], testAxes[5]);
+            }
+
+            for (Int32 i = 0; i < 3; i++)
+            {
+                testAxes[6 + i * 3 + 0] = Vector3.Cross(testAxes[i], testAxes[0]);
+                testAxes[6 + i * 3 + 1] = Vector3.Cross(testAxes[i], testAxes[1]);
+                testAxes[6 + i * 3 + 2] = Vector3.Cross(testAxes[i], testAxes[2]);
+            }
+
+            for (Int32 i = 0; i < testAxes.Length; i++)
+            {
+                if (!OverlapOnAxis(obb1, obb2, testAxes[i]))
+                    return false;
+            }
+            return true;
         }
 
         public static bool AABBAABB(AABB aabb1, AABB aabb2)

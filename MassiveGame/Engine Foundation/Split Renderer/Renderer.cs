@@ -71,12 +71,6 @@ namespace MassiveGame.UI
             DOUEngine.DayCycle.SetTime(25);
             DOUEngine.DayCycle.TimeFlow = 0.1f;
 
-            //EngineSingleton.Sun.prepareDayCycle(0.6f * (0.01f * EngineSingleton.DAY_TIMER_HASTE), new Vector3(EngineSingleton.MAP_SIZE / 2, 0, EngineSingleton.MAP_SIZE / 2), 25.0f,
-            //    EngineSingleton.FAR_CLIPPING_PLANE - ((33 * EngineSingleton.FAR_CLIPPING_PLANE) / 100), new DayPhases(0.0f, new Vector3(0.3f, 0.3f, 0.3f), new Vector3(0.7f, 0.7f, 0.7f), new Vector3(.7f)),
-            //     new DayPhases(25.4f, new Vector3(0.4f, 0.4f, 0.4f), new Vector3(0.9f, 0.79f, 0.79f), new Vector3(1.0f)),
-            //     new DayPhases(54.1f, new Vector3(0.3f, 0.3f, 0.3f), new Vector3(0.7f, 0.30f, 0.30f), new Vector3(0.9f)),
-            //     new DayPhases(75.34f, new Vector3(0.09f, 0.09f, 0.09f), new Vector3(0.1f, 0.1f, 0.1f), new Vector3(0.0f)));
-
             DOUEngine.PointLight = new List<PointLight>();
 
             #region Audio initialization and loading
@@ -101,7 +95,7 @@ namespace MassiveGame.UI
             #endregion
 
             /*Create mist component*/
-            DOUEngine.Mist = new MistComponent(0.004f, 1.5f, new Vector3(0.7f, 0.75f, 0.8f));
+            DOUEngine.Mist = new MistComponent(0.004f, 1f, new Vector3(0.7f, 0.75f, 0.8f));
 
             // temporary
 
