@@ -164,7 +164,6 @@ namespace MassiveGame
             _shader.SetDirectionalLight(Sun);
             _shader.SetClippingPlane(ref clipPlane);
             _shader.SetMist(_mist);
-            _shader.SetCameraPosition(camera.getPosition());
 
             if (Sun != null)
             {
@@ -174,10 +173,7 @@ namespace MassiveGame
             }
             _shader.SetDirectionalLightShadowMap(4);
 
-            GL.Enable(EnableCap.Blend);
-            GL.BlendFunc(BlendingFactorSrc.SrcAlpha, BlendingFactorDest.OneMinusSrcAlpha);
             VAOManager.renderBuffers(_model.Buffer, mode);
-            GL.Disable(EnableCap.Blend);
             _shader.stopProgram();
 
             /*Show normal for every vertex*/

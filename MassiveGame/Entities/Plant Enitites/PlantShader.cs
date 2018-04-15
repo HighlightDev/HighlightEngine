@@ -10,26 +10,25 @@ namespace MassiveGame
         #region Definitions 
 
         private const string SHADER_NAME = "Plant Shader";
-         private int plantTexture,
-             materialAmbient,
-             materialDiffuse,
-             ModelMatrix,
-             ViewMatrix,
-             ProjectionMatrix,
-             sunDirection,
-             sunAmbientColour,
-             sunDiffuseColour,
-             sunEnable,
-             windDirection,
-             windPower,
-             windLoop,
-             clipPlane,
-             mistEnable,
-             mistDensity,
-             mistGradient,
-             mistColour,
-             time,
-             cameraPosition;
+        private int plantTexture,
+            materialAmbient,
+            materialDiffuse,
+            ModelMatrix,
+            ViewMatrix,
+            ProjectionMatrix,
+            sunDirection,
+            sunAmbientColour,
+            sunDiffuseColour,
+            sunEnable,
+            windDirection,
+            windPower,
+            windLoop,
+            clipPlane,
+            mistEnable,
+            mistDensity,
+            mistGradient,
+            mistColour,
+            time;
 
         #endregion
 
@@ -125,11 +124,6 @@ namespace MassiveGame
             {
                 base.loadBool(this.mistEnable, false);
             }
-        }
-
-        public void setCameraPosition(Vector3 cameraPosition)
-        {
-            base.loadVector(this.cameraPosition, cameraPosition);
         }
 
          #endregion

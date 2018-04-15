@@ -4,8 +4,10 @@ layout (location = 0) out vec4 FragColor;
 
 #define MAX_LIGHT_COUNT 5
 
-#define DISAPPEAR_AREA_END 200
-#define DISAPPEAR_AREA_BEGIN 150
+#define MAX_MIST_VISIBLE_AREA 0.95
+
+#define SHADOWMAP_BIAS 0.005
+#define PCF_SAMPLES 2
 
 uniform sampler2D entitieTexture;
 uniform sampler2D normalMap;
@@ -34,8 +36,6 @@ uniform vec3 mistColour;
 
 uniform bool normalMapEnableDisable;
 
-uniform vec3 cameraPosition;
-
 in vec2 pass_textureCoordinates;
 in vec3 surfaceDiffuseNormal;
 in vec3 surfaceSpecularNormal;
@@ -45,10 +45,6 @@ in vec3 toCameraVec;
 in vec3 SunDirection;
 in float mistContribution;
 in vec4 fragPosLightSpace;
-in vec3 positionInEyeSpace;
-
-#define SHADOWMAP_BIAS 0.005
-#define PCF_SAMPLES 2
 
 vec3 phongModelDirectLight(vec3 diffuseNormal, vec3 specularNormal, vec3 toLightVector, vec3 specularMaterial)
 {
@@ -129,77 +125,69 @@ float GetSunShadowFactor()
 
 void main()
 {
-    float alphaFactor = 1.0f;
-    float blendDistance = length(positionInEyeSpace - cameraPosition);
-   
-    if (blendDistance >= DISAPPEAR_AREA_BEGIN && blendDistance <= DISAPPEAR_AREA_END)
+    vec4 resultColour = vec4(mistColour, 1.0);
+    
+    if (mistContribution <= MAX_MIST_VISIBLE_AREA)
     {
-        float invMaxVisibleArea = 1.0 / (DISAPPEAR_AREA_END - DISAPPEAR_AREA_BEGIN);
-        float visibilityCoef = (blendDistance - DISAPPEAR_AREA_BEGIN)  * invMaxVisibleArea;
-        alphaFactor = smoothstep(0.0, 1.0, visibilityCoef);
-        alphaFactor = 1 - alphaFactor;
-    }
-    else if (blendDistance > DISAPPEAR_AREA_END) 
-        discard;
-
-	vec3 normSunDirection = normalize(SunDirection);
-    normSunDirection = -normSunDirection; 
-	// check if glowing is enabled
-	bool isGlowing = texture(glowingMap, pass_textureCoordinates).r > 0.5 ? true : false;
-	
-	vec3 MaterialSpecular = materialSpecular;	//Если НМ выключен - используем материал отражений стандартный
-
-	vec3 DiffuseNormal = vec3(0);
-	vec3 SpecularNormal = vec3(0);
-	if (normalMapEnableDisable)
-	{
-		vec4 normalMapUnit =  2.0 * texture2D(normalMap, pass_textureCoordinates) - 1.0;
-		DiffuseNormal = normalize(normalMapUnit.rgb);
-		SpecularNormal = normalize(normalMapUnit.rgb);
-
-//Извлекаем материал из карты отражений
-		MaterialSpecular = (texture2D(specularMap, pass_textureCoordinates)).rgb;
-	} else 
-	{
-		DiffuseNormal = normalize(surfaceDiffuseNormal);
-		SpecularNormal = normalize(surfaceSpecularNormal);
-	}
-
-	vec3 MultiLightColour = vec3(0);
-	vec3 totalAmbientColour = sunAmbientColour * materialAmbient;
-
-	for (int i = 0;i < MAX_LIGHT_COUNT;i ++)
-	{
-		if (!enableLight[i]) continue; //Если текущий свет отключен - пропускаем расчеты
-		MultiLightColour =  MultiLightColour + phongModelPointLight(DiffuseNormal, SpecularNormal,
-			toLightDiffuseVec[i], toLightSpecularVec[i], attenuation[i], diffuseColour[i], specularColour[i], MaterialSpecular);
-	}
-
-	MultiLightColour = MultiLightColour + totalAmbientColour;
-
-    //Directional light calculations
-    vec3 totalDirectLight = vec3(0);
-	if (sunEnable) 
-    { 
-        float SunShadowFactor = GetSunShadowFactor();
-        if (SunShadowFactor > 0.0)
-        {
-            totalDirectLight = phongModelDirectLight(DiffuseNormal, SpecularNormal, normSunDirection, MaterialSpecular) * SunShadowFactor; 
+    	vec3 normSunDirection = normalize(SunDirection);
+        normSunDirection = -normSunDirection; 
+    	// check if glowing is enabled
+    	bool isGlowing = texture(glowingMap, pass_textureCoordinates).r > 0.5 ? true : false;
+    	
+    	vec3 MaterialSpecular = materialSpecular;	//Если НМ выключен - используем материал отражений стандартный
+    
+    	vec3 DiffuseNormal = vec3(0);
+    	vec3 SpecularNormal = vec3(0);
+    	if (normalMapEnableDisable)
+    	{
+    		vec4 normalMapUnit =  2.0 * texture2D(normalMap, pass_textureCoordinates) - 1.0;
+    		DiffuseNormal = normalize(normalMapUnit.rgb);
+    		SpecularNormal = normalize(normalMapUnit.rgb);
+    
+    //Извлекаем материал из карты отражений
+    		MaterialSpecular = (texture2D(specularMap, pass_textureCoordinates)).rgb;
+    	} else 
+    	{
+    		DiffuseNormal = normalize(surfaceDiffuseNormal);
+    		SpecularNormal = normalize(surfaceSpecularNormal);
+    	}
+    
+    	vec3 MultiLightColour = vec3(0);
+    	vec3 totalAmbientColour = sunAmbientColour * materialAmbient;
+    
+    	for (int i = 0;i < MAX_LIGHT_COUNT;i ++)
+    	{
+    		if (!enableLight[i]) continue; //Если текущий свет отключен - пропускаем расчеты
+    		MultiLightColour =  MultiLightColour + phongModelPointLight(DiffuseNormal, SpecularNormal,
+    			toLightDiffuseVec[i], toLightSpecularVec[i], attenuation[i], diffuseColour[i], specularColour[i], MaterialSpecular);
+    	}
+    
+    	MultiLightColour = MultiLightColour + totalAmbientColour;
+    
+        //Directional light calculations
+        vec3 totalDirectLight = vec3(0);
+    	if (sunEnable) 
+        { 
+            float SunShadowFactor = GetSunShadowFactor();
+            if (SunShadowFactor > 0.0)
+            {
+                totalDirectLight = phongModelDirectLight(DiffuseNormal, SpecularNormal, normSunDirection, MaterialSpecular) * SunShadowFactor; 
+            }
         }
+    
+    //Суммируем полученное освещение
+    	vec3 totalLight = totalDirectLight + MultiLightColour;
+    	/*if (isGlowing)
+    	{
+    		totalLight = vec3(1.0);
+    	}
+        */
+    
+    	vec4 textureColour = texture2D(entitieTexture, pass_textureCoordinates);
+    	resultColour = textureColour * vec4(totalLight, 1.0);
+        if (mistEnable)
+            resultColour = mix(vec4(mistColour, 1.0), resultColour, mistContribution);
     }
 
-//Суммируем полученное освещение
-	vec3 totalLight = totalDirectLight + MultiLightColour;
-	/*if (isGlowing)
-	{
-		totalLight = vec3(1.0);
-	}
-    */
-
-	vec4 textureColour = texture2D(entitieTexture, pass_textureCoordinates);
-	vec4 resultColour = textureColour * vec4(totalLight, 1.0);
-
-    resultColour = mix(vec4(mistColour, 1.0), resultColour, mistContribution);
-    resultColour.a = alphaFactor;
 	FragColor = resultColour;
 }

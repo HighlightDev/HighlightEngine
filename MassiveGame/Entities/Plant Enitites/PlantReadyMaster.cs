@@ -160,7 +160,6 @@ namespace MassiveGame
                 }
             }
 
-            _shader.setCameraPosition(camera.getPosition());
             _shader.setTextureSampler(0);
             _shader.setMaterial(_grassMaterial);
             _shader.setViewMatrix(camera.getViewMatrix());
@@ -171,10 +170,7 @@ namespace MassiveGame
             _shader.setClipPlane(ref clipPlane);
             _shader.setMist(_mist);
 
-            GL.Enable(EnableCap.Blend);
-            GL.BlendFunc(BlendingFactorSrc.SrcAlpha, BlendingFactorDest.OneMinusSrcAlpha);
             VAOManager.renderInstanced(_buffer, PrimitiveType.Triangles, _plants.Count);
-            GL.Disable(EnableCap.Blend);
             _shader.stopProgram();
         }
 

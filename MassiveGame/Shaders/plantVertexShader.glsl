@@ -14,7 +14,6 @@ uniform mat4 ViewMatrix;
 uniform mat4 ProjectionMatrix;
 uniform vec3 windDirection;
 uniform float windPower;
-//uniform float windLoop;
 uniform float time;
 uniform vec4 clipPlane;
 

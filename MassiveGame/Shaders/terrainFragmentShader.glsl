@@ -2,7 +2,9 @@
 
 layout (location = 0) out vec4 FragColor;
 
-const int lightCount = 5;
+#define lightCount 5
+
+#define MAX_MIST_VISIBLE_AREA 0.95
 
 uniform sampler2D backgroundTexture;
 uniform sampler2D rTexture;
@@ -135,89 +137,96 @@ float GetSunShadowFactor()
 
 void main(void)
 {
-	/* * *	Generic definitions * * */
-	
-	vec3 normSunDirection = vec3(0);
-	vec2 tiledCoords = pass_textureCoordinates * 40.0;
-	vec3 normNormal = vec3(0);
-	bool enableNM = false;
+    vec4 resultColour = vec4(mistColour, 1.0);
 
-	/* * *	Get total texture colour * * */
+    if (mistContribution <= MAX_MIST_VISIBLE_AREA)
+    {
+	    /* * *	Generic definitions * * */
+	    
+	    vec3 normSunDirection = vec3(0);
+	    vec2 tiledCoords = pass_textureCoordinates * 40.0;
+	    vec3 normNormal = vec3(0);
+	    bool enableNM = false;
 
-	vec4 blendMapColour = texture2D(blendMap, pass_textureCoordinates);
-	float backTextureAmount = 1.0 - (blendMapColour.r + blendMapColour.g + blendMapColour.b);
-	
-	vec4 backgroundColour = texture2D(backgroundTexture , tiledCoords) * backTextureAmount;
-	vec4 rTextureColour = texture2D(rTexture , tiledCoords) * blendMapColour.r;
-	vec4 gTextureColour = texture2D(gTexture , tiledCoords) * blendMapColour.g;
-	vec4 bTextureColour = texture2D(bTexture , tiledCoords) * blendMapColour.b;
-	vec4 totalColour = backgroundColour + rTextureColour + gTextureColour + bTextureColour;
+	    /* * *	Get total texture colour * * */
 
-	/* * * IF normal map enabled - retrieve normal from normalMap * * */
+	    vec4 blendMapColour = texture2D(blendMap, pass_textureCoordinates);
+	    float backTextureAmount = 1.0 - (blendMapColour.r + blendMapColour.g + blendMapColour.b);
+	    
+	    vec4 backgroundColour = texture2D(backgroundTexture , tiledCoords) * backTextureAmount;
+	    vec4 rTextureColour = texture2D(rTexture , tiledCoords) * blendMapColour.r;
+	    vec4 gTextureColour = texture2D(gTexture , tiledCoords) * blendMapColour.g;
+	    vec4 bTextureColour = texture2D(bTexture , tiledCoords) * blendMapColour.b;
+	    vec4 totalColour = backgroundColour + rTextureColour + gTextureColour + bTextureColour;
 
-	if (enableNMr == true || enableNMg == true || enableNMb == true || enableNMblack == true)
-	{
-		vec4 normalMapUnit = retrieveNormal(blendMapColour.r, blendMapColour.g, blendMapColour.b, backTextureAmount, tiledCoords);
+	    /* * * IF normal map enabled - retrieve normal from normalMap * * */
 
-		// If normal map isn't enabled for this component - disable normal mapping
-		if (normalMapUnit.r == -100) { 
-			normNormal = normalize(surfaceNormal); 
-			normSunDirection = normalize(SunDirectionSimple);
-			normSunDirection = -normSunDirection;
-		}
-		else {
-			normSunDirection = normalize(SunDirectionNormMap);
-			normSunDirection = -normSunDirection;
-			normalMapUnit =  2.0 * normalMapUnit - 1.0;
-			normNormal = normalize(normalMapUnit.rgb);
-			enableNM = true;
-		}
-	}
-	else {
-		normSunDirection = normalize(SunDirectionSimple);
-		normSunDirection = -normSunDirection;
-		normNormal = normalize(surfaceNormal);
-	}
+	    if (enableNMr == true || enableNMg == true || enableNMb == true || enableNMblack == true)
+	    {
+	    	vec4 normalMapUnit = retrieveNormal(blendMapColour.r, blendMapColour.g, blendMapColour.b, backTextureAmount, tiledCoords);
 
-	/* * *	Get total light contribution * * */
-	
-	vec3 totalAmbientLight = sunAmbientColour * materialAmbient;
-	vec3 totalPointLight = vec3(0);
+	    	// If normal map isn't enabled for this component - disable normal mapping
+	    	if (normalMapUnit.r == -100) { 
+	    		normNormal = normalize(surfaceNormal); 
+	    		normSunDirection = normalize(SunDirectionSimple);
+	    		normSunDirection = -normSunDirection;
+	    	}
+	    	else {
+	    		normSunDirection = normalize(SunDirectionNormMap);
+	    		normSunDirection = -normSunDirection;
+	    		normalMapUnit =  2.0 * normalMapUnit - 1.0;
+	    		normNormal = normalize(normalMapUnit.rgb);
+	    		enableNM = true;
+	    	}
+	    }
+	    else {
+	    	normSunDirection = normalize(SunDirectionSimple);
+	    	normSunDirection = -normSunDirection;
+	    	normNormal = normalize(surfaceNormal);
+	    }
 
-	if (enableNM) {
+	    /* * *	Get total light contribution * * */
+	    
+	    vec3 totalAmbientLight = sunAmbientColour * materialAmbient;
+	    vec3 totalPointLight = vec3(0);
 
-		for (int i = 0;i < lightCount;i ++)
-		{
-			if (!enableLight[i]) continue; //Если текущий свет отключен - пропускаем расчеты
-			 totalPointLight = totalPointLight + phongModelPointLight(normNormal,
-				 toLightVecNormMap[i], attenuation[i], diffuseColour[i]); 
-		}
-	}
-	else {
+	    if (enableNM) {
 
-		for (int i = 0;i < lightCount;i ++)
-		{
-			if (!enableLight[i]) continue; //Если текущий свет отключен - пропускаем расчеты
-			 totalPointLight = totalPointLight + phongModelPointLight(normNormal,
-				 toLightVecSimple[i], attenuation[i], diffuseColour[i]); 
-		}
-	}
+	    	for (int i = 0;i < lightCount;i ++)
+	    	{
+	    		if (!enableLight[i]) continue; //Если текущий свет отключен - пропускаем расчеты
+	    		 totalPointLight = totalPointLight + phongModelPointLight(normNormal,
+	    			 toLightVecNormMap[i], attenuation[i], diffuseColour[i]); 
+	    	}
+	    }
+	    else {
 
-	//Directional light calculations
-    vec3 totalDirectLight = vec3(0);
-	if (sunEnable) 
-    { 
-        float SunShadowFactor = GetSunShadowFactor();
-        if (SunShadowFactor > 0.0)
-        {
-            totalDirectLight = phongModelDirectLight(normNormal, normSunDirection) * SunShadowFactor; 
+	    	for (int i = 0;i < lightCount;i ++)
+	    	{
+	    		if (!enableLight[i]) continue; //Если текущий свет отключен - пропускаем расчеты
+	    		 totalPointLight = totalPointLight + phongModelPointLight(normNormal,
+	    			 toLightVecSimple[i], attenuation[i], diffuseColour[i]); 
+	    	}
+	    }
+
+	    //Directional light calculations
+        vec3 totalDirectLight = vec3(0);
+	    if (sunEnable) 
+        { 
+            float SunShadowFactor = GetSunShadowFactor();
+            if (SunShadowFactor > 0.0)
+            {
+                totalDirectLight = phongModelDirectLight(normNormal, normSunDirection) * SunShadowFactor; 
+            }
         }
+        
+	    vec3 totalLight = totalDirectLight + totalPointLight + totalAmbientLight;
+
+	    /* * *	Result * * */
+	   resultColour = totalColour * vec4(totalLight, 1.0);
+       if (mistEnable)
+        resultColour = mix(vec4(mistColour, 1.0), resultColour, mistContribution);
     }
-    
-	vec3 totalLight = totalDirectLight + totalPointLight + totalAmbientLight;
 
-	/* * *	Result * * */
-	vec4 resultColour = totalColour * vec4(totalLight, 1.0);
-
-	FragColor = mix(vec4(mistColour, 1.0), resultColour, mistContribution);
+	FragColor = resultColour;
 }
