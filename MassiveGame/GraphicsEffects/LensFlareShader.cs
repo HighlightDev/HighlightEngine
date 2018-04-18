@@ -18,8 +18,7 @@ namespace MassiveGame
         private const int BLUR_WIDTH = LensFlareRenderer.MAX_BLUR_WIDTH;
         private const string SHADER_NAME = "Lens flare shader";
         private int frameTexture, threshold, lensColor,
-             screenWidth, screenHeight, blurWidth, bluredTexture, dirtTexture, starburstTexture, starburstMatrix,
-             GhostDispersal, HaloWidth, Distortion, Ghosts;
+             screenWidth, screenHeight, blurWidth, bluredTexture, GhostDispersal, HaloWidth, Distortion, Ghosts;
         private int[] weights = new int[BLUR_WIDTH], pixOffset = new int[BLUR_WIDTH];
 
         private int lensThreshold, lensEffect, vertBlur, horizBlur, lensModifer, lensSimple;
@@ -41,9 +40,6 @@ namespace MassiveGame
             }
             blurWidth = base.getUniformLocation("blurWidth");
             bluredTexture = base.getUniformLocation("bluredTexture");
-            dirtTexture = base.getUniformLocation("dirtTexture");
-            starburstTexture = base.getUniformLocation("starburstTexture");
-            starburstMatrix = base.getUniformLocation("starburstMatrix");
             GhostDispersal = base.getUniformLocation("GhostDispersal");
             HaloWidth = base.getUniformLocation("HaloWidth");
             Distortion = base.getUniformLocation("Distortion");
@@ -115,14 +111,10 @@ namespace MassiveGame
             base.loadSubroutineIndex(ShaderType.FragmentShader, 1, this.horizBlur);
         }
 
-        public void setUniformValuesMod(int frameTexSampler, int bluredTexture, int dirtTexture, int starburstTexture,
-            Matrix3 starburstMatrix)
+        public void setUniformValuesMod(int frameTexSampler, int bluredTexture)
         {
             base.loadInteger(this.frameTexture, frameTexSampler);
             base.loadInteger(this.bluredTexture, bluredTexture);
-            base.loadInteger(this.dirtTexture, dirtTexture);
-            base.loadInteger(this.starburstTexture, starburstTexture);
-            base.loadNormalMatrix(this.starburstMatrix, false, starburstMatrix);
             base.loadSubroutineIndex(ShaderType.FragmentShader, 1, this.lensModifer);
         }
 

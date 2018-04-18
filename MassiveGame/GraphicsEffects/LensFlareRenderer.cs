@@ -29,8 +29,6 @@ namespace MassiveGame
         private LensFlareFBO _fbo;
         private LensFlareShader _lensShader;
         private Texture1D _lensColor;
-        private ITexture _dirtTexture;
-        private ITexture _starTexture;
         private int _blurWidth;
         public int BlurWidth
         {
@@ -157,9 +155,7 @@ namespace MassiveGame
             _lensShader.startProgram();
             _fbo.Texture.bindTexture2D(TextureUnit.Texture0, _fbo.Texture.TextureID[2]);
             _fbo.Texture.bindTexture2D(TextureUnit.Texture1, _fbo.Texture.TextureID[0]);
-            _dirtTexture.BindTexture(TextureUnit.Texture2);
-            _starTexture.BindTexture(TextureUnit.Texture3);
-            _lensShader.setUniformValuesMod(0, 1, 2, 3, getStarburstMatrix(getCamrot(camera)));
+            _lensShader.setUniformValuesMod(0, 1);
             VAOManager.renderBuffers(_buffer, PrimitiveType.Triangles);
             _lensShader.stopProgram(); 
         }
@@ -219,9 +215,7 @@ namespace MassiveGame
             _lensShader.startProgram();
             _fbo.Texture.bindTexture2D(TextureUnit.Texture0, postprocessFilterResult);
             _fbo.Texture.bindTexture2D(TextureUnit.Texture1, _fbo.Texture.TextureID[0]);
-            _dirtTexture.BindTexture(TextureUnit.Texture2);
-            _starTexture.BindTexture(TextureUnit.Texture3);
-            _lensShader.setUniformValuesMod(0, 1, 2, 3, getStarburstMatrix(getCamrot(camera)));
+            _lensShader.setUniformValuesMod(0, 1);
             VAOManager.renderBuffers(_buffer, PrimitiveType.Triangles);
             _lensShader.stopProgram();
         }
@@ -276,42 +270,6 @@ namespace MassiveGame
 
         #endregion
 
-        #region Starburst_matrix_calculations
-
-        private float getCamrot(Camera camera)
-        {
-            Vector3 camx = new Vector3(camera.getViewMatrix().Column0); // camera x (left) vector
-            Vector3 camz = new Vector3(camera.getViewMatrix().Column1); // camera z (forward) vector
-            float camrot = Vector3.Dot(camx, new Vector3(0, 0, 1)) + Vector3.Dot(camz, new Vector3(0, 1, 0));
-            return camrot;
-        }
-
-        private Matrix3 getStarburstMatrix(float camrot)
-        {
-            Matrix3 scaleBias1 = new Matrix3(
-             2.0f, 0.0f, -1.0f,
-             0.0f, 2.0f, -1.0f,
-             0.0f, 0.0f, 1.0f);
-
-            float cosCam = Convert.ToSingle(Math.Cos(camrot));
-            float sinCam = Convert.ToSingle(Math.Sin(camrot));
-
-            Matrix3 rotation = new Matrix3(
-            cosCam, -sinCam, 0.0f,
-            sinCam, cosCam, 0.0f,
-            0.0f, 0.0f, 1.0f);
-
-            Matrix3 scaleBias2 = new Matrix3(
-               0.5f, 0.0f, 0.5f,
-               0.0f, 0.5f, 0.5f,
-               0.0f, 0.0f, 1.0f);
-
-            Matrix3 uLensStarMatrix = scaleBias2 * rotation * scaleBias1;
-            return uLensStarMatrix;
-        }
-
-        #endregion
-
         #region Constructor
 
         private void postConstructor()
@@ -335,17 +293,15 @@ namespace MassiveGame
             _buffer = new VAO(_attribs);
             _postConstructor = true;
 
-            this.BlurWidth = 6;
+            this.BlurWidth = 20;
             this._ghostDispersal = 0.37f;
-            this._ghosts = 8;
+            this._ghosts = 5;
             this._haloWidth = 0.55f;
             this._distortion = 3.50f;
             this._threshold = 0.5f;
-            this._blurPassCount = 8;
+            this._blurPassCount = 1;
             LensFlareRenderer.LensFlareEnabled = true;
             this._lensColor = new Texture1D(new string[] { ProjectFolders.LensFlareTexturePath + "lenscolor.png" }, false, 0);
-            this._dirtTexture = ResourcePool.GetTexture(ProjectFolders.LensFlareTexturePath + "lensdirt.png"); 
-            this._starTexture = ResourcePool.GetTexture(ProjectFolders.LensFlareTexturePath + "lenscolor.png");
         }
 
         #endregion
@@ -356,8 +312,6 @@ namespace MassiveGame
         {
             VAOManager.cleanUp(_buffer);
             _lensColor.cleanUp();
-            _dirtTexture.CleanUp();
-            _starTexture.CleanUp();
             _lensShader.cleanUp();
             _fbo.cleanUp();
         }

@@ -29,7 +29,7 @@ void main()
     	for(int i = 0; i < numSamples ; i++)
         {
                  textCoo -= deltaTextCoord;
-                 vec4 color = texture2D(bluredTexture, textCoo );
+                 vec4 color = texture(bluredTexture, textCoo );
 			
                  color *= illuminationDecay * weight;
 

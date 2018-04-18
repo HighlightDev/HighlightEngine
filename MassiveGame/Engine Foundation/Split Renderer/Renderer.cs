@@ -95,7 +95,7 @@ namespace MassiveGame.UI
             #endregion
 
             /*Create mist component*/
-            DOUEngine.Mist = new MistComponent(0.06f, 1f, new Vector3(0.7f, 0.75f, 0.8f));
+            DOUEngine.Mist = new MistComponent(0.03f, 1f, new Vector3(0.7f, 0.75f, 0.8f));
 
             // temporary
 

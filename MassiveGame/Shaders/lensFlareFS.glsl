@@ -8,8 +8,6 @@ const int MAX_BLUR_WIDTH = 30;
 uniform sampler2D frameTexture;
 uniform sampler1D lensColor;
 uniform sampler2D bluredTexture;
-uniform sampler2D dirtTexture;
-uniform sampler2D starburstTexture;
 
 uniform int Ghosts;
 uniform float GhostDispersal;
@@ -64,15 +62,19 @@ vec4 lensThreshold(vec2 TC)
 subroutine(LensFlare)
 vec4 lensEffect(vec2 TC)
 {
+    float precalculatedLength = 0.707106;
+    vec2 deltaTexCoord = vec2(0.5) - TC;
+    
 	//Get lens color
-	vec4 lensColour = texture(lensColor, length(vec2(0.5) - TC) / length(vec2(0.5)));
+	//vec4 lensColour = texture(lensColor, length(deltaTexCoord) / precalculatedLength);
 	
 	//Get size of one texel
 	vec2 texelSize = 1.0 / vec2(textureSize(frameTexture, 0));
  
 	//Ghost vector to image centre:
-    vec2 ghostVec = (vec2(0.5) - TC) * GhostDispersal;
-	vec2 haloVec = normalize(ghostVec) * HaloWidth;
+    vec2 ghostVec = deltaTexCoord * GhostDispersal;
+    vec2 ghostVecNormalized = normalize(ghostVec);
+	vec2 haloVec = ghostVecNormalized * HaloWidth;
 
 	//Get distortion 
 	vec3 distortion = vec3(-texelSize.x * Distortion, 0.0, texelSize.x * Distortion);
@@ -84,20 +86,22 @@ vec4 lensEffect(vec2 TC)
         vec2 offset = fract(TC + ghostVec * float(i));
 
 		//Allowing only bright spots from the centre of the source image to generate ghosts
-		float weight = length(vec2(0.5) - offset) / length(vec2(0.5));
-		weight = pow(1.0 - weight, 10.0);
+		float weight = length(vec2(0.5) - offset) / precalculatedLength;
 
-		result += textureDistorted(frameTexture, offset, normalize(ghostVec), distortion) * weight;
+		weight = pow(1.0 - weight, 20.0);
+
+		result += textureDistorted(frameTexture, offset, ghostVecNormalized, distortion) * weight;
       }
 
 	  //Add to lenses some color
 	  //result *= lensColour;
 
 	  //Sample halo
-	  float weight = length(vec2(0.5) - fract(TC + haloVec)) / length(vec2(0.5));
-	  weight = pow(1.0 - weight, 10.0);
+      vec2 fractTCnHaloVec = fract(TC + haloVec);
+	  float weight = length(precalculatedLength - fractTCnHaloVec) / precalculatedLength;
+	  weight = pow(1.0 - weight, 20.0);
 
-	  result += textureDistorted(frameTexture, fract(TC + haloVec), normalize(ghostVec), distortion) * weight;
+	  result += textureDistorted(frameTexture, fractTCnHaloVec, ghostVecNormalized, distortion) * weight;
 	  
 	return result;
 }
@@ -131,21 +135,7 @@ vec4 horizBlur(vec2 TC)
 subroutine(LensFlare)
 vec4 lensModifer(vec2 TC)
 {
-	//Sample dirt
-	vec4 tex = texture(dirtTexture, TC);
-
-	vec4 lensMod = tex;
-	lensMod *= 3;
-
-	//Sample starburst
-	vec2 lensStarTexcoord = (starburstMatrix * vec3(TC, 1.0)).xy;
-	vec4 starColor = texture(starburstTexture, lensStarTexcoord);
-
-	starColor *= 8;
-    lensMod += starColor;
-
     vec4 lensFlare = texture(bluredTexture, TC);
-    // * lensMod;
 	vec4 resultColor = texture(frameTexture, TC) + lensFlare;
     return resultColor;
 }
