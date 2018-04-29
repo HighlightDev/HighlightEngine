@@ -63,5 +63,8 @@ void main(void)
 	    if (mistEnable)
 	    	resultColour = mix(vec4(mistColour, 1.0), resultColour, mistContribution);
     }
+    else
+        discard;
+
     FragColor = resultColour;
 }

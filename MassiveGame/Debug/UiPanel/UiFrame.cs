@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL;
 using TextureLoader;
+using System.Drawing;
 
 namespace MassiveGame.Debug.UiPanel
 {
@@ -24,9 +25,10 @@ namespace MassiveGame.Debug.UiPanel
 
         #endregion
 
-        public void Render(ITexture renderTexture, ITexture previousStageTexture = null)
+        public void Render(ITexture renderTexture, Point ViewPortSize, ITexture previousStageTexture = null)
         {
             PostConstructor();
+            GL.Viewport(0, 0, ViewPortSize.X, ViewPortSize.Y);
 
             _shader.startProgram();
             renderTexture.BindTexture(TextureUnit.Texture0);

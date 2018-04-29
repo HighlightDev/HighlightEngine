@@ -188,10 +188,10 @@ namespace MassiveGame
             _buffer = new VAO(_attribs);
             _postConstructor = true;
             Exposure = 0.0064f;
-            Decay = 1f;
+            Decay = 1.05f;
             Density = 0.84f;
             Weight = 5.65f;	
-            NumSamples = 50;
+            NumSamples = 25;
             GodRaysEnabled = true;
 
             VAOManager.genVAO(_buffer);

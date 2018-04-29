@@ -24,13 +24,13 @@ namespace MassiveGame
         protected override void setTextures()
         {
             base.textures = new Texture2D();
-            textures.genEmptyImg(1, 1366, 768, (int)All.Nearest,PixelInternalFormat.Rgb, PixelFormat.Rgb, PixelType.UnsignedByte);
-            textures.genEmptyImg(1, 1366 / 20, 768 / 20, (int)All.Linear, PixelInternalFormat.Rgb, PixelFormat.Rgb, PixelType.UnsignedByte);
+            textures.genEmptyImg(1, DOUEngine.ScreenRezolution.X, DOUEngine.ScreenRezolution.Y, (int)All.Nearest,PixelInternalFormat.Rgb, PixelFormat.Rgb, PixelType.UnsignedByte);
+            textures.genEmptyImg(1, DOUEngine.ScreenRezolution.X / 10, DOUEngine.ScreenRezolution.Y / 10, (int)All.Linear, PixelInternalFormat.Rgb, PixelFormat.Rgb, PixelType.UnsignedByte);
 
             /*IF pp is disabled and lens flare is enabled*/
             if (LensFlareRenderer.LensFlareEnabled)
             {
-                textures.genEmptyImg(1, 1366, 768, (int)All.Linear, PixelInternalFormat.Rgb, PixelFormat.Rgb, PixelType.UnsignedByte);
+                textures.genEmptyImg(1, DOUEngine.ScreenRezolution.X, DOUEngine.ScreenRezolution.Y, (int)All.Linear, PixelInternalFormat.Rgb, PixelFormat.Rgb, PixelType.UnsignedByte);
             }
         }
 

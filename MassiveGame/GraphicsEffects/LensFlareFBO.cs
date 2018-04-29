@@ -29,11 +29,11 @@ namespace MassiveGame
              * Img 3 - default frametexture, with high rezolution; 
              * Img 4 - frametexture, with low rezolution, for bright parts of sun. */
             base.textures = new Texture2D();
-            base.textures.genEmptyImg(2, 1366 / 5, 768 / 5, (int)All.Linear, PixelInternalFormat.Rgb,
+            base.textures.genEmptyImg(2, DOUEngine.ScreenRezolution.X / 5, DOUEngine.ScreenRezolution.Y / 5, (int)All.Linear, PixelInternalFormat.Rgb,
                 PixelFormat.Rgb, PixelType.UnsignedByte);
-            base.textures.genEmptyImg(1, 1366, 768, (int)All.Nearest, PixelInternalFormat.Rgb,
+            base.textures.genEmptyImg(1, DOUEngine.ScreenRezolution.X, DOUEngine.ScreenRezolution.Y, (int)All.Nearest, PixelInternalFormat.Rgb,
                 PixelFormat.Rgb, PixelType.UnsignedByte);
-            base.textures.genEmptyImg(1, 1366 / 5, 768 / 5, (int)All.Nearest, PixelInternalFormat.Rgb,
+            base.textures.genEmptyImg(1, DOUEngine.ScreenRezolution.X / 5, DOUEngine.ScreenRezolution.Y / 5, (int)All.Nearest, PixelInternalFormat.Rgb,
                 PixelFormat.Rgb, PixelType.UnsignedByte);
         }
         

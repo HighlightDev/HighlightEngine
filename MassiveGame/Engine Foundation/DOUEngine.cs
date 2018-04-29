@@ -89,5 +89,7 @@ namespace MassiveGame
 
         public static bool[] keyboardMaskArray;
         public static Timer EngineTickTimer;
+
+        public static Point ScreenRezolution;
     }
 }

@@ -34,14 +34,14 @@ namespace MassiveGame.UI
         #region Form Move&Resize events
         private void OnResize(object sender, EventArgs e)
         {
-            GL.Viewport(0, 0, Size.Width, Size.Height);
+            GL.Viewport(0, 0, this.Width, this.Height);
             defaultMatrixSettings();
             GLControl.Invalidate();
             if (defaultFB != null)
             {
                 defaultFB.CleanUp();
             }
-            defaultFB = new DefaultFrameBuffer(this.Width, this.Height);
+            defaultFB = new DefaultFrameBuffer(DOUEngine.ScreenRezolution.X, DOUEngine.ScreenRezolution.Y);
         }
 
         private void OnMove(object sender, EventArgs e)

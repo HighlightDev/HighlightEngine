@@ -28,6 +28,8 @@ using MassiveGame.API.Collector;
 using System.Threading;
 using PhysicsBox.ComponentCore;
 using MassiveGame.ComponentCore;
+using MassiveGame.Settings;
+using System.Drawing;
 
 namespace MassiveGame.UI
 {
@@ -95,7 +97,7 @@ namespace MassiveGame.UI
             #endregion
 
             /*Create mist component*/
-            DOUEngine.Mist = new MistComponent(0.03f, 1f, new Vector3(0.7f, 0.75f, 0.8f));
+            DOUEngine.Mist = new MistComponent(0.009f, 1f, new Vector3(0.7f, 0.75f, 0.8f));
 
             // temporary
 
@@ -294,6 +296,9 @@ namespace MassiveGame.UI
 
         private void preConstructor() //Start initialize values
         {
+            SettingsLoader settingsLoader = new SettingsLoader();
+            DOUEngine.ScreenRezolution = settingsLoader.GetScreenRezolution();
+
             DOUEngine.PostConstructor = true;
             DOUEngine.Camera = new Camera(250.0f, 70, 260.0f, 140.0f, 70.0f, 160.0f + 50f, 0.0f, 1.0f, 0.0f);
             DOUEngine.PrevCursorPosition = new System.Drawing.Point(-1, -1);
@@ -442,7 +447,7 @@ namespace MassiveGame.UI
                         frame.Render(new Texture2Dlite(
                     (int)DOUEngine.Water._fbo.Texture.TextureID[1],
                     new RectParams(DOUEngine.Water._fbo.Texture.Rezolution[1].widthRezolution, DOUEngine.Water._fbo.Texture.Rezolution[1].heightRezolution)
-                    ));
+                    ), new Point(this.Width, this.Height));
                         defaultFB.Unbind();
                         break;
                     }
@@ -567,7 +572,7 @@ namespace MassiveGame.UI
                     }
             }
 
-            DefaultFrame.Render(defaultFB.GetTextureHandler());
+            DefaultFrame.Render(defaultFB.GetTextureHandler(), new Point(this.Width, this.Height));
         }
         #endregion
 

@@ -26,8 +26,8 @@ namespace MassiveGame
              2 - for refraction
              3 - for depth*/
             base.textures = new Texture2D();
-            base.textures.genEmptyImg(2, 1024, 512, (int)All.Nearest, PixelInternalFormat.Rgb, PixelFormat.Rgb, PixelType.UnsignedByte);
-            base.textures.genEmptyImg(1, 1024, 512, (int)All.Nearest, PixelInternalFormat.Depth24Stencil8,
+            base.textures.genEmptyImg(2, (int)(DOUEngine.ScreenRezolution.X / 1.5), (int)(DOUEngine.ScreenRezolution.Y / 1.5), (int)All.Nearest, PixelInternalFormat.Rgb, PixelFormat.Rgb, PixelType.UnsignedByte);
+            base.textures.genEmptyImg(1, (int)(DOUEngine.ScreenRezolution.X / 1.5), (int)(DOUEngine.ScreenRezolution.Y / 1.5), (int)All.Nearest, PixelInternalFormat.Depth24Stencil8,
                 PixelFormat.DepthComponent, PixelType.Float);
         }
 

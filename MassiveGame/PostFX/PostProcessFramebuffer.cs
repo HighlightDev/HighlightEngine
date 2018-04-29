@@ -16,14 +16,14 @@ namespace MassiveGame.PostFX
         protected override void setTextures()
         {
             base.textures = new Texture2D();
-            base.textures.genEmptyImg(1, 1366, 768, (int)All.Nearest, PixelInternalFormat.Rgb,
+            base.textures.genEmptyImg(1, DOUEngine.ScreenRezolution.X, DOUEngine.ScreenRezolution.Y, (int)All.Nearest, PixelInternalFormat.Rgb,
                            PixelFormat.Rgb, PixelType.UnsignedByte); //for screen image and pass 2 bloom
-            base.textures.genEmptyImg(2, 1366 / 7, 768 / 7, (int)All.Linear, PixelInternalFormat.Rgb,
+            base.textures.genEmptyImg(2, DOUEngine.ScreenRezolution.X / 7, DOUEngine.ScreenRezolution.Y / 7, (int)All.Linear, PixelInternalFormat.Rgb,
                 PixelFormat.Rgb, PixelType.UnsignedByte); //for blur pass 3 and 4 
                                                           /*If lens flare or god rays are enabled - gen additional texture for result*/
             if (LensFlareRenderer.LensFlareEnabled || GodRaysRenderer.GodRaysEnabled)
             {
-                base.textures.genEmptyImg(1, 1366, 768, (int)All.Nearest, PixelInternalFormat.Rgb,
+                base.textures.genEmptyImg(1, DOUEngine.ScreenRezolution.X, DOUEngine.ScreenRezolution.Y, (int)All.Nearest, PixelInternalFormat.Rgb,
                  PixelFormat.Rgb, PixelType.UnsignedByte); //for lens flare result sending
             }
         }

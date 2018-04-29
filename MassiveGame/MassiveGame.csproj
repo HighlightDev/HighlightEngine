@@ -125,6 +125,7 @@
     <Compile Include="RenderCore\Lights\PointLight.cs" />
     <Compile Include="RenderCore\Lights\ShaderLight.cs" />
     <Compile Include="RenderCore\Lights\SpotLight.cs" />
+    <Compile Include="Settings\SettingsLoader.cs" />
     <Compile Include="Water\WaterReflectionEntityShader.cs" />
     <Compile Include="Water\WaterRefractionEntityShader.cs" />
     <Compile Include="RenderCore\RenderAPI.cs" />
@@ -298,6 +299,7 @@
     <None Include="ModelFiles\wall_5_door.obj" />
     <None Include="ModelFiles\wall_5_without_door.obj" />
     <None Include="ModelFiles\wall_6_door.obj" />
+    <None Include="Settings\settings.ini" />
     <None Include="Shaders\waterRefractionEntityFS.glsl" />
     <None Include="Shaders\waterReflectionEntityFS.glsl" />
     <None Include="Shaders\waterRefractionEntityVS.glsl" />

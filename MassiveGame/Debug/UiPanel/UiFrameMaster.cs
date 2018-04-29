@@ -46,9 +46,9 @@ namespace MassiveGame.Debug.UiPanel
             else bEnabledDebug = false;
         }
 
-        public static void ShowDebugFrame()
+        public static void ShowDebugFrame(System.Drawing.Point ViewPortSize)
         {
-            DebugFrame.Render(CurrentDebugTexture);
+            DebugFrame.Render(CurrentDebugTexture, ViewPortSize);
         }
 
     }

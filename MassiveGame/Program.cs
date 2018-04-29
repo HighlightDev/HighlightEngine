@@ -12,7 +12,7 @@ namespace MassiveGame
     {
         private static void Main(string[] args)
         {
-            MainUI form = new MainUI(DOUEngine.SCREEN_WIDTH, DOUEngine.SCREEN_HEIGHT);
+            MainUI form = new MainUI();
             form.Left = DOUEngine.SCREEN_POSITION_X;
             form.Top = DOUEngine.SCREEN_POSITION_Y;
             form.ShowDialog();
