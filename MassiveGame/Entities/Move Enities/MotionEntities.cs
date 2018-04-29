@@ -49,6 +49,11 @@ namespace MassiveGame
 
         public Vector3 ObjectPosition { get; private set; }
 
+        public Vector3 GetMove()
+        {
+            return Move;
+        }
+
         #endregion
 
         #region Collision

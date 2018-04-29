@@ -27,16 +27,17 @@ namespace MassiveGame.RenderCore.Shadows
 
         public override Matrix4 GetShadowViewMatrix()
         {
-            var lightEye = LightSource.Position + (LightSource.Direction.Normalized() * 250);
-            var lightTarget = LightSource.Position + LightSource.Direction * 100;
+            Vector3 normLightDir = LightSource.Direction.Normalized();
+            Vector3 delta = DOUEngine.Player.GetMove();
+            delta.Y = 0;
+            var lightEye = LightSource.Position + delta + normLightDir * 250;
+            var lightTarget = LightSource.Position + delta + (LightSource.Direction * 100);
             return Matrix4.LookAt(lightEye, lightTarget, new Vector3(0, 1, 0));
         }
 
         public override Matrix4 GetShadowProjectionMatrix(ref Matrix4 projectionMatrix)
         {
-            // temporary make extremely large ortho cube
-            //return Builder.CreateOrthographicProjection(ViewerCamera, ref projectionMatrix);
-            return Matrix4.CreateOrthographic(300, 300, 1 , 500);
+            return Matrix4.CreateOrthographic(300, 300, 1, 500);
         }
 
         protected override void PrepareRenderTarget()

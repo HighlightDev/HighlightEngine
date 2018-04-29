@@ -230,8 +230,8 @@ namespace MassiveGame.UI
             DOUEngine.Lights = new Light_visualization.VisualizeLight(ProjectFolders.TexturesPath + "/LightTextures/" + "light-bulb-icon (1).png"
                 , DOUEngine.PointLight);
 
-            DOUEngine.Lens = new LensFlareRenderer();
-            DOUEngine.Ray = new GodRaysRenderer();
+            //DOUEngine.Lens = new LensFlareRenderer();
+            //DOUEngine.Ray = new GodRaysRenderer();
             //DOUEngine.PostProc = new PostprocessRenderer(PostprocessType.DOF_BLUR);
             //DOUEngine.PostProc.BloomPass = 1;
             //DOUEngine.PostProc.BlurWidth = 18;
@@ -443,11 +443,11 @@ namespace MassiveGame.UI
                         defaultFB.Bind();
                         //SwitchToScreenBuffer();
                         RenderAll(redraw);
-                        //frame.Render(DOUEngine.Sun.GetShadowHandler().GetTextureHandler());
-                        frame.Render(new Texture2Dlite(
-                    (int)DOUEngine.Water._fbo.Texture.TextureID[1],
-                    new RectParams(DOUEngine.Water._fbo.Texture.Rezolution[1].widthRezolution, DOUEngine.Water._fbo.Texture.Rezolution[1].heightRezolution)
-                    ), new Point(this.Width, this.Height));
+                        frame.Render(DOUEngine.Sun.GetShadowHandler().GetTextureHandler(), new Point(this.Width, this.Height));
+                    //    frame.Render(new Texture2Dlite(
+                    //(int)DOUEngine.Water._fbo.Texture.TextureID[1],
+                    //new RectParams(DOUEngine.Water._fbo.Texture.Rezolution[1].widthRezolution, DOUEngine.Water._fbo.Texture.Rezolution[1].heightRezolution)
+                    //), new Point(this.Width, this.Height));
                         defaultFB.Unbind();
                         break;
                     }
