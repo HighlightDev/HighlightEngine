@@ -118,6 +118,11 @@ namespace MassiveGame
             base.loadSubroutineIndex(ShaderType.FragmentShader, 1, this.lensModifer);
         }
 
+        protected override void SetShaderMacros()
+        {
+            
+        }
+
         #endregion
 
         #region Constructor

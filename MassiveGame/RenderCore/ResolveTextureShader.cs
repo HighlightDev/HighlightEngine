@@ -24,6 +24,11 @@ namespace MassiveGame.RenderCore
             loadInteger(srcSampler, textureHandler);
         }
 
+        protected override void SetShaderMacros()
+        {
+            
+        }
+
         public ResolveTextureShader(string VertexShaderFile, string FragmentShaderFile) : base(VertexShaderFile, FragmentShaderFile)
         {
             if (base.ShaderLoaded)

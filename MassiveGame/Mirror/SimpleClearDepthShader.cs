@@ -21,5 +21,10 @@ namespace MassiveGame
                 base.showLinkLogInfo(SHADER_NAME);
             }
         }
+
+        protected override void SetShaderMacros()
+        {
+            
+        }
     }
 }

@@ -185,6 +185,11 @@ namespace MassiveGame
 
         #endregion
 
+        protected override void SetShaderMacros()
+        {
+            
+        }
+
         #region Constructor
 
         public MotionEntityShader(string VertexShaderFile, string FragmentShaderFile)

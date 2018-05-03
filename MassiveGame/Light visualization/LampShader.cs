@@ -51,6 +51,11 @@ namespace MassiveGame.Light_visualization
 
         #endregion
 
+        protected override void SetShaderMacros()
+        {
+            
+        }
+
         #region Constructor
 
         public LampShader(string vsPath, string fsPath, string gsPath)

@@ -69,6 +69,11 @@ namespace MassiveGame
 
         #endregion
 
+        protected override void SetShaderMacros()
+        {
+           
+        }
+
         #region Constructor
 
         public SkyboxShader(string VertexShaderFile, string FragmentShaderFile)

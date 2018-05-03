@@ -30,6 +30,7 @@ using PhysicsBox.ComponentCore;
 using MassiveGame.ComponentCore;
 using MassiveGame.Settings;
 using System.Drawing;
+using ShaderPattern;
 
 namespace MassiveGame.UI
 {
@@ -58,7 +59,7 @@ namespace MassiveGame.UI
         {
             DefaultFrame = new UiFrame(0, 0, 1, 1);
 
-            var rtParams = new RenderTargetParams(TextureTarget.Texture2D, 0, PixelInternalFormat.DepthComponent16, 5096, 5096, PixelFormat.DepthComponent, PixelType.Float);
+            var rtParams = new RenderTargetParams(TextureTarget.Texture2D, 0, PixelInternalFormat.DepthComponent16, DOUEngine.ShadowMapRezolution.X, DOUEngine.ShadowMapRezolution.Y, PixelFormat.DepthComponent, PixelType.Float);
             DOUEngine.Sun = new DirectionalLight(rtParams, new Vector3(-100, -10, 50), new Vector4(0.4f, 0.4f, 0.4f, 1),
                 new Vector4(0.7f, 0.7f, 0.7f, 1.0f), new Vector4(1, 1, 1, 1));
             DOUEngine.Sun.GetShadowHandler().CreateShadowMapCache();
@@ -298,6 +299,7 @@ namespace MassiveGame.UI
         {
             SettingsLoader settingsLoader = new SettingsLoader();
             DOUEngine.ScreenRezolution = settingsLoader.GetScreenRezolution();
+            DOUEngine.ShadowMapRezolution = settingsLoader.GetDirectionalShadowMapRezolution();
 
             DOUEngine.PostConstructor = true;
             DOUEngine.Camera = new Camera(250.0f, 70, 260.0f, 140.0f, 70.0f, 160.0f + 50f, 0.0f, 1.0f, 0.0f);

@@ -103,5 +103,10 @@ namespace MassiveGame.Water
         {
             base.loadVector(this.clipPlane, clippingPlane);
         }
+
+        protected override void SetShaderMacros()
+        {
+            
+        }
     }
 }

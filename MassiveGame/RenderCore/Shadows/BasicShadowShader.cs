@@ -13,6 +13,11 @@ namespace MassiveGame.RenderCore.Shadows
         private Int32 worldMatrix, shadowViewMatrix, shadowProjectionMatrix;
         private const string SHADER_NAME = "BasicShadowShader";
 
+        protected override void SetShaderMacros()
+        {
+            
+        }
+
         protected override void getAllUniformLocations()
         {
             worldMatrix = getUniformLocation("worldMatrix");

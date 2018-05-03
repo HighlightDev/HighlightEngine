@@ -198,11 +198,6 @@ namespace MassiveGame
             base.loadMatrix(directionalLightShadowMatrix, false, ShadowMatrix);
         }
 
-        public new void PrecompileEdit()
-        {
-            base.SetDefine(ShaderType.FragmentShader, "MAX_LIGHT_COUNT", "5");
-        }
-
         public void setUniformValuesWithNormalMap(int sampler, int normalMap, int specularMap, int glowingMap, Vector3 materialAmbient,
             Vector3 materialDiffuse, Vector3 materialSpecular, float reflectivity,
             float shineDamper, ref Matrix4 ModelMatrix, Matrix4 ViewMatrix,
@@ -331,6 +326,11 @@ namespace MassiveGame
 
         #endregion
 
+        protected override void SetShaderMacros()
+        {
+            base.SetDefine(ShaderTypeFlag.VertexShader | ShaderTypeFlag.FragmentShader, "MAX_LIGHT_COUNT", "5");
+        }
+
         #region Constructor
 
         public StaticEntityShader(string VertexShaderFile, string FragmentShaderFile, string GeometryShaderFile)
@@ -397,6 +397,11 @@ namespace MassiveGame
         }
 
         #endregion
+
+        protected override void SetShaderMacros()
+        {
+            
+        }
 
         #region Constructor
 

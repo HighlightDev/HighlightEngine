@@ -11,17 +11,35 @@ namespace ShaderPattern
 {
     public abstract class Shader : IShaderEditable, IShaderDefine
     {
+
+        [Flags]
+        public enum ShaderTypeFlag
+        {
+            VertexShader = 0x001,
+            FragmentShader = 0x010,
+            GeometryShader = 0x100
+        }
+
         #region DefineParams
 
         public struct DefineParams
         {
             public string Name;
             public string Value;
+            public ShaderTypeFlag shaderType;
+
+            public DefineParams(string name, string value, ShaderTypeFlag shaderType)
+            {
+                Name = name;
+                Value = value;
+                this.shaderType = shaderType;
+            }
 
             public DefineParams(string name, string value)
             {
                 Name = name;
                 Value = value;
+                this.shaderType = ShaderTypeFlag.VertexShader;
             }
         }
 
@@ -39,7 +57,7 @@ namespace ShaderPattern
         private int shaderProgramID;
         protected bool ShaderLoaded { set; get; }
 
-        private Dictionary<ShaderType, DefineParams> DefineParameters;
+        private List<DefineParams> DefineParameters;
 
         #endregion
 
@@ -303,7 +321,7 @@ namespace ShaderPattern
 
         public Shader(string VertexShaderFile, string FragmentShaderFile, string GeometryShaderFile = "")
         {
-            DefineParameters = new Dictionary<ShaderType, DefineParams>();
+            DefineParameters = new List<DefineParams>();
             vsPath = VertexShaderFile;
             fsPath = FragmentShaderFile;
             gsPath = GeometryShaderFile;
@@ -311,8 +329,8 @@ namespace ShaderPattern
             geometryShaderID = -1;
             ShaderLoaded = false;
             // start precompilation shader customization
+            SetShaderMacros();
             PrecompileEdit();
-            AddPrecompiledEditToShader();
             ClearAfterPrecompilationEditStage();
             // end
             ShaderLoaded = loadShaders();
@@ -328,7 +346,7 @@ namespace ShaderPattern
 
         #region PrecompilationEdit
 
-        private void EditShader(ShaderType type, string shaderPath)
+        private void EditShader(ShaderTypeFlag type, string shaderPath)
         {
             if (shaderPath == string.Empty)
                 return;
@@ -342,7 +360,7 @@ namespace ShaderPattern
             reader.Close();
             reader.Dispose();
 
-            // code only with macos
+            // code only with macros
             List<DefineParams> macros = new List<DefineParams>();
             code.ForEach((str) =>
             {
@@ -350,7 +368,7 @@ namespace ShaderPattern
                 {
                     int indexName = str.IndexOf(' ');
                     int indexValue = str.IndexOf(' ', indexName + 1);
-                    var name = str.Substring(indexName, indexValue - indexName + 1);
+                    var name = str.Substring(indexName + 1, indexValue - indexName - 1);
                     var value = str.Substring(indexValue + 1);
                     macros.Add(new DefineParams(name, value));
                 }
@@ -362,8 +380,10 @@ namespace ShaderPattern
             List<DefineParams> input = new List<DefineParams>();
             foreach (var def in DefineParameters)
             {
-                if (def.Key == type)
-                    input.Add(def.Value);
+                if ((def.shaderType & ShaderTypeFlag.VertexShader) == type ||
+                    (def.shaderType & ShaderTypeFlag.FragmentShader) == type ||
+                    (def.shaderType & ShaderTypeFlag.GeometryShader) == type)
+                    input.Add(def);
             }
 
             // update values for existing macros
@@ -378,17 +398,22 @@ namespace ShaderPattern
             string macroResult = String.Empty;
             macros.ForEach(def =>
             {
-                macroResult += string.Format("{0}#define {1} {2}", "\n\r", def.Name, def.Value);
+                macroResult += string.Format("#define {0} {1} \r", def.Name, def.Value);
             });
 
-            int startIndex = code.IndexOf("void main()") - 1;
-            code[startIndex] = code[startIndex] + macroResult;
+            int startIndex = code.FindIndex(new Predicate<string>(s => s.StartsWith("#version"))) + 2;
+            code.Insert(startIndex, macroResult);
 
             string codeResult = string.Empty;
-            code.ForEach(str =>
+            for (Int32 i = 0; i < code.Count; i++)
             {
-                codeResult += str;
-            });
+                string str = code[i];
+                str = str.TrimEnd();
+                if (code.Count - 1 > i)
+                    codeResult += str + "\r";
+                else
+                    codeResult += str + "\0";
+            }
 
             StreamWriter writer = new StreamWriter(shaderPath, false);
             writer.WriteLine(codeResult);
@@ -400,30 +425,31 @@ namespace ShaderPattern
         {
             if (DefineParameters.Count > 0)
             {
-                if (DefineParameters.Any(def => def.Key == ShaderType.VertexShader))
-                    EditShader(ShaderType.VertexShader, vsPath);
-                if (DefineParameters.Any(def => def.Key == ShaderType.FragmentShader))
-                    EditShader(ShaderType.FragmentShader, fsPath);
+                if (DefineParameters.Any(def => (def.shaderType & ShaderTypeFlag.VertexShader) == ShaderTypeFlag.VertexShader))
+                    EditShader(ShaderTypeFlag.VertexShader, vsPath);
+                if (DefineParameters.Any(def => (def.shaderType & ShaderTypeFlag.FragmentShader) == ShaderTypeFlag.FragmentShader))
+                    EditShader(ShaderTypeFlag.FragmentShader, fsPath);
                 if (gsPath != string.Empty)
-                    if (DefineParameters.Any(def => def.Key == ShaderType.GeometryShader))
-                        EditShader(ShaderType.GeometryShader, gsPath);
+                    if (DefineParameters.Any(def => (def.shaderType & ShaderTypeFlag.GeometryShader) == ShaderTypeFlag.GeometryShader))
+                        EditShader(ShaderTypeFlag.GeometryShader, gsPath);
             }
         }
 
+        protected abstract void SetShaderMacros();
+
         public virtual void PrecompileEdit()
         {
-
+            AddPrecompiledEditToShader();
         }
 
-        public void SetDefine(ShaderType shaderType, string name, string formatValue)
+        public void SetDefine(ShaderTypeFlag shaderType, string name, string formatValue)
         {
-            DefineParameters.Add(shaderType, new DefineParams(name, formatValue));
+            DefineParameters.Add(new DefineParams(name, formatValue, shaderType));
         }
 
         private void ClearAfterPrecompilationEditStage()
         {
             DefineParameters.Clear();
-            DefineParameters = null;
         }
 
         #endregion

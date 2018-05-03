@@ -199,6 +199,12 @@ namespace MassiveGame
 
         #endregion
 
+
+        protected override void SetShaderMacros()
+        {
+
+        }
+
         #region Constructor
 
         public TerrainShader(string VertexShaderFile, string FragmentShaderFile)

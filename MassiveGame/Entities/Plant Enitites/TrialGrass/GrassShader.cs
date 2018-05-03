@@ -47,6 +47,11 @@ namespace MassiveGame
             }
         }
 
+        protected override void SetShaderMacros()
+        {
+            
+        }
+
         public GrassShader(string vsPath, string fsPath, string gsPath)
             : base(vsPath, fsPath, gsPath)
         {

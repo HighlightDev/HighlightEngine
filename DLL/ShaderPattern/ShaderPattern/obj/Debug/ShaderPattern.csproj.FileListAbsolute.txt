@@ -15,8 +15,6 @@ D:\Мультимедиа\Visual Studio Projects\OpenTK Applications\Application
 D:\Мультимедиа\Visual Studio Projects\OpenTK Applications\Applications\MassiveGame\MassiveGame\DLL\ShaderPattern\ShaderPattern\obj\Debug\ShaderPattern.csprojResolveAssemblyReference.cache
 C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\DLL\ShaderPattern\ShaderPattern\bin\Debug\ShaderPattern.dll
 C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\DLL\ShaderPattern\ShaderPattern\bin\Debug\ShaderPattern.pdb
-C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\DLL\ShaderPattern\ShaderPattern\bin\Debug\OpenTK.pdb
-C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\DLL\ShaderPattern\ShaderPattern\bin\Debug\OpenTK.xml
-C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\DLL\ShaderPattern\ShaderPattern\obj\Debug\ShaderPattern.csprojResolveAssemblyReference.cache
 C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\DLL\ShaderPattern\ShaderPattern\obj\Debug\ShaderPattern.dll
 C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\DLL\ShaderPattern\ShaderPattern\obj\Debug\ShaderPattern.pdb
+C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\DLL\ShaderPattern\ShaderPattern\obj\Debug\ShaderPattern.csprojResolveAssemblyReference.cache

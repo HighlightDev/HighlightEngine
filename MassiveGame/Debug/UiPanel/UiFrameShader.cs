@@ -43,6 +43,11 @@ namespace MassiveGame.Debug.UiPanel
 
         #endregion
 
+        protected override void SetShaderMacros()
+        {
+            
+        }
+
         #region Constructor
 
         public UiFrameShader(string vsPath, string fsPath)

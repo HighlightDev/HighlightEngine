@@ -32,9 +32,14 @@ namespace MassiveGame
 
         #endregion
 
-         #region Getter
+        protected override void SetShaderMacros()
+        {
+            
+        }
 
-         protected override void getAllUniformLocations()
+        #region Getter
+
+        protected override void getAllUniformLocations()
         {
             plantTexture = base.getUniformLocation("backgroundTexture");
             materialAmbient = base.getUniformLocation("materialAmbient");

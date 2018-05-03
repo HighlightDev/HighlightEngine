@@ -142,8 +142,12 @@ namespace MassiveGame
             base.loadSubroutineIndex(ShaderType.FragmentShader, 1, this.subBloom2);
         }
 
-
         #endregion
+
+        protected override void SetShaderMacros()
+        {
+         
+        }
 
         #region Constructor
 

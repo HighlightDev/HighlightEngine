@@ -115,5 +115,9 @@ namespace MassiveGame.RenderCore
             bSpecularMapEnable = getUniformLocation("bSpecularMapEnable");
         }
 
+        protected override void SetShaderMacros()
+        {
+            
+        }
     }
 }

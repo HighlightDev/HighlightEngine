@@ -112,6 +112,14 @@ namespace MassiveGame
 
         #endregion
 
+        protected override void SetShaderMacros()
+        {
+            SetDefine(ShaderTypeFlag.VertexShader | ShaderTypeFlag.FragmentShader, "MAX_LIGHT_COUNT", DOUEngine.MAX_LIGHT_COUNT.ToString());
+            SetDefine(ShaderTypeFlag.VertexShader, "tiling", "3.0");
+            SetDefine(ShaderTypeFlag.FragmentShader, "materialReflectivity", "1.1f");
+            SetDefine(ShaderTypeFlag.FragmentShader, "materialShineDamper", "100.0f");
+        }
+
         #region Constructor
 
         public WaterShader(string vsPath, string fsPath)

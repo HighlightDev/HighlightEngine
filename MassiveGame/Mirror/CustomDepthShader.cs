@@ -30,6 +30,11 @@ namespace MassiveGame
             base.loadMatrix(this.projectionMatrix, false, projectionMatrix);
         }
 
+        protected override void SetShaderMacros()
+        {
+            
+        }
+
         public CustomDepthShader(string vsPath, string fsPath)
             : base(vsPath, fsPath)
         {

@@ -38,5 +38,9 @@ namespace MassiveGame.RenderCore
             loadMatrix(this.worldMatrix, false, worldMatrix);
         }
 
+        protected override void SetShaderMacros()
+        {
+            
+        }
     }
 }

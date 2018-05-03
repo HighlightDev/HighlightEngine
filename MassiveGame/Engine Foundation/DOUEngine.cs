@@ -30,8 +30,8 @@ namespace MassiveGame
 
         public static int SCREEN_POSITION_X = 120;
         public static int SCREEN_POSITION_Y = 50;
-        public static int SCREEN_WIDTH = 1000;
-        public static int SCREEN_HEIGHT = 550;
+        public static int SCREEN_WIDTH = 1020;
+        public static int SCREEN_HEIGHT = 800;
         public static int TIMER_CALLBACK = 0;
         public static WindowBorder WINDOW_BORDER = WindowBorder.Resizable;
         public static WindowState WINDOW_STATE = WindowState.Normal;
@@ -91,5 +91,7 @@ namespace MassiveGame
         public static Timer EngineTickTimer;
 
         public static Point ScreenRezolution;
+
+        public static Point ShadowMapRezolution;
     }
 }

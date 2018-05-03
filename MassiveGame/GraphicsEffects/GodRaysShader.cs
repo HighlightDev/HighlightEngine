@@ -53,6 +53,11 @@ namespace MassiveGame
 
         #endregion
 
+        protected override void SetShaderMacros()
+        {
+         
+        }
+
         #region Constructor
 
         public GodRaysShader(string VSPath, string FSPath)

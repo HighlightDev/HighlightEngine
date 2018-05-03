@@ -52,6 +52,11 @@ namespace MassiveGame
 
         #endregion
 
+        protected override void SetShaderMacros()
+        {
+           
+        }
+
         #region Constructor
 
         public EnvironmentEntitiesShader(string vsPath, string fsPath)
