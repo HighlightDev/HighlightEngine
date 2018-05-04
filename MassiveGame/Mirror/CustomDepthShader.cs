@@ -32,7 +32,6 @@ namespace MassiveGame
 
         protected override void SetShaderMacros()
         {
-            
         }
 
         public CustomDepthShader(string vsPath, string fsPath)

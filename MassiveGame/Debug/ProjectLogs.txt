@@ -26424,3 +26424,224 @@ UiFrame Shader: No errors found.
 UiFrame Shader: No errors found.
 
 Time elapsed : 00:00:38.3620000
+Session started at : 04.05.2018 12:38:09
+04.05.2018 12:38:09  StaticEntity Shader: No errors found.
+04.05.2018 12:38:09  StaticEntity Shader: No errors found.
+04.05.2018 12:38:09  SpecialStaticEntity Shader: No errors found.
+04.05.2018 12:38:09  SpecialStaticEntity Shader: No errors found.
+04.05.2018 12:38:09  WaterReflecitonEntityShader: No errors found.
+04.05.2018 12:38:09  WaterReflecitonEntityShader: No errors found.
+04.05.2018 12:38:09  WaterRefractionEntityShader: No errors found.
+04.05.2018 12:38:09  WaterRefractionEntityShader: No errors found.
+04.05.2018 12:38:10  Water Shader: No errors found.
+04.05.2018 12:38:10  Water Shader: No errors found.
+04.05.2018 12:38:10  STENCIL PASS: No errors found.
+04.05.2018 12:38:10  STENCIL PASS: No errors found.
+04.05.2018 12:38:10  Water Framebuffer 1 : Framebuffer : complete.
+04.05.2018 12:38:10  Water Framebuffer 2 : Framebuffer : complete.
+04.05.2018 12:38:10  Plant Shader: No errors found.
+04.05.2018 12:38:10  Plant Shader: No errors found.
+04.05.2018 12:38:10  Skybox Shader: No errors found.
+04.05.2018 12:38:10  Skybox Shader: No errors found.
+04.05.2018 12:38:10  Terrain Shader: No errors found.
+04.05.2018 12:38:10  Terrain Shader: No errors found.
+04.05.2018 12:38:10  WaterReflectionTerrainShader: No errors found.
+04.05.2018 12:38:10  WaterReflectionTerrainShader: No errors found.
+04.05.2018 12:38:10  WaterRefractionTerrainShader: No errors found.
+04.05.2018 12:38:10  WaterRefractionTerrainShader: No errors found.
+04.05.2018 12:38:10  Sun shader: No errors found.
+04.05.2018 12:38:10  Sun shader: No errors found.
+04.05.2018 12:38:10  MotionEntity Shader: No errors found.
+04.05.2018 12:38:10  MotionEntity Shader: No errors found.
+UiFrame Shader: No errors found.
+UiFrame Shader: No errors found.
+Session started at : 04.05.2018 16:56:48
+04.05.2018 16:56:48  StaticEntity Shader: No errors found.
+04.05.2018 16:56:48  StaticEntity Shader: No errors found.
+04.05.2018 16:56:48  SpecialStaticEntity Shader: No errors found.
+04.05.2018 16:56:48  SpecialStaticEntity Shader: No errors found.
+04.05.2018 16:56:48  WaterReflecitonEntityShader: No errors found.
+04.05.2018 16:56:48  WaterReflecitonEntityShader: No errors found.
+04.05.2018 16:56:48  WaterRefractionEntityShader: No errors found.
+04.05.2018 16:56:48  WaterRefractionEntityShader: No errors found.
+04.05.2018 16:56:49  Water Shader: No errors found.
+04.05.2018 16:56:49  Water Shader: No errors found.
+04.05.2018 16:56:49  STENCIL PASS: No errors found.
+04.05.2018 16:56:49  STENCIL PASS: No errors found.
+04.05.2018 16:56:49  Water Framebuffer 1 : Framebuffer : complete.
+04.05.2018 16:56:49  Water Framebuffer 2 : Framebuffer : complete.
+04.05.2018 16:56:49  Plant Shader: No errors found.
+04.05.2018 16:56:49  Plant Shader: No errors found.
+04.05.2018 16:56:49  Skybox Shader: No errors found.
+04.05.2018 16:56:49  Skybox Shader: No errors found.
+04.05.2018 16:56:49  Terrain Shader: No errors found.
+04.05.2018 16:56:49  Terrain Shader: No errors found.
+04.05.2018 16:56:49  WaterReflectionTerrainShader: No errors found.
+04.05.2018 16:56:49  WaterReflectionTerrainShader: No errors found.
+04.05.2018 16:56:49  WaterRefractionTerrainShader: No errors found.
+04.05.2018 16:56:49  WaterRefractionTerrainShader: No errors found.
+04.05.2018 16:56:49  Sun shader: No errors found.
+04.05.2018 16:56:49  Sun shader: No errors found.
+04.05.2018 16:56:49  MotionEntity Shader: No errors found.
+04.05.2018 16:56:49  MotionEntity Shader: No errors found.
+UiFrame Shader: No errors found.
+UiFrame Shader: No errors found.
+Session started at : 04.05.2018 16:58:03
+04.05.2018 16:58:03  StaticEntity Shader: No errors found.
+04.05.2018 16:58:03  StaticEntity Shader: No errors found.
+04.05.2018 16:58:03  SpecialStaticEntity Shader: No errors found.
+04.05.2018 16:58:03  SpecialStaticEntity Shader: No errors found.
+04.05.2018 16:58:03  WaterReflecitonEntityShader: No errors found.
+04.05.2018 16:58:03  WaterReflecitonEntityShader: No errors found.
+04.05.2018 16:58:03  WaterRefractionEntityShader: No errors found.
+04.05.2018 16:58:03  WaterRefractionEntityShader: No errors found.
+04.05.2018 16:58:03  Postprocess Framebuffer 1 : Framebuffer : Not all framebuffer attachment points are framebuffer attachment complete.
+04.05.2018 16:58:03  Postprocess Framebuffer 2 : Framebuffer : complete.
+04.05.2018 16:58:03  Water Shader: No errors found.
+04.05.2018 16:58:03  Water Shader: No errors found.
+04.05.2018 16:58:03  STENCIL PASS: No errors found.
+04.05.2018 16:58:03  STENCIL PASS: No errors found.
+04.05.2018 16:58:03  Water Framebuffer 1 : Framebuffer : complete.
+04.05.2018 16:58:03  Water Framebuffer 2 : Framebuffer : complete.
+04.05.2018 16:58:03  Plant Shader: No errors found.
+04.05.2018 16:58:03  Plant Shader: No errors found.
+04.05.2018 16:58:03  Unsolved mistakes at :Postprocess Shader
+
+ERROR: 0:41: '=' : syntax error syntax error
+
+
+
+04.05.2018 16:58:03  Unsolved mistakes at :Postprocess Shader
+Attached fragment shader is not compiled.
+
+04.05.2018 16:58:03  Skybox Shader: No errors found.
+04.05.2018 16:58:03  Skybox Shader: No errors found.
+04.05.2018 16:58:03  Terrain Shader: No errors found.
+04.05.2018 16:58:03  Terrain Shader: No errors found.
+04.05.2018 16:58:03  WaterReflectionTerrainShader: No errors found.
+04.05.2018 16:58:03  WaterReflectionTerrainShader: No errors found.
+04.05.2018 16:58:03  WaterRefractionTerrainShader: No errors found.
+04.05.2018 16:58:03  WaterRefractionTerrainShader: No errors found.
+04.05.2018 16:58:04  Sun shader: No errors found.
+04.05.2018 16:58:04  Sun shader: No errors found.
+04.05.2018 16:58:04  MotionEntity Shader: No errors found.
+04.05.2018 16:58:04  MotionEntity Shader: No errors found.
+UiFrame Shader: No errors found.
+UiFrame Shader: No errors found.
+Session started at : 04.05.2018 17:00:00
+04.05.2018 17:00:00  StaticEntity Shader: No errors found.
+04.05.2018 17:00:00  StaticEntity Shader: No errors found.
+04.05.2018 17:00:00  SpecialStaticEntity Shader: No errors found.
+04.05.2018 17:00:00  SpecialStaticEntity Shader: No errors found.
+04.05.2018 17:00:01  WaterReflecitonEntityShader: No errors found.
+04.05.2018 17:00:01  WaterReflecitonEntityShader: No errors found.
+04.05.2018 17:00:01  WaterRefractionEntityShader: No errors found.
+04.05.2018 17:00:01  WaterRefractionEntityShader: No errors found.
+04.05.2018 17:00:01  Postprocess Framebuffer 1 : Framebuffer : complete.
+04.05.2018 17:00:01  Postprocess Framebuffer 2 : Framebuffer : complete.
+04.05.2018 17:00:01  Postprocess Framebuffer 3 : Framebuffer : complete.
+04.05.2018 17:00:01  Water Shader: No errors found.
+04.05.2018 17:00:01  Water Shader: No errors found.
+04.05.2018 17:00:01  STENCIL PASS: No errors found.
+04.05.2018 17:00:01  STENCIL PASS: No errors found.
+04.05.2018 17:00:01  Water Framebuffer 1 : Framebuffer : complete.
+04.05.2018 17:00:01  Water Framebuffer 2 : Framebuffer : complete.
+04.05.2018 17:00:01  Plant Shader: No errors found.
+04.05.2018 17:00:01  Plant Shader: No errors found.
+04.05.2018 17:00:01  Unsolved mistakes at :Postprocess Shader
+
+ERROR: 0:62: 'constructor' : too many arguments 
+ERROR: 0:62: ';' : syntax error syntax error
+
+
+
+04.05.2018 17:00:01  Unsolved mistakes at :Postprocess Shader
+Attached fragment shader is not compiled.
+
+04.05.2018 17:00:01  Skybox Shader: No errors found.
+04.05.2018 17:00:01  Skybox Shader: No errors found.
+04.05.2018 17:00:01  Terrain Shader: No errors found.
+04.05.2018 17:00:01  Terrain Shader: No errors found.
+04.05.2018 17:00:01  WaterReflectionTerrainShader: No errors found.
+04.05.2018 17:00:01  WaterReflectionTerrainShader: No errors found.
+04.05.2018 17:00:01  WaterRefractionTerrainShader: No errors found.
+04.05.2018 17:00:01  WaterRefractionTerrainShader: No errors found.
+04.05.2018 17:00:02  Sun shader: No errors found.
+04.05.2018 17:00:02  Sun shader: No errors found.
+04.05.2018 17:00:02  MotionEntity Shader: No errors found.
+04.05.2018 17:00:02  MotionEntity Shader: No errors found.
+UiFrame Shader: No errors found.
+UiFrame Shader: No errors found.
+Session started at : 04.05.2018 17:00:40
+04.05.2018 17:00:40  StaticEntity Shader: No errors found.
+04.05.2018 17:00:40  StaticEntity Shader: No errors found.
+04.05.2018 17:00:40  SpecialStaticEntity Shader: No errors found.
+04.05.2018 17:00:40  SpecialStaticEntity Shader: No errors found.
+04.05.2018 17:00:40  WaterReflecitonEntityShader: No errors found.
+04.05.2018 17:00:40  WaterReflecitonEntityShader: No errors found.
+04.05.2018 17:00:40  WaterRefractionEntityShader: No errors found.
+04.05.2018 17:00:40  WaterRefractionEntityShader: No errors found.
+04.05.2018 17:00:41  Postprocess Framebuffer 1 : Framebuffer : complete.
+04.05.2018 17:00:41  Postprocess Framebuffer 2 : Framebuffer : complete.
+04.05.2018 17:00:41  Postprocess Framebuffer 3 : Framebuffer : complete.
+04.05.2018 17:00:41  Water Shader: No errors found.
+04.05.2018 17:00:41  Water Shader: No errors found.
+04.05.2018 17:00:41  STENCIL PASS: No errors found.
+04.05.2018 17:00:41  STENCIL PASS: No errors found.
+04.05.2018 17:00:41  Water Framebuffer 1 : Framebuffer : complete.
+04.05.2018 17:00:41  Water Framebuffer 2 : Framebuffer : complete.
+04.05.2018 17:00:41  Plant Shader: No errors found.
+04.05.2018 17:00:41  Plant Shader: No errors found.
+04.05.2018 17:00:41  Postprocess Shader: No errors found.
+04.05.2018 17:00:41  Postprocess Shader: No errors found.
+04.05.2018 17:00:41  Skybox Shader: No errors found.
+04.05.2018 17:00:41  Skybox Shader: No errors found.
+04.05.2018 17:00:41  Terrain Shader: No errors found.
+04.05.2018 17:00:41  Terrain Shader: No errors found.
+04.05.2018 17:00:41  WaterReflectionTerrainShader: No errors found.
+04.05.2018 17:00:41  WaterReflectionTerrainShader: No errors found.
+04.05.2018 17:00:41  WaterRefractionTerrainShader: No errors found.
+04.05.2018 17:00:41  WaterRefractionTerrainShader: No errors found.
+04.05.2018 17:00:41  Sun shader: No errors found.
+04.05.2018 17:00:41  Sun shader: No errors found.
+04.05.2018 17:00:41  MotionEntity Shader: No errors found.
+04.05.2018 17:00:41  MotionEntity Shader: No errors found.
+UiFrame Shader: No errors found.
+UiFrame Shader: No errors found.
+Session started at : 04.05.2018 17:24:57
+04.05.2018 17:24:57  StaticEntity Shader: No errors found.
+04.05.2018 17:24:57  StaticEntity Shader: No errors found.
+04.05.2018 17:24:57  SpecialStaticEntity Shader: No errors found.
+04.05.2018 17:24:57  SpecialStaticEntity Shader: No errors found.
+04.05.2018 17:24:57  WaterReflecitonEntityShader: No errors found.
+04.05.2018 17:24:57  WaterReflecitonEntityShader: No errors found.
+04.05.2018 17:24:57  WaterRefractionEntityShader: No errors found.
+04.05.2018 17:24:57  WaterRefractionEntityShader: No errors found.
+04.05.2018 17:24:57  GodRays Shader: No errors found.
+04.05.2018 17:24:57  GodRays Shader: No errors found.
+04.05.2018 17:24:57  GodRays Framebuffer 1 : Framebuffer : complete.
+04.05.2018 17:24:58  Water Shader: No errors found.
+04.05.2018 17:24:58  Water Shader: No errors found.
+04.05.2018 17:24:58  STENCIL PASS: No errors found.
+04.05.2018 17:24:58  STENCIL PASS: No errors found.
+04.05.2018 17:24:58  Water Framebuffer 1 : Framebuffer : complete.
+04.05.2018 17:24:58  Water Framebuffer 2 : Framebuffer : complete.
+04.05.2018 17:24:58  Plant Shader: No errors found.
+04.05.2018 17:24:58  Plant Shader: No errors found.
+04.05.2018 17:24:58  Skybox Shader: No errors found.
+04.05.2018 17:24:58  Skybox Shader: No errors found.
+04.05.2018 17:24:58  Terrain Shader: No errors found.
+04.05.2018 17:24:58  Terrain Shader: No errors found.
+04.05.2018 17:24:58  WaterReflectionTerrainShader: No errors found.
+04.05.2018 17:24:58  WaterReflectionTerrainShader: No errors found.
+04.05.2018 17:24:58  WaterRefractionTerrainShader: No errors found.
+04.05.2018 17:24:58  WaterRefractionTerrainShader: No errors found.
+04.05.2018 17:24:58  Sun shader: No errors found.
+04.05.2018 17:24:58  Sun shader: No errors found.
+04.05.2018 17:24:58  MotionEntity Shader: No errors found.
+04.05.2018 17:24:58  MotionEntity Shader: No errors found.
+04.05.2018 17:24:58  LensFlare Framebuffer 1 : Framebuffer : complete.
+04.05.2018 17:24:58  Lens flare shader: No errors found.
+04.05.2018 17:24:58  Lens flare shader: No errors found.
+UiFrame Shader: No errors found.
+UiFrame Shader: No errors found.

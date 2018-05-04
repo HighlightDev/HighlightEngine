@@ -120,7 +120,8 @@ namespace MassiveGame
 
         protected override void SetShaderMacros()
         {
-            
+            SetDefine(ShaderTypeFlag.FragmentShader, "lum", "vec3(0.2126, 0.7152, 0.0722)");
+            SetDefine(ShaderTypeFlag.FragmentShader, "MAX_BLUR_WIDTH", "30");
         }
 
         #endregion

@@ -26,7 +26,6 @@ namespace MassiveGame.RenderCore
 
         protected override void SetShaderMacros()
         {
-            
         }
 
         public ResolveTextureShader(string VertexShaderFile, string FragmentShaderFile) : base(VertexShaderFile, FragmentShaderFile)

@@ -83,8 +83,9 @@ namespace MassiveGame
         #endregion
 
         protected override void SetShaderMacros()
-        {
-            
+        { 
+            SetDefine(ShaderTypeFlag.VertexShader | ShaderTypeFlag.FragmentShader, "MAX_LIGHT_COUNT", DOUEngine.MAX_LIGHT_COUNT.ToString());
+            SetDefine(ShaderTypeFlag.FragmentShader, "shininess", "150");
         }
 
         #region Constructor

@@ -45,7 +45,6 @@ namespace MassiveGame.Debug.UiPanel
 
         protected override void SetShaderMacros()
         {
-            
         }
 
         #region Constructor

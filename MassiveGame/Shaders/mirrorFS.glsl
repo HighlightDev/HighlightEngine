@@ -2,9 +2,6 @@
 
 layout (location = 0) out vec4 FragColor;
 
-const int MAX_LIGHT_COUNT = 5;
-const float shininess = 150;
-
 uniform bool pointEnable[MAX_LIGHT_COUNT];
 uniform vec3 pointSpecular[MAX_LIGHT_COUNT];
 uniform vec3 pointAttenuation[MAX_LIGHT_COUNT];

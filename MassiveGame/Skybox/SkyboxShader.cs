@@ -71,7 +71,9 @@ namespace MassiveGame
 
         protected override void SetShaderMacros()
         {
-           
+            SetDefine(ShaderTypeFlag.FragmentShader, "zenith", "vec3(0, 1, 0)");
+            SetDefine(ShaderTypeFlag.FragmentShader, "UPPER_LIMIT", "30.0");
+            SetDefine(ShaderTypeFlag.FragmentShader, "LOWER_LIMIT", "0.0");
         }
 
         #region Constructor

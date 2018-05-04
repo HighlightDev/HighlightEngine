@@ -231,9 +231,9 @@ namespace MassiveGame.UI
             DOUEngine.Lights = new Light_visualization.VisualizeLight(ProjectFolders.TexturesPath + "/LightTextures/" + "light-bulb-icon (1).png"
                 , DOUEngine.PointLight);
 
-            //DOUEngine.Lens = new LensFlareRenderer();
-            //DOUEngine.Ray = new GodRaysRenderer();
-            //DOUEngine.PostProc = new PostprocessRenderer(PostprocessType.DOF_BLUR);
+            DOUEngine.Lens = new LensFlareRenderer();
+            DOUEngine.Ray = new GodRaysRenderer();
+            //DOUEngine.PostProc = new PostprocessRenderer(PostprocessType.BLOOM);
             //DOUEngine.PostProc.BloomPass = 1;
             //DOUEngine.PostProc.BlurWidth = 18;
 
@@ -638,9 +638,7 @@ namespace MassiveGame.UI
             if (DOUEngine.Grass != null) DOUEngine.Grass.cleanUp();
             if (DOUEngine.Plant1 != null) DOUEngine.Plant1.cleanUp();
 
-            if (DOUEngine.Buildings != null)
-                foreach (Building building in DOUEngine.Buildings)
-                    building.cleanUp();
+            if (DOUEngine.Buildings != null) foreach (Building building in DOUEngine.Buildings) building.cleanUp();
 
             if (DOUEngine.City != null) foreach (Building house in DOUEngine.City) { house.cleanUp(); }
 

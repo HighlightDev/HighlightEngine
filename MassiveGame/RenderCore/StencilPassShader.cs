@@ -39,8 +39,7 @@ namespace MassiveGame.RenderCore
         }
 
         protected override void SetShaderMacros()
-        {
-            
+        {  
         }
     }
 }

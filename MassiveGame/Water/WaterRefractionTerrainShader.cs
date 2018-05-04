@@ -105,8 +105,7 @@ namespace MassiveGame.Water
         }
 
         protected override void SetShaderMacros()
-        {
-            
+        {  
         }
     }
 }

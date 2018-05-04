@@ -24,7 +24,6 @@ namespace MassiveGame
 
         protected override void SetShaderMacros()
         {
-            
         }
     }
 }

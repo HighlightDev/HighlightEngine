@@ -146,7 +146,14 @@ namespace MassiveGame
 
         protected override void SetShaderMacros()
         {
-         
+            SetDefine(ShaderTypeFlag.FragmentShader, "White", "0.928");
+            SetDefine(ShaderTypeFlag.FragmentShader, "Exposure", "0.35");
+            SetDefine(ShaderTypeFlag.FragmentShader, "MAX_BLUR_WIDTH", "10");
+            SetDefine(ShaderTypeFlag.FragmentShader, "lum", "vec3(0.2126, 0.7152, 0.0722)");
+            SetDefine(ShaderTypeFlag.FragmentShader, "rgbTOxyz", "mat3(0.6326696, 0.2045558, 0.1269946,0.2284569, 0.7373523, 0.0341908,0.0000000, 0.0095142, 0.8156958)");
+            SetDefine(ShaderTypeFlag.FragmentShader, "xyzTOrgb", "mat3(1.7552599, -0.4836786, -0.2530000,-0.5441336, 1.5068789, 0.0215528,0.0063467, -0.0175761, 1.2256959)");
+            SetDefine(ShaderTypeFlag.FragmentShader, "White", "0.928");
+            SetDefine(ShaderTypeFlag.FragmentShader, "White", "0.928");
         }
 
         #region Constructor

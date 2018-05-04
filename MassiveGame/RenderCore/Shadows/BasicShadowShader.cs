@@ -15,7 +15,6 @@ namespace MassiveGame.RenderCore.Shadows
 
         protected override void SetShaderMacros()
         {
-            
         }
 
         protected override void getAllUniformLocations()
