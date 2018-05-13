@@ -177,6 +177,11 @@ namespace MassiveGame.UI
 
                 GL.Disable(EnableCap.CullFace);
             }
+
+            // ITS for TEST! COMPUTE SHADERS!
+            Matrix4 worldMatrix = Matrix4.CreateScale(1);
+            worldMatrix *= Matrix4.CreateTranslation(new Vector3(0, 60, 0));
+            ch.Render(worldMatrix, DOUEngine.Camera.getViewMatrix(), DOUEngine.ProjectionMatrix);
         }
 
         private void RenderToReflectionRenderTarget(LiteCamera camera, Vector4 clipPlane, WaterQuality quality)

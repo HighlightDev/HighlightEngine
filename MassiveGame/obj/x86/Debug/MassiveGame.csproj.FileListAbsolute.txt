@@ -243,8 +243,8 @@ C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\MassiveGame
 C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\MassiveGame\bin\Debug\TextureLoader.pdb
 C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\MassiveGame\bin\Debug\VBO.pdb
 C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\MassiveGame\bin\Debug\VectorMath.pdb
-C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\MassiveGame\obj\x86\Debug\MassiveGame.csprojResolveAssemblyReference.cache
 C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\MassiveGame\obj\x86\Debug\MassiveGame.UI.MainUI.resources
 C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\MassiveGame\obj\x86\Debug\MassiveGame.csproj.GenerateResource.Cache
 C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\MassiveGame\obj\x86\Debug\MassiveGame.exe
 C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\MassiveGame\obj\x86\Debug\MassiveGame.pdb
+C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\MassiveGame\obj\x86\Debug\MassiveGame.csprojResolveAssemblyReference.cache

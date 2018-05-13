@@ -31,6 +31,7 @@ using MassiveGame.ComponentCore;
 using MassiveGame.Settings;
 using System.Drawing;
 using ShaderPattern;
+using MassiveGame.RenderCore.ComputeShaders;
 
 namespace MassiveGame.UI
 {
@@ -54,6 +55,7 @@ namespace MassiveGame.UI
         List<IDrawable> shadowList;
         DefaultFrameBuffer defaultFB;
         UiFrame DefaultFrame;
+        ComputeShader ch;
 
         private void setTestValues()
         {
@@ -231,8 +233,8 @@ namespace MassiveGame.UI
             DOUEngine.Lights = new Light_visualization.VisualizeLight(ProjectFolders.TexturesPath + "/LightTextures/" + "light-bulb-icon (1).png"
                 , DOUEngine.PointLight);
 
-            DOUEngine.Lens = new LensFlareRenderer();
-            DOUEngine.Ray = new GodRaysRenderer();
+            //DOUEngine.Lens = new LensFlareRenderer();
+            //DOUEngine.Ray = new GodRaysRenderer();
             //DOUEngine.PostProc = new PostprocessRenderer(PostprocessType.BLOOM);
             //DOUEngine.PostProc.BloomPass = 1;
             //DOUEngine.PostProc.BlurWidth = 18;
@@ -243,8 +245,8 @@ namespace MassiveGame.UI
             //envObj = new EnvironmentEntities(PlayerModels.getPlayerModel1(false), TextureSet.PlayerTextureSet2, TextureSet.SkyboxDayCubemapTexture,
             //    new Vector3(40, 70, 40), new Vector3(0, 0, 0), new Vector3(0.5f));
 
-            DOUEngine.Camera.SetThirdPerson(DOUEngine.Player);
-            //EngineSingleton.Camera.SetFirstPerson();
+            //DOUEngine.Camera.SetThirdPerson(DOUEngine.Player);
+            DOUEngine.Camera.SetFirstPerson();
 
             shadowList = new List<IDrawable>();
             DOUEngine.City.ForEach(new Action<Building>((house) => { shadowList.Add(house); }));
@@ -253,6 +255,9 @@ namespace MassiveGame.UI
             shadowList.Add(DOUEngine.Map);
 
             frame = new UiFrame(0, 0, 0.5f, 0.5f);
+
+            ch = new ComputeShader();
+            ch.Init();
         }
 
         #region TEST
@@ -302,7 +307,7 @@ namespace MassiveGame.UI
             DOUEngine.ShadowMapRezolution = settingsLoader.GetDirectionalShadowMapRezolution();
 
             DOUEngine.PostConstructor = true;
-            DOUEngine.Camera = new Camera(250.0f, 70, 260.0f, 140.0f, 70.0f, 160.0f + 50f, 0.0f, 1.0f, 0.0f);
+            DOUEngine.Camera = new Camera(50.0f, 70, 60.0f, 40.0f, 70.0f, 50.0f, 0.0f, 1.0f, 0.0f);
             DOUEngine.PrevCursorPosition = new System.Drawing.Point(-1, -1);
             DOUEngine.ElapsedTime = DateTime.Now;
             DOUEngine.keyboardMaskArray = new bool[4];
@@ -444,8 +449,9 @@ namespace MassiveGame.UI
                     {
                         defaultFB.Bind();
                         //SwitchToScreenBuffer();
+
                         RenderAll(redraw);
-                        frame.Render(DOUEngine.Sun.GetShadowHandler().GetTextureHandler(), new Point(this.Width, this.Height));
+                        //frame.Render(DOUEngine.Sun.GetShadowHandler().GetTextureHandler(), new Point(this.Width, this.Height));
                     //    frame.Render(new Texture2Dlite(
                     //(int)DOUEngine.Water._fbo.Texture.TextureID[1],
                     //new RectParams(DOUEngine.Water._fbo.Texture.Rezolution[1].widthRezolution, DOUEngine.Water._fbo.Texture.Rezolution[1].heightRezolution)

@@ -22,7 +22,7 @@ namespace MassiveGame.RenderCore.ComputeShaders
 
     public class ComputeShader
     {
-        const Int32 PARTICLE_COUNT = 1000;
+        const Int32 PARTICLE_COUNT = 1280;
         const Int32 WorkGroupSize = 128;
 
         Int32 computeShaderHandler, vertexShaderHandler, fragmentShaderHandler;
@@ -32,17 +32,45 @@ namespace MassiveGame.RenderCore.ComputeShaders
 
         Int32[] buffers = new Int32[3];
 
-        string computeShaderCode = 
+        string computeShaderCode =
             @"
+                #version 430 compatibility
             
-            
+                layout (std430, binding = 0) buffer Pos
+                {
+                    vec4 Positions[ ];
+                };
+                
+                layout (std430, binding = 1) buffer Vel
+                {
+                    vec4 Velocities[ ];
+                };
+
+                layout (local_size_x = 128, local_size_y = 1, local_size_z = 1) in;
+                
+                #define G vec3(0.0, -9.8, 0.0)
+                #define DT 0.001
+                
+                void main()
+                {
+                    uint gid = gl_GlobalInvocationID.x;
+
+                    vec3 p = Positions[gid].xyz;
+                    vec3 v = Velocities[gid].xyz;
+
+                    vec3 pp = p + v * DT + 0.5 * DT * DT * G;
+                    vec3 vp = v + G * DT;
+                            
+                    Positions[gid].xyz = pp;
+                    Velocities[gid].xyz = vp;
+                }
              ";
 
         string vertexShaderCode =
             @"
                 #version 400
                 
-                layout (location = 0) in vec4 ParticlePosition;
+                layout (location = 12) in vec4 ParticlePosition;
                 
                 uniform mat4 worldMatrix;
                 uniform mat4 viewMatrix;
@@ -50,7 +78,7 @@ namespace MassiveGame.RenderCore.ComputeShaders
 
                 void main()
                 {
-                    gl_Position = ProjectionMatrix * ViewMatrix * WorldMatrix * ParticlePosition;
+                    gl_Position = projectionMatrix * viewMatrix * worldMatrix * ParticlePosition;
                 }
              ";
 
@@ -62,14 +90,14 @@ namespace MassiveGame.RenderCore.ComputeShaders
                 
                 void main()
                 {
-                    FragColor = vec4(1);
+                    FragColor = vec4(1, 0, 0, 1);
                 }
 
              ";
 
         public ComputeShader()
         {
-
+            Console.WriteLine(GL.GetString(StringName.Version));
         }
 
         public void GetUniformLocations()
@@ -119,21 +147,30 @@ namespace MassiveGame.RenderCore.ComputeShaders
 
             // Uniforms
             GetUniformLocations();
+
+            InitBuffers();
+
+            showCompileLogInfo("Compute shader");
+            showLinkLogInfo("Compute shader");
         }
 
         private void InitBuffers()
         {
-            Int32 MaxX = 2, MaxY = 2, MinX = 0, MinY = 0, MinZ = 0, MaxZ = 2;
-            float MaxVelX = 1, MaxVelY = 1, MaxVelZ = 1, MinVelX = 0.5f, MinVelY = 0.5f, MinVelZ = 0.5f;
+            Int32 MaxX = 50, MaxY = 100, MinX = 0, MinY = 50, MinZ = 0, MaxZ = 50;
+            float MaxVelX = 5, MaxVelY = 5, MaxVelZ = 5, MinVelX = -5f, MinVelY = -5f, MinVelZ = -5f;
 
 
-            Int32 posMemorySize = sizeof(float) * 4 * PARTICLE_COUNT;
+            Int32 velMemorySize = System.Runtime.InteropServices.Marshal.SizeOf(new FVelocity()) * PARTICLE_COUNT;
+            Int32 posMemorySize = System.Runtime.InteropServices.Marshal.SizeOf(new FParticlePosition()) * PARTICLE_COUNT;
+
 
             GL.GenBuffers(3, buffers);
             var posSSbo = buffers[0];
             var velSSbo = buffers[1];
             var colSSbo = buffers[2];
 
+            float[,] pos = new float[PARTICLE_COUNT, 4];
+            float[,] vel = new float[PARTICLE_COUNT, 4];
 
             GL.BindBuffer(BufferTarget.ShaderStorageBuffer, posSSbo);
             GL.BufferData(BufferTarget.ShaderStorageBuffer, new IntPtr(posMemorySize), new IntPtr(0), BufferUsageHint.StaticDraw);
@@ -155,8 +192,8 @@ namespace MassiveGame.RenderCore.ComputeShaders
             GL.UnmapBuffer(BufferTarget.ShaderStorageBuffer);
 
             GL.BindBuffer(BufferTarget.ShaderStorageBuffer, velSSbo);
-            GL.BufferData(BufferTarget.ShaderStorageBuffer, new IntPtr(posMemorySize), new IntPtr(0), BufferUsageHint.StaticDraw);
-            ptr = GL.MapBufferRange(BufferTarget.ShaderStorageBuffer, new IntPtr(0), new IntPtr(posMemorySize), BufferAccessMask.MapWriteBit | BufferAccessMask.MapInvalidateBufferBit);
+            GL.BufferData(BufferTarget.ShaderStorageBuffer, new IntPtr(velMemorySize), new IntPtr(0), BufferUsageHint.StaticDraw);
+            ptr = GL.MapBufferRange(BufferTarget.ShaderStorageBuffer, new IntPtr(0), new IntPtr(velMemorySize), BufferAccessMask.MapWriteBit | BufferAccessMask.MapInvalidateBufferBit);
 
             unsafe
             {
@@ -170,7 +207,61 @@ namespace MassiveGame.RenderCore.ComputeShaders
                 }
             }
 
+            GL.BindBuffer(BufferTarget.ArrayBuffer, 0);
             GL.UnmapBuffer(BufferTarget.ShaderStorageBuffer);
+        }
+
+        protected void showCompileLogInfo(string ShaderName)
+        {
+            int capacity = 0;
+            /*Vertex shader log info*/
+            unsafe { GL.GetShader(vertexShaderHandler, ShaderParameter.InfoLogLength, &capacity); }
+            StringBuilder info = new StringBuilder(capacity);
+            unsafe { GL.GetShaderInfoLog(vertexShaderHandler, Int32.MaxValue, null, info); }
+            if (info.Length != 0)
+            {
+                Console.WriteLine("Unsolved mistakes at :" + ShaderName + "\n" + info);
+            }
+
+            /*Fragment shader log info*/
+            unsafe { GL.GetShader(fragmentShaderHandler, ShaderParameter.InfoLogLength, &capacity); }
+            info = new StringBuilder(capacity);
+            unsafe { GL.GetShaderInfoLog(fragmentShaderHandler, Int32.MaxValue, null, info); }
+            if (info.Length != 0)
+            {
+                Console.WriteLine("Unsolved mistakes at :" + ShaderName + "\n" + info);
+            }
+
+          
+            unsafe { GL.GetShader(computeShaderHandler, ShaderParameter.InfoLogLength, &capacity); }
+            info = new StringBuilder(capacity);
+            unsafe { GL.GetShaderInfoLog(computeShaderHandler, Int32.MaxValue, null, info); }
+            if (info.Length != 0)
+            {
+                Console.WriteLine("Unsolved mistakes at  :" + ShaderName + "\n" + info);
+            }
+    
+        }
+
+        protected void showLinkLogInfo(string ShaderName)
+        {
+            int capacity = 0;
+            /*Shader program link log info*/
+            unsafe { GL.GetProgram(renderShaderProgram, GetProgramParameterName.InfoLogLength, &capacity); }
+            StringBuilder info = new StringBuilder(capacity);
+            unsafe { GL.GetProgramInfoLog(renderShaderProgram, Int32.MaxValue, null, info); }
+            if (info.Length != 0)
+            {
+                Console.WriteLine("Unsolved mistakes at : render shader" + "\n" + info);
+            }
+
+            unsafe { GL.GetProgram(computeShaderProgram, GetProgramParameterName.InfoLogLength, &capacity); }
+            info = new StringBuilder(capacity);
+            unsafe { GL.GetProgramInfoLog(computeShaderProgram, Int32.MaxValue, null, info); }
+            if (info.Length != 0)
+            {
+                Console.WriteLine("Unsolved mistakes at : computeshader " + "\n" + info);
+            }
         }
 
         public void Render(Matrix4 WorldMatrix, Matrix4 ViewMatrix, Matrix4 ProjectionMatrix)
@@ -179,25 +270,34 @@ namespace MassiveGame.RenderCore.ComputeShaders
             var velSSbo = buffers[1];
 
             // start compute shader 
-            GL.BindBufferBase(BufferRangeTarget.ShaderStorageBuffer, 4, posSSbo);
-            GL.BindBufferBase(BufferRangeTarget.ShaderStorageBuffer, 5, velSSbo);
+            GL.BindBufferBase(BufferRangeTarget.ShaderStorageBuffer, 0, posSSbo);
+            GL.BindBufferBase(BufferRangeTarget.ShaderStorageBuffer, 1, velSSbo);
 
             GL.UseProgram(computeShaderProgram);
             GL.DispatchCompute(PARTICLE_COUNT / WorkGroupSize, 1, 1);
             GL.MemoryBarrier(MemoryBarrierFlags.ShaderStorageBarrierBit);
 
-            // start render shader
+            GL.BindBufferBase(BufferRangeTarget.ShaderStorageBuffer, 0, 0);
+            GL.BindBufferBase(BufferRangeTarget.ShaderStorageBuffer, 1, 0);
+
+            //// start render shader
             GL.UseProgram(renderShaderProgram);
 
+            GL.BindVertexArray(0);
+
             GL.BindBuffer(BufferTarget.ArrayBuffer, posSSbo);
-            GL.VertexAttribPointer(0, 4, VertexAttribPointerType.Float, false, 0, 0);
-            GL.EnableVertexAttribArray(0);
+            GL.EnableVertexAttribArray(12);
+            GL.VertexAttribPointer(12, 4, VertexAttribPointerType.Float, false, 0, 0);
 
             GL.UniformMatrix4(this.worldMatrix, false, ref WorldMatrix);
             GL.UniformMatrix4(this.viewMatrix, false, ref ViewMatrix);
             GL.UniformMatrix4(this.projectionMatrix, false, ref ProjectionMatrix);
 
-            GL.DrawArrays(PrimitiveType.Points, 0, PARTICLE_COUNT);
+            GL.PointSize(5);
+
+            GL.DrawArrays(PrimitiveType.LineStrip, 0, PARTICLE_COUNT);
+
+            GL.UseProgram(0);
 
             GL.DisableVertexAttribArray(0);
             GL.BindBuffer(BufferTarget.ArrayBuffer, 0);
