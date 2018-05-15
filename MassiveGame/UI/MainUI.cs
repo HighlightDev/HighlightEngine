@@ -226,6 +226,10 @@ namespace MassiveGame.UI
             { DOUEngine.keyboardMaskArray[2] = true; }
             else if (args.KeyChar == 'D' || args.KeyChar == 'd')
             { DOUEngine.keyboardMaskArray[3] = true; }
+            if (args.KeyChar == '0')
+            {
+                ch.ResetPositions();
+            }
         }
 
         private void OnKeyUp(object sender, KeyEventArgs args)

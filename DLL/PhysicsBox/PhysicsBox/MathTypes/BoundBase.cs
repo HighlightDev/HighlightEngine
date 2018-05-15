@@ -11,10 +11,12 @@ namespace PhysicsBox.MathTypes
     [Serializable]
     public class BoundBase
     {
+
+        [Flags]
         public enum BoundType
         {
-            AABB,
-            OBB
+            AABB = 0x0001,
+            OBB = 0x001
         }
 
         public Component ParentComponent { set; get; }

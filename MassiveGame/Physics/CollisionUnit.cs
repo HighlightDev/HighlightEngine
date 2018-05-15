@@ -13,15 +13,21 @@ namespace MassiveGame.Physics
     public class CollisionUnit
     {
         public Component RootComponent { set; get; }
+        public bool bBoundingBoxesTransformDirty;
+        public List<BoundBase> allBounds = new List<BoundBase>();
 
         public List<BoundBase> GetBoundingBoxes()
         {
-            List<BoundBase> allBounds = new List<BoundBase>();
-            if (RootComponent != null)
+            if (RootComponent != null && bBoundingBoxesTransformDirty)
             {
                 IterateAllBoundBoxes(RootComponent, ref allBounds);
             }
             return allBounds;
+        }
+
+        public BoundBase GetFirstBoundBox()
+        {
+            return allBounds.First();
         }
 
         private void IterateAllBoundBoxes(Component parent, ref List<BoundBase> bounds)
@@ -56,6 +62,7 @@ namespace MassiveGame.Physics
         public CollisionUnit(Component rootComponent)
         {
             RootComponent = rootComponent;
+            bBoundingBoxesTransformDirty = true;
         }
 
     }

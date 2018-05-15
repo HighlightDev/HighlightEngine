@@ -28,10 +28,34 @@ namespace MassiveGame.Physics
             collisionUnits = new List<CollisionUnit>();
         }
 
-        public void FindCollision(Component characterRootComponent)
+        private bool CheckBoundsCollision(BoundBase characterBound, BoundBase collidedRootBound)
+        {
+            bool bHasCollision = false;
+            BoundBase.BoundType collisionType = characterBound.GetBoundType() | collidedRootBound.GetBoundType();
+            
+            if (collisionType == (BoundBase.BoundType.AABB | BoundBase.BoundType.OBB))
+            {
+                AABB aabb = collisionType == BoundBase.BoundType.AABB ? characterBound as AABB : collidedRootBound as AABB;
+                OBB obb = collisionType == BoundBase.BoundType.OBB ? characterBound as OBB : collidedRootBound as OBB;
+                bHasCollision = GeometricMath.AABBOBB(aabb, obb);
+            }
+            else if (collisionType == (BoundBase.BoundType.AABB | BoundBase.BoundType.AABB))
+            {
+                bHasCollision = GeometricMath.AABBAABB(characterBound as AABB, collidedRootBound as AABB);
+            }
+            else
+            {
+                bHasCollision = GeometricMath.OBBOBB(characterBound as OBB, collidedRootBound as OBB);
+            }
+            return bHasCollision;
+        }
+
+        public void TryCollision(Component characterRootComponent)
         {
             CollisionUnit characterCollisionUnit = collisionUnits.Find(unit => unit.RootComponent == characterRootComponent);
             Component collidedRootComponent = null;
+            BoundBase characterBound = characterCollisionUnit.GetBoundingBoxes().First();
+            List<BoundBase> collidedRootBounds = null;
 
             bool bFrameBoundBoxCollision = false;
             
@@ -47,6 +71,7 @@ namespace MassiveGame.Physics
                 {
                     bFrameBoundBoxCollision = true;
                     collidedRootComponent = aabb2.ParentComponent.GetRootComponent();
+                    collidedRootBounds = unit.GetBoundingBoxes();
                     break;
                 }
             }
@@ -58,14 +83,23 @@ namespace MassiveGame.Physics
 
             // TODO:
             // Check Collision. Step 2 - check all bounding boxes of concrete component for collision
+            // character must have only one collision bound! take only first from list!
+            List<BoundBase> collidedBounds = new List<BoundBase>();
+            foreach (var collisionBox in collidedRootBounds)
+            {
+                if (CheckBoundsCollision(characterBound, collisionBox))
+                    collidedBounds.Add(collisionBox);
+            }
+
             // Check Collision. Step 3 - Ray trace to find out height of current step (character can be in air, so check it)
 
         }
 
         // when component's transform is changed notify bound boxes that they have to be changed
-        public void NotifyObservers()
+        public void NotifyObserver(Component rootComponent)
         {
-
+            CollisionUnit characterCollisionUnit = collisionUnits.Find(unit => unit.RootComponent == rootComponent);
+            characterCollisionUnit.bBoundingBoxesTransformDirty = true;
         }
     }
 }

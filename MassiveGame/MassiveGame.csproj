@@ -300,6 +300,9 @@
     <None Include="ModelFiles\wall_5_door.obj" />
     <None Include="ModelFiles\wall_5_without_door.obj" />
     <None Include="ModelFiles\wall_6_door.obj" />
+    <None Include="Shaders\particleCS.glsl" />
+    <None Include="Shaders\particleFS.glsl" />
+    <None Include="Shaders\particleVS.glsl" />
     <None Include="Settings\settings.ini" />
     <None Include="Shaders\waterRefractionEntityFS.glsl" />
     <None Include="Shaders\waterReflectionEntityFS.glsl" />

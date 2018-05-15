@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using OpenTK;
 using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL;
+using System.IO;
 
 namespace MassiveGame.RenderCore.ComputeShaders
 {
@@ -22,7 +23,7 @@ namespace MassiveGame.RenderCore.ComputeShaders
 
     public class ComputeShader
     {
-        const Int32 PARTICLE_COUNT = 1280;
+        const Int32 PARTICLE_COUNT = 128000;
         const Int32 WorkGroupSize = 128;
 
         Int32 computeShaderHandler, vertexShaderHandler, fragmentShaderHandler;
@@ -31,69 +32,12 @@ namespace MassiveGame.RenderCore.ComputeShaders
         Int32 worldMatrix, viewMatrix, projectionMatrix;
 
         Int32[] buffers = new Int32[3];
+        float[,] pos;
+        float[,] vel;
 
-        string computeShaderCode =
-            @"
-                #version 430 compatibility
-            
-                layout (std430, binding = 0) buffer Pos
-                {
-                    vec4 Positions[ ];
-                };
-                
-                layout (std430, binding = 1) buffer Vel
-                {
-                    vec4 Velocities[ ];
-                };
-
-                layout (local_size_x = 128, local_size_y = 1, local_size_z = 1) in;
-                
-                #define G vec3(0.0, -9.8, 0.0)
-                #define DT 0.001
-                
-                void main()
-                {
-                    uint gid = gl_GlobalInvocationID.x;
-
-                    vec3 p = Positions[gid].xyz;
-                    vec3 v = Velocities[gid].xyz;
-
-                    vec3 pp = p + v * DT + 0.5 * DT * DT * G;
-                    vec3 vp = v + G * DT;
-                            
-                    Positions[gid].xyz = pp;
-                    Velocities[gid].xyz = vp;
-                }
-             ";
-
-        string vertexShaderCode =
-            @"
-                #version 400
-                
-                layout (location = 12) in vec4 ParticlePosition;
-                
-                uniform mat4 worldMatrix;
-                uniform mat4 viewMatrix;
-                uniform mat4 projectionMatrix;
-
-                void main()
-                {
-                    gl_Position = projectionMatrix * viewMatrix * worldMatrix * ParticlePosition;
-                }
-             ";
-
-        string fragmentShaderCode =
-            @"
-                #version 400
-
-                layout (location = 0) out vec4 FragColor;
-                
-                void main()
-                {
-                    FragColor = vec4(1, 0, 0, 1);
-                }
-
-             ";
+        string computeShaderCode;
+        string vertexShaderCode;
+        string fragmentShaderCode;
 
         public ComputeShader()
         {
@@ -107,8 +51,29 @@ namespace MassiveGame.RenderCore.ComputeShaders
             projectionMatrix = GL.GetUniformLocation(renderShaderProgram, "projectionMatrix");
         }
 
+        public void GetShaderCode()
+        {
+            string pathToShaders = ProjectFolders.ShadersPath + "/";
+            using (StreamReader reader = new StreamReader(pathToShaders + "particleVS.glsl"))
+            {
+                vertexShaderCode = reader.ReadToEnd();
+            }
+
+            using (StreamReader reader = new StreamReader(pathToShaders + "particleFS.glsl"))
+            {
+                fragmentShaderCode = reader.ReadToEnd();
+            }
+
+            using (StreamReader reader = new StreamReader(pathToShaders + "particleCS.glsl"))
+            {
+                computeShaderCode = reader.ReadToEnd();
+            }
+        }
+
         public void Init()
         {
+            GetShaderCode();
+
             // Render shader
             renderShaderProgram = GL.CreateProgram();
 
@@ -154,61 +119,38 @@ namespace MassiveGame.RenderCore.ComputeShaders
             showLinkLogInfo("Compute shader");
         }
 
+        private float Lerp(float x1, float x2, float y1, float y2, float x)
+        {
+            return ((y2 - y1) / (x2 - x1)) * (x2 - x) + y1;
+        }
+
         private void InitBuffers()
         {
-            Int32 MaxX = 50, MaxY = 100, MinX = 0, MinY = 50, MinZ = 0, MaxZ = 50;
-            float MaxVelX = 5, MaxVelY = 5, MaxVelZ = 5, MinVelX = -5f, MinVelY = -5f, MinVelZ = -5f;
-
-
-            Int32 velMemorySize = System.Runtime.InteropServices.Marshal.SizeOf(new FVelocity()) * PARTICLE_COUNT;
-            Int32 posMemorySize = System.Runtime.InteropServices.Marshal.SizeOf(new FParticlePosition()) * PARTICLE_COUNT;
-
-
             GL.GenBuffers(3, buffers);
-            var posSSbo = buffers[0];
-            var velSSbo = buffers[1];
-            var colSSbo = buffers[2];
+          
+            pos = new float[PARTICLE_COUNT, 4];
+            vel = new float[PARTICLE_COUNT, 4];
 
-            float[,] pos = new float[PARTICLE_COUNT, 4];
-            float[,] vel = new float[PARTICLE_COUNT, 4];
-
-            GL.BindBuffer(BufferTarget.ShaderStorageBuffer, posSSbo);
-            GL.BufferData(BufferTarget.ShaderStorageBuffer, new IntPtr(posMemorySize), new IntPtr(0), BufferUsageHint.StaticDraw);
-            IntPtr ptr = GL.MapBufferRange(BufferTarget.ShaderStorageBuffer, new IntPtr(0), new IntPtr(posMemorySize), BufferAccessMask.MapWriteBit | BufferAccessMask.MapInvalidateBufferBit);
-
-            unsafe
+            for (Int32 i = 0; i < PARTICLE_COUNT; i++)
             {
-                FParticlePosition* posmap = (FParticlePosition*)ptr.ToPointer();
+                float theta = (float)((Lerp(0, 1, 0, MathHelper.PiOver6, (float)new Random(i * 1000).NextDouble())));
+                float phi = (float)((Lerp(0, 1, 0, MathHelper.TwoPi, (float)new Random(i / 1000).NextDouble())));
 
-                for (Int32 i = 0; i < PARTICLE_COUNT; i++)
-                {
-                    posmap[i].X = (float)((new Random().NextDouble() * MaxX) - MinX);
-                    posmap[i].Y = (float)((new Random().NextDouble() * MaxY) - MinY);
-                    posmap[i].Z = (float)((new Random().NextDouble() * MaxZ) - MinZ);
-                    posmap[i].W = 1;
-                }
+                vel[i, 0] = (float)(Math.Sin(theta) * Math.Cos(phi));
+                vel[i, 1] = (float)(Math.Cos(theta));
+                vel[i, 2] = (float)(Math.Sin(theta) * Math.Sin(phi));
+                vel[i, 3] = 1;
             }
 
-            GL.UnmapBuffer(BufferTarget.ShaderStorageBuffer);
-
-            GL.BindBuffer(BufferTarget.ShaderStorageBuffer, velSSbo);
-            GL.BufferData(BufferTarget.ShaderStorageBuffer, new IntPtr(velMemorySize), new IntPtr(0), BufferUsageHint.StaticDraw);
-            ptr = GL.MapBufferRange(BufferTarget.ShaderStorageBuffer, new IntPtr(0), new IntPtr(velMemorySize), BufferAccessMask.MapWriteBit | BufferAccessMask.MapInvalidateBufferBit);
-
-            unsafe
+            for (Int32 i = 0; i < PARTICLE_COUNT; i++)
             {
-                for (Int32 i = 0; i < PARTICLE_COUNT; i++)
-                {
-                    FVelocity* velocities = (FVelocity*)ptr.ToPointer();
-                    velocities[i].VX = (float)((new Random().NextDouble() * MaxVelX) - MinVelX);
-                    velocities[i].VY = (float)((new Random().NextDouble() * MaxVelY) - MinVelY);
-                    velocities[i].VZ = (float)((new Random().NextDouble() * MaxVelZ) - MinVelZ);
-                    velocities[i].VW = 1;
-                }
+                pos[i, 0] = vel[i, 0] * (float)(Lerp(0, 1, -5, 5, (float)(new Random(i * 10000).NextDouble())));
+                pos[i, 1] = vel[i, 1] * (float)(Lerp(0, 1, -5, 5, (float)(new Random(i + 10000).NextDouble())));
+                pos[i, 2] = vel[i, 2] * (float)(Lerp(0, 1, -5, 5, (float)(new Random(i - 10000).NextDouble())));
+                pos[i, 3] = 1;
             }
 
-            GL.BindBuffer(BufferTarget.ArrayBuffer, 0);
-            GL.UnmapBuffer(BufferTarget.ShaderStorageBuffer);
+            ResetPositions();
         }
 
         protected void showCompileLogInfo(string ShaderName)
@@ -293,14 +235,61 @@ namespace MassiveGame.RenderCore.ComputeShaders
             GL.UniformMatrix4(this.viewMatrix, false, ref ViewMatrix);
             GL.UniformMatrix4(this.projectionMatrix, false, ref ProjectionMatrix);
 
-            GL.PointSize(5);
+            GL.PointSize(0.5f);
 
-            GL.DrawArrays(PrimitiveType.LineStrip, 0, PARTICLE_COUNT);
+            GL.DrawArrays(PrimitiveType.Points, 0, PARTICLE_COUNT);
 
             GL.UseProgram(0);
 
             GL.DisableVertexAttribArray(0);
             GL.BindBuffer(BufferTarget.ArrayBuffer, 0);
+        }
+
+        public void ResetPositions()
+        {
+            var posSSbo = buffers[0];
+            var velSSbo = buffers[1];
+            var colSSbo = buffers[2];
+
+            Int32 velMemorySize = System.Runtime.InteropServices.Marshal.SizeOf(new FVelocity()) * PARTICLE_COUNT;
+            Int32 posMemorySize = System.Runtime.InteropServices.Marshal.SizeOf(new FParticlePosition()) * PARTICLE_COUNT;
+
+            GL.BindBuffer(BufferTarget.ShaderStorageBuffer, posSSbo);
+            GL.BufferData(BufferTarget.ShaderStorageBuffer, new IntPtr(posMemorySize), new IntPtr(0), BufferUsageHint.StaticDraw);
+            IntPtr ptr = GL.MapBufferRange(BufferTarget.ShaderStorageBuffer, new IntPtr(0), new IntPtr(posMemorySize), BufferAccessMask.MapWriteBit | BufferAccessMask.MapInvalidateBufferBit);
+            unsafe
+            {
+                FParticlePosition* posmap = (FParticlePosition*)ptr.ToPointer();
+
+                for (Int32 i = 0; i < PARTICLE_COUNT; i++)
+                {
+                    posmap[i].X = pos[i, 0];
+                    posmap[i].Y = pos[i, 1];
+                    posmap[i].Z = pos[i, 2];
+                    posmap[i].W = pos[i, 3];
+                }
+            }
+
+            GL.UnmapBuffer(BufferTarget.ShaderStorageBuffer);
+
+            GL.BindBuffer(BufferTarget.ShaderStorageBuffer, velSSbo);
+            GL.BufferData(BufferTarget.ShaderStorageBuffer, new IntPtr(velMemorySize), new IntPtr(0), BufferUsageHint.StaticDraw);
+            ptr = GL.MapBufferRange(BufferTarget.ShaderStorageBuffer, new IntPtr(0), new IntPtr(velMemorySize), BufferAccessMask.MapWriteBit | BufferAccessMask.MapInvalidateBufferBit);
+
+            unsafe
+            {
+                for (Int32 i = 0; i < PARTICLE_COUNT; i++)
+                {
+                    FVelocity* velocities = (FVelocity*)ptr.ToPointer();
+                    velocities[i].VX = vel[i, 0];
+                    velocities[i].VY = vel[i, 1];
+                    velocities[i].VZ = vel[i, 2];
+                    velocities[i].VW = vel[i, 3];
+                }
+            }
+
+            GL.BindBuffer(BufferTarget.ArrayBuffer, 0);
+            GL.UnmapBuffer(BufferTarget.ShaderStorageBuffer);
         }
     }
 }
