@@ -41,8 +41,8 @@ namespace MassiveGame
         private Source sourceCollide;
         private int[] _SB_step;
         private int[] _SB_collide;
-        private int _SB_stepSwitcher = 0;
-        private int _SB_collideSwitcher = 0;
+        //private int _SB_stepSwitcher = 0;
+        //private int _SB_collideSwitcher = 0;
 
         private MotionEntityShader _shader;
         private Material _material;

@@ -215,8 +215,8 @@ namespace MassiveGame
             {
                 base.showCompileLogInfo(SHADER_NAME);
                 base.showLinkLogInfo(SHADER_NAME);
-                Debug.Log.addToLog( DateTime.Now.ToString() + "  " + base.getCompileLogInfo(SHADER_NAME));
-                Debug.Log.addToLog( DateTime.Now.ToString() + "  " + base.getLinkLogInfo(SHADER_NAME));
+                Debug.Log.addToLog(getCompileLogInfo(SHADER_NAME));
+                Debug.Log.addToLog(getLinkLogInfo(SHADER_NAME));
             }
             else Debug.Log.addToLog( DateTime.Now.ToString() + "  " + SHADER_NAME + " : shader file(s) not found!");
         }

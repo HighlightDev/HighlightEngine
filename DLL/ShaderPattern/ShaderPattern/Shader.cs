@@ -202,7 +202,7 @@ namespace ShaderPattern
             if (info.Length > 0 || info1.Length > 0 || info2.Length > 0)
                 return ("Unsolved mistakes at :" + ShaderName + "\n" + Convert.ToString(info) +
                     "\n" + Convert.ToString(info1) + "\n" + Convert.ToString(info2));
-            else return (ShaderName + ": No errors found.");
+            else return "\0";
         }
 
         public string getLinkLogInfo(string ShaderName)
@@ -214,7 +214,7 @@ namespace ShaderPattern
             unsafe { GL.GetProgramInfoLog(this.shaderProgramID, Int32.MaxValue, null, info); }
             if (info.Length > 0)
                 return ("Unsolved mistakes at :" + ShaderName + "\n" + Convert.ToString(info));
-            else return (ShaderName + ": No errors found.");
+            else return "\0";
         }
 
         #endregion

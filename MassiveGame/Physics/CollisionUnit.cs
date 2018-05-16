@@ -25,7 +25,7 @@ namespace MassiveGame.Physics
             return allBounds;
         }
 
-        public BoundBase GetFirstBoundBox()
+        public BoundBase GetFirstBoundingBox()
         {
             return allBounds.First();
         }

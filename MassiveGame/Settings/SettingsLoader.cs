@@ -88,10 +88,14 @@ namespace MassiveGame.Settings
             }
             catch(FileLoadException ex)
             {
+                Debug.Log.addToLog(ex.Message);
+                Console.WriteLine(ex.Message);
                 throw;
             }
             catch(ArgumentException ex)
             {
+                Debug.Log.addToLog(ex.Message);
+                Console.WriteLine(ex.Message);
                 throw;
             }
         }

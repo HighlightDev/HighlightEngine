@@ -19,8 +19,8 @@ namespace MassiveGame.RenderCore
             {
                 showCompileLogInfo(SHADER_NAME);
                 showLinkLogInfo(SHADER_NAME);
-                Debug.Log.addToLog(DateTime.Now.ToString() + "  " + base.getCompileLogInfo(SHADER_NAME));
-                Debug.Log.addToLog(DateTime.Now.ToString() + "  " + base.getLinkLogInfo(SHADER_NAME));
+                Debug.Log.addToLog(getCompileLogInfo(SHADER_NAME));
+                Debug.Log.addToLog(getLinkLogInfo(SHADER_NAME));
             }
         }
 
