@@ -21,6 +21,11 @@ namespace TestStencil
             loadInteger(this.screenTexture, screenTexture);
         }
 
+        protected override void SetShaderMacros()
+        {
+            
+        }
+
         public ScreenQuadShader(string VertexShaderFile, string FragmentShaderFile) : base(VertexShaderFile, FragmentShaderFile)
         {
             if (ShaderLoaded)

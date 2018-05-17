@@ -44,7 +44,7 @@ namespace OTKWinForm.Core
             Matrix4 TransformMatrix = GetWorldMatrix();
             Quaternion rotation = TransformMatrix.ExtractRotation();
             if (rotation.Xyz.LengthSquared > 0.01f)
-                resultBound = new OBB(aabb.Origin, aabb.Extent, TransformMatrix);
+                resultBound = new OBB(aabb.GetLocalSpaceOrigin(), aabb.GetLocalSpaceExtent(), TransformMatrix);
             else
             {
                 aabb.ScalePlusTranslation = TransformMatrix;

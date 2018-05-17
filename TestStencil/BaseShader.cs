@@ -40,5 +40,10 @@ namespace TestStencil
             projectionMatrix = getUniformLocation("projectionMatrix");
             color = getUniformLocation("color");
         }
+
+        protected override void SetShaderMacros()
+        {
+            
+        }
     }
 }

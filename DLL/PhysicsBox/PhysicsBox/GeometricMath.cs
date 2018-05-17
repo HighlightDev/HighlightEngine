@@ -11,6 +11,14 @@ namespace PhysicsBox
 {
     public static class GeometricMath
     {
+        const float FLT_EPSILON = 0.00005f;
+
+        public static float CMP(float x, float y)
+        {
+            float substr = Math.Abs(x - y);
+            return substr <= FLT_EPSILON ? Math.Max(1.0f, Math.Max(Math.Abs(x), Math.Abs(y))) : 0.0f;
+        }  
+    
         public struct Interval
         {
             public float min;
@@ -20,8 +28,8 @@ namespace PhysicsBox
         public static Interval GetInterval(AABB rect, Vector3 axis)
         {
             Interval result;
-            Vector3 min = rect.GetTransformedMin();
-            Vector3 max = rect.GetTransformedMax();
+            Vector3 min = rect.GetMin();
+            Vector3 max = rect.GetMax();
 
             Vector3[] vertex =
                 {
@@ -59,8 +67,8 @@ namespace PhysicsBox
             Vector3 obbTangentZ = rect.TransformationMatrix.Row2.Xyz;
             
             // extent and origin of bounding box
-            Vector3 extent = rect.Extent;
-            Vector3 position = rect.Origin;
+            Vector3 extent = rect.GetExtent();
+            Vector3 position = rect.GetOrigin();
 
             // find all vertices of rotated bounding box
             Vector3[] vertices = new Vector3[8];
@@ -192,6 +200,105 @@ namespace PhysicsBox
                     (min1.Z <= max2.X && max1.Z >= min2.Z);
         }
 
+        public static float Intersection_RayAABB(FRay ray, AABB aabb)
+        {
+            Vector3 max = aabb.GetMax();
+            Vector3 min = aabb.GetMin();
+
+            Vector3 rayDirection = ray.Direction;
+
+            // safety check to avoid zero division
+            rayDirection.X = System.Math.Abs(rayDirection.X) < 0.00005f ? 0.00005f : rayDirection.X;
+            rayDirection.Y = System.Math.Abs(rayDirection.Y) < 0.00005f ? 0.00005f : rayDirection.Y;
+            rayDirection.Z = System.Math.Abs(rayDirection.Z) < 0.00005f ? 0.00005f : rayDirection.Z;
+
+            // find time of getting to each bounding box position
+            float t1 = (min.X - ray.StartPosition.X) / rayDirection.X;
+            float t2 = (max.X - ray.StartPosition.X) / rayDirection.X;
+            float t3 = (min.Y - ray.StartPosition.Y) / rayDirection.Y;
+            float t4 = (max.Y - ray.StartPosition.Y) / rayDirection.Y;
+            float t5 = (min.Z - ray.StartPosition.Z) / rayDirection.Z;
+            float t6 = (max.Z - ray.StartPosition.Z) / rayDirection.Z;
+
+            // find minimal from max values
+            float tmax = System.Math.Min(
+                System.Math.Min(System.Math.Max(t1, t2), System.Math.Max(t3, t4)),
+                System.Math.Max(t5, t6));
+            // find maximal from min values
+            float tmin = System.Math.Max(
+                System.Math.Max(System.Math.Min(t1, t2), System.Math.Min(t3, t4)),
+                System.Math.Min(t5, t6));
+
+            // If AABB is behind the origin of the ray or if ray doesn't intersect AABB
+            if (tmax < 0 || tmin > tmax)
+                return -1;
+        
+            // If origin of ray is inside the AABB
+            if (tmin < 0.0f)
+                return tmax;
+
+            // Intersection point
+            return tmin;
+        }
+
+        public static float Intersection_RayOBB(FRay ray, OBB obb)
+        {
+            Vector3 RotationX = obb.GetTangetX();
+            Vector3 RotationY = obb.GetTangetY();
+            Vector3 RotationZ = obb.GetTangetZ();
+
+            Vector3 p = obb.GetOrigin() - ray.StartPosition;
+
+            // Project obb tangent vectors on ray direction
+            Vector3 f = new Vector3(
+                ProjectVectorOnNormalizedVector(RotationX, ray.Direction),
+                ProjectVectorOnNormalizedVector(RotationY, ray.Direction),
+                ProjectVectorOnNormalizedVector(RotationZ, ray.Direction)
+                );
+
+            // Project tangent vectors on p
+            Vector3 e = new Vector3(
+                ProjectVectorOnNormalizedVector(RotationX, p),
+                ProjectVectorOnNormalizedVector(RotationY, p),
+                ProjectVectorOnNormalizedVector(RotationZ, p)
+                );
+
+            Vector3 extent = obb.GetExtent();
+
+            float[] tparameter = new float[6];
+            for (Int32 i = 0; i < 3; i++)
+            {
+                if (CMP(f[i], 0) > 0)
+                {
+                    if (-e[i] - extent[i] > 0 || -e[i] + extent[i] < 0)
+                        return -1;
+                    f[i] = 0.00001f;
+                }
+
+                tparameter[i * 2] = (e[i] + extent[i]) / f[i]; // min
+                tparameter[i * 2 + 1] = (e[i] - extent[i]) / f[i]; // max
+            }
+
+            float tmin = Math.Max(
+                Math.Max(Math.Min(tparameter[0], tparameter[1]), Math.Min(tparameter[2], tparameter[3])),
+                Math.Min(tparameter[4], tparameter[5]));
+
+            float tmax = System.Math.Min(
+                 System.Math.Min(System.Math.Max(tparameter[0], tparameter[1]), System.Math.Max(tparameter[2], tparameter[3])),
+                 System.Math.Max(tparameter[4], tparameter[5]));
+
+            // If OBB is behind the origin of the ray or if ray doesn't intersect OBB
+            if (tmax < 0 || tmin > tmax)
+                return -1;
+
+            // If origin of ray is inside the OBB
+            if (tmin < 0.0f)
+                return tmax;
+
+            // Intersection point
+            return tmin;
+        }
+        
         /// <summary>
         /// Находит пересечение двух боксов
         /// </summary>

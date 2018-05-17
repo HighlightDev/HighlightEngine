@@ -54,6 +54,26 @@
     <UseVSHostingProcess>true</UseVSHostingProcess>
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|AnyCPU'">
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="AudioEngine, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -154,8 +174,6 @@
     <Compile Include="Entities\Plant Enitites\PlantShader.cs" />
     <Compile Include="Entities\Plant Enitites\PlantUnit.cs" />
     <Compile Include="Entities\Plant Enitites\PlantUserAttributeBuilder.cs" />
-    <Compile Include="Entities\Plant Enitites\TrialGrass\Grass.cs" />
-    <Compile Include="Entities\Plant Enitites\TrialGrass\GrassShader.cs" />
     <Compile Include="Entities\Static Enities\Building.cs" />
     <Compile Include="Entities\Static Enities\StaticEntities.cs" />
     <Compile Include="Entities\Static Enities\StaticEntityShader.cs" />
@@ -268,6 +286,7 @@
     <None Include="Audio\material\actor\step\new_wood2.ogg" />
     <None Include="Audio\material\actor\step\new_wood3.ogg" />
     <None Include="Audio\material\actor\step\new_wood4.ogg" />
+    <None Include="ClassDiagram1.cd" />
     <None Include="ModelFiles\ASCIIExport\bmw.ASE" />
     <None Include="ModelFiles\ASCIIExport\building.ASE" />
     <None Include="ModelFiles\ASCIIExport\teapot_model.ASE" />

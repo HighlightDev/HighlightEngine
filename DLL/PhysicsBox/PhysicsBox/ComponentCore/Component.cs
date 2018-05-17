@@ -133,19 +133,19 @@ namespace PhysicsBox.ComponentCore
                 if (component.Bound.GetBoundType() == BoundBase.BoundType.AABB)
                 {
                     if (rotation.Xyz.LengthSquared > 0.01)
-                        component.Bound = new OBB(component.Bound.Origin, component.Bound.Extent, parentTransformationMatrix);
+                        component.Bound = new OBB(component.Bound.GetLocalSpaceOrigin(), component.Bound.GetLocalSpaceExtent(), parentTransformationMatrix);
                     else
                         (component.Bound as AABB).ScalePlusTranslation = parentTransformationMatrix;
                 }
                 else
                 {
                     if (rotation.Xyz.LengthSquared > 0.01)
+                        (component.Bound as OBB).TransformationMatrix = parentTransformationMatrix;
+                    else
                     {
-                        component.Bound = new AABB(component.Bound.Origin, component.Bound.Extent);
+                        component.Bound = new AABB(component.Bound.GetLocalSpaceOrigin(), component.Bound.GetLocalSpaceExtent());
                         (component.Bound as AABB).ScalePlusTranslation = parentTransformationMatrix;
                     }
-                    else
-                        (component.Bound as OBB).TransformationMatrix = parentTransformationMatrix;
                 }
             }
         }

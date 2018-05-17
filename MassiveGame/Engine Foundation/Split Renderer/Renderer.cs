@@ -150,13 +150,13 @@ namespace MassiveGame.UI
 
            
 
-            modelPath = ProjectFolders.ModelsPath + "Dino.3ds";
+            modelPath = ProjectFolders.ModelsPath + "playerCube.obj";
             texturePath = ProjectFolders.MultitexturesPath + "path.png";
             normalMapPath = ProjectFolders.NormalMapsPath + "brick_nm_high.png";
             specularMapPath = ProjectFolders.SpecularMapsPath + "brick_sm.png";
 
             MotionEntityArguments arg = new MotionEntityArguments(modelPath, texturePath, normalMapPath, specularMapPath,
-                IdGenerator.GeneratePlayerId(), 0.3f, new Vector3(200, 0, 230), new Vector3(270, 90, 0), new Vector3(0.2f, 0.2f, 0.2f));
+                IdGenerator.GeneratePlayerId(), 0.3f, new Vector3(200, 0, 230), new Vector3(30, 80, 165), new Vector3(1));
 
             DOUEngine.Player = (Player)EngineObjectCreator.CreateInstance(arg);
             DOUEngine.Player.setSoundAttachment(DOUEngine.SB_step, DOUEngine.SB_collide);
@@ -165,7 +165,7 @@ namespace MassiveGame.UI
 
             // TEST components
             ComponentSerializer serializer = new ComponentSerializer();
-            SerializedComponentsContainer container = serializer.DeserializeComponents("Collision.cl");
+            SerializedComponentsContainer container = serializer.DeserializeComponents("test.cl");
             Component parent = new Component();
             parent.ChildrenComponents = container.SerializedComponents;
             Component component = convertToSceneComponent(parent);
@@ -424,9 +424,8 @@ namespace MassiveGame.UI
 
         #region Render queue
         private void RenderLoop(bool redraw)
-        { 
+        {
             //Render scene to objects with framebuffers
-
             DepthPass();
 
             RenderToWaterRendertargets();
@@ -451,11 +450,33 @@ namespace MassiveGame.UI
                         //SwitchToScreenBuffer();
 
                         RenderAll(redraw);
+                        float t = GeometricMath.Intersection_RayOBB(new PhysicsBox.MathTypes.FRay(DOUEngine.Camera.getPosition(), DOUEngine.Camera.GetDirection().Normalized()), DOUEngine.Player.ChildrenComponents.First().Bound as PhysicsBox.MathTypes.OBB);
+                        Vector3 intersectionPoint = DOUEngine.Camera.GetDirection().Normalized() * t;
+
+                        if (t > -1)
+                        {
+                            GL.Begin(PrimitiveType.Lines);
+                            GL.Color3(1, 1, 0);
+                            GL.Vertex3(DOUEngine.Camera.getPosition());
+                            GL.Vertex3(intersectionPoint);
+                            GL.End();
+
+                            Console.Clear();
+                            Console.ForegroundColor = ConsoleColor.DarkRed;
+                            Console.WriteLine("---------- Intersection ----------");
+                        }
+                        else
+                        {
+                            Console.Clear();
+                            Console.ForegroundColor = ConsoleColor.White;
+                            Console.WriteLine("---------- Empty ----------");
+                        }
+
                         //frame.Render(DOUEngine.Sun.GetShadowHandler().GetTextureHandler(), new Point(this.Width, this.Height));
-                    //    frame.Render(new Texture2Dlite(
-                    //(int)DOUEngine.Water._fbo.Texture.TextureID[1],
-                    //new RectParams(DOUEngine.Water._fbo.Texture.Rezolution[1].widthRezolution, DOUEngine.Water._fbo.Texture.Rezolution[1].heightRezolution)
-                    //), new Point(this.Width, this.Height));
+                        //    frame.Render(new Texture2Dlite(
+                        //(int)DOUEngine.Water._fbo.Texture.TextureID[1],
+                        //new RectParams(DOUEngine.Water._fbo.Texture.Rezolution[1].widthRezolution, DOUEngine.Water._fbo.Texture.Rezolution[1].heightRezolution)
+                        //), new Point(this.Width, this.Height));
                         defaultFB.Unbind();
                         break;
                     }

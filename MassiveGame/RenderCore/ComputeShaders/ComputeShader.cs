@@ -133,7 +133,7 @@ namespace MassiveGame.RenderCore.ComputeShaders
 
             for (Int32 i = 0; i < PARTICLE_COUNT; i++)
             {
-                float theta = (float)((Lerp(0, 1, 0, MathHelper.PiOver6, (float)new Random(i * 1000).NextDouble())));
+                float theta = (float)((Lerp(0, 1, 0, MathHelper.Pi, (float)new Random(i * 1000).NextDouble())));
                 float phi = (float)((Lerp(0, 1, 0, MathHelper.TwoPi, (float)new Random(i / 1000).NextDouble())));
 
                 vel[i, 0] = (float)(Math.Sin(theta) * Math.Cos(phi));

@@ -34,6 +34,11 @@ namespace OTKWinForm.RenderCore
             cubemap = getUniformLocation("cubemap");
         }
 
+        protected override void SetShaderMacros()
+        {
+            
+        }
+
         public SkyboxShader(string VertexShaderFile, string FragmentShaderFile) : base(VertexShaderFile, FragmentShaderFile)
         {
             if (ShaderLoaded)

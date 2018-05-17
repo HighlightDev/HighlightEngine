@@ -38,20 +38,12 @@ namespace MassiveGame.ComponentCore
         public void RenderBound(ref Matrix4 projectionMatrix, ref Matrix4 viewMatrix, Color4 color)
         {
             Matrix4 worldMatrix = Matrix4.Identity;
-            if (Bound.GetBoundType() == BoundBase.BoundType.AABB)
+            if ((Bound.GetBoundType() & BoundBase.BoundType.AABB) == BoundBase.BoundType.AABB)
                 worldMatrix = (Bound as AABB).ScalePlusTranslation;
             else
                 worldMatrix = (Bound as OBB).TransformationMatrix;
 
             Matrix4 modelViewMatrix = worldMatrix * viewMatrix;
-
-            //GL.MatrixMode(MatrixMode.Projection);
-            //GL.LoadMatrix(ref projectionMatrix);
-            //GL.MatrixMode(MatrixMode.Modelview);
-            //GL.LoadMatrix(ref modelViewMatrix);
-            //GL.Color4(color);
-            //VAOManager.renderBuffers(buffer, PrimitiveType.LineStrip);
-
 
             GL.MatrixMode(MatrixMode.Projection);
             GL.LoadMatrix(ref projectionMatrix);
@@ -66,8 +58,8 @@ namespace MassiveGame.ComponentCore
 
         private void AddBoundModelToRoot()
         {
-            Vector3 LBNCoordinates = Bound.GetMin();
-            Vector3 RTFCoordinates = Bound.GetMax();
+            Vector3 LBNCoordinates = Bound.GetLocalSpaceMin();
+            Vector3 RTFCoordinates = Bound.GetLocalSpaceMax();
 
             float[,] renderCoordinates = new float[24, 3];
 

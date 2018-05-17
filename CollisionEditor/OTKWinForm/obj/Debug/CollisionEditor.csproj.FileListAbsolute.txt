@@ -50,3 +50,10 @@ C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\CollisionEd
 C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\CollisionEditor\OTKWinForm\obj\Debug\OTKWinForm.OTKWinForm.resources
 C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\CollisionEditor\OTKWinForm\obj\Debug\OTKWinForm.Properties.Resources.resources
 C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\CollisionEditor\OTKWinForm\obj\Debug\CollisionEditor.csproj.GenerateResource.Cache
+C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\CollisionEditor\OTKWinForm\bin\Debug\MassiveGame.exe
+C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\CollisionEditor\OTKWinForm\bin\Debug\2DGameTable.dll
+C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\CollisionEditor\OTKWinForm\bin\Debug\AudioEngine.dll
+C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\CollisionEditor\OTKWinForm\bin\Debug\FramebufferAPI.dll
+C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\CollisionEditor\OTKWinForm\bin\Debug\MassiveGame.pdb
+C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\CollisionEditor\OTKWinForm\bin\Debug\2DGameTable.pdb
+C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\CollisionEditor\OTKWinForm\bin\Debug\FramebufferAPI.pdb

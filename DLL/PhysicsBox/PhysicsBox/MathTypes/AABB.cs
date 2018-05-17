@@ -12,21 +12,32 @@ namespace PhysicsBox.MathTypes
     {
         public Matrix4 ScalePlusTranslation;
 
-        public Vector3 GetTransformedMin()
+        public override Vector3 GetExtent()
         {
-            Vector3 min = GetMin();
-            return Vector3.TransformPosition(min, ScalePlusTranslation);
+            return Vector3.TransformPosition(Extent, Matrix4.CreateScale(ScalePlusTranslation[0, 0], ScalePlusTranslation[1, 1], ScalePlusTranslation[2, 2]));
         }
 
-        public Vector3 GetTransformedMax()
+        public override Vector3 GetOrigin()
         {
-            Vector3 max = GetMax();
-            return Vector3.TransformPosition(max, ScalePlusTranslation);
+            return Vector3.TransformPosition(Origin, ScalePlusTranslation);
+        }
+
+        public override Vector3 GetMin()
+        {
+            Vector3 p1 = Vector3.TransformPosition(Origin + Extent, ScalePlusTranslation);
+            Vector3 p2 = Vector3.TransformPosition(Origin - Extent, ScalePlusTranslation);
+            return new Vector3(Math.Min(p1.X, p2.X), Math.Min(p1.Y, p2.Y), Math.Min(p1.Z, p2.Z));
+        }
+
+        public override Vector3 GetMax()
+        {
+            Vector3 p1 = Vector3.TransformPosition(Origin + Extent, ScalePlusTranslation);
+            Vector3 p2 = Vector3.TransformPosition(Origin - Extent, ScalePlusTranslation);
+            return new Vector3(Math.Max(p1.X, p2.X), Math.Max(p1.Y, p2.Y), Math.Max(p1.Z, p2.Z));
         }
 
         public AABB(Vector3 Origin, Vector3 Extent) : base(Origin, Extent)
         {
-            type = BoundType.AABB;
         }
 
         public static AABB CreateFromMinMax(Vector3 min, Vector3 max)
@@ -37,19 +48,24 @@ namespace PhysicsBox.MathTypes
         public override Vector3 GetTangetX()
         {
             Vector3 scale = ScalePlusTranslation.ExtractScale();
-            return (base.GetTangetX() * scale);
+            return (base.GetTangetX() * scale).Normalized();
         }
 
         public override Vector3 GetTangetY()
         {
             Vector3 scale = ScalePlusTranslation.ExtractScale();
-            return (base.GetTangetY() * scale);
+            return (base.GetTangetY() * scale).Normalized();
         }
 
         public override Vector3 GetTangetZ()
         {
             Vector3 scale = ScalePlusTranslation.ExtractScale();
-            return (base.GetTangetZ() * scale);
+            return (base.GetTangetZ() * scale).Normalized();
+        }
+
+        public override BoundType GetBoundType()
+        {
+            return BoundType.AABB;
         }
     }
 }

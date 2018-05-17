@@ -9,25 +9,19 @@ using System.Threading.Tasks;
 namespace PhysicsBox.MathTypes
 {
     [Serializable]
-    public class BoundBase
+    public abstract class BoundBase
     {
-
         [Flags]
         public enum BoundType
         {
             AABB = 0x0001,
-            OBB = 0x001
+            OBB = 0x010
         }
 
         public Component ParentComponent { set; get; }
-        public Vector3 Origin { set; get; }
-        public Vector3 Extent { set; get; }
 
-        protected Vector3 tangentX = new Vector3(1, 0, 0);
-        protected Vector3 tangentY = new Vector3(0, 1, 0);
-        protected Vector3 tangentZ = new Vector3(0, 0, 1);
-
-        protected BoundType type;
+        protected Vector3 Origin { set; get; }
+        protected Vector3 Extent { set; get; }
 
         public BoundBase()
         {
@@ -40,38 +34,69 @@ namespace PhysicsBox.MathTypes
             Extent = extent;
         }
 
-        public Vector3 GetMax()
+        public Vector3 GetLocalSpaceOrigin()
         {
-            Vector3 p1 = Origin + Extent;
-            Vector3 p2 = Origin - Extent;
-            return new Vector3(Math.Max(p1.X, p2.X), Math.Max(p1.Y, p2.Y), Math.Max(p1.Z, p2.Z));
+            return Origin;
         }
 
-        public Vector3 GetMin()
+        public Vector3 GetLocalSpaceMin()
         {
             Vector3 p1 = Origin + Extent;
             Vector3 p2 = Origin - Extent;
             return new Vector3(Math.Min(p1.X, p2.X), Math.Min(p1.Y, p2.Y), Math.Min(p1.Z, p2.Z));
         }
 
-        public BoundType GetBoundType()
+        public Vector3 GetLocalSpaceMax()
         {
-            return type;
+            Vector3 p1 = Origin + Extent;
+            Vector3 p2 = Origin - Extent;
+            return new Vector3(Math.Max(p1.X, p2.X), Math.Max(p1.Y, p2.Y), Math.Max(p1.Z, p2.Z));
         }
+
+        public Vector3 GetLocalSpaceExtent()
+        {
+            return Extent;
+        }
+
+        public virtual Vector3 GetMax()
+        {
+            Vector3 p1 = Origin + Extent;
+            Vector3 p2 = Origin - Extent;
+            return new Vector3(Math.Max(p1.X, p2.X), Math.Max(p1.Y, p2.Y), Math.Max(p1.Z, p2.Z));
+        }
+
+        public virtual Vector3 GetMin()
+        {
+            Vector3 p1 = Origin + Extent;
+            Vector3 p2 = Origin - Extent;
+            return new Vector3(Math.Min(p1.X, p2.X), Math.Min(p1.Y, p2.Y), Math.Min(p1.Z, p2.Z));
+        }
+
+        public abstract BoundType GetBoundType();
 
         public virtual Vector3 GetTangetX()
         {
-            return tangentX;
+            return new Vector3(1, 0, 0);
         }
 
         public virtual Vector3 GetTangetY()
         {
-            return tangentY;
+            return new Vector3(0, 1, 0);
         }
 
         public virtual Vector3 GetTangetZ()
         {
-            return tangentZ;
+            return new Vector3(0, 0, 1);
+        }
+
+        public virtual Vector3 GetOrigin()
+        {
+            return GetLocalSpaceOrigin();
+        }
+
+        public virtual Vector3 GetExtent()
+        {
+            return GetLocalSpaceExtent();
         }
     }
 }

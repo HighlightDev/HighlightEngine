@@ -28,7 +28,6 @@ C:\Users\dzinovev\Desktop\Универчик\project\MassiveGame\MassiveGame\Mas
 C:\Users\dzinovev\Desktop\Универчик\project\MassiveGame\MassiveGame\MassiveGame\DLL\PhysicsBox\PhysicsBox\obj\Debug\PhysicsBox.csprojResolveAssemblyReference.cache
 C:\Users\dzinovev\Desktop\Универчик\project\MassiveGame\MassiveGame\MassiveGame\DLL\PhysicsBox\PhysicsBox\obj\Debug\PhysicsBox.dll
 C:\Users\dzinovev\Desktop\Универчик\project\MassiveGame\MassiveGame\MassiveGame\DLL\PhysicsBox\PhysicsBox\obj\Debug\PhysicsBox.pdb
-C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\DLL\PhysicsBox\PhysicsBox\obj\Debug\PhysicsBox.csprojResolveAssemblyReference.cache
 C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\DLL\PhysicsBox\PhysicsBox\obj\Debug\PhysicsBox.dll
 C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\DLL\PhysicsBox\PhysicsBox\obj\Debug\PhysicsBox.pdb
 C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\DLL\PhysicsBox\PhysicsBox\bin\Debug\PhysicsBox.dll
@@ -38,3 +37,4 @@ C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\DLL\Physics
 C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\DLL\PhysicsBox\PhysicsBox\bin\Debug\OpenTK.pdb
 C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\DLL\PhysicsBox\PhysicsBox\bin\Debug\OpenTK.xml
 C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\DLL\PhysicsBox\PhysicsBox\bin\Debug\VectorMath.pdb
+C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\DLL\PhysicsBox\PhysicsBox\obj\Debug\PhysicsBox.csprojResolveAssemblyReference.cache

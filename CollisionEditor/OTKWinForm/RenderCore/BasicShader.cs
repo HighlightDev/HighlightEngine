@@ -39,6 +39,11 @@ namespace OTKWinForm.RenderCore
             opacity = getUniformLocation("opacity");
         }
 
+        protected override void SetShaderMacros()
+        {
+           
+        }
+
         public BasicShader(string VertexShaderFile, string FragmentShaderFile) : base(VertexShaderFile, FragmentShaderFile)
         {
             if (ShaderLoaded)

@@ -34,6 +34,5 @@ C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\TestStencil
 C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\TestStencil\bin\Debug\TextureLoader.pdb
 C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\TestStencil\bin\Debug\VBO.pdb
 C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\TestStencil\bin\Debug\VectorMath.pdb
-C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\TestStencil\obj\Debug\TestStencil.csprojResolveAssemblyReference.cache
 C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\TestStencil\obj\Debug\TestStencil.exe
 C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\TestStencil\obj\Debug\TestStencil.pdb
