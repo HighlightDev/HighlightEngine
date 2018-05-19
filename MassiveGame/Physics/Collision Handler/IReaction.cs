@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MassiveGame.API.Collision_Handler
+namespace MassiveGame.Physics.Collision_Handler
 {
     public interface IReaction
     {

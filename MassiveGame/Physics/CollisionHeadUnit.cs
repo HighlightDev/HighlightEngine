@@ -12,33 +12,97 @@ namespace MassiveGame.Physics
 {
     public class CollisionHeadUnit
     {
-        public delegate void CollisionFramingAABBDelegate(Component character, Component collidedComponent);
-        public delegate void CollisionRegularBBDelegate(Component character, Component collidedComponent, List<BoundBase> collidedBoundingBoxes);
-        public delegate void NoCollisionFramingAABBFoundDelegate(Component characterRootComponent);
-        public delegate void NoCollisionRegularBBDelegate(Component characterRootComponent, Component collidedFrameBoundingBoxRootComponent);
+        public abstract class CollisionOutputData
+        {
+            public enum OutDataType
+            {
+                FramingAABB,
+                RegularOBB,
+                NoCollided
+            }
 
-        public event CollisionFramingAABBDelegate FramingAABB_Collision;
-        public event CollisionRegularBBDelegate RegularBB_Collision;
-        public event NoCollisionFramingAABBFoundDelegate NoAABBCollision;
-        public event NoCollisionRegularBBDelegate NoRegularBBCollision;
+            public abstract OutDataType GetDataType();
 
-        List<CollisionUnit> collisionUnits;
+            protected object CollisionSender;
+            protected object CollisionReceiver;
+            protected object CollidedComponentBounds;
+        }
+
+        public class CollisionOutputNoCollided : CollisionOutputData
+        {
+            public Component GetCharacterRootComponent()
+            {
+                return CollisionSender as Component;
+            }
+
+            public override OutDataType GetDataType()
+            {
+                return OutDataType.NoCollided;
+            }
+        }
+
+        public class CollisionOutputFramingAABB : CollisionOutputNoCollided
+        {
+            public Component GetCollidedRootComponent()
+            {
+                return CollisionReceiver as Component;
+            }
+
+            public override OutDataType GetDataType()
+            {
+                return OutDataType.FramingAABB;
+            }
+
+            public CollisionOutputFramingAABB(Component collisionSender, Component collisionReceiver)
+            {
+                CollisionSender = collisionSender;
+                CollisionReceiver = collisionReceiver;
+            }
+        }
+
+        public class CollisionOutputRegularOBB : CollisionOutputFramingAABB
+        {
+            public List<BoundBase> GetCollidedBoundingBoxes()
+            {
+                return CollidedComponentBounds as List<BoundBase>;
+            }
+
+            public override OutDataType GetDataType()
+            {
+                return OutDataType.RegularOBB;
+            }
+
+            public CollisionOutputRegularOBB(Component collisionSender, Component collisionReceiver, List<BoundBase> collidedComponentBounds) :
+                base(collisionSender, collisionReceiver)
+            {
+                CollidedComponentBounds = collidedComponentBounds;
+            }
+        }
+
+        List<CollisionUnit> CollisionUnits;
+
+        List<CollisionOutputData> CollisionOutput;
+
+        CollisionBehaviorManager BehaviorManager;
 
         public void AddCollisionObserver(Component rootComponent)
         {
-            collisionUnits.Add(new CollisionUnit(rootComponent));
+            CollisionUnits.Add(new CollisionUnit(rootComponent));
         }
 
         // when component's transform is changed notify bound boxes that they have to be changed
         public void NotifyCollisionObserver(Component rootComponent)
         {
-            CollisionUnit characterCollisionUnit = collisionUnits.Find(unit => unit.RootComponent == rootComponent);
+            CollisionUnit characterCollisionUnit = CollisionUnits.Find(unit => unit.RootComponent == rootComponent);
             characterCollisionUnit.bBoundingBoxesTransformDirty = true;
         }
 
         public CollisionHeadUnit()
         {
-            collisionUnits = new List<CollisionUnit>();
+            CollisionUnits = new List<CollisionUnit>();
+            BehaviorManager = new CollisionBehaviorManager();
+            CollisionOutput = new List<CollisionOutputData>(2);
+            CollisionOutput.Capacity = 2;
         }
 
         private bool BoundBaseCollision_Ext(BoundBase characterBound, BoundBase collidedRootBound)
@@ -67,7 +131,7 @@ namespace MassiveGame.Physics
             ref Component collidedRootComponent, ref List<BoundBase> collidedRootBounds)
         {
            
-            foreach (var unit in collisionUnits)
+            foreach (var unit in CollisionUnits)
             {
                 if (characterCollisionUnit.RootComponent == unit.RootComponent)
                     continue;
@@ -85,11 +149,7 @@ namespace MassiveGame.Physics
 
             if (bFrameBoundBoxCollision)
             {
-                FramingAABB_Collision(characterRootComponent, collidedRootComponent);
-            }
-            else
-            {
-                NoAABBCollision(characterRootComponent);
+                CollisionOutput.Add(new CollisionOutputFramingAABB(characterRootComponent, collidedRootComponent));
             }
         }
 
@@ -108,17 +168,13 @@ namespace MassiveGame.Physics
 
             if (bRegularBoundingBoxCollision)
             {
-                RegularBB_Collision(characterRootComponent, collidedRootComponent, collidedBounds);
-            }
-            else
-            {
-                NoRegularBBCollision(characterRootComponent, collidedRootComponent);
+                CollisionOutput.Add(new CollisionOutputRegularOBB(characterRootComponent, collidedRootComponent, collidedBounds));
             }
         }
 
         public void TryCollision(Component characterRootComponent)
         {
-            CollisionUnit characterCollisionUnit = collisionUnits.Find(unit => unit.RootComponent == characterRootComponent);
+            CollisionUnit characterCollisionUnit = CollisionUnits.Find(unit => unit.RootComponent == characterRootComponent);
             Component collidedRootComponent = null;
             BoundBase characterBound = characterCollisionUnit.GetFirstBoundingBox();
             List<BoundBase> collidedRootBounds = null;
@@ -136,6 +192,10 @@ namespace MassiveGame.Physics
 
             // Check Collision. Step 3 - Ray trace to find out height of current step (character can be in air, so check it) -- (BEHAVIOR OF COLLISION RESOLVING)
 
+            BehaviorManager.ProcessCollision(CollisionOutput);
+
+            // Clear all output after collision handling
+            CollisionOutput.Clear();
         }
     }
 }

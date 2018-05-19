@@ -15,7 +15,7 @@ using OpenTK.Graphics.OpenGL;
 using IVisible = MassiveGame.Optimization.IVisible;
 using MassiveGame.API.Factory.ObjectArguments;
 using MassiveGame.API.IDgenerator;
-using MassiveGame.API.Collision_Handler;
+using MassiveGame.Physics.Collision_Handler;
 using MassiveGame.Sun.DayCycle;
 using MassiveGame.RenderCore.Visibility;
 using MassiveGame.Optimization;
@@ -74,7 +74,7 @@ namespace MassiveGame.UI
             DOUEngine.DayCycle = new DayLightCycle(DOUEngine.Sun,
                 DOUEngine.MAP_SIZE, dayPhases);
             DOUEngine.DayCycle.SetTime(25);
-            DOUEngine.DayCycle.TimeFlow = 0.1f;
+            DOUEngine.DayCycle.TimeFlow = 0.01f;
 
             DOUEngine.PointLight = new List<PointLight>();
 
@@ -156,7 +156,7 @@ namespace MassiveGame.UI
             specularMapPath = ProjectFolders.SpecularMapsPath + "brick_sm.png";
 
             MotionEntityArguments arg = new MotionEntityArguments(modelPath, texturePath, normalMapPath, specularMapPath,
-                IdGenerator.GeneratePlayerId(), 0.3f, new Vector3(200, 0, 230), new Vector3(30, 80, 165), new Vector3(1));
+                IdGenerator.GeneratePlayerId(), 0.3f, new Vector3(200, 0, 230), new Vector3(0), new Vector3(1));
 
             DOUEngine.Player = (Player)EngineObjectCreator.CreateInstance(arg);
             DOUEngine.Player.setSoundAttachment(DOUEngine.SB_step, DOUEngine.SB_collide);
@@ -450,27 +450,33 @@ namespace MassiveGame.UI
                         //SwitchToScreenBuffer();
 
                         RenderAll(redraw);
-                        float t = GeometricMath.Intersection_RayOBB(new PhysicsBox.MathTypes.FRay(DOUEngine.Camera.getPosition(), DOUEngine.Camera.GetDirection().Normalized()), DOUEngine.Player.ChildrenComponents.First().Bound as PhysicsBox.MathTypes.OBB);
-                        Vector3 intersectionPoint = DOUEngine.Camera.GetDirection().Normalized() * t;
+                        //float t = GeometricMath.Intersection_RayAABB(new PhysicsBox.MathTypes.FRay(DOUEngine.Camera.getPosition(), DOUEngine.Camera.GetDirection().Normalized()), DOUEngine.Player.ChildrenComponents.First().Bound as PhysicsBox.MathTypes.AABB);
+                        //Vector3 intersectionPoint = DOUEngine.Camera.GetDirection().Normalized() * t;
 
-                        if (t > -1)
-                        {
-                            GL.Begin(PrimitiveType.Lines);
-                            GL.Color3(1, 1, 0);
-                            GL.Vertex3(DOUEngine.Camera.getPosition());
-                            GL.Vertex3(intersectionPoint);
-                            GL.End();
+                        //if (t > -1)
+                        //{
+                        //    GL.MatrixMode(MatrixMode.Modelview);
+                        //    Matrix4 viewMatrix = DOUEngine.Camera.getViewMatrix();
+                        //    GL.LoadMatrix(ref viewMatrix);
+                        //    GL.MatrixMode(MatrixMode.Projection);
+                        //    GL.LoadMatrix(ref DOUEngine.ProjectionMatrix);
 
-                            Console.Clear();
-                            Console.ForegroundColor = ConsoleColor.DarkRed;
-                            Console.WriteLine("---------- Intersection ----------");
-                        }
-                        else
-                        {
-                            Console.Clear();
-                            Console.ForegroundColor = ConsoleColor.White;
-                            Console.WriteLine("---------- Empty ----------");
-                        }
+                        //    GL.Begin(PrimitiveType.LineStrip);
+                        //    GL.Color3(1, 1, 0);
+                        //    GL.Vertex3(DOUEngine.Camera.getPosition());
+                        //    GL.Vertex3(intersectionPoint);
+                        //    GL.End();
+
+                        //    Console.Clear();
+                        //    Console.ForegroundColor = ConsoleColor.DarkRed;
+                        //    Console.WriteLine("---------- Intersection ----------");
+                        //}
+                        //else
+                        //{
+                        //    Console.Clear();
+                        //    Console.ForegroundColor = ConsoleColor.White;
+                        //    Console.WriteLine("---------- Empty ----------");
+                        //}
 
                         //frame.Render(DOUEngine.Sun.GetShadowHandler().GetTextureHandler(), new Point(this.Width, this.Height));
                         //    frame.Render(new Texture2Dlite(
