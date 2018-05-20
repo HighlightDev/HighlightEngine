@@ -21,20 +21,25 @@ namespace MassiveGame
 
         #region Getters
 
-        public Vector3 GetDirection()
+        public Vector3 GetNormalizedDirection()
         {
-            return Vector3.Normalize(lookVector - posVector);
+            return (lookVector - posVector).Normalized();
         }
 
-        public Vector3 getPosition()
+        public Vector3 GetDirection()
+        {
+            return lookVector - posVector;
+        }
+
+        public Vector3 getPositionVector()
         {
             return new Vector3(posVector.X, posVector.Y, posVector.Z);
         }
-        public Vector3 getLook()
+        public Vector3 getLookVector()
         {
             return lookVector;
         }
-        public Vector3 getUp()
+        public Vector3 getUpVector()
         {
             return upVector;
         }
@@ -130,9 +135,9 @@ namespace MassiveGame
 
         public LiteCamera(LiteCamera camera) : this()
         {
-            this.lookVector = camera.getLook();
-            this.posVector = camera.getPosition();
-            this.upVector = camera.getUp();
+            this.lookVector = camera.getLookVector();
+            this.posVector = camera.getPositionVector();
+            this.upVector = camera.getUpVector();
         }
 
         #endregion

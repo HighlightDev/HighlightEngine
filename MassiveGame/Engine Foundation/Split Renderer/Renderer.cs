@@ -74,7 +74,7 @@ namespace MassiveGame.UI
             DOUEngine.DayCycle = new DayLightCycle(DOUEngine.Sun,
                 DOUEngine.MAP_SIZE, dayPhases);
             DOUEngine.DayCycle.SetTime(25);
-            DOUEngine.DayCycle.TimeFlow = 0.01f;
+            DOUEngine.DayCycle.TimeFlow = 0.001f;
 
             DOUEngine.PointLight = new List<PointLight>();
 
@@ -100,7 +100,7 @@ namespace MassiveGame.UI
             #endregion
 
             /*Create mist component*/
-            DOUEngine.Mist = new MistComponent(0.009f, 1f, new Vector3(0.7f, 0.75f, 0.8f));
+            DOUEngine.Mist = new MistComponent(0.003f, 1f, new Vector3(0.7f, 0.75f, 0.8f));
 
             // temporary
 
@@ -233,8 +233,8 @@ namespace MassiveGame.UI
             DOUEngine.Lights = new Light_visualization.VisualizeLight(ProjectFolders.TexturesPath + "/LightTextures/" + "light-bulb-icon (1).png"
                 , DOUEngine.PointLight);
 
-            //DOUEngine.Lens = new LensFlareRenderer();
-            //DOUEngine.Ray = new GodRaysRenderer();
+            DOUEngine.Lens = new LensFlareRenderer();
+            DOUEngine.Ray = new GodRaysRenderer();
             //DOUEngine.PostProc = new PostprocessRenderer(PostprocessType.BLOOM);
             //DOUEngine.PostProc.BloomPass = 1;
             //DOUEngine.PostProc.BlurWidth = 18;

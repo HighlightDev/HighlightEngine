@@ -59,7 +59,7 @@ namespace MassiveGame.RenderCore.Shadows
 
         private void GetEdgePoints(LiteCamera viewerCamera, ConvexVolume volume, out Vector3 LBN, out Vector3 RTF)
         {
-            Vector3 ViewerPosition = viewerCamera.getPosition();
+            Vector3 ViewerPosition = viewerCamera.getPositionVector();
 
             // Find left and right edges
             Vector3 IntersectionPointC = GetLeftRightIntersectionPoint(ViewerPosition, volume.FarPlane, volume.LeftPlane);

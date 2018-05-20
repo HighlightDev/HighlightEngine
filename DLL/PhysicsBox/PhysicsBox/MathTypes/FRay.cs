@@ -17,6 +17,11 @@ namespace PhysicsBox.MathTypes
             return new FRay(Vector3.TransformPosition(ray.StartPosition, rotationMatrix), Vector3.TransformNormal(ray.Direction, rotationMatrix));
         }
 
+        public Vector3 GetPositionInTime(float t)
+        {
+            return StartPosition + Direction * t;
+        }
+
         public FRay(Vector3 startPosition, Vector3 direction)
         {
             StartPosition = startPosition;

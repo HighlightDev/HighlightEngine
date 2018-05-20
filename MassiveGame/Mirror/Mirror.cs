@@ -80,10 +80,10 @@ namespace MassiveGame
             transformedVertices = Vector4.Transform(transformedVertices, transformMatrix);
 
             /*Определим направление луча из камеры и нормализируем его*/
-            Vector3 ray = camera.getLook() - camera.getPosition();
+            Vector3 ray = camera.getLookVector() - camera.getPositionVector();
             ray.Normalize();
             /*Найдем точку пересечения луча и полигона зеркала*/
-            _intersectionPoint = findIntersaction(camera.getPosition(), new Vector3(transformedVertices), ray, new Vector3(transformedNormal));
+            _intersectionPoint = findIntersaction(camera.getPositionVector(), new Vector3(transformedVertices), ray, new Vector3(transformedNormal));
             /*Найдем вектор отражения луча от полигона при имеющейся нормали*/
             this._reflectionDir = findReflection(new Vector3(transformedNormal), ray);
         }

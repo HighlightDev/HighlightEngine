@@ -187,6 +187,17 @@ namespace MassiveGame
         #endregion
 
         // TEMPORARY
+
+        public void collisionOffset(Vector3 newPosition)
+        {
+            this.Move = new Vector3(Move.X, newPosition.Y - _bottomY, Move.Z);
+            ObjectPosition = new Vector3(
+               (objectStack.LeftX + objectStack.RightX) / 2 + Move.X,
+               Move.Y,
+               (objectStack.FarZ + objectStack.NearZ) / 2 + Move.Z
+           );
+        }
+
         public void move(Terrain terrain, Camera camera)
         {
             if (ActionMove != null)
@@ -194,7 +205,7 @@ namespace MassiveGame
                 this.ActionMove(this, null);
             }
 
-            var direction = camera.GetDirection();
+            var direction = camera.GetNormalizedDirection();
             direction.Y = 0;
 
             Vector3 donePath = direction * Speed;

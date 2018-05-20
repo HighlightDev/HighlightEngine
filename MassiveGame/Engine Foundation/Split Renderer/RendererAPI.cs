@@ -453,9 +453,9 @@ namespace MassiveGame.UI
             AdjustMouseCursor();
 
             AudioMaster.SetListenerData(
-                DOUEngine.Camera.getPosition().X,
-                DOUEngine.Camera.getPosition().Y,
-                DOUEngine.Camera.getPosition().Z
+                DOUEngine.Camera.getPositionVector().X,
+                DOUEngine.Camera.getPositionVector().Y,
+                DOUEngine.Camera.getPositionVector().Z
             );
         }
         #endregion

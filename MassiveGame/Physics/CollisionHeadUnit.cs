@@ -39,6 +39,11 @@ namespace MassiveGame.Physics
             {
                 return OutDataType.NoCollided;
             }
+
+            public CollisionOutputNoCollided(Component collisionSender)
+            {
+                CollisionSender = collisionSender;
+            }
         }
 
         public class CollisionOutputFramingAABB : CollisionOutputNoCollided
@@ -53,9 +58,8 @@ namespace MassiveGame.Physics
                 return OutDataType.FramingAABB;
             }
 
-            public CollisionOutputFramingAABB(Component collisionSender, Component collisionReceiver)
+            public CollisionOutputFramingAABB(Component collisionSender, Component collisionReceiver) : base(collisionSender)
             {
-                CollisionSender = collisionSender;
                 CollisionReceiver = collisionReceiver;
             }
         }
@@ -150,6 +154,10 @@ namespace MassiveGame.Physics
             if (bFrameBoundBoxCollision)
             {
                 CollisionOutput.Add(new CollisionOutputFramingAABB(characterRootComponent, collidedRootComponent));
+            }
+            else
+            {
+                CollisionOutput.Add(new CollisionOutputNoCollided(characterRootComponent));
             }
         }
 

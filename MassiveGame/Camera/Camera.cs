@@ -259,7 +259,7 @@ namespace MassiveGame
             {
                 var temp = lookVector - posVector;
                 float length = temp.Length;
-                Vector3 zoomIn = GetDirection();
+                Vector3 zoomIn = GetNormalizedDirection();
                 if (length < MIN_CAMERA_DISTANCE) return;
                 posVector += zoomIn * CAMERA_SPEED;
             }
@@ -276,7 +276,7 @@ namespace MassiveGame
         public void UpdateHeight(Vector3 previousPosition)
         {
             var heightBias = thirdPersonTarget.ObjectPosition.Y - previousPosition.Y;
-            var dist = GetDirection() * thirdPersonTarget.Speed;
+            var dist = GetNormalizedDirection() * thirdPersonTarget.Speed;
             if (thirdPersonTarget.ObjectPosition != previousPosition)
             {
                 movePosition(new Vector3(dist.X, heightBias, dist.Z));

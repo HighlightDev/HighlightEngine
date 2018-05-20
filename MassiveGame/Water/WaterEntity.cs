@@ -175,7 +175,7 @@ namespace MassiveGame
             this._waterNormalMap.BindTexture(TextureUnit.Texture3);
             this._fbo.Texture.bindTexture2D(TextureUnit.Texture4, _fbo.Texture.TextureID[2]);
             this._shader.setUniformValues(ref modelMatrix, camera.getViewMatrix(), ref projectionMatrix, 0, 1, 2, 3, 4,
-                camera.getPosition(), _moveFactor, _waveStrength, sun, lights, ref nearClipPlane, ref farClipPlane, this.TransparencyDepth,
+                camera.getPositionVector(), _moveFactor, _waveStrength, sun, lights, ref nearClipPlane, ref farClipPlane, this.TransparencyDepth,
                 _mist == null ? false : _mist.EnableMist, _mist == null ? 0 : _mist.MistDensity, _mist == null ? 0 : _mist.MistGradient,
                 _mist == null ? new Vector3() : _mist.MistColour);
 
