@@ -146,10 +146,10 @@ namespace MassiveGame.UI
         {
             switch (keyData)
             {
-                case Keys.Up: DOUEngine.Camera.moveCamera(directions.FORWARD); return true;
-                case Keys.Down: DOUEngine.Camera.moveCamera(directions.BACK); return true;
-                case Keys.Left: DOUEngine.Camera.moveCamera(directions.LEFT); return true;
-                case Keys.Right: DOUEngine.Camera.moveCamera(directions.RIGHT); return true;
+                case Keys.Up: DOUEngine.Camera.moveCamera(CAMERA_DIRECTIONS.FORWARD); return true;
+                case Keys.Down: DOUEngine.Camera.moveCamera(CAMERA_DIRECTIONS.BACK); return true;
+                case Keys.Left: DOUEngine.Camera.moveCamera(CAMERA_DIRECTIONS.LEFT); return true;
+                case Keys.Right: DOUEngine.Camera.moveCamera(CAMERA_DIRECTIONS.RIGHT); return true;
             }
 
             return base.ProcessCmdKey(ref msg, keyData);

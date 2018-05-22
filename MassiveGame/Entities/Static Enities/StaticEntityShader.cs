@@ -329,7 +329,7 @@ namespace MassiveGame
         protected override void SetShaderMacros()
         {
             SetDefine(ShaderTypeFlag.VertexShader | ShaderTypeFlag.FragmentShader, "MAX_LIGHT_COUNT", DOUEngine.MAX_LIGHT_COUNT.ToString());
-            SetDefine(ShaderTypeFlag.FragmentShader, "MAX_MIST_VISIBLE_AREA", "0.95");
+            SetDefine(ShaderTypeFlag.FragmentShader, "MAX_MIST_VISIBLE_AREA", "1.0");
             SetDefine(ShaderTypeFlag.FragmentShader, "SHADOWMAP_BIAS", "0.005");
             SetDefine(ShaderTypeFlag.FragmentShader, "PCF_SAMPLES", "2");
         }

@@ -82,18 +82,12 @@ namespace MassiveGame.UI
 
             if (DOUEngine.Player != null)
             {
-                if (DOUEngine.Player.IsInCameraView)
-                {
-                    DOUEngine.Player.Tick(ref DOUEngine.ProjectionMatrix, ref viewMatrix);
-                }
+                DOUEngine.Player.Tick(ref DOUEngine.ProjectionMatrix, ref viewMatrix);
             }
 
             if (!Object.Equals(DOUEngine.Enemy, null))
             {
-                if (DOUEngine.Enemy.IsInCameraView)
-                {
-                    DOUEngine.Enemy.Tick(ref DOUEngine.ProjectionMatrix, ref viewMatrix);
-                }
+                DOUEngine.Enemy.Tick(ref DOUEngine.ProjectionMatrix, ref viewMatrix);
             }
         }
 
@@ -116,7 +110,7 @@ namespace MassiveGame.UI
             GL.Enable(EnableCap.DepthTest);
             GL.Clear(ClearBufferMask.DepthBufferBit);
 
-            if (DOUEngine.Map != null) DOUEngine.Map.renderTerrain(DOUEngine.Mode, DOUEngine.Sun, DOUEngine.PointLight, camera, DOUEngine.ProjectionMatrix);
+            if (DOUEngine.terrain != null) DOUEngine.terrain.renderTerrain(DOUEngine.Mode, DOUEngine.Sun, DOUEngine.PointLight, camera, DOUEngine.ProjectionMatrix);
 
             if (!Object.Equals(DOUEngine.SunReplica, null))
             {
@@ -128,8 +122,8 @@ namespace MassiveGame.UI
 
             GL.Disable(EnableCap.CullFace);
 
-            if (DOUEngine.Grass != null) DOUEngine.Grass.renderEntities(DOUEngine.Sun, camera, DOUEngine.ProjectionMatrix, (float)DOUEngine.RenderTime, DOUEngine.Map);
-            if (DOUEngine.Plant1 != null) DOUEngine.Plant1.renderEntities(DOUEngine.Sun, camera, DOUEngine.ProjectionMatrix, (float)DOUEngine.RenderTime, DOUEngine.Map);
+            if (DOUEngine.Grass != null) DOUEngine.Grass.renderEntities(DOUEngine.Sun, camera, DOUEngine.ProjectionMatrix, (float)DOUEngine.RenderTime, DOUEngine.terrain);
+            if (DOUEngine.Plant1 != null) DOUEngine.Plant1.renderEntities(DOUEngine.Sun, camera, DOUEngine.ProjectionMatrix, (float)DOUEngine.RenderTime, DOUEngine.terrain);
 
             if (DOUEngine.City != null)
             {
@@ -144,7 +138,7 @@ namespace MassiveGame.UI
             {
                 if (DOUEngine.Player.IsInCameraView)
                 {
-                    DOUEngine.Player.renderObject(DOUEngine.Mode, DOUEngine.NormalMapTrigger, DOUEngine.Sun, DOUEngine.PointLight, DOUEngine.Map, camera, ref DOUEngine.ProjectionMatrix);
+                    DOUEngine.Player.renderObject(DOUEngine.Mode, DOUEngine.NormalMapTrigger, DOUEngine.Sun, DOUEngine.PointLight, DOUEngine.terrain, camera, ref DOUEngine.ProjectionMatrix);
                 }
             }
 
@@ -152,7 +146,7 @@ namespace MassiveGame.UI
             {
                 if (DOUEngine.Enemy.IsInCameraView)
                 {
-                    DOUEngine.Enemy.renderObject(DOUEngine.Mode, DOUEngine.NormalMapTrigger, DOUEngine.Sun, DOUEngine.PointLight, DOUEngine.Map, camera, ref DOUEngine.ProjectionMatrix);
+                    DOUEngine.Enemy.renderObject(DOUEngine.Mode, DOUEngine.NormalMapTrigger, DOUEngine.Sun, DOUEngine.PointLight, DOUEngine.terrain, camera, ref DOUEngine.ProjectionMatrix);
                 }
             }
 
@@ -218,7 +212,7 @@ namespace MassiveGame.UI
             GL.Clear(ClearBufferMask.DepthBufferBit);
             GL.CullFace(CullFaceMode.Back);
 
-            if (DOUEngine.Map != null) DOUEngine.Map.RenderWaterReflection(DOUEngine.Water, DOUEngine.Sun, camera, ref DOUEngine.ProjectionMatrix, clipPlane);
+            if (DOUEngine.terrain != null) DOUEngine.terrain.RenderWaterReflection(DOUEngine.Water, DOUEngine.Sun, camera, ref DOUEngine.ProjectionMatrix, clipPlane);
             GL.Disable(EnableCap.CullFace);
 
             /*TO DO : true - enable building reflections
@@ -269,8 +263,8 @@ namespace MassiveGame.UI
             false - disable EngineSingleton.Grass refractions*/
             if (quality.EnableGrassRefraction)
             {
-                if (DOUEngine.Grass != null) DOUEngine.Grass.renderEntities(DOUEngine.Sun, camera, DOUEngine.ProjectionMatrix, (float)DOUEngine.RenderTime, DOUEngine.Map, clipPlane);
-                if (DOUEngine.Plant1 != null) DOUEngine.Plant1.renderEntities(DOUEngine.Sun, camera, DOUEngine.ProjectionMatrix, (float)DOUEngine.RenderTime, DOUEngine.Map, clipPlane);
+                if (DOUEngine.Grass != null) DOUEngine.Grass.renderEntities(DOUEngine.Sun, camera, DOUEngine.ProjectionMatrix, (float)DOUEngine.RenderTime, DOUEngine.terrain, clipPlane);
+                if (DOUEngine.Plant1 != null) DOUEngine.Plant1.renderEntities(DOUEngine.Sun, camera, DOUEngine.ProjectionMatrix, (float)DOUEngine.RenderTime, DOUEngine.terrain, clipPlane);
             }
 
             /*TO DO : true - enable building refractions
@@ -308,7 +302,7 @@ namespace MassiveGame.UI
              * Culling back facies of terrain, cause they don't refract in EngineSingleton.Water*/
             GL.Enable(EnableCap.CullFace);
             GL.CullFace(CullFaceMode.Back);
-            if (DOUEngine.Map != null) DOUEngine.Map.RenderWaterRefraction(DOUEngine.Sun, camera, ref DOUEngine.ProjectionMatrix, clipPlane);
+            if (DOUEngine.terrain != null) DOUEngine.terrain.RenderWaterRefraction(DOUEngine.Sun, camera, ref DOUEngine.ProjectionMatrix, clipPlane);
             GL.Disable(EnableCap.CullFace);
             GL.Disable(EnableCap.StencilTest); // Enable stencil test
         }
@@ -335,7 +329,7 @@ namespace MassiveGame.UI
             GL.CullFace(CullFaceMode.Back);
             GL.Enable(EnableCap.CullFace);
 
-            if (DOUEngine.Map != null) DOUEngine.Map.renderTerrain(DOUEngine.Mode, DOUEngine.Sun, DOUEngine.PointLight, camera, DOUEngine.ProjectionMatrix);
+            if (DOUEngine.terrain != null) DOUEngine.terrain.renderTerrain(DOUEngine.Mode, DOUEngine.Sun, DOUEngine.PointLight, camera, DOUEngine.ProjectionMatrix);
             if (DOUEngine.City != null) foreach (Building house in DOUEngine.City)
                 { house.renderObject(DOUEngine.Mode, DOUEngine.NormalMapTrigger, DOUEngine.Sun, DOUEngine.PointLight, camera, ref DOUEngine.ProjectionMatrix); }
 
@@ -343,10 +337,10 @@ namespace MassiveGame.UI
             {
                 if (DOUEngine.Player.IsInCameraView)
                 {
-                    DOUEngine.Player.renderObject(DOUEngine.Mode, DOUEngine.NormalMapTrigger, DOUEngine.Sun, DOUEngine.PointLight, DOUEngine.Map, camera, ref DOUEngine.ProjectionMatrix);
+                    DOUEngine.Player.renderObject(DOUEngine.Mode, DOUEngine.NormalMapTrigger, DOUEngine.Sun, DOUEngine.PointLight, DOUEngine.terrain, camera, ref DOUEngine.ProjectionMatrix);
                 }
             }
-            if (DOUEngine.Enemy != null) DOUEngine.Enemy.renderObject(DOUEngine.Mode, DOUEngine.NormalMapTrigger, DOUEngine.Sun, DOUEngine.PointLight, DOUEngine.Map, camera, ref DOUEngine.ProjectionMatrix);
+            if (DOUEngine.Enemy != null) DOUEngine.Enemy.renderObject(DOUEngine.Mode, DOUEngine.NormalMapTrigger, DOUEngine.Sun, DOUEngine.PointLight, DOUEngine.terrain, camera, ref DOUEngine.ProjectionMatrix);
 
             // add code of adding EngineSingleton.Models here
             if (redraw)
@@ -383,12 +377,12 @@ namespace MassiveGame.UI
             if (DOUEngine.Skybox != null) DOUEngine.Skybox.renderSkybox(DOUEngine.Camera, DOUEngine.Sun, DOUEngine.ProjectionMatrix);
 
             GL.Clear(ClearBufferMask.DepthBufferBit);
-            if (DOUEngine.Map != null) DOUEngine.Map.renderTerrain(DOUEngine.Mode, DOUEngine.Sun, DOUEngine.PointLight, camera, DOUEngine.ProjectionMatrix);
+            if (DOUEngine.terrain != null) DOUEngine.terrain.renderTerrain(DOUEngine.Mode, DOUEngine.Sun, DOUEngine.PointLight, camera, DOUEngine.ProjectionMatrix);
 
             GL.Disable(EnableCap.CullFace);
 
 
-            if (DOUEngine.Plant1 != null) DOUEngine.Plant1.renderEntities(DOUEngine.Sun, camera, DOUEngine.ProjectionMatrix, (float)DOUEngine.RenderTime, DOUEngine.Map);
+            if (DOUEngine.Plant1 != null) DOUEngine.Plant1.renderEntities(DOUEngine.Sun, camera, DOUEngine.ProjectionMatrix, (float)DOUEngine.RenderTime, DOUEngine.terrain);
 
             if (DOUEngine.City != null) foreach (Building house in DOUEngine.City)
                 { house.renderObject(DOUEngine.Mode, DOUEngine.NormalMapTrigger, DOUEngine.Sun, DOUEngine.PointLight, camera, ref DOUEngine.ProjectionMatrix); }
@@ -397,10 +391,10 @@ namespace MassiveGame.UI
             {
                 if (DOUEngine.Player.IsInCameraView)
                 {
-                    DOUEngine.Player.renderObject(DOUEngine.Mode, DOUEngine.NormalMapTrigger, DOUEngine.Sun, DOUEngine.PointLight, DOUEngine.Map, camera, ref DOUEngine.ProjectionMatrix);
+                    DOUEngine.Player.renderObject(DOUEngine.Mode, DOUEngine.NormalMapTrigger, DOUEngine.Sun, DOUEngine.PointLight, DOUEngine.terrain, camera, ref DOUEngine.ProjectionMatrix);
                 }
             }
-            if (DOUEngine.Enemy != null) DOUEngine.Enemy.renderObject(DOUEngine.Mode, DOUEngine.NormalMapTrigger, DOUEngine.Sun, DOUEngine.PointLight, DOUEngine.Map, camera, ref DOUEngine.ProjectionMatrix);
+            if (DOUEngine.Enemy != null) DOUEngine.Enemy.renderObject(DOUEngine.Mode, DOUEngine.NormalMapTrigger, DOUEngine.Sun, DOUEngine.PointLight, DOUEngine.terrain, camera, ref DOUEngine.ProjectionMatrix);
 
             // add code of adding EngineSingleton.Models here
             if (redraw)

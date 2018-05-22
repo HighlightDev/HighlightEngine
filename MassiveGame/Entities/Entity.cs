@@ -24,6 +24,7 @@ namespace MassiveGame
 
         protected bool _isInCameraView, _postConstructor;
 
+        [Obsolete("DEPRECATED PROPERTY, MUST BE ELIMINATED")]
         protected CollisionSphereBox _box;
 
         protected MistComponent _mist;
@@ -36,8 +37,10 @@ namespace MassiveGame
 
         protected ITexture _specularMap;
 
+        [Obsolete("DEPRECATED PROPERTY, MUST BE ELIMINATED")]
         protected CollisionDetector collisionDetection;
 
+        [Obsolete("DEPRECATED PROPERTY, MUST BE ELIMINATED")]
         protected Vector3[] _verticesVectors;
 
         protected RenderMap LightVisibilityMap;

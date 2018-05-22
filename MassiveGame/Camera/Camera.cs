@@ -14,16 +14,27 @@ using VMath;
 
 namespace MassiveGame
 {
+    public enum CAMERA_DIRECTIONS
+    {
+        LEFT,
+        RIGHT,
+        FORWARD,
+        BACK,
+        STAY
+    }
+
+    public enum CAMERA_MODE
+    {
+        UNDEFINDED,
+        FIRST_PERSON,
+        THIRD_PERSON
+    }
+
     public class Camera : LiteCamera
     {
         #region NestedEnum
 
-        public enum CameraMode
-        {
-            UNDEFINDED,
-            FIRST_PERSON,
-            THIRD_PERSON
-        }
+      
 
         #endregion
 
@@ -36,31 +47,31 @@ namespace MassiveGame
         private float lastRotX;
         private MotionEntities thirdPersonTarget;
 
-        public CameraMode Mode { private set; get; }
+        public CAMERA_MODE Mode { private set; get; }
         public bool SwitchCamera { set; get; }
 
         #endregion
 
-        public void moveCamera(directions direction)
+        public void moveCamera(CAMERA_DIRECTIONS direction)
         {
             Vector3 vector = lookVector - posVector;
             vector.Normalize();
 
             switch (direction)
             {
-                case directions.FORWARD:
+                case CAMERA_DIRECTIONS.FORWARD:
                     {
                         posVector += vector * CAMERA_SPEED;
                         lookVector += vector * CAMERA_SPEED;
                         break;
                     }
-                case directions.BACK:
+                case CAMERA_DIRECTIONS.BACK:
                     {
                         posVector -= vector * CAMERA_SPEED;
                         lookVector -= vector * CAMERA_SPEED;
                         break;
                     }
-                case directions.LEFT:
+                case CAMERA_DIRECTIONS.LEFT:
                     {
                         Vector3 directionAxis = Vector3.Cross(vector, upVector);
                         directionAxis.Normalize();
@@ -68,7 +79,7 @@ namespace MassiveGame
                         lookVector -= directionAxis * CAMERA_SPEED;
                         break;
                     }
-                case directions.RIGHT:
+                case CAMERA_DIRECTIONS.RIGHT:
                     {
                         Vector3 directionAxis = Vector3.Cross(vector, upVector);
                         directionAxis.Normalize();
@@ -164,17 +175,17 @@ namespace MassiveGame
       
         public void DetachCamera() //Camera doesn't depend from any object
         {
-            Mode = CameraMode.UNDEFINDED;
+            Mode = CAMERA_MODE.UNDEFINDED;
         }
 
         public void rotateCamera(float angle, float x, float y, float z)
         {
             Vector3 direction = cameraBridge(angle, x, y, z);
-            if (Mode == CameraMode.FIRST_PERSON)
+            if (Mode == CAMERA_MODE.FIRST_PERSON)
             {
                 rotateViewCamera(direction);
             }
-            else if (Mode == CameraMode.THIRD_PERSON)
+            else if (Mode == CAMERA_MODE.THIRD_PERSON)
             {
                 rotatePosCamera(direction);
             }
@@ -223,7 +234,7 @@ namespace MassiveGame
 
         public void Update(Terrain terrain)
         {
-            if (Mode == CameraMode.THIRD_PERSON)
+            if (Mode == CAMERA_MODE.THIRD_PERSON)
             {
                 this.lookVector.X = thirdPersonTarget.Box.getCenter().X;
                 this.lookVector.Y = thirdPersonTarget.Box.getCenter().Y + 3.0f;
@@ -239,7 +250,7 @@ namespace MassiveGame
 
         public void SetThirdPerson(MotionEntities obj)
         {
-            Mode = CameraMode.THIRD_PERSON;
+            Mode = CAMERA_MODE.THIRD_PERSON;
             thirdPersonTarget = obj;
  
             Vector3 objCenter = obj.Box.getCenter();
@@ -250,7 +261,7 @@ namespace MassiveGame
 
         public void SetFirstPerson()
         {
-            Mode = CameraMode.FIRST_PERSON;
+            Mode = CAMERA_MODE.FIRST_PERSON;
         }
 
         public void setThirdPersonZoom(int Zoom)
@@ -289,7 +300,7 @@ namespace MassiveGame
             float centerX, float centerY, float centerZ,
             float upX, float upY, float upZ)
         {
-            this.Mode = CameraMode.UNDEFINDED;
+            this.Mode = CAMERA_MODE.UNDEFINDED;
             posVector = new Vector3();
             lookVector = new Vector3();
             upVector = new Vector3();

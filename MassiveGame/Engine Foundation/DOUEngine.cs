@@ -59,7 +59,7 @@ namespace MassiveGame
         public static DayLightCycle DayCycle;
 
         public static  CollisionDetector Collision;
-        public static  Terrain Map;
+        public static  Terrain terrain;
         public static  Player Player;
         public static  Player Enemy;
         public static  List<Building> Buildings;

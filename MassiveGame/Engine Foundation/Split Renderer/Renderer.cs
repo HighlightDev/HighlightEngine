@@ -104,7 +104,7 @@ namespace MassiveGame.UI
 
             // temporary
 
-            DOUEngine.Map = new Terrain(DOUEngine.MAP_SIZE, DOUEngine.MAP_HEIGHT, 3,  // Генерация ландшафта
+            DOUEngine.terrain = new Terrain(DOUEngine.MAP_SIZE, DOUEngine.MAP_HEIGHT, 3,  // Генерация ландшафта
                    ProjectFolders.HeightMapsTexturesPath + "heightmap2.png",
                    ProjectFolders.MultitexturesPath + "NewLandscape/volcanictundrarocks01.jpg",
                    ProjectFolders.MultitexturesPath + "NewLandscape/tundra02.jpg",
@@ -112,10 +112,10 @@ namespace MassiveGame.UI
                    ProjectFolders.MultitexturesPath + "NewLandscape/snow01.jpg",
                    ProjectFolders.MultitexturesPath + "blendMap.png");
 
-            DOUEngine.Map.SetNormalMapR(ProjectFolders.MultitexturesPath + "NewLandscape/volcanictundrarocks01_n.png");
-            DOUEngine.Map.SetNormalMapG(ProjectFolders.MultitexturesPath + "NewLandscape/tundra02_n.png");
+            DOUEngine.terrain.SetNormalMapR(ProjectFolders.MultitexturesPath + "NewLandscape/volcanictundrarocks01_n.png");
+            DOUEngine.terrain.SetNormalMapG(ProjectFolders.MultitexturesPath + "NewLandscape/tundra02_n.png");
             //DOUEngine.Map.SetNormalMapBlack(ProjectFolders.MultitexturesPath + "NewLandscape/snow01_n.png");
-            DOUEngine.Map.SetNormalMapB(ProjectFolders.NormalMapsPath + "brick_nm_high.png");
+            DOUEngine.terrain.SetNormalMapB(ProjectFolders.NormalMapsPath + "brick_nm_high.png");
 
             //DOUEngine.Map = new Terrain(DOUEngine.MAP_SIZE, DOUEngine.MAP_HEIGHT, 3,  // Генерация ландшафта
             //        ProjectFolders.HeightMapsTexturesPath + "heightmap2.png",
@@ -126,7 +126,7 @@ namespace MassiveGame.UI
             //        ProjectFolders.MultitexturesPath + "blendMap.png");
             //DOUEngine.Map.SetNormalMapB(ProjectFolders.NormalMapsPath + "brick_nm_high.png");
 
-            DOUEngine.Map.SetMist(DOUEngine.Mist);
+            DOUEngine.terrain.SetMist(DOUEngine.Mist);
 
             string modelPath = ProjectFolders.ModelsPath + "City_House_2_BI.obj";
             string texturePath = ProjectFolders.TextureAtlasPath + "city_house_2_Col.jpg";
@@ -245,14 +245,14 @@ namespace MassiveGame.UI
             //envObj = new EnvironmentEntities(PlayerModels.getPlayerModel1(false), TextureSet.PlayerTextureSet2, TextureSet.SkyboxDayCubemapTexture,
             //    new Vector3(40, 70, 40), new Vector3(0, 0, 0), new Vector3(0.5f));
 
-            //DOUEngine.Camera.SetThirdPerson(DOUEngine.Player);
-            DOUEngine.Camera.SetFirstPerson();
+            DOUEngine.Camera.SetThirdPerson(DOUEngine.Player);
+            //DOUEngine.Camera.SetFirstPerson();
 
             shadowList = new List<IDrawable>();
             DOUEngine.City.ForEach(new Action<Building>((house) => { shadowList.Add(house); }));
             shadowList.Add(DOUEngine.Player);
             shadowList.Add(DOUEngine.Enemy);
-            shadowList.Add(DOUEngine.Map);
+            shadowList.Add(DOUEngine.terrain);
 
             frame = new UiFrame(0, 0, 0.5f, 0.5f);
 
@@ -307,7 +307,7 @@ namespace MassiveGame.UI
             DOUEngine.ShadowMapRezolution = settingsLoader.GetDirectionalShadowMapRezolution();
 
             DOUEngine.PostConstructor = true;
-            DOUEngine.Camera = new Camera(50.0f, 70, 60.0f, 40.0f, 70.0f, 50.0f, 0.0f, 1.0f, 0.0f);
+            DOUEngine.Camera = new Camera(250.0f, 70, 60.0f, 240.0f, 70.0f, 50.0f, 0.0f, 1.0f, 0.0f);
             DOUEngine.PrevCursorPosition = new System.Drawing.Point(-1, -1);
             DOUEngine.ElapsedTime = DateTime.Now;
             DOUEngine.keyboardMaskArray = new bool[4];
@@ -320,7 +320,11 @@ namespace MassiveGame.UI
             if (DOUEngine.keyboardMaskArray.Any<bool>((key) => key == true))
             {
                 var previousPosition = DOUEngine.Player.ObjectPosition;
-                DOUEngine.Player.move(DOUEngine.Map, DOUEngine.Camera);
+
+                if (DOUEngine.Player != null)
+                {
+                    DOUEngine.Player.MoveActor(DOUEngine.terrain);
+                }
                 DOUEngine.Camera.UpdateHeight(previousPosition);
             }
 
@@ -396,8 +400,13 @@ namespace MassiveGame.UI
         {
             if (DOUEngine.PostConstructor)
             {
+                var velocityVector = DOUEngine.Camera.GetNormalizedDirection();
+                velocityVector.Y = 0.0f;
+
                 if (DOUEngine.Player != null)
-                    DOUEngine.Player.move(DOUEngine.Map, DOUEngine.Camera);
+                {
+                    DOUEngine.Player.MoveActor(DOUEngine.terrain);
+                }
                 //if (redraw)
                 //{
                 //    foreach (Building building in buildings)
@@ -409,7 +418,7 @@ namespace MassiveGame.UI
             }
             // EngineSingleton.Picker.update();
             DOUEngine.Mist.update();
-            DOUEngine.Camera.Update(DOUEngine.Map);
+            DOUEngine.Camera.Update(DOUEngine.terrain);
 
             // Find which primitives are visible for current frame
             VisibilityApi.IsInView(DOUEngine.RenderedPrimitives,
@@ -664,7 +673,7 @@ namespace MassiveGame.UI
         {
             if (DOUEngine.Water != null) DOUEngine.Water.cleanUp();
             if (DOUEngine.SunReplica != null) DOUEngine.SunReplica.cleanUp();
-            if (DOUEngine.Map != null) DOUEngine.Map.cleanUp();
+            if (DOUEngine.terrain != null) DOUEngine.terrain.cleanUp();
 
             if (DOUEngine.Player != null) DOUEngine.Player.cleanUp();
             if (DOUEngine.Enemy != null) DOUEngine.Enemy.cleanUp();

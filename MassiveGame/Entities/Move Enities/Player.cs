@@ -134,15 +134,6 @@ namespace MassiveGame
 
         #endregion
 
-        #region Movement
-
-        public override void objectMove(directions direction, Terrain terrain)       //Move object in 5 directions
-        {
-            base.objectMove(direction, terrain);
-        }
-
-        #endregion
-
         #region Renderer
 
         public override Matrix4 GetWorldMatrix()

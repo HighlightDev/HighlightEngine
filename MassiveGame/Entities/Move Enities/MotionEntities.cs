@@ -6,32 +6,67 @@ using MassiveGame.RenderCore.Lights;
 using OpenTK;
 using OpenTK.Graphics.OpenGL;
 using MassiveGame.RenderCore.Shadows;
+using PhysicsBox.MathTypes;
+using MassiveGame.Physics;
 
 namespace MassiveGame
 {
-    #region DirectionEnum
-
-    public enum directions // Directions of object
+    public enum BEHAVIOR_STATE
     {
-        LEFT,
-        RIGHT,
-        FORWARD,
-        BACK,
-        STAY
+        IDLE,
+        MOVE,
+        FREE_FALLING
     }
-
-    #endregion
 
     public abstract class MotionEntities : Entity
     {
         #region Definitions
 
+        protected BEHAVIOR_STATE actorState;
+        protected Vector3 velocity;
+
+        public BEHAVIOR_STATE ActorState
+        {
+            set
+            {
+                // Set velocity to default 
+                if (value == BEHAVIOR_STATE.IDLE)
+                    Velocity = new Vector3(0);
+                actorState = value;
+            }
+            get { return actorState; }
+        }
+
+        public Vector3 Velocity
+        {
+            set { velocity = value; }
+            get { return velocity; }
+        }
+
+        [Obsolete("DEPRECATED PROPERTY, MUST BE ELIMINATED")]
         protected int _id;
-        protected Vector3 Move { set; get; }
+
+        private Vector3 move;
+
+        [Obsolete("DEPRECATED PROPERTY, MUST BE ELIMINATED")]
+        public Vector3 Move
+        {
+            set
+            {
+                move = value;
+                bTransformationDirty = true;
+            }
+            get
+            {
+                return move;
+            }
+        }
+
         protected float _speed;
         protected MovementStack objectStack;
         public event EventHandler ActionMove;
 
+        [Obsolete("DEPRECATED PROPERTY, MUST BE ELIMINATED")]
         public override CollisionSphereBox Box
         {
             protected set { base._box = value; }
@@ -49,12 +84,36 @@ namespace MassiveGame
 
         public Vector3 ObjectPosition { get; private set; }
 
-        public Vector3 GetMove()
-        {
-            return Move;
-        }
-
         #endregion
+
+        public override void Tick(ref Matrix4 projectionMatrix, ref Matrix4 viewMatrix)
+        {
+            /*
+            // Character is in free fall, must be calculated new height regarding to body free falling mechanics
+            if (ActorState == BEHAVIOR_STATE.FREE_FALLING)
+            {
+                throw new NotImplementedException("IMPLEMENT FREE FALLING");
+                // DO BETTER!
+
+                Velocity = BodyMechanics.UpdateFreeFallVelocity(Velocity, Speed);
+
+                throw new NotImplementedException("IMPLEMENT FREE FALLING");
+                // Check collision
+                (new CollisionHeadUnit()).TryCollision(this);
+            }
+            else if (ActorState == BEHAVIOR_STATE.MOVE)
+            {
+                throw new NotImplementedException("IMPLEMENT COLLISIONS");
+                // Check collision
+                (new CollisionHeadUnit()).TryCollision(this);
+            }
+            else if (ActorState == BEHAVIOR_STATE.IDLE)
+            {
+
+            }*/
+            
+            base.Tick(ref projectionMatrix, ref viewMatrix);
+        }
 
         #region Collision
 
@@ -66,42 +125,10 @@ namespace MassiveGame
 
         #endregion
 
-        #region Setter
-
-        protected float setRotation(directions direction)
-        {
-            switch (direction)
-            {
-                case directions.FORWARD:
-                    {
-                        return MathHelper.DegreesToRadians(180.0f);
-                    }
-                case directions.BACK:
-                    {
-                        return MathHelper.DegreesToRadians(0.0f);
-                    }
-                case directions.LEFT:
-                    {
-                        return MathHelper.DegreesToRadians(90.0f);
-                    }
-                case directions.RIGHT:
-                    {
-                        return MathHelper.DegreesToRadians(270.0f);
-                    }
-                default :
-                    return MathHelper.DegreesToRadians(0.0f);
-            }
-        }
-
-        #endregion
-
         #region Renderer
 
-        public virtual void renderObject(PrimitiveType mode, bool enableNormalMapping, DirectionalLight Sun,
-            List<PointLight> lights, Terrain terrain, LiteCamera camera, ref Matrix4 ProjectionMatrix, Vector4 clipPlane)
-        {
-
-        }
+        public abstract void renderObject(PrimitiveType mode, bool enableNormalMapping, DirectionalLight Sun,
+            List<PointLight> lights, Terrain terrain, LiteCamera camera, ref Matrix4 ProjectionMatrix, Vector4 clipPlane);
 
         #endregion
 
@@ -110,78 +137,6 @@ namespace MassiveGame
         public void SetActionMovedDelegateListener(EventHandler handler)
         {
             this.ActionMove += handler;
-        }
-
-        public virtual void objectMove(directions direction, Terrain terrain)       //Move object in 5 directions
-        {
-            float heightStep = terrain.getLandscapeHeight(Box.getCenter().X, Box.getCenter().Z);
-            Rotation = new Vector3(rotation.X, setRotation(direction), rotation.Z);
-            switch (direction)
-            {
-                case directions.LEFT:
-                    {
-                        this.Move = new Vector3(this.Move.X - _speed, heightStep - _bottomY, this.Move.Z);
-                        break;
-                    }
-                case directions.RIGHT:
-                    {
-                        this.Move = new Vector3(this.Move.X + _speed, heightStep - _bottomY, this.Move.Z);
-                        break;
-                    }
-                case directions.FORWARD:
-                    {
-                        this.Move = new Vector3(this.Move.X, heightStep - _bottomY, this.Move.Z - _speed);
-                        break;
-                    }
-                case directions.BACK:
-                    {
-                        this.Move = new Vector3(this.Move.X, heightStep - _bottomY, this.Move.Z + _speed);
-                        break;
-                    }
-            }
-
-            this.Box.synchronizeCoordinates(this._leftX + this.Move.X, base._rightX + this.Move.X,
-                    this._bottomY + this.Move.Y, this._topY + this.Move.Y, this._nearZ + this.Move.Z, this._farZ + this.Move.Z);
-
-            // begin collision detection
-            if (!Object.Equals(collisionDetection, null))
-            {
-                collisionDetection.isCollision(this.Box);
-            }
-
-            #region Current entity position calculation
-
-            ObjectPosition = new Vector3(
-                (objectStack.LeftX + objectStack.RightX) / 2 + Move.X,
-                Move.Y,
-                (objectStack.FarZ + objectStack.NearZ) / 2 + Move.Z
-            );
-
-            #endregion
-
-            #region Movement of sound source
-            ////need to add to center of a sound movement offset on X axis and Z axis
-            //sourceStep.SetPosition(
-            //    soundCenter.X + base.Move.X,
-            //    base.Move.Y,
-            //    soundCenter.Z + base.Move.Z
-            //);
-            //sourceCollide.SetPosition(
-            //    soundCenter.X + base.Move.X,
-            //    base.Move.Y,
-            //    soundCenter.Z + base.Move.Z
-            //);
-            #endregion
-
-            // need to add if statement in case of collision
-
-            //if (!sourceStep.IsPlaying())
-            //{
-            //    sourceStep.SetBuffer(_SB_step[_SB_stepSwitcher++]);
-            //    if (_SB_stepSwitcher == _SB_step.Length)
-            //        _SB_stepSwitcher = 0;
-            //    sourceStep.Play();
-            //}
         }
 
         #endregion
@@ -198,17 +153,23 @@ namespace MassiveGame
            );
         }
 
-        public void move(Terrain terrain, Camera camera)
+        public void MoveActor(Terrain terrain)
         {
+            // Actor shouldn't move while free fall
+            if (ActorState == BEHAVIOR_STATE.FREE_FALLING)
+                return;
+
+            ActorState = BEHAVIOR_STATE.MOVE;
+            var velocityVector = DOUEngine.Camera.GetNormalizedDirection();
+            velocityVector.Y = 0.0f;
+            Velocity = velocityVector;
+
             if (ActionMove != null)
             {
                 this.ActionMove(this, null);
             }
 
-            var direction = camera.GetNormalizedDirection();
-            direction.Y = 0;
-
-            Vector3 donePath = direction * Speed;
+            Vector3 donePath = Velocity * Speed;
             Vector3 newPosition = Box.getCenter() + donePath;
             float heightStep = terrain.getLandscapeHeight(newPosition.X, newPosition.Z);
             this.Move = new Vector3(donePath.X + Move.X, heightStep - _bottomY, donePath.Z + Move.Z);
@@ -232,9 +193,6 @@ namespace MassiveGame
                 Move.Y,
                 (objectStack.FarZ + objectStack.NearZ) / 2 + Move.Z
             );
-
-            // Update bound's transformation
-            bTransformationDirty = true;
         }
 
         #region Position_stack_functions
@@ -261,6 +219,7 @@ namespace MassiveGame
             , float Speed, int ID, Vector3 translation, Vector3 rotation, Vector3 scale) :
             base(modelPath, texturePath, normalMapPath, specularMapPath, translation, rotation, scale)
         {
+            ActorState = BEHAVIOR_STATE.IDLE;
             _verticesVectors = null;
             this.Move = new Vector3(0.0f);
             this._speed = Speed;
