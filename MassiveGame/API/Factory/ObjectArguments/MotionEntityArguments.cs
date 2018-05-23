@@ -19,7 +19,7 @@ namespace MassiveGame.API.Factory.ObjectArguments
 
         public MotionEntityArguments(string modelPath, string texturePath, string normalMapPath, string specularMapPath,
             int id, float speed, Vector3 translation, Vector3 rotation, Vector3 scale)
-            : base(EngineObjectType.MOTION_ENTITY,  modelPath,  texturePath,  normalMapPath,  specularMapPath)
+            : base(EntityType.MOVABLE_ENTITY,  modelPath,  texturePath,  normalMapPath,  specularMapPath)
         {
             ID = id;
             Speed = speed;

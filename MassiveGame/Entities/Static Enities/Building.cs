@@ -11,7 +11,7 @@ using MassiveGame.RenderCore;
 
 namespace MassiveGame
 {
-    public sealed class Building : StaticEntities
+    public sealed class Building : StaticEntity
     {
         #region Definitions 
 

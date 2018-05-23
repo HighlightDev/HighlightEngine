@@ -17,14 +17,14 @@ namespace MassiveGame.API
             ICreator creator = null;
             switch (a.ObjectType)
             {
-                case EngineObjectType.MOTION_ENTITY:
+                case EntityType.MOVABLE_ENTITY:
                     {
                         creator = new Factory.MotionEntity();
                         break;
                     }
-                case EngineObjectType.STATIC_ENTITY:
+                case EntityType.STATIC_ENTITY:
                     {
-                        creator = new StaticEntity();
+                        creator = new Factory.StaticEntity();
                         break;
                     }
             }

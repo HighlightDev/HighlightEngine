@@ -45,7 +45,7 @@ namespace MassiveGame
         private const float CAMERA_SPEED = 2.5f; 
         private float currentRotX;
         private float lastRotX;
-        private MotionEntity thirdPersonTarget;
+        private MovableEntity thirdPersonTarget;
 
         public CAMERA_MODE Mode { private set; get; }
         public bool SwitchCamera { set; get; }
@@ -248,7 +248,7 @@ namespace MassiveGame
             }
         }
 
-        public void SetThirdPerson(MotionEntity obj)
+        public void SetThirdPerson(MovableEntity obj)
         {
             Mode = CAMERA_MODE.THIRD_PERSON;
             thirdPersonTarget = obj;

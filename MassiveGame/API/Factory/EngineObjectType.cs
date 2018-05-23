@@ -6,10 +6,12 @@ using System.Threading.Tasks;
 
 namespace MassiveGame.API.Factory
 {
-    public enum EngineObjectType
+    public enum EntityType
     {
-        MOTION_ENTITY,
+        MOVABLE_ENTITY,
         STATIC_ENTITY,
-        PLANT_ENTITY
+        PLANT_ENTITY,
+        UNDEFINED
     }
+
 }

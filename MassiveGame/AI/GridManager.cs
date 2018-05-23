@@ -17,7 +17,7 @@ namespace MassiveGame
         /// </summary>
         /// <param name="obj">Объект, ID которого будет заноситься в таблицу столкновений</param>
         /// <param name="table">Непосредственно сама таблица столкновений</param>
-        public static void rectangleFillObjectToGrid(MotionEntity obj, TableGrid table) //polymorph function
+        public static void rectangleFillObjectToGrid(MovableEntity obj, TableGrid table) //polymorph function
         {
             // local variables  
             double left, right, far, near;
@@ -41,7 +41,7 @@ namespace MassiveGame
         /// <param name="table">Таблица столкновений</param>
         /// <param name="vectorCoordinates">Массив координат объекта</param>
         /// <param name="YLevel">Уровень по оси У</param>
-        public static void polygonalFillObjectToGrid(MotionEntity obj, TableGrid table, double[,] vectorCoordinates,double YLevel)
+        public static void polygonalFillObjectToGrid(MovableEntity obj, TableGrid table, double[,] vectorCoordinates,double YLevel)
         {
             double left, right, far, near;
             int counter = 0;
@@ -184,7 +184,7 @@ namespace MassiveGame
                 }
             }
         }
-        public static void rectangleFillEmpty(MotionEntity obj, TableGrid table) //polymorph function
+        public static void rectangleFillEmpty(MovableEntity obj, TableGrid table) //polymorph function
         {
             // local variables  
             double left, right, far, near;

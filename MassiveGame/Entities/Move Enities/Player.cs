@@ -32,7 +32,7 @@ namespace MassiveGame
 
     #endregion
 
-    public sealed class Player : MotionEntity
+    public sealed class Player : MovableEntity
     {
         #region Definitions
 
@@ -44,7 +44,7 @@ namespace MassiveGame
         //private int _SB_stepSwitcher = 0;
         //private int _SB_collideSwitcher = 0;
 
-        private MotionEntityShader _shader;
+        private MovableEntityShader _shader;
         private Material _material;
 
         private WaterReflectionEntityShader liteReflectionShader;
@@ -297,8 +297,8 @@ namespace MassiveGame
                 this._box.synchronizeCoordinates(this._leftX + this.Move.X, base._rightX + this.Move.X,
                    this._bottomY + this.Move.Y, this._topY + this.Move.Y, this._nearZ + this.Move.Z, this._farZ + this.Move.Z);
 
-                _shader = (MotionEntityShader)ResourcePool.GetShaderProgram(ProjectFolders.ShadersPath + "playerVertexShader.glsl",
-                    ProjectFolders.ShadersPath + "playerFragmentShader.glsl", "", typeof(MotionEntityShader));
+                _shader = (MovableEntityShader)ResourcePool.GetShaderProgram(ProjectFolders.ShadersPath + "playerVertexShader.glsl",
+                    ProjectFolders.ShadersPath + "playerFragmentShader.glsl", "", typeof(MovableEntityShader));
 
                 liteReflectionShader = (WaterReflectionEntityShader)ResourcePool.GetShaderProgram(ProjectFolders.ShadersPath + "waterReflectionEntityVS.glsl",
                     ProjectFolders.ShadersPath + "waterReflectionEntityFS.glsl", "", typeof(WaterReflectionEntityShader));

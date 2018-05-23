@@ -18,7 +18,7 @@ namespace MassiveGame
         FREE_FALLING
     }
 
-    public abstract class MotionEntity : Entity
+    public abstract class MovableEntity : Entity
     {
         #region Definitions
 
@@ -218,9 +218,9 @@ namespace MassiveGame
 
         #region Constructor
 
-        public MotionEntity() { }
+        public MovableEntity() { }
 
-        public MotionEntity(string modelPath, string texturePath, string normalMapPath, string specularMapPath
+        public MovableEntity(string modelPath, string texturePath, string normalMapPath, string specularMapPath
             , float Speed, int ID, Vector3 translation, Vector3 rotation, Vector3 scale) :
             base(modelPath, texturePath, normalMapPath, specularMapPath, translation, rotation, scale)
         {

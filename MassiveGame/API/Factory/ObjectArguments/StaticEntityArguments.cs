@@ -17,7 +17,7 @@ namespace MassiveGame.API.Factory.ObjectArguments
 
         public StaticEntityArguments(string modelPath, string texturePath, string normalMapPath, string specularMapPath,
             Vector3 translation, Vector3 rotation, Vector3 scale)
-            : base(EngineObjectType.STATIC_ENTITY,  modelPath,
+            : base(EntityType.STATIC_ENTITY,  modelPath,
             texturePath,  normalMapPath,  specularMapPath)
         {
             Translation = translation;

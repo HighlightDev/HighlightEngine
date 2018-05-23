@@ -14,9 +14,9 @@ namespace MassiveGame.API.Factory.ObjectArguments
         public string TexturePath;
         public string NormalMapPath;
         public string SpecularMapPath;
-        public EngineObjectType ObjectType { private set; get; }
+        public EntityType ObjectType { private set; get; }
 
-        public Arguments(EngineObjectType type,
+        public Arguments(EntityType type,
             string modelPath, string texturePath, string normalMapPath, string specularMapPath)
         {
             ObjectType = type;

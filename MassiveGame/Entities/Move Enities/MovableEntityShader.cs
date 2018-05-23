@@ -7,7 +7,7 @@ using MassiveGame.RenderCore.Shadows;
 
 namespace MassiveGame
 {
-    public class MotionEntityShader : Shader
+    public class MovableEntityShader : Shader
     {
         #region Definitions 
 
@@ -194,7 +194,7 @@ namespace MassiveGame
 
         #region Constructor
 
-        public MotionEntityShader(string VertexShaderFile, string FragmentShaderFile)
+        public MovableEntityShader(string VertexShaderFile, string FragmentShaderFile)
             : base(VertexShaderFile, FragmentShaderFile)
         {
             if (base.ShaderLoaded)

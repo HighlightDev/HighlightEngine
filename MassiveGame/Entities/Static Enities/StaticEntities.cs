@@ -7,7 +7,7 @@ using MassiveGame.RenderCore.Lights;
 
 namespace MassiveGame
 {
-    public abstract class StaticEntities : Entity
+    public abstract class StaticEntity : Entity
     {
         #region Definitions
 
@@ -43,7 +43,7 @@ namespace MassiveGame
 
         #region Constructor
 
-        public StaticEntities(string modelPath, string texturePath, string normalMapPath, string specularMapPath,
+        public StaticEntity(string modelPath, string texturePath, string normalMapPath, string specularMapPath,
             Vector3 translation, Vector3 rotation, Vector3 scale) :
             base(modelPath, texturePath, normalMapPath, specularMapPath, translation, rotation, scale)
         {
