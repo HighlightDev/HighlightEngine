@@ -18,7 +18,7 @@ namespace MassiveGame
         FREE_FALLING
     }
 
-    public abstract class MotionEntities : Entity
+    public abstract class MotionEntity : Entity
     {
         #region Definitions
 
@@ -41,6 +41,11 @@ namespace MassiveGame
         {
             set { velocity = value; }
             get { return velocity; }
+        }
+
+        public BoundBase GetCharacterCollisionBound()
+        {
+            return ChildrenComponents[0].Bound;
         }
 
         [Obsolete("DEPRECATED PROPERTY, MUST BE ELIMINATED")]
@@ -213,9 +218,9 @@ namespace MassiveGame
 
         #region Constructor
 
-        public MotionEntities() { }
+        public MotionEntity() { }
 
-        public MotionEntities(string modelPath, string texturePath, string normalMapPath, string specularMapPath
+        public MotionEntity(string modelPath, string texturePath, string normalMapPath, string specularMapPath
             , float Speed, int ID, Vector3 translation, Vector3 rotation, Vector3 scale) :
             base(modelPath, texturePath, normalMapPath, specularMapPath, translation, rotation, scale)
         {

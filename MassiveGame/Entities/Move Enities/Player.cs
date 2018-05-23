@@ -32,7 +32,7 @@ namespace MassiveGame
 
     #endregion
 
-    public sealed class Player : MotionEntities
+    public sealed class Player : MotionEntity
     {
         #region Definitions
 

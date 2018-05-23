@@ -1,4 +1,5 @@
-﻿using OpenTK;
+﻿using MassiveGame.Physics.OutputData;
+using OpenTK;
 using PhysicsBox;
 using PhysicsBox.ComponentCore;
 using PhysicsBox.MathTypes;
@@ -38,54 +39,106 @@ namespace MassiveGame.Physics
             }
         }
 
+        #region core
+
+        private void GetRayCastPoints(BoundBase characterBound, Vector3 characterDirection, Component characterRootComponent, out Vector3 edge1, out Vector3 edge2)
+        {
+            Vector3 characterBoundOrigin = characterBound.GetOrigin();
+
+            // Find positions for ray casts
+            Vector3 boundMax = characterBound.GetMax();
+            Vector3 boundMin = characterBound.GetMin();
+            // This is SHIT!
+            Vector3 velocityToPreviousPosition = characterDirection * (-(characterRootComponent as Player).Speed);
+            boundMax += velocityToPreviousPosition;
+            boundMin += velocityToPreviousPosition;
+
+            Vector3 testPoint1 = new Vector3(boundMin.X, characterBoundOrigin.Y, boundMin.Z);
+            Vector3 testPoint2 = new Vector3(boundMax.X, characterBoundOrigin.Y, boundMax.Z);
+            Vector3 testPoint3 = new Vector3(boundMax.X, characterBoundOrigin.Y, boundMin.Z);
+            Vector3 testPoint4 = new Vector3(boundMin.X, characterBoundOrigin.Y, boundMax.Z);
+
+            Dictionary<Vector3, float> points = new Dictionary<Vector3, float>();
+            points.Add(testPoint1, GeometricMath.ProjectVectorOnNormalizedVector(testPoint1, characterDirection));
+            points.Add(testPoint2, GeometricMath.ProjectVectorOnNormalizedVector(testPoint2, characterDirection));
+            points.Add(testPoint3, GeometricMath.ProjectVectorOnNormalizedVector(testPoint3, characterDirection));
+            points.Add(testPoint4, GeometricMath.ProjectVectorOnNormalizedVector(testPoint4, characterDirection));
+
+            points = (Dictionary<Vector3, float>)from entry in points orderby entry.Value ascending select entry;
+            edge1 = points.Keys.ToList()[0];
+            edge2 = points.Keys.ToList()[1];
+        }
+
+        private void ProcessCollisionAtState_FreeFalling(MotionEntity character)
+        {
+            Vector3 boundMin = character.GetCharacterCollisionBound().GetMin();
+
+            // Raycast from bottom point
+            Vector3 rayCastStartPosition = new Vector3(character.GetCharacterCollisionBound().GetOrigin());
+            rayCastStartPosition.Y = boundMin.Y;
+
+            FRay ray = new FRay(rayCastStartPosition, character.Velocity);
+            float intersectionDistance = TerrainRayIntersaction.Intersection_TerrainRay(DOUEngine.terrain, ray);
+
+            // Character could be elevated on terrain 
+            if (intersectionDistance <= character.Speed)
+            {
+                Vector3 CharacterNewPosition = ray.GetPositionInTime(intersectionDistance);
+                character.collisionOffset(CharacterNewPosition);
+                character.ActorState = BEHAVIOR_STATE.IDLE;
+            }
+            // Character is still in free fall, just uppdate position
+            else
+                character.Move = BodyMechanics.UpdateFreeFallPosition(character.Move, character.Speed, character.Velocity);
+
+            character.pushPositionStack();
+        }
+
+        private void ProcessCollisionAtState_Move(MotionEntity character)
+        {
+            Vector3 boundMax = character.GetCharacterCollisionBound().GetMax();
+            Vector3 boundMin = character.GetCharacterCollisionBound().GetMin();
+
+            // Ray cast from top point to avoid miss ray casting
+            Vector3 rayCastStartPosition = new Vector3(character.GetCharacterCollisionBound().GetOrigin());
+            rayCastStartPosition.Y = boundMax.Y;
+
+            FRay rayDown = new FRay(rayCastStartPosition, -DOUEngine.Camera.getUpVector());
+            float intersectionDistance = TerrainRayIntersaction.Intersection_TerrainRay(DOUEngine.terrain, rayDown);
+
+            float boundExtent = boundMax.Y - boundMin.Y;
+            float actualIntersectionDistance = intersectionDistance - boundExtent;
+
+            // Check if character can reach that height
+            if (actualIntersectionDistance <= character.Speed)
+            {
+                // Character could be elevated on terrain 
+                Vector3 CharacterNewPosition = rayDown.GetPositionInTime(actualIntersectionDistance);
+                character.collisionOffset(CharacterNewPosition);
+                character.ActorState = BEHAVIOR_STATE.IDLE;
+            }
+            // Character is in free fall, next position will be calculated in next tick
+            else
+                character.ActorState = BEHAVIOR_STATE.FREE_FALLING;
+
+            // Push current position to stack
+            character.pushPositionStack();
+        }
+
+        #endregion
+
         private void Process_NoCollision(CollisionOutputNoCollided collisionOutputNoCollided)
         {
-            Component characterRootComponent = collisionOutputNoCollided.GetCharacterRootComponent();
+            MotionEntity character = collisionOutputNoCollided.GetCharacterRootComponent() as MotionEntity;
 
-            // If character is in free fall - find next his position
-            if ((characterRootComponent as Player).ActorState == BEHAVIOR_STATE.FREE_FALLING)
+            switch (character.ActorState)
             {
-                FRay ray = new FRay(characterRootComponent.ChildrenComponents.First().Bound.GetOrigin(), (characterRootComponent as Player).Velocity);
-                float intersectionDistance = TerrainRayIntersaction.Intersection_TerrainRay(DOUEngine.terrain, ray);
-
-                // Character could be elevated on terrain 
-                if (intersectionDistance <= (characterRootComponent as Player).Speed)
-                {
-                    Vector3 CharacterNewPosition = ray.GetPositionInTime(intersectionDistance);
-                    (characterRootComponent as Player).collisionOffset(CharacterNewPosition);
-                    (characterRootComponent as Player).ActorState = BEHAVIOR_STATE.IDLE;
-                    (characterRootComponent as Player).pushPositionStack();
-                }
-                // Character is still in free fall
-                else
-                {
-                    // Update position during free fall
-                    (characterRootComponent as Player).Move = BodyMechanics.UpdateFreeFallPosition((characterRootComponent as Player).Move,
-                        (characterRootComponent as Player).Speed, (characterRootComponent as Player).Velocity);
-
-                    (characterRootComponent as Player).pushPositionStack();
-                }
-            }
-            else
-            {
-                // Character doesn't have actual collision - must to check if character is in air (free fall)
-                FRay rayDown = new FRay(characterRootComponent.ChildrenComponents.First().Bound.GetOrigin(), -DOUEngine.Camera.getUpVector());
-                float intersectionDistance = TerrainRayIntersaction.Intersection_TerrainRay(DOUEngine.terrain, rayDown);
-
-                // Character could be elevated on terrain 
-                if (intersectionDistance <= (characterRootComponent as Player).Speed)
-                {
-                    Vector3 CharacterNewPosition = rayDown.GetPositionInTime(intersectionDistance);
-                    (characterRootComponent as Player).collisionOffset(CharacterNewPosition);
-                    (characterRootComponent as Player).ActorState = BEHAVIOR_STATE.IDLE;
-                    (characterRootComponent as Player).pushPositionStack();
-                }
-                // Character is in free fall
-                else
-                {
-                    (characterRootComponent as Player).ActorState = BEHAVIOR_STATE.FREE_FALLING;
-                    (characterRootComponent as Player).pushPositionStack();
-                }
+                // Character is in free fall and has no collision with bounds
+                // need to find his next position
+                case BEHAVIOR_STATE.FREE_FALLING: ProcessCollisionAtState_FreeFalling(character); break;
+                // Character is moving and has no collision with bound
+                // he may be colliding with terrain, if yes - elevate him on it, else - set free falling state
+                case BEHAVIOR_STATE.MOVE: ProcessCollisionAtState_Move(character); break;
             }
         }
 
@@ -128,9 +181,11 @@ namespace MassiveGame.Physics
                 // If character is in free falling but has found some collisions
                 if ((characterRootComponent as Player).ActorState == BEHAVIOR_STATE.FREE_FALLING)
                 {
-                    // GO TO RAY CAST DOWN
+                    // GO TO RAY CAST Velocity
                     // INTO COLLIDED OBJECTS
                     // AND TERRAIN IF NO COLLISION WITH OBJECTS!
+
+                    // if there are collisions - and can't get on mesh - just change velocity vector to down;
                 }
                 else
                 {
@@ -255,32 +310,6 @@ namespace MassiveGame.Physics
             }
         }
 
-        private void GetRayCastPoints(BoundBase characterBound, Vector3 characterDirection, Component characterRootComponent, out Vector3 edge1, out Vector3 edge2)
-        {
-            Vector3 characterBoundOrigin = characterBound.GetOrigin();
-
-            // Find positions for ray casts
-            Vector3 boundMax = characterBound.GetMax();
-            Vector3 boundMin = characterBound.GetMin();
-            // This is SHIT!
-            Vector3 velocityToPreviousPosition = characterDirection * (-(characterRootComponent as Player).Speed);
-            boundMax += velocityToPreviousPosition;
-            boundMin += velocityToPreviousPosition;
-
-            Vector3 testPoint1 = new Vector3(boundMin.X, characterBoundOrigin.Y, boundMin.Z);
-            Vector3 testPoint2 = new Vector3(boundMax.X, characterBoundOrigin.Y, boundMax.Z);
-            Vector3 testPoint3 = new Vector3(boundMax.X, characterBoundOrigin.Y, boundMin.Z);
-            Vector3 testPoint4 = new Vector3(boundMin.X, characterBoundOrigin.Y, boundMax.Z);
-
-            Dictionary<Vector3, float> points = new Dictionary<Vector3, float>();
-            points.Add(testPoint1, GeometricMath.ProjectVectorOnNormalizedVector(testPoint1, characterDirection));
-            points.Add(testPoint2, GeometricMath.ProjectVectorOnNormalizedVector(testPoint2, characterDirection));
-            points.Add(testPoint3, GeometricMath.ProjectVectorOnNormalizedVector(testPoint3, characterDirection));
-            points.Add(testPoint4, GeometricMath.ProjectVectorOnNormalizedVector(testPoint4, characterDirection));
-
-            points = (Dictionary<Vector3, float>)from entry in points orderby entry.Value ascending select entry;
-            edge1 = points.Keys.ToList()[0];
-            edge2 = points.Keys.ToList()[1];
-        }
+       
     }
 }

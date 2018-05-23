@@ -139,6 +139,7 @@
     <Compile Include="Debug\UiPanel\UiFrameMaster.cs" />
     <Compile Include="Physics\CollisionHeadUnit.cs" />
     <Compile Include="Physics\CollisionBehaviorManager.cs" />
+    <Compile Include="Physics\OutputData\OutputData.cs" />
     <Compile Include="Physics\CollisionUnit.cs" />
     <Compile Include="RenderCore\ComputeShaders\ComputeShader.cs" />
     <Compile Include="RenderCore\DefaultFrameBuffer.cs" />
@@ -168,7 +169,7 @@
     </Compile>
     <Compile Include="Entities\Environment Entities\EnvironmentEntities.cs" />
     <Compile Include="Entities\Environment Entities\EnvironmentEntitiesShader.cs" />
-    <Compile Include="Entities\Move Enities\MotionEntities.cs" />
+    <Compile Include="Entities\Move Enities\MotionEntity.cs" />
     <Compile Include="Entities\Move Enities\MotionEntityShader.cs" />
     <Compile Include="Entities\Move Enities\Player.cs" />
     <Compile Include="Entities\Plant Enitites\PlantBuilderMaster.cs" />

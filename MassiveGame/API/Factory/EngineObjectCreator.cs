@@ -19,7 +19,7 @@ namespace MassiveGame.API
             {
                 case EngineObjectType.MOTION_ENTITY:
                     {
-                        creator = new MotionEntity();
+                        creator = new Factory.MotionEntity();
                         break;
                     }
                 case EngineObjectType.STATIC_ENTITY:

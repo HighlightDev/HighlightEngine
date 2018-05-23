@@ -7,82 +7,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using MassiveGame.Physics.OutputData;
 
 namespace MassiveGame.Physics
 {
     public class CollisionHeadUnit
     {
-        public abstract class CollisionOutputData
-        {
-            public enum OutDataType
-            {
-                FramingAABB,
-                RegularOBB,
-                NoCollided
-            }
-
-            public abstract OutDataType GetDataType();
-
-            protected object CollisionSender;
-            protected object CollisionReceiver;
-            protected object CollidedComponentBounds;
-        }
-
-        public class CollisionOutputNoCollided : CollisionOutputData
-        {
-            public Component GetCharacterRootComponent()
-            {
-                return CollisionSender as Component;
-            }
-
-            public override OutDataType GetDataType()
-            {
-                return OutDataType.NoCollided;
-            }
-
-            public CollisionOutputNoCollided(Component collisionSender)
-            {
-                CollisionSender = collisionSender;
-            }
-        }
-
-        public class CollisionOutputFramingAABB : CollisionOutputNoCollided
-        {
-            public Component GetCollidedRootComponent()
-            {
-                return CollisionReceiver as Component;
-            }
-
-            public override OutDataType GetDataType()
-            {
-                return OutDataType.FramingAABB;
-            }
-
-            public CollisionOutputFramingAABB(Component collisionSender, Component collisionReceiver) : base(collisionSender)
-            {
-                CollisionReceiver = collisionReceiver;
-            }
-        }
-
-        public class CollisionOutputRegularOBB : CollisionOutputFramingAABB
-        {
-            public List<BoundBase> GetCollidedBoundingBoxes()
-            {
-                return CollidedComponentBounds as List<BoundBase>;
-            }
-
-            public override OutDataType GetDataType()
-            {
-                return OutDataType.RegularOBB;
-            }
-
-            public CollisionOutputRegularOBB(Component collisionSender, Component collisionReceiver, List<BoundBase> collidedComponentBounds) :
-                base(collisionSender, collisionReceiver)
-            {
-                CollidedComponentBounds = collidedComponentBounds;
-            }
-        }
-
         List<CollisionUnit> CollisionUnits;
 
         List<CollisionOutputData> CollisionOutput;
@@ -134,7 +64,6 @@ namespace MassiveGame.Physics
         private void CheckFrameBoundingBoxCollision(ref bool bFrameBoundBoxCollision, ref Component characterRootComponent, ref CollisionUnit characterCollisionUnit,
             ref Component collidedRootComponent, ref List<BoundBase> collidedRootBounds)
         {
-           
             foreach (var unit in CollisionUnits)
             {
                 if (characterCollisionUnit.RootComponent == unit.RootComponent)
@@ -171,6 +100,7 @@ namespace MassiveGame.Physics
                     collidedBounds.Add(testingBound);
                 }
             }
+
             if (collidedBounds.Count > 0)
                 bRegularBoundingBoxCollision = true;
 
@@ -192,14 +122,10 @@ namespace MassiveGame.Physics
             CheckFrameBoundingBoxCollision(ref bFrameBoundingBoxCollision, ref characterRootComponent, ref characterCollisionUnit, ref collidedRootComponent, ref collidedRootBounds);
 
             // Check Collision. Step 2 - check all bounding boxes of concrete component for collision -- (PURE COLLISION DETECTION)
-            // character must have only one collision bound! take only first from list!
             List<BoundBase> collidedBounds = new List<BoundBase>();
             CheckRegularBoundingBoxCollision(ref bRegularBoundingBoxCollision, ref characterRootComponent, ref collidedRootComponent, ref collidedRootBounds, ref characterBound, ref collidedRootBounds);
 
-            // !DO ALL RAY TRACINGS SOMEWHERE ELSE, THAT IS A SPECIFIC BEHAVIOR OF EACH CHARACTER! //
-
-            // Check Collision. Step 3 - Ray trace to find out height of current step (character can be in air, so check it) -- (BEHAVIOR OF COLLISION RESOLVING)
-
+            // Check Collision. Step 3 - Ray trace -- (BEHAVIOR OF COLLISION RESOLVING)
             BehaviorManager.ProcessCollision(CollisionOutput);
 
             // Clear all output after collision handling
