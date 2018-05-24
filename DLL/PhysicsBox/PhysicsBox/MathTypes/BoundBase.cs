@@ -98,5 +98,38 @@ namespace PhysicsBox.MathTypes
         {
             return GetLocalSpaceExtent();
         }
+
+        public Vector3 GetNormalToIntersectedPosition(Vector3 position)
+        {
+            // Gather six planes, find the closest plane to incoming position
+            // As we know plane equation Ax + By + Cz + D = 0
+            // we must substitute in place of xyz incoming position and check when D is near a zero value
+
+            Vector3 min = GetMin();
+            Vector3 max = GetMax();
+            Vector3 tangentX = GetTangetX();
+            Vector3 tangentY = GetTangetY();
+            Vector3 tangentZ = GetTangetZ();
+
+            List<FPlane> boundPlanes = new List<FPlane>(6)
+            {
+                new FPlane(min, -tangentX), new FPlane(min, -tangentY), new FPlane(min, -tangentZ),
+                new FPlane(max, tangentX), new FPlane(max, tangentY), new FPlane(max, tangentZ)
+            };
+
+            float d = float.MaxValue;
+            FPlane closestPlane = null;
+            foreach (FPlane plane in boundPlanes)
+            {
+                float distance = Vector3.Dot((Vector3)plane, position) + plane.D;
+                if (distance < d)
+                {
+                    closestPlane = plane;
+                    d = distance;
+                }
+            }
+
+            return (Vector3)closestPlane;
+        }
     }
 }

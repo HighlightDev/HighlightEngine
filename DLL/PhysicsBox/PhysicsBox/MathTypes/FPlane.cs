@@ -47,6 +47,11 @@ namespace PhysicsBox.MathTypes
             this.D = Vector3.Dot(InBase, InNormal);
         }
 
+        public static explicit operator Vector3(FPlane plane)
+        {
+            return new Vector3(plane.X, plane.Y, plane.Z);
+        }
+
         public static explicit operator Vector4(FPlane plane)
         {
             return new Vector4(plane.X, plane.Y, plane.Z, plane.D);
