@@ -10,7 +10,7 @@ using PhysicsBox;
 
 namespace MassiveGame
 {
-    public static class TerrainRayIntersaction
+    public static class TerrainRayIntersection
     {
         #region Definition
 
@@ -21,7 +21,7 @@ namespace MassiveGame
 
         #region Getter
 
-        public static Vector3 getIntersactionPoint(Terrain terrain, FRay ray) //Binary search
+        public static Vector3 getIntersectionPoint(Terrain terrain, FRay ray) //Binary search
         {
             Vector3 endPoint = getEndPoint(ray);
             Vector3 startPoint = ray.StartPosition;
@@ -39,8 +39,8 @@ namespace MassiveGame
 
         public static float Intersection_TerrainRay(Terrain terrain, FRay ray)
         {
-            Vector3 P = getIntersactionPoint(terrain, ray);
-            float t = 0.0f;
+            Vector3 P = getIntersectionPoint(terrain, ray);
+            float t = -1.0f;
             if (GeometricMath.CMP(ray.Direction.X, 0.0f) <= 0.0f && GeometricMath.CMP(P.X, 0.0f) <= 0.0f)
                 t = (P.X - ray.StartPosition.X) / ray.Direction.X;
             else if (GeometricMath.CMP(ray.Direction.Y, 0.0f) <= 0.0f && GeometricMath.CMP(P.Y, 0.0f) <= 0.0f)
