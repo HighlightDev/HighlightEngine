@@ -64,6 +64,14 @@ namespace MassiveGame.Physics
             return false;
         }
 
+        private bool REACHABLE_INCLINE(Vector3 normal)
+        {
+            float cosIncline = normal.Y;
+            if (cosIncline < 0.0f || cosIncline > BodyMechanics.COS_MAX_REACHABLE_INCLINE)
+                return false;
+            return true;
+        }
+
         private EntityType GetEntityType(Component entityComponent)
         {
             if (entityComponent as MovableEntity != null)
@@ -177,7 +185,7 @@ namespace MassiveGame.Physics
             // Check if character can reach that height
             else
             {  // Character could be elevated on terrain 
-                Vector3 CharacterNewPosition = rayDown.GetPositionInTime(actualIntersectionDistance);
+                Vector3 CharacterNewPosition = rayDown.GetPositionInTime(intersectionDistance);
                 character.collisionOffset(CharacterNewPosition);
                 character.ActorState = BEHAVIOR_STATE.IDLE;
             }
@@ -252,9 +260,10 @@ namespace MassiveGame.Physics
                             if (RAYCAST_INTERSECTION_FAR(characterEntity.Speed, closestDistance))
                             {
                                 // Do ray cast down from middle height current position
-                                Vector3 CurrentClosestPosition = previousClosestPosition + characterEntity.Velocity * characterEntity.Speed; 
+                                Vector3 CurrentClosestPosition = previousClosestPosition + characterEntity.Velocity * characterEntity.Speed;
                                 FRay rayDown = new FRay(CurrentClosestPosition, -DOUEngine.Camera.getUpVector());
-                                float closestDistanceBottom = GetClosestRayCastResult(rayDown, collidedBounds, characterEntity).shortestDistance;
+                                RayCastOutputData rayDownOutput = GetClosestRayCastResult(rayDown, collidedBounds, characterEntity);
+                                float closestDistanceBottom = rayDownOutput.shortestDistance;
 
                                 float boundExtent = characterEntity.GetCharacterCollisionBound().GetMax().Y - characterEntity.GetCharacterCollisionBound().GetMin().Y;
                                 float actualIntersectionDistance = closestDistanceBottom - boundExtent;
@@ -262,8 +271,7 @@ namespace MassiveGame.Physics
                                 // Character could be elevated on collided mesh
                                 if (actualIntersectionDistance <= characterEntity.Speed)
                                 {
-                                    Vector3 CharacterNewPosition = rayDown.GetPositionInTime(closestDistanceBottom);
-                                    characterEntity.collisionOffset(CharacterNewPosition);
+                                    characterEntity.collisionOffset(rayDownOutput.intersectionPosition);
                                     characterEntity.ActorState = BEHAVIOR_STATE.IDLE;
                                 }
                                 // Character now goes to free fall
@@ -273,13 +281,23 @@ namespace MassiveGame.Physics
                                 characterEntity.pushPositionStack();
                             }
                             // Distance to collided bound is small enough to step there
-                            // In this case acquire angle of that plane to find out can character step on that surface, if no - pop previous position and set to idle
+                            // In this case acquire normal to that plane to find out can character step on that surface, if no - pop previous position and set to idle
                             else
                             {
                                 BoundBase bound = outputData.collidedBound;
                                 Vector3 normalToCollidedPlane = bound.GetNormalToIntersectedPosition(outputData.intersectionPosition);
+                               
+                                // Character can step on this surface
+                                if (REACHABLE_INCLINE(normalToCollidedPlane))
+                                {
+                                    characterEntity.collisionOffset(outputData.intersectionPosition);
+                                    characterEntity.pushPositionStack();
+                                }
+                                // if normal is down directed or too up directed - character can't step on this surface, return to previous position
+                                else
+                                    characterEntity.popPositionStack();
 
-                                // KEEP WORKING AT THIS TOMORROW
+                                characterEntity.ActorState = BEHAVIOR_STATE.IDLE;
                             }
                         }
                         /*  There was no intersection with ray, this could be one of these reasons :
@@ -306,18 +324,17 @@ namespace MassiveGame.Physics
                             else
                             {
                                 // Do ray cast from current middle height position down
-                                
                                 Vector3 boundOrigin = characterBound.GetOrigin();
                                 Vector3 CurrentClosestPosition = previousClosestPosition + characterEntity.Velocity * characterEntity.Speed;
                                 CurrentClosestPosition = new Vector3(CurrentClosestPosition.X, boundOrigin.Y, CurrentClosestPosition.Z);
                                 FRay rayDown = new FRay(CurrentClosestPosition, -DOUEngine.Camera.getUpVector());
-                                float closestDistanceDown = GetClosestRayCastResult(rayDown, collidedBounds, characterEntity).shortestDistance;
+                                RayCastOutputData rayDownOutput = GetClosestRayCastResult(rayDown, collidedBounds, characterEntity);
+                                float closestDistanceDown = rayDownOutput.shortestDistance;
 
-                                // Character can step on it, so find out intersection position and him elevate on it
+                                // Character can step on it, so find out intersection position and elevate him on it
                                 if (RAYCAST_COLLIDED(closestDistanceDown))
                                 {
-                                    Vector3 CharacterNewPosition = rayDown.GetPositionInTime(closestDistanceDown);
-                                    characterEntity.collisionOffset(CharacterNewPosition);
+                                    characterEntity.collisionOffset(rayDownOutput.intersectionPosition);
                                     characterEntity.ActorState = BEHAVIOR_STATE.IDLE;
                                     
                                 }
@@ -341,7 +358,7 @@ namespace MassiveGame.Physics
                                     // Check if character can reach that height
                                     else
                                     {  // Character could be elevated on terrain 
-                                        Vector3 CharacterNewPosition = rayDown.GetPositionInTime(actualIntersectionDistance);
+                                        Vector3 CharacterNewPosition = rayDown.GetPositionInTime(intersectionDistance);
                                         characterEntity.collisionOffset(CharacterNewPosition);
                                         characterEntity.ActorState = BEHAVIOR_STATE.IDLE;
                                     }
