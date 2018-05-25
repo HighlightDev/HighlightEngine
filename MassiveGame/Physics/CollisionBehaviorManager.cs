@@ -109,32 +109,46 @@ namespace MassiveGame.Physics
             return new RayCastOutputData(resultBound, resultShortestDistance, intersectionPosition);
         }
 
-        private void GetPreviosPositionsForRayCast(BoundBase characterBound, Vector3 characterDirection, MovableEntity characterEntity, out Vector3 edge1, out Vector3 edge2)
+        private void GetEgePositionsForRayCast(ref Vector3 boundMax, ref Vector3 boundMin, ref Vector3 boundOrigin, MovableEntity characterEntity, out Vector3 edge1, out Vector3 edge2)
         {
-            Vector3 characterBoundOrigin = characterBound.GetOrigin();
-
-            // Find positions for ray casts
-            Vector3 boundMax = characterBound.GetMax();
-            Vector3 boundMin = characterBound.GetMin();
-
-            Vector3 velocityToPreviousPosition = characterDirection * (-characterEntity.Speed);
-            boundMax += velocityToPreviousPosition;
-            boundMin += velocityToPreviousPosition;
-
-            Vector3 testPoint1 = new Vector3(boundMin.X, characterBoundOrigin.Y, boundMin.Z);
-            Vector3 testPoint2 = new Vector3(boundMax.X, characterBoundOrigin.Y, boundMax.Z);
-            Vector3 testPoint3 = new Vector3(boundMax.X, characterBoundOrigin.Y, boundMin.Z);
-            Vector3 testPoint4 = new Vector3(boundMin.X, characterBoundOrigin.Y, boundMax.Z);
+            Vector3 testPoint1 = new Vector3(boundMin.X, boundOrigin.Y, boundMin.Z);
+            Vector3 testPoint2 = new Vector3(boundMax.X, boundOrigin.Y, boundMax.Z);
+            Vector3 testPoint3 = new Vector3(boundMax.X, boundOrigin.Y, boundMin.Z);
+            Vector3 testPoint4 = new Vector3(boundMin.X, boundOrigin.Y, boundMax.Z);
 
             Dictionary<Vector3, float> points = new Dictionary<Vector3, float>();
-            points.Add(testPoint1, GeometricMath.ProjectVectorOnNormalizedVector(testPoint1, characterDirection));
-            points.Add(testPoint2, GeometricMath.ProjectVectorOnNormalizedVector(testPoint2, characterDirection));
-            points.Add(testPoint3, GeometricMath.ProjectVectorOnNormalizedVector(testPoint3, characterDirection));
-            points.Add(testPoint4, GeometricMath.ProjectVectorOnNormalizedVector(testPoint4, characterDirection));
+            points.Add(testPoint1, GeometricMath.ProjectVectorOnNormalizedVector(testPoint1, characterEntity.Velocity));
+            points.Add(testPoint2, GeometricMath.ProjectVectorOnNormalizedVector(testPoint2, characterEntity.Velocity));
+            points.Add(testPoint3, GeometricMath.ProjectVectorOnNormalizedVector(testPoint3, characterEntity.Velocity));
+            points.Add(testPoint4, GeometricMath.ProjectVectorOnNormalizedVector(testPoint4, characterEntity.Velocity));
 
             points = (Dictionary<Vector3, float>)from entry in points orderby entry.Value ascending select entry;
             edge1 = points.Keys.ToList()[0];
             edge2 = points.Keys.ToList()[1];
+        }
+
+        private void GetPreviosPositionsForRayCast(BoundBase characterBound, MovableEntity characterEntity, out Vector3 edge1, out Vector3 edge2)
+        {
+            // Find positions for ray casts
+            Vector3 boundMax = characterBound.GetMax();
+            Vector3 boundMin = characterBound.GetMin();
+            Vector3 characterBoundOrigin = characterBound.GetOrigin();
+
+            Vector3 velocityToPreviousPosition = characterEntity.Velocity * (-characterEntity.Speed);
+            boundMax += velocityToPreviousPosition;
+            boundMin += velocityToPreviousPosition;
+
+            GetEgePositionsForRayCast(ref boundMax, ref boundMin, ref characterBoundOrigin, characterEntity, out edge1, out edge2);
+        }
+
+        private void GetCurrentPositionsForRayCast(BoundBase characterBound, MovableEntity characterEntity, out Vector3 edge1, out Vector3 edge2)
+        {
+            // Find positions for ray casts
+            Vector3 boundMax = characterBound.GetMax();
+            Vector3 boundMin = characterBound.GetMin();
+            Vector3 characterBoundOrigin = characterBound.GetOrigin();
+
+            GetEgePositionsForRayCast(ref boundMax, ref boundMin, ref characterBoundOrigin, characterEntity, out edge1, out edge2);
         }
 
         private void ProcessNoCollisionAtState_FreeFalling(MovableEntity character)
@@ -210,18 +224,17 @@ namespace MassiveGame.Physics
                 case EntityType.STATIC_ENTITY:
                     {
                         BoundBase characterBound = characterEntity.GetCharacterCollisionBound();
-                        Vector3 characterDirection = characterEntity.Velocity;
 
                         // 1) First of all character has to do ray cast in move direction from edge middle height position, edge left position and edge right position before making move
 
                         Vector3 rayCastEdge1, rayCastEdge2, rayCastCenter;
-                        GetPreviosPositionsForRayCast(characterBound, characterDirection, characterEntity, out rayCastEdge1, out rayCastEdge2);
+                        GetPreviosPositionsForRayCast(characterBound, characterEntity, out rayCastEdge1, out rayCastEdge2);
                         rayCastCenter = (rayCastEdge1 + rayCastEdge2) / 2; // interpolate between two edge points to get middle
                         rayCastCenter.Y = rayCastEdge1.Y;
 
-                        FRay rayFromEdge1 = new FRay(rayCastEdge1, characterDirection);
-                        FRay rayFromEdge2 = new FRay(rayCastEdge2, characterDirection);
-                        FRay rayFromCenter = new FRay(rayCastCenter, characterDirection);
+                        FRay rayFromEdge1 = new FRay(rayCastEdge1, characterEntity.Velocity);
+                        FRay rayFromEdge2 = new FRay(rayCastEdge2, characterEntity.Velocity);
+                        FRay rayFromCenter = new FRay(rayCastCenter, characterEntity.Velocity);
 
                         // Necessary data for subsequent calculations
                         float closestDistance = -1.0f;
@@ -395,6 +408,11 @@ namespace MassiveGame.Physics
                         // AND TERRAIN IF NO COLLISION WITH OBJECTS!
 
                         // if there are collisions - and can't get on mesh - just change velocity vector to down;
+
+                        Vector3 edgePosition1, edgePosition2, edgePositionCenter;
+                        GetCurrentPositionsForRayCast(character.GetCharacterCollisionBound(), character, out edgePosition1, out edgePosition2);
+                        edgePositionCenter = (edgePosition1 + edgePosition2) / 2;
+
                         break;
                     }
             }

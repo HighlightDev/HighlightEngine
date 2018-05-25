@@ -412,8 +412,13 @@ namespace ShaderPattern
                 if (code.Count - 1 > i)
                     codeResult += str + "\r";
                 else
-                    codeResult += str + "\0";
+                    codeResult += str;
             }
+
+            Int32 indexNewLine = codeResult.LastIndexOf("\n");
+            indexNewLine = codeResult.LastIndexOf("\r") > indexNewLine ? codeResult.LastIndexOf("\r") : indexNewLine;
+
+            codeResult = codeResult.EndsWith("\n") || codeResult.EndsWith("\r") ? codeResult.Remove(indexNewLine) : codeResult;
 
             StreamWriter writer = new StreamWriter(shaderPath, false);
             writer.WriteLine(codeResult);
