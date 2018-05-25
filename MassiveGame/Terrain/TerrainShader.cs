@@ -204,6 +204,8 @@ namespace MassiveGame
         {
             SetDefine(ShaderTypeFlag.VertexShader | ShaderTypeFlag.FragmentShader, "LIGHT_COUNT", DOUEngine.MAX_LIGHT_COUNT.ToString());
             SetDefine(ShaderTypeFlag.FragmentShader, "MAX_MIST_VISIBLE_AREA", "1.0");
+            SetDefine(ShaderTypeFlag.FragmentShader, "SHADOWMAP_BIAS", "0.005");
+            SetDefine(ShaderTypeFlag.FragmentShader, "PCF_SAMPLES", "2");
         }
 
         #region Constructor
