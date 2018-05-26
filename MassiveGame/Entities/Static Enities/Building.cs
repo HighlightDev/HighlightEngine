@@ -42,13 +42,13 @@ namespace MassiveGame
 
         public Matrix4 GetMirrorMatrix(WaterEntity water)
         {
-            Vector3 currentPosition = Translation;
+            Vector3 currentPosition = ComponentTranslation;
             float translationPositionY = (2 * water.GetTranslation().Y) - currentPosition.Y;
             Matrix4 mirrorMatrix = Matrix4.Identity;
-            mirrorMatrix *= Matrix4.CreateRotationX(MathHelper.DegreesToRadians(Rotation.X));
-            mirrorMatrix *= Matrix4.CreateRotationY(MathHelper.DegreesToRadians(Rotation.Y));
-            mirrorMatrix *= Matrix4.CreateRotationZ(MathHelper.DegreesToRadians(Rotation.Z));
-            mirrorMatrix *= Matrix4.CreateScale(Scale.X, -Scale.Y, Scale.Z);
+            mirrorMatrix *= Matrix4.CreateRotationX(MathHelper.DegreesToRadians(ComponentRotation.X));
+            mirrorMatrix *= Matrix4.CreateRotationY(MathHelper.DegreesToRadians(ComponentRotation.Y));
+            mirrorMatrix *= Matrix4.CreateRotationZ(MathHelper.DegreesToRadians(ComponentRotation.Z));
+            mirrorMatrix *= Matrix4.CreateScale(ComponentScale.X, -ComponentScale.Y, ComponentScale.Z);
             mirrorMatrix *= Matrix4.CreateTranslation(currentPosition.X, translationPositionY, currentPosition.Z);
             return mirrorMatrix;
         }

@@ -138,7 +138,7 @@ namespace MassiveGame.UI
             {
                 if (DOUEngine.Player.IsInCameraView)
                 {
-                    DOUEngine.Player.renderObject(DOUEngine.Mode, DOUEngine.NormalMapTrigger, DOUEngine.Sun, DOUEngine.PointLight, DOUEngine.terrain, camera, ref DOUEngine.ProjectionMatrix);
+                    DOUEngine.Player.renderObject(DOUEngine.Mode, DOUEngine.NormalMapTrigger, DOUEngine.Sun, DOUEngine.PointLight, camera, ref DOUEngine.ProjectionMatrix);
                 }
             }
 
@@ -146,7 +146,7 @@ namespace MassiveGame.UI
             {
                 if (DOUEngine.Enemy.IsInCameraView)
                 {
-                    DOUEngine.Enemy.renderObject(DOUEngine.Mode, DOUEngine.NormalMapTrigger, DOUEngine.Sun, DOUEngine.PointLight, DOUEngine.terrain, camera, ref DOUEngine.ProjectionMatrix);
+                    DOUEngine.Enemy.renderObject(DOUEngine.Mode, DOUEngine.NormalMapTrigger, DOUEngine.Sun, DOUEngine.PointLight, camera, ref DOUEngine.ProjectionMatrix);
                 }
             }
 
@@ -337,10 +337,10 @@ namespace MassiveGame.UI
             {
                 if (DOUEngine.Player.IsInCameraView)
                 {
-                    DOUEngine.Player.renderObject(DOUEngine.Mode, DOUEngine.NormalMapTrigger, DOUEngine.Sun, DOUEngine.PointLight, DOUEngine.terrain, camera, ref DOUEngine.ProjectionMatrix);
+                    DOUEngine.Player.renderObject(DOUEngine.Mode, DOUEngine.NormalMapTrigger, DOUEngine.Sun, DOUEngine.PointLight, camera, ref DOUEngine.ProjectionMatrix);
                 }
             }
-            if (DOUEngine.Enemy != null) DOUEngine.Enemy.renderObject(DOUEngine.Mode, DOUEngine.NormalMapTrigger, DOUEngine.Sun, DOUEngine.PointLight, DOUEngine.terrain, camera, ref DOUEngine.ProjectionMatrix);
+            if (DOUEngine.Enemy != null) DOUEngine.Enemy.renderObject(DOUEngine.Mode, DOUEngine.NormalMapTrigger, DOUEngine.Sun, DOUEngine.PointLight, camera, ref DOUEngine.ProjectionMatrix);
 
             // add code of adding EngineSingleton.Models here
             if (redraw)
@@ -391,10 +391,10 @@ namespace MassiveGame.UI
             {
                 if (DOUEngine.Player.IsInCameraView)
                 {
-                    DOUEngine.Player.renderObject(DOUEngine.Mode, DOUEngine.NormalMapTrigger, DOUEngine.Sun, DOUEngine.PointLight, DOUEngine.terrain, camera, ref DOUEngine.ProjectionMatrix);
+                    DOUEngine.Player.renderObject(DOUEngine.Mode, DOUEngine.NormalMapTrigger, DOUEngine.Sun, DOUEngine.PointLight, camera, ref DOUEngine.ProjectionMatrix);
                 }
             }
-            if (DOUEngine.Enemy != null) DOUEngine.Enemy.renderObject(DOUEngine.Mode, DOUEngine.NormalMapTrigger, DOUEngine.Sun, DOUEngine.PointLight, DOUEngine.terrain, camera, ref DOUEngine.ProjectionMatrix);
+            if (DOUEngine.Enemy != null) DOUEngine.Enemy.renderObject(DOUEngine.Mode, DOUEngine.NormalMapTrigger, DOUEngine.Sun, DOUEngine.PointLight, camera, ref DOUEngine.ProjectionMatrix);
 
             // add code of adding EngineSingleton.Models here
             if (redraw)

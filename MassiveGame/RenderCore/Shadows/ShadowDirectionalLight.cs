@@ -28,7 +28,7 @@ namespace MassiveGame.RenderCore.Shadows
         public override Matrix4 GetShadowViewMatrix()
         {
             Vector3 normLightDir = LightSource.Direction.Normalized();
-            Vector3 delta = DOUEngine.Player.Move;
+            Vector3 delta = DOUEngine.Player.ComponentTranslation;
             delta.Y = 0;
             var lightEye = LightSource.Position + delta + normLightDir * 300;
             var lightTarget = LightSource.Position + delta + (LightSource.Direction * 100);

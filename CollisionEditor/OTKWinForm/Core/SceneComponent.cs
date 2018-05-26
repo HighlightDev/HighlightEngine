@@ -40,11 +40,11 @@ namespace OTKWinForm.Core
         private BoundBase CreateBound()
         {
             BoundBase resultBound = null;
-            AABB aabb = AABB.CreateFromMinMax(FindMinFromModel(), FindMaxFromModel());
+            AABB aabb = AABB.CreateFromMinMax(FindMinFromModel(), FindMaxFromModel(), this);
             Matrix4 TransformMatrix = GetWorldMatrix();
             Quaternion rotation = TransformMatrix.ExtractRotation();
             if (rotation.Xyz.LengthSquared > 0.01f)
-                resultBound = new OBB(aabb.GetLocalSpaceOrigin(), aabb.GetLocalSpaceExtent(), TransformMatrix);
+                resultBound = new OBB(aabb.GetLocalSpaceOrigin(), aabb.GetLocalSpaceExtent(), TransformMatrix, this);
             else
             {
                 aabb.ScalePlusTranslation = TransformMatrix;

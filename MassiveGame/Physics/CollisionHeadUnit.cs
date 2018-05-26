@@ -115,7 +115,7 @@ namespace MassiveGame.Physics
             CollisionUnit characterCollisionUnit = CollisionUnits.Find(unit => unit.RootComponent == characterRootComponent);
             Component collidedRootComponent = null;
             BoundBase characterBound = characterCollisionUnit.GetFirstBoundingBox();
-            List<BoundBase> collidedRootBounds = null;
+            List<BoundBase> collidedRootBounds = new List<BoundBase>();
             bool bFrameBoundingBoxCollision = false, bRegularBoundingBoxCollision = false;
 
             // Check Collision. Step 1  - check axis aligned framing bounding boxes for collision -- (PRE COLLISION)

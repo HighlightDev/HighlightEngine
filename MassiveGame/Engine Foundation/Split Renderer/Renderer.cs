@@ -32,6 +32,7 @@ using MassiveGame.Settings;
 using System.Drawing;
 using ShaderPattern;
 using MassiveGame.RenderCore.ComputeShaders;
+using MassiveGame.Physics;
 
 namespace MassiveGame.UI
 {
@@ -56,6 +57,8 @@ namespace MassiveGame.UI
         DefaultFrameBuffer defaultFB;
         UiFrame DefaultFrame;
         ComputeShader ch;
+
+        CollisionHeadUnit collisionHeadUnit = new CollisionHeadUnit();
 
         private void setTestValues()
         {
@@ -145,7 +148,7 @@ namespace MassiveGame.UI
             foreach (var item in DOUEngine.City)
             {
                 item.SetMistComponent(DOUEngine.Mist);
-                item.SetCollisionDetector(DOUEngine.Collision);
+                item.SetCollisionHeadUnit(collisionHeadUnit);
             }
 
            
@@ -156,20 +159,21 @@ namespace MassiveGame.UI
             specularMapPath = ProjectFolders.SpecularMapsPath + "brick_sm.png";
 
             MotionEntityArguments arg = new MotionEntityArguments(modelPath, texturePath, normalMapPath, specularMapPath,
-                IdGenerator.GeneratePlayerId(), 0.3f, new Vector3(200, 0, 230), new Vector3(0), new Vector3(1));
+                IdGenerator.GeneratePlayerId(), 0.3f, new Vector3(200, 100, 230), new Vector3(0), new Vector3(1));
 
             DOUEngine.Player = (Player)EngineObjectCreator.CreateInstance(arg);
             DOUEngine.Player.setSoundAttachment(DOUEngine.SB_step, DOUEngine.SB_collide);
             DOUEngine.Player.SetMistComponent(DOUEngine.Mist);
-            DOUEngine.Player.SetCollisionDetector(DOUEngine.Collision);
-
+           
             // TEST components
             ComponentSerializer serializer = new ComponentSerializer();
-            SerializedComponentsContainer container = serializer.DeserializeComponents("test.cl");
+            SerializedComponentsContainer container = serializer.DeserializeComponents("123.cl");
             Component parent = new Component();
             parent.ChildrenComponents = container.SerializedComponents;
             Component component = convertToSceneComponent(parent);
             DOUEngine.Player.SetComponents(component.ChildrenComponents);
+
+            DOUEngine.Player.SetCollisionHeadUnit(collisionHeadUnit);
 
             modelPath = ProjectFolders.ModelsPath + "playerCube.obj";
             texturePath = ProjectFolders.MultitexturesPath + "b.png";
@@ -180,7 +184,7 @@ namespace MassiveGame.UI
             DOUEngine.Enemy = (Player)EngineObjectCreator.CreateInstance(arg);
             DOUEngine.Enemy.setSoundAttachment(DOUEngine.SB_step, DOUEngine.SB_collide);
             DOUEngine.Enemy.SetMistComponent(DOUEngine.Mist);
-            DOUEngine.Enemy.SetCollisionDetector(DOUEngine.Collision);
+            //DOUEngine.Enemy.SetCollisionHeadUnit(collisionHeadUnit);
             arg = null;
 
             DOUEngine.Grass = new PlantReadyMaster(
@@ -245,8 +249,8 @@ namespace MassiveGame.UI
             //envObj = new EnvironmentEntities(PlayerModels.getPlayerModel1(false), TextureSet.PlayerTextureSet2, TextureSet.SkyboxDayCubemapTexture,
             //    new Vector3(40, 70, 40), new Vector3(0, 0, 0), new Vector3(0.5f));
 
-            DOUEngine.Camera.SetThirdPerson(DOUEngine.Player);
-            //DOUEngine.Camera.SetFirstPerson();
+            //DOUEngine.Camera.SetThirdPerson(DOUEngine.Player);
+            DOUEngine.Camera.SetFirstPerson();
 
             shadowList = new List<IDrawable>();
             DOUEngine.City.ForEach(new Action<Building>((house) => { shadowList.Add(house); }));
@@ -319,7 +323,7 @@ namespace MassiveGame.UI
             // Do smth better (PlayerController)
             if (DOUEngine.keyboardMaskArray.Any<bool>((key) => key == true))
             {
-                var previousPosition = DOUEngine.Player.ObjectPosition;
+                var previousPosition = DOUEngine.Player.ComponentTranslation;
 
                 if (DOUEngine.Player != null)
                 {
@@ -459,34 +463,7 @@ namespace MassiveGame.UI
                         //SwitchToScreenBuffer();
 
                         RenderAll(redraw);
-                        //float t = GeometricMath.Intersection_RayAABB(new PhysicsBox.MathTypes.FRay(DOUEngine.Camera.getPosition(), DOUEngine.Camera.GetDirection().Normalized()), DOUEngine.Player.ChildrenComponents.First().Bound as PhysicsBox.MathTypes.AABB);
-                        //Vector3 intersectionPoint = DOUEngine.Camera.GetDirection().Normalized() * t;
-
-                        //if (t > -1)
-                        //{
-                        //    GL.MatrixMode(MatrixMode.Modelview);
-                        //    Matrix4 viewMatrix = DOUEngine.Camera.getViewMatrix();
-                        //    GL.LoadMatrix(ref viewMatrix);
-                        //    GL.MatrixMode(MatrixMode.Projection);
-                        //    GL.LoadMatrix(ref DOUEngine.ProjectionMatrix);
-
-                        //    GL.Begin(PrimitiveType.LineStrip);
-                        //    GL.Color3(1, 1, 0);
-                        //    GL.Vertex3(DOUEngine.Camera.getPosition());
-                        //    GL.Vertex3(intersectionPoint);
-                        //    GL.End();
-
-                        //    Console.Clear();
-                        //    Console.ForegroundColor = ConsoleColor.DarkRed;
-                        //    Console.WriteLine("---------- Intersection ----------");
-                        //}
-                        //else
-                        //{
-                        //    Console.Clear();
-                        //    Console.ForegroundColor = ConsoleColor.White;
-                        //    Console.WriteLine("---------- Empty ----------");
-                        //}
-
+                   
                         //frame.Render(DOUEngine.Sun.GetShadowHandler().GetTextureHandler(), new Point(this.Width, this.Height));
                         //    frame.Render(new Texture2Dlite(
                         //(int)DOUEngine.Water._fbo.Texture.TextureID[1],

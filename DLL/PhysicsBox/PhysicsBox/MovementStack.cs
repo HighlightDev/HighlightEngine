@@ -11,24 +11,12 @@ namespace PhysicsBox
 {
     public sealed class MovementStack
     {
-        public float LeftX;
-        public float RightX;
-        public float BottomY;
-        public float TopY;
-        public float NearZ;
-        public float FarZ;
         public float MoveX;
         public float MoveZ;
         public float MoveY;
 
-        public MovementStack(float LX, float RX, float BY, float TY, float NZ, float FZ)
+        public MovementStack()
         {
-            LeftX = LX;
-            RightX = RX;
-            BottomY = BY;
-            TopY = TY;
-            NearZ = NZ;
-            FarZ = FZ;
         }
 
         public void resetPositionValues(float MX, float MY, float MZ)

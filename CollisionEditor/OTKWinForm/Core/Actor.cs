@@ -28,11 +28,11 @@ namespace OTKWinForm.Core
         private void UpdateWorldMatrix()
         {
             WorldMatrix = Matrix4.Identity;
-            WorldMatrix *= Matrix4.CreateScale(Scale);
-            WorldMatrix *= Matrix4.CreateRotationX(MathHelper.DegreesToRadians(Rotation.X));
-            WorldMatrix *= Matrix4.CreateRotationY(MathHelper.DegreesToRadians(Rotation.Y));
-            WorldMatrix *= Matrix4.CreateRotationZ(MathHelper.DegreesToRadians(Rotation.Z));
-            WorldMatrix *= Matrix4.CreateTranslation(Translation);
+            WorldMatrix *= Matrix4.CreateScale(ComponentScale);
+            WorldMatrix *= Matrix4.CreateRotationX(MathHelper.DegreesToRadians(ComponentRotation.X));
+            WorldMatrix *= Matrix4.CreateRotationY(MathHelper.DegreesToRadians(ComponentRotation.Y));
+            WorldMatrix *= Matrix4.CreateRotationZ(MathHelper.DegreesToRadians(ComponentRotation.Z));
+            WorldMatrix *= Matrix4.CreateTranslation(ComponentTranslation);
         }
 
         public override void Tick(ref Matrix4 projectionMatrix, ref Matrix4 viewMatrix)
@@ -61,9 +61,9 @@ namespace OTKWinForm.Core
 
         public Actor(RawModel model, ITexture texture, BasicShader shader)
         {
-            Scale = new Vector3(1);
-            Translation = new Vector3(0);
-            Rotation = new Vector3(0);
+            ComponentScale = new Vector3(1);
+            ComponentTranslation = new Vector3(0);
+            ComponentRotation = new Vector3(0);
             this.texture = texture;
             rawModel = model;
             this.shader = shader;
@@ -71,9 +71,9 @@ namespace OTKWinForm.Core
 
         public Actor()
         {
-            Scale = new Vector3(1);
-            Translation = new Vector3(0);
-            Rotation = new Vector3(0);
+            ComponentScale = new Vector3(1);
+            ComponentTranslation = new Vector3(0);
+            ComponentRotation = new Vector3(0);
         }
 
         public void CleanUp()

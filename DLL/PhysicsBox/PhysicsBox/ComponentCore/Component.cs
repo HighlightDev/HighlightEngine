@@ -19,9 +19,9 @@ namespace PhysicsBox.ComponentCore
         public Component()
         {
             ChildrenComponents = new List<Component>();
-            Translation = new Vector3(0);
-            Rotation = new Vector3(0);
-            Scale = new Vector3(1);
+            ComponentTranslation = new Vector3(0);
+            ComponentRotation = new Vector3(0);
+            ComponentScale = new Vector3(1);
             bTransformationDirty = true;
             ParentComponent = null;
         }
@@ -29,46 +29,46 @@ namespace PhysicsBox.ComponentCore
         // If transformation was changed
         protected bool bTransformationDirty;
 
-        protected Vector3 translation;
-        protected Vector3 rotation;
-        protected Vector3 scale;
+        protected Vector3 componentTranslation;
+        protected Vector3 componentRotation;
+        protected Vector3 componentScale;
 
-        public Vector3 Translation
+        public Vector3 ComponentTranslation
         {
             set
             {
-                translation = value;
+                componentTranslation = value;
                 bTransformationDirty = true;
             }
             get
             {
-                return translation;
+                return componentTranslation;
             }
         }
 
-        public Vector3 Rotation
+        public Vector3 ComponentRotation
         {
             set
             {
-                rotation = value;
+                componentRotation = value;
                 bTransformationDirty = true;
             }
             get
             {
-                return rotation;
+                return componentRotation;
             }
         }
 
-        public Vector3 Scale
+        public Vector3 ComponentScale
         {
             set
             {
-                scale = value;
+                componentScale = value;
                 bTransformationDirty = true;
             }
             get
             {
-                return scale;
+                return componentScale;
             }
         }
 
@@ -101,11 +101,11 @@ namespace PhysicsBox.ComponentCore
             }
 
             var WorldMatrix = Matrix4.Identity;
-            WorldMatrix *= Matrix4.CreateScale(Scale);
-            WorldMatrix *= Matrix4.CreateRotationX(MathHelper.DegreesToRadians(Rotation.X));
-            WorldMatrix *= Matrix4.CreateRotationY(MathHelper.DegreesToRadians(Rotation.Y));
-            WorldMatrix *= Matrix4.CreateRotationZ(MathHelper.DegreesToRadians(Rotation.Z));
-            WorldMatrix *= Matrix4.CreateTranslation(Translation);
+            WorldMatrix *= Matrix4.CreateScale(ComponentScale);
+            WorldMatrix *= Matrix4.CreateRotationX(MathHelper.DegreesToRadians(ComponentRotation.X));
+            WorldMatrix *= Matrix4.CreateRotationY(MathHelper.DegreesToRadians(ComponentRotation.Y));
+            WorldMatrix *= Matrix4.CreateRotationZ(MathHelper.DegreesToRadians(ComponentRotation.Z));
+            WorldMatrix *= Matrix4.CreateTranslation(ComponentTranslation);
 
             WorldMatrix *= parentWorldMatrix;
             return WorldMatrix;
@@ -116,7 +116,7 @@ namespace PhysicsBox.ComponentCore
             return Type;
         }
 
-        public void UpdateTransformation()
+        public virtual void UpdateTransformation()
         {
             UpdateBoundTransformationMatrices(this);
         }
@@ -133,7 +133,7 @@ namespace PhysicsBox.ComponentCore
                 if (component.Bound.GetBoundType() == BoundBase.BoundType.AABB)
                 {
                     if (rotation.Xyz.LengthSquared > 0.01)
-                        component.Bound = new OBB(component.Bound.GetLocalSpaceOrigin(), component.Bound.GetLocalSpaceExtent(), parentTransformationMatrix);
+                        component.Bound = new OBB(component.Bound.GetLocalSpaceOrigin(), component.Bound.GetLocalSpaceExtent(), parentTransformationMatrix, component);
                     else
                         (component.Bound as AABB).ScalePlusTranslation = parentTransformationMatrix;
                 }
@@ -143,7 +143,7 @@ namespace PhysicsBox.ComponentCore
                         (component.Bound as OBB).TransformationMatrix = parentTransformationMatrix;
                     else
                     {
-                        component.Bound = new AABB(component.Bound.GetLocalSpaceOrigin(), component.Bound.GetLocalSpaceExtent());
+                        component.Bound = new AABB(component.Bound.GetLocalSpaceOrigin(), component.Bound.GetLocalSpaceExtent(), component);
                         (component.Bound as AABB).ScalePlusTranslation = parentTransformationMatrix;
                     }
                 }

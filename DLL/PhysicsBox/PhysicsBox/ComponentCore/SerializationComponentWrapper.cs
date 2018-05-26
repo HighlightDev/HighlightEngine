@@ -13,16 +13,18 @@ namespace PhysicsBox.ComponentCore
         private void CopyFields(Component Src, Component Dest)
         {
             Src.Bound = Dest.Bound;
-            Src.Translation = Dest.Translation;
-            Src.Rotation = Dest.Rotation;
-            Src.Scale = Dest.Scale;
+            if (Src.Bound != null)
+                Src.Bound.ParentComponent = Src;
+            Src.ComponentTranslation = Dest.ComponentTranslation;
+            Src.ComponentRotation = Dest.ComponentRotation;
+            Src.ComponentScale = Dest.ComponentScale;
             Src.Type = Dest.Type;
             foreach (Component destComponent in Dest.ChildrenComponents)
             {
-                Component children = new Component();
-                children.ParentComponent = Src;
-                CopyFields(children, destComponent);
-                Src.ChildrenComponents.Add(children);
+                Component child = new Component();
+                child.ParentComponent = Src;
+                CopyFields(child, destComponent);
+                Src.ChildrenComponents.Add(child);
             }
         }
 

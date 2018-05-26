@@ -51,22 +51,6 @@ namespace MassiveGame
         [Obsolete("DEPRECATED PROPERTY, MUST BE ELIMINATED")]
         protected int _id;
 
-        private Vector3 move;
-
-        [Obsolete("DEPRECATED PROPERTY, MUST BE ELIMINATED")]
-        public Vector3 Move
-        {
-            set
-            {
-                move = value;
-                bTransformationDirty = true;
-            }
-            get
-            {
-                return move;
-            }
-        }
-
         protected float _speed;
         protected MovementStack objectStack;
         public event EventHandler ActionMove;
@@ -87,45 +71,43 @@ namespace MassiveGame
             get { return this._speed; }
         }
 
-        public Vector3 ObjectPosition { get; private set; }
-
         #endregion
+
+        public override void UpdateTransformation()
+        {
+            if (collisionHeadUnit != null)
+                collisionHeadUnit.NotifyCollisionObserver(this);
+            base.UpdateTransformation();
+        }
 
         public override void Tick(ref Matrix4 projectionMatrix, ref Matrix4 viewMatrix)
         {
-            /*
+            base.Tick(ref projectionMatrix, ref viewMatrix);
+
             // Character is in free fall, must be calculated new height regarding to body free falling mechanics
             if (ActorState == BEHAVIOR_STATE.FREE_FALLING)
             {
-                throw new NotImplementedException("IMPLEMENT FREE FALLING");
-                // DO BETTER!
-
                 Velocity = BodyMechanics.UpdateFreeFallVelocity(Velocity, Speed);
-
-                throw new NotImplementedException("IMPLEMENT FREE FALLING");
-                // Check collision
-                (new CollisionHeadUnit()).TryCollision(this);
+                if (collisionHeadUnit != null)
+                    collisionHeadUnit.TryCollision(this);
             }
             else if (ActorState == BEHAVIOR_STATE.MOVE)
             {
-                throw new NotImplementedException("IMPLEMENT COLLISIONS");
-                // Check collision
-                (new CollisionHeadUnit()).TryCollision(this);
+                if (collisionHeadUnit != null)
+                    collisionHeadUnit.TryCollision(this);
             }
             else if (ActorState == BEHAVIOR_STATE.IDLE)
             {
 
-            }*/
-            
-            base.Tick(ref projectionMatrix, ref viewMatrix);
+            }
         }
 
         #region Collision
 
-        public override void SetCollisionDetector(CollisionDetector collisionDetector)
+        public override void SetCollisionHeadUnit(CollisionHeadUnit collisionHeadUnit)
         {
-            base.SetCollisionDetector(collisionDetector);
-            this.collisionDetection.addCollisionBox(this.Box);
+            base.SetCollisionHeadUnit(collisionHeadUnit);
+            collisionHeadUnit.AddCollisionObserver(this);
         }
 
         #endregion
@@ -133,7 +115,7 @@ namespace MassiveGame
         #region Renderer
 
         public abstract void renderObject(PrimitiveType mode, bool enableNormalMapping, DirectionalLight Sun,
-            List<PointLight> lights, Terrain terrain, LiteCamera camera, ref Matrix4 ProjectionMatrix, Vector4 clipPlane);
+            List<PointLight> lights, LiteCamera camera, ref Matrix4 ProjectionMatrix, Vector4 clipPlane);
 
         #endregion
 
@@ -150,12 +132,7 @@ namespace MassiveGame
 
         public void collisionOffset(Vector3 newPosition)
         {
-            this.Move = new Vector3(Move.X, newPosition.Y - _bottomY, Move.Z);
-            ObjectPosition = new Vector3(
-               (objectStack.LeftX + objectStack.RightX) / 2 + Move.X,
-               Move.Y,
-               (objectStack.FarZ + objectStack.NearZ) / 2 + Move.Z
-           );
+            ComponentTranslation = newPosition + new Vector3(0, 1f, 0);
         }
 
         public void MoveActor(Terrain terrain)
@@ -170,48 +147,21 @@ namespace MassiveGame
             Velocity = velocityVector;
 
             if (ActionMove != null)
-            {
                 this.ActionMove(this, null);
-            }
 
-            Vector3 donePath = Velocity * Speed;
-            Vector3 newPosition = Box.getCenter() + donePath;
-            float heightStep = terrain.getLandscapeHeight(newPosition.X, newPosition.Z);
-            this.Move = new Vector3(donePath.X + Move.X, heightStep - _bottomY, donePath.Z + Move.Z);
-
-            this.Box.synchronizeCoordinates(
-                this._leftX + this.Move.X,
-                base._rightX + this.Move.X,
-                this._bottomY + this.Move.Y,
-                this._topY + this.Move.Y,
-                this._nearZ + this.Move.Z,
-                this._farZ + this.Move.Z);
-
-            // begin collision detection
-            if (!Object.Equals(collisionDetection, null))
-            {
-                collisionDetection.isCollision(this.Box);
-            }
-
-            ObjectPosition = new Vector3(
-                (objectStack.LeftX + objectStack.RightX) / 2 + Move.X,
-                Move.Y,
-                (objectStack.FarZ + objectStack.NearZ) / 2 + Move.Z
-            );
+            ComponentTranslation = ComponentTranslation + Velocity * Speed;
         }
 
         #region Position_stack_functions
 
         public virtual void pushPositionStack()
         {
-            objectStack.resetPositionValues(Move.X, Move.Y, Move.Z);
+            objectStack.resetPositionValues(ComponentTranslation.X, ComponentTranslation.Y, ComponentTranslation.Z);
         }
 
         public virtual void popPositionStack()
         {
-            Move = objectStack.popPositionValues();
-            this._box.synchronizeCoordinates(_leftX + Move.X, _rightX + Move.X,
-                    _bottomY + Move.Y, _topY + Move.Y, _nearZ + Move.Z, _farZ + Move.Z);
+            ComponentTranslation = objectStack.popPositionValues();
         }
 
         #endregion
@@ -224,15 +174,12 @@ namespace MassiveGame
             , float Speed, int ID, Vector3 translation, Vector3 rotation, Vector3 scale) :
             base(modelPath, texturePath, normalMapPath, specularMapPath, translation, rotation, scale)
         {
-            ActorState = BEHAVIOR_STATE.IDLE;
-            _verticesVectors = null;
-            this.Move = new Vector3(0.0f);
+            ActorState = BEHAVIOR_STATE.FREE_FALLING;
+            this.objectStack = new MovementStack();
+            pushPositionStack();
             this._speed = Speed;
             this._id = ID;
             this._box.ID = ID;
-            this.objectStack = new MovementStack(base._leftX, base._rightX, base._bottomY, base._topY,
-               base._nearZ, base._farZ);
-            this.ObjectPosition = translation;
         }
 
         #endregion

@@ -1,4 +1,5 @@
 ﻿using OpenTK;
+using PhysicsBox.ComponentCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -36,13 +37,13 @@ namespace PhysicsBox.MathTypes
             return new Vector3(Math.Max(p1.X, p2.X), Math.Max(p1.Y, p2.Y), Math.Max(p1.Z, p2.Z));
         }
 
-        public AABB(Vector3 Origin, Vector3 Extent) : base(Origin, Extent)
+        public AABB(Vector3 Origin, Vector3 Extent, Component parentComponent) : base(Origin, Extent, parentComponent)
         {
         }
 
-        public static AABB CreateFromMinMax(Vector3 min, Vector3 max)
+        public static AABB CreateFromMinMax(Vector3 min, Vector3 max, Component parentComponent)
         {
-            return new AABB((min + max) * 0.5f, (max - min) * 0.5f);
+            return new AABB((min + max) * 0.5f, (max - min) * 0.5f, parentComponent);
         }
 
         public override Vector3 GetTangetX()

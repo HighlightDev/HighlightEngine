@@ -56,13 +56,14 @@ namespace MassiveGame.Physics
                 minY = Math.Min(minY, localMin.Y);
                 minZ = Math.Min(minZ, localMin.Z);
             }
-            return AABB.CreateFromMinMax(new Vector3(minX, minY, minZ), new Vector3(maxX, maxY, maxZ));
+            return AABB.CreateFromMinMax(new Vector3(minX, minY, minZ), new Vector3(maxX, maxY, maxZ), RootComponent);
         }
 
         public CollisionUnit(Component rootComponent)
         {
             RootComponent = rootComponent;
             bBoundingBoxesTransformDirty = true;
+            GetBoundingBoxes();
         }
 
     }

@@ -47,7 +47,7 @@ namespace MassiveGame
         private float lastRotX;
         private MovableEntity thirdPersonTarget;
 
-        public CAMERA_MODE Mode { private set; get; }
+        public CAMERA_MODE CameraMode { private set; get; }
         public bool SwitchCamera { set; get; }
 
         #endregion
@@ -175,17 +175,17 @@ namespace MassiveGame
       
         public void DetachCamera() //Camera doesn't depend from any object
         {
-            Mode = CAMERA_MODE.UNDEFINDED;
+            CameraMode = CAMERA_MODE.UNDEFINDED;
         }
 
         public void rotateCamera(float angle, float x, float y, float z)
         {
             Vector3 direction = cameraBridge(angle, x, y, z);
-            if (Mode == CAMERA_MODE.FIRST_PERSON)
+            if (CameraMode == CAMERA_MODE.FIRST_PERSON)
             {
                 rotateViewCamera(direction);
             }
-            else if (Mode == CAMERA_MODE.THIRD_PERSON)
+            else if (CameraMode == CAMERA_MODE.THIRD_PERSON)
             {
                 rotatePosCamera(direction);
             }
@@ -234,7 +234,7 @@ namespace MassiveGame
 
         public void Update(Terrain terrain)
         {
-            if (Mode == CAMERA_MODE.THIRD_PERSON)
+            if (CameraMode == CAMERA_MODE.THIRD_PERSON)
             {
                 this.lookVector.X = thirdPersonTarget.Box.getCenter().X;
                 this.lookVector.Y = thirdPersonTarget.Box.getCenter().Y + 3.0f;
@@ -250,7 +250,7 @@ namespace MassiveGame
 
         public void SetThirdPerson(MovableEntity obj)
         {
-            Mode = CAMERA_MODE.THIRD_PERSON;
+            CameraMode = CAMERA_MODE.THIRD_PERSON;
             thirdPersonTarget = obj;
  
             Vector3 objCenter = obj.Box.getCenter();
@@ -261,7 +261,7 @@ namespace MassiveGame
 
         public void SetFirstPerson()
         {
-            Mode = CAMERA_MODE.FIRST_PERSON;
+            CameraMode = CAMERA_MODE.FIRST_PERSON;
         }
 
         public void setThirdPersonZoom(int Zoom)
@@ -286,11 +286,14 @@ namespace MassiveGame
 
         public void UpdateHeight(Vector3 previousPosition)
         {
-            var heightBias = thirdPersonTarget.ObjectPosition.Y - previousPosition.Y;
-            var dist = GetNormalizedDirection() * thirdPersonTarget.Speed;
-            if (thirdPersonTarget.ObjectPosition != previousPosition)
+            if (CameraMode == CAMERA_MODE.THIRD_PERSON)
             {
-                movePosition(new Vector3(dist.X, heightBias, dist.Z));
+                var heightBias = thirdPersonTarget.ComponentTranslation.Y - previousPosition.Y;
+                var dist = GetNormalizedDirection() * thirdPersonTarget.Speed;
+                if (thirdPersonTarget.ComponentTranslation != previousPosition)
+                {
+                    movePosition(new Vector3(dist.X, heightBias, dist.Z));
+                }
             }
         }
 
@@ -300,7 +303,7 @@ namespace MassiveGame
             float centerX, float centerY, float centerZ,
             float upX, float upY, float upZ)
         {
-            this.Mode = CAMERA_MODE.UNDEFINDED;
+            this.CameraMode = CAMERA_MODE.UNDEFINDED;
             posVector = new Vector3();
             lookVector = new Vector3();
             upVector = new Vector3();

@@ -23,13 +23,15 @@ namespace PhysicsBox.MathTypes
         protected Vector3 Origin { set; get; }
         protected Vector3 Extent { set; get; }
 
-        public BoundBase()
+        public BoundBase(Component parentComponent)
         {
+            this.ParentComponent = parentComponent;
             Extent = new Vector3(1);
         }
 
-        public BoundBase(Vector3 origin, Vector3 extent)
+        public BoundBase(Vector3 origin, Vector3 extent, Component parentComponent)
         {
+            this.ParentComponent = parentComponent;
             Origin = origin;
             Extent = extent;
         }

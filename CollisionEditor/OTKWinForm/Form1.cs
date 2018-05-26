@@ -109,9 +109,9 @@ namespace OTKWinForm
                 Vector3 translation = new Vector3(), rotation = new Vector3(), scale = new Vector3();
                 if (selectedComponent != null)
                 {
-                    translation = selectedComponent.Translation;
-                    rotation = selectedComponent.Rotation;
-                    scale = selectedComponent.Scale;
+                    translation = selectedComponent.ComponentTranslation;
+                    rotation = selectedComponent.ComponentRotation;
+                    scale = selectedComponent.ComponentScale;
                 }
                 this.Invoke(new Action(() =>
                 {
@@ -138,55 +138,55 @@ namespace OTKWinForm
             {
                 float value = (trackBarTranslationX.Value * 2) - 100.0f;
                 if (selectedComponent != null)
-                    selectedComponent.Translation = new Vector3(value, selectedComponent.Translation.Y, selectedComponent.Translation.Z);
+                    selectedComponent.ComponentTranslation = new Vector3(value, selectedComponent.ComponentTranslation.Y, selectedComponent.ComponentTranslation.Z);
             }
             else if (sender == trackBarTranslationY)
             {
                 float value = (trackBarTranslationY.Value * 2) - 100.0f;
                 if (selectedComponent != null)
-                    selectedComponent.Translation = new Vector3(selectedComponent.Translation.X, value, selectedComponent.Translation.Z);
+                    selectedComponent.ComponentTranslation = new Vector3(selectedComponent.ComponentTranslation.X, value, selectedComponent.ComponentTranslation.Z);
             }
             else if (sender == trackBarTranslationZ)
             {
                 float value = (trackBarTranslationZ.Value * 2) - 100.0f;
                 if (selectedComponent != null)
-                    selectedComponent.Translation = new Vector3(selectedComponent.Translation.X, selectedComponent.Translation.Y, value);
+                    selectedComponent.ComponentTranslation = new Vector3(selectedComponent.ComponentTranslation.X, selectedComponent.ComponentTranslation.Y, value);
             }
             else if (sender == trackBarRotationX)
             {
                 float value = trackBarRotationX.Value * 3.6f;
                 if (selectedComponent != null)
-                    selectedComponent.Rotation = new Vector3(value, selectedComponent.Rotation.Y, selectedComponent.Rotation.Z);
+                    selectedComponent.ComponentRotation = new Vector3(value, selectedComponent.ComponentRotation.Y, selectedComponent.ComponentRotation.Z);
             }
             else if (sender == trackBarRotationY)
             {
                 float value = trackBarRotationY.Value * 3.6f;
                 if (selectedComponent != null)
-                    selectedComponent.Rotation = new Vector3(selectedComponent.Rotation.X, value, selectedComponent.Rotation.Z);
+                    selectedComponent.ComponentRotation = new Vector3(selectedComponent.ComponentRotation.X, value, selectedComponent.ComponentRotation.Z);
             }
             else if (sender == trackBarRotationZ)
             {
                 float value = trackBarRotationZ.Value * 3.6f;
                 if (selectedComponent != null)
-                    selectedComponent.Rotation = new Vector3(selectedComponent.Rotation.X, selectedComponent.Rotation.Y, value);
+                    selectedComponent.ComponentRotation = new Vector3(selectedComponent.ComponentRotation.X, selectedComponent.ComponentRotation.Y, value);
             }
             else if (sender == trackBarScaleX)
             {
                 float value = trackBarScaleX.Value * (0.01f * ScaleFactor);
                 if (selectedComponent != null)
-                    selectedComponent.Scale = new Vector3(value, selectedComponent.Scale.Y, selectedComponent.Scale.Z);
+                    selectedComponent.ComponentScale = new Vector3(value, selectedComponent.ComponentScale.Y, selectedComponent.ComponentScale.Z);
             }
             else if (sender == trackBarScaleY)
             {
                 float value = trackBarScaleY.Value * (0.01f * ScaleFactor);
                 if (selectedComponent != null)
-                    selectedComponent.Scale = new Vector3(selectedComponent.Scale.X, value, selectedComponent.Scale.Z);
+                    selectedComponent.ComponentScale = new Vector3(selectedComponent.ComponentScale.X, value, selectedComponent.ComponentScale.Z);
             }
             else if (sender == trackBarScaleZ)
             {
                 float value = trackBarScaleZ.Value * (0.01f * ScaleFactor);
                 if (selectedComponent != null)
-                    selectedComponent.Scale = new Vector3(selectedComponent.Scale.X, selectedComponent.Scale.Y, value);
+                    selectedComponent.ComponentScale = new Vector3(selectedComponent.ComponentScale.X, selectedComponent.ComponentScale.Y, value);
             }
         }
 
@@ -331,9 +331,9 @@ namespace OTKWinForm
         private void CreateCollisionComponent(Component Src, Component Dest)
         {
             Src.Bound = Dest.Bound;
-            Src.Translation = Dest.Translation;
-            Src.Rotation = Dest.Rotation;
-            Src.Scale = Dest.Scale;
+            Src.ComponentTranslation = Dest.ComponentTranslation;
+            Src.ComponentRotation = Dest.ComponentRotation;
+            Src.ComponentScale = Dest.ComponentScale;
             Src.Type = Dest.Type;
             foreach (Component destComponent in Dest.ChildrenComponents)
             {

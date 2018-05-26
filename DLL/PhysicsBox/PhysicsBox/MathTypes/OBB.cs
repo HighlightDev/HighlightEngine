@@ -1,4 +1,5 @@
 ﻿using OpenTK;
+using PhysicsBox.ComponentCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -56,7 +57,7 @@ namespace PhysicsBox.MathTypes
             return new Vector3(Math.Min(p1.X, p2.X), Math.Min(p1.Y, p2.Y), Math.Min(p1.Z, p2.Z));
         }
 
-        public OBB(Vector3 Origin, Vector3 Extent, Matrix4 TransformationMatrix) : base(Origin, Extent)
+        public OBB(Vector3 Origin, Vector3 Extent, Matrix4 TransformationMatrix, Component parentComponent) : base(Origin, Extent, parentComponent)
         {
             this.TransformationMatrix = TransformationMatrix;
         }

@@ -117,9 +117,9 @@ namespace MassiveGame.ComponentCore
                 this.ParentComponent = null;
             }
             this.Type = component.Type;
-            this.Translation = component.Translation;
-            this.Rotation = component.Rotation;
-            this.Scale = component.Scale;
+            this.ComponentTranslation = component.ComponentTranslation;
+            this.ComponentRotation = component.ComponentRotation;
+            this.ComponentScale = component.ComponentScale;
         }
     }
 }

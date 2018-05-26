@@ -163,7 +163,7 @@ namespace MassiveGame.Physics
 
             // Character is still in free fall, just update position
             if (intersectionDistance < 0.0f || RAYCAST_INTERSECTION_FAR(character.Speed, intersectionDistance))
-                character.Move = BodyMechanics.UpdateFreeFallPosition(character.Move, character.Speed, character.Velocity);
+                character.ComponentTranslation = BodyMechanics.UpdateFreeFallPosition(character.ComponentTranslation, character.Speed, character.Velocity);
             
             // Character could be elevated on terrain 
             else

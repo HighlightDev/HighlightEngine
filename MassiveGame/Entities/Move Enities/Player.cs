@@ -103,9 +103,9 @@ namespace MassiveGame
                 sourceStep.SetVolume(1.5f);
                 // to set correct position of a sound it must be set in accordance of translation and center of a sound
                 sourceStep.SetPosition(
-                    ObjectPosition.X + soundCenter.X,
-                    ObjectPosition.Y + soundCenter.Y,
-                    ObjectPosition.Z + soundCenter.Z
+                    ComponentTranslation.X + soundCenter.X,
+                    ComponentTranslation.Y + soundCenter.Y,
+                    ComponentTranslation.Z + soundCenter.Z
                 );
             }
 
@@ -116,20 +116,20 @@ namespace MassiveGame
                 sourceCollide.SetVolume(0.2f);
                 // to set correct position of a sound it must be set in accordance of translation and center of a sound
                 sourceCollide.SetPosition(
-                    ObjectPosition.X + soundCenter.X,
-                    ObjectPosition.Y + soundCenter.Y,
-                    ObjectPosition.Z + soundCenter.Z
+                    ComponentTranslation.X + soundCenter.X,
+                    ComponentTranslation.Y + soundCenter.Y,
+                    ComponentTranslation.Z + soundCenter.Z
                 );
             }
 
-            if (SB_collide != null && SB_step != null)
-            {
-                soundCenter.Init(
-                    (this._leftX + this._rightX) / 2,
-                    (this._bottomY + this._topY) / 2,
-                    (this._nearZ + this._farZ) / 2
-                );
-            }
+            //if (SB_collide != null && SB_step != null)
+            //{
+            //    soundCenter.Init(
+            //        (this._leftX + t0his._rightX) / 2,
+            //        (this._bottomY + this._topY) / 2,
+            //        (this._nearZ + this._farZ) / 2
+            //    );
+            //}
         }
 
         #endregion
@@ -145,27 +145,27 @@ namespace MassiveGame
             }
 
             Matrix4 modelMatrix = Matrix4.Identity;
-            //Поворот
-            modelMatrix *= Matrix4.CreateRotationX(MathHelper.DegreesToRadians(Rotation.X));
-            modelMatrix *= Matrix4.CreateRotationY(MathHelper.DegreesToRadians(Rotation.Y));
-            modelMatrix *= Matrix4.CreateRotationZ(MathHelper.DegreesToRadians(Rotation.Z));
-            //Масштабирование
-            modelMatrix *= Matrix4.CreateScale(Scale);
-            //Перемещение
-            modelMatrix *= Matrix4.CreateTranslation(Translation + base.Move);
+            // Rotation
+            modelMatrix *= Matrix4.CreateRotationX(MathHelper.DegreesToRadians(ComponentRotation.X));
+            modelMatrix *= Matrix4.CreateRotationY(MathHelper.DegreesToRadians(ComponentRotation.Y));
+            modelMatrix *= Matrix4.CreateRotationZ(MathHelper.DegreesToRadians(ComponentRotation.Z));
+            // Scale
+            modelMatrix *= Matrix4.CreateScale(ComponentScale);
+            // Translation
+            modelMatrix *= Matrix4.CreateTranslation(ComponentTranslation);
             modelMatrix *= parentWorldMatrix;
             return modelMatrix;
         }
 
         public Matrix4 GetMirrorMatrix(WaterEntity water)
         {
-            Vector3 currentPosition = Translation + base.Move;
+            Vector3 currentPosition = ComponentTranslation;
             float translationPositionY = (2 * water.GetTranslation().Y) - currentPosition.Y;
             Matrix4 mirrorMatrix = Matrix4.Identity;
-            mirrorMatrix *= Matrix4.CreateRotationX(MathHelper.DegreesToRadians(Rotation.X));
-            mirrorMatrix *= Matrix4.CreateRotationY(MathHelper.DegreesToRadians(Rotation.Y));
-            mirrorMatrix *= Matrix4.CreateRotationZ(MathHelper.DegreesToRadians(Rotation.Z));
-            mirrorMatrix *= Matrix4.CreateScale(Scale.X, -Scale.Y, Scale.Z);
+            mirrorMatrix *= Matrix4.CreateRotationX(MathHelper.DegreesToRadians(ComponentRotation.X));
+            mirrorMatrix *= Matrix4.CreateRotationY(MathHelper.DegreesToRadians(ComponentRotation.Y));
+            mirrorMatrix *= Matrix4.CreateRotationZ(MathHelper.DegreesToRadians(ComponentRotation.Z));
+            mirrorMatrix *= Matrix4.CreateScale(ComponentScale.X, -ComponentScale.Y, ComponentScale.Z);
             mirrorMatrix *= Matrix4.CreateTranslation(currentPosition.X, translationPositionY, currentPosition.Z);
             return mirrorMatrix;
         }
@@ -210,13 +210,13 @@ namespace MassiveGame
             mirrorMatrix = GetMirrorMatrix(water);
             modelMatrix = GetWorldMatrix();
 
-            /*If clip plane is setted - enable clipping plane*/
+            /*If clip plane is set - enable clipping plane*/
             if (clipPlane.X == 0 && clipPlane.Y == 0 && clipPlane.Z == 0 && clipPlane.W == 0) { GL.Disable(EnableCap.ClipDistance0); }
             else { GL.Enable(EnableCap.ClipDistance0); }
 
-            liteReflectionShader.startProgram();      //Бинд шейдера
+            liteReflectionShader.startProgram();
 
-            _texture.BindTexture(TextureUnit.Texture0); // diffusemap texture
+            _texture.BindTexture(TextureUnit.Texture0); // diffusemap
             if (_normalMap != null)
                 _normalMap.BindTexture(TextureUnit.Texture1);  // normalmap
 
@@ -234,10 +234,10 @@ namespace MassiveGame
         // Mirroring
 
         public override void renderObject(PrimitiveType mode, bool bEnableNormalMapping,
-            DirectionalLight Sun, List<PointLight> lights, Terrain terrain, LiteCamera camera, ref Matrix4 ProjectionMatrix,
+            DirectionalLight Sun, List<PointLight> lights, LiteCamera camera, ref Matrix4 ProjectionMatrix,
             Vector4 clipPlane = new Vector4())
         {
-            postConstructor(terrain);
+            postConstructor();
 
             Matrix4 modelMatrix;
             modelMatrix = GetWorldMatrix();
@@ -246,7 +246,7 @@ namespace MassiveGame
             if (clipPlane.X == 0 && clipPlane.Y == 0 && clipPlane.Z == 0 && clipPlane.W == 0) { GL.Disable(EnableCap.ClipDistance0); }
             else { GL.Enable(EnableCap.ClipDistance0); }
 
-            _shader.startProgram();      //Бинд шейдера
+            _shader.startProgram(); 
 
             // pass uniform varibles to shader
             if (Sun != null)
@@ -256,7 +256,7 @@ namespace MassiveGame
                 shadowMap.BindTexture(TextureUnit.Texture1); // shadowmap
                 _shader.SetDirectionalLightShadowMatrix(Sun.GetShadowHandler().GetShadowMatrix(ref modelMatrix, ref ProjectionMatrix));
             }
-            _texture.BindTexture(TextureUnit.Texture0); // diffusemap texture
+            _texture.BindTexture(TextureUnit.Texture0); // diffusemap
             if (bEnableNormalMapping && _normalMap != null)
                 _normalMap.BindTexture(TextureUnit.Texture2);  // normalmap
 
@@ -287,16 +287,10 @@ namespace MassiveGame
                new Vector3(1.0f, 1.0f, 1.0f), new Vector3(1.0f, 1.0f, 1.0f), 20.0f, 1.0f);
         }
 
-        private void postConstructor(Terrain terrain)
+        private void postConstructor()
         {
             if (_postConstructor)
             {
-                base.Move = new Vector3(base.Move.X, terrain.getLandscapeHeight(Box.getCenter().X,
-                    Box.getCenter().Z) - _bottomY, base.Move.Z);//Инициализация высоты
-                // update collsion box - lift it on terrain height
-                this._box.synchronizeCoordinates(this._leftX + this.Move.X, base._rightX + this.Move.X,
-                   this._bottomY + this.Move.Y, this._topY + this.Move.Y, this._nearZ + this.Move.Z, this._farZ + this.Move.Z);
-
                 _shader = (MovableEntityShader)ResourcePool.GetShaderProgram(ProjectFolders.ShadersPath + "playerVertexShader.glsl",
                     ProjectFolders.ShadersPath + "playerFragmentShader.glsl", "", typeof(MovableEntityShader));
 
