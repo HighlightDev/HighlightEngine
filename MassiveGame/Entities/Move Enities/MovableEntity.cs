@@ -84,10 +84,10 @@ namespace MassiveGame
         {
             base.Tick(ref projectionMatrix, ref viewMatrix);
 
-            // Character is in free fall, must be calculated new height regarding to body free falling mechanics
             if (ActorState == BEHAVIOR_STATE.FREE_FALLING)
             {
-                Velocity = BodyMechanics.UpdateFreeFallVelocity(Velocity, Speed);
+                // Character is in free fall, must be calculated new height regarding to body free falling mechanics
+                Velocity = BodyMechanics.UpdateFreeFallVelocity(Velocity);
                 if (collisionHeadUnit != null)
                     collisionHeadUnit.TryCollision(this);
             }
@@ -132,10 +132,10 @@ namespace MassiveGame
 
         public void collisionOffset(Vector3 newPosition)
         {
-            ComponentTranslation = newPosition + new Vector3(0, 1f, 0);
+            ComponentTranslation = newPosition + new Vector3(0, GetCharacterCollisionBound().GetExtent().Y, 0);
         }
 
-        public void MoveActor(Terrain terrain)
+        public void MoveActor()
         {
             // Actor shouldn't move while free fall
             if (ActorState == BEHAVIOR_STATE.FREE_FALLING)

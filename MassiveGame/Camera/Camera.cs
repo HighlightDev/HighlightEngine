@@ -236,9 +236,8 @@ namespace MassiveGame
         {
             if (CameraMode == CAMERA_MODE.THIRD_PERSON)
             {
-                this.lookVector.X = thirdPersonTarget.Box.getCenter().X;
-                this.lookVector.Y = thirdPersonTarget.Box.getCenter().Y + 3.0f;
-                this.lookVector.Z = thirdPersonTarget.Box.getCenter().Z;
+                this.lookVector = thirdPersonTarget.GetCharacterCollisionBound().GetOrigin();
+                lookVector.Y += 3;
             }
 
             if (terrain != null)
@@ -252,8 +251,8 @@ namespace MassiveGame
         {
             CameraMode = CAMERA_MODE.THIRD_PERSON;
             thirdPersonTarget = obj;
- 
-            Vector3 objCenter = obj.Box.getCenter();
+
+            Vector3 objCenter = obj.GetCharacterCollisionBound().GetOrigin();
             this.posVector.X = objCenter.X;
             this.posVector.Y = objCenter.Y + 40.0f;
             this.posVector.Z = objCenter.Z + 10.0f;

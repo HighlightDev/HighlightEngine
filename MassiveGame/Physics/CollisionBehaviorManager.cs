@@ -162,8 +162,8 @@ namespace MassiveGame.Physics
             float intersectionDistance = TerrainRayIntersection.Intersection_TerrainRay(DOUEngine.terrain, ray);
 
             // Character is still in free fall, just update position
-            if (intersectionDistance < 0.0f || RAYCAST_INTERSECTION_FAR(character.Speed, intersectionDistance))
-                character.ComponentTranslation = BodyMechanics.UpdateFreeFallPosition(character.ComponentTranslation, character.Speed, character.Velocity);
+            if (intersectionDistance < 0.0f || RAYCAST_INTERSECTION_FAR(BodyMechanics.FallTime, intersectionDistance))
+                character.ComponentTranslation = BodyMechanics.UpdateFreeFallPosition(character.ComponentTranslation, character.Velocity);
             
             // Character could be elevated on terrain 
             else
@@ -192,7 +192,7 @@ namespace MassiveGame.Physics
             float actualIntersectionDistance = intersectionDistance - boundExtent;
 
             // Character is in free fall, next position will be calculated in next tick
-            if (intersectionDistance < 0.0f || RAYCAST_INTERSECTION_FAR(character.Speed, actualIntersectionDistance))
+            if (intersectionDistance < 0.0f || RAYCAST_INTERSECTION_FAR(BodyMechanics.FallTime, actualIntersectionDistance))
                 character.ActorState = BEHAVIOR_STATE.FREE_FALLING;
 
             // Check if character can reach that height
@@ -364,7 +364,7 @@ namespace MassiveGame.Physics
                                     float actualIntersectionDistance = intersectionDistance - boundExtent;
 
                                     // Character is in free fall, next position will be calculated in next tick
-                                    if (intersectionDistance < 0.0f || RAYCAST_INTERSECTION_FAR(characterEntity.Speed, actualIntersectionDistance))
+                                    if (intersectionDistance < 0.0f || RAYCAST_INTERSECTION_FAR(BodyMechanics.FallTime, actualIntersectionDistance))
                                         characterEntity.ActorState = BEHAVIOR_STATE.FREE_FALLING;
 
                                     // Check if character can reach that height
@@ -415,7 +415,7 @@ namespace MassiveGame.Physics
 
                         float terrainIntersectionDistance = TerrainRayIntersection.Intersection_TerrainRay(DOUEngine.terrain, rayFromCenter);
 
-                        bool bTerrainIntersection = !(terrainIntersectionDistance < 0.0f || RAYCAST_INTERSECTION_FAR(character.Speed, terrainIntersectionDistance));
+                        bool bTerrainIntersection = !(terrainIntersectionDistance < 0.0f || RAYCAST_INTERSECTION_FAR(BodyMechanics.FallTime, terrainIntersectionDistance));
 
                         // No terrain intersection - check intersection with bounds
                         if (!bTerrainIntersection)

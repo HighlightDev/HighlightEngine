@@ -159,7 +159,7 @@ namespace MassiveGame.UI
             specularMapPath = ProjectFolders.SpecularMapsPath + "brick_sm.png";
 
             MotionEntityArguments arg = new MotionEntityArguments(modelPath, texturePath, normalMapPath, specularMapPath,
-                IdGenerator.GeneratePlayerId(), 0.3f, new Vector3(200, 100, 230), new Vector3(0), new Vector3(1));
+                IdGenerator.GeneratePlayerId(), 0.3f, new Vector3(200, 500, 230), new Vector3(0), new Vector3(5));
 
             DOUEngine.Player = (Player)EngineObjectCreator.CreateInstance(arg);
             DOUEngine.Player.setSoundAttachment(DOUEngine.SB_step, DOUEngine.SB_collide);
@@ -311,7 +311,7 @@ namespace MassiveGame.UI
             DOUEngine.ShadowMapRezolution = settingsLoader.GetDirectionalShadowMapRezolution();
 
             DOUEngine.PostConstructor = true;
-            DOUEngine.Camera = new Camera(250.0f, 70, 60.0f, 240.0f, 70.0f, 50.0f, 0.0f, 1.0f, 0.0f);
+            DOUEngine.Camera = new Camera(250.0f, 70, 60.0f, 50.0f, 70.0f, 250.0f, 0.0f, 1.0f, 0.0f);
             DOUEngine.PrevCursorPosition = new System.Drawing.Point(-1, -1);
             DOUEngine.ElapsedTime = DateTime.Now;
             DOUEngine.keyboardMaskArray = new bool[4];
@@ -327,7 +327,7 @@ namespace MassiveGame.UI
 
                 if (DOUEngine.Player != null)
                 {
-                    DOUEngine.Player.MoveActor(DOUEngine.terrain);
+                    DOUEngine.Player.MoveActor();
                 }
                 DOUEngine.Camera.UpdateHeight(previousPosition);
             }
@@ -403,14 +403,7 @@ namespace MassiveGame.UI
         private void gameLogics(bool redraw = false)
         {
             if (DOUEngine.PostConstructor)
-            {
-                var velocityVector = DOUEngine.Camera.GetNormalizedDirection();
-                velocityVector.Y = 0.0f;
-
-                if (DOUEngine.Player != null)
-                {
-                    DOUEngine.Player.MoveActor(DOUEngine.terrain);
-                }
+            { 
                 //if (redraw)
                 //{
                 //    foreach (Building building in buildings)

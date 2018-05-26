@@ -24,7 +24,7 @@ namespace MassiveGame
         public static float FAR_CLIPPING_PLANE = 1000;
         public const float FoV = 60.0f;
         public const float MAP_SIZE = 500;
-        public const float MAP_HEIGHT = 30.0f;
+        public const float MAP_HEIGHT = 1;
         public const float DAY_TIMER_HASTE = 10;
         public const float SCREEN_ASPECT_RATIO = 16f / 9f;
 
