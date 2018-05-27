@@ -89,6 +89,12 @@ namespace MassiveGame.UI
             {
                 DOUEngine.Enemy.Tick(ref DOUEngine.ProjectionMatrix, ref viewMatrix);
             }
+
+            if (DOUEngine.City != null)
+            {
+                foreach (var item in DOUEngine.City)
+                    item.Tick(ref DOUEngine.ProjectionMatrix, ref viewMatrix);
+            }
         }
 
         private void renderBasePass(Camera camera, bool redraw = false)
@@ -173,9 +179,9 @@ namespace MassiveGame.UI
             }
 
             // ITS for TEST! COMPUTE SHADERS!
-            Matrix4 worldMatrix = Matrix4.CreateScale(1);
-            worldMatrix *= Matrix4.CreateTranslation(new Vector3(0, 60, 0));
-            ch.Render(worldMatrix, DOUEngine.Camera.getViewMatrix(), DOUEngine.ProjectionMatrix);
+            //Matrix4 worldMatrix = Matrix4.CreateScale(1);
+            //worldMatrix *= Matrix4.CreateTranslation(new Vector3(0, 60, 0));
+            //ch.Render(worldMatrix, DOUEngine.Camera.getViewMatrix(), DOUEngine.ProjectionMatrix);
         }
 
         private void RenderToReflectionRenderTarget(LiteCamera camera, Vector4 clipPlane, WaterQuality quality)

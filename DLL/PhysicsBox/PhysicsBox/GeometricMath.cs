@@ -55,20 +55,20 @@ namespace PhysicsBox
             return result;
         }
 
-        public static Interval GetInterval(OBB rect, Vector3 axis)
+        public static Interval GetInterval(OBB obb, Vector3 axis)
         {
             Interval result;
             // translation 
-            Vector3 translation = rect.TransformationMatrix.ExtractTranslation();
+            Vector3 translation = obb.TransformationMatrix.ExtractTranslation();
 
             // extract tangent vectors of bounding box
-            Vector3 obbTangentX = rect.TransformationMatrix.Row0.Xyz;
-            Vector3 obbTangentY = rect.TransformationMatrix.Row1.Xyz;
-            Vector3 obbTangentZ = rect.TransformationMatrix.Row2.Xyz;
+            Vector3 obbTangentX = obb.TransformationMatrix.Row0.Xyz;
+            Vector3 obbTangentY = obb.TransformationMatrix.Row1.Xyz;
+            Vector3 obbTangentZ = obb.TransformationMatrix.Row2.Xyz;
             
             // extent and origin of bounding box
-            Vector3 extent = rect.GetExtent();
-            Vector3 position = rect.GetOrigin();
+            Vector3 extent = obb.GetExtent();
+            Vector3 position = obb.GetOrigin();
 
             // find all vertices of rotated bounding box
             Vector3[] vertices = new Vector3[8];
@@ -78,8 +78,8 @@ namespace PhysicsBox
             vertices[3] = position + (obbTangentX * extent.X) + (obbTangentY * extent.Y) - (obbTangentY * extent.Z) + translation;
             vertices[4] = position - (obbTangentX * extent.X) - (obbTangentY * extent.Y) - (obbTangentY * extent.Z) + translation;
             vertices[5] = position + (obbTangentX * extent.X) - (obbTangentY * extent.Y) - (obbTangentY * extent.Z) + translation;
-            vertices[7] = position - (obbTangentX * extent.X) + (obbTangentY * extent.Y) - (obbTangentY * extent.Z) + translation;
-            vertices[8] = position - (obbTangentX * extent.X) - (obbTangentY * extent.Y) + (obbTangentY * extent.Z) + translation;
+            vertices[6] = position - (obbTangentX * extent.X) + (obbTangentY * extent.Y) - (obbTangentY * extent.Z) + translation;
+            vertices[7] = position - (obbTangentX * extent.X) - (obbTangentY * extent.Y) + (obbTangentY * extent.Z) + translation;
 
             result.min = result.max = ProjectVectorOnNormalizedVector(vertices[0], axis);
             for (Int32 i = 1; i < vertices.Length; i++)
@@ -197,7 +197,7 @@ namespace PhysicsBox
 
             return (min1.X <= max2.X && max1.X >= min2.X) &&
                     (min1.Y <= max2.Y && max1.Y >= min2.Y) &&
-                    (min1.Z <= max2.X && max1.Z >= min2.Z);
+                    (min1.Z <= max2.Z && max1.Z >= min2.Z);
         }
 
         public static float Intersection_RayAABB(FRay ray, AABB aabb)

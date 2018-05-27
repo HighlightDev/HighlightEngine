@@ -39,6 +39,7 @@ namespace PhysicsBox.MathTypes
 
         public AABB(Vector3 Origin, Vector3 Extent, Component parentComponent) : base(Origin, Extent, parentComponent)
         {
+            ScalePlusTranslation = Matrix4.Identity;
         }
 
         public static AABB CreateFromMinMax(Vector3 min, Vector3 max, Component parentComponent)

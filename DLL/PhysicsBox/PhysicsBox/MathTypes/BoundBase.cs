@@ -124,10 +124,10 @@ namespace PhysicsBox.MathTypes
             foreach (FPlane plane in boundPlanes)
             {
                 float distance = Vector3.Dot((Vector3)plane, position) + plane.D;
-                if (distance < d)
+                if (Math.Abs(distance) < Math.Abs(d))
                 {
                     closestPlane = plane;
-                    d = distance;
+                    d = Math.Abs(distance);
                 }
             }
 

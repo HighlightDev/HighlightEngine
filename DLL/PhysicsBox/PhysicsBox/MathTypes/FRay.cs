@@ -25,7 +25,7 @@ namespace PhysicsBox.MathTypes
         public FRay(Vector3 startPosition, Vector3 direction)
         {
             StartPosition = startPosition;
-            Direction = direction;
+            Direction = direction.Normalized();
         }
     }
 }

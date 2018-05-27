@@ -11,7 +11,7 @@ using MassiveGame.API.Factory.ObjectArguments;
 
 namespace MassiveGame.API.Factory
 {
-    public sealed class StaticEntity : ICreator
+    public sealed class StaticEntityCreator : ICreator
     {
         public IVisible CreateInstance(Arguments a)
         {

@@ -9,7 +9,7 @@ using TextureLoader;
 
 namespace MassiveGame.API.Factory.ObjectArguments
 {
-    public sealed class MotionEntityArguments : Arguments
+    public sealed class MovableEntityArguments : Arguments
     {
         public float Speed { private set; get; }
         public int ID { private set; get; }
@@ -17,7 +17,7 @@ namespace MassiveGame.API.Factory.ObjectArguments
         public Vector3 Rotation { private set; get; }
         public Vector3 Scale { private set; get; }
 
-        public MotionEntityArguments(string modelPath, string texturePath, string normalMapPath, string specularMapPath,
+        public MovableEntityArguments(string modelPath, string texturePath, string normalMapPath, string specularMapPath,
             int id, float speed, Vector3 translation, Vector3 rotation, Vector3 scale)
             : base(EntityType.MOVABLE_ENTITY,  modelPath,  texturePath,  normalMapPath,  specularMapPath)
         {

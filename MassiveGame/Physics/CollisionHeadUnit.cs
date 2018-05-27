@@ -46,8 +46,8 @@ namespace MassiveGame.Physics
             
             if (collisionType == (BoundBase.BoundType.AABB | BoundBase.BoundType.OBB))
             {
-                AABB aabb = collisionType == BoundBase.BoundType.AABB ? characterBound as AABB : collidedRootBound as AABB;
-                OBB obb = collisionType == BoundBase.BoundType.OBB ? characterBound as OBB : collidedRootBound as OBB;
+                AABB aabb = characterBound.GetBoundType() == BoundBase.BoundType.AABB ? characterBound as AABB : collidedRootBound as AABB;
+                OBB obb = collidedRootBound.GetBoundType() == BoundBase.BoundType.OBB ? collidedRootBound as OBB : characterBound as OBB;
                 bHasCollision = GeometricMath.AABBOBB(aabb, obb);
             }
             else if (collisionType == (BoundBase.BoundType.AABB | BoundBase.BoundType.AABB))

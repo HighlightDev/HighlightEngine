@@ -15,6 +15,7 @@ namespace MassiveGame
         public override void SetCollisionHeadUnit(CollisionHeadUnit collisionHeadUnit)
         {
             base.SetCollisionHeadUnit(collisionHeadUnit);
+            collisionHeadUnit.AddCollisionObserver(this);
         }
 
         #endregion

@@ -228,7 +228,7 @@ namespace MassiveGame.UI
             { DOUEngine.keyboardMaskArray[3] = true; }
             if (args.KeyChar == '0')
             {
-                ch.ResetPositions();
+                //ch.ResetPositions();
             }
         }
 

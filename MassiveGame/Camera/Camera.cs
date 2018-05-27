@@ -240,11 +240,11 @@ namespace MassiveGame
                 lookVector.Y += 3;
             }
 
-            if (terrain != null)
-            {
-                var currentYlvl = terrain.getLandscapeHeight(posVector.X, posVector.Z);
-                this.posVector.Y = posVector.Y < currentYlvl + 1.3f ? currentYlvl + 1.3f : posVector.Y;
-            }
+            //if (terrain != null)
+            //{
+            //    var currentYlvl = terrain.getLandscapeHeight(posVector.X, posVector.Z);
+            //    this.posVector.Y = posVector.Y < currentYlvl + 1.3f ? currentYlvl + 1.3f : posVector.Y;
+            //}
         }
 
         public void SetThirdPerson(MovableEntity obj)
@@ -252,7 +252,8 @@ namespace MassiveGame
             CameraMode = CAMERA_MODE.THIRD_PERSON;
             thirdPersonTarget = obj;
 
-            Vector3 objCenter = obj.GetCharacterCollisionBound().GetOrigin();
+            Vector3 objCenter = new Vector3(0);
+                //obj.ComponentTranslation;
             this.posVector.X = objCenter.X;
             this.posVector.Y = objCenter.Y + 40.0f;
             this.posVector.Z = objCenter.Z + 10.0f;

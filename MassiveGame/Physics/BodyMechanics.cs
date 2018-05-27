@@ -15,6 +15,11 @@ namespace MassiveGame.Physics
         // 30 degrees
         public static float COS_MAX_REACHABLE_INCLINE = 0.866f;
 
+        public static float GetFreeFallDistanceInVelocity(Vector3 Velocity)
+        {
+            return (Velocity * FallTime + 0.5f * FallTime * FallTime * G).Length;
+        }
+
         public static Vector3 UpdateFreeFallPosition(Vector3 Position, Vector3 Velocity)
         {
             return Position + Velocity * FallTime + 0.5f * FallTime * FallTime * G;

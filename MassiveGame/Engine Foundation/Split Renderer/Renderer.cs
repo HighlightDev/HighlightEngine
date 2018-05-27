@@ -56,7 +56,7 @@ namespace MassiveGame.UI
         List<IDrawable> shadowList;
         DefaultFrameBuffer defaultFB;
         UiFrame DefaultFrame;
-        ComputeShader ch;
+        //ComputeShader ch;
 
         CollisionHeadUnit collisionHeadUnit = new CollisionHeadUnit();
 
@@ -131,46 +131,57 @@ namespace MassiveGame.UI
 
             DOUEngine.terrain.SetMist(DOUEngine.Mist);
 
-            string modelPath = ProjectFolders.ModelsPath + "City_House_2_BI.obj";
-            string texturePath = ProjectFolders.TextureAtlasPath + "city_house_2_Col.jpg";
-            string normalMapPath = ProjectFolders.NormalMapsPath + "city_house_2_Nor.jpg";
-            string specularMapPath = ProjectFolders.SpecularMapsPath + "city_house_2_Spec.jpg";
+            string modelPath = ProjectFolders.ModelsPath + "playerCube.obj";
+            string texturePath = ProjectFolders.MultitexturesPath + "path.png";
+            string normalMapPath = ProjectFolders.NormalMapsPath + "brick_nm_high.png";
+            string specularMapPath = ProjectFolders.SpecularMapsPath + "brick_sm.png";
 
 
             DOUEngine.City.Add((Building)EngineObjectCreator.CreateInstance(new StaticEntityArguments(modelPath, texturePath, normalMapPath, specularMapPath,
-                new Vector3(220, 35, 350), new Vector3(0, 180, 0), new Vector3(10))));
-            DOUEngine.City.Add((Building)EngineObjectCreator.CreateInstance(new StaticEntityArguments(modelPath, texturePath, normalMapPath, specularMapPath,
-               new Vector3(280, 35, 350), new Vector3(0, 180, 0), new Vector3(10))));
-            DOUEngine.City.Add((Building)EngineObjectCreator.CreateInstance(new StaticEntityArguments(modelPath, texturePath, normalMapPath, specularMapPath,
-                new Vector3(230, 35, 410), new Vector3(0, 180, 0), new Vector3(10))));
-            DOUEngine.City.Add((Building)EngineObjectCreator.CreateInstance(new StaticEntityArguments(modelPath, texturePath, normalMapPath, specularMapPath,
-               new Vector3(260, 35, 400), new Vector3(0, 180, 0), new Vector3(10))));
+                new Vector3(220, 10, 350), new Vector3(0, 180, 0), new Vector3(30, 10, 30))));
+            //DOUEngine.City.Add((Building)EngineObjectCreator.CreateInstance(new StaticEntityArguments(modelPath, texturePath, normalMapPath, specularMapPath,
+            //   new Vector3(280, 10, 350), new Vector3(0, 180, 0), new Vector3(10))));
+            //DOUEngine.City.Add((Building)EngineObjectCreator.CreateInstance(new StaticEntityArguments(modelPath, texturePath, normalMapPath, specularMapPath,
+            //    new Vector3(230, 10, 410), new Vector3(0, 180, 0), new Vector3(10))));
+            //DOUEngine.City.Add((Building)EngineObjectCreator.CreateInstance(new StaticEntityArguments(modelPath, texturePath, normalMapPath, specularMapPath,
+            //   new Vector3(260, 10, 400), new Vector3(0, 180, 0), new Vector3(10))));
+
+            // TEST components
+            ComponentSerializer serializer = new ComponentSerializer();
+            SerializedComponentsContainer container;
+            Component parent = new Component();
+            Component component;
             foreach (var item in DOUEngine.City)
             {
-                item.SetMistComponent(DOUEngine.Mist);
+                // TEST
+                container = serializer.DeserializeComponents("123.cl");
+                parent.ChildrenComponents = container.SerializedComponents;
+                component = convertToSceneComponent(parent);
+                item.SetComponents(component.ChildrenComponents);
                 item.SetCollisionHeadUnit(collisionHeadUnit);
-            }
 
-           
+                item.SetMistComponent(DOUEngine.Mist);
+                
+            }
 
             modelPath = ProjectFolders.ModelsPath + "playerCube.obj";
             texturePath = ProjectFolders.MultitexturesPath + "path.png";
             normalMapPath = ProjectFolders.NormalMapsPath + "brick_nm_high.png";
             specularMapPath = ProjectFolders.SpecularMapsPath + "brick_sm.png";
 
-            MotionEntityArguments arg = new MotionEntityArguments(modelPath, texturePath, normalMapPath, specularMapPath,
-                IdGenerator.GeneratePlayerId(), 0.3f, new Vector3(200, 500, 230), new Vector3(0), new Vector3(5));
+            MovableEntityArguments arg = new MovableEntityArguments(modelPath, texturePath, normalMapPath, specularMapPath,
+                IdGenerator.GeneratePlayerId(), 0.9f, new Vector3(180, 542, 350), new Vector3(0), new Vector3(5));
 
             DOUEngine.Player = (Player)EngineObjectCreator.CreateInstance(arg);
             DOUEngine.Player.setSoundAttachment(DOUEngine.SB_step, DOUEngine.SB_collide);
             DOUEngine.Player.SetMistComponent(DOUEngine.Mist);
            
             // TEST components
-            ComponentSerializer serializer = new ComponentSerializer();
-            SerializedComponentsContainer container = serializer.DeserializeComponents("123.cl");
-            Component parent = new Component();
+            container = serializer.DeserializeComponents("123.cl");
+            parent = new Component();
             parent.ChildrenComponents = container.SerializedComponents;
-            Component component = convertToSceneComponent(parent);
+            component = convertToSceneComponent(parent);
+            // TEST
             DOUEngine.Player.SetComponents(component.ChildrenComponents);
 
             DOUEngine.Player.SetCollisionHeadUnit(collisionHeadUnit);
@@ -178,13 +189,19 @@ namespace MassiveGame.UI
             modelPath = ProjectFolders.ModelsPath + "playerCube.obj";
             texturePath = ProjectFolders.MultitexturesPath + "b.png";
 
-            arg = new MotionEntityArguments(modelPath, texturePath, normalMapPath, specularMapPath,
-                IdGenerator.GeneratePlayerId(), 0.3f, new Vector3(180, 0, 220), new Vector3(0, 0, 0), new Vector3(10));
+            arg = new MovableEntityArguments(modelPath, texturePath, normalMapPath, specularMapPath,
+                IdGenerator.GeneratePlayerId(), 0.3f, new Vector3(180, 20, 220), new Vector3(0, 0, 0), new Vector3(10));
 
             DOUEngine.Enemy = (Player)EngineObjectCreator.CreateInstance(arg);
             DOUEngine.Enemy.setSoundAttachment(DOUEngine.SB_step, DOUEngine.SB_collide);
             DOUEngine.Enemy.SetMistComponent(DOUEngine.Mist);
-            //DOUEngine.Enemy.SetCollisionHeadUnit(collisionHeadUnit);
+
+            container = serializer.DeserializeComponents("123.cl");
+            parent = new Component();
+            parent.ChildrenComponents = container.SerializedComponents;
+            component = convertToSceneComponent(parent);
+            DOUEngine.Enemy.SetComponents(component.ChildrenComponents);
+            DOUEngine.Enemy.SetCollisionHeadUnit(collisionHeadUnit);
             arg = null;
 
             DOUEngine.Grass = new PlantReadyMaster(
@@ -219,9 +236,9 @@ namespace MassiveGame.UI
             //EngineSingleton.SourceAmbient.SetLooping(true);
             //EngineSingleton.SourceAmbient.Play();
 
-            DOUEngine.Water = new WaterEntity(ProjectFolders.WaterTexturePath + "DUDV.png", ProjectFolders.WaterTexturePath + "normal.png",
-                new Vector3(160, 29, 254), new Vector3(0, 0, 0), new Vector3(70, 1, 100), new WaterQuality(true, true, true), 10);
-            DOUEngine.Water.setMist(DOUEngine.Mist);
+            //DOUEngine.Water = new WaterEntity(ProjectFolders.WaterTexturePath + "DUDV.png", ProjectFolders.WaterTexturePath + "normal.png",
+            //    new Vector3(160, 29, 254), new Vector3(0, 0, 0), new Vector3(70, 1, 100), new WaterQuality(true, true, true), 10);
+            //DOUEngine.Water.setMist(DOUEngine.Mist);
 
             DOUEngine.SunReplica = new SunRenderer(DOUEngine.Sun, ProjectFolders.SunTexturePath + "sunC.png",
                     ProjectFolders.SunTexturePath + "sunB.png");
@@ -250,6 +267,7 @@ namespace MassiveGame.UI
             //    new Vector3(40, 70, 40), new Vector3(0, 0, 0), new Vector3(0.5f));
 
             //DOUEngine.Camera.SetThirdPerson(DOUEngine.Player);
+            //DOUEngine.Player.SetActionMovedDelegateListener((o, e) => DOUEngine.Camera.SetThirdPerson(o as MovableEntity));
             DOUEngine.Camera.SetFirstPerson();
 
             shadowList = new List<IDrawable>();
@@ -260,8 +278,8 @@ namespace MassiveGame.UI
 
             frame = new UiFrame(0, 0, 0.5f, 0.5f);
 
-            ch = new ComputeShader();
-            ch.Init();
+            //ch = new ComputeShader();
+            //ch.Init();
         }
 
         #region TEST
@@ -311,7 +329,7 @@ namespace MassiveGame.UI
             DOUEngine.ShadowMapRezolution = settingsLoader.GetDirectionalShadowMapRezolution();
 
             DOUEngine.PostConstructor = true;
-            DOUEngine.Camera = new Camera(250.0f, 70, 60.0f, 50.0f, 70.0f, 250.0f, 0.0f, 1.0f, 0.0f);
+            DOUEngine.Camera = new Camera(250.0f, 70, 260.0f, 50.0f, 70.0f, 250.0f, 0.0f, 1.0f, 0.0f);
             DOUEngine.PrevCursorPosition = new System.Drawing.Point(-1, -1);
             DOUEngine.ElapsedTime = DateTime.Now;
             DOUEngine.keyboardMaskArray = new bool[4];

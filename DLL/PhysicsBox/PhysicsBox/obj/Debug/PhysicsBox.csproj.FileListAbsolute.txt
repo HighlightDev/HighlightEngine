@@ -37,3 +37,4 @@ C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\DLL\Physics
 C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\DLL\PhysicsBox\PhysicsBox\bin\Debug\OpenTK.pdb
 C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\DLL\PhysicsBox\PhysicsBox\bin\Debug\OpenTK.xml
 C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\DLL\PhysicsBox\PhysicsBox\bin\Debug\VectorMath.pdb
+C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\DLL\PhysicsBox\PhysicsBox\obj\Debug\PhysicsBox.csprojResolveAssemblyReference.cache

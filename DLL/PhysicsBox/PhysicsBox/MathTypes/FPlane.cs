@@ -41,9 +41,9 @@ namespace PhysicsBox.MathTypes
 
         public FPlane(Vector3 InBase, Vector3 InNormal)
         {
-            this.X = InBase.X;
-            this.Y = InBase.Y;
-            this.Z = InBase.Z;
+            this.X = InNormal.X;
+            this.Y = InNormal.Y;
+            this.Z = InNormal.Z;
             this.D = Vector3.Dot(InBase, InNormal);
         }
 

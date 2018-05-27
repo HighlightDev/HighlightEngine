@@ -20,6 +20,7 @@ namespace MassiveGame.Physics
         {
             if (RootComponent != null && bBoundingBoxesTransformDirty)
             {
+                allBounds.Clear();
                 IterateAllBoundBoxes(RootComponent, ref allBounds);
             }
             return allBounds;

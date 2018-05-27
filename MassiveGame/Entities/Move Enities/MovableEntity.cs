@@ -87,9 +87,9 @@ namespace MassiveGame
             if (ActorState == BEHAVIOR_STATE.FREE_FALLING)
             {
                 // Character is in free fall, must be calculated new height regarding to body free falling mechanics
-                Velocity = BodyMechanics.UpdateFreeFallVelocity(Velocity);
                 if (collisionHeadUnit != null)
                     collisionHeadUnit.TryCollision(this);
+                Velocity = BodyMechanics.UpdateFreeFallVelocity(Velocity);
             }
             else if (ActorState == BEHAVIOR_STATE.MOVE)
             {
@@ -133,6 +133,8 @@ namespace MassiveGame
         public void collisionOffset(Vector3 newPosition)
         {
             ComponentTranslation = newPosition + new Vector3(0, GetCharacterCollisionBound().GetExtent().Y, 0);
+            if (ActionMove != null)
+                ActionMove(this, null);
         }
 
         public void MoveActor()
@@ -162,6 +164,8 @@ namespace MassiveGame
         public virtual void popPositionStack()
         {
             ComponentTranslation = objectStack.popPositionValues();
+            if (ActionMove != null)
+                ActionMove(this, null);
         }
 
         #endregion

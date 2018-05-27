@@ -124,11 +124,11 @@
     <Compile Include="API\Factory\EngineObjectCreator.cs" />
     <Compile Include="API\Factory\EngineObjectType.cs" />
     <Compile Include="API\Factory\ICreator.cs" />
-    <Compile Include="API\Factory\MotionEntity.cs" />
+    <Compile Include="API\Factory\MovableEntityCreator.cs" />
     <Compile Include="API\Factory\ObjectArguments\Arguments.cs" />
-    <Compile Include="API\Factory\ObjectArguments\MotionEntityArguments.cs" />
+    <Compile Include="API\Factory\ObjectArguments\MovableEntityArguments.cs" />
     <Compile Include="API\Factory\ObjectArguments\StaticEntityArguments.cs" />
-    <Compile Include="API\Factory\StaticEntity.cs" />
+    <Compile Include="API\Factory\StaticEntityCreator.cs" />
     <Compile Include="API\IDgenerator\IdGenerator.cs" />
     <Compile Include="API\MouseObjectDetector\MousePicker.cs" />
     <Compile Include="Camera\Camera.cs" />
@@ -177,7 +177,7 @@
     <Compile Include="Entities\Plant Enitites\PlantUnit.cs" />
     <Compile Include="Entities\Plant Enitites\PlantUserAttributeBuilder.cs" />
     <Compile Include="Entities\Static Enities\Building.cs" />
-    <Compile Include="Entities\Static Enities\StaticEntities.cs" />
+    <Compile Include="Entities\Static Enities\StaticEntity.cs" />
     <Compile Include="Entities\Static Enities\StaticEntityShader.cs" />
     <Compile Include="EntityComponents\MistComponent.cs" />
     <Compile Include="EntityComponents\WindComponent.cs" />
