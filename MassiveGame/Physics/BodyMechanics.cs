@@ -12,8 +12,7 @@ namespace MassiveGame.Physics
         public static float FallTime = 0.05f;
         public static Vector3 G = new Vector3(0, -9.8f, 0);
 
-        // 30 degrees
-        public static float COS_MAX_REACHABLE_INCLINE = 0.866f;
+        public static float COS_MAX_REACHABLE_INCLINE = 0.266f;
 
         public static float GetFreeFallDistanceInVelocity(Vector3 Velocity)
         {

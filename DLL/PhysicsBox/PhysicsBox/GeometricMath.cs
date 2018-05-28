@@ -33,7 +33,7 @@ namespace PhysicsBox
 
             Vector3[] vertex =
                 {
-                new Vector3(min.X, max.Y, max.Y),
+                new Vector3(min.X, max.Y, max.Z),
                 new Vector3(min.X, max.Y, min.Z),
                 new Vector3(min.X, min.Y, max.Z),
                 new Vector3(min.X, min.Y, min.Z),
@@ -62,9 +62,9 @@ namespace PhysicsBox
             Vector3 translation = obb.TransformationMatrix.ExtractTranslation();
 
             // extract tangent vectors of bounding box
-            Vector3 obbTangentX = obb.TransformationMatrix.Row0.Xyz;
-            Vector3 obbTangentY = obb.TransformationMatrix.Row1.Xyz;
-            Vector3 obbTangentZ = obb.TransformationMatrix.Row2.Xyz;
+            Vector3 obbTangentX = obb.GetTangetX();
+            Vector3 obbTangentY = obb.GetTangetY();
+            Vector3 obbTangentZ = obb.GetTangetZ();
             
             // extent and origin of bounding box
             Vector3 extent = obb.GetExtent();
@@ -72,14 +72,14 @@ namespace PhysicsBox
 
             // find all vertices of rotated bounding box
             Vector3[] vertices = new Vector3[8];
-            vertices[0] = position + (obbTangentX * extent.X) + (obbTangentY * extent.Y) + (obbTangentY * extent.Z) + translation;
-            vertices[1] = position - (obbTangentX * extent.X) + (obbTangentY * extent.Y) + (obbTangentY * extent.Z) + translation;
-            vertices[2] = position + (obbTangentX * extent.X) - (obbTangentY * extent.Y) + (obbTangentY * extent.Z) + translation;
-            vertices[3] = position + (obbTangentX * extent.X) + (obbTangentY * extent.Y) - (obbTangentY * extent.Z) + translation;
-            vertices[4] = position - (obbTangentX * extent.X) - (obbTangentY * extent.Y) - (obbTangentY * extent.Z) + translation;
-            vertices[5] = position + (obbTangentX * extent.X) - (obbTangentY * extent.Y) - (obbTangentY * extent.Z) + translation;
-            vertices[6] = position - (obbTangentX * extent.X) + (obbTangentY * extent.Y) - (obbTangentY * extent.Z) + translation;
-            vertices[7] = position - (obbTangentX * extent.X) - (obbTangentY * extent.Y) + (obbTangentY * extent.Z) + translation;
+            vertices[0] = position + (obbTangentX * extent.X) + (obbTangentY * extent.Y) + (obbTangentZ * extent.Z) + translation;
+            vertices[1] = position - (obbTangentX * extent.X) + (obbTangentY * extent.Y) + (obbTangentZ * extent.Z) + translation;
+            vertices[2] = position + (obbTangentX * extent.X) - (obbTangentY * extent.Y) + (obbTangentZ * extent.Z) + translation;
+            vertices[3] = position + (obbTangentX * extent.X) + (obbTangentY * extent.Y) - (obbTangentZ * extent.Z) + translation;
+            vertices[4] = position - (obbTangentX * extent.X) - (obbTangentY * extent.Y) - (obbTangentZ * extent.Z) + translation;
+            vertices[5] = position + (obbTangentX * extent.X) - (obbTangentY * extent.Y) - (obbTangentZ * extent.Z) + translation;
+            vertices[6] = position - (obbTangentX * extent.X) + (obbTangentY * extent.Y) - (obbTangentZ * extent.Z) + translation;
+            vertices[7] = position - (obbTangentX * extent.X) - (obbTangentY * extent.Y) + (obbTangentZ * extent.Z) + translation;
 
             result.min = result.max = ProjectVectorOnNormalizedVector(vertices[0], axis);
             for (Int32 i = 1; i < vertices.Length; i++)
@@ -113,9 +113,9 @@ namespace PhysicsBox
             testAxes[0] = aabb.GetTangetX();
             testAxes[1] = aabb.GetTangetY();
             testAxes[2] = aabb.GetTangetZ();
-            testAxes[3] = RotationMatrix.Row0.Normalized();
-            testAxes[4] = RotationMatrix.Row1.Normalized();
-            testAxes[5] = RotationMatrix.Row2.Normalized();
+            testAxes[3] = obb.GetTangetX(); ;
+            testAxes[4] = obb.GetTangetY();
+            testAxes[5] = obb.GetTangetZ();
 
             if (false)
             {
@@ -198,6 +198,98 @@ namespace PhysicsBox
             return (min1.X <= max2.X && max1.X >= min2.X) &&
                     (min1.Y <= max2.Y && max1.Y >= min2.Y) &&
                     (min1.Z <= max2.Z && max1.Z >= min2.Z);
+        }
+
+        public static float Intersection_RayAABBExt(FRay ray, Vector3 max, Vector3 min)
+        {
+            Vector3 rayDirection = ray.Direction;
+
+            // safety check to avoid zero division
+            rayDirection.X = System.Math.Abs(rayDirection.X) < 0.00005f ? 0.00005f : rayDirection.X;
+            rayDirection.Y = System.Math.Abs(rayDirection.Y) < 0.00005f ? 0.00005f : rayDirection.Y;
+            rayDirection.Z = System.Math.Abs(rayDirection.Z) < 0.00005f ? 0.00005f : rayDirection.Z;
+
+            // find time of getting to each bounding box position
+            float t1 = (min.X - ray.StartPosition.X) / rayDirection.X;
+            float t2 = (max.X - ray.StartPosition.X) / rayDirection.X;
+            float t3 = (min.Y - ray.StartPosition.Y) / rayDirection.Y;
+            float t4 = (max.Y - ray.StartPosition.Y) / rayDirection.Y;
+            float t5 = (min.Z - ray.StartPosition.Z) / rayDirection.Z;
+            float t6 = (max.Z - ray.StartPosition.Z) / rayDirection.Z;
+
+            // find minimal from max values
+            float tmax = System.Math.Min(
+                System.Math.Min(System.Math.Max(t1, t2), System.Math.Max(t3, t4)),
+                System.Math.Max(t5, t6));
+            // find maximal from min values
+            float tmin = System.Math.Max(
+                System.Math.Max(System.Math.Min(t1, t2), System.Math.Min(t3, t4)),
+                System.Math.Min(t5, t6));
+
+            // If AABB is behind the origin of the ray or if ray doesn't intersect AABB
+            if (tmax < 0 || tmin > tmax)
+                return -1;
+
+            // If origin of ray is inside the AABB
+            if (tmin < 0.0f)
+                return tmax;
+
+            // Intersection point
+            return tmin;
+        }
+
+        public static float Intersection_RayOBBExt(FRay ray, Vector3 RotationX, Vector3 RotationY, Vector3 RotationZ, Vector3 Origin, Vector3 Extent)
+        {
+
+            Vector3 p = Origin - ray.StartPosition;
+
+            // Project obb tangent vectors on ray direction
+            Vector3 f = new Vector3(
+                ProjectVectorOnNormalizedVector(RotationX, ray.Direction),
+                ProjectVectorOnNormalizedVector(RotationY, ray.Direction),
+                ProjectVectorOnNormalizedVector(RotationZ, ray.Direction)
+                );
+
+            // Project tangent vectors on p
+            Vector3 e = new Vector3(
+                ProjectVectorOnNormalizedVector(RotationX, p),
+                ProjectVectorOnNormalizedVector(RotationY, p),
+                ProjectVectorOnNormalizedVector(RotationZ, p)
+                );
+
+
+            float[] tparameter = new float[6];
+            for (Int32 i = 0; i < 3; i++)
+            {
+                if (CMP(f[i], 0) > 0)
+                {
+                    if (-e[i] - Extent[i] > 0 || -e[i] + Extent[i] < 0)
+                        return -1;
+                    f[i] = 0.00001f;
+                }
+
+                tparameter[i * 2] = (e[i] + Extent[i]) / f[i]; // min
+                tparameter[i * 2 + 1] = (e[i] - Extent[i]) / f[i]; // max
+            }
+
+            float tmin = Math.Max(
+                Math.Max(Math.Min(tparameter[0], tparameter[1]), Math.Min(tparameter[2], tparameter[3])),
+                Math.Min(tparameter[4], tparameter[5]));
+
+            float tmax = System.Math.Min(
+                 System.Math.Min(System.Math.Max(tparameter[0], tparameter[1]), System.Math.Max(tparameter[2], tparameter[3])),
+                 System.Math.Max(tparameter[4], tparameter[5]));
+
+            // If OBB is behind the origin of the ray or if ray doesn't intersect OBB
+            if (tmax < 0 || tmin > tmax)
+                return -1;
+
+            // If origin of ray is inside the OBB
+            if (tmin < 0.0f)
+                return tmax;
+
+            // Intersection point
+            return tmin;
         }
 
         public static float Intersection_RayAABB(FRay ray, AABB aabb)
@@ -854,7 +946,7 @@ namespace PhysicsBox
 
         public static float GetDistanceFromPlaneToPoint(FPlane plane, Vector3 point)
         {
-            Vector3 planeNormal = ((Vector4)plane).Xyz;
+            Vector3 planeNormal = (Vector3)plane;
             float projectPointOnNormal = Vector3.Dot(planeNormal, point);
             float distance = projectPointOnNormal - plane.D;
             distance /= planeNormal.Length;

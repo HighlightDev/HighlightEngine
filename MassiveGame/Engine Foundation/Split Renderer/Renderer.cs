@@ -132,13 +132,13 @@ namespace MassiveGame.UI
             DOUEngine.terrain.SetMist(DOUEngine.Mist);
 
             string modelPath = ProjectFolders.ModelsPath + "playerCube.obj";
-            string texturePath = ProjectFolders.MultitexturesPath + "path.png";
+            string texturePath = ProjectFolders.MultitexturesPath + "b.png";
             string normalMapPath = ProjectFolders.NormalMapsPath + "brick_nm_high.png";
             string specularMapPath = ProjectFolders.SpecularMapsPath + "brick_sm.png";
 
 
             DOUEngine.City.Add((Building)EngineObjectCreator.CreateInstance(new StaticEntityArguments(modelPath, texturePath, normalMapPath, specularMapPath,
-                new Vector3(220, 10, 350), new Vector3(0, 180, 0), new Vector3(30, 10, 30))));
+                new Vector3(220, 2, 350), new Vector3(0, 180, 0), new Vector3(30, 10, 30))));
             //DOUEngine.City.Add((Building)EngineObjectCreator.CreateInstance(new StaticEntityArguments(modelPath, texturePath, normalMapPath, specularMapPath,
             //   new Vector3(280, 10, 350), new Vector3(0, 180, 0), new Vector3(10))));
             //DOUEngine.City.Add((Building)EngineObjectCreator.CreateInstance(new StaticEntityArguments(modelPath, texturePath, normalMapPath, specularMapPath,
@@ -170,7 +170,7 @@ namespace MassiveGame.UI
             specularMapPath = ProjectFolders.SpecularMapsPath + "brick_sm.png";
 
             MovableEntityArguments arg = new MovableEntityArguments(modelPath, texturePath, normalMapPath, specularMapPath,
-                IdGenerator.GeneratePlayerId(), 0.9f, new Vector3(180, 542, 350), new Vector3(0), new Vector3(5));
+                IdGenerator.GeneratePlayerId(), 0.4f, new Vector3(170, 542, 350), new Vector3(0), new Vector3(5));
 
             DOUEngine.Player = (Player)EngineObjectCreator.CreateInstance(arg);
             DOUEngine.Player.setSoundAttachment(DOUEngine.SB_step, DOUEngine.SB_collide);

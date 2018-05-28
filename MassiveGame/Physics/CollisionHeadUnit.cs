@@ -123,7 +123,7 @@ namespace MassiveGame.Physics
 
             // Check Collision. Step 2 - check all bounding boxes of concrete component for collision -- (PURE COLLISION DETECTION)
             List<BoundBase> collidedBounds = new List<BoundBase>();
-            CheckRegularBoundingBoxCollision(ref bRegularBoundingBoxCollision, ref characterRootComponent, ref collidedRootComponent, ref collidedRootBounds, ref characterBound, ref collidedRootBounds);
+            CheckRegularBoundingBoxCollision(ref bRegularBoundingBoxCollision, ref characterRootComponent, ref collidedRootComponent, ref collidedRootBounds, ref characterBound, ref collidedBounds);
 
             // Check Collision. Step 3 - Ray trace -- (BEHAVIOR OF COLLISION RESOLVING)
             BehaviorManager.ProcessCollision(CollisionOutput);

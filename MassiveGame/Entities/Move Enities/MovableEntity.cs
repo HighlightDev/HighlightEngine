@@ -168,6 +168,11 @@ namespace MassiveGame
                 ActionMove(this, null);
         }
 
+        public Vector3 GetStackPosition()
+        {
+            return objectStack.popPositionValues();
+        }
+
         #endregion
 
         #region Constructor

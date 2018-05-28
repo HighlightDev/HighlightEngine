@@ -56,9 +56,6 @@ namespace MassiveGame
 
         private Matrix4 modelMatrix;
 
-        public FPlane ReflectionClipPlane;
-        public FPlane RefractionClipPlane;
-
         public WaterQuality Quality { private set; get; }
 
         private bool _isInCameraView;
@@ -252,10 +249,7 @@ namespace MassiveGame
             Box.RTFCoordinates = new Vector3(Vector4.Transform(new Vector4(Box.RTFCoordinates, 1.0f), modelMatrix));
 
             // divide water collision box to avoid "bugs" with frustum culling
-            this._collisionCheckPoints = FrustumCulling.divideWaterCollisionBox(Box, frustumSquares);
-
-            ReflectionClipPlane = new FPlane(translation, new Vector3(0, 1, 0));
-            RefractionClipPlane = new FPlane(translation, new Vector3(0, -1, 0));        
+            this._collisionCheckPoints = FrustumCulling.divideWaterCollisionBox(Box, frustumSquares);      
         }
 
         #endregion

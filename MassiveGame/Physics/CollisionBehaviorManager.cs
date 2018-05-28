@@ -67,7 +67,7 @@ namespace MassiveGame.Physics
         private bool REACHABLE_INCLINE(Vector3 normal)
         {
             float cosIncline = normal.Y;
-            if (cosIncline < 0.0f || cosIncline > BodyMechanics.COS_MAX_REACHABLE_INCLINE)
+            if (cosIncline <= BodyMechanics.COS_MAX_REACHABLE_INCLINE)
                 return false;
             return true;
         }
@@ -103,7 +103,7 @@ namespace MassiveGame.Physics
                     resultBound = collidedBounds[i];
                 }
             }
-
+           
             Vector3 intersectionPosition = ray.GetPositionInTime(resultShortestDistance);
 
             return new RayCastOutputData(resultBound, resultShortestDistance, intersectionPosition);
@@ -127,24 +127,10 @@ namespace MassiveGame.Physics
             edge2 = listOfKeyPair[1].Key;
         }
 
-        private void GetPreviosMiddlePositionsForRayCast(BoundBase characterBound, float timeInterval, MovableEntity characterEntity, out Vector3 edge1, out Vector3 edge2)
+        private Vector3 GetPreviosClosestPositionForRayCast(BoundBase characterBound, float timeInterval, MovableEntity characterEntity)
         {
-            // Find positions for ray casts
-            Vector3 boundMax = characterBound.GetMax();
-            Vector3 boundMin = characterBound.GetMin();
-         
-            Vector3 velocityToPreviousPosition = characterEntity.Velocity * (-timeInterval);
-            boundMax += velocityToPreviousPosition;
-            boundMin += velocityToPreviousPosition;
+            Vector3 previousCharacterOrigin = characterEntity.GetStackPosition();
 
-            Vector3 characterBoundOrigin = (boundMax + boundMin) / 2;
-
-            GetEgePositionsForRayCast(ref boundMax, ref boundMin, characterBoundOrigin.Y, characterEntity, out edge1, out edge2);
-        }
-
-        private void GetPreviousBottomPositionsForRayCast(BoundBase characterBound, float timeInterval, MovableEntity characterEntity, out Vector3 edge1, out Vector3 edge2)
-        {
-            // Find positions for ray casts
             Vector3 boundMax = characterBound.GetMax();
             Vector3 boundMin = characterBound.GetMin();
 
@@ -152,19 +138,47 @@ namespace MassiveGame.Physics
             boundMax += velocityToPreviousPosition;
             boundMin += velocityToPreviousPosition;
 
-            GetEgePositionsForRayCast(ref boundMax, ref boundMin, boundMin.Y, characterEntity, out edge1, out edge2);
+
+            FRay rayToBoundsEdge = new FRay(previousCharacterOrigin, characterEntity.Velocity);
+
+            float localIntersectionDistance = 0.0f;
+            BoundBase.BoundType boundType = characterBound.GetBoundType();
+            if ((boundType & BoundBase.BoundType.AABB) == BoundBase.BoundType.AABB)
+                localIntersectionDistance = GeometricMath.Intersection_RayAABBExt(rayToBoundsEdge, boundMax, boundMin);
+            else if ((boundType & BoundBase.BoundType.OBB) == BoundBase.BoundType.OBB)
+                localIntersectionDistance = GeometricMath.Intersection_RayOBBExt(rayToBoundsEdge, (characterBound as OBB).GetTangetX(),  (characterBound as OBB).GetTangetY(),
+                    (characterBound as OBB).GetTangetZ(), previousCharacterOrigin, (characterBound as OBB).GetExtent());
+
+            return rayToBoundsEdge.GetPositionInTime(localIntersectionDistance);
         }
 
-        private void GetCurrentPositionsForRayCast(BoundBase characterBound, MovableEntity characterEntity, out Vector3 edge1, out Vector3 edge2)
+        private Vector3 GetPreviousBottomPositionsForRayCast(BoundBase characterBound, float timeInterval, MovableEntity characterEntity)
         {
-            // Find positions for ray casts
+            Vector3 previousCharacterOrigin = characterEntity.GetStackPosition();
+
             Vector3 boundMax = characterBound.GetMax();
             Vector3 boundMin = characterBound.GetMin();
-            Vector3 boundOrigin = characterBound.GetOrigin();
 
-            GetEgePositionsForRayCast(ref boundMax, ref boundMin, boundMin.Y , characterEntity, out edge1, out edge2);
+            Vector3 velocityToPreviousPosition = characterEntity.Velocity * (-timeInterval);
+            boundMax += velocityToPreviousPosition;
+            boundMin += velocityToPreviousPosition;
+
+
+            FRay rayToBoundsEdge = new FRay(previousCharacterOrigin, characterEntity.Velocity);
+
+            float localIntersectionDistance = 0.0f;
+            BoundBase.BoundType boundType = characterBound.GetBoundType();
+            if ((boundType & BoundBase.BoundType.AABB) == BoundBase.BoundType.AABB)
+                localIntersectionDistance = GeometricMath.Intersection_RayAABBExt(rayToBoundsEdge, boundMax, boundMin);
+            else if ((boundType & BoundBase.BoundType.OBB) == BoundBase.BoundType.OBB)
+                localIntersectionDistance = GeometricMath.Intersection_RayOBBExt(rayToBoundsEdge, (characterBound as OBB).GetTangetX(), (characterBound as OBB).GetTangetY(),
+                    (characterBound as OBB).GetTangetZ(), previousCharacterOrigin, (characterBound as OBB).GetExtent());
+
+            Vector3 intersectionPosition = rayToBoundsEdge.GetPositionInTime(localIntersectionDistance);
+
+            return new Vector3(intersectionPosition.X, boundMin.Y, intersectionPosition.Z);
         }
-      
+
         private void ProcessNoCollisionAtState_FreeFalling(MovableEntity character)
         {
             if (character.Velocity.LengthSquared > 0)
@@ -241,49 +255,21 @@ namespace MassiveGame.Physics
                     {
                         BoundBase characterBound = characterEntity.GetCharacterCollisionBound();
 
-                        // 1) First of all character has to do ray cast in move direction from edge middle height position, edge left position and edge right position before making move
+                        // 1) First of all character has to do ray cast in move direction
 
-                        Vector3 rayCastEdge1, rayCastEdge2, rayCastCenter;
-                        GetPreviosMiddlePositionsForRayCast(characterBound, characterEntity.Speed, characterEntity, out rayCastEdge1, out rayCastEdge2);
-                        rayCastCenter = (rayCastEdge1 + rayCastEdge2) / 2; // interpolate between two edge points to get middle
-                        rayCastCenter.Y = rayCastEdge1.Y;
+                        Vector3 previousClosestPositionToVelocityDirection = GetPreviosClosestPositionForRayCast(characterBound, characterEntity.Speed, characterEntity);
 
-                        FRay rayFromEdge1 = new FRay(rayCastEdge1, characterEntity.Velocity);
-                        FRay rayFromEdge2 = new FRay(rayCastEdge2, characterEntity.Velocity);
-                        FRay rayFromCenter = new FRay(rayCastCenter, characterEntity.Velocity);
+                        FRay rayFromCenter = new FRay(previousClosestPositionToVelocityDirection, characterEntity.Velocity);
 
                         // Necessary data for subsequent calculations
                         float closestDistance = -1.0f;
                         Vector3 previousClosestPosition = new Vector3(0);
                         RayCastOutputData outputData = null;
 
-                        //var rayCastResultFromEdge1 = GetClosestRayCastResult(rayFromEdge1, collidedBounds, characterEntity);
-                        //var rayCastResultFromEdge2 = GetClosestRayCastResult(rayFromEdge2, collidedBounds, characterEntity);
-                        //var rayCastResultFromCenter = GetClosestRayCastResult(rayFromCenter, collidedBounds, characterEntity);
-
-                        //// Get closest position to collided bound
-                        //if (rayCastResultFromEdge1.shortestDistance >= rayCastResultFromEdge2.shortestDistance && rayCastResultFromEdge1.shortestDistance >= rayCastResultFromCenter.shortestDistance)
-                        //{
-                        //    closestDistance = rayCastResultFromEdge1.shortestDistance;
-                        //    previousClosestPosition = rayFromEdge1.StartPosition;
-                        //    outputData = rayCastResultFromEdge1;
-                        //}
-                        //if (rayCastResultFromEdge2.shortestDistance >= rayCastResultFromEdge1.shortestDistance && rayCastResultFromEdge2.shortestDistance >= rayCastResultFromCenter.shortestDistance)
-                        //{
-                        //    closestDistance = rayCastResultFromEdge2.shortestDistance;
-                        //    previousClosestPosition = rayFromEdge2.StartPosition;
-                        //    outputData = rayCastResultFromEdge2;
-                        //}
-                        //if (rayCastResultFromCenter.shortestDistance >= rayCastResultFromEdge1.shortestDistance && rayCastResultFromCenter.shortestDistance >= rayCastResultFromEdge2.shortestDistance)
-                        //{
-                        //    closestDistance = rayCastResultFromCenter.shortestDistance;
-                        //    previousClosestPosition = rayFromCenter.StartPosition;
-                        //    outputData = rayCastResultFromCenter;
-                        //}
-                        var rayCastResultFromCenter = GetClosestRayCastResult(rayFromCenter, collidedBounds, characterEntity);
-                        closestDistance = rayCastResultFromCenter.shortestDistance;
-                        outputData = rayCastResultFromCenter;
-                        previousClosestPosition = rayCastResultFromCenter.intersectionPosition;
+                        var rayCastResult = GetClosestRayCastResult(rayFromCenter, collidedBounds, characterEntity);
+                        closestDistance = rayCastResult.shortestDistance;
+                        previousClosestPosition = rayFromCenter.StartPosition;
+                        outputData = rayCastResult;
 
                         // Ray intersected with one of collided bounds
                         if (RAYCAST_COLLIDED(closestDistance))
@@ -357,9 +343,9 @@ namespace MassiveGame.Physics
                             else
                             {
                                 // Do ray cast from current middle height position down
-                                Vector3 boundOrigin = characterBound.GetOrigin();
+                                Vector3 localBoundOrigin = characterBound.GetOrigin();
                                 Vector3 CurrentClosestPosition = previousClosestPosition + characterEntity.Velocity * characterEntity.Speed;
-                                CurrentClosestPosition = new Vector3(CurrentClosestPosition.X, boundOrigin.Y, CurrentClosestPosition.Z);
+                                CurrentClosestPosition = new Vector3(CurrentClosestPosition.X, localBoundOrigin.Y, CurrentClosestPosition.Z);
                                 FRay rayDown = new FRay(CurrentClosestPosition, -DOUEngine.Camera.getUpVector());
                                 RayCastOutputData rayDownOutput = GetClosestRayCastResult(rayDown, collidedBounds, characterEntity);
                                 float closestDistanceDown = rayDownOutput.shortestDistance;
@@ -381,7 +367,7 @@ namespace MassiveGame.Physics
                                     float intersectionDistance = TerrainRayIntersection.Intersection_TerrainRay(DOUEngine.terrain, rayDown);
 
                                     // Subtract length of bound extent from middle height position
-                                    float boundExtent = boundOrigin.Y - boundMin.Y;
+                                    float boundExtent = localBoundOrigin.Y - boundMin.Y;
                                     float actualIntersectionDistance = intersectionDistance - boundExtent;
 
                                     // Character is in free fall, next position will be calculated in next tick
@@ -422,62 +408,35 @@ namespace MassiveGame.Physics
                 // If character is in free falling but has encountered some collisions with bounds
                 case EntityType.STATIC_ENTITY:
                     {
-                        Vector3 bottomEdgePosition1, bottomEdgePosition2, bottomEdgePositionCenter;
-
-                        GetPreviousBottomPositionsForRayCast(character.GetCharacterCollisionBound(), BodyMechanics.FallTime, character, out bottomEdgePosition1, out bottomEdgePosition2);
-                        bottomEdgePositionCenter = (bottomEdgePosition1 + bottomEdgePosition2) / 2;
-
+                        Vector3 previousBottomPosition = GetPreviousBottomPositionsForRayCast(character.GetCharacterCollisionBound(), BodyMechanics.FallTime, character);
+                      
                         // Necessary data for subsequent calculations
                         RayCastOutputData outputData = null;
-                        Vector3 rayClosestPosition = new Vector3();
+                        FRay rayFromBottom = new FRay(previousBottomPosition, character.Velocity);
 
-                        FRay rayFromEdge1 = new FRay(bottomEdgePosition1, character.Velocity);
-                        FRay rayFromEdge2 = new FRay(bottomEdgePosition2, character.Velocity);
-                        FRay rayFromCenter = new FRay(bottomEdgePositionCenter, character.Velocity);
-
-                        float terrainIntersectionDistance = TerrainRayIntersection.Intersection_TerrainRay(DOUEngine.terrain, rayFromCenter);
-
+                        float terrainIntersectionDistance = TerrainRayIntersection.Intersection_TerrainRay(DOUEngine.terrain, rayFromBottom);
                         bool bTerrainIntersection = !(terrainIntersectionDistance < 0.0f || RAYCAST_INTERSECTION_FAR(BodyMechanics.GetFreeFallDistanceInVelocity(character.Velocity), terrainIntersectionDistance));
 
                         // No terrain intersection - check intersection with bounds
                         if (!bTerrainIntersection)
                         {
-                            var rayCastResultFromEdge1 = GetClosestRayCastResult(rayFromEdge1, collidedBounds, character);
-                            var rayCastResultFromEdge2 = GetClosestRayCastResult(rayFromEdge2, collidedBounds, character);
-                            var rayCastResultFromCenter = GetClosestRayCastResult(rayFromCenter, collidedBounds, character);
+                            var rayCastResult = GetClosestRayCastResult(rayFromBottom, collidedBounds, character);
 
-                            // Get closest distance to collided bound
-                            if (rayCastResultFromEdge1.shortestDistance >= rayCastResultFromEdge2.shortestDistance && rayCastResultFromEdge1.shortestDistance >= rayCastResultFromCenter.shortestDistance)
-                            {
-                                outputData = rayCastResultFromEdge1;
-                                rayClosestPosition = bottomEdgePosition1;
-                            }
-
-                            if (rayCastResultFromEdge2.shortestDistance >= rayCastResultFromEdge1.shortestDistance && rayCastResultFromEdge2.shortestDistance >= rayCastResultFromCenter.shortestDistance)
-                            {
-                                outputData = rayCastResultFromEdge2;
-                                rayClosestPosition = bottomEdgePosition2;
-                            }
-
-                            if (rayCastResultFromCenter.shortestDistance >= rayCastResultFromEdge1.shortestDistance && rayCastResultFromCenter.shortestDistance >= rayCastResultFromEdge2.shortestDistance)
-                            {
-                                outputData = rayCastResultFromCenter;
-                                rayClosestPosition = bottomEdgePositionCenter;
-                            }
+                            outputData = rayCastResult;
 
                             // Ray collided with one of the bounds, check angle of that plane, if can elevate on it - do it
                             if (RAYCAST_COLLIDED(outputData.shortestDistance))
                             {
                                 Vector3 normalToCollidedPlane = outputData.collidedBound.GetNormalToIntersectedPosition(outputData.intersectionPosition);
                                 // Character can step on this surface
-                                if (true/*REACHABLE_INCLINE(normalToCollidedPlane)*/)
+                                if (REACHABLE_INCLINE(normalToCollidedPlane))
                                 {
                                     RayCastOutputData finalData = outputData;
 
                                     // True - distance to intersected position is far, else - distance to intersected position is close
                                     if (RAYCAST_INTERSECTION_FAR(BodyMechanics.GetFreeFallDistanceInVelocity(character.Velocity), outputData.shortestDistance))
                                     {
-                                        FRay rayDown = new FRay(rayClosestPosition + character.Velocity * character.Speed, -DOUEngine.Camera.getUpVector());
+                                        FRay rayDown = new FRay(previousBottomPosition + character.Velocity * character.Speed, -DOUEngine.Camera.getUpVector());
                                         var rayDownOutputData = GetClosestRayCastResult(rayDown, collidedBounds, character);
                                         finalData = rayDownOutputData;
                                     }
@@ -503,7 +462,7 @@ namespace MassiveGame.Physics
                         // Character could be elevated on terrain 
                         else
                         {
-                            Vector3 CharacterNewPosition = rayFromCenter.GetPositionInTime(terrainIntersectionDistance);
+                            Vector3 CharacterNewPosition = rayFromBottom.GetPositionInTime(terrainIntersectionDistance);
                             character.collisionOffset(CharacterNewPosition);
                             character.ActorState = BEHAVIOR_STATE.IDLE;
                             character.pushPositionStack();
