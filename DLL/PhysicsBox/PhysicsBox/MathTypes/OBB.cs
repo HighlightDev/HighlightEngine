@@ -45,12 +45,16 @@ namespace PhysicsBox.MathTypes
 
         public override Vector3 GetMax()
         {
-            return Vector3.TransformPosition(base.GetLocalSpaceMax(), TransformationMatrix);
+            Vector3 p1 = Vector3.TransformPosition(Origin + Extent, TransformationMatrix);
+            Vector3 p2 = Vector3.TransformPosition(Origin - Extent, TransformationMatrix);
+            return new Vector3(Math.Max(p1.X, p2.X), Math.Max(p1.Y, p2.Y), Math.Max(p1.Z, p2.Z));
         }
 
         public override Vector3 GetMin()
         {
-            return Vector3.TransformPosition(base.GetLocalSpaceMin(), TransformationMatrix);
+            Vector3 p1 = Vector3.TransformPosition(Origin + Extent, TransformationMatrix);
+            Vector3 p2 = Vector3.TransformPosition(Origin - Extent, TransformationMatrix);
+            return new Vector3(Math.Min(p1.X, p2.X), Math.Min(p1.Y, p2.Y), Math.Min(p1.Z, p2.Z));
         }
 
         public OBB(Vector3 Origin, Vector3 Extent, Matrix4 TransformationMatrix, Component parentComponent) : base(Origin, Extent, parentComponent)

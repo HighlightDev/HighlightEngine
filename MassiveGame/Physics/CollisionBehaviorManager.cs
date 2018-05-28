@@ -284,6 +284,8 @@ namespace MassiveGame.Physics
                                 RayCastOutputData rayDownOutput = GetClosestRayCastResult(rayDown, collidedBounds, characterEntity);
                                 float closestDistanceBottom = rayDownOutput.shortestDistance;
 
+                                // CHECK IF rayDown result HAS COLLISION!!!!!
+
                                 float boundExtent = characterEntity.GetCharacterCollisionBound().GetMax().Y - characterEntity.GetCharacterCollisionBound().GetMin().Y;
                                 float actualIntersectionDistance = closestDistanceBottom - boundExtent;
 
