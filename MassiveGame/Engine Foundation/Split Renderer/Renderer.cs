@@ -138,7 +138,7 @@ namespace MassiveGame.UI
 
 
             DOUEngine.City.Add((Building)EngineObjectCreator.CreateInstance(new StaticEntityArguments(modelPath, texturePath, normalMapPath, specularMapPath,
-                new Vector3(220, 2, 350), new Vector3(0, 180, 0), new Vector3(30, 10, 30))));
+                new Vector3(220, 2, 350), new Vector3(80, 180, 0), new Vector3(30, 10, 30))));
             //DOUEngine.City.Add((Building)EngineObjectCreator.CreateInstance(new StaticEntityArguments(modelPath, texturePath, normalMapPath, specularMapPath,
             //   new Vector3(280, 10, 350), new Vector3(0, 180, 0), new Vector3(10))));
             //DOUEngine.City.Add((Building)EngineObjectCreator.CreateInstance(new StaticEntityArguments(modelPath, texturePath, normalMapPath, specularMapPath,
@@ -170,7 +170,7 @@ namespace MassiveGame.UI
             specularMapPath = ProjectFolders.SpecularMapsPath + "brick_sm.png";
 
             MovableEntityArguments arg = new MovableEntityArguments(modelPath, texturePath, normalMapPath, specularMapPath,
-                IdGenerator.GeneratePlayerId(), 0.4f, new Vector3(170, 542, 350), new Vector3(0), new Vector3(5));
+                IdGenerator.GeneratePlayerId(), 0.4f, new Vector3(200, 542, 350), new Vector3(0), new Vector3(5));
 
             DOUEngine.Player = (Player)EngineObjectCreator.CreateInstance(arg);
             DOUEngine.Player.setSoundAttachment(DOUEngine.SB_step, DOUEngine.SB_collide);
@@ -266,9 +266,9 @@ namespace MassiveGame.UI
             //envObj = new EnvironmentEntities(PlayerModels.getPlayerModel1(false), TextureSet.PlayerTextureSet2, TextureSet.SkyboxDayCubemapTexture,
             //    new Vector3(40, 70, 40), new Vector3(0, 0, 0), new Vector3(0.5f));
 
-            //DOUEngine.Camera.SetThirdPerson(DOUEngine.Player);
+            DOUEngine.Camera.SetThirdPerson(DOUEngine.Player);
             //DOUEngine.Player.SetActionMovedDelegateListener((o, e) => DOUEngine.Camera.SetThirdPerson(o as MovableEntity));
-            DOUEngine.Camera.SetFirstPerson();
+            //DOUEngine.Camera.SetFirstPerson();
 
             shadowList = new List<IDrawable>();
             DOUEngine.City.ForEach(new Action<Building>((house) => { shadowList.Add(house); }));

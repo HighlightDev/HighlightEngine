@@ -15,7 +15,7 @@ namespace PhysicsBox.MathTypes
 
         public override Vector3 GetExtent()
         {
-            return Vector3.TransformPosition(Extent, Matrix4.CreateScale(TransformationMatrix.ExtractScale()));
+            return Vector3.TransformVector(Extent, Matrix4.CreateScale(TransformationMatrix.ExtractScale()));
         }
 
         public override Vector3 GetTangetX()
@@ -45,16 +45,12 @@ namespace PhysicsBox.MathTypes
 
         public override Vector3 GetMax()
         {
-            Vector3 p1 = Vector3.TransformPosition(Origin + Extent, TransformationMatrix);
-            Vector3 p2 = Vector3.TransformPosition(Origin - Extent, TransformationMatrix);
-            return new Vector3(Math.Max(p1.X, p2.X), Math.Max(p1.Y, p2.Y), Math.Max(p1.Z, p2.Z));
+            return Vector3.TransformPosition(base.GetLocalSpaceMax(), TransformationMatrix);
         }
 
         public override Vector3 GetMin()
         {
-            Vector3 p1 = Vector3.TransformPosition(Origin + Extent, TransformationMatrix);
-            Vector3 p2 = Vector3.TransformPosition(Origin - Extent, TransformationMatrix);
-            return new Vector3(Math.Min(p1.X, p2.X), Math.Min(p1.Y, p2.Y), Math.Min(p1.Z, p2.Z));
+            return Vector3.TransformPosition(base.GetLocalSpaceMin(), TransformationMatrix);
         }
 
         public OBB(Vector3 Origin, Vector3 Extent, Matrix4 TransformationMatrix, Component parentComponent) : base(Origin, Extent, parentComponent)

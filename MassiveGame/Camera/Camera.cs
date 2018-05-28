@@ -42,7 +42,7 @@ namespace MassiveGame
 
         private float MIN_CAMERA_DISTANCE = 5.0f;
         private float MAX_CAMERA_DISTANCE = 250.0f;
-        private const float CAMERA_SPEED = 2.5f; 
+        private const float CAMERA_SPEED = 20.5f; 
         private float currentRotX;
         private float lastRotX;
         private MovableEntity thirdPersonTarget;

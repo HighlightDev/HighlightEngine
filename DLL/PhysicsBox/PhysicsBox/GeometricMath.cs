@@ -72,14 +72,14 @@ namespace PhysicsBox
 
             // find all vertices of rotated bounding box
             Vector3[] vertices = new Vector3[8];
-            vertices[0] = position + (obbTangentX * extent.X) + (obbTangentY * extent.Y) + (obbTangentZ * extent.Z) + translation;
-            vertices[1] = position - (obbTangentX * extent.X) + (obbTangentY * extent.Y) + (obbTangentZ * extent.Z) + translation;
-            vertices[2] = position + (obbTangentX * extent.X) - (obbTangentY * extent.Y) + (obbTangentZ * extent.Z) + translation;
-            vertices[3] = position + (obbTangentX * extent.X) + (obbTangentY * extent.Y) - (obbTangentZ * extent.Z) + translation;
-            vertices[4] = position - (obbTangentX * extent.X) - (obbTangentY * extent.Y) - (obbTangentZ * extent.Z) + translation;
-            vertices[5] = position + (obbTangentX * extent.X) - (obbTangentY * extent.Y) - (obbTangentZ * extent.Z) + translation;
-            vertices[6] = position - (obbTangentX * extent.X) + (obbTangentY * extent.Y) - (obbTangentZ * extent.Z) + translation;
-            vertices[7] = position - (obbTangentX * extent.X) - (obbTangentY * extent.Y) + (obbTangentZ * extent.Z) + translation;
+            vertices[0] = position + (obbTangentX * extent.X) + (obbTangentY * extent.Y) + (obbTangentZ * extent.Z);
+            vertices[1] = position - (obbTangentX * extent.X) + (obbTangentY * extent.Y) + (obbTangentZ * extent.Z);
+            vertices[2] = position + (obbTangentX * extent.X) - (obbTangentY * extent.Y) + (obbTangentZ * extent.Z);
+            vertices[3] = position + (obbTangentX * extent.X) + (obbTangentY * extent.Y) - (obbTangentZ * extent.Z);
+            vertices[4] = position - (obbTangentX * extent.X) - (obbTangentY * extent.Y) - (obbTangentZ * extent.Z);
+            vertices[5] = position + (obbTangentX * extent.X) - (obbTangentY * extent.Y) - (obbTangentZ * extent.Z);
+            vertices[6] = position - (obbTangentX * extent.X) + (obbTangentY * extent.Y) - (obbTangentZ * extent.Z);
+            vertices[7] = position - (obbTangentX * extent.X) - (obbTangentY * extent.Y) + (obbTangentZ * extent.Z);
 
             result.min = result.max = ProjectVectorOnNormalizedVector(vertices[0], axis);
             for (Int32 i = 1; i < vertices.Length; i++)
