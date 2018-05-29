@@ -64,9 +64,9 @@ namespace MassiveGame
 
         #region Add
 
-        public void add(PlantUnit plant, Terrain terrain)
+        public void add(PlantUnit plant, Terrain terrain = null)
         {
-            AlignPlantToTerrain(terrain, plant);
+            //AlignPlantToTerrain(terrain, plant);
             // TODO : assemble buffer first or if it's already assembled just add new values to buffer
             if (_bufferAssembled)
             {

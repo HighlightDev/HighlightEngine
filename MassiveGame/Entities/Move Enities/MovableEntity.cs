@@ -132,26 +132,32 @@ namespace MassiveGame
 
         public void collisionOffset(Vector3 newPosition)
         {
-            ComponentTranslation = newPosition + new Vector3(0, GetCharacterCollisionBound().GetExtent().Y, 0);
+            ComponentTranslation = newPosition;
             if (ActionMove != null)
                 ActionMove(this, null);
         }
 
+        static bool bCanMove = true;
+
         public void MoveActor()
         {
-            // Actor shouldn't move while free fall
-            if (ActorState == BEHAVIOR_STATE.FREE_FALLING)
-                return;
+            if (bCanMove)
+            {
+                // Actor shouldn't move while free fall
+                if (ActorState == BEHAVIOR_STATE.FREE_FALLING)
+                    return;
 
-            ActorState = BEHAVIOR_STATE.MOVE;
-            var velocityVector = DOUEngine.Camera.GetNormalizedDirection();
-            velocityVector.Y = 0.0f;
-            Velocity = velocityVector;
 
-            if (ActionMove != null)
-                this.ActionMove(this, null);
+                ActorState = BEHAVIOR_STATE.MOVE;
+                var velocityVector = DOUEngine.Camera.GetNormalizedDirection();
+                velocityVector.Y = 0.0f;
+                Velocity = velocityVector;
 
-            ComponentTranslation = ComponentTranslation + Velocity * Speed;
+                if (ActionMove != null)
+                    this.ActionMove(this, null);
+
+                ComponentTranslation = ComponentTranslation + Velocity * Speed;
+            }
         }
 
         #region Position_stack_functions

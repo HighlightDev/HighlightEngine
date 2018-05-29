@@ -39,6 +39,42 @@ namespace MassiveGame.Physics
             CollisionOutput.Capacity = 2;
         }
 
+/*
+//         public Vector3 GetIntersectionPosition(FRay ray)
+//         {
+//             float shortestDistance = -1.0f;
+// 
+//             shortestDistance = TerrainRayIntersection.Intersection_TerrainRay(DOUEngine.terrain, ray);
+// 
+//             foreach (var unit in CollisionUnits)
+//             {
+//                 foreach (var bound in unit.GetBoundingBoxes())
+//                 {
+//                     float localDistance = -1;
+//                     var boundType = bound.GetBoundType();
+//                     if ((boundType & BoundBase.BoundType.AABB) == BoundBase.BoundType.AABB)
+//                     {
+//                         localDistance = (GeometricMath.Intersection_RayAABB(ray, bound as AABB));
+//                         if (localDistance > -1.0)
+//                         {
+//                             shortestDistance = Math.Min(shortestDistance, localDistance);
+//                         }
+//                     }
+//                     else if ((boundType & BoundBase.BoundType.OBB) == BoundBase.BoundType.OBB)
+//                     {
+//                         localDistance = (GeometricMath.Intersection_RayOBB(ray, bound as OBB));
+//                         if (localDistance > -1.0)
+//                         {
+//                             shortestDistance = Math.Min(shortestDistance, localDistance);
+//                         }
+//                     }
+//                 }
+//             }
+// 
+//             return ray.GetPositionInTime(shortestDistance);
+//         }
+*/
+
         private bool BoundBaseCollision_Ext(BoundBase characterBound, BoundBase collidedRootBound)
         {
             bool bHasCollision = false;
@@ -75,8 +111,7 @@ namespace MassiveGame.Physics
                 {
                     bFrameBoundBoxCollision = true;
                     collidedRootComponent = aabb2.ParentComponent.GetRootComponent();
-                    collidedRootBounds = unit.GetBoundingBoxes();
-                    break;
+                    collidedRootBounds.AddRange(unit.GetBoundingBoxes());
                 }
             }
 

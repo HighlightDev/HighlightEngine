@@ -45,16 +45,58 @@ namespace PhysicsBox.MathTypes
 
         public override Vector3 GetMax()
         {
-            Vector3 p1 = Vector3.TransformPosition(Origin + Extent, TransformationMatrix);
-            Vector3 p2 = Vector3.TransformPosition(Origin - Extent, TransformationMatrix);
-            return new Vector3(Math.Max(p1.X, p2.X), Math.Max(p1.Y, p2.Y), Math.Max(p1.Z, p2.Z));
+            // extract tangent vectors of bounding box
+            Vector3 obbTangentX = GetTangetX();
+            Vector3 obbTangentY = GetTangetY();
+            Vector3 obbTangentZ = GetTangetZ();
+
+            // extent and origin of bounding box
+            Vector3 extent = GetExtent();
+            Vector3 position = GetOrigin();
+
+            // find all vertices of rotated bounding box
+            Vector3[] vertices = new Vector3[8];
+            vertices[0] = position + (obbTangentX * extent.X) + (obbTangentY * extent.Y) + (obbTangentZ * extent.Z);
+            vertices[1] = position - (obbTangentX * extent.X) + (obbTangentY * extent.Y) + (obbTangentZ * extent.Z);
+            vertices[2] = position + (obbTangentX * extent.X) - (obbTangentY * extent.Y) + (obbTangentZ * extent.Z);
+            vertices[3] = position + (obbTangentX * extent.X) + (obbTangentY * extent.Y) - (obbTangentZ * extent.Z);
+            vertices[4] = position - (obbTangentX * extent.X) - (obbTangentY * extent.Y) - (obbTangentZ * extent.Z);
+            vertices[5] = position + (obbTangentX * extent.X) - (obbTangentY * extent.Y) - (obbTangentZ * extent.Z);
+            vertices[6] = position - (obbTangentX * extent.X) + (obbTangentY * extent.Y) - (obbTangentZ * extent.Z);
+            vertices[7] = position - (obbTangentX * extent.X) - (obbTangentY * extent.Y) + (obbTangentZ * extent.Z);
+
+            return new Vector3
+                  (Math.Max(Math.Max(Math.Max(vertices[0].X, vertices[1].X), Math.Max(vertices[2].X, vertices[3].X)), Math.Max(Math.Max(vertices[4].X, vertices[5].X), Math.Max(vertices[6].X, vertices[7].X)))
+                , (Math.Max(Math.Max(Math.Max(vertices[0].Y, vertices[1].Y), Math.Max(vertices[2].Y, vertices[3].Y)), Math.Max(Math.Max(vertices[4].Y, vertices[5].Y), Math.Max(vertices[6].Y, vertices[7].Y)))),
+                  (Math.Max(Math.Max(Math.Max(vertices[0].Z, vertices[1].Z), Math.Max(vertices[2].Z, vertices[3].Z)), Math.Max(Math.Max(vertices[4].Z, vertices[5].Z), Math.Max(vertices[6].Z, vertices[7].Z)))));
         }
 
         public override Vector3 GetMin()
         {
-            Vector3 p1 = Vector3.TransformPosition(Origin + Extent, TransformationMatrix);
-            Vector3 p2 = Vector3.TransformPosition(Origin - Extent, TransformationMatrix);
-            return new Vector3(Math.Min(p1.X, p2.X), Math.Min(p1.Y, p2.Y), Math.Min(p1.Z, p2.Z));
+            // extract tangent vectors of bounding box
+            Vector3 obbTangentX = GetTangetX();
+            Vector3 obbTangentY = GetTangetY();
+            Vector3 obbTangentZ = GetTangetZ();
+
+            // extent and origin of bounding box
+            Vector3 extent = GetExtent();
+            Vector3 position = GetOrigin();
+
+            // find all vertices of rotated bounding box
+            Vector3[] vertices = new Vector3[8];
+            vertices[0] = position + (obbTangentX * extent.X) + (obbTangentY * extent.Y) + (obbTangentZ * extent.Z);
+            vertices[1] = position - (obbTangentX * extent.X) + (obbTangentY * extent.Y) + (obbTangentZ * extent.Z);
+            vertices[2] = position + (obbTangentX * extent.X) - (obbTangentY * extent.Y) + (obbTangentZ * extent.Z);
+            vertices[3] = position + (obbTangentX * extent.X) + (obbTangentY * extent.Y) - (obbTangentZ * extent.Z);
+            vertices[4] = position - (obbTangentX * extent.X) - (obbTangentY * extent.Y) - (obbTangentZ * extent.Z);
+            vertices[5] = position + (obbTangentX * extent.X) - (obbTangentY * extent.Y) - (obbTangentZ * extent.Z);
+            vertices[6] = position - (obbTangentX * extent.X) + (obbTangentY * extent.Y) - (obbTangentZ * extent.Z);
+            vertices[7] = position - (obbTangentX * extent.X) - (obbTangentY * extent.Y) + (obbTangentZ * extent.Z);
+
+            return new Vector3
+                  (Math.Min(Math.Min(Math.Min(vertices[0].X, vertices[1].X), Math.Min(vertices[2].X, vertices[3].X)), Math.Min(Math.Min(vertices[4].X, vertices[5].X), Math.Min(vertices[6].X, vertices[7].X)))
+                , (Math.Min(Math.Min(Math.Min(vertices[0].Y, vertices[1].Y), Math.Min(vertices[2].Y, vertices[3].Y)), Math.Min(Math.Min(vertices[4].Y, vertices[5].Y), Math.Min(vertices[6].Y, vertices[7].Y)))),
+                  (Math.Min(Math.Min(Math.Min(vertices[0].Z, vertices[1].Z), Math.Min(vertices[2].Z, vertices[3].Z)), Math.Min(Math.Min(vertices[4].Z, vertices[5].Z), Math.Min(vertices[6].Z, vertices[7].Z)))));
         }
 
         public OBB(Vector3 Origin, Vector3 Extent, Matrix4 TransformationMatrix, Component parentComponent) : base(Origin, Extent, parentComponent)
