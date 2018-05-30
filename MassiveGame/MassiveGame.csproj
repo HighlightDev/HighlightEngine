@@ -125,7 +125,7 @@
     <Compile Include="API\Factory\EngineObjectType.cs" />
     <Compile Include="API\Factory\ICreator.cs" />
     <Compile Include="API\Factory\MovableEntityCreator.cs" />
-    <Compile Include="API\Factory\ObjectArguments\Arguments.cs" />
+    <Compile Include="API\Arguments.cs" />
     <Compile Include="API\Factory\ObjectArguments\MovableEntityArguments.cs" />
     <Compile Include="API\Factory\ObjectArguments\StaticEntityArguments.cs" />
     <Compile Include="API\Factory\StaticEntityCreator.cs" />

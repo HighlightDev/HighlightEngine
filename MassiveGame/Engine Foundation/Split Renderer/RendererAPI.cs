@@ -9,13 +9,20 @@ namespace MassiveGame.UI
 {
     partial class MainUI
     {
+        static bool bAllowTick = false;
+
         #region Render functions
         private void RenderAll(bool redraw)
         {
             renderBasePass(DOUEngine.Camera, redraw);
             renderLamps();
             renderCollisionBoxes();
-            TickEntities();
+
+            if (bAllowTick)
+            {
+                TickEntities();
+                //bAllowTick = false;
+            }
         }
 
         private void DepthPass()

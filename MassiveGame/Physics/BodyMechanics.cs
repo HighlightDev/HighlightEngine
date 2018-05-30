@@ -24,6 +24,11 @@ namespace MassiveGame.Physics
             return Position + Velocity * FallTime + 0.5f * FallTime * FallTime * G;
         }
 
+        public static Vector3 GetFreeFallVelocity(Vector3 Velocity)
+        {
+            return Velocity * FallTime + 0.5f * FallTime * FallTime * G;
+        }
+
         public static Vector3 UpdateFreeFallVelocity(Vector3 Velocity)
         {
             return Velocity + G * FallTime;

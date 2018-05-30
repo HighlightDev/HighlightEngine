@@ -93,6 +93,7 @@ namespace MassiveGame.UI
                         //mist.fade(this.RenderTime, 10000, FadeType.LINEARLY, 0.0f);
                         //PlantUnit plant = new PlantUnit(TerrainIntersaction.getIntersactionPoint(EngineSingleton.Map, EngineSingleton.Picker.currentRay, EngineSingleton.Camera.getPosition()), new Vector3(), new Vector3(10), 0, null);
                         //EngineSingleton.Grass.add(plant, EngineSingleton.Map);
+
                         break;
                     }
                 case MouseButtons.Right:
@@ -228,6 +229,7 @@ namespace MassiveGame.UI
             { DOUEngine.keyboardMaskArray[3] = true; }
             if (args.KeyChar == '0')
             {
+                bAllowTick = !bAllowTick;
                 //ch.ResetPositions();
             }
         }
