@@ -393,8 +393,6 @@ namespace MassiveGame.Physics
                             listOfRays.Add(new FRay(previousPositionsForRayCast[i], characterEntity.Velocity));
                         RayCastOutputData outputData = GetClosestRayCastResultFromMultipleRayCast(listOfRays, collidedBounds, characterEntity, true);
 
-                        //throw new NotImplementedException(" SHOOT FROM FIVE POSITIONS ");
-
                         Vector3 previousClosestPositionToVelocityDirection = GetPreviousClosestPositionForRayCast(characterBound, characterEntity.Speed, characterEntity);
 
                         FRay rayFromCenter = new FRay(previousClosestPositionToVelocityDirection, characterEntity.Velocity);
@@ -447,9 +445,9 @@ namespace MassiveGame.Physics
                             // In this case acquire normal to that plane to find out can character step on that surface, if no - pop previous position and set to idle
                             else
                             {
-                                throw new NotImplementedException("something bad with normal retrieving");
-                                BoundBase bound = outputData.collidedBound;
-                                Vector3 normalToCollidedPlane = bound.GetNormalToIntersectedPosition(outputData.intersectionPosition);
+                                //throw new NotImplementedException("something bad with normal retrieving");
+                                //BoundBase bound = outputData.collidedBound;
+                                //Vector3 normalToCollidedPlane = bound.GetNormalToIntersectedPosition(outputData.intersectionPosition);
 
                                 // Character can step on this surface
                                 if (true/* REACHABLE_INCLINE(normalToCollidedPlane)*/)

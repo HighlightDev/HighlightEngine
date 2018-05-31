@@ -138,13 +138,17 @@ namespace MassiveGame.UI
 
 
             DOUEngine.City.Add((Building)EngineObjectCreator.CreateInstance(new StaticEntityArguments(modelPath, texturePath, normalMapPath, specularMapPath,
-                new Vector3(230, -1, 350), new Vector3(20, 0, 0), new Vector3(30, 10, 30))));
+                new Vector3(230, 0, 310), new Vector3(0, 180, 0), new Vector3(30, 10, 30))));
             DOUEngine.City.Add((Building)EngineObjectCreator.CreateInstance(new StaticEntityArguments(modelPath, texturePath, normalMapPath, specularMapPath,
-               new Vector3(170, -1, 350), new Vector3(20, 0, 0), new Vector3(30, 10, 30))));
+               new Vector3(230, 5, 248), new Vector3(0, 180, 0), new Vector3(30, 10, 30))));
             DOUEngine.City.Add((Building)EngineObjectCreator.CreateInstance(new StaticEntityArguments(modelPath, texturePath, normalMapPath, specularMapPath,
-               new Vector3(110, -1, 350), new Vector3(20, 0, 0), new Vector3(30, 10, 30))));
+               new Vector3(230, 10, 180), new Vector3(0, 180, 0), new Vector3(30, 10, 30))));
             DOUEngine.City.Add((Building)EngineObjectCreator.CreateInstance(new StaticEntityArguments(modelPath, texturePath, normalMapPath, specularMapPath,
-              new Vector3(170, 17f, 300), new Vector3(20, 0, 0), new Vector3(30, 10, 30))));
+              new Vector3(230, 15, 115), new Vector3(0, 180, 0), new Vector3(30, 10, 30))));
+            DOUEngine.City.Add((Building)EngineObjectCreator.CreateInstance(new StaticEntityArguments(modelPath, texturePath, normalMapPath, specularMapPath,
+               new Vector3(230, 20, 65), new Vector3(0, 180, 0), new Vector3(30, 10, 30))));
+            DOUEngine.City.Add((Building)EngineObjectCreator.CreateInstance(new StaticEntityArguments(modelPath, texturePath, normalMapPath, specularMapPath,
+              new Vector3(170, 25f, 170), new Vector3(0, 180, 0), new Vector3(30, 10, 30))));
             //DOUEngine.City.Add((Building)EngineObjectCreator.CreateInstance(new StaticEntityArguments(modelPath, texturePath, normalMapPath, specularMapPath,
             //   new Vector3(280, 10, 350), new Vector3(0, 180, 0), new Vector3(10))));
             //DOUEngine.City.Add((Building)EngineObjectCreator.CreateInstance(new StaticEntityArguments(modelPath, texturePath, normalMapPath, specularMapPath,
@@ -167,7 +171,6 @@ namespace MassiveGame.UI
                 item.SetCollisionHeadUnit(collisionHeadUnit);
 
                 item.SetMistComponent(DOUEngine.Mist);
-                
             }
 
             modelPath = ProjectFolders.ModelsPath + "playerCube.obj";
@@ -176,7 +179,7 @@ namespace MassiveGame.UI
             specularMapPath = ProjectFolders.SpecularMapsPath + "brick_sm.png";
 
             MovableEntityArguments arg = new MovableEntityArguments(modelPath, texturePath, normalMapPath, specularMapPath,
-                IdGenerator.GeneratePlayerId(), 0.9f, new Vector3(180, 542, 375), new Vector3(0), new Vector3(5));
+                IdGenerator.GeneratePlayerId(), 0.9f, new Vector3(170, 542, 170), new Vector3(0), new Vector3(5));
 
             DOUEngine.Player = (Player)EngineObjectCreator.CreateInstance(arg);
             DOUEngine.Player.setSoundAttachment(DOUEngine.SB_step, DOUEngine.SB_collide);
