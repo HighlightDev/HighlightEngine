@@ -116,11 +116,17 @@ namespace MassiveGame.Physics
             RayCastOutputData resultOutput = null;
             float resultShortestDistance = -1.0f;
 
-            // Bound origin
+            // If bTakeOrigin is true, then return origin ray cast result, if it collides with bound
             if (bTakeOrigin)
             {
                 var boundOriginRayCastResult = GetClosestRayCastResult(Rays.Last(), collidedBounds, characterEntity);
-                if (boundOriginRayCastResult.shortestDistance > -1)
+
+                // Highest position has higher priority than origin
+                var closestHighest = GetClosestAndHighestRay(GetRayCastResultsFromMultipleRayCast(Rays, collidedBounds, characterEntity), characterEntity.GetCharacterCollisionBound());
+                if (closestHighest != null && closestHighest.shortestDistance > -1.0f && closestHighest.shortestDistance <= boundOriginRayCastResult.shortestDistance)
+                    return closestHighest;
+
+                else if (boundOriginRayCastResult.shortestDistance > -1)
                     return boundOriginRayCastResult;
             }
 
@@ -144,29 +150,71 @@ namespace MassiveGame.Physics
             return resultOutput;
         }
 
-        private Vector3 GetPreviousClosestPositionForRayCast(BoundBase characterBound, float timeInterval, MovableEntity characterEntity)
+        private List<RayCastOutputData> GetRayCastResultsFromMultipleRayCast(List<FRay> Rays, List<BoundBase> collidedBounds, MovableEntity characterEntity)
         {
-            Vector3 characterOrigin = characterBound.GetOrigin();
-            Vector3 boundMax = characterBound.GetMax();
-            Vector3 boundMin = characterBound.GetMin();
+            List<RayCastOutputData> resultOutput = new List<RayCastOutputData>();
 
-            Vector3 velocityToPreviousPosition = characterEntity.Velocity * (-timeInterval);
-            boundMax += velocityToPreviousPosition;
-            boundMin += velocityToPreviousPosition;
-            characterOrigin += velocityToPreviousPosition;
+            foreach (FRay ray in Rays)
+            {
+                resultOutput.Add(GetClosestRayCastResult(ray, collidedBounds, characterEntity));
+            }
 
+            return resultOutput;
+        }
 
-            FRay rayToBoundsEdge = new FRay(characterOrigin, characterEntity.Velocity);
+        private RayCastOutputData GetClosestAndHighestRay(List<RayCastOutputData> rayCastResults, BoundBase characterBound)
+        {
+            float boundMaxY = characterBound.GetMax().Y;
+            RayCastOutputData rayCastOutputData = null;
 
-            float localIntersectionDistance = 0.0f;
-            BoundBase.BoundType boundType = characterBound.GetBoundType();
-            if ((boundType & BoundBase.BoundType.AABB) == BoundBase.BoundType.AABB)
-                localIntersectionDistance = GeometricMath.Intersection_RayAABBExt(rayToBoundsEdge, boundMax, boundMin);
-            else if ((boundType & BoundBase.BoundType.OBB) == BoundBase.BoundType.OBB)
-                localIntersectionDistance = GeometricMath.Intersection_RayOBBExt(rayToBoundsEdge, (characterBound as OBB).GetTangetX(),  (characterBound as OBB).GetTangetY(),
-                    (characterBound as OBB).GetTangetZ(), characterOrigin, (characterBound as OBB).GetExtent());
+            List<RayCastOutputData> mostHighRayCastPositionResults = new List<RayCastOutputData>();
 
-            return rayToBoundsEdge.GetPositionInTime(localIntersectionDistance);
+            // find rays with the most high start position
+            foreach (var result in rayCastResults)
+            {
+                if (result.shortestDistance > -1 && GeometricMath.CMP(result.parentRay.StartPosition.Y, boundMaxY) > 0)
+                {
+                    mostHighRayCastPositionResults.Add(result);
+                }
+            }
+
+            if (mostHighRayCastPositionResults.Count > 1)
+            {
+                // find ray with the most close intersection position
+                float intersectionDistance = mostHighRayCastPositionResults.First().shortestDistance;
+                rayCastOutputData = mostHighRayCastPositionResults.First();
+
+                for (Int32 i = 1; i < mostHighRayCastPositionResults.Count; i++)
+                {
+                    if (mostHighRayCastPositionResults[i].shortestDistance <= intersectionDistance)
+                    {
+                        rayCastOutputData = mostHighRayCastPositionResults[i];
+                        intersectionDistance = rayCastOutputData.shortestDistance;
+                    }
+                }
+
+                //var otherList = new List<RayCastOutputData>();
+                //for (Int32 i = 0; i < rayCastResults.Count; i++)
+                //{
+                //    if (mostHighRayCastPositionResults.All(result => result != rayCastResults[i]))
+                //        otherList.Add(rayCastResults[i]);
+                //}
+
+                //for (Int32 i = 0; i < otherList.Count; i++)
+                //{
+                //    if (otherList[i].shortestDistance <= -1)
+                //        continue;
+
+                //    if (intersectionDistance >= otherList[i].shortestDistance)
+                //    {
+                //        rayCastOutputData = null;
+                //        break;
+                //    }
+                //}
+           
+            }
+
+            return rayCastOutputData;
         }
 
         private List<Vector3> GetRayCastPositionsOnCharacterBoundByVelocity(FRay[] insideCastRays, BoundBase characterBound, Vector3 boundMax, Vector3 boundMin, Vector3 boundOrigin)
@@ -285,6 +333,7 @@ namespace MassiveGame.Physics
 
         private List<Vector3> GetPreviousFreeFallBottomPositionsForRayCast(BoundBase characterBound, MovableEntity characterEntity)
         {
+
             Vector3 boundOrigin = characterBound.GetOrigin();
             Vector3 boundMax = characterBound.GetMax();
             Vector3 boundMin = characterBound.GetMin();
@@ -294,18 +343,56 @@ namespace MassiveGame.Physics
             boundMin -= velocityToPreviousPosition;
             boundOrigin -= velocityToPreviousPosition;
 
-            Vector3 tangentY = -characterBound.GetTangetY();
 
-            FRay[] rays = new FRay[5]
+            FRay[] rays = new FRay[9]
+           {
+               new FRay(new Vector3(boundMax.X, boundMax.Y, boundMax.Z), characterEntity.Velocity),
+               new FRay(new Vector3(boundMax.X, boundMax.Y, boundMin.Z), characterEntity.Velocity),
+               new FRay(new Vector3(boundMax.X, boundMin.Y, boundMax.Z), characterEntity.Velocity),
+               new FRay(new Vector3(boundMax.X, boundMin.Y, boundMin.Z), characterEntity.Velocity),
+               new FRay(new Vector3(boundMin.X, boundMax.Y, boundMax.Z), characterEntity.Velocity),
+               new FRay(new Vector3(boundMin.X, boundMax.Y, boundMin.Z), characterEntity.Velocity),
+               new FRay(new Vector3(boundMin.X, boundMin.Y, boundMax.Z), characterEntity.Velocity),
+               new FRay(new Vector3(boundMin.X, boundMin.Y, boundMin.Z), characterEntity.Velocity),
+               new FRay(boundOrigin, characterEntity.Velocity)
+           };
+
+            return GetRayCastPositionsOnCharacterBoundByVelocity(rays, characterBound, boundMax, boundMin, boundOrigin);
+        }
+
+        private void InterProcessDownRayCastCollision(MovableEntity character, BoundBase characterBound, List<BoundBase> collidedBounds)
+        {
+            List<Vector3> currentPositionsForRayCast = GetCurrentMiddlePositionsForRayCast(characterBound, character);
+            List<FRay> listOfRays = new List<FRay>();
+            for (Int32 i = 0; i < currentPositionsForRayCast.Count; i++)
+                listOfRays.Add(new FRay(currentPositionsForRayCast[i], -DOUEngine.Camera.getUpVector()));
+
+            RayCastOutputData closestRayCastDown = GetClosestRayCastResultFromMultipleRayCast(listOfRays, collidedBounds, character);
+
+            if (RAYCAST_COLLIDED(closestRayCastDown.shortestDistance))
             {
-                new FRay(boundOrigin, tangentY),
-                new FRay(new Vector3(boundMax.X, boundOrigin.Y, boundMax.Z), tangentY),
-                new FRay(new Vector3(boundMax.X, boundOrigin.Y, boundMin.Z), tangentY),
-                new FRay(new Vector3(boundMin.X, boundOrigin.Y, boundMin.Z), tangentY),
-                new FRay(new Vector3(boundMin.X, boundOrigin.Y, boundMax.Z), tangentY),
-            };
+                // Character could be elevated on collided mesh
 
-            return GetClosestPositionsForRayCast(rays, characterBound, boundMax, boundMin, boundOrigin, boundMin.Y);
+                if (closestRayCastDown.shortestDistance <= (characterBound.GetExtent().Y * 2))
+                {
+                    float distanceToStep = (characterBound.GetExtent().Y - closestRayCastDown.shortestDistance);
+                    Vector3 elevationPosition = characterBound.GetOrigin();
+                    elevationPosition.Y += distanceToStep;
+                    character.collisionOffset(elevationPosition);
+                    character.ActorState = BEHAVIOR_STATE.IDLE;
+                }
+                // Character now goes to free fall
+                else
+                    character.ActorState = BEHAVIOR_STATE.FREE_FALLING;
+
+                character.pushPositionStack();
+            }
+            else
+            {
+
+                character.popPositionStack();
+                character.ActorState = BEHAVIOR_STATE.IDLE;
+            }
         }
 
         private void ProcessNoCollisionAtState_FreeFalling(MovableEntity character)
@@ -393,14 +480,6 @@ namespace MassiveGame.Physics
                             listOfRays.Add(new FRay(previousPositionsForRayCast[i], characterEntity.Velocity));
                         RayCastOutputData outputData = GetClosestRayCastResultFromMultipleRayCast(listOfRays, collidedBounds, characterEntity, true);
 
-                        Vector3 previousClosestPositionToVelocityDirection = GetPreviousClosestPositionForRayCast(characterBound, characterEntity.Speed, characterEntity);
-
-                        FRay rayFromCenter = new FRay(previousClosestPositionToVelocityDirection, characterEntity.Velocity);
-
-                        // Necessary data for subsequent calculations
-                        Vector3 previousClosestPosition = new Vector3(0);
-                        var rayCastResult = GetClosestRayCastResult(rayFromCenter, collidedBounds, characterEntity);
-                        
                         // Ray intersected with one of collided bounds
                         if (RAYCAST_COLLIDED(outputData.shortestDistance))
                         {
@@ -408,56 +487,32 @@ namespace MassiveGame.Physics
                             // In this case do ray cast down from current character position
                             if (RAYCAST_INTERSECTION_FAR((characterEntity.Velocity * characterEntity.Speed).Length, outputData.shortestDistance))
                             {
-                                List<Vector3> currentPositionsForRayCast = GetCurrentMiddlePositionsForRayCast(characterBound, characterEntity);
-                                listOfRays = new List<FRay>();
-                                for (Int32 i = 0; i < currentPositionsForRayCast.Count; i++)
-                                    listOfRays.Add(new FRay(currentPositionsForRayCast[i], -DOUEngine.Camera.getUpVector()));
-
-                                RayCastOutputData closestRayCastDown = GetClosestRayCastResultFromMultipleRayCast(listOfRays, collidedBounds, characterEntity);
-
-                                // CHECK IF rayDown result HAS COLLISION!!!!!
-                                if (RAYCAST_COLLIDED(closestRayCastDown.shortestDistance))
-                                {
-                                    // Character could be elevated on collided mesh
-
-                                    if (closestRayCastDown.shortestDistance <= (characterBound.GetExtent().Y * 2))
-                                    {
-                                        float distanceToStep = (characterBound.GetExtent().Y - closestRayCastDown.shortestDistance);
-                                        Vector3 elevationPosition = characterBound.GetOrigin();
-                                        elevationPosition.Y += distanceToStep;
-                                        characterEntity.collisionOffset(elevationPosition);
-                                        characterEntity.ActorState = BEHAVIOR_STATE.IDLE;
-                                    }
-                                    // Character now goes to free fall
-                                    else
-                                        characterEntity.ActorState = BEHAVIOR_STATE.FREE_FALLING;
-
-                                    characterEntity.pushPositionStack();
-                                }
-                                else
-                                {
-
-                                    characterEntity.popPositionStack();
-                                    characterEntity.ActorState = BEHAVIOR_STATE.IDLE;
-                                }
+                                InterProcessDownRayCastCollision(characterEntity, characterBound, collidedBounds);
                             }
                             // Distance to collided bound is small enough to step there
                             // In this case acquire normal to that plane to find out can character step on that surface, if no - pop previous position and set to idle
                             else
                             {
-                                //throw new NotImplementedException("something bad with normal retrieving");
-                                //BoundBase bound = outputData.collidedBound;
-                                //Vector3 normalToCollidedPlane = bound.GetNormalToIntersectedPosition(outputData.intersectionPosition);
+                                var rayCastResults = GetRayCastResultsFromMultipleRayCast(listOfRays, collidedBounds, characterEntity);
+                                var upperRayResult = GetClosestAndHighestRay(rayCastResults, characterBound);
 
-                                // Character can step on this surface
-                                if (true/* REACHABLE_INCLINE(normalToCollidedPlane)*/)
+                                bool bCanElevateOnMesh = true;
+
+                                if (upperRayResult != null)
+                                {
+                                    // check normal of collided plane
+                                    BoundBase bound = outputData.collidedBound;
+                                    Vector3 normalToCollidedPlane = bound.GetNormalToIntersectedPosition(outputData.intersectionPosition);
+                                    if (!REACHABLE_INCLINE(normalToCollidedPlane)) bCanElevateOnMesh = false;
+                                }
+
+                                if (bCanElevateOnMesh)
                                 {
                                     Vector3 NewCharacterPosition = characterBound.GetOrigin();
                                     NewCharacterPosition.Y = outputData.intersectionPosition.Y + characterEntity.GetCharacterCollisionBound().GetExtent().Y;
                                     characterEntity.collisionOffset(NewCharacterPosition);
                                     characterEntity.pushPositionStack();
                                 }
-                                // If normal is down directed or too up directed - character can't step on this surface, return to previous position
                                 else
                                     characterEntity.popPositionStack();
 
@@ -466,76 +521,64 @@ namespace MassiveGame.Physics
                         }
                         /*  There was no intersection with ray, this could be one of these reasons :
                          *   Probably case : 
-                         *   1) Character did ray cast higher than object is;
-                         *   2) Character did ray cast lower than object is;
-                         *   3) Character is on terrain;
-                         *   4) Character is in free falling.
+                         *   1) Character is on terrain;
+                         *   2) Character is in free falling.
                          */
                         else
                         {
-                            // Firstly test if collided object is higher than ray was
-                            Vector3 boundMax = characterBound.GetMax();
-                            FRay rayForwardFromUpperPoint = new FRay(new Vector3(previousClosestPosition.X, boundMax.Y, previousClosestPosition.Z), characterEntity.Velocity);
-                            float closestDistanceUpper = GetClosestRayCastResult(rayForwardFromUpperPoint, collidedBounds, characterEntity).shortestDistance;
-                            
-                            // If static object collided with "head" of character - we can't stand there, restore previous position
-                            if (RAYCAST_COLLIDED(closestDistanceUpper))
-                            {
-                                throw new NotImplementedException("ITS NOT DONE YET!");
-                                characterEntity.ActorState = BEHAVIOR_STATE.IDLE;
-                                characterEntity.popPositionStack();
-                            }
-                            // No collision with "head" of character
-                            else
-                            {
-                                throw new NotImplementedException("ITS NOT DONE YET!");
+                            Console.ForegroundColor = ConsoleColor.Cyan;
+                            Console.WriteLine("NO COLLISION!");
 
-                                // Do ray cast from current middle height position down
-                                Vector3 localBoundOrigin = characterBound.GetOrigin();
-                                Vector3 CurrentClosestPosition = previousClosestPosition + characterEntity.Velocity * characterEntity.Speed;
-                                CurrentClosestPosition = new Vector3(CurrentClosestPosition.X, localBoundOrigin.Y, CurrentClosestPosition.Z);
-                                FRay rayDown = new FRay(CurrentClosestPosition, -DOUEngine.Camera.getUpVector());
-                                RayCastOutputData rayDownOutput = GetClosestRayCastResult(rayDown, collidedBounds, characterEntity);
-                                float closestDistanceDown = rayDownOutput.shortestDistance;
+                            InterProcessDownRayCastCollision(characterEntity, characterBound, collidedBounds);
 
-                                // Character can step on it, so find out intersection position and elevate him on it
-                                if (RAYCAST_COLLIDED(closestDistanceDown))
-                                {
-                                    Vector3 NewCharacterPosition = new Vector3(localBoundOrigin.X, rayDownOutput.intersectionPosition.Y + characterEntity.GetCharacterCollisionBound().GetExtent().Y, localBoundOrigin.Z);
-                                    characterEntity.collisionOffset(NewCharacterPosition);
-                                    characterEntity.ActorState = BEHAVIOR_STATE.IDLE;
-                                    
-                                }
-                                // No collision with bounds, so just make sure that character is standing on terrain or is in free falling
-                                else 
-                                {
-                                    // Do ray cast  from current middle height position down
-                                    Vector3 boundMin = characterBound.GetMin();
-                                    rayDown = new FRay(CurrentClosestPosition, -DOUEngine.Camera.getUpVector());
+                            //    throw new NotImplementedException("ITS NOT DONE YET!");
 
-                                    float intersectionDistance = TerrainRayIntersection.Intersection_TerrainRay(DOUEngine.terrain, rayDown);
+                            //    // Do ray cast from current middle height position down
+                            //    Vector3 localBoundOrigin = characterBound.GetOrigin();
+                            //    Vector3 CurrentClosestPosition = previousClosestPosition + characterEntity.Velocity * characterEntity.Speed;
+                            //    CurrentClosestPosition = new Vector3(CurrentClosestPosition.X, localBoundOrigin.Y, CurrentClosestPosition.Z);
+                            //    FRay rayDown = new FRay(CurrentClosestPosition, -DOUEngine.Camera.getUpVector());
+                            //    RayCastOutputData rayDownOutput = GetClosestRayCastResult(rayDown, collidedBounds, characterEntity);
+                            //    float closestDistanceDown = rayDownOutput.shortestDistance;
 
-                                    // Subtract length of bound extent from middle height position
-                                    float boundExtent = localBoundOrigin.Y - boundMin.Y;
-                                    float actualIntersectionDistance = intersectionDistance - boundExtent;
+                            //    // Character can step on it, so find out intersection position and elevate him on it
+                            //    if (RAYCAST_COLLIDED(closestDistanceDown))
+                            //    {
+                            //        Vector3 NewCharacterPosition = new Vector3(localBoundOrigin.X, rayDownOutput.intersectionPosition.Y + characterEntity.GetCharacterCollisionBound().GetExtent().Y, localBoundOrigin.Z);
+                            //        characterEntity.collisionOffset(NewCharacterPosition);
+                            //        characterEntity.ActorState = BEHAVIOR_STATE.IDLE;
 
-                                    // Character is in free fall, next position will be calculated in next tick
-                                    if (intersectionDistance < 0.0f || RAYCAST_INTERSECTION_FAR((characterEntity.Velocity * BodyMechanics.FallTime).Length, actualIntersectionDistance))
-                                        characterEntity.ActorState = BEHAVIOR_STATE.FREE_FALLING;
+                            //    }
+                            //    // No collision with bounds, so just make sure that character is standing on terrain or is in free falling
+                            //    else
+                            //    {
+                            //        // Do ray cast  from current middle height position down
+                            //        Vector3 boundMin = characterBound.GetMin();
+                            //        rayDown = new FRay(CurrentClosestPosition, -DOUEngine.Camera.getUpVector());
 
-                                    // Check if character can reach that height
-                                    else
-                                    {  // Character could be elevated on terrain 
-                                        Vector3 CharacterNewPosition = rayDown.GetPositionInTime(intersectionDistance);
-                                        CharacterNewPosition.Y += characterEntity.GetCharacterCollisionBound().GetExtent().Y;
-                                        characterEntity.collisionOffset(CharacterNewPosition);
-                                        characterEntity.ActorState = BEHAVIOR_STATE.IDLE;
-                                    }
-                                }
+                            //        float intersectionDistance = TerrainRayIntersection.Intersection_TerrainRay(DOUEngine.terrain, rayDown);
 
-                                // Doesn't matter what result obtained(elevated on static mesh; elevated on terrain; free falling) we push current position to stack
-                                characterEntity.pushPositionStack();
-                            }
+                            //        // Subtract length of bound extent from middle height position
+                            //        float boundExtent = localBoundOrigin.Y - boundMin.Y;
+                            //        float actualIntersectionDistance = intersectionDistance - boundExtent;
+
+                            //        // Character is in free fall, next position will be calculated in next tick
+                            //        if (intersectionDistance < 0.0f || RAYCAST_INTERSECTION_FAR((characterEntity.Velocity * BodyMechanics.FallTime).Length, actualIntersectionDistance))
+                            //            characterEntity.ActorState = BEHAVIOR_STATE.FREE_FALLING;
+
+                            //        // Check if character can reach that height
+                            //        else
+                            //        {  // Character could be elevated on terrain 
+                            //            Vector3 CharacterNewPosition = rayDown.GetPositionInTime(intersectionDistance);
+                            //            CharacterNewPosition.Y += characterEntity.GetCharacterCollisionBound().GetExtent().Y;
+                            //            characterEntity.collisionOffset(CharacterNewPosition);
+                            //            characterEntity.ActorState = BEHAVIOR_STATE.IDLE;
+                            //        }
+                            //    }
+
+                            //    // Doesn't matter what result obtained(elevated on static mesh; elevated on terrain; free falling) we push current position to stack
+                            //    characterEntity.pushPositionStack();
+
                         }
                         break;
                     }

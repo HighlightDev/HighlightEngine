@@ -138,17 +138,17 @@ namespace MassiveGame.UI
 
 
             DOUEngine.City.Add((Building)EngineObjectCreator.CreateInstance(new StaticEntityArguments(modelPath, texturePath, normalMapPath, specularMapPath,
-                new Vector3(230, 0, 310), new Vector3(0, 180, 0), new Vector3(30, 10, 30))));
+                new Vector3(230, 0, 310), new Vector3(20, 0, 0), new Vector3(30, 10, 30))));
             DOUEngine.City.Add((Building)EngineObjectCreator.CreateInstance(new StaticEntityArguments(modelPath, texturePath, normalMapPath, specularMapPath,
-               new Vector3(230, 5, 248), new Vector3(0, 180, 0), new Vector3(30, 10, 30))));
+               new Vector3(230, 2.5f, 248), new Vector3(0, 180, 0), new Vector3(30, 10, 30))));
             DOUEngine.City.Add((Building)EngineObjectCreator.CreateInstance(new StaticEntityArguments(modelPath, texturePath, normalMapPath, specularMapPath,
-               new Vector3(230, 10, 180), new Vector3(0, 180, 0), new Vector3(30, 10, 30))));
+               new Vector3(230, 5f, 180), new Vector3(0, 180, 0), new Vector3(30, 10, 30))));
             DOUEngine.City.Add((Building)EngineObjectCreator.CreateInstance(new StaticEntityArguments(modelPath, texturePath, normalMapPath, specularMapPath,
-              new Vector3(230, 15, 115), new Vector3(0, 180, 0), new Vector3(30, 10, 30))));
+              new Vector3(230, 7.5f, 115), new Vector3(0, 180, 0), new Vector3(30, 10, 30))));
             DOUEngine.City.Add((Building)EngineObjectCreator.CreateInstance(new StaticEntityArguments(modelPath, texturePath, normalMapPath, specularMapPath,
-               new Vector3(230, 20, 65), new Vector3(0, 180, 0), new Vector3(30, 10, 30))));
+               new Vector3(230, 10, 48), new Vector3(0, 180, 0), new Vector3(30, 10, 30))));
             DOUEngine.City.Add((Building)EngineObjectCreator.CreateInstance(new StaticEntityArguments(modelPath, texturePath, normalMapPath, specularMapPath,
-              new Vector3(170, 25f, 170), new Vector3(0, 180, 0), new Vector3(30, 10, 30))));
+              new Vector3(170, 13f, 170), new Vector3(0, 180, 0), new Vector3(30, 10, 30))));
             //DOUEngine.City.Add((Building)EngineObjectCreator.CreateInstance(new StaticEntityArguments(modelPath, texturePath, normalMapPath, specularMapPath,
             //   new Vector3(280, 10, 350), new Vector3(0, 180, 0), new Vector3(10))));
             //DOUEngine.City.Add((Building)EngineObjectCreator.CreateInstance(new StaticEntityArguments(modelPath, texturePath, normalMapPath, specularMapPath,
