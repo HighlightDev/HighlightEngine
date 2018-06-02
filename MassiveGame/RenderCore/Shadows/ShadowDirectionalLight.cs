@@ -29,7 +29,10 @@ namespace MassiveGame.RenderCore.Shadows
         {
             Vector3 normLightDir = LightSource.Direction.Normalized();
             Vector3 delta = DOUEngine.Player.ComponentTranslation;
-            delta.Y = 0;
+
+            // Previously I was adding only offset value, but now I don't have offset value, only current translation of player
+
+            delta = new Vector3(0);
             var lightEye = LightSource.Position + delta + normLightDir * 300;
             var lightTarget = LightSource.Position + delta + (LightSource.Direction * 100);
             return Matrix4.LookAt(lightEye, lightTarget, new Vector3(0, 1, 0));

@@ -138,17 +138,17 @@ namespace MassiveGame.UI
 
 
             DOUEngine.City.Add((Building)EngineObjectCreator.CreateInstance(new StaticEntityArguments(modelPath, texturePath, normalMapPath, specularMapPath,
-                new Vector3(230, 0, 310), new Vector3(20, 0, 0), new Vector3(30, 10, 30))));
+                new Vector3(230, 0 + DOUEngine.MAP_HEIGHT, 310), new Vector3(20, 0, 0), new Vector3(30, 10, 30))));
             DOUEngine.City.Add((Building)EngineObjectCreator.CreateInstance(new StaticEntityArguments(modelPath, texturePath, normalMapPath, specularMapPath,
-               new Vector3(230, 2.5f, 248), new Vector3(0, 180, 0), new Vector3(30, 10, 30))));
+               new Vector3(230, 2.5f + DOUEngine.MAP_HEIGHT, 248), new Vector3(0, 180, 0), new Vector3(30, 10, 30))));
             DOUEngine.City.Add((Building)EngineObjectCreator.CreateInstance(new StaticEntityArguments(modelPath, texturePath, normalMapPath, specularMapPath,
-               new Vector3(230, 5f, 180), new Vector3(0, 180, 0), new Vector3(30, 10, 30))));
+               new Vector3(230, 5f + DOUEngine.MAP_HEIGHT, 180), new Vector3(0, 180, 0), new Vector3(30, 10, 30))));
             DOUEngine.City.Add((Building)EngineObjectCreator.CreateInstance(new StaticEntityArguments(modelPath, texturePath, normalMapPath, specularMapPath,
-              new Vector3(230, 7.5f, 115), new Vector3(0, 180, 0), new Vector3(30, 10, 30))));
+              new Vector3(230, 7.5f + DOUEngine.MAP_HEIGHT, 115), new Vector3(0, 180, 0), new Vector3(30, 10, 30))));
             DOUEngine.City.Add((Building)EngineObjectCreator.CreateInstance(new StaticEntityArguments(modelPath, texturePath, normalMapPath, specularMapPath,
-               new Vector3(230, 10, 48), new Vector3(0, 180, 0), new Vector3(30, 10, 30))));
+               new Vector3(230, 10 + DOUEngine.MAP_HEIGHT, 48), new Vector3(0, 180, 0), new Vector3(30, 10, 30))));
             DOUEngine.City.Add((Building)EngineObjectCreator.CreateInstance(new StaticEntityArguments(modelPath, texturePath, normalMapPath, specularMapPath,
-              new Vector3(170, 13f, 170), new Vector3(0, 180, 0), new Vector3(30, 10, 30))));
+              new Vector3(170, 13f + DOUEngine.MAP_HEIGHT, 170), new Vector3(0, 180, 0), new Vector3(30, 10, 30))));
             //DOUEngine.City.Add((Building)EngineObjectCreator.CreateInstance(new StaticEntityArguments(modelPath, texturePath, normalMapPath, specularMapPath,
             //   new Vector3(280, 10, 350), new Vector3(0, 180, 0), new Vector3(10))));
             //DOUEngine.City.Add((Building)EngineObjectCreator.CreateInstance(new StaticEntityArguments(modelPath, texturePath, normalMapPath, specularMapPath,
@@ -263,8 +263,8 @@ namespace MassiveGame.UI
             DOUEngine.Lights = new Light_visualization.VisualizeLight(ProjectFolders.TexturesPath + "/LightTextures/" + "light-bulb-icon (1).png"
                 , DOUEngine.PointLight);
 
-            DOUEngine.Lens = new LensFlareRenderer();
-            DOUEngine.Ray = new GodRaysRenderer();
+            //DOUEngine.Lens = new LensFlareRenderer();
+            //DOUEngine.Ray = new GodRaysRenderer();
             //DOUEngine.PostProc = new PostprocessRenderer(PostprocessType.BLOOM);
             //DOUEngine.PostProc.BloomPass = 1;
             //DOUEngine.PostProc.BlurWidth = 18;
@@ -483,8 +483,8 @@ namespace MassiveGame.UI
                         //SwitchToScreenBuffer();
 
                         RenderAll(redraw);
-                   
-                        //frame.Render(DOUEngine.Sun.GetShadowHandler().GetTextureHandler(), new Point(this.Width, this.Height));
+
+                        frame.Render(DOUEngine.Sun.GetShadowHandler().GetTextureHandler(), new Point(this.Width, this.Height));
                         //    frame.Render(new Texture2Dlite(
                         //(int)DOUEngine.Water._fbo.Texture.TextureID[1],
                         //new RectParams(DOUEngine.Water._fbo.Texture.Rezolution[1].widthRezolution, DOUEngine.Water._fbo.Texture.Rezolution[1].heightRezolution)

@@ -8,3 +8,6 @@ CollisionEditor/OTKWinForm/obj/Debug/DesignTimeResolveAssemblyReferencesInput.ca
 WFUIControls/obj/Debug/DesignTimeResolveAssemblyReferencesInput.cache
 TestStencil/obj/Debug/DesignTimeResolveAssemblyReferencesInput.cache
 *.cache
+MassiveGame/Debug/ProjectLogs.txt
+*.exe
+*.pdb
