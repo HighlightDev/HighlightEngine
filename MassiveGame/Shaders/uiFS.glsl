@@ -5,8 +5,6 @@ layout (location = 0) out vec4 FragColor;
 in vec2 texCoords;
 
 uniform sampler2D uiTexture;
-uniform sampler2D frameTexture;
-
 
 void main(void){
 

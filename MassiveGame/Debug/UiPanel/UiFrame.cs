@@ -24,22 +24,34 @@ namespace MassiveGame.Debug.UiPanel
         public float X0, Y0, Width, Height;
 
         #endregion
-
-        public void Render(ITexture renderTexture, Point ViewPortSize, ITexture previousStageTexture = null)
+        
+        public void Render(ITexture renderTexture)
         {
             PostConstructor();
-            GL.Viewport(0, 0, ViewPortSize.X, ViewPortSize.Y);
+            var textureRezolution = renderTexture.GetTextureRezolution();
+            GL.Viewport(0, 0, textureRezolution.X, textureRezolution.Y);
 
             _shader.startProgram();
             renderTexture.BindTexture(TextureUnit.Texture0);
             _shader.SetUiTextureSampler(0);
-            if (previousStageTexture != null)
-            {
-                previousStageTexture.BindTexture(TextureUnit.Texture1);
-                _shader.SetFrameTextureSampler(1);
-            }
             VAOManager.renderBuffers(_buffer, PrimitiveType.Triangles);
             _shader.stopProgram();
+        }
+
+        public void Render(ITexture renderTexture, Point screenRezolution)
+        {
+            PostConstructor();
+            GL.Viewport(0, 0, screenRezolution.X, screenRezolution.Y);
+
+            _shader.startProgram();
+            renderTexture.BindTexture(TextureUnit.Texture0);
+            _shader.SetUiTextureSampler(0);
+            VAOManager.renderBuffers(_buffer, PrimitiveType.Triangles);
+            _shader.stopProgram();
+        }
+
+        public UiFrame(Vector2 origin, Vector2 extent) : this(origin.X, origin.Y, extent.X, extent.Y)
+        {
         }
 
         public UiFrame(float x, float y, float width, float height)

@@ -154,8 +154,8 @@ namespace TextureLoader
             }
             catch (BadImageFormatException ex)
             {
+                throw new EntryPointNotFoundException(ex.Message, ex);
                 // Bad image
-                return -1;
             }
 
             image.UnlockBits(textureData);
@@ -266,8 +266,8 @@ namespace TextureLoader
             }
             catch (BadImageFormatException ex)
             {
+                throw new EntryPointNotFoundException(ex.Message, ex);
                 // Bad image
-                return -1;
             }
 
             image.UnlockBits(textureData);

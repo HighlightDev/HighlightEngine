@@ -11,6 +11,7 @@ using TextureLoader;
 
 using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL;
+using System.Drawing;
 
 namespace MassiveGame.RenderCore.Shadows
 {
@@ -104,7 +105,7 @@ namespace MassiveGame.RenderCore.Shadows
         {
             ITexture result = null;
             if (RenderTargetHandler != -1)
-                result = new Texture2Dlite(RenderTargetHandler, new RectParams(RTParams.TexBufferWidth, RTParams.TexBufferHeight));
+                result = new Texture2Dlite(RenderTargetHandler, new Point(RTParams.TexBufferWidth, RTParams.TexBufferHeight));
             return result;
         }
     }

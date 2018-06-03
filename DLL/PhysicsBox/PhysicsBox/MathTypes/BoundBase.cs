@@ -107,16 +107,24 @@ namespace PhysicsBox.MathTypes
             // As we know plane equation Ax + By + Cz + D = 0
             // we must substitute in place of xyz incoming position and check when D is near a zero value
 
-            Vector3 min = GetMin();
-            Vector3 max = GetMax();
+            Vector3 tangentSpaceExtent = GetExtent();
+            Vector3 tangentSpacePosition = GetOrigin();
             Vector3 tangentX = GetTangetX();
             Vector3 tangentY = GetTangetY();
             Vector3 tangentZ = GetTangetZ();
 
+            // find edge vertices for each plane of bounding box
+            Vector3 edgeRight = tangentSpacePosition + (tangentX * tangentSpaceExtent.X);
+            Vector3 edgeLeft = tangentSpacePosition - (tangentX * tangentSpaceExtent.X);
+            Vector3 edgeUp = tangentSpacePosition + (tangentY * tangentSpaceExtent.Y);
+            Vector3 edgeDown = tangentSpacePosition - (tangentY * tangentSpaceExtent.Y);
+            Vector3 edgeForward = tangentSpacePosition + (tangentZ * tangentSpaceExtent.Z);
+            Vector3 edgeBack = tangentSpacePosition - (tangentZ * tangentSpaceExtent.Z);
+
             List<FPlane> boundPlanes = new List<FPlane>(6)
             {
-                new FPlane(min, -tangentX), new FPlane(min, -tangentY), new FPlane(min, -tangentZ),
-                new FPlane(max, tangentX), new FPlane(max, tangentY), new FPlane(max, tangentZ)
+                new FPlane(edgeLeft, -tangentX), new FPlane(edgeDown, -tangentY), new FPlane(edgeBack, -tangentZ),
+                new FPlane(edgeRight, tangentX), new FPlane(edgeUp, tangentY), new FPlane(edgeForward, tangentZ)
             };
 
             float d = float.MaxValue;

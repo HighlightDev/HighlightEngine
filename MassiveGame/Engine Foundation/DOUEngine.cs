@@ -12,6 +12,7 @@ using System.Drawing;
 using MassiveGame.RenderCore.Visibility;
 using MassiveGame.Light_visualization;
 using System.Threading;
+using MassiveGame.Debug.UiPanel;
 
 namespace MassiveGame
 {
@@ -94,5 +95,6 @@ namespace MassiveGame
         public static Point ScreenRezolution;
 
         public static Point ShadowMapRezolution;
+        public static UiFrameCreator uiFrameCreator;
     }
 }

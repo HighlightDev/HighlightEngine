@@ -10,6 +10,7 @@ using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL;
 using MassiveGame.API.Collector;
 using TextureLoader;
+using System.Drawing;
 
 namespace MassiveGame.RenderCore
 {
@@ -62,7 +63,7 @@ namespace MassiveGame.RenderCore
         {
             ITexture result = null;
             if (RenderTargetHandler != -1)
-                result = new Texture2Dlite(RenderTargetHandler, new RectParams(FrameBufferSettings.TexBufferWidth, FrameBufferSettings.TexBufferHeight));
+                result = new Texture2Dlite(RenderTargetHandler, new Point(FrameBufferSettings.TexBufferWidth, FrameBufferSettings.TexBufferHeight));
             return result;
         }
 

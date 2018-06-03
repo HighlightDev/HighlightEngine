@@ -285,7 +285,12 @@ namespace MassiveGame.UI
             shadowList.Add(DOUEngine.Enemy);
             shadowList.Add(DOUEngine.terrain);
 
-            frame = new UiFrame(0, 0, 0.5f, 0.5f);
+
+            throw new NotImplementedException("Redo using matrix transformation");
+            DOUEngine.uiFrameCreator = new UiFrameCreator();
+            DOUEngine.uiFrameCreator.PushFrame(new Vector2(0), new Vector2(0.2f, 0.2f), DOUEngine.Sun.GetShadowHandler().GetTextureHandler());
+            //DOUEngine.uiFrameCreator.PushFrame(new Vector2(0, 0.4f), new Vector2(0.2f, 0.2f), DOUEngine.Player.GetDiffuseMap());
+            DOUEngine.uiFrameCreator.PushFrame(new Vector2(0, 0.6f), new Vector2(0.2f, 0.2f), DOUEngine.Player.GetNormalMap());
 
             //ch = new ComputeShader();
             //ch.Init();
@@ -429,17 +434,6 @@ namespace MassiveGame.UI
 
         private void gameLogics(bool redraw = false)
         {
-            if (DOUEngine.PostConstructor)
-            { 
-                //if (redraw)
-                //{
-                //    foreach (Building building in buildings)
-                //    {
-                //        collision.addPolygonArray(building.getCollisionTriangles());
-                //    }
-                //}
-                //DOUEngine.PostConstructor = !DOUEngine.PostConstructor;
-            }
             // EngineSingleton.Picker.update();
             DOUEngine.Mist.update();
             DOUEngine.Camera.Update(DOUEngine.terrain);
@@ -480,15 +474,7 @@ namespace MassiveGame.UI
                 case PostProcessFlag.PostFx_and_GrEffects_Disable:
                     {
                         defaultFB.Bind();
-                        //SwitchToScreenBuffer();
-
                         RenderAll(redraw);
-
-                        frame.Render(DOUEngine.Sun.GetShadowHandler().GetTextureHandler(), new Point(this.Width, this.Height));
-                        //    frame.Render(new Texture2Dlite(
-                        //(int)DOUEngine.Water._fbo.Texture.TextureID[1],
-                        //new RectParams(DOUEngine.Water._fbo.Texture.Rezolution[1].widthRezolution, DOUEngine.Water._fbo.Texture.Rezolution[1].heightRezolution)
-                        //), new Point(this.Width, this.Height));
                         defaultFB.Unbind();
                         break;
                     }
@@ -594,7 +580,6 @@ namespace MassiveGame.UI
                         else
                         {
                             defaultFB.Bind();
-                            //SwitchToScreenBuffer();
                             RenderAll(redraw);
                             defaultFB.Unbind();
                             break;
@@ -618,13 +603,6 @@ namespace MassiveGame.UI
         #endregion
 
         #region System functions
-
-        private void SwitchToScreenBuffer()
-        {
-            GL.BindFramebuffer(FramebufferTarget.Framebuffer, 0);
-            GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
-            GL.Viewport(0, 0, this.Width, this.Height);
-        }
 
         private void setGraphicsSettings()
         {

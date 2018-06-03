@@ -15,7 +15,7 @@ namespace MassiveGame.Debug.UiPanel
         #region Definitions
 
         private const string ShaderName = "UiFrame Shader";
-        private int uiTexture, frameTexture;
+        private int uiTexture;
 
         #endregion
 
@@ -26,11 +26,6 @@ namespace MassiveGame.Debug.UiPanel
             base.loadInteger(uiTexture, uiTextureSampler);
         }
 
-        public void SetFrameTextureSampler(int frameTextureSampler)
-        {
-            base.loadInteger(frameTexture, frameTextureSampler);
-        }
-
         #endregion
 
         #region Geter
@@ -38,7 +33,6 @@ namespace MassiveGame.Debug.UiPanel
         protected override void getAllUniformLocations()
         {
             uiTexture = base.getUniformLocation("uiTexture");
-            frameTexture = base.getUniformLocation("frameTexture");
         }
 
         #endregion

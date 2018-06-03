@@ -19,7 +19,7 @@ namespace TextureLoader
     {
         public int TextureID { private set; get; }
         public float MaxAnisotropy { private set; get; }
-        public RectParams Rectangle { set; get; }
+        public Point TextureRezolution { set; get; }
 
         public Texture2Dlite(string texturePath, bool generateMipMap, float anisotropyLevel = -1.0f)
         {
@@ -27,15 +27,15 @@ namespace TextureLoader
             TextureID = CreateTexture(texturePath, generateMipMap, anisotropyLevel);
         }
 
-        public Texture2Dlite(int TextureID, RectParams rectParams)
+        public Texture2Dlite(int TextureID, Point rectParams)
         {
             this.TextureID = TextureID;
-            this.Rectangle = rectParams;
+            this.TextureRezolution = rectParams;
         }
 
         public Texture2Dlite(Texture2D tex)
         {
-            Rectangle = new RectParams(tex.Rezolution[0].widthRezolution, tex.Rezolution[0].heightRezolution);
+            TextureRezolution = new Point(tex.Rezolution[0].widthRezolution, tex.Rezolution[0].heightRezolution);
             TextureID = (Int32)tex.TextureID[0];
         }
 
@@ -84,6 +84,8 @@ namespace TextureLoader
             // сохраняем размеры изображения 
             int width = image.Width;
             int height = image.Height;
+
+            TextureRezolution = new Point(width, height);
 
             // определяем число бит на пиксель 
             int pixelFormat = 0;
@@ -148,8 +150,7 @@ namespace TextureLoader
             }
             catch (BadImageFormatException ex)
             {
-                // Bad image
-                return -1;
+                throw new EntryPointNotFoundException(ex.Message, ex);
             }
 
             image.UnlockBits(textureData);
@@ -273,6 +274,11 @@ namespace TextureLoader
         public TextureTarget GetTextureTarget()
         {
             return TextureTarget.Texture2D;
+        }
+
+        public Point GetTextureRezolution()
+        {
+            return TextureRezolution;
         }
 
         #region Clean_up

@@ -11,6 +11,7 @@ using OpenTK.Graphics.OpenGL;
 using ShaderPattern;
 using MassiveGame.API.Collector;
 using GpuGraphics;
+using System.Drawing;
 
 namespace MassiveGame.RenderCore
 {
@@ -23,10 +24,10 @@ namespace MassiveGame.RenderCore
                     typeof(ResolveTextureShader));
         }
 
-        public static ITexture ResolveTexture(ITexture src, RectParams rectParams)
+        public static ITexture ResolveTexture(ITexture src, Point textureRezolution)
         {
             ITexture dst = null;
-            var emptyTexture = Texture2Dlite.genEmptyImage(rectParams.Width, rectParams.Height, (Int32)All.Nearest, PixelInternalFormat.Rgb, OpenTK.Graphics.OpenGL.PixelFormat.Rgb, PixelType.UnsignedByte, TextureWrapMode.Repeat);
+            var emptyTexture = Texture2Dlite.genEmptyImage(textureRezolution.X, textureRezolution.Y, (Int32)All.Nearest, PixelInternalFormat.Rgb, OpenTK.Graphics.OpenGL.PixelFormat.Rgb, PixelType.UnsignedByte, TextureWrapMode.Repeat);
             var renderTarget = GL.GenFramebuffer();
 
             GL.BindFramebuffer(FramebufferTarget.Framebuffer, renderTarget);
@@ -34,7 +35,7 @@ namespace MassiveGame.RenderCore
             GL.DrawBuffer(DrawBufferMode.ColorAttachment0);
 
             GL.Disable(EnableCap.DepthTest);
-            GL.Viewport(0, 0, rectParams.Width, rectParams.Height);
+            GL.Viewport(0, 0, textureRezolution.X, textureRezolution.Y);
             // start copy texture to render target
             resolveShader.startProgram();
             src.BindTexture(TextureUnit.Texture0);
@@ -46,7 +47,7 @@ namespace MassiveGame.RenderCore
             GL.BindFramebuffer(FramebufferTarget.Framebuffer, 0);
             GL.DeleteFramebuffer(renderTarget);
 
-            dst = new Texture2Dlite(emptyTexture, rectParams);
+            dst = new Texture2Dlite(emptyTexture, textureRezolution);
             return dst;
         }
     }

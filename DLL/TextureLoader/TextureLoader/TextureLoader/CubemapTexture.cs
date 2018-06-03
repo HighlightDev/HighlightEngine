@@ -181,5 +181,10 @@ namespace TextureLoader
         {
             return TextureTarget.TextureCubeMap;
         }
+
+        public Point GetTextureRezolution()
+        {
+            throw new NotImplementedException("Cubemap doesn't have one texture, it has six.");
+        }
     }
 }

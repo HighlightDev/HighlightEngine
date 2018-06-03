@@ -117,20 +117,6 @@ namespace PhysicsBox
             testAxes[4] = obb.GetTangetY();
             testAxes[5] = obb.GetTangetZ();
 
-            if (false)
-            {
-                // Maybe there are another axes:
-                testAxes[6] = Vector3.Cross(testAxes[0], testAxes[3]);
-                testAxes[7] = Vector3.Cross(testAxes[0], testAxes[4]);
-                testAxes[8] = Vector3.Cross(testAxes[0], testAxes[5]);
-                testAxes[9] = Vector3.Cross(testAxes[1], testAxes[3]);
-                testAxes[10] = Vector3.Cross(testAxes[1], testAxes[4]);
-                testAxes[11] = Vector3.Cross(testAxes[1], testAxes[5]);
-                testAxes[12] = Vector3.Cross(testAxes[2], testAxes[3]);
-                testAxes[13] = Vector3.Cross(testAxes[2], testAxes[4]);
-                testAxes[14] = Vector3.Cross(testAxes[2], testAxes[5]);
-            }
-
             for (Int32 i = 0; i < 3; i++)
             {
                 testAxes[6 + i * 3 + 0] = Vector3.Cross(testAxes[0], testAxes[i]);
@@ -158,20 +144,6 @@ namespace PhysicsBox
             testAxes[3] = RotationMatrix2.Row0.Normalized();
             testAxes[4] = RotationMatrix2.Row1.Normalized();
             testAxes[5] = RotationMatrix2.Row2.Normalized();
-
-            if (false)
-            {
-                // Maybe there are another axes:
-                testAxes[6] = Vector3.Cross(testAxes[0], testAxes[3]);
-                testAxes[7] = Vector3.Cross(testAxes[0], testAxes[4]);
-                testAxes[8] = Vector3.Cross(testAxes[0], testAxes[5]);
-                testAxes[9] = Vector3.Cross(testAxes[1], testAxes[3]);
-                testAxes[10] = Vector3.Cross(testAxes[1], testAxes[4]);
-                testAxes[11] = Vector3.Cross(testAxes[1], testAxes[5]);
-                testAxes[12] = Vector3.Cross(testAxes[2], testAxes[3]);
-                testAxes[13] = Vector3.Cross(testAxes[2], testAxes[4]);
-                testAxes[14] = Vector3.Cross(testAxes[2], testAxes[5]);
-            }
 
             for (Int32 i = 0; i < 3; i++)
             {

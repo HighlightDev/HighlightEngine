@@ -17,12 +17,22 @@ namespace MassiveGame.UI
             renderBasePass(DOUEngine.Camera, redraw);
             renderLamps();
             renderCollisionBoxes();
-
             if (bAllowTick)
             {
                 TickEntities();
                 //bAllowTick = false;
             }
+            renderDebugInfo();
+        }
+
+        private void RestoreViewport()
+        {
+            GL.Viewport(0, 0, this.Width, this.Height);
+        }
+
+        private void renderDebugInfo()
+        {
+            DOUEngine.uiFrameCreator.Render();
         }
 
         private void DepthPass()
@@ -32,11 +42,6 @@ namespace MassiveGame.UI
                 DOUEngine.Sun.GetShadowHandler().WriteDepth(shadowList, this.Width, this.Height, ref DOUEngine.ProjectionMatrix);
                 RestoreViewport();
             }
-        }
-
-        private void RestoreViewport()
-        {
-            GL.Viewport(0, 0, this.Width, this.Height);
         }
 
         private void renderLamps()
