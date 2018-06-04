@@ -95,6 +95,6 @@ namespace MassiveGame
         public static Point ScreenRezolution;
 
         public static Point ShadowMapRezolution;
-        public static UiFrameCreator uiFrameCreator;
+        public static UiFrameMaster uiFrameCreator;
     }
 }

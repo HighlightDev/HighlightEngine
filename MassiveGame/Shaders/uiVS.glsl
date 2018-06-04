@@ -5,8 +5,10 @@ layout (location = 2) in vec2 texCoord;
 
 out vec2 texCoords;
 
+uniform mat4 screenSpaceMatrix;
+
 void main(void){
 
 	texCoords = vec2(texCoord.x, 1 - texCoord.y);
-	gl_Position = vec4(vertex, 1.0);
+	gl_Position = screenSpaceMatrix * vec4(vertex, 1.0);
 }

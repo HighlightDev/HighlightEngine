@@ -22,14 +22,7 @@ namespace MassiveGame.API.Collector
         private static TexturePool textureCollector;
         private static RenderTargetPool renderTargetCollector;
         //sound collector
-
-        public static int functi()
-        {
-            int a = 5;
-            int b = 6;
-            return a + b;
-        }
-
+   
         const Int32 MAX_RENDER_TARGETS = 8;
 
         static ResourcePool()

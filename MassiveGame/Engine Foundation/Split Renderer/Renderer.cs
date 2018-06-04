@@ -55,15 +55,12 @@ namespace MassiveGame.UI
     {
         List<IDrawable> shadowList;
         DefaultFrameBuffer defaultFB;
-        UiFrame DefaultFrame;
         //ComputeShader ch;
 
         CollisionHeadUnit collisionHeadUnit = new CollisionHeadUnit();
 
         private void setTestValues()
         {
-            DefaultFrame = new UiFrame(0, 0, 1, 1);
-
             var rtParams = new RenderTargetParams(TextureTarget.Texture2D, 0, PixelInternalFormat.DepthComponent16, DOUEngine.ShadowMapRezolution.X, DOUEngine.ShadowMapRezolution.Y, PixelFormat.DepthComponent, PixelType.Float);
             DOUEngine.Sun = new DirectionalLight(rtParams, new Vector3(-100, -10, 50), new Vector4(0.4f, 0.4f, 0.4f, 1),
                 new Vector4(0.7f, 0.7f, 0.7f, 1.0f), new Vector4(1, 1, 1, 1));
@@ -286,11 +283,11 @@ namespace MassiveGame.UI
             shadowList.Add(DOUEngine.terrain);
 
 
-            throw new NotImplementedException("Redo using matrix transformation");
-            DOUEngine.uiFrameCreator = new UiFrameCreator();
-            DOUEngine.uiFrameCreator.PushFrame(new Vector2(0), new Vector2(0.2f, 0.2f), DOUEngine.Sun.GetShadowHandler().GetTextureHandler());
-            //DOUEngine.uiFrameCreator.PushFrame(new Vector2(0, 0.4f), new Vector2(0.2f, 0.2f), DOUEngine.Player.GetDiffuseMap());
-            DOUEngine.uiFrameCreator.PushFrame(new Vector2(0, 0.6f), new Vector2(0.2f, 0.2f), DOUEngine.Player.GetNormalMap());
+            //throw new NotImplementedException("Redo using matrix transformation");
+            DOUEngine.uiFrameCreator = new UiFrameMaster();
+            DOUEngine.uiFrameCreator.PushFrame(DOUEngine.Sun.GetShadowHandler().GetTextureHandler());
+            DOUEngine.uiFrameCreator.PushFrame(DOUEngine.Player.GetDiffuseMap());
+            DOUEngine.uiFrameCreator.PushFrame(DOUEngine.Player.GetNormalMap());
 
             //ch = new ComputeShader();
             //ch.Init();
@@ -447,8 +444,6 @@ namespace MassiveGame.UI
         }
         #endregion
 
-        UiFrame frame;
-
         #region Render queue
         private void RenderLoop(bool redraw)
         {
@@ -598,7 +593,7 @@ namespace MassiveGame.UI
                     }
             }
 
-            DefaultFrame.Render(defaultFB.GetTextureHandler(), new Point(this.Width, this.Height));
+            DOUEngine.uiFrameCreator.RenderInputTexture(defaultFB.GetTextureHandler(), new Point(this.Width, this.Height));
         }
         #endregion
 

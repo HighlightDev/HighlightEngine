@@ -32,7 +32,7 @@ namespace MassiveGame.UI
 
         private void renderDebugInfo()
         {
-            DOUEngine.uiFrameCreator.Render();
+            DOUEngine.uiFrameCreator.RenderFrames();
         }
 
         private void DepthPass()

@@ -15,7 +15,7 @@ namespace MassiveGame.Debug.UiPanel
         #region Definitions
 
         private const string ShaderName = "UiFrame Shader";
-        private int uiTexture;
+        private int uiTexture, screenSpaceMatrix;
 
         #endregion
 
@@ -26,6 +26,11 @@ namespace MassiveGame.Debug.UiPanel
             base.loadInteger(uiTexture, uiTextureSampler);
         }
 
+        public void SetScreenSpaceMatrix(Matrix4 screenSpaceMatrix)
+        {
+            loadMatrix(this.screenSpaceMatrix, false, screenSpaceMatrix);
+        }
+
         #endregion
 
         #region Geter
@@ -33,6 +38,7 @@ namespace MassiveGame.Debug.UiPanel
         protected override void getAllUniformLocations()
         {
             uiTexture = base.getUniformLocation("uiTexture");
+            screenSpaceMatrix = getUniformLocation("screenSpaceMatrix");
         }
 
         #endregion

@@ -115,7 +115,7 @@
     <Compile Include="API\Collector\TextureCollect\TextureAllocator.cs" />
     <Compile Include="API\Collector\TextureCollect\TextureCollection.cs" />
     <Compile Include="API\Collector\TextureCollect\TexturePool.cs" />
-    <Compile Include="Debug\UiPanel\UiFrameCreator.cs" />
+    <Compile Include="Debug\UiPanel\UiFrameMaster.cs" />
     <Compile Include="Physics\BodyMechanics.cs" />
     <Compile Include="Physics\Collision Handler\CollisionBoxReaction.cs" />
     <Compile Include="Physics\Collision Handler\CollisionMissReaction.cs" />
@@ -154,7 +154,6 @@
     <Compile Include="RenderCore\RenderAPI.cs" />
     <Compile Include="Core\RenderMap.cs" />
     <Compile Include="Debug\Log.cs" />
-    <Compile Include="Debug\UiPanel\UiFrame.cs" />
     <Compile Include="Debug\UiPanel\UiFrameShader.cs" />
     <Compile Include="Engine Foundation\DOUEngine.cs" />
     <Compile Include="Engine Foundation\Split Renderer\Renderer.cs">
