@@ -4,11 +4,6 @@ using System.IO;
 using System.Linq;
 using System.Text;
 
-using Tao.OpenGl;
-using Tao.FreeGlut;
-using Tao.Platform.Windows;
-using Tao.DevIl;
-
 namespace CParser.OBJ_Parser
 {
     public class OBJ_SimpleAnimationLoader

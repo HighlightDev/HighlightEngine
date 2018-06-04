@@ -286,9 +286,6 @@ namespace MassiveGame.UI
             //throw new NotImplementedException("Redo using matrix transformation");
             DOUEngine.uiFrameCreator = new UiFrameMaster();
             DOUEngine.uiFrameCreator.PushFrame(DOUEngine.Sun.GetShadowHandler().GetTextureHandler());
-            DOUEngine.uiFrameCreator.PushFrame(DOUEngine.Player.GetDiffuseMap());
-            DOUEngine.uiFrameCreator.PushFrame(DOUEngine.Player.GetNormalMap());
-
             //ch = new ComputeShader();
             //ch.Init();
         }

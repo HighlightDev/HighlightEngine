@@ -30,3 +30,10 @@ C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\DLL\2DGameT
 C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\DLL\2DGameTable\2DGameTable\obj\Debug\2DGameTable.csprojResolveAssemblyReference.cache
 C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\DLL\2DGameTable\2DGameTable\obj\Debug\2DGameTable.dll
 C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\DLL\2DGameTable\2DGameTable\obj\Debug\2DGameTable.pdb
+D:\HighlightEngine\HighlightEngine\DLL\2DGameTable\2DGameTable\bin\Debug\2DGameTable.dll
+D:\HighlightEngine\HighlightEngine\DLL\2DGameTable\2DGameTable\bin\Debug\2DGameTable.pdb
+D:\HighlightEngine\HighlightEngine\DLL\2DGameTable\2DGameTable\obj\Debug\2DGameTable.csprojAssemblyReference.cache
+D:\HighlightEngine\HighlightEngine\DLL\2DGameTable\2DGameTable\obj\Debug\2DGameTable.csproj.CoreCompileInputs.cache
+D:\HighlightEngine\HighlightEngine\DLL\2DGameTable\2DGameTable\obj\Debug\2DGameTable.csproj.CopyComplete
+D:\HighlightEngine\HighlightEngine\DLL\2DGameTable\2DGameTable\obj\Debug\2DGameTable.dll
+D:\HighlightEngine\HighlightEngine\DLL\2DGameTable\2DGameTable\obj\Debug\2DGameTable.pdb

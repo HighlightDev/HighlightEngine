@@ -463,12 +463,6 @@ namespace MassiveGame.UI
         private void UpdateFrame()
         {
             AdjustMouseCursor();
-
-            AudioMaster.SetListenerData(
-                DOUEngine.Camera.getPositionVector().X,
-                DOUEngine.Camera.getPositionVector().Y,
-                DOUEngine.Camera.getPositionVector().Z
-            );
         }
         #endregion
     }

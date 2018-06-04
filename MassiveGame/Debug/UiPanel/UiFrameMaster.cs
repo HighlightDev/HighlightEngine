@@ -21,8 +21,7 @@ namespace MassiveGame.Debug.UiPanel
         private bool _postConstructor;
 
         public List<ITexture> frameTextures;
-        public readonly Int32 MAX_FRAME_COUNT = 12;
-        private Int32 maxRowCount = 3;
+        public readonly Int32 MAX_FRAME_COUNT = 3;
 
         public UiFrameMaster()
         {
@@ -57,13 +56,15 @@ namespace MassiveGame.Debug.UiPanel
 
         private Matrix4 GetScreenSpaceMatrix(Int32 layoutIndex)
         {
-            Int32 frameCount = frameTextures.Count;
-            float koef = ((float)frameCount / MAX_FRAME_COUNT);
-            Vector2 vecOffset = new Vector2(koef);
-            Int32 rowIndex = frameCount / maxRowCount;
-            Int32 columnIndex = layoutIndex % maxRowCount;
-            Vector3 translation = new Vector3((vecOffset.X * columnIndex) - 1, ((vecOffset.Y * rowIndex) * 2) - 1, 0);
-            return Matrix4.CreateTranslation(translation);
+            Matrix4 resultMatrix = Matrix4.Identity;
+
+            Vector2 Origin = new Vector2(-0.75f, -0.7f);
+            Vector2 translation = new Vector2(Origin.X, (layoutIndex * 0.5f) + (0.15f * layoutIndex) + Origin.Y);
+
+            resultMatrix *= Matrix4.CreateScale(0.2f, 0.25f, 1);
+            resultMatrix *= Matrix4.CreateTranslation(new Vector3(translation.X, translation.Y, 0.0f));
+
+            return resultMatrix;
         }
 
         private void Render(ITexture renderTexture, Int32 index)
@@ -90,7 +91,6 @@ namespace MassiveGame.Debug.UiPanel
             _shader.stopProgram();
         }
 
-  
         private void PostConstructor()
         {
             if (_postConstructor)
