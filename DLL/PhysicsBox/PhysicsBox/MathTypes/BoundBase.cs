@@ -121,7 +121,7 @@ namespace PhysicsBox.MathTypes
             Vector3 edgeForward = tangentSpacePosition + (tangentZ * tangentSpaceExtent.Z);
             Vector3 edgeBack = tangentSpacePosition - (tangentZ * tangentSpaceExtent.Z);
 
-            List<FPlane> boundPlanes = new List<FPlane>(6)
+            FPlane[] boundPlanes = new FPlane[6]
             {
                 new FPlane(edgeLeft, -tangentX), new FPlane(edgeDown, -tangentY), new FPlane(edgeBack, -tangentZ),
                 new FPlane(edgeRight, tangentX), new FPlane(edgeUp, tangentY), new FPlane(edgeForward, tangentZ)

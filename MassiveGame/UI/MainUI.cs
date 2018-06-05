@@ -7,6 +7,7 @@ using OpenTK;
 using OpenTK.Graphics.OpenGL;
 using MassiveGame.API.EventHandlers;
 using MassiveGame.RenderCore;
+using System.Threading;
 
 namespace MassiveGame.UI
 {
@@ -24,8 +25,8 @@ namespace MassiveGame.UI
 
         private void OnRender(object sender, PaintEventArgs e)
         {
-            UpdateFrame();
-            RenderFrame(timestamp.Elapsed.TotalSeconds);
+            AdjustMouseCursor();
+            RenderFrame((float)timestamp.Elapsed.TotalSeconds);
             timestamp.Reset();
             GLControl.Invalidate();
         }
@@ -220,17 +221,16 @@ namespace MassiveGame.UI
         private void OnKeyPress(object sender, System.Windows.Forms.KeyPressEventArgs args)
         {
             if      (args.KeyChar == 'W' || args.KeyChar == 'w')
-            { DOUEngine.keyboardMaskArray[0] = true; }
+            { DOUEngine.keyboardMask[0] = true; }
             else if (args.KeyChar == 'A' || args.KeyChar == 'a')
-            { DOUEngine.keyboardMaskArray[1] = true; }
+            { DOUEngine.keyboardMask[1] = true; }
             else if (args.KeyChar == 'S' || args.KeyChar == 's')
-            { DOUEngine.keyboardMaskArray[2] = true; }
+            { DOUEngine.keyboardMask[2] = true; }
             else if (args.KeyChar == 'D' || args.KeyChar == 'd')
-            { DOUEngine.keyboardMaskArray[3] = true; }
-            if (args.KeyChar == '0')
+            { DOUEngine.keyboardMask[3] = true; }
+            else if (args.KeyChar == ' ')
             {
-                bAllowTick = !bAllowTick;
-                //ch.ResetPositions();
+                DOUEngine.keyboardMask[4] = true;
             }
         }
 
@@ -238,10 +238,11 @@ namespace MassiveGame.UI
         {
             switch (args.KeyData)
             {
-                case Keys.W: { DOUEngine.keyboardMaskArray[0] = false; break; }
-                case Keys.A: { DOUEngine.keyboardMaskArray[1] = false; break; }
-                case Keys.S: { DOUEngine.keyboardMaskArray[2] = false; break; }
-                case Keys.D: { DOUEngine.keyboardMaskArray[3] = false; break; }
+                case Keys.W: { DOUEngine.keyboardMask[0] = false; break; }
+                case Keys.A: { DOUEngine.keyboardMask[1] = false; break; }
+                case Keys.S: { DOUEngine.keyboardMask[2] = false; break; }
+                case Keys.D: { DOUEngine.keyboardMask[3] = false; break; }
+                case Keys.Space: { DOUEngine.keyboardMask[4] = false; break; }
             }
         }
 

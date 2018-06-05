@@ -32,10 +32,9 @@ namespace MassiveGame.ComponentCore
                 bPostConstructor = false;
             }
             base.Tick(ref projectionMatrix, ref viewMatrix);
-            RenderBound(ref projectionMatrix, ref viewMatrix, System.Drawing.Color.Red);
         }
 
-        public void RenderBound(ref Matrix4 projectionMatrix, ref Matrix4 viewMatrix, Color4 color)
+        public override void RenderBound(ref Matrix4 projectionMatrix, ref Matrix4 viewMatrix, Color4 color)
         {
             Matrix4 worldMatrix = Matrix4.Identity;
             if ((Bound.GetBoundType() & BoundBase.BoundType.AABB) == BoundBase.BoundType.AABB)

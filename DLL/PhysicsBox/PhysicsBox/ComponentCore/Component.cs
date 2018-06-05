@@ -1,4 +1,5 @@
 ﻿using OpenTK;
+using OpenTK.Graphics;
 using PhysicsBox.MathTypes;
 using System;
 using System.Collections.Generic;
@@ -163,6 +164,14 @@ namespace PhysicsBox.ComponentCore
                 {
                     component.Tick(ref projectionMatrix, ref viewMatrix);
                 }
+            }
+        }
+
+        public virtual void RenderBound(ref Matrix4 projectionMatrix, ref Matrix4 viewMatrix, Color4 color)
+        {
+            foreach (var component in ChildrenComponents)
+            {
+                component.RenderBound(ref projectionMatrix, ref viewMatrix, color);
             }
         }
 

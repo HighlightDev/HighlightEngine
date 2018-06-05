@@ -55,6 +55,7 @@ namespace MassiveGame.Physics
         {
             if (raycastResult > -1f)
                 return true;
+
             return false;
         }
 
@@ -71,6 +72,7 @@ namespace MassiveGame.Physics
             float cosIncline = normal.Y;
             if (cosIncline <= BodyMechanics.COS_MAX_REACHABLE_INCLINE)
                 return false;
+
             return true;
         }
 
@@ -84,7 +86,7 @@ namespace MassiveGame.Physics
             return EntityType.UNDEFINED;
         }
 
-        private RayCastOutputData GetClosestRayCastResult(FRay ray, List<BoundBase> collidedBounds, MovableEntity characterEntity)
+        private RayCastOutputData GetClosestRayCastResult(FRay ray, List<BoundBase> collidedBounds)
         {
             float resultShortestDistance = -1.0f;
             BoundBase resultBound = null;
@@ -117,7 +119,7 @@ namespace MassiveGame.Physics
 
             RayCastOutputData result = null;
 
-            var boundOriginRayCastResult = GetClosestRayCastResult(Rays.Last(), collidedBounds, characterEntity);
+            var boundOriginRayCastResult = GetClosestRayCastResult(Rays.Last(), collidedBounds);
 
             // Highest position has higher priority than origin
             var closestHighest = GetClosestAndHighestRay(GetRayCastResultsFromMultipleRayCast(Rays, collidedBounds, characterEntity), characterEntity.GetCharacterCollisionBound());
@@ -141,7 +143,7 @@ namespace MassiveGame.Physics
 
             foreach (FRay ray in Rays)
             {
-                var localRayCastResult = GetClosestRayCastResult(ray, collidedBounds, characterEntity);
+                var localRayCastResult = GetClosestRayCastResult(ray, collidedBounds);
 
                 if (resultShortestDistance <= -1)
                 {
@@ -165,7 +167,7 @@ namespace MassiveGame.Physics
 
             foreach (FRay ray in Rays)
             {
-                resultOutput.Add(GetClosestRayCastResult(ray, collidedBounds, characterEntity));
+                resultOutput.Add(GetClosestRayCastResult(ray, collidedBounds));
             }
 
             return resultOutput;
@@ -449,7 +451,7 @@ namespace MassiveGame.Physics
                         List<FRay> listOfRays = new List<FRay>();
                         for (Int32 i = 0; i < previousPositionsForRayCast.Count; i++)
                             listOfRays.Add(new FRay(previousPositionsForRayCast[i], characterEntity.Velocity));
-                        RayCastOutputData outputData = GetClosestRayCastResultFromMultipleRayCast(listOfRays, collidedBounds, characterEntity);
+                        RayCastOutputData outputData = GetClosestRayCastResultFromMultipleRayCastExt(listOfRays, collidedBounds, characterEntity);
 
                         // Ray intersected with one of collided bounds
                         if (RAYCAST_COLLIDED(outputData.shortestDistance))
@@ -480,7 +482,7 @@ namespace MassiveGame.Physics
                                 if (bCanElevateOnMesh)
                                 {
                                     Vector3 NewCharacterPosition = characterBound.GetOrigin();
-                                    NewCharacterPosition.Y = outputData.intersectionPosition.Y + characterEntity.GetCharacterCollisionBound().GetExtent().Y;
+                                    NewCharacterPosition.Y = outputData.intersectionPosition.Y + characterBound.GetExtent().Y;
                                     characterEntity.collisionOffset(NewCharacterPosition);
                                     characterEntity.pushPositionStack();
                                 }
@@ -546,26 +548,18 @@ namespace MassiveGame.Physics
                                 // Character can step on this surface
                                 if (REACHABLE_INCLINE(normalToCollidedPlane))
                                 {
-                                    RayCastOutputData finalData = rayCastOutputData;
-
-                                    if (false/* RAYCAST_INTERSECTION_FAR(BodyMechanics.GetFreeFallDistanceInVelocity(character.Velocity), rayCastOutputData.shortestDistance)*/)
-                                    {
-                                        character.popPositionStack();
-                                        throw new NotImplementedException("Undefined behavior, if you are here, something is wrong.");
-                                    }
-                                    else
-                                    {
-                                        Vector3 BoundOrigin = character.GetCharacterCollisionBound().GetOrigin();
-                                        Vector3 NewCharacterPosition =  new Vector3(BoundOrigin.X, finalData.intersectionPosition.Y + character.GetCharacterCollisionBound().GetExtent().Y,
-                                            BoundOrigin.Z);
-                                        character.collisionOffset(NewCharacterPosition);
-                                        character.pushPositionStack();
-                                        character.ActorState = BEHAVIOR_STATE.IDLE;
-                                    }
+                                    Vector3 BoundOrigin = character.GetCharacterCollisionBound().GetOrigin();
+                                    Vector3 NewCharacterPosition = new Vector3(BoundOrigin.X, rayCastOutputData.intersectionPosition.Y + character.GetCharacterCollisionBound().GetExtent().Y,
+                                        BoundOrigin.Z);
+                                    character.collisionOffset(NewCharacterPosition);
+                                    character.pushPositionStack();
+                                    character.ActorState = BEHAVIOR_STATE.IDLE;
                                 }
                                 // If normal is down directed or too up directed - character can't step on this surface - return to previous position and set velocity to down
                                 else
                                 {
+                                    // This is quick fix
+                                    character.ActorState = BEHAVIOR_STATE.MOVE;
                                     character.popPositionStack();
                                     character.Velocity = -DOUEngine.Camera.getUpVector();
                                 }

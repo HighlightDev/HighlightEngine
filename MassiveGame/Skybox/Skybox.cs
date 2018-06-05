@@ -34,7 +34,7 @@ namespace MassiveGame
             return mirrorMatrix;
         }
 
-        public void AnimationTick(float frameElapseTime)
+        public void UpdateAnimation(float frameElapseTime)
         {
             _moveFactor += frameElapseTime * FloatSpeed;
             _moveFactor %= 360.0f;

@@ -116,6 +116,8 @@
     <Compile Include="API\Collector\TextureCollect\TextureCollection.cs" />
     <Compile Include="API\Collector\TextureCollect\TexturePool.cs" />
     <Compile Include="Debug\UiPanel\UiFrameMaster.cs" />
+    <Compile Include="Engine\GameThread.cs" />
+    <Compile Include="Engine\RenderThread.cs" />
     <Compile Include="Physics\BodyMechanics.cs" />
     <Compile Include="Physics\Collision Handler\CollisionBoxReaction.cs" />
     <Compile Include="Physics\Collision Handler\CollisionMissReaction.cs" />
@@ -155,14 +157,14 @@
     <Compile Include="Core\RenderMap.cs" />
     <Compile Include="Debug\Log.cs" />
     <Compile Include="Debug\UiPanel\UiFrameShader.cs" />
-    <Compile Include="Engine Foundation\DOUEngine.cs" />
-    <Compile Include="Engine Foundation\Split Renderer\Renderer.cs">
+    <Compile Include="Engine\DOUEngine.cs" />
+    <Compile Include="Engine\Split Renderer\Renderer.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Engine Foundation\Split Renderer\RendererAPI.cs">
+    <Compile Include="Engine\Split Renderer\RendererAPI.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Engine Foundation\Split Renderer\RendererEventHandlers.cs">
+    <Compile Include="Engine\Split Renderer\RendererEventHandlers.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Entities\Environment Entities\EnvironmentEntities.cs" />

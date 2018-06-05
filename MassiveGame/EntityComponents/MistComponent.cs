@@ -45,7 +45,7 @@ namespace MassiveGame
 
         #region Update
 
-        public void update()
+        public void Update()
         {
             /*Check fade event*/
             if (FadeOccurs != null)

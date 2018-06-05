@@ -56,6 +56,7 @@ namespace MassiveGame.UI
         List<IDrawable> shadowList;
         DefaultFrameBuffer defaultFB;
         //ComputeShader ch;
+        object lockGameThread = new object();
 
         CollisionHeadUnit collisionHeadUnit = new CollisionHeadUnit();
 
@@ -340,41 +341,76 @@ namespace MassiveGame.UI
             DOUEngine.Camera = new Camera(250.0f, 70, 260.0f, 50.0f, 70.0f, 250.0f, 0.0f, 1.0f, 0.0f);
             DOUEngine.PrevCursorPosition = new System.Drawing.Point(-1, -1);
             DOUEngine.ElapsedTime = DateTime.Now;
-            DOUEngine.keyboardMaskArray = new bool[4];
+            DOUEngine.keyboardMask = new API.EventHandlers.KeyboardHandler();
         }
 
-        private void EngineTickTimerCallback(object target)
+        private void TickEntities()
         {
-            DOUEngine.DayCycle.TickTimeFlow();
-            // Do smth better (PlayerController)
-            if (DOUEngine.keyboardMaskArray.Any<bool>((key) => key == true))
-            {
-                var previousPosition = DOUEngine.Player.ComponentTranslation;
+            Matrix4 viewMatrix = DOUEngine.Camera.getViewMatrix();
 
-                if (DOUEngine.Player != null)
-                {
-                    DOUEngine.Player.MoveActor();
-                }
-                DOUEngine.Camera.UpdateHeight(previousPosition);
+            if (DOUEngine.Player != null)
+            {
+                DOUEngine.Player.Tick(ref DOUEngine.ProjectionMatrix, ref viewMatrix);
             }
 
-            if (DOUEngine.SunReplica != null)
+            if (!Object.Equals(DOUEngine.Enemy, null))
             {
-                DOUEngine.SunReplica.UpdateFrustumView();
+                DOUEngine.Enemy.Tick(ref DOUEngine.ProjectionMatrix, ref viewMatrix);
             }
 
-            if (DOUEngine.Skybox != null)
+            if (DOUEngine.City != null)
             {
-                DOUEngine.Skybox.AnimationTick(Convert.ToSingle(DOUEngine.RenderTime));
+                foreach (var item in DOUEngine.City)
+                    item.Tick(ref DOUEngine.ProjectionMatrix, ref viewMatrix);
             }
         }
 
-        private void StopEngineTickTimer()
+        private void GameThreadTick(object target)
+        {
+            // Forbid parallel game thread execution
+            lock (lockGameThread)
+            {
+
+                DOUEngine.Picker.Update();
+                DOUEngine.Mist.Update();
+                DOUEngine.Camera.Update(DOUEngine.terrain);
+                DOUEngine.DayCycle.UpdateTimeFlow();
+
+                TickEntities();
+
+                // Do smth better (PlayerController)
+                if (DOUEngine.keyboardMask.GetWASDKeysMask().Any<bool>((key) => key == true))
+                {
+                    var previousPosition = DOUEngine.Player.ComponentTranslation;
+
+                    if (DOUEngine.Player != null)
+                    {
+                        DOUEngine.Player.MoveActor();
+                    }
+                    DOUEngine.Camera.UpdateHeight(previousPosition);
+                }
+
+                if (DOUEngine.SunReplica != null)
+                    DOUEngine.SunReplica.UpdateFrustumCullingInfo();
+
+                if (DOUEngine.Skybox != null)
+                    DOUEngine.Skybox.UpdateAnimation(Convert.ToSingle(DOUEngine.RenderTime));
+
+                // Find which primitives are visible for current frame
+                VisibilityApi.IsInView(DOUEngine.RenderedPrimitives,
+                   ref DOUEngine.ProjectionMatrix, DOUEngine.Camera.getViewMatrix());
+
+                // Find which light sources affects on primitives
+                LightAffectionApi.IsLightAffects(DOUEngine.AffectedByLightPrimitives, DOUEngine.PointLight);
+            }
+        }
+
+        private void SuspendGameThread()
         {
             DOUEngine.EngineTickTimer.Change(Timeout.Infinite, Timeout.Infinite);
         }
 
-        private void StartEngineTickTimer()
+        private void ContinueGameThread()
         {
             DOUEngine.EngineTickTimer.Change(0, 20);
         }
@@ -411,8 +447,8 @@ namespace MassiveGame.UI
                 // Main engine timer
                 if (DOUEngine.EngineTickTimer == null)
                 {
-                    DOUEngine.EngineTickTimer = new System.Threading.Timer(new System.Threading.TimerCallback(EngineTickTimerCallback));
-                    DOUEngine.EngineTickTimer.Change(100, 20);
+                    DOUEngine.EngineTickTimer = new System.Threading.Timer(new System.Threading.TimerCallback(GameThreadTick));
+                    DOUEngine.EngineTickTimer.Change(100, 1);
                 }
             }
         }
@@ -426,19 +462,6 @@ namespace MassiveGame.UI
                 DOUEngine.NEAR_CLIPPING_PLANE, DOUEngine.FAR_CLIPPING_PLANE);
         }
 
-        private void gameLogics(bool redraw = false)
-        {
-            // EngineSingleton.Picker.update();
-            DOUEngine.Mist.update();
-            DOUEngine.Camera.Update(DOUEngine.terrain);
-
-            // Find which primitives are visible for current frame
-            VisibilityApi.IsInView(DOUEngine.RenderedPrimitives,
-               ref DOUEngine.ProjectionMatrix, DOUEngine.Camera.getViewMatrix());
-
-            // Find which light sources affects on primitives
-            LightAffectionApi.IsLightAffects(DOUEngine.AffectedByLightPrimitives, DOUEngine.PointLight);
-        }
         #endregion
 
         #region Render queue

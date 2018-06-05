@@ -13,6 +13,7 @@ using MassiveGame.RenderCore.Visibility;
 using MassiveGame.Light_visualization;
 using System.Threading;
 using MassiveGame.Debug.UiPanel;
+using MassiveGame.API.EventHandlers;
 
 namespace MassiveGame
 {
@@ -89,7 +90,8 @@ namespace MassiveGame
         public static  int SB_ambient;
         public static  Source SourceAmbient;
 
-        public static bool[] keyboardMaskArray;
+        public static KeyboardHandler keyboardMask;
+
         public static Timer EngineTickTimer;
 
         public static Point ScreenRezolution;

@@ -92,7 +92,7 @@ namespace MassiveGame.Sun.DayCycle
 
         #endregion
 
-        public void TickTimeFlow()
+        public void UpdateTimeFlow()
         {
             CalculateCurrentLightDirection();
             CalculateCurrentLightColor();

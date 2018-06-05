@@ -29,7 +29,7 @@ namespace MassiveGame
             this.viewMatrix = camera.getViewMatrix();
         }
 
-        public void update()
+        public void Update()
         {
             this.viewMatrix = camera.getViewMatrix();
             this.currentRay = calculateMouseRay();

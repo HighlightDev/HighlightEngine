@@ -9,21 +9,28 @@ namespace MassiveGame.API.EventHandlers
 {
     public class KeyboardHandler
     {
-        private Dictionary<Keys, bool> bitmap;
+        private static bool[] keyboardMaskArray;
 
         public KeyboardHandler()
         {
-            bitmap = new Dictionary<Keys, bool>();
+            keyboardMaskArray = new bool[5];
         }
 
-        public void SetBit(Keys key, bool bit)
-        {
-            bitmap[key] = bit;
-        }
+        public bool this[Int32 i] { set { keyboardMaskArray[i] = value; } get { return keyboardMaskArray[i]; } }
 
-        public bool GetBit(Keys key)
+        public bool[] GetWASDKeysMask()
         {
-            return bitmap[key];
-        }
+            bool[] moveMask = new bool[4];
+            for (Int32 i = 0; i < 4;i ++)
+            {
+                moveMask[i] = keyboardMaskArray[i];
+            }
+            return moveMask;
+        }  
+        
+        public bool GetSpacebarKeyMask()
+        {
+            return keyboardMaskArray[4];
+        }    
     }
 }

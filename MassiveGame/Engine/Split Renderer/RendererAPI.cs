@@ -9,20 +9,35 @@ namespace MassiveGame.UI
 {
     partial class MainUI
     {
-        static bool bAllowTick = false;
 
         #region Render functions
         private void RenderAll(bool redraw)
         {
             renderBasePass(DOUEngine.Camera, redraw);
             renderLamps();
-            renderCollisionBoxes();
-            if (bAllowTick)
-            {
-                TickEntities();
-                //bAllowTick = false;
-            }
+            renderBoundingBoxes();
             renderDebugInfo();
+        }
+
+        private void renderBoundingBoxes()
+        {
+            Matrix4 viewMatrix = DOUEngine.Camera.getViewMatrix();
+
+            if (DOUEngine.Player != null)
+            {
+                DOUEngine.Player.RenderBound(ref DOUEngine.ProjectionMatrix, ref viewMatrix, System.Drawing.Color.Red);
+            }
+
+            if (!Object.Equals(DOUEngine.Enemy, null))
+            {
+                DOUEngine.Enemy.RenderBound(ref DOUEngine.ProjectionMatrix, ref viewMatrix, System.Drawing.Color.Red);
+            }
+
+            if (DOUEngine.City != null)
+            {
+                foreach (var item in DOUEngine.City)
+                    item.RenderBound(ref DOUEngine.ProjectionMatrix, ref viewMatrix, System.Drawing.Color.Red);
+            }
         }
 
         private void RestoreViewport()
@@ -87,28 +102,7 @@ namespace MassiveGame.UI
                 if (!Object.Equals(DOUEngine.SunReplica, null)) DOUEngine.SunReplica.CQuad.renderQuad(matrix, ref DOUEngine.ProjectionMatrix);
             }
         }
-
-        private void TickEntities()
-        {
-            Matrix4 viewMatrix = DOUEngine.Camera.getViewMatrix();
-
-            if (DOUEngine.Player != null)
-            {
-                DOUEngine.Player.Tick(ref DOUEngine.ProjectionMatrix, ref viewMatrix);
-            }
-
-            if (!Object.Equals(DOUEngine.Enemy, null))
-            {
-                DOUEngine.Enemy.Tick(ref DOUEngine.ProjectionMatrix, ref viewMatrix);
-            }
-
-            if (DOUEngine.City != null)
-            {
-                foreach (var item in DOUEngine.City)
-                    item.Tick(ref DOUEngine.ProjectionMatrix, ref viewMatrix);
-            }
-        }
-
+         
         private void renderBasePass(Camera camera, bool redraw = false)
         {
             /*TO DO :
@@ -438,32 +432,26 @@ namespace MassiveGame.UI
         #endregion
 
         #region RenderFrame functions
-        private void RenderFrame(double time)
+        private void RenderFrame(float time)
         {
-            renderTime.Start();
             DisplayGraphics(DOUEngine.RedrawScene);
-            DOUEngine.RenderTime = (float)renderTime.Elapsed.TotalSeconds;
-            renderTime.Reset();
+            DOUEngine.RenderTime = time;
         }
 
         private void DisplayGraphics(bool redraw = false)
         {
-            GL.Enable(EnableCap.DepthTest); //Включаем тест глубины
+            GL.Enable(EnableCap.DepthTest); 
             ClearScreen();
             postConstructor();
-            gameLogics(redraw);
+            
             RenderLoop(redraw);
+
             if (DOUEngine.PostConstructor)
-            {
                 DOUEngine.PostConstructor = !DOUEngine.PostConstructor;
-            }
+
             GLControl.SwapBuffers();
         }
 
-        private void UpdateFrame()
-        {
-            AdjustMouseCursor();
-        }
         #endregion
     }
 }
