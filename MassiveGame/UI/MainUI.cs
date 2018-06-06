@@ -27,7 +27,7 @@ namespace MassiveGame.UI
         {
             AdjustMouseCursor();
             RenderFrame((float)timestamp.Elapsed.TotalSeconds);
-            timestamp.Reset();
+            timestamp.Restart();
             GLControl.Invalidate();
         }
         #endregion

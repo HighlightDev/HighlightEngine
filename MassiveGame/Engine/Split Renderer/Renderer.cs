@@ -135,18 +135,18 @@ namespace MassiveGame.UI
             string specularMapPath = ProjectFolders.SpecularMapsPath + "brick_sm.png";
 
 
+            //DOUEngine.City.Add((Building)EngineObjectCreator.CreateInstance(new StaticEntityArguments(modelPath, texturePath, normalMapPath, specularMapPath,
+            //    new Vector3(230, 0 + DOUEngine.MAP_HEIGHT, 310), new Vector3(20, 0, 0), new Vector3(30, 10, 30))));
+            //DOUEngine.City.Add((Building)EngineObjectCreator.CreateInstance(new StaticEntityArguments(modelPath, texturePath, normalMapPath, specularMapPath,
+            //   new Vector3(230, 2.5f + DOUEngine.MAP_HEIGHT, 248), new Vector3(0, 180, 0), new Vector3(30, 10, 30))));
+            //DOUEngine.City.Add((Building)EngineObjectCreator.CreateInstance(new StaticEntityArguments(modelPath, texturePath, normalMapPath, specularMapPath,
+            //   new Vector3(230, 5f + DOUEngine.MAP_HEIGHT, 180), new Vector3(0, 180, 0), new Vector3(30, 10, 30))));
+            //DOUEngine.City.Add((Building)EngineObjectCreator.CreateInstance(new StaticEntityArguments(modelPath, texturePath, normalMapPath, specularMapPath,
+            //  new Vector3(230, 7.5f + DOUEngine.MAP_HEIGHT, 115), new Vector3(0, 180, 0), new Vector3(30, 10, 30))));
+            //DOUEngine.City.Add((Building)EngineObjectCreator.CreateInstance(new StaticEntityArguments(modelPath, texturePath, normalMapPath, specularMapPath,
+            //   new Vector3(230, 10 + DOUEngine.MAP_HEIGHT, 48), new Vector3(0, 180, 0), new Vector3(30, 10, 30))));
             DOUEngine.City.Add((Building)EngineObjectCreator.CreateInstance(new StaticEntityArguments(modelPath, texturePath, normalMapPath, specularMapPath,
-                new Vector3(230, 0 + DOUEngine.MAP_HEIGHT, 310), new Vector3(20, 0, 0), new Vector3(30, 10, 30))));
-            DOUEngine.City.Add((Building)EngineObjectCreator.CreateInstance(new StaticEntityArguments(modelPath, texturePath, normalMapPath, specularMapPath,
-               new Vector3(230, 2.5f + DOUEngine.MAP_HEIGHT, 248), new Vector3(0, 180, 0), new Vector3(30, 10, 30))));
-            DOUEngine.City.Add((Building)EngineObjectCreator.CreateInstance(new StaticEntityArguments(modelPath, texturePath, normalMapPath, specularMapPath,
-               new Vector3(230, 5f + DOUEngine.MAP_HEIGHT, 180), new Vector3(0, 180, 0), new Vector3(30, 10, 30))));
-            DOUEngine.City.Add((Building)EngineObjectCreator.CreateInstance(new StaticEntityArguments(modelPath, texturePath, normalMapPath, specularMapPath,
-              new Vector3(230, 7.5f + DOUEngine.MAP_HEIGHT, 115), new Vector3(0, 180, 0), new Vector3(30, 10, 30))));
-            DOUEngine.City.Add((Building)EngineObjectCreator.CreateInstance(new StaticEntityArguments(modelPath, texturePath, normalMapPath, specularMapPath,
-               new Vector3(230, 10 + DOUEngine.MAP_HEIGHT, 48), new Vector3(0, 180, 0), new Vector3(30, 10, 30))));
-            DOUEngine.City.Add((Building)EngineObjectCreator.CreateInstance(new StaticEntityArguments(modelPath, texturePath, normalMapPath, specularMapPath,
-              new Vector3(170, 13f + DOUEngine.MAP_HEIGHT, 170), new Vector3(0, 180, 0), new Vector3(30, 10, 30))));
+              new Vector3(170, 13f + DOUEngine.MAP_HEIGHT, 170), new Vector3(0, 180, 0), new Vector3(30, 30, 30))));
             //DOUEngine.City.Add((Building)EngineObjectCreator.CreateInstance(new StaticEntityArguments(modelPath, texturePath, normalMapPath, specularMapPath,
             //   new Vector3(280, 10, 350), new Vector3(0, 180, 0), new Vector3(10))));
             //DOUEngine.City.Add((Building)EngineObjectCreator.CreateInstance(new StaticEntityArguments(modelPath, texturePath, normalMapPath, specularMapPath,
@@ -162,7 +162,7 @@ namespace MassiveGame.UI
             foreach (var item in DOUEngine.City)
             {
                 // TEST
-                container = serializer.DeserializeComponents("123.cl");
+                container = serializer.DeserializeComponents("testColl.cl");
                 parent.ChildrenComponents = container.SerializedComponents;
                 component = convertToSceneComponent(parent);
                 item.SetComponents(component.ChildrenComponents);
@@ -235,7 +235,7 @@ namespace MassiveGame.UI
                     ProjectFolders.SkyboxTexturesPath + "/Night/" + "top.png",
                     ProjectFolders.SkyboxTexturesPath + "/Night/" + "bottom.png",
                     ProjectFolders.SkyboxTexturesPath + "/Night/" + "back.png",
-                    ProjectFolders.SkyboxTexturesPath + "/Night/" + "front.png" });       //Скайбокс
+                    ProjectFolders.SkyboxTexturesPath + "/Night/" + "front.png" });    
             DOUEngine.Skybox.setMistComponent(DOUEngine.Mist);
 
             //EngineSingleton.SourceAmbient = new Source(EngineSingleton.SB_ambient, 0.05f, 1, new Vector3(0, 0, 0), new Vector3(0, 0, 0));
@@ -243,8 +243,8 @@ namespace MassiveGame.UI
             //EngineSingleton.SourceAmbient.SetLooping(true);
             //EngineSingleton.SourceAmbient.Play();
 
-            //DOUEngine.Water = new WaterEntity(ProjectFolders.WaterTexturePath + "DUDV.png", ProjectFolders.WaterTexturePath + "normal.png",
-            //    new Vector3(160, 29, 254), new Vector3(0, 0, 0), new Vector3(70, 1, 100), new WaterQuality(true, true, true), 10);
+            DOUEngine.Water = new WaterEntity(ProjectFolders.WaterTexturePath + "DUDV.png", ProjectFolders.WaterTexturePath + "normal.png",
+                new Vector3(160, 29, 254), new Vector3(0, 0, 0), new Vector3(70, 1, 100), new WaterQuality(true, true, true), 10);
             //DOUEngine.Water.setMist(DOUEngine.Mist);
 
             DOUEngine.SunReplica = new SunRenderer(DOUEngine.Sun, ProjectFolders.SunTexturePath + "sunC.png",

@@ -161,6 +161,7 @@ namespace MassiveGame
         public void renderWater(Camera camera, ref Matrix4 projectionMatrix, float frameTimeSec, float nearClipPlane, float farClipPlane
             , DirectionalLight sun = null, List<PointLight> lights = null)
         {
+            postConstructor();
             /*Water distortion cycle*/
             _moveFactor += _waveSpeed * frameTimeSec;
             _moveFactor %= 1;

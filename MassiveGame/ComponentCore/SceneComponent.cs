@@ -53,6 +53,8 @@ namespace MassiveGame.ComponentCore
             GL.VertexPointer(3, VertexPointerType.Float, 0, buffer.getBufferData().Vertices);
             GL.DrawArrays(PrimitiveType.LineStrip, 0, buffer.getBufferData().getCountVertices());
             GL.DisableClientState(ArrayCap.VertexArray);
+
+            base.RenderBound(ref projectionMatrix, ref viewMatrix, color);
         }
 
         private void AddBoundModelToRoot()

@@ -274,3 +274,4 @@ D:\HighlightEngine\HighlightEngine\MassiveGame\obj\x86\Debug\MassiveGame.csproj.
 D:\HighlightEngine\HighlightEngine\MassiveGame\obj\x86\Debug\MassiveGame.csproj.CopyComplete
 D:\HighlightEngine\HighlightEngine\MassiveGame\obj\x86\Debug\MassiveGame.exe
 D:\HighlightEngine\HighlightEngine\MassiveGame\obj\x86\Debug\MassiveGame.pdb
+D:\HighlightEngine\HighlightEngine\MassiveGame\bin\Debug\MassiveGame.pdb
