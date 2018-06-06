@@ -398,7 +398,7 @@ namespace ShaderPattern
             string macroResult = String.Empty;
             macros.ForEach(def =>
             {
-                macroResult += string.Format("#define {0} {1} \r", def.Name, def.Value);
+                macroResult += string.Format("#define {0} {1} \n", def.Name, def.Value);
             });
 
             int startIndex = code.FindIndex(new Predicate<string>(s => s.StartsWith("#version"))) + 2;
@@ -410,13 +410,13 @@ namespace ShaderPattern
                 string str = code[i];
                 str = str.TrimEnd();
                 if (code.Count - 1 > i)
-                    codeResult += str + "\r";
+                    codeResult += str + "\n";
                 else
                     codeResult += str;
             }
 
             Int32 indexNewLine = codeResult.LastIndexOf("\n");
-            indexNewLine = codeResult.LastIndexOf("\r") > indexNewLine ? codeResult.LastIndexOf("\r") : indexNewLine;
+            indexNewLine = codeResult.LastIndexOf("\n") > indexNewLine ? codeResult.LastIndexOf("\n") : indexNewLine;
 
             codeResult = codeResult.EndsWith("\n") || codeResult.EndsWith("\r") ? codeResult.Remove(indexNewLine) : codeResult;
 

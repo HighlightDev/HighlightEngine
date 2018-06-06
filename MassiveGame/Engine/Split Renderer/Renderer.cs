@@ -338,7 +338,7 @@ namespace MassiveGame.UI
             DOUEngine.ShadowMapRezolution = settingsLoader.GetDirectionalShadowMapRezolution();
 
             DOUEngine.PostConstructor = true;
-            DOUEngine.Camera = new Camera(250.0f, 70, 260.0f, 50.0f, 70.0f, 250.0f, 0.0f, 1.0f, 0.0f);
+            DOUEngine.Camera = new Camera();
             DOUEngine.PrevCursorPosition = new System.Drawing.Point(-1, -1);
             DOUEngine.ElapsedTime = DateTime.Now;
             DOUEngine.keyboardMask = new API.EventHandlers.KeyboardHandler();
@@ -370,13 +370,12 @@ namespace MassiveGame.UI
             // Forbid parallel game thread execution
             lock (lockGameThread)
             {
+                TickEntities();
 
                 DOUEngine.Picker.Update();
                 DOUEngine.Mist.Update();
                 DOUEngine.Camera.Update(DOUEngine.terrain);
                 DOUEngine.DayCycle.UpdateTimeFlow();
-
-                TickEntities();
 
                 // Do smth better (PlayerController)
                 if (DOUEngine.keyboardMask.GetWASDKeysMask().Any<bool>((key) => key == true))

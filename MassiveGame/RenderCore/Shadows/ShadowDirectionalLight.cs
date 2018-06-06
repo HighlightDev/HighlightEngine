@@ -28,19 +28,18 @@ namespace MassiveGame.RenderCore.Shadows
         public override Matrix4 GetShadowViewMatrix()
         {
             Vector3 normLightDir = LightSource.Direction.Normalized();
-            Vector3 delta = DOUEngine.Player.ComponentTranslation;
 
-            // Previously I was adding only offset value, but now I don't have offset value, only current translation of player
-
-            delta = new Vector3(0);
-            var lightEye = LightSource.Position + delta + normLightDir * 300;
-            var lightTarget = LightSource.Position + delta + (LightSource.Direction * 100);
+            Vector3 targetPositon = ViewerCamera.Target.GetCharacterCollisionBound().GetOrigin();
+            Vector3 shadowCastPosition = new Vector3(targetPositon.X, LightSource.Position.Y, targetPositon.Z);
+            Vector3 lightTranslatedPosition = normLightDir * 300;
+            var lightEye = new Vector3(shadowCastPosition.X - lightTranslatedPosition.X, shadowCastPosition.Y + lightTranslatedPosition.Y, shadowCastPosition.Z - lightTranslatedPosition.Z);
+            var lightTarget = shadowCastPosition + (LightSource.Direction * 100);
             return Matrix4.LookAt(lightEye, lightTarget, new Vector3(0, 1, 0));
         }
 
         public override Matrix4 GetShadowProjectionMatrix(ref Matrix4 projectionMatrix)
         {
-            return Matrix4.CreateOrthographic(300, 300, 1, 500);
+            return Matrix4.CreateOrthographic(400, 400, 1, 500);
         }
 
         protected override void PrepareRenderTarget()

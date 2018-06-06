@@ -45,7 +45,6 @@ namespace MassiveGame
         private const float CAMERA_SPEED = 20.5f; 
         private float currentRotX;
         private float lastRotX;
-        private MovableEntity thirdPersonTarget;
 
         public CAMERA_MODE CameraMode { private set; get; }
         public bool SwitchCamera { set; get; }
@@ -54,37 +53,37 @@ namespace MassiveGame
 
         public void moveCamera(CAMERA_DIRECTIONS direction)
         {
-            Vector3 vector = lookVector - posVector;
+            Vector3 vector = LookVector - PosVector;
             vector.Normalize();
 
             switch (direction)
             {
                 case CAMERA_DIRECTIONS.FORWARD:
                     {
-                        posVector += vector * CAMERA_SPEED;
-                        lookVector += vector * CAMERA_SPEED;
+                        PosVector += vector * CAMERA_SPEED;
+                        LookVector += vector * CAMERA_SPEED;
                         break;
                     }
                 case CAMERA_DIRECTIONS.BACK:
                     {
-                        posVector -= vector * CAMERA_SPEED;
-                        lookVector -= vector * CAMERA_SPEED;
+                        PosVector -= vector * CAMERA_SPEED;
+                        LookVector -= vector * CAMERA_SPEED;
                         break;
                     }
                 case CAMERA_DIRECTIONS.LEFT:
                     {
                         Vector3 directionAxis = Vector3.Cross(vector, upVector);
                         directionAxis.Normalize();
-                        posVector -= directionAxis * CAMERA_SPEED;
-                        lookVector -= directionAxis * CAMERA_SPEED;
+                        PosVector -= directionAxis * CAMERA_SPEED;
+                        LookVector -= directionAxis * CAMERA_SPEED;
                         break;
                     }
                 case CAMERA_DIRECTIONS.RIGHT:
                     {
                         Vector3 directionAxis = Vector3.Cross(vector, upVector);
                         directionAxis.Normalize();
-                        posVector += directionAxis * CAMERA_SPEED;
-                        lookVector += directionAxis * CAMERA_SPEED;
+                        PosVector += directionAxis * CAMERA_SPEED;
+                        LookVector += directionAxis * CAMERA_SPEED;
                         break;
                     }
             }
@@ -126,7 +125,7 @@ namespace MassiveGame
                     // найти вектор, перпендикулярный вектору взгляда камеры и 
                     // вертикальному вектору.
                     // Это и будет наша ось. И прежде чем использовать эту ось, нормализовать её.
-                    Vector3 vAxis = Vector3.Cross(lookVector - posVector, upVector);
+                    Vector3 vAxis = Vector3.Cross(LookVector - PosVector, upVector);
                     vAxis = Vector3.Normalize(vAxis);
 
                     // Вращаем камеру вокруг нашей оси на заданный угол
@@ -140,7 +139,7 @@ namespace MassiveGame
                 if (lastRotX != -1.0f)
                 {
                     // Опять же вычисляем ось
-                    Vector3 vAxis = Vector3.Cross(lookVector - posVector, upVector);
+                    Vector3 vAxis = Vector3.Cross(LookVector - PosVector, upVector);
                     vAxis = Vector3.Normalize(vAxis);
 
                     // Вращаем
@@ -150,7 +149,7 @@ namespace MassiveGame
             // Если укладываемся в пределы 1.0f -1.0f - просто вращаем
             else
             {
-                Vector3 vAxis = Vector3.Cross(lookVector - posVector, upVector);
+                Vector3 vAxis = Vector3.Cross(LookVector - PosVector, upVector);
                 vAxis = Vector3.Normalize(vAxis);
 
                 // Вращаем
@@ -162,15 +161,12 @@ namespace MassiveGame
 
         public void movePosition(float xPositionBias, float zPositionBias)
         {
-            posVector.X += xPositionBias;
-            posVector.Z += zPositionBias;
+            PosVector += new Vector3(xPositionBias, 0, zPositionBias);
         }
 
         public void movePosition(Vector3 positionBias)
         {
-            posVector.X += positionBias.X;
-            posVector.Y += positionBias.Y;
-            posVector.Z += positionBias.Z;
+            PosVector += positionBias;
         }
       
         public void DetachCamera() //Camera doesn't depend from any object
@@ -193,12 +189,12 @@ namespace MassiveGame
 
         private void rotateViewCamera(Vector3 newDirection)   //Rotate camera around the axis
         {
-            lookVector = posVector + newDirection;
+            LookVector = PosVector + newDirection;
         }
 
         private void rotatePosCamera(Vector3 newDirection)
         {
-            posVector = lookVector + newDirection;
+            PosVector = LookVector + newDirection;
         }
 
         private Vector3 cameraBridge(float angle, float x, float y, float z)   //Rotate camera around the axis
@@ -207,9 +203,9 @@ namespace MassiveGame
             float[] vDirection = new float[3];
 
             // Получим наш вектор взгляда (направление, куда мы смотрим)
-            vDirection[0] = lookVector.X - posVector.X;    //направление по X
-            vDirection[1] = lookVector.Y - posVector.Y;    //направление по Y
-            vDirection[2] = lookVector.Z - posVector.Z;    //направление по Z
+            vDirection[0] = LookVector.X - PosVector.X;    //направление по X
+            vDirection[1] = LookVector.Y - PosVector.Y;    //направление по Y
+            vDirection[2] = LookVector.Z - PosVector.Z;    //направление по Z
 
             float cosTheta = Convert.ToSingle(Math.Cos(angle));
             float sinTheta = Convert.ToSingle(Math.Sin(angle));
@@ -236,27 +232,24 @@ namespace MassiveGame
         {
             if (CameraMode == CAMERA_MODE.THIRD_PERSON)
             {
-                this.lookVector = thirdPersonTarget.GetCharacterCollisionBound().GetOrigin();
-                lookVector.Y += 3;
+                this.LookVector = Target.GetCharacterCollisionBound().GetOrigin();
             }
 
             //if (terrain != null)
             //{
-            //    var currentYlvl = terrain.getLandscapeHeight(posVector.X, posVector.Z);
-            //    this.posVector.Y = posVector.Y < currentYlvl + 1.3f ? currentYlvl + 1.3f : posVector.Y;
+            //    var currentYlvl = terrain.getLandscapeHeight(PosVector.X, PosVector.Z);
+            //    this.PosVector.Y = PosVector.Y < currentYlvl + 1.3f ? currentYlvl + 1.3f : PosVector.Y;
             //}
         }
 
         public void SetThirdPerson(MovableEntity obj)
         {
             CameraMode = CAMERA_MODE.THIRD_PERSON;
-            thirdPersonTarget = obj;
+            Target = obj;
 
             Vector3 objCenter = new Vector3(0);
-                //obj.ComponentTranslation;
-            this.posVector.X = objCenter.X;
-            this.posVector.Y = objCenter.Y + 40.0f;
-            this.posVector.Z = objCenter.Z + 10.0f;
+            //obj.ComponentTranslation;
+            PosVector += new Vector3(objCenter.X, objCenter.Y + 40, objCenter.Z + 10);
         }
 
         public void SetFirstPerson()
@@ -268,19 +261,19 @@ namespace MassiveGame
         {
             if (Zoom == -1)
             {
-                var temp = lookVector - posVector;
+                var temp = LookVector - PosVector;
                 float length = temp.Length;
                 Vector3 zoomIn = GetNormalizedDirection();
                 if (length < MIN_CAMERA_DISTANCE) return;
-                posVector += zoomIn * CAMERA_SPEED;
+                PosVector += zoomIn * CAMERA_SPEED;
             }
             if (Zoom == 1)
             {
-                var temp = posVector - lookVector;
+                var temp = PosVector - LookVector;
                 float length = temp.Length;
                 Vector3 zoomOut = Vector3.Normalize(temp);
                 if (length > MAX_CAMERA_DISTANCE) return;
-                posVector += zoomOut * CAMERA_SPEED;
+                PosVector += zoomOut * CAMERA_SPEED;
             }
         }
 
@@ -288,9 +281,9 @@ namespace MassiveGame
         {
             if (CameraMode == CAMERA_MODE.THIRD_PERSON)
             {
-                var heightBias = thirdPersonTarget.ComponentTranslation.Y - previousPosition.Y;
-                var dist = GetNormalizedDirection() * thirdPersonTarget.Speed;
-                if (thirdPersonTarget.ComponentTranslation != previousPosition)
+                var heightBias = Target.ComponentTranslation.Y - previousPosition.Y;
+                var dist = GetNormalizedDirection() * Target.Speed;
+                if (Target.ComponentTranslation != previousPosition)
                 {
                     movePosition(new Vector3(dist.X, heightBias, dist.Z));
                 }
@@ -301,21 +294,16 @@ namespace MassiveGame
 
         public Camera(float eyeX, float eyeY, float eyeZ,
             float centerX, float centerY, float centerZ,
-            float upX, float upY, float upZ)
+            float upX, float upY, float upZ) : base(eyeX, eyeY, eyeZ, centerX, centerY, centerZ, upX, upY, upZ)
         {
             this.CameraMode = CAMERA_MODE.UNDEFINDED;
-            posVector = new Vector3();
-            lookVector = new Vector3();
-            upVector = new Vector3();
-            posVector.X = eyeX;
-            posVector.Y = eyeY;
-            posVector.Z = eyeZ;
-            lookVector.X = centerX;
-            lookVector.Y = centerY;
-            lookVector.Z = centerZ;
-            upVector.X = upX;
-            upVector.Y = upY;
-            upVector.Z = upZ;
+            currentRotX = 0.0f;
+            lastRotX = 0.0f;
+        }
+
+        public Camera() : base()
+        {
+            this.CameraMode = CAMERA_MODE.UNDEFINDED;
             currentRotX = 0.0f;
             lastRotX = 0.0f;
         }

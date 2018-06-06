@@ -67,7 +67,7 @@ namespace MassiveGame
         public static  List<Building> Buildings;
         public static  List<Building> City;
         public static  Camera Camera;
-        public static PlantBuilderMaster builder;
+        public static  PlantBuilderMaster builder;
         public static  PlantReadyMaster Grass;
         public static  PlantReadyMaster Plant1;
         public static  Skybox Skybox;

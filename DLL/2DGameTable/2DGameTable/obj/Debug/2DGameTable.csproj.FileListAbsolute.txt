@@ -25,8 +25,6 @@ C:\Users\dzinovev\Desktop\Универчик\project\MassiveGame\MassiveGame\Mas
 C:\Users\dzinovev\Desktop\Универчик\project\MassiveGame\MassiveGame\MassiveGame\DLL\2DGameTable\2DGameTable\obj\Debug\2DGameTable.pdb
 C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\DLL\2DGameTable\2DGameTable\bin\Debug\2DGameTable.dll
 C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\DLL\2DGameTable\2DGameTable\bin\Debug\2DGameTable.pdb
-C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\DLL\2DGameTable\2DGameTable\bin\Debug\OpenTK.pdb
-C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\DLL\2DGameTable\2DGameTable\bin\Debug\OpenTK.xml
 C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\DLL\2DGameTable\2DGameTable\obj\Debug\2DGameTable.csprojResolveAssemblyReference.cache
 C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\DLL\2DGameTable\2DGameTable\obj\Debug\2DGameTable.dll
 C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\DLL\2DGameTable\2DGameTable\obj\Debug\2DGameTable.pdb

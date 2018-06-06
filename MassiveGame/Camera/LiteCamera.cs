@@ -1,4 +1,5 @@
 ﻿using OpenTK;
+using PhysicsBox;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,6 +12,11 @@ namespace MassiveGame
     {
         #region Definitions
 
+        public Vector3 PreviousPosition { set; get; }
+
+        public Vector3 PosVector { set; get; }
+        public Vector3 LookVector { set; get; }
+
         protected Vector3 posVector;
         protected Vector3 lookVector;
         protected Vector3 upVector;
@@ -21,23 +27,25 @@ namespace MassiveGame
 
         #region Getters
 
+        public MovableEntity Target { set; get; }
+
         public Vector3 GetNormalizedDirection()
         {
-            return (lookVector - posVector).Normalized();
+            return (LookVector - PosVector).Normalized();
         }
 
         public Vector3 GetDirection()
         {
-            return lookVector - posVector;
+            return LookVector - PosVector;
         }
 
         public Vector3 getPositionVector()
         {
-            return new Vector3(posVector.X, posVector.Y, posVector.Z);
+            return PosVector;
         }
         public Vector3 getLookVector()
         {
-            return lookVector;
+            return LookVector;
         }
         public Vector3 getUpVector()
         {
@@ -45,7 +53,7 @@ namespace MassiveGame
         }
         public Matrix4 getViewMatrix()
         {
-            return (ModifierMatrix * Matrix4.LookAt(posVector, lookVector, upVector));
+            return (ModifierMatrix * Matrix4.LookAt(PosVector, LookVector, upVector));
         }
 
         #endregion
@@ -54,7 +62,7 @@ namespace MassiveGame
 
         public void setPosition(Vector3 position)
         {
-            this.posVector = position;
+            PosVector = position;
         }
 
         public void SetModifier(Matrix4 modifierMatrix)
@@ -69,7 +77,7 @@ namespace MassiveGame
         /*TODO : Inverts camera pitch*/
         public void invertPitch()
         {
-            var direction = lookVector - posVector;
+            var direction = lookVector - PosVector;
             float length = direction.Length;
 
             float pitch = Convert.ToSingle(Math.Asin(direction.Y / length));
@@ -101,10 +109,10 @@ namespace MassiveGame
             dest.Y = Convert.ToSingle(-Math.Sin(pitch));
             dest.Z = Convert.ToSingle(Math.Cos(pitch) * Math.Cos(yaw));
             dest.Normalize();
-            Vector3 vec = this.posVector;
+            Vector3 vec = PosVector;
             vec += dest * 100;
 
-            this.lookVector = new Vector3(vec);
+            this.LookVector = new Vector3(vec);
         }
 
         #endregion
@@ -113,30 +121,26 @@ namespace MassiveGame
 
         public LiteCamera() {
             ModifierMatrix = Matrix4.Identity;
+            PreviousPosition = new Vector3(0);
+            upVector = new Vector3(0, 1, 0);
+            PosVector = new Vector3();
+            lookVector = new Vector3();
         }
 
         public LiteCamera(float eyeX, float eyeY, float eyeZ,
             float centerX, float centerY, float centerZ,
             float upX, float upY, float upZ) : this()
         {
-            posVector = new Vector3();
-            lookVector = new Vector3();
-            upVector = new Vector3();
-            posVector.X = eyeX;
-            posVector.Y = eyeY;
-            posVector.Z = eyeZ;
-            lookVector.X = centerX;
-            lookVector.Y = centerY;
-            lookVector.Z = centerZ;
-            upVector.X = upX;
-            upVector.Y = upY;
-            upVector.Z = upZ;
+            PreviousPosition = new Vector3(0);
+            upVector = new Vector3(upX, upY, upZ);
+            PosVector = new Vector3(eyeX, eyeY, eyeZ);
+            lookVector = new Vector3(centerX, centerY, centerZ);
         }
 
         public LiteCamera(LiteCamera camera) : this()
         {
-            this.lookVector = camera.getLookVector();
-            this.posVector = camera.getPositionVector();
+            LookVector = camera.getLookVector();
+            PosVector = camera.getPositionVector();
             this.upVector = camera.getUpVector();
         }
 
