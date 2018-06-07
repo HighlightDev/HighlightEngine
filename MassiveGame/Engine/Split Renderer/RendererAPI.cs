@@ -4,6 +4,7 @@ using MassiveGame.RenderCore.Lights;
 
 using OpenTK;
 using OpenTK.Graphics.OpenGL;
+using System.Diagnostics;
 
 namespace MassiveGame.UI
 {
@@ -432,10 +433,10 @@ namespace MassiveGame.UI
         #endregion
 
         #region RenderFrame functions
-        private void RenderFrame(float time)
+        private void RenderFrame(Stopwatch timeStamp)
         {
             DisplayGraphics(DOUEngine.RedrawScene);
-            DOUEngine.RenderTime = time;
+            DOUEngine.RenderTime = (float)timeStamp.Elapsed.TotalSeconds;
         }
 
         private void DisplayGraphics(bool redraw = false)

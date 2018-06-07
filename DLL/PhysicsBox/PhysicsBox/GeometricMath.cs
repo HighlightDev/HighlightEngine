@@ -58,28 +58,7 @@ namespace PhysicsBox
         public static Interval GetInterval(OBB obb, Vector3 axis)
         {
             Interval result;
-            // translation 
-            Vector3 translation = obb.TransformationMatrix.ExtractTranslation();
-
-            // extract tangent vectors of bounding box
-            Vector3 obbTangentX = obb.GetTangetX();
-            Vector3 obbTangentY = obb.GetTangetY();
-            Vector3 obbTangentZ = obb.GetTangetZ();
-            
-            // extent and origin of bounding box
-            Vector3 extent = obb.GetExtent();
-            Vector3 position = obb.GetOrigin();
-
-            // find all vertices of rotated bounding box
-            Vector3[] vertices = new Vector3[8];
-            vertices[0] = position + (obbTangentX * extent.X) + (obbTangentY * extent.Y) + (obbTangentZ * extent.Z);
-            vertices[1] = position - (obbTangentX * extent.X) + (obbTangentY * extent.Y) + (obbTangentZ * extent.Z);
-            vertices[2] = position + (obbTangentX * extent.X) - (obbTangentY * extent.Y) + (obbTangentZ * extent.Z);
-            vertices[3] = position + (obbTangentX * extent.X) + (obbTangentY * extent.Y) - (obbTangentZ * extent.Z);
-            vertices[4] = position - (obbTangentX * extent.X) - (obbTangentY * extent.Y) - (obbTangentZ * extent.Z);
-            vertices[5] = position + (obbTangentX * extent.X) - (obbTangentY * extent.Y) - (obbTangentZ * extent.Z);
-            vertices[6] = position - (obbTangentX * extent.X) + (obbTangentY * extent.Y) - (obbTangentZ * extent.Z);
-            vertices[7] = position - (obbTangentX * extent.X) - (obbTangentY * extent.Y) + (obbTangentZ * extent.Z);
+            Vector3[] vertices = obb.GetObbVertices();
 
             result.min = result.max = ProjectVectorOnNormalizedVector(vertices[0], axis);
             for (Int32 i = 1; i < vertices.Length; i++)

@@ -42,9 +42,22 @@ namespace MassiveGame
 
         public void SetComponents(List<Component> components)
         {
-            foreach (Component child in components)
-                child.ParentComponent = this;
             ChildrenComponents = components;
+            Component current = this;
+            SetRelatedParentToComponent(ref current);
+        }
+
+        private void SetRelatedParentToComponent(ref Component parent)
+        {
+            for (Int32 i = 0; i < parent.ChildrenComponents.Count; i++)
+            {
+                Component child = parent.ChildrenComponents[i];
+
+                child.ParentComponent = parent;
+                child.Bound.ParentComponent = child;
+
+                SetRelatedParentToComponent(ref child);
+            }
         }
 
         public virtual void SetCollisionHeadUnit(CollisionHeadUnit collisionHeadUnit)
@@ -176,10 +189,8 @@ namespace MassiveGame
 
         #region Constructor
 
-        public Entity()
+        public Entity() : base()
         {
-            if (ChildrenComponents == null)
-                ChildrenComponents = new List<Component>();
         }
         public Entity(string modelPath, string texturePath, string normalMapPath, string specularMapPath,
             Vector3 translation, Vector3 rotation, Vector3 scale) : base()

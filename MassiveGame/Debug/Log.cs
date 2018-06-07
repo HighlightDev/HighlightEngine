@@ -46,7 +46,8 @@ namespace MassiveGame.Debug
         {
             foreach (string messageLine in logMessages)
             {
-                LOG_MESSAGE += messageLine + System.Environment.NewLine;
+                if (messageLine != null)
+                    LOG_MESSAGE += messageLine + System.Environment.NewLine;
             }
             writeLogs(LOG_MESSAGE);
         }

@@ -135,16 +135,16 @@ namespace MassiveGame.UI
             string specularMapPath = ProjectFolders.SpecularMapsPath + "brick_sm.png";
 
 
-            //DOUEngine.City.Add((Building)EngineObjectCreator.CreateInstance(new StaticEntityArguments(modelPath, texturePath, normalMapPath, specularMapPath,
-            //    new Vector3(230, 0 + DOUEngine.MAP_HEIGHT, 310), new Vector3(20, 0, 0), new Vector3(30, 10, 30))));
-            //DOUEngine.City.Add((Building)EngineObjectCreator.CreateInstance(new StaticEntityArguments(modelPath, texturePath, normalMapPath, specularMapPath,
-            //   new Vector3(230, 2.5f + DOUEngine.MAP_HEIGHT, 248), new Vector3(0, 180, 0), new Vector3(30, 10, 30))));
-            //DOUEngine.City.Add((Building)EngineObjectCreator.CreateInstance(new StaticEntityArguments(modelPath, texturePath, normalMapPath, specularMapPath,
-            //   new Vector3(230, 5f + DOUEngine.MAP_HEIGHT, 180), new Vector3(0, 180, 0), new Vector3(30, 10, 30))));
-            //DOUEngine.City.Add((Building)EngineObjectCreator.CreateInstance(new StaticEntityArguments(modelPath, texturePath, normalMapPath, specularMapPath,
-            //  new Vector3(230, 7.5f + DOUEngine.MAP_HEIGHT, 115), new Vector3(0, 180, 0), new Vector3(30, 10, 30))));
-            //DOUEngine.City.Add((Building)EngineObjectCreator.CreateInstance(new StaticEntityArguments(modelPath, texturePath, normalMapPath, specularMapPath,
-            //   new Vector3(230, 10 + DOUEngine.MAP_HEIGHT, 48), new Vector3(0, 180, 0), new Vector3(30, 10, 30))));
+            DOUEngine.City.Add((Building)EngineObjectCreator.CreateInstance(new StaticEntityArguments(modelPath, texturePath, normalMapPath, specularMapPath,
+                new Vector3(230, 0 + DOUEngine.MAP_HEIGHT, 310), new Vector3(20, 0, 0), new Vector3(30, 30, 30))));
+            DOUEngine.City.Add((Building)EngineObjectCreator.CreateInstance(new StaticEntityArguments(modelPath, texturePath, normalMapPath, specularMapPath,
+               new Vector3(230, 2.5f + DOUEngine.MAP_HEIGHT, 248), new Vector3(0, 180, 0), new Vector3(30, 30, 30))));
+            DOUEngine.City.Add((Building)EngineObjectCreator.CreateInstance(new StaticEntityArguments(modelPath, texturePath, normalMapPath, specularMapPath,
+               new Vector3(230, 5f + DOUEngine.MAP_HEIGHT, 180), new Vector3(0, 180, 0), new Vector3(30, 30, 30))));
+            DOUEngine.City.Add((Building)EngineObjectCreator.CreateInstance(new StaticEntityArguments(modelPath, texturePath, normalMapPath, specularMapPath,
+              new Vector3(230, 7.5f + DOUEngine.MAP_HEIGHT, 115), new Vector3(0, 180, 0), new Vector3(30, 30, 30))));
+            DOUEngine.City.Add((Building)EngineObjectCreator.CreateInstance(new StaticEntityArguments(modelPath, texturePath, normalMapPath, specularMapPath,
+               new Vector3(230, 10 + DOUEngine.MAP_HEIGHT, 48), new Vector3(0, 180, 0), new Vector3(30, 30, 30))));
             DOUEngine.City.Add((Building)EngineObjectCreator.CreateInstance(new StaticEntityArguments(modelPath, texturePath, normalMapPath, specularMapPath,
               new Vector3(170, 13f + DOUEngine.MAP_HEIGHT, 170), new Vector3(0, 180, 0), new Vector3(30, 30, 30))));
             //DOUEngine.City.Add((Building)EngineObjectCreator.CreateInstance(new StaticEntityArguments(modelPath, texturePath, normalMapPath, specularMapPath,

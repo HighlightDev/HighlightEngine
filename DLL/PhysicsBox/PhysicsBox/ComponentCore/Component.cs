@@ -34,6 +34,8 @@ namespace PhysicsBox.ComponentCore
         protected Vector3 componentRotation;
         protected Vector3 componentScale;
 
+        private object lockObject = new object();
+
         public Vector3 ComponentTranslation
         {
             set
@@ -91,6 +93,19 @@ namespace PhysicsBox.ComponentCore
                 component = component.ParentComponent;
             }
             return component;
+        }
+
+        public Vector3 GetTotalScale()
+        {
+            Vector3 totalScale = componentScale;
+
+            Vector3 parentScale = new Vector3(1);
+            if (ParentComponent != null)
+            {
+                parentScale *= ParentComponent.GetTotalScale();
+            }
+            totalScale *= parentScale;
+            return totalScale;
         }
 
         public virtual Matrix4 GetWorldMatrix()
@@ -153,7 +168,7 @@ namespace PhysicsBox.ComponentCore
 
         public virtual void Tick(ref Matrix4 projectionMatrix, ref Matrix4 viewMatrix)
         {
-            lock (this)
+            lock (lockObject)
             {
                 if (bTransformationDirty)
                 {
@@ -177,7 +192,7 @@ namespace PhysicsBox.ComponentCore
 
         public virtual void AttachComponent(Component component)
         {
-            lock (this)
+            lock (lockObject)
             {
                 ChildrenComponents.Add(component);
                 component.ParentComponent = this;
@@ -186,7 +201,7 @@ namespace PhysicsBox.ComponentCore
 
         public virtual void DetachComponent(Component component)
         {
-            lock (this)
+            lock (lockObject)
             {
                 ChildrenComponents.Remove(component);
                 component.ParentComponent = null;

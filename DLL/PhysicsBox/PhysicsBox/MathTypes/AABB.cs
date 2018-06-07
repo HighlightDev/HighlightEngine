@@ -15,7 +15,7 @@ namespace PhysicsBox.MathTypes
 
         public override Vector3 GetExtent()
         {
-            return Vector3.TransformPosition(Extent, Matrix4.CreateScale(ScalePlusTranslation[0, 0], ScalePlusTranslation[1, 1], ScalePlusTranslation[2, 2]));
+            return ParentComponent.GetTotalScale();
         }
 
         public override Vector3 GetOrigin()
@@ -68,6 +68,47 @@ namespace PhysicsBox.MathTypes
         public override BoundType GetBoundType()
         {
             return BoundType.AABB;
+        }
+
+        public override Vector3 GetNormalToIntersectedPosition(Vector3 position)
+        {
+            // Gather six planes, find the closest plane to incoming position
+            // As we know plane equation Ax + By + Cz + D = 0
+            // we must substitute in place of xyz incoming position and check when D is near a zero value
+
+            Vector3 tangentSpaceExtent = GetExtent();
+            Vector3 tangentSpacePosition = GetOrigin();
+            Vector3 tangentX = GetTangetX();
+            Vector3 tangentY = GetTangetY();
+            Vector3 tangentZ = GetTangetZ();
+
+            // find edge vertices for each plane of bounding box
+            Vector3 edgeRight = tangentSpacePosition + (tangentX * tangentSpaceExtent.X);
+            Vector3 edgeLeft = tangentSpacePosition - (tangentX * tangentSpaceExtent.X);
+            Vector3 edgeUp = tangentSpacePosition + (tangentY * tangentSpaceExtent.Y);
+            Vector3 edgeDown = tangentSpacePosition - (tangentY * tangentSpaceExtent.Y);
+            Vector3 edgeForward = tangentSpacePosition + (tangentZ * tangentSpaceExtent.Z);
+            Vector3 edgeBack = tangentSpacePosition - (tangentZ * tangentSpaceExtent.Z);
+
+            FPlane[] boundPlanes = new FPlane[6]
+            {
+                new FPlane(edgeLeft, -tangentX), new FPlane(edgeDown, -tangentY), new FPlane(edgeBack, -tangentZ),
+                new FPlane(edgeRight, tangentX), new FPlane(edgeUp, tangentY), new FPlane(edgeForward, tangentZ)
+            };
+
+            float d = float.MaxValue;
+            FPlane closestPlane = null;
+            foreach (FPlane plane in boundPlanes)
+            {
+                float distance = Vector3.Dot((Vector3)plane, position) - plane.D;
+                if (Math.Abs(distance) < Math.Abs(d))
+                {
+                    closestPlane = plane;
+                    d = Math.Abs(distance);
+                }
+            }
+
+            return (Vector3)closestPlane;
         }
     }
 }

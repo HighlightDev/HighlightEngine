@@ -5,34 +5,33 @@ using System.Windows.Forms;
 
 using OpenTK;
 using OpenTK.Graphics.OpenGL;
-using MassiveGame.API.EventHandlers;
 using MassiveGame.RenderCore;
-using System.Threading;
 
 namespace MassiveGame.UI
 {
     public partial class MainUI : Form
     {
-        Stopwatch renderTime = new Stopwatch();
-        Stopwatch timestamp = new Stopwatch();
-
+        private Stopwatch renderTime = new Stopwatch();
 
         #region FormLoad & GLControlPaint events
+
         private void OnLoad(object sender, EventArgs e)
         {
-            timestamp.Start();
+            renderTime.Start();
         }
 
         private void OnRender(object sender, PaintEventArgs e)
         {
             AdjustMouseCursor();
-            RenderFrame((float)timestamp.Elapsed.TotalSeconds);
-            timestamp.Restart();
+            renderTime.Restart();
+            RenderFrame(renderTime);
             GLControl.Invalidate();
         }
+
         #endregion
 
         #region Form Move&Resize events
+
         private void OnResize(object sender, EventArgs e)
         {
             GL.Viewport(0, 0, this.Width, this.Height);
@@ -132,13 +131,17 @@ namespace MassiveGame.UI
             //        DOUEngine.Camera.setThirdPersonZoom(1);
             //    }
             //}
-            if (e.Delta > 0)
+
+            if (DOUEngine.DayCycle != null)
             {
-                DOUEngine.DayCycle.TimeFlow += 0.05f;
-            }
-            if (e.Delta < 0)
-            {
-                DOUEngine.DayCycle.TimeFlow -= 0.05f;
+                if (e.Delta > 0)
+                {
+                    DOUEngine.DayCycle.TimeFlow += 0.05f;
+                }
+                if (e.Delta < 0)
+                {
+                    DOUEngine.DayCycle.TimeFlow -= 0.05f;
+                }
             }
         }
         #endregion

@@ -101,45 +101,6 @@ namespace PhysicsBox.MathTypes
             return GetLocalSpaceExtent();
         }
 
-        public Vector3 GetNormalToIntersectedPosition(Vector3 position)
-        {
-            // Gather six planes, find the closest plane to incoming position
-            // As we know plane equation Ax + By + Cz + D = 0
-            // we must substitute in place of xyz incoming position and check when D is near a zero value
-
-            Vector3 tangentSpaceExtent = GetExtent();
-            Vector3 tangentSpacePosition = GetOrigin();
-            Vector3 tangentX = GetTangetX();
-            Vector3 tangentY = GetTangetY();
-            Vector3 tangentZ = GetTangetZ();
-
-            // find edge vertices for each plane of bounding box
-            Vector3 edgeRight = tangentSpacePosition + (tangentX * tangentSpaceExtent.X);
-            Vector3 edgeLeft = tangentSpacePosition - (tangentX * tangentSpaceExtent.X);
-            Vector3 edgeUp = tangentSpacePosition + (tangentY * tangentSpaceExtent.Y);
-            Vector3 edgeDown = tangentSpacePosition - (tangentY * tangentSpaceExtent.Y);
-            Vector3 edgeForward = tangentSpacePosition + (tangentZ * tangentSpaceExtent.Z);
-            Vector3 edgeBack = tangentSpacePosition - (tangentZ * tangentSpaceExtent.Z);
-
-            FPlane[] boundPlanes = new FPlane[6]
-            {
-                new FPlane(edgeLeft, -tangentX), new FPlane(edgeDown, -tangentY), new FPlane(edgeBack, -tangentZ),
-                new FPlane(edgeRight, tangentX), new FPlane(edgeUp, tangentY), new FPlane(edgeForward, tangentZ)
-            };
-
-            float d = float.MaxValue;
-            FPlane closestPlane = null;
-            foreach (FPlane plane in boundPlanes)
-            {
-                float distance = Vector3.Dot((Vector3)plane, position) - plane.D;
-                if (Math.Abs(distance) < Math.Abs(d))
-                {
-                    closestPlane = plane;
-                    d = Math.Abs(distance);
-                }
-            }
-
-            return (Vector3)closestPlane;
-        }
+        public abstract Vector3 GetNormalToIntersectedPosition(Vector3 position);
     }
 }
