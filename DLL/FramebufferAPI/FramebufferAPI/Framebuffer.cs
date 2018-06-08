@@ -17,7 +17,6 @@ namespace FramebufferAPI
         protected List<int> framebufferID;
         protected List<int> renderbufferID;
         protected Texture2D textures;
-        protected SingleTexture2D singleTexture;
 
         protected abstract void setTextures();
         protected abstract void setFramebuffers();
@@ -183,13 +182,6 @@ namespace FramebufferAPI
             this.setTextures();
             this.setFramebuffers();
             this.setRenderbuffers();
-        }
-
-        public Framebuffer(SingleTexture2D texture)
-        {
-            this.framebufferID = new List<int>();
-            this.renderbufferID = new List<int>();
-            this.singleTexture = texture;
         }
 
         #endregion

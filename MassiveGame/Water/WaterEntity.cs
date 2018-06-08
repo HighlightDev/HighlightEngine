@@ -11,6 +11,7 @@ using MassiveGame.Optimization;
 using MassiveGame.API.Collector;
 using PhysicsBox.MathTypes;
 using MassiveGame.RenderCore;
+using System.Drawing;
 
 namespace MassiveGame
 {
@@ -163,6 +164,9 @@ namespace MassiveGame
         {
             postConstructor();
             /*Water distortion cycle*/
+
+            Console.WriteLine(frameTimeSec);
+
             _moveFactor += _waveSpeed * frameTimeSec;
             _moveFactor %= 1;
 
@@ -212,6 +216,9 @@ namespace MassiveGame
 
                 this._fbo = new WaterFBO();
                 this._postConstructor = !this._postConstructor;
+
+                DOUEngine.uiFrameCreator.PushFrame(new Texture2Dlite((Int32)DOUEngine.Water._fbo.Texture.TextureID[0], new Point(DOUEngine.Water._fbo.Texture.Rezolution[0].widthRezolution, DOUEngine.Water._fbo.Texture.Rezolution[0].heightRezolution)));
+                DOUEngine.uiFrameCreator.PushFrame(new Texture2Dlite((Int32)DOUEngine.Water._fbo.Texture.TextureID[1], new Point(DOUEngine.Water._fbo.Texture.Rezolution[1].widthRezolution, DOUEngine.Water._fbo.Texture.Rezolution[1].heightRezolution)));
             }
         }
 
@@ -230,7 +237,7 @@ namespace MassiveGame
                 new float[6, 2] { { 0, 1 }, { 1, 1 }, { 1, 0 }, { 1, 0 }, { 0, 0 }, { 0, 1 } }, true);
             this.Box = new CollisionSphereBox(-1.0f, 1.0f, 0.0f, 0.0f, -1.0f, 1.0f, 0);
             _moveFactor = 0.0f;
-            _waveSpeed = 0.03f;
+            _waveSpeed = 0.3f;
             _waveStrength = 0.02f;
             _transparencyDepth = 10000f;
             this._buffer = new VAO(this._attribs);

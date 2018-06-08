@@ -120,3 +120,4 @@ C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\WFUIControl
 C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\WFUIControls\obj\Debug\UIControls.csproj.GenerateResource.Cache
 C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\WFUIControls\obj\Debug\UIControls.dll
 C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\WFUIControls\obj\Debug\UIControls.pdb
+C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\WFUIControls\obj\Debug\UIControls.csprojResolveAssemblyReference.cache

@@ -3,17 +3,15 @@ using System.Collections.Generic;
 using OpenTK;
 using OpenTK.Graphics.OpenGL;
 using MassiveGame.RenderCore.Lights;
-using PhysicsBox;
 using MassiveGame.Optimization;
-using AudioEngine;
 using MassiveGame.Sun.DayCycle;
-using MassiveGame.UI;
 using System.Drawing;
 using MassiveGame.RenderCore.Visibility;
 using MassiveGame.Light_visualization;
-using System.Threading;
 using MassiveGame.Debug.UiPanel;
 using MassiveGame.API.EventHandlers;
+using MassiveGame.Settings;
+using MassiveGame.RenderCore;
 
 namespace MassiveGame
 {
@@ -54,13 +52,11 @@ namespace MassiveGame
 
         public static DateTime ElapsedTime;
         public static Matrix4 ProjectionMatrix;
-        public static bool PostConstructor;
         public static bool PostConstructorExecuted = false;
         public static List<PointLight> PointLight;
         public static DirectionalLight Sun;
         public static DayLightCycle DayCycle;
 
-        public static  CollisionDetector Collision;
         public static  Terrain terrain;
         public static  Player Player;
         public static  Player Enemy;
@@ -85,18 +81,12 @@ namespace MassiveGame
         public static  PostProcessFlag Settings;
         public static  Point PrevCursorPosition;
 
-        public static  int[] SB_step;
-        public static  int[] SB_collide;
-        public static  int SB_ambient;
-        public static  Source SourceAmbient;
-
         public static KeyboardHandler keyboardMask;
-
-        public static Timer EngineTickTimer;
 
         public static Point ScreenRezolution;
 
         public static Point ShadowMapRezolution;
         public static UiFrameMaster uiFrameCreator;
+        public static List<IDrawable> shadowList;
     }
 }

@@ -52,7 +52,7 @@ void main(void)
 		WorldTangent.z, WorldBitangent.z, WorldNormal.z
 	);
 
-	eyeCameraVec = WorldTangent * (cameraPosition - eyePos);
+	eyeCameraVec = WorldTangent * (cameraPosition - worldPos);
 	sunDir = WorldTangentSpace * sunPos;
 
 	for (int i = 0; i < MAX_LIGHT_COUNT; i++)
@@ -64,7 +64,7 @@ void main(void)
 		/*Normal mapping*/
 
 	texCoords = TexCoords * tiling;
-	worldNormal = (modelMatrix * vec4(Normal,0.0)).xyz;
+	worldNormal = (modelMatrix * vec4(Normal, 0.0)).xyz;
 	clipSpace = projectionMatrix * vec4(eyePos, 1.0);
 	fresnelCamera = cameraPosition - worldPos;
 

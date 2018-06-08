@@ -19,7 +19,7 @@ namespace MassiveGame.API.Factory
         {
             MovableEntityArguments arg = a as MovableEntityArguments;
             return new Player(arg.ModelPath, arg.TexturePath, arg.NormalMapPath, arg.SpecularMapPath
-                , arg.Speed, arg.ID, arg.Translation, arg.Rotation, arg.Scale);
+                , arg.Speed, arg.Translation, arg.Rotation, arg.Scale);
         }
     }
 }

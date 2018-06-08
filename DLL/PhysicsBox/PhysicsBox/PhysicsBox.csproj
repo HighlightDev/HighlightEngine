@@ -51,7 +51,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CollisionDetector.cs" />
     <Compile Include="CollisionSphereBox.cs" />
     <Compile Include="CollisionQuad.cs" />
     <Compile Include="ComponentCore\Component.cs" />

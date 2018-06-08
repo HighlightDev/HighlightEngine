@@ -40,15 +40,14 @@ vec4 specularDirectLight(vec3 specularNormal, vec3 fromLightVector, float softEd
 	/*TO DO : if light is facing water plane
 	  - add specular contribution*/
 
-	if ( max(dot(specularNormal, fromLightVector), 0.0) > 0.0) {
-		vec3 unitCameraV = normalize(eyeCameraVec);
-		vec3 normLightVec = fromLightVector;
-		vec3 halfWayVector = normalize(normLightVec + unitCameraV);
-		float specularFactor = dot(halfWayVector, specularNormal);
-		specularFactor = max(specularFactor, 0.0);
-		float dampedFactor = pow(specularFactor, materialShineDamper);
-		totalDirectSpecular = (dampedFactor * sunSpecularColour * materialReflectivity) * softEdge;
-	}
+	vec3 unitCameraV = normalize(eyeCameraVec);
+	vec3 normLightVec = fromLightVector;
+	vec3 halfWayVector = normalize(normLightVec + unitCameraV);
+	float specularFactor = dot(halfWayVector, specularNormal);
+	specularFactor = max(specularFactor, 0.0);
+	float dampedFactor = pow(specularFactor, materialShineDamper);
+	totalDirectSpecular = (dampedFactor * sunSpecularColour * materialReflectivity) * softEdge;
+
 	return vec4(totalDirectSpecular, 1.0);
 }
 
@@ -76,7 +75,6 @@ void main(void)
 {
 	//Texture projection
 	vec2 normDeviceCoord = ((clipSpace.xy / clipSpace.w) * 0.5) + 0.5;
-	//vec2 reflectionTexCoords = vec2(normDeviceCoord.x, -normDeviceCoord.y);
 	vec2 reflectionTexCoords = vec2(normDeviceCoord.x, normDeviceCoord.y);
 	vec2 refractionTexCoords = normDeviceCoord;
 
@@ -98,8 +96,6 @@ void main(void)
 
 	reflectionTexCoords += totalDistortion;
     reflectionTexCoords = clamp(reflectionTexCoords, 0.001, 0.999);
-	//reflectionTexCoords.x = clamp(reflectionTexCoords.x, 0.001, 0.999);
-	//reflectionTexCoords.y = clamp(reflectionTexCoords.y, -0.999, -0.001);
 
 	vec4 reflectionColor = texture(reflectionTexture, reflectionTexCoords);
 	vec4 refractionColor = texture(refractionTexture, refractionTexCoords);
@@ -113,7 +109,7 @@ void main(void)
 	vec3 normSunDirection = normalize(sunDir);
 	normSunDirection = -normSunDirection;
 	vec3 SpecularNormal = vec3(0);
-	vec4 normalMapUnit =  2.0 * texture2D(normalMap, distortedTexCoords ) - 1.0;
+	vec4 normalMapUnit =  2.0 * texture2D(normalMap, totalDistortion ) - 1.0;
 	SpecularNormal = normalize(normalMapUnit.rgb);
 
 	vec4 waterColor = mix(reflectionColor, refractionColor, clamp(reflFactor - (waterDepth / transparencyDepth), 0.0, 1.0));

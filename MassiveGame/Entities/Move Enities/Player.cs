@@ -4,11 +4,9 @@ using OpenTK;
 using OpenTK.Graphics.OpenGL;
 using MassiveGame.RenderCore.Lights;
 
-using AudioEngine;
 using GpuGraphics;
 using PhysicsBox;
 using MassiveGame.API.Collector;
-using MassiveGame.RenderCore.Shadows;
 using TextureLoader;
 using MassiveGame.RenderCore;
 
@@ -35,14 +33,6 @@ namespace MassiveGame
     public sealed class Player : MovableEntity
     {
         #region Definitions
-
-        private SoundCenter soundCenter;
-        private Source sourceStep;
-        private Source sourceCollide;
-        private int[] _SB_step;
-        private int[] _SB_collide;
-        //private int _SB_stepSwitcher = 0;
-        //private int _SB_collideSwitcher = 0;
 
         private MovableEntityShader _shader;
         private Material _material;
@@ -78,58 +68,6 @@ namespace MassiveGame
         public sealed override void popPositionStack()
         {
             base.popPositionStack();
-
-            //if (!sourceCollide.IsPlaying())
-            //{
-            //    sourceCollide.SetBuffer(_SB_collide[_SB_collideSwitcher++]);
-            //    if (_SB_collideSwitcher == _SB_collide.Length)
-            //        _SB_collideSwitcher = 0;
-            //    sourceCollide.Play();
-            //}
-        }
-
-        #endregion
-
-        #region Seters
-
-        public void setSoundAttachment(int[] SB_step = null, int[] SB_collide = null)
-        {
-
-            // add paramenter int[] SB_stepOffset to manage different groups of sounds
-            if (SB_step != null) // if sound of step attached
-            {
-                _SB_step = SB_step;
-                sourceStep = new Source(_SB_step[0], 1, 6, 65);
-                sourceStep.SetVolume(1.5f);
-                // to set correct position of a sound it must be set in accordance of translation and center of a sound
-                sourceStep.SetPosition(
-                    ComponentTranslation.X + soundCenter.X,
-                    ComponentTranslation.Y + soundCenter.Y,
-                    ComponentTranslation.Z + soundCenter.Z
-                );
-            }
-
-            if (SB_collide != null) // if sound of collide attached
-            {
-                _SB_collide = SB_collide;
-                sourceCollide = new Source(_SB_collide[0], 1, 6, 65);
-                sourceCollide.SetVolume(0.2f);
-                // to set correct position of a sound it must be set in accordance of translation and center of a sound
-                sourceCollide.SetPosition(
-                    ComponentTranslation.X + soundCenter.X,
-                    ComponentTranslation.Y + soundCenter.Y,
-                    ComponentTranslation.Z + soundCenter.Z
-                );
-            }
-
-            //if (SB_collide != null && SB_step != null)
-            //{
-            //    soundCenter.Init(
-            //        (this._leftX + t0his._rightX) / 2,
-            //        (this._bottomY + this._topY) / 2,
-            //        (this._nearZ + this._farZ) / 2
-            //    );
-            //}
         }
 
         #endregion
@@ -279,9 +217,9 @@ namespace MassiveGame
 
         #region Constructors
 
-        public Player(string modelPath, string texturePath, string normalMapPath, string specularMapPath, float Speed, int ID,
+        public Player(string modelPath, string texturePath, string normalMapPath, string specularMapPath, float Speed,
             Vector3 translation = new Vector3(), Vector3 rotation = new Vector3(), Vector3 scale = new Vector3())
-            : base(modelPath, texturePath, normalMapPath, specularMapPath, Speed, ID, translation, rotation, scale)
+            : base(modelPath, texturePath, normalMapPath, specularMapPath, Speed, translation, rotation, scale)
         {
             _material = new Material(new Vector3(1.0f, 1.0f, 1.0f), new Vector3(1.0f, 1.0f, 1.0f),
                new Vector3(1.0f, 1.0f, 1.0f), new Vector3(1.0f, 1.0f, 1.0f), 20.0f, 1.0f);

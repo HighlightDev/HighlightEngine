@@ -62,7 +62,7 @@ namespace MassiveGame.RenderCore.Shadows
             GL.DeleteFramebuffer(FramebufferHandler);
         }
 
-        public void WriteDepth(IList<IDrawable> CastingShadowActors, Int32 Width, Int32 Height, ref Matrix4 ProjectionMatrix)
+        public void WriteDepth(IList<IDrawable> CastingShadowActors, ref Matrix4 ProjectionMatrix)
         {
             GL.Viewport(0, 0, RTParams.TexBufferWidth, RTParams.TexBufferHeight);
             GL.BindFramebuffer(FramebufferTarget.Framebuffer, FramebufferHandler);
@@ -85,7 +85,6 @@ namespace MassiveGame.RenderCore.Shadows
 
             GL.BindFramebuffer(FramebufferTarget.Framebuffer, 0);
             GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
-            GL.Viewport(0, 0, Width, Height);
         }
 
         public ShadowBase(RenderTargetParams ShadowMapSettings)

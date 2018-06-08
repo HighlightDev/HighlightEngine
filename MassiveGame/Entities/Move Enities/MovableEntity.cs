@@ -48,9 +48,6 @@ namespace MassiveGame
             return ChildrenComponents[0].Bound;
         }
 
-        [Obsolete("DEPRECATED PROPERTY, MUST BE ELIMINATED")]
-        protected int _id;
-
         protected float _speed;
         protected MovementStack objectStack;
         public event EventHandler ActionMove;
@@ -186,15 +183,13 @@ namespace MassiveGame
         public MovableEntity() { }
 
         public MovableEntity(string modelPath, string texturePath, string normalMapPath, string specularMapPath
-            , float Speed, int ID, Vector3 translation, Vector3 rotation, Vector3 scale) :
+            , float Speed, Vector3 translation, Vector3 rotation, Vector3 scale) :
             base(modelPath, texturePath, normalMapPath, specularMapPath, translation, rotation, scale)
         {
             ActorState = BEHAVIOR_STATE.FREE_FALLING;
             this.objectStack = new MovementStack();
             pushPositionStack();
             this._speed = Speed;
-            this._id = ID;
-            this._box.ID = ID;
         }
 
         #endregion

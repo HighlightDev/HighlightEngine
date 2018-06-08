@@ -1,6 +1,6 @@
 ﻿namespace MassiveGame.UI
 {
-    partial class MainUI
+    partial class Engine
     {
         /// <summary>
         /// Required designer variable.
@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainUI));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Engine));
             this.GLControl = new OpenTK.GLControl(new OpenTK.Graphics.GraphicsMode(32, 24, 8));
             this.SuspendLayout();
             // 
