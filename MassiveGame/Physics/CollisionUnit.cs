@@ -40,7 +40,7 @@ namespace MassiveGame.Physics
             }
         }
 
-        public AABB GetFramingBoundBox()
+        public AABB GetFramingBoundingBox()
         {
             List<BoundBase> boundingBoxes = GetBoundingBoxes();
             var max = boundingBoxes[0].GetMax();

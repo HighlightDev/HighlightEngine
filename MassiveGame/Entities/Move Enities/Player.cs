@@ -11,25 +11,7 @@ using TextureLoader;
 using MassiveGame.RenderCore;
 
 namespace MassiveGame
-{
-    #region SoundPosition
-
-    public struct SoundCenter
-    {
-        public void Init(float x, float y, float z)
-        {
-            X = x;
-            Y = y;
-            Z = z;
-        }
-
-        public float X { get; private set; }
-        public float Y { get; private set; }
-        public float Z { get; private set; }
-    }
-
-    #endregion
-
+{   
     public sealed class Player : MovableEntity
     {
         #region Definitions
@@ -43,28 +25,7 @@ namespace MassiveGame
         #endregion
 
         #region Overrides
-
-        public override CollisionSphereBox Box
-        {
-            get
-            {
-                return base.Box;
-            }
-            protected set
-            {
-                base.Box = value;
-            }
-        }
-
-        public sealed override bool IsInViewFrustum(ref Matrix4 projectionMatrix, Matrix4 viewMatrix)
-        {
-            if (_postConstructor)
-            {
-                return IsInCameraView = true;
-            }
-            return base.IsInViewFrustum(ref projectionMatrix, viewMatrix);
-        }
-
+     
         public sealed override void popPositionStack()
         {
             base.popPositionStack();

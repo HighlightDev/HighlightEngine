@@ -108,6 +108,37 @@ namespace PhysicsBox.ComponentCore
             return totalScale;
         }
 
+        private void GetHierarchyBoundingBoxes(Component collectableComponent, ref List<BoundBase> collectedBoundingBoxes)
+        {
+            foreach (Component childComponent in collectableComponent.ChildrenComponents)
+            {
+                collectedBoundingBoxes.Add(childComponent.Bound);
+                GetHierarchyBoundingBoxes(childComponent, ref collectedBoundingBoxes);
+            }
+        }
+
+        public AABB GetAABBFromAllChildComponents()
+        {
+            List<BoundBase> childBoundBoxes = new List<BoundBase>();
+            GetHierarchyBoundingBoxes(this, ref childBoundBoxes);
+
+            var max = childBoundBoxes[0].GetMax();
+            var min = childBoundBoxes[0].GetMin();
+            float minX = min.X, minY = min.Y, minZ = min.Z, maxX = max.X, maxY = max.Y, maxZ = max.Z;
+            for (Int32 i = 1; i < childBoundBoxes.Count; i++)
+            {
+                var localMax = childBoundBoxes[i].GetMax();
+                var localMin = childBoundBoxes[i].GetMin();
+                maxX = Math.Max(maxX, localMax.X);
+                maxY = Math.Max(maxY, localMax.Y);
+                maxZ = Math.Max(maxZ, localMax.Z);
+                minX = Math.Min(minX, localMin.X);
+                minY = Math.Min(minY, localMin.Y);
+                minZ = Math.Min(minZ, localMin.Z);
+            }
+            return AABB.CreateFromMinMax(new Vector3(minX, minY, minZ), new Vector3(maxX, maxY, maxZ), this);
+        }
+
         public virtual Matrix4 GetWorldMatrix()
         {
             Matrix4 parentWorldMatrix = Matrix4.Identity;

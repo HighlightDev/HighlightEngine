@@ -32,6 +32,7 @@ namespace MassiveGame
                 // Set velocity to default 
                 if (value == BEHAVIOR_STATE.IDLE)
                     Velocity = new Vector3(0);
+
                 actorState = value;
             }
             get { return actorState; }
@@ -51,16 +52,6 @@ namespace MassiveGame
         protected float _speed;
         protected MovementStack objectStack;
         public event EventHandler ActionMove;
-
-        [Obsolete("DEPRECATED PROPERTY, MUST BE ELIMINATED")]
-        public override CollisionSphereBox Box
-        {
-            protected set { base._box = value; }
-            get
-            {
-                return this._box;
-            }
-        }
 
         public virtual float Speed
         {

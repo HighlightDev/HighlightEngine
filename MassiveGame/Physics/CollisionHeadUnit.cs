@@ -105,8 +105,8 @@ namespace MassiveGame.Physics
                 if (characterCollisionUnit.RootComponent == unit.RootComponent)
                     continue;
 
-                AABB aabb1 = characterCollisionUnit.GetFramingBoundBox();
-                AABB aabb2 = unit.GetFramingBoundBox();
+                AABB aabb1 = characterCollisionUnit.GetFramingBoundingBox();
+                AABB aabb2 = unit.GetFramingBoundingBox();
                 if (GeometricMath.AABBAABB(aabb1, aabb2))
                 {
                     bFrameBoundBoxCollision = true;

@@ -25,9 +25,6 @@ namespace MassiveGame
 
         protected CollisionHeadUnit collisionHeadUnit;
 
-        [Obsolete("DEPRECATED PROPERTY, MUST BE ELIMINATED")]
-        protected CollisionSphereBox _box;
-
         protected MistComponent _mist;
 
         protected RawModel _model;
@@ -85,42 +82,41 @@ namespace MassiveGame
             return AffectedPointLights;
         }
 
-        #endregion
-
-        public bool IsInCameraView { protected set { _isInCameraView = value; } get { return _isInCameraView; } }
-
-        public virtual CollisionSphereBox Box
-        {
-            protected set { this._box = value; }
-            get
-            {
-                return this._box;
-            }
-        }
-
-        #endregion
-
-        #region Interface_realization
-
-        public virtual bool IsInViewFrustum(ref Matrix4 projectionMatrix, Matrix4 viewMatrix)
-        {
-            return true; 
-                //IsInCameraView = FrustumCulling.isBoxIntersection(Box, viewMatrix, ref projectionMatrix);
-        }
-
         public virtual void IsLightAffecting(List<PointLight> LightList)
         {
             LightVisibilityMap.Init(LightList.Count, false);
             for (int i = 0; i < LightList.Count; i++)
             {
-                LightVisibilityMap[i] = PhysicsBox.GeometricMath.IsSphereVsSphereIntersection(this.Box.getCenter(), this.Box.Radius,
+                var componentAABB = GetAABBFromAllChildComponents();
+                LightVisibilityMap[i] = GeometricMath.IsSphereVsSphereIntersection(componentAABB.GetOrigin(), componentAABB.GetExtent().Length,
                     LightList[i].Position.Xyz, LightList[i].AttenuationRadius);
             }
         }
 
         #endregion
 
-        #region Getter
+        public bool IsInCameraView { protected set { _isInCameraView = value; } get { return _isInCameraView; } }
+
+        #endregion
+
+        #region Interface implementation
+
+        public virtual bool IsInViewFrustum(ref Matrix4 projectionMatrix, Matrix4 viewMatrix)
+        {
+            if (_postConstructor)
+            {
+                IsInCameraView = true;
+            }
+            else
+            {
+                var componentAABB = GetAABBFromAllChildComponents();
+                throw new NotImplementedException("Update to new bounding box mechanics");
+                IsInCameraView = FrustumCulling.isBoxIntersection(null, viewMatrix, ref projectionMatrix);
+                //IsInCameraView = true;
+            }
+                    
+            return IsInCameraView;
+        }
 
         public VAO GetModel()
         {
@@ -203,7 +199,6 @@ namespace MassiveGame
             _specularMap = ResourcePool.GetTexture(specularMapPath);
             _model = new RawModel(modelPath);
 
-            this._box = new CollisionSphereBox(0, 0, 0, 0, 0, 0, -1);
             this._isInCameraView = true;
             this._mist = null;
             this._postConstructor = true;
