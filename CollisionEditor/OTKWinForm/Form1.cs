@@ -231,6 +231,8 @@ namespace OTKWinForm
         private void button1_Click(object sender, EventArgs e)
         {
             OpenFileDialog dlg = new OpenFileDialog();
+            dlg.InitialDirectory = Environment.CurrentDirectory;
+            dlg.RestoreDirectory = false;
             var result = dlg.ShowDialog();
             if (result == DialogResult.OK)
             {

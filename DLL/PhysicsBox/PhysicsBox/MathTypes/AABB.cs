@@ -49,13 +49,13 @@ namespace PhysicsBox.MathTypes
 
         public override Vector3 GetTangetX()
         {
-            Vector3 scale = ScalePlusTranslation.ExtractScale();
+            Vector3 scale = ParentComponent.GetTotalScale();
             return (base.GetTangetX() * scale).Normalized();
         }
 
         public override Vector3 GetTangetY()
         {
-            Vector3 scale = ScalePlusTranslation.ExtractScale();
+            Vector3 scale = ParentComponent.GetTotalScale();
             return (base.GetTangetY() * scale).Normalized();
         }
 
@@ -68,6 +68,27 @@ namespace PhysicsBox.MathTypes
         public override BoundType GetBoundType()
         {
             return BoundType.AABB;
+        }
+
+        public override Vector3[] GetWorldSpaceVertices()
+        {
+            Vector3[] resultVertices = null;
+
+            Vector3 extent = GetExtent();
+            Vector3 position = GetOrigin();
+
+            // find all vertices of axis aligned bounding box
+            resultVertices = new Vector3[8];
+            resultVertices[0] = position + extent;
+            resultVertices[1] = position + new Vector3(-extent.X, extent.Y, extent.Z);
+            resultVertices[2] = position + new Vector3(extent.X, -extent.Y, extent.Z);
+            resultVertices[3] = position + new Vector3(extent.X, extent.Y, -extent.Z);
+            resultVertices[4] = position - new Vector3(extent.X, extent.Y, extent.Z);
+            resultVertices[5] = position + new Vector3(extent.X, -extent.Y, -extent.Z);
+            resultVertices[6] = position + new Vector3(-extent.X, extent.Y, -extent.Z);
+            resultVertices[7] = position + new Vector3(-extent.X, -extent.Y, extent.Z);
+
+            return resultVertices;
         }
 
         public override Vector3 GetNormalToIntersectedPosition(Vector3 position)

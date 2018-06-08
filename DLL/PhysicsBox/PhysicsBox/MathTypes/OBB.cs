@@ -43,7 +43,7 @@ namespace PhysicsBox.MathTypes
             return Vector3.TransformPosition(base.GetOrigin(), TransformationMatrix);
         }
 
-        public Vector3[] GetObbVertices()
+        public override Vector3[] GetWorldSpaceVertices()
         {
             Vector3[] resultVertices = null;
 
@@ -70,7 +70,7 @@ namespace PhysicsBox.MathTypes
 
         public override Vector3 GetMax()
         {
-            var vertices = GetObbVertices();
+            var vertices = GetWorldSpaceVertices();
             return new Vector3
                   (Math.Max(Math.Max(Math.Max(vertices[0].X, vertices[1].X), Math.Max(vertices[2].X, vertices[3].X)), Math.Max(Math.Max(vertices[4].X, vertices[5].X), Math.Max(vertices[6].X, vertices[7].X)))
                 , (Math.Max(Math.Max(Math.Max(vertices[0].Y, vertices[1].Y), Math.Max(vertices[2].Y, vertices[3].Y)), Math.Max(Math.Max(vertices[4].Y, vertices[5].Y), Math.Max(vertices[6].Y, vertices[7].Y)))),
@@ -79,7 +79,7 @@ namespace PhysicsBox.MathTypes
 
         public override Vector3 GetMin()
         {
-            var vertices = GetObbVertices();
+            var vertices = GetWorldSpaceVertices();
             return new Vector3
                   (Math.Min(Math.Min(Math.Min(vertices[0].X, vertices[1].X), Math.Min(vertices[2].X, vertices[3].X)), Math.Min(Math.Min(vertices[4].X, vertices[5].X), Math.Min(vertices[6].X, vertices[7].X)))
                 , (Math.Min(Math.Min(Math.Min(vertices[0].Y, vertices[1].Y), Math.Min(vertices[2].Y, vertices[3].Y)), Math.Min(Math.Min(vertices[4].Y, vertices[5].Y), Math.Min(vertices[6].Y, vertices[7].Y)))),

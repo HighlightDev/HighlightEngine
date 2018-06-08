@@ -58,7 +58,7 @@ namespace PhysicsBox
         public static Interval GetInterval(OBB obb, Vector3 axis)
         {
             Interval result;
-            Vector3[] vertices = obb.GetObbVertices();
+            Vector3[] vertices = obb.GetWorldSpaceVertices();
 
             result.min = result.max = ProjectVectorOnNormalizedVector(vertices[0], axis);
             for (Int32 i = 1; i < vertices.Length; i++)

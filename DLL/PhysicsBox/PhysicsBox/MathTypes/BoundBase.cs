@@ -102,5 +102,7 @@ namespace PhysicsBox.MathTypes
         }
 
         public abstract Vector3 GetNormalToIntersectedPosition(Vector3 position);
+
+        public abstract Vector3[] GetWorldSpaceVertices();
     }
 }
