@@ -165,8 +165,6 @@ namespace MassiveGame
             postConstructor();
             /*Water distortion cycle*/
 
-            Console.WriteLine(frameTimeSec);
-
             _moveFactor += _waveSpeed * frameTimeSec;
             _moveFactor %= 1;
 

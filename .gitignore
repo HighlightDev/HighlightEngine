@@ -8,3 +8,7 @@ MassiveGame/Debug/ProjectLogs.txt
 *.config
 *.sln
 *.md
+*.ide
+*.ide-shm
+*.ide-shm
+*.resources

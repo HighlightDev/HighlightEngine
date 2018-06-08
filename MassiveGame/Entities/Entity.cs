@@ -109,10 +109,10 @@ namespace MassiveGame
             }
             else
             {
-                var componentAABB = GetAABBFromAllChildComponents();
-                throw new NotImplementedException("Update to new bounding box mechanics");
-                IsInCameraView = FrustumCulling.isBoxIntersection(null, viewMatrix, ref projectionMatrix);
-                //IsInCameraView = true;
+                //var componentAABB = GetAABBFromAllChildComponents();
+                //throw new NotImplementedException("Update to new bounding box mechanics");
+                //IsInCameraView = FrustumCulling.isBoxIntersection(null, viewMatrix, ref projectionMatrix);
+                IsInCameraView = true;
             }
                     
             return IsInCameraView;

@@ -268,10 +268,10 @@ D:\HighlightEngine\HighlightEngine\MassiveGame\bin\Debug\TextureLoader.pdb
 D:\HighlightEngine\HighlightEngine\MassiveGame\bin\Debug\VBO.pdb
 D:\HighlightEngine\HighlightEngine\MassiveGame\bin\Debug\VectorMath.pdb
 D:\HighlightEngine\HighlightEngine\MassiveGame\obj\x86\Debug\MassiveGame.csprojAssemblyReference.cache
-D:\HighlightEngine\HighlightEngine\MassiveGame\obj\x86\Debug\MassiveGame.UI.MainUI.resources
 D:\HighlightEngine\HighlightEngine\MassiveGame\obj\x86\Debug\MassiveGame.csproj.GenerateResource.cache
 D:\HighlightEngine\HighlightEngine\MassiveGame\obj\x86\Debug\MassiveGame.csproj.CoreCompileInputs.cache
 D:\HighlightEngine\HighlightEngine\MassiveGame\obj\x86\Debug\MassiveGame.csproj.CopyComplete
 D:\HighlightEngine\HighlightEngine\MassiveGame\obj\x86\Debug\MassiveGame.exe
 D:\HighlightEngine\HighlightEngine\MassiveGame\obj\x86\Debug\MassiveGame.pdb
 D:\HighlightEngine\HighlightEngine\MassiveGame\bin\Debug\MassiveGame.pdb
+D:\HighlightEngine\HighlightEngine\MassiveGame\obj\x86\Debug\MassiveGame.UI.Engine.resources
