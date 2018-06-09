@@ -51,7 +51,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CollisionSphereBox.cs" />
     <Compile Include="CollisionQuad.cs" />
     <Compile Include="ComponentCore\Component.cs" />
     <Compile Include="ComponentCore\SerializationComponentWrapper.cs" />
@@ -63,6 +62,7 @@
     <Compile Include="MathTypes\FMirrorMatrix.cs" />
     <Compile Include="MathTypes\FPlane.cs" />
     <Compile Include="MathTypes\FRay.cs" />
+    <Compile Include="MathTypes\FSphere.cs" />
     <Compile Include="MathTypes\OBB.cs" />
     <Compile Include="MovementStack.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

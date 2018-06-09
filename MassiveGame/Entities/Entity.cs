@@ -14,6 +14,7 @@ using MassiveGame.RenderCore.Lights;
 using MassiveGame.RenderCore;
 using PhysicsBox.ComponentCore;
 using MassiveGame.Physics;
+using PhysicsBox.MathTypes;
 
 namespace MassiveGame
 {
@@ -87,9 +88,9 @@ namespace MassiveGame
             LightVisibilityMap.Init(LightList.Count, false);
             for (int i = 0; i < LightList.Count; i++)
             {
-                var componentAABB = GetAABBFromAllChildComponents();
-                LightVisibilityMap[i] = GeometricMath.IsSphereVsSphereIntersection(componentAABB.GetOrigin(), componentAABB.GetExtent().Length,
-                    LightList[i].Position.Xyz, LightList[i].AttenuationRadius);
+               BoundBase bound = GetAABBFromAllChildComponents();
+                LightVisibilityMap[i] = GeometricMath.IsSphereVsSphereIntersection((FSphere)bound,
+                    new FSphere(LightList[i].Position.Xyz, LightList[i].AttenuationRadius));
             }
         }
 
@@ -101,6 +102,23 @@ namespace MassiveGame
 
         #region Interface implementation
 
+        private void CheckComponentsAreVisible(ref Component parentComponent, ref Matrix4 viewMatrix, ref Matrix4 projectionMatrix, ref bool bVisible)
+        {
+            if (parentComponent.Bound != null)
+            {
+                bVisible = FrustumCulling.GetIsBoundInFrustum(parentComponent.Bound, ref viewMatrix, ref projectionMatrix);
+                if (bVisible)
+                    return;
+            }
+            foreach (Component childComponent in parentComponent.ChildrenComponents)
+            {
+                var child = childComponent;
+                CheckComponentsAreVisible(ref child, ref viewMatrix, ref projectionMatrix, ref bVisible);
+                if (bVisible)
+                    return;
+            }
+        }
+
         public virtual bool IsInViewFrustum(ref Matrix4 projectionMatrix, Matrix4 viewMatrix)
         {
             if (_postConstructor)
@@ -109,10 +127,10 @@ namespace MassiveGame
             }
             else
             {
-                //var componentAABB = GetAABBFromAllChildComponents();
-                //throw new NotImplementedException("Update to new bounding box mechanics");
-                //IsInCameraView = FrustumCulling.isBoxIntersection(null, viewMatrix, ref projectionMatrix);
-                IsInCameraView = true;
+                Component current = this;
+                bool bVisible = false;
+                CheckComponentsAreVisible(ref current, ref viewMatrix, ref projectionMatrix, ref bVisible);
+                IsInCameraView = bVisible;
             }
                     
             return IsInCameraView;

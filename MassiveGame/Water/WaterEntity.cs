@@ -53,7 +53,7 @@ namespace MassiveGame
         private bool _postConstructor;
         private MistComponent _mist;
         private Vector3[] _collisionCheckPoints;
-        public CollisionSphereBox Box { set; get; }
+        public CollisionQuad quad { set; get; }
 
         private Matrix4 modelMatrix;
 
@@ -233,7 +233,7 @@ namespace MassiveGame
             this._attribs = new VBOArrayF(new float[6, 3] { { -1.0f, 0.0f, 1.0f }, { 1.0f, 0.0f, 1.0f }, { 1.0f, 0.0f, -1.0f }, { 1.0f, 0.0f, -1.0f }, { -1.0f, 0.0f, -1.0f }, { -1.0f, 0.0f, 1.0f } },
                 new float[6, 3] { { 0.0f, 1.0f, 0.0f }, { 0.0f, 1.0f, 0.0f }, { 0.0f, 1.0f, 0.0f }, { 0.0f, 1.0f, 0.0f }, { 0.0f, 1.0f, 0.0f }, { 0.0f, 1.0f, 0.0f } },
                 new float[6, 2] { { 0, 1 }, { 1, 1 }, { 1, 0 }, { 1, 0 }, { 0, 0 }, { 0, 1 } }, true);
-            this.Box = new CollisionSphereBox(-1.0f, 1.0f, 0.0f, 0.0f, -1.0f, 1.0f, 0);
+            this.quad = new CollisionQuad(-1.0f, 1.0f, 0.0f, 0.0f, 0, 0);
             _moveFactor = 0.0f;
             _waveSpeed = 0.3f;
             _waveStrength = 0.02f;
@@ -251,11 +251,11 @@ namespace MassiveGame
             modelMatrix *= Matrix4.CreateScale(this._scaling);
             modelMatrix *= Matrix4.CreateTranslation(this._translation);
 
-            Box.LBNCoordinates = new Vector3(Vector4.Transform(new Vector4(Box.LBNCoordinates, 1.0f), modelMatrix));
-            Box.RTFCoordinates = new Vector3(Vector4.Transform(new Vector4(Box.RTFCoordinates, 1.0f), modelMatrix));
+            quad.LBCoordinates = Vector3.Transform(new Vector3(quad.LBCoordinates.X, quad.LBCoordinates.Y, 1.0f), modelMatrix).Xy;
+            quad.RTCoordinates = Vector3.Transform(new Vector3(quad.RTCoordinates.X, quad.RTCoordinates.Y, 1.0f), modelMatrix).Xy;
 
             // divide water collision box to avoid "bugs" with frustum culling
-            this._collisionCheckPoints = FrustumCulling.divideWaterCollisionBox(Box, frustumSquares);      
+            //this._collisionCheckPoints = FrustumCulling.divideWaterCollisionBox(quad, frustumSquares);      
         }
 
         #endregion

@@ -342,40 +342,7 @@ namespace PhysicsBox
             return tmin;
         }
         
-        /// <summary>
-        /// Находит пересечение двух боксов
-        /// </summary>
-        /// <param name="box1">Первый бокс</param>
-        /// <param name="box2">Второй бокс</param>
-        /// <returns>Истину если найдено пересечение, иначе - ложь</returns>
-        public static bool isBoxCollision(CollisionSphereBox box1, CollisionSphereBox box2)
-        {
-            bool collisionDetected = false;
-            /******************************************
-             * Достаточное условие столкновения :
-             *  если хоть одна вершина первого объекта пересекает другой объект, то найдена коллизия.
-             *  Далее следуют комбинации вершин 
-             * *****************************************/
-            if ((box1.LBNCoordinates.X > box2.LBNCoordinates.X && box1.LBNCoordinates.X < box2.RTFCoordinates.X) || //XL 
-                (box1.RTFCoordinates.X > box2.LBNCoordinates.X && box1.RTFCoordinates.X < box2.RTFCoordinates.X) || //XR
-                (box2.LBNCoordinates.X > box1.LBNCoordinates.X && box2.LBNCoordinates.X < box1.RTFCoordinates.X) || //XL 
-                (box2.RTFCoordinates.X > box1.LBNCoordinates.X && box2.RTFCoordinates.X < box1.RTFCoordinates.X) || //XR
-                (box1.LBNCoordinates.X == box2.LBNCoordinates.X && box1.RTFCoordinates.X == box2.LBNCoordinates.X) || //XL 
-                (box1.LBNCoordinates.X == box2.RTFCoordinates.X && box1.RTFCoordinates.X == box2.RTFCoordinates.X)) //XR
-            {
-                if ((box1.LBNCoordinates.Z > box2.LBNCoordinates.Z && box1.LBNCoordinates.Z < box2.RTFCoordinates.Z) || //ZN 
-                (box1.RTFCoordinates.Z > box2.LBNCoordinates.Z && box1.RTFCoordinates.Z < box2.RTFCoordinates.Z) || //ZF
-                (box2.LBNCoordinates.Z > box1.LBNCoordinates.Z && box2.LBNCoordinates.Z < box1.RTFCoordinates.Z) || //ZN 
-                (box2.RTFCoordinates.Z > box1.LBNCoordinates.Z && box2.RTFCoordinates.Z < box1.RTFCoordinates.Z) || //ZF
-                (box1.LBNCoordinates.Z == box2.LBNCoordinates.Z && box1.RTFCoordinates.Z == box2.LBNCoordinates.Z) || //ZN 
-                (box1.LBNCoordinates.Z == box2.RTFCoordinates.Z && box1.RTFCoordinates.Z == box2.RTFCoordinates.Z)) //ZF
-                {
-                    collisionDetected = true;
-                }
-            }
-
-            return collisionDetected;
-        }
+    
         /// <summary>
         /// Возвращает расстояние плоскости от начала координат 
         /// </summary>
@@ -868,11 +835,11 @@ namespace PhysicsBox
             return false;
         }
 
-        public static bool IsSphereVsSphereIntersection(Vector3 SphereOrigin1, float Radius1, Vector3 SphereOrigin2, float Radius2)
+        public static bool IsSphereVsSphereIntersection(FSphere sphere1, FSphere sphere2)
         {
-            Vector3 SphereOriginDistance = SphereOrigin1 - SphereOrigin2;
+            Vector3 SphereOriginDistance = sphere1.Origin - sphere2.Origin;
             float SquaredDistance = Vector3.Dot(SphereOriginDistance, SphereOriginDistance);
-            float SquaredRadiuses = (Radius1 + Radius2) * (Radius1 + Radius2);
+            float SquaredRadiuses = (sphere1.Radius * sphere1.Radius) + (sphere2.Radius * sphere2.Radius);
             return (SquaredDistance <= SquaredRadiuses);
         }
 

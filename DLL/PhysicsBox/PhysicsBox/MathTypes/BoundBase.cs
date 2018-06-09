@@ -36,6 +36,13 @@ namespace PhysicsBox.MathTypes
             Extent = extent;
         }
 
+        public static explicit operator FSphere(BoundBase bound)
+        {
+            Vector3 Origin = bound.GetOrigin();
+            Vector3 Extent = bound.GetExtent();
+            return new FSphere(Origin, Extent.Length);
+        }
+
         public Vector3 GetLocalSpaceOrigin()
         {
             return Origin;
