@@ -31,7 +31,7 @@ namespace MassiveGame
 
         public CollisionQuad CQuad { private set { _cQuad = value; } get { return _cQuad; } }
         public bool IsInCameraView { private set { _isInCameraView = value; } get { return _isInCameraView; } }
-        
+
         #endregion
 
         #region Overrides
@@ -42,10 +42,13 @@ namespace MassiveGame
             if (Object.Equals(CQuad, null))
             {
                 IsInCameraView = true;
-                return IsInCameraView;
+            }
+            else
+            {
+                IsInCameraView = FrustumCulling.isQuadIntersection(this.CQuad, viewMatrix, projectionMatrix);
             }
             // if sun lays in view frustum - then it intersects with it
-            return IsInCameraView = FrustumCulling.isQuadIntersection(this.CQuad, viewMatrix, projectionMatrix); 
+            return IsInCameraView;
         }
 
         #endregion
@@ -57,10 +60,10 @@ namespace MassiveGame
             if (Object.Equals(CQuad, null)) CQuad = new CollisionQuad(0, 0, 0, 0, 0, 0);
             var lbn = Vector4.Transform(_quadLBZ, Matrix4.CreateTranslation(_sun.Position));
             var rtf = Vector4.Transform(_quadRTZ, Matrix4.CreateTranslation(_sun.Position));
-            _cQuad.synchronizeCoordinates(lbn.X, rtf.X, lbn.Y, rtf.Y, lbn.Z);
+            _cQuad.synchronizeCoordinates(lbn.X, rtf.X, lbn.Y, rtf.Y, lbn.Z, lbn.Z);
         }
 
-        public void RenderWaterReflection(WaterEntity water, LiteCamera camera, ref Matrix4 ProjectionMatrix, Vector4 clipPlane, Vector3 scale = new Vector3())
+        public void RenderWaterReflection(WaterPlane water, LiteCamera camera, ref Matrix4 ProjectionMatrix, Vector4 clipPlane, Vector3 scale = new Vector3())
         {
             if (_postConstructor)
                 return;

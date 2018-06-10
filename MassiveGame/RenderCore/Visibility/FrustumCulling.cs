@@ -52,10 +52,10 @@ namespace MassiveGame.Optimization
 
             /*Transform vertices to clipped space*/
 
-            Vector4 LBZ = Vector4.Transform(new Vector4(quad.LBCoordinates.X, quad.LBCoordinates.Y, quad.ZCoordinate, 1.0f), viewprojectionMatrix);
-            Vector4 RBZ = Vector4.Transform(new Vector4(quad.RTCoordinates.X, quad.LBCoordinates.Y, quad.ZCoordinate, 1.0f), viewprojectionMatrix);
-            Vector4 RTZ = Vector4.Transform(new Vector4(quad.RTCoordinates.X, quad.RTCoordinates.Y, quad.ZCoordinate, 1.0f), viewprojectionMatrix);
-            Vector4 LTZ = Vector4.Transform(new Vector4(quad.LBCoordinates.X, quad.RTCoordinates.Y, quad.ZCoordinate, 1.0f), viewprojectionMatrix);
+            Vector4 LBZ = Vector4.Transform(new Vector4(quad.LBNCoordinates.X, quad.LBNCoordinates.Y, quad.LBNCoordinates.Z, 1.0f), viewprojectionMatrix);
+            Vector4 RBZ = Vector4.Transform(new Vector4(quad.RTFCoordinates.X, quad.LBNCoordinates.Y, quad.LBNCoordinates.Z, 1.0f), viewprojectionMatrix);
+            Vector4 RTZ = Vector4.Transform(new Vector4(quad.RTFCoordinates.X, quad.RTFCoordinates.Y, quad.LBNCoordinates.Z, 1.0f), viewprojectionMatrix);
+            Vector4 LTZ = Vector4.Transform(new Vector4(quad.LBNCoordinates.X, quad.RTFCoordinates.Y, quad.LBNCoordinates.Z, 1.0f), viewprojectionMatrix);
 
             /*Transform vertices to normalized device coordinates*/
 
@@ -91,27 +91,27 @@ namespace MassiveGame.Optimization
 
         public static Vector3[] divideWaterCollisionBox(CollisionQuad quad, int divideCount)
         {
-            //// disable optimize
-            //if (divideCount == 0) return null;
+            // disable optimize
+            if (divideCount == 0) return null;
 
-            //float stepX = 0.0f, stepZ = 0.0f;
-            //float stepValueX = (quad.RTCoordinates.X - quad.LBCoordinates.X) / divideCount;
-            //float stepValueZ = (quad.RTCoordinates.Z - quad.LBCoordinates.Z) / divideCount;
-            //Vector3[] checkPoints = new Vector3[(2 + divideCount) * (2 + divideCount)];
-            //for (int i = 0; i < checkPoints.Length; i++, stepX += stepValueX)
-            //{
-            //    /*To Do :
-            //     true - transition to next row
-            //     false - continue work with current row*/
-            //    if ((i + 1) % (divideCount + 2) == 0)
-            //    {
-            //        stepX = 0;
-            //        stepZ += stepValueZ;
-            //    }
-                
-            //    checkPoints[i] = new Vector3(box.LBNCoordinates.X + stepX, box.LBNCoordinates.Y, box.LBNCoordinates.Z + stepZ);
-            //}
-            return null;
+            float stepX = 0.0f, stepZ = 0.0f;
+            float stepValueX = (quad.RTFCoordinates.X - quad.LBNCoordinates.X) / divideCount;
+            float stepValueZ = (quad.RTFCoordinates.Z - quad.LBNCoordinates.Z) / divideCount;
+            Vector3[] checkPoints = new Vector3[(2 + divideCount) * (2 + divideCount)];
+            for (int i = 0; i < checkPoints.Length; i++, stepX += stepValueX)
+            {
+                /*To Do :
+                 true - transition to next row
+                 false - continue work with current row*/
+                if ((i + 1) % (divideCount + 2) == 0)
+                {
+                    stepX = 0;
+                    stepZ += stepValueZ;
+                }
+
+                checkPoints[i] = new Vector3(quad.LBNCoordinates.X + stepX, quad.LBNCoordinates.Y, quad.LBNCoordinates.Z + stepZ);
+            }
+            return checkPoints;
         }
 
         public static bool isWaterIntersection(Vector3[] boxCheckPoints, Matrix4 viewMatrix, ref Matrix4 projectionMatrix)
@@ -132,7 +132,8 @@ namespace MassiveGame.Optimization
                     (ndcCheckPoints[i].Y > -1.0f && ndcCheckPoints[i].Y < 1.0f) && 
                     (ndcCheckPoints[i].Z > -1.0f && ndcCheckPoints[i].Z < 1.0f))
                 {
-                    return true;
+                    intersection = true;
+                    break;
                 }
             }
 

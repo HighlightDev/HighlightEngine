@@ -39,15 +39,18 @@ namespace MassiveGame
 
         public static float Intersection_TerrainRay(Terrain terrain, FRay ray)
         {
-            Vector3 P = getIntersectionPoint(terrain, ray);
             float t = -1.0f;
-            if (GeometricMath.CMP(ray.Direction.X, 0.0f) <= 0.0f && GeometricMath.CMP(P.X, 0.0f) <= 0.0f)
-                t = (P.X - ray.StartPosition.X) / ray.Direction.X;
-            else if (GeometricMath.CMP(ray.Direction.Y, 0.0f) <= 0.0f && GeometricMath.CMP(P.Y, 0.0f) <= 0.0f)
-                t = (P.Y - ray.StartPosition.Y) / ray.Direction.Y;
-            else if (GeometricMath.CMP(ray.Direction.Z, 0.0f) <= 0.0f && GeometricMath.CMP(P.Z, 0.0f) <= 0.0f)
-                t = (P.Z - ray.StartPosition.Z) / ray.Direction.Z;
+            if (terrain != null)
+            {
+                Vector3 P = getIntersectionPoint(terrain, ray);
 
+                if (GeometricMath.CMP(ray.Direction.X, 0.0f) <= 0.0f && GeometricMath.CMP(P.X, 0.0f) <= 0.0f)
+                    t = (P.X - ray.StartPosition.X) / ray.Direction.X;
+                else if (GeometricMath.CMP(ray.Direction.Y, 0.0f) <= 0.0f && GeometricMath.CMP(P.Y, 0.0f) <= 0.0f)
+                    t = (P.Y - ray.StartPosition.Y) / ray.Direction.Y;
+                else if (GeometricMath.CMP(ray.Direction.Z, 0.0f) <= 0.0f && GeometricMath.CMP(P.Z, 0.0f) <= 0.0f)
+                    t = (P.Z - ray.StartPosition.Z) / ray.Direction.Z;
+            }
             return t;
         }
 

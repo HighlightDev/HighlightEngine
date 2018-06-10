@@ -15,10 +15,10 @@ using System.Drawing;
 
 namespace MassiveGame.RenderCore
 {
-    public static class RenderAPI
+    public static class TextureResolver
     {
         private static ResolveTextureShader resolveShader;
-        static RenderAPI()
+        static TextureResolver()
         {
             resolveShader = (ResolveTextureShader)ResourcePool.GetShaderProgram(ProjectFolders.ShadersPath + "resolveTextureVS.glsl", ProjectFolders.ShadersPath + "resolveTextureFS.glsl", "",
                     typeof(ResolveTextureShader));

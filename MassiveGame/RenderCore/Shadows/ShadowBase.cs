@@ -28,17 +28,12 @@ namespace MassiveGame.RenderCore.Shadows
 
         protected BasicShadowShader shadowShader;
 
-        protected Matrix4 ShadowBiasMatrix;
-
-        private void CreateBiasMatrix()
-        {
-            ShadowBiasMatrix = new Matrix4(
+        protected Matrix4 ShadowBiasMatrix = new Matrix4(
                 0.5f, 0, 0, 0,
                 0, 0.5f, 0, 0,
                 0, 0, 0.5f, 0,
                 0.5f, 0.5f, 0.5f, 1
                 );
-        }
 
         public Matrix4 GetShadowMatrix(ref Matrix4 ModelMatrix, ref Matrix4 ProjectionMatrix)
         {
@@ -76,8 +71,11 @@ namespace MassiveGame.RenderCore.Shadows
             shadowShader.startProgram();
             foreach (IDrawable actor in CastingShadowActors)
             {
-                shadowShader.SetUniformValues(actor.GetWorldMatrix(), shadowViewMatrix, shadowProjectionMatrix);
-                VAOManager.renderBuffers(actor.GetModel(), OpenTK.Graphics.OpenGL.PrimitiveType.Triangles);
+                if (actor != null)
+                {
+                    shadowShader.SetUniformValues(actor.GetWorldMatrix(), shadowViewMatrix, shadowProjectionMatrix);
+                    VAOManager.renderBuffers(actor.GetModel(), OpenTK.Graphics.OpenGL.PrimitiveType.Triangles);
+                }
             }
             shadowShader.stopProgram();
             //GL.Disable(EnableCap.CullFace);
@@ -92,7 +90,6 @@ namespace MassiveGame.RenderCore.Shadows
             shadowShader = (BasicShadowShader)ResourcePool.GetShaderProgram(ProjectFolders.ShadersPath + "basicShadowVS.glsl", ProjectFolders.ShadersPath + "basicShadowFS.glsl", "", typeof(BasicShadowShader));
             AllocateRenderTarget(ShadowMapSettings);
             PrepareRenderTarget();
-            CreateBiasMatrix();
         }
 
         public void CleanUp()

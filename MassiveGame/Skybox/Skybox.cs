@@ -26,7 +26,7 @@ namespace MassiveGame
 
         #region Renderer
 
-        private Matrix4 GetMirrorMatrix(WaterEntity water)
+        private Matrix4 GetMirrorMatrix(WaterPlane water)
         {
             Matrix4 mirrorMatrix = Matrix4.Identity;
             mirrorMatrix *= Matrix4.CreateRotationY(MathHelper.DegreesToRadians(_moveFactor));
@@ -40,7 +40,7 @@ namespace MassiveGame
             _moveFactor %= 360.0f;
         }
 
-        public void RenderWaterReflection(WaterEntity water, LiteCamera camera, DirectionalLight sun, Matrix4 projectionMatrix, Vector4 clipPlane)
+        public void RenderWaterReflection(WaterPlane water, LiteCamera camera, DirectionalLight sun, Matrix4 projectionMatrix, Vector4 clipPlane)
         {
             if (_postConstructor)
                 return;

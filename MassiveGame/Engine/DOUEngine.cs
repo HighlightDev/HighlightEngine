@@ -69,7 +69,7 @@ namespace MassiveGame
         public static  Skybox Skybox;
         public static  MousePicker Picker;
         public static  PostprocessRenderer PostProc;
-        public static  WaterEntity Water;
+        public static  WaterPlane Water;
         public static  SunRenderer SunReplica;
         public static  LensFlareRenderer Lens;
         public static  GodRaysRenderer Ray;

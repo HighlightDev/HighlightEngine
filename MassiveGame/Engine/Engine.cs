@@ -120,20 +120,20 @@ namespace MassiveGame.UI
 
             // temporary
 
-            DOUEngine.terrain = new Terrain(DOUEngine.MAP_SIZE, DOUEngine.MAP_HEIGHT, 3, 
-                   ProjectFolders.HeightMapsTexturesPath + "heightmap2.png",
-                   ProjectFolders.MultitexturesPath + "NewLandscape/volcanictundrarocks01.jpg",
-                   ProjectFolders.MultitexturesPath + "NewLandscape/tundra02.jpg",
-                   ProjectFolders.MultitexturesPath + "b.png",
-                   ProjectFolders.MultitexturesPath + "NewLandscape/snow01.jpg",
-                   ProjectFolders.MultitexturesPath + "blendMap.png");
+            //DOUEngine.terrain = new Terrain(DOUEngine.MAP_SIZE, DOUEngine.MAP_HEIGHT, 3, 
+            //       ProjectFolders.HeightMapsTexturesPath + "heightmap2.png",
+            //       ProjectFolders.MultitexturesPath + "NewLandscape/volcanictundrarocks01.jpg",
+            //       ProjectFolders.MultitexturesPath + "NewLandscape/tundra02.jpg",
+            //       ProjectFolders.MultitexturesPath + "b.png",
+            //       ProjectFolders.MultitexturesPath + "NewLandscape/snow01.jpg",
+            //       ProjectFolders.MultitexturesPath + "blendMap.png");
 
-            DOUEngine.terrain.SetNormalMapR(ProjectFolders.MultitexturesPath + "NewLandscape/volcanictundrarocks01_n.png");
-            DOUEngine.terrain.SetNormalMapG(ProjectFolders.MultitexturesPath + "NewLandscape/tundra02_n.png");
-            //DOUEngine.Map.SetNormalMapBlack(ProjectFolders.MultitexturesPath + "NewLandscape/snow01_n.png");
-            DOUEngine.terrain.SetNormalMapB(ProjectFolders.NormalMapsPath + "brick_nm_high.png");
+            //DOUEngine.terrain.SetNormalMapR(ProjectFolders.MultitexturesPath + "NewLandscape/volcanictundrarocks01_n.png");
+            //DOUEngine.terrain.SetNormalMapG(ProjectFolders.MultitexturesPath + "NewLandscape/tundra02_n.png");
+            ////DOUEngine.Map.SetNormalMapBlack(ProjectFolders.MultitexturesPath + "NewLandscape/snow01_n.png");
+            //DOUEngine.terrain.SetNormalMapB(ProjectFolders.NormalMapsPath + "brick_nm_high.png");
 
-            DOUEngine.terrain.SetMist(DOUEngine.Mist);
+            //DOUEngine.terrain.SetMist(DOUEngine.Mist);
 
             string modelPath = ProjectFolders.ModelsPath + "playerCube.obj";
             string texturePath = ProjectFolders.MultitexturesPath + "b.png";
@@ -246,7 +246,7 @@ namespace MassiveGame.UI
             //EngineSingleton.SourceAmbient.SetLooping(true);
             //EngineSingleton.SourceAmbient.Play();
 
-            DOUEngine.Water = new WaterEntity(ProjectFolders.WaterTexturePath + "DUDV.png", ProjectFolders.WaterTexturePath + "normal.png",
+            DOUEngine.Water = new WaterPlane(ProjectFolders.WaterTexturePath + "DUDV.png", ProjectFolders.WaterTexturePath + "normal.png",
                 new Vector3(160, 29, 254), new Vector3(0, 0, 0), new Vector3(70, 1, 100), new WaterQuality(true, true, true), 10);
             //DOUEngine.Water.setMist(DOUEngine.Mist);
 
@@ -284,7 +284,6 @@ namespace MassiveGame.UI
             DOUEngine.shadowList.Add(DOUEngine.terrain);
 
 
-            //throw new NotImplementedException("Redo using matrix transformation");
             DOUEngine.uiFrameCreator = new UiFrameMaster();
             DOUEngine.uiFrameCreator.PushFrame(DOUEngine.Sun.GetShadowHandler().GetTextureHandler());
            

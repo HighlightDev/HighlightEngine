@@ -131,7 +131,7 @@ namespace MassiveGame
 
         #region Renderer
 
-        public void RenderWaterReflection(WaterEntity water, DirectionalLight Sun, LiteCamera camera, ref Matrix4 ProjectionMatrix, Vector4 clipPlane)
+        public void RenderWaterReflection(WaterPlane water, DirectionalLight Sun, LiteCamera camera, ref Matrix4 ProjectionMatrix, Vector4 clipPlane)
         {
             if (_postConstructor)
                 return;

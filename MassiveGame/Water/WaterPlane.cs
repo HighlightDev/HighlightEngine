@@ -33,7 +33,7 @@ namespace MassiveGame
 
     #endregion
 
-    public class WaterEntity : IVisible
+    public class WaterPlane : IVisible
     {
         private StencilPassShader stencilPassShader;
 
@@ -121,15 +121,16 @@ namespace MassiveGame
 
         #region Overrides
 
-        // realize method of iOptimizable interface
+        // Implement method of iOptimizable interface
         public bool IsInViewFrustum(ref Matrix4 projectionMatrix, Matrix4 viewMatrix)
         {
             if (Object.Equals(this._collisionCheckPoints, null))
-            {
                 // disable optimization, keep water always in view frustum
-                return this.IsInCameraView = true; 
-            }
-            return this.IsInCameraView = FrustumCulling.isWaterIntersection(this._collisionCheckPoints, viewMatrix, ref projectionMatrix);
+                IsInCameraView = true;
+            else
+                IsInCameraView = this.IsInCameraView = FrustumCulling.isWaterIntersection(this._collisionCheckPoints, viewMatrix, ref projectionMatrix);
+
+            return IsInCameraView;
         }
 
         #endregion
@@ -220,7 +221,7 @@ namespace MassiveGame
             }
         }
 
-        public WaterEntity(string distortionMap, string normalMap, Vector3 translation, Vector3 rotation, Vector3 scaling,
+        public WaterPlane(string distortionMap, string normalMap, Vector3 translation, Vector3 rotation, Vector3 scaling,
             WaterQuality quality, int frustumSquares = 0)
         {
             this._waterDistortionMap = ResourcePool.GetTexture(distortionMap);
@@ -233,7 +234,7 @@ namespace MassiveGame
             this._attribs = new VBOArrayF(new float[6, 3] { { -1.0f, 0.0f, 1.0f }, { 1.0f, 0.0f, 1.0f }, { 1.0f, 0.0f, -1.0f }, { 1.0f, 0.0f, -1.0f }, { -1.0f, 0.0f, -1.0f }, { -1.0f, 0.0f, 1.0f } },
                 new float[6, 3] { { 0.0f, 1.0f, 0.0f }, { 0.0f, 1.0f, 0.0f }, { 0.0f, 1.0f, 0.0f }, { 0.0f, 1.0f, 0.0f }, { 0.0f, 1.0f, 0.0f }, { 0.0f, 1.0f, 0.0f } },
                 new float[6, 2] { { 0, 1 }, { 1, 1 }, { 1, 0 }, { 1, 0 }, { 0, 0 }, { 0, 1 } }, true);
-            this.quad = new CollisionQuad(-1.0f, 1.0f, 0.0f, 0.0f, 0, 0);
+            this.quad = new CollisionQuad(-1.0f, 1.0f, 0.0f, 0.0f, -1.0f, 1.0f);
             _moveFactor = 0.0f;
             _waveSpeed = 0.3f;
             _waveStrength = 0.02f;
@@ -251,11 +252,11 @@ namespace MassiveGame
             modelMatrix *= Matrix4.CreateScale(this._scaling);
             modelMatrix *= Matrix4.CreateTranslation(this._translation);
 
-            quad.LBCoordinates = Vector3.Transform(new Vector3(quad.LBCoordinates.X, quad.LBCoordinates.Y, 1.0f), modelMatrix).Xy;
-            quad.RTCoordinates = Vector3.Transform(new Vector3(quad.RTCoordinates.X, quad.RTCoordinates.Y, 1.0f), modelMatrix).Xy;
+            quad.LBNCoordinates = Vector3.TransformPosition(quad.LBNCoordinates, modelMatrix);
+            quad.RTFCoordinates = Vector3.TransformPosition(quad.RTFCoordinates, modelMatrix);
 
             // divide water collision box to avoid "bugs" with frustum culling
-            //this._collisionCheckPoints = FrustumCulling.divideWaterCollisionBox(quad, frustumSquares);      
+            this._collisionCheckPoints = FrustumCulling.divideWaterCollisionBox(quad, frustumSquares);      
         }
 
         #endregion

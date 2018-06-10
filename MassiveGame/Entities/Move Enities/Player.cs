@@ -56,7 +56,7 @@ namespace MassiveGame
             return modelMatrix;
         }
 
-        public Matrix4 GetMirrorMatrix(WaterEntity water)
+        public Matrix4 GetMirrorMatrix(WaterPlane water)
         {
             Vector3 currentPosition = ComponentTranslation;
             float translationPositionY = (2 * water.GetTranslation().Y) - currentPosition.Y;
@@ -99,7 +99,7 @@ namespace MassiveGame
             liteRefractionShader.stopProgram();
         }
 
-        public void RenderWaterReflection(WaterEntity water, DirectionalLight Sun, LiteCamera camera, ref Matrix4 ProjectionMatrix,
+        public void RenderWaterReflection(WaterPlane water, DirectionalLight Sun, LiteCamera camera, ref Matrix4 ProjectionMatrix,
             Vector4 clipPlane = new Vector4())
         {
             if (_postConstructor)

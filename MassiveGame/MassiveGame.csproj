@@ -145,7 +145,7 @@
     <Compile Include="Settings\SettingsLoader.cs" />
     <Compile Include="Water\WaterReflectionEntityShader.cs" />
     <Compile Include="Water\WaterRefractionEntityShader.cs" />
-    <Compile Include="RenderCore\RenderAPI.cs" />
+    <Compile Include="RenderCore\TextureResolver.cs" />
     <Compile Include="Core\RenderMap.cs" />
     <Compile Include="Debug\Log.cs" />
     <Compile Include="Debug\UiPanel\UiFrameShader.cs" />
@@ -225,7 +225,7 @@
       <DependentUpon>Engine.cs</DependentUpon>
     </Compile>
     <Compile Include="Water\WaterFBO.cs" />
-    <Compile Include="Water\WaterEntity.cs" />
+    <Compile Include="Water\WaterPlane.cs" />
     <Compile Include="Water\WaterRefractionTerrainShader.cs" />
     <Compile Include="Water\WaterReflectionTerrainShader.cs" />
     <Compile Include="Water\WaterShader.cs" />
