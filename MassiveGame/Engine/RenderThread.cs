@@ -236,11 +236,14 @@ namespace MassiveGame.Engine
                     item.RenderBound(ref DOUEngine.ProjectionMatrix, ref viewMatrix, System.Drawing.Color.Red);
             }
 
-            var matrix = DOUEngine.Camera.getViewMatrix();
-            matrix[3, 0] = 0.0f;
-            matrix[3, 1] = 0.0f;
-            matrix[3, 2] = 0.0f;
-            if (!Object.Equals(DOUEngine.SunReplica, null)) DOUEngine.SunReplica.CQuad.renderQuad(matrix, ref DOUEngine.ProjectionMatrix);
+            if (DOUEngine.SunReplica != null && DOUEngine.SunReplica.CQuad != null)
+            {
+                var matrix = DOUEngine.Camera.getViewMatrix();
+                matrix[3, 0] = 0.0f;
+                matrix[3, 1] = 0.0f;
+                matrix[3, 2] = 0.0f;
+                DOUEngine.SunReplica.CQuad.renderQuad(matrix, ref DOUEngine.ProjectionMatrix);
+            }
         }
     
         private void RenderDebugInfo()
@@ -273,10 +276,10 @@ namespace MassiveGame.Engine
         private void RenderBasePass(Camera camera, bool redraw = false)
         {
             /*TO DO :
-             * Culling back facies of EngineSingleton.Skybox (cause we don't see them)
-             * Culling back facies of terrain
-             * Culling back face of EngineSingleton.Sun
-             * Clearing depth buffer, cause EngineSingleton.Skybox is infinite   */
+             * Culling back faces of Skybox (cause we don't see them)
+             * Culling back faces of terrain
+             * Culling back face of Sun
+             * Clearing depth buffer, cause Skybox is infinite   */
 
             GL.Disable(EnableCap.DepthTest);
 

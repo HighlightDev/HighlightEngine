@@ -32,10 +32,15 @@ out float mistContribution;
 
 float getMist(float density, float gradient, vec3 eyePos)
 {
-	float distance = length(eyePos.xyz);
-	float mist = exp(-pow((density * distance), gradient));
-	mist = clamp(mist, 0.0, 1.0);
-	return mist;
+    float mistContribution = 0.0;
+	/*If mist enabled*/
+	if (mistEnable)
+	{
+	    float distance = length(eyePos.xyz);
+	    mistContribution = exp(-pow((density * distance), gradient));
+	    mistContribution = clamp(mistContribution, 0.0, 1.0);
+    }
+	return mistContribution;
 }
 
 void main(void)
@@ -52,7 +57,7 @@ void main(void)
 		WorldTangent.z, WorldBitangent.z, WorldNormal.z
 	);
 
-	eyeCameraVec = WorldTangent * (cameraPosition - worldPos);
+	eyeCameraVec = WorldTangentSpace * (cameraPosition - worldPos);
 	sunDir = WorldTangentSpace * sunPos;
 
 	for (int i = 0; i < MAX_LIGHT_COUNT; i++)

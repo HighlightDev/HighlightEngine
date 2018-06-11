@@ -247,7 +247,7 @@ namespace MassiveGame.UI
             //EngineSingleton.SourceAmbient.Play();
 
             DOUEngine.Water = new WaterPlane(ProjectFolders.WaterTexturePath + "DUDV.png", ProjectFolders.WaterTexturePath + "normal.png",
-                new Vector3(160, 29, 254), new Vector3(0, 0, 0), new Vector3(70, 1, 100), new WaterQuality(true, true, true), 10);
+                new Vector3(160, 29, 200), new Vector3(0, 0, 0), new Vector3(200, 1, 200), new WaterQuality(true, true, true), 10);
             //DOUEngine.Water.setMist(DOUEngine.Mist);
 
             DOUEngine.SunReplica = new SunRenderer(DOUEngine.Sun, ProjectFolders.SunTexturePath + "sunC.png",
