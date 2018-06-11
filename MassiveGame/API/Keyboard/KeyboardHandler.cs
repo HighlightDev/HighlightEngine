@@ -9,6 +9,16 @@ namespace MassiveGame.API.EventHandlers
 {
     public class KeyboardHandler
     {
+        public void Event_KeyPress(object sender, System.Windows.Forms.KeyPressEventArgs args)
+        {
+
+        }
+
+        public void Event_KeyRelease(object sender, System.Windows.Forms.KeyEventArgs args)
+        {
+
+        }
+
         private static bool[] keyboardMaskArray;
 
         public KeyboardHandler()

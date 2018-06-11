@@ -570,7 +570,6 @@ namespace MassiveGame.UI
         }
         #endregion
 
-
         #region System functions
 
         private void setGraphicsSettings()

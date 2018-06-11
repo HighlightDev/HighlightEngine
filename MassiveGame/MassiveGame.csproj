@@ -111,6 +111,7 @@
     <Compile Include="API\Collector\TextureCollect\TextureAllocator.cs" />
     <Compile Include="API\Collector\TextureCollect\TextureCollection.cs" />
     <Compile Include="API\Collector\TextureCollect\TexturePool.cs" />
+    <Compile Include="Core\PlayerController.cs" />
     <Compile Include="Debug\UiPanel\UiFrameMaster.cs" />
     <Compile Include="Engine\GameThread.cs" />
     <Compile Include="Engine\RenderThread.cs" />
