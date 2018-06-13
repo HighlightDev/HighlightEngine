@@ -82,6 +82,7 @@ namespace MassiveGame.Debug.UiPanel
         public void RenderInputTexture(ITexture renderTexture, Point screenRezolution)
         {
             PostConstructor();
+            GL.BindFramebuffer(FramebufferTarget.Framebuffer, 0);
             GL.Viewport(0, 0, screenRezolution.X, screenRezolution.Y);
             _shader.startProgram();
             renderTexture.BindTexture(TextureUnit.Texture0);

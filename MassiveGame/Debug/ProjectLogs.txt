@@ -1,7 +1,7 @@
-13.06.2018 16:29:01  Postprocess Framebuffer 1 : Framebuffer : Not all framebuffer attachment points are framebuffer attachment complete.
-13.06.2018 16:29:01  Postprocess Framebuffer 2 : Framebuffer : complete.
-13.06.2018 16:29:01  Water Framebuffer 1 : Framebuffer : complete.
-13.06.2018 16:29:01  Water Framebuffer 2 : Framebuffer : complete.
+13.06.2018 20:54:26  GodRays Framebuffer 1 : Framebuffer : complete.
+13.06.2018 20:54:26  Water Framebuffer 1 : Framebuffer : complete.
+13.06.2018 20:54:26  Water Framebuffer 2 : Framebuffer : complete.
+13.06.2018 20:54:26  GodRays Framebuffer 1 : Framebuffer : complete.
 
-Time elapsed : 00:00:03.0010000
+Time elapsed : 00:00:17.9230000
 

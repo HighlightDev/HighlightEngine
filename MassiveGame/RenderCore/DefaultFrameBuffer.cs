@@ -52,8 +52,8 @@ namespace MassiveGame.RenderCore
             GL.BindFramebuffer(FramebufferTarget.Framebuffer, FramebufferHandler);
             GL.FramebufferTexture2D(FramebufferTarget.Framebuffer, FramebufferAttachment.ColorAttachment0, TextureTarget.Texture2D, RenderTargetHandler, 0);
             GL.BindRenderbuffer(RenderbufferTarget.Renderbuffer, RenderBufferHandler);
-            GL.RenderbufferStorage(RenderbufferTarget.Renderbuffer, RenderbufferStorage.DepthComponent24, WidthRezolution, HeightRezolution);
-            GL.FramebufferRenderbuffer(FramebufferTarget.Framebuffer, FramebufferAttachment.DepthAttachment, RenderbufferTarget.Renderbuffer, RenderBufferHandler);
+            GL.RenderbufferStorage(RenderbufferTarget.Renderbuffer, RenderbufferStorage.Depth24Stencil8, WidthRezolution, HeightRezolution);
+            GL.FramebufferRenderbuffer(FramebufferTarget.Framebuffer, FramebufferAttachment.DepthStencilAttachment, RenderbufferTarget.Renderbuffer, RenderBufferHandler);
             GL.DrawBuffer(DrawBufferMode.ColorAttachment0);
             GL.ReadBuffer(ReadBufferMode.None);
             GL.BindFramebuffer(FramebufferTarget.Framebuffer, 0);

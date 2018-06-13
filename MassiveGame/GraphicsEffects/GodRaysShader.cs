@@ -15,7 +15,7 @@ namespace MassiveGame
         #region Definitions
 
         private const string SHADER_NAME = "GodRays Shader";
-        private Int32 frameTexture, bluredTexture, exposure, decay, weight,
+        private Int32 frameTexture, brightPartsTexture, exposure, decay, weight,
             radialPosition, density, numSamples;
 
         #endregion
@@ -25,7 +25,7 @@ namespace MassiveGame
         protected override void getAllUniformLocations()
         {
             frameTexture = base.getUniformLocation("frameTexture");
-            bluredTexture = base.getUniformLocation("bluredTexture");
+            brightPartsTexture = base.getUniformLocation("bluredTexture");
             exposure = base.getUniformLocation("exposure");
             decay = base.getUniformLocation("decay");
             weight = base.getUniformLocation("weight");
@@ -42,12 +42,52 @@ namespace MassiveGame
             float decay, float weigth, float density, Int32 numSamples, Vector2 radialPosition)
         {
             base.loadInteger(this.frameTexture, frameTexture);
-            base.loadInteger(this.bluredTexture, bluredTexture);
+            base.loadInteger(this.brightPartsTexture, bluredTexture);
             base.loadFloat(this.exposure, exposure);
             base.loadFloat(this.decay, decay);
             base.loadFloat(this.weight, weight);
             base.loadFloat(this.density, density);
             base.loadInteger(this.numSamples, numSamples);
+            base.loadVector(this.radialPosition, radialPosition);
+        }
+
+        public void SetFrameTextureSampler(Int32 frameTextureSampler)
+        {
+            base.loadInteger(this.frameTexture, frameTextureSampler);
+        }
+
+        public void SetBrightPartsTextureSampler(Int32 brightPartsTextureSampler)
+        {
+            base.loadInteger(this.brightPartsTexture, brightPartsTextureSampler);
+        }
+
+        public void SetRadialBlurExposure(float exposure)
+        {
+            base.loadFloat(this.exposure, exposure);
+        }
+
+        public void SetRadialBlurDecay(float decay)
+        {
+            base.loadFloat(this.decay, decay);
+        }
+
+        public void SetRadialBlurNumberOfSamples(Int32 numberOfSamples)
+        {
+            base.loadInteger(this.numSamples, numberOfSamples);
+        }
+
+        public void SetRadialBlurWeight(float weight)
+        {
+            base.loadFloat(this.weight, weight);
+        }
+
+        public void SetRadialBlurDensity(float density)
+        {
+            base.loadFloat(this.density, density);
+        }
+
+        public void SetRadialBlurCenterPositionInScreenSpace(Vector2 radialPosition)
+        {
             base.loadVector(this.radialPosition, radialPosition);
         }
 

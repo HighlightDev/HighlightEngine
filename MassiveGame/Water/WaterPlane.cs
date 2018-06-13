@@ -224,9 +224,6 @@ namespace MassiveGame
 
                 this._fbo = new WaterFBO();
                 this._postConstructor = !this._postConstructor;
-
-                DOUEngine.uiFrameCreator.PushFrame(new Texture2Dlite((Int32)DOUEngine.Water._fbo.ReflectionTexture.GetTextureDescriptor(), _fbo.ReflectionTexture.GetTextureRezolution()));
-                DOUEngine.uiFrameCreator.PushFrame(new Texture2Dlite((Int32)DOUEngine.Water._fbo.RefractionTexture.GetTextureDescriptor(), _fbo.RefractionTexture.GetTextureRezolution()));
             }
         }
 

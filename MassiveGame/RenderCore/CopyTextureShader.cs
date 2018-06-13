@@ -8,9 +8,9 @@ using TextureLoader;
 
 namespace MassiveGame.RenderCore
 {
-    public class ResolveTextureShader : Shader
+    public class CopyTextureShader : Shader
     {
-        const string SHADER_NAME = "ResolveTextureShader";
+        const string SHADER_NAME = "CopyTexture Shader";
 
         private Int32 srcSampler;
 
@@ -28,7 +28,7 @@ namespace MassiveGame.RenderCore
         {
         }
 
-        public ResolveTextureShader(string VertexShaderFile, string FragmentShaderFile) : base(VertexShaderFile, FragmentShaderFile)
+        public CopyTextureShader(string VertexShaderFile, string FragmentShaderFile) : base(VertexShaderFile, FragmentShaderFile)
         {
             if (base.ShaderLoaded)
             {

@@ -19,12 +19,16 @@ namespace MassiveGame
         public ITexture RadialBlurAppliedTexture { private set; get; }
         public ITexture LensFlareTexture { private set; get; }
 
+        public ITexture LightShaftsResultTexture { private set; get; }
+
         #endregion
 
         #region Setter
 
         protected override void setTextures()
         {
+            LightShaftsResultTexture = new Texture2Dlite(DOUEngine.ScreenRezolution.X, DOUEngine.ScreenRezolution.Y, PixelInternalFormat.Rgb, PixelFormat.Rgb, PixelType.UnsignedByte);
+
             FrameTexture = new Texture2Dlite(DOUEngine.ScreenRezolution.X, DOUEngine.ScreenRezolution.Y, PixelInternalFormat.Rgb, PixelFormat.Rgb, PixelType.UnsignedByte);
             RadialBlurAppliedTexture = new Texture2Dlite(DOUEngine.ScreenRezolution.X / 10, DOUEngine.ScreenRezolution.Y / 10, PixelInternalFormat.Rgb, PixelFormat.Rgb, PixelType.UnsignedByte, (Int32)All.Linear);
             
@@ -37,7 +41,10 @@ namespace MassiveGame
 
         protected override void setFramebuffers()
         {
-            base.genFramebuffers(3);
+            base.genFramebuffers(4);
+
+            base.bindFramebuffer(4);
+            attachTextureToFramebuffer(FramebufferAttachment.ColorAttachment0, LightShaftsResultTexture.GetTextureDescriptor());
            
             base.bindFramebuffer(2);
             base.attachTextureToFramebuffer(FramebufferAttachment.ColorAttachment0, RadialBlurAppliedTexture.GetTextureDescriptor());

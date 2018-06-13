@@ -14,17 +14,19 @@ using MassiveGame.RenderCore.ComputeShaders;
 using MassiveGame.Settings;
 using MassiveGame.Optimization;
 using MassiveGame.RenderCore.Visibility;
+using MassiveGame.PostFX;
 
 namespace MassiveGame.Engine
 {
     public class RenderThread
     {
         public DefaultFrameBuffer DefaultFB { set; get; }
+        public PostProcessStage postProcessStage { set; get; }
         //private ComputeShader ch;
 
         public RenderThread()
         {
-
+            postProcessStage = new PostProcessStage();
         }
 
         private void PreDrawClear()
@@ -71,133 +73,139 @@ namespace MassiveGame.Engine
              *  PP_ENABLED_LENS_DISABLED - render scene to postprocess framebuffer            *
              *  and apply postprocess filters.                                                */
 
-            switch (DOUEngine.Settings)
-            {
-                case PostProcessFlag.PostFx_and_GrEffects_Disable:
-                    {
-                        DefaultFB.Bind();
-                        DrawAll(actualSceenWidth, actualSceenHeight, bInitialDraw);
-                        DefaultFB.Unbind();
-                        break;
-                    }
-                case PostProcessFlag.PostFx_and_GrEffects_Enable:
-                    {
-                        // if sun isn't in camera's view - don't apply god rays and lens flare
-                        if (DOUEngine.SunReplica.IsInCameraView)
-                        {
-                            /*Render to postprocess framebuffer*/
-                            DOUEngine.PostProc.beginPostProcessing();
-                            DrawAll(actualSceenWidth, actualSceenHeight, bInitialDraw);
+            DefaultFB.Bind();
+            DrawAll(actualSceenWidth, actualSceenHeight, bInitialDraw);
+            DefaultFB.Unbind();
 
-                            DOUEngine.PostProc.sendPostProcessingToGraphicsFilter(actualSceenWidth, actualSceenHeight);
+            postProcessStage.ExecutePostProcessPass(DefaultFB.GetTextureHandler(), new Point(actualSceenWidth, actualSceenHeight));
 
-                            if (DOUEngine.Lens != null && DOUEngine.Ray != null)
-                            {
-                                /*Render to GodRays framebuffer*/
-                                DOUEngine.Ray.beginGodRaysSpecial();
-                                renderToGodRaysScene(DOUEngine.Camera);
-                                /* Pass result to lens flare */
-                                DOUEngine.Ray.sendGodRaysWithPostprocessToNextStage(actualSceenWidth, actualSceenHeight, DOUEngine.Sun.Position,
-                                    DOUEngine.Camera.getViewMatrix(), DOUEngine.ProjectionMatrix, DOUEngine.PostProc.PostprocessFilterResult);
+            //switch (DOUEngine.Settings)
+            //{
+            //    case PostProcessFlag.PostFx_and_GrEffects_Disable:
+            //        {
+            //            DefaultFB.Bind();
+            //            DrawAll(actualSceenWidth, actualSceenHeight, bInitialDraw);
+            //            DefaultFB.Unbind();
+            //            break;
+            //        }
+            //    case PostProcessFlag.PostFx_and_GrEffects_Enable:
+            //        {
+            //            // if sun isn't in camera's view - don't apply god rays and lens flare
+            //            if (DOUEngine.SunReplica.IsInCameraView)
+            //            {
+            //                /*Render to postprocess framebuffer*/
+            //                DOUEngine.PostProc.beginPostProcessing();
+            //                DrawAll(actualSceenWidth, actualSceenHeight, bInitialDraw);
 
-                                /*Render to lens flare framebuffer*/
-                                DOUEngine.Lens.beginLensFlareSpecialScene();
-                                renderToLensFlareScene(DOUEngine.Camera);
-                                /*Pass result on the screen*/
-                                DOUEngine.Lens.endLensFlareWithPostprocess(DOUEngine.Camera, actualSceenWidth, actualSceenHeight, DOUEngine.Ray.FilterResult);
-                            }
-                            else if (DOUEngine.Lens != null && DOUEngine.Ray == null)
-                            {
-                                /*Render to lens flare framebuffer*/
-                                DOUEngine.Lens.beginLensFlareSpecialScene();
-                                renderToLensFlareScene(DOUEngine.Camera);
-                                /*Pass result on the screen*/
-                                DOUEngine.Lens.endLensFlareWithPostprocess(DOUEngine.Camera, actualSceenWidth, actualSceenHeight, DOUEngine.PostProc.PostprocessFilterResult);
-                            }
-                            else if (DOUEngine.Lens == null && DOUEngine.Ray != null)
-                            {
-                                /*Render to GodRays framebuffer*/
-                                DOUEngine.Ray.beginGodRaysSpecial();
-                                renderToGodRaysScene(DOUEngine.Camera);
-                                /*Pass result on the screen*/
-                                DOUEngine.Ray.endGodRaysWithPostprocess(actualSceenWidth, actualSceenHeight, DOUEngine.Sun.Position,
-                                    DOUEngine.Camera.getViewMatrix(), DOUEngine.ProjectionMatrix, DOUEngine.PostProc.PostprocessFilterResult);
-                            }
-                        }
-                        else
-                        {
-                            DOUEngine.PostProc.beginPostProcessing();
-                            DrawAll(actualSceenWidth, actualSceenHeight, bInitialDraw);
-                            /*Pass result on the screen*/
-                            DOUEngine.PostProc.endPostProcessing(actualSceenWidth, actualSceenHeight);
-                        }
-                        break;
-                    }
-                case PostProcessFlag.PostFxDisable | PostProcessFlag.GrEffectsEnable:
-                    {
-                        // if sun isn't in camera's view - don't apply god rays and lens flare
-                        if (DOUEngine.SunReplica.IsInCameraView)
-                        {
-                            if (DOUEngine.Lens != null && DOUEngine.Ray != null)
-                            {
-                                /*Render to GodRays framebuffer*/
-                                DOUEngine.Ray.beginGodRaysSimple();
-                                DrawAll(actualSceenWidth, actualSceenHeight, bInitialDraw);
-                                DOUEngine.Ray.beginGodRaysSpecial();
-                                renderToGodRaysScene(DOUEngine.Camera);
-                                /*Pass result on the screen*/
-                                DOUEngine.Ray.sendGodRaysWithoutPostprocessToNextStage(actualSceenWidth, actualSceenHeight,
-                                    DOUEngine.Sun.Position, DOUEngine.Camera.getViewMatrix(), DOUEngine.ProjectionMatrix);
+            //                DOUEngine.PostProc.sendPostProcessingToGraphicsFilter(actualSceenWidth, actualSceenHeight);
 
-                                /*Render to lens flare framebuffer*/
-                                DOUEngine.Lens.beginLensFlareSpecialScene();
-                                renderToLensFlareScene(DOUEngine.Camera);
-                                /*Pass result on the screen*/
-                                DOUEngine.Lens.endLensFlareWithPostprocess(DOUEngine.Camera, actualSceenWidth, actualSceenHeight, DOUEngine.Ray.FilterResult);
-                            }
-                            else if (DOUEngine.Lens != null && DOUEngine.Ray == null)
-                            {
-                                DOUEngine.Lens.beginLensFlareDefaultScene();
-                                DrawAll(actualSceenWidth, actualSceenHeight, bInitialDraw);
-                                //Render scene with color masking
-                                DOUEngine.Lens.beginLensFlareSpecialScene();
-                                renderToLensFlareScene(DOUEngine.Camera);
-                                /*Pass result to screen*/
-                                DOUEngine.Lens.endLensFlareWithoutPostprocess(DOUEngine.Camera, actualSceenWidth, actualSceenHeight);
-                            }
-                            else if (DOUEngine.Lens == null && DOUEngine.Ray != null)
-                            {
-                                /*Render to GodRays framebuffer*/
-                                DOUEngine.Ray.beginGodRaysSimple();
-                                DrawAll(actualSceenWidth, actualSceenHeight, bInitialDraw);
-                                DOUEngine.Ray.beginGodRaysSpecial();
-                                renderToGodRaysScene(DOUEngine.Camera);
-                                /*Pass result on the screen*/
-                                DOUEngine.Ray.endGodRaysWithoutPostprocess(actualSceenWidth, actualSceenHeight,
-                                    DOUEngine.Sun.Position, DOUEngine.Camera.getViewMatrix(), DOUEngine.ProjectionMatrix);
-                            }
-                        }
-                        else
-                        {
-                            DefaultFB.Bind();
-                            DrawAll(actualSceenWidth, actualSceenHeight, bInitialDraw);
-                            DefaultFB.Unbind();
-                            break;
-                        }
-                        break;
-                    }
-                case PostProcessFlag.PostFxEnable | PostProcessFlag.GrEffectsDisable:
-                    {
-                        DOUEngine.PostProc.beginPostProcessing();
+            //                if (DOUEngine.Lens != null && DOUEngine.Ray != null)
+            //                {
+            //                    /*Render to GodRays framebuffer*/
+            //                    DOUEngine.Ray.beginGodRaysSpecial();
+            //                    renderToGodRaysScene(DOUEngine.Camera);
+            //                    /* Pass result to lens flare */
+            //                    DOUEngine.Ray.sendGodRaysWithPostprocessToNextStage(actualSceenWidth, actualSceenHeight, DOUEngine.Sun.Position,
+            //                        DOUEngine.Camera.getViewMatrix(), DOUEngine.ProjectionMatrix, DOUEngine.PostProc.PostprocessFilterResult);
 
-                        DrawAll(actualSceenWidth, actualSceenHeight, bInitialDraw);
-                        /*Pass result on the screen*/
-                        DOUEngine.PostProc.endPostProcessing(actualSceenWidth, actualSceenHeight);
-                        break;
-                    }
-            }
+            //                    /*Render to lens flare framebuffer*/
+            //                    DOUEngine.Lens.beginLensFlareSpecialScene();
+            //                    renderToLensFlareScene(DOUEngine.Camera);
+            //                    /*Pass result on the screen*/
+            //                    DOUEngine.Lens.endLensFlareWithPostprocess(DOUEngine.Camera, actualSceenWidth, actualSceenHeight, DOUEngine.Ray.FilterResult);
+            //                }
+            //                else if (DOUEngine.Lens != null && DOUEngine.Ray == null)
+            //                {
+            //                    /*Render to lens flare framebuffer*/
+            //                    DOUEngine.Lens.beginLensFlareSpecialScene();
+            //                    renderToLensFlareScene(DOUEngine.Camera);
+            //                    /*Pass result on the screen*/
+            //                    DOUEngine.Lens.endLensFlareWithPostprocess(DOUEngine.Camera, actualSceenWidth, actualSceenHeight, DOUEngine.PostProc.PostprocessFilterResult);
+            //                }
+            //                else if (DOUEngine.Lens == null && DOUEngine.Ray != null)
+            //                {
+            //                    /*Render to GodRays framebuffer*/
+            //                    DOUEngine.Ray.beginGodRaysSpecial();
+            //                    renderToGodRaysScene(DOUEngine.Camera);
+            //                    /*Pass result on the screen*/
+            //                    DOUEngine.Ray.endGodRaysWithPostprocess(actualSceenWidth, actualSceenHeight, DOUEngine.Sun.Position,
+            //                        DOUEngine.Camera.getViewMatrix(), DOUEngine.ProjectionMatrix, DOUEngine.PostProc.PostprocessFilterResult);
+            //                }
+            //            }
+            //            else
+            //            {
+            //                DOUEngine.PostProc.beginPostProcessing();
+            //                DrawAll(actualSceenWidth, actualSceenHeight, bInitialDraw);
+            //                /*Pass result on the screen*/
+            //                DOUEngine.PostProc.endPostProcessing(actualSceenWidth, actualSceenHeight);
+            //            }
+            //            break;
+            //        }
+            //    case PostProcessFlag.PostFxDisable | PostProcessFlag.GrEffectsEnable:
+            //        {
+            //            // if sun isn't in camera's view - don't apply god rays and lens flare
+            //            if (DOUEngine.SunReplica.IsInCameraView)
+            //            {
+            //                if (DOUEngine.Lens != null && DOUEngine.Ray != null)
+            //                {
+            //                    /*Render to GodRays framebuffer*/
+            //                    DOUEngine.Ray.beginGodRaysSimple();
+            //                    DrawAll(actualSceenWidth, actualSceenHeight, bInitialDraw);
+            //                    DOUEngine.Ray.beginGodRaysSpecial();
+            //                    renderToGodRaysScene(DOUEngine.Camera);
+            //                    /*Pass result on the screen*/
+            //                    DOUEngine.Ray.sendGodRaysWithoutPostprocessToNextStage(actualSceenWidth, actualSceenHeight,
+            //                        DOUEngine.Sun.Position, DOUEngine.Camera.getViewMatrix(), DOUEngine.ProjectionMatrix);
 
-            DOUEngine.uiFrameCreator.RenderInputTexture(DefaultFB.GetTextureHandler(), new Point(actualSceenWidth, actualSceenHeight));
+            //                    /*Render to lens flare framebuffer*/
+            //                    DOUEngine.Lens.beginLensFlareSpecialScene();
+            //                    renderToLensFlareScene(DOUEngine.Camera);
+            //                    /*Pass result on the screen*/
+            //                    DOUEngine.Lens.endLensFlareWithPostprocess(DOUEngine.Camera, actualSceenWidth, actualSceenHeight, DOUEngine.Ray.FilterResult);
+            //                }
+            //                else if (DOUEngine.Lens != null && DOUEngine.Ray == null)
+            //                {
+            //                    DOUEngine.Lens.beginLensFlareDefaultScene();
+            //                    DrawAll(actualSceenWidth, actualSceenHeight, bInitialDraw);
+            //                    //Render scene with color masking
+            //                    DOUEngine.Lens.beginLensFlareSpecialScene();
+            //                    renderToLensFlareScene(DOUEngine.Camera);
+            //                    /*Pass result to screen*/
+            //                    DOUEngine.Lens.endLensFlareWithoutPostprocess(DOUEngine.Camera, actualSceenWidth, actualSceenHeight);
+            //                }
+            //                else if (DOUEngine.Lens == null && DOUEngine.Ray != null)
+            //                {
+            //                    /*Render to GodRays framebuffer*/
+            //                    DOUEngine.Ray.beginGodRaysSimple();
+            //                    DrawAll(actualSceenWidth, actualSceenHeight, bInitialDraw);
+            //                    DOUEngine.Ray.beginGodRaysSpecial();
+            //                    renderToGodRaysScene(DOUEngine.Camera);
+            //                    /*Pass result on the screen*/
+            //                    DOUEngine.Ray.endGodRaysWithoutPostprocess(actualSceenWidth, actualSceenHeight,
+            //                        DOUEngine.Sun.Position, DOUEngine.Camera.getViewMatrix(), DOUEngine.ProjectionMatrix);
+            //                }
+            //            }
+            //            else
+            //            {
+            //                DefaultFB.Bind();
+            //                DrawAll(actualSceenWidth, actualSceenHeight, bInitialDraw);
+            //                DefaultFB.Unbind();
+            //                break;
+            //            }
+            //            break;
+            //        }
+            //    case PostProcessFlag.PostFxEnable | PostProcessFlag.GrEffectsDisable:
+            //        {
+            //            DOUEngine.PostProc.beginPostProcessing();
+
+            //            DrawAll(actualSceenWidth, actualSceenHeight, bInitialDraw);
+            //            /*Pass result on the screen*/
+            //            DOUEngine.PostProc.endPostProcessing(actualSceenWidth, actualSceenHeight);
+            //            break;
+            //        }
+            //}
+
+            //DOUEngine.uiFrameCreator.RenderInputTexture(DefaultFB.GetTextureHandler(), new Point(actualSceenWidth, actualSceenHeight));
         }
 
         #endregion
@@ -270,7 +278,7 @@ namespace MassiveGame.Engine
             }
         }
       
-        private void RenderBasePass(Camera camera, bool redraw = false)
+        private void RenderBasePass(Camera camera)
         {
             /*TO DO :
              * Culling back faces of Skybox (cause we don't see them)
@@ -326,14 +334,6 @@ namespace MassiveGame.Engine
                 if (DOUEngine.Enemy.IsInCameraView)
                 {
                     DOUEngine.Enemy.renderObject(DOUEngine.Mode, DOUEngine.NormalMapTrigger, DOUEngine.Sun, DOUEngine.PointLight, camera, ref DOUEngine.ProjectionMatrix);
-                }
-            }
-
-            if (redraw)
-            {
-                foreach (Building building in DOUEngine.Buildings)
-                {
-                    building.renderObject(DOUEngine.Mode, false, DOUEngine.Sun, DOUEngine.PointLight, camera, ref DOUEngine.ProjectionMatrix);
                 }
             }
 
@@ -419,7 +419,7 @@ namespace MassiveGame.Engine
         }
 
         /*Render settings for EngineSingleton.Water refractions*/
-        private void RenderToRefractionRenderTarget(LiteCamera camera, Vector4 clipPlane, WaterQuality quality, bool redraw = false)
+        private void RenderToRefractionRenderTarget(LiteCamera camera, Vector4 clipPlane, WaterQuality quality)
         {
             GL.Enable(EnableCap.StencilTest); // Enable stencil test
             GL.DepthMask(false); // Disable write depth
@@ -452,15 +452,6 @@ namespace MassiveGame.Engine
             {
                 if (DOUEngine.City != null) foreach (Building house in DOUEngine.City)
                         house.RenderWaterRefraction(DOUEngine.Sun, camera, ref DOUEngine.ProjectionMatrix, clipPlane);
-
-                // add code of adding EngineSingleton.Models here
-                if (redraw)
-                {
-                    foreach (Building building in DOUEngine.Buildings)
-                    {
-                        building.RenderWaterRefraction(DOUEngine.Sun, camera, ref DOUEngine.ProjectionMatrix, clipPlane);
-                    }
-                }
             }
 
             /*TO DO : true - enable EngineSingleton.Player and EngineSingleton.Enemy refractions
@@ -498,10 +489,10 @@ namespace MassiveGame.Engine
             }
         }
 
-        private void renderToLensFlareScene(Camera camera, bool redraw = false)
+        private void renderToLensFlareScene(Camera camera)
         {
             /*TO DO :
-             * Culling back facies of all objects on scene
+             * Culling back faces of all objects on scene
              * and enabling color masking */
 
             GL.ColorMask(false, false, false, true);
@@ -521,15 +512,6 @@ namespace MassiveGame.Engine
             }
             if (DOUEngine.Enemy != null) DOUEngine.Enemy.renderObject(DOUEngine.Mode, DOUEngine.NormalMapTrigger, DOUEngine.Sun, DOUEngine.PointLight, camera, ref DOUEngine.ProjectionMatrix);
 
-            // add code of adding EngineSingleton.Models here
-            if (redraw)
-            {
-                foreach (Building building in DOUEngine.Buildings)
-                {
-                    building.renderObject(DOUEngine.Mode, false, DOUEngine.Sun, DOUEngine.PointLight, camera, ref DOUEngine.ProjectionMatrix);
-                }
-            }
-
             /*Disable color masking*/
             GL.ColorMask(true, true, true, true);
             if (!Object.Equals(DOUEngine.SunReplica, null))
@@ -544,10 +526,10 @@ namespace MassiveGame.Engine
             GL.Disable(EnableCap.CullFace);
         }
 
-        private void renderToGodRaysScene(Camera camera, bool redraw = false)
+        private void renderToGodRaysScene(Camera camera)
         {
             /*TO DO :
-            * Culling back facies and enabling color masking */
+            * Culling back faces and enabling color masking */
             GL.ColorMask(false, false, false, true);
             GL.Enable(EnableCap.CullFace);
             GL.CullFace(CullFaceMode.Back);
@@ -574,15 +556,6 @@ namespace MassiveGame.Engine
                 }
             }
             if (DOUEngine.Enemy != null) DOUEngine.Enemy.renderObject(DOUEngine.Mode, DOUEngine.NormalMapTrigger, DOUEngine.Sun, DOUEngine.PointLight, camera, ref DOUEngine.ProjectionMatrix);
-
-            // add code of adding EngineSingleton.Models here
-            if (redraw)
-            {
-                foreach (Building building in DOUEngine.Buildings)
-                {
-                    building.renderObject(DOUEngine.Mode, false, DOUEngine.Sun, DOUEngine.PointLight, camera, ref DOUEngine.ProjectionMatrix);
-                }
-            }
 
             GL.ColorMask(true, true, true, true);
 

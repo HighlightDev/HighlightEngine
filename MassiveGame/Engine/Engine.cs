@@ -69,7 +69,6 @@ namespace MassiveGame.UI
             if (bPostConstructor)
             {
                 DOUEngine.ProjectionMatrix = Matrix4.Identity;
-                DOUEngine.Buildings = new List<Building>();
                 DOUEngine.City = new List<Building>();
                 // need to delete NewMesh.msh if it exists
                 if (File.Exists(@"NewModel.msh"))
@@ -84,7 +83,6 @@ namespace MassiveGame.UI
                 DOUEngine.RenderedPrimitives.AddRange(DOUEngine.City);
 
                 DOUEngine.AffectedByLightPrimitives = new List<ILightAffection> { DOUEngine.Player, DOUEngine.Enemy, DOUEngine.EnvObj };
-                DOUEngine.AffectedByLightPrimitives.AddRange(DOUEngine.Buildings);
                 DOUEngine.AffectedByLightPrimitives.AddRange(DOUEngine.City);
 
                 // Start game and render thread execution
@@ -262,7 +260,7 @@ namespace MassiveGame.UI
                 , DOUEngine.PointLight);
 
             //DOUEngine.Lens = new LensFlareRenderer();
-            //DOUEngine.Ray = new GodRaysRenderer();
+            DOUEngine.Ray = new GodRaysRenderer();
             //DOUEngine.PostProc = new PostprocessRenderer(PostprocessType.BLOOM);
             //DOUEngine.PostProc.BloomPass = 1;
             //DOUEngine.PostProc.BlurWidth = 18;
@@ -591,7 +589,6 @@ namespace MassiveGame.UI
             if (DOUEngine.Grass != null) DOUEngine.Grass.cleanUp();
             if (DOUEngine.Plant1 != null) DOUEngine.Plant1.cleanUp();
 
-            if (DOUEngine.Buildings != null) foreach (Building building in DOUEngine.Buildings) building.cleanUp();
 
             if (DOUEngine.City != null) foreach (Building house in DOUEngine.City) { house.cleanUp(); }
 
