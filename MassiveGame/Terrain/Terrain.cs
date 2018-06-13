@@ -36,7 +36,7 @@ namespace MassiveGame
         private ITexture _normalMapG;
         private ITexture _normalMapB;
         private ITexture _normalMapBlack;
-        private int _normalsSmoothLvl;
+        private Int32 _normalsSmoothLvl;
         private MistComponent _mist;
 
         private WaterReflectionTerrainShader liteReflectionShader;
@@ -83,8 +83,8 @@ namespace MassiveGame
             float centerX = x;
             float centerZ = z;
 
-            float xPoint = (int)(centerX / tileSize);
-            float zPoint = (int)(centerZ / tileSize);
+            float xPoint = (Int32)(centerX / tileSize);
+            float zPoint = (Int32)(centerZ / tileSize);
 
             if ((xPoint < 0.0 || xPoint >= this.LandscapeMap.TableSize - 1.0f)
                 || (zPoint < 0.0 || zPoint >= this.LandscapeMap.TableSize - 1.0f))
@@ -92,30 +92,30 @@ namespace MassiveGame
                 return 0.0f;
             }
 
-            float xTile = (int)(centerX) % tileSize;
-            float zTile = (int)(centerZ) % tileSize;
+            float xTile = (Int32)(centerX) % tileSize;
+            float zTile = (Int32)(centerZ) % tileSize;
 
             float xPoint1, xPoint2, xPoint3, yPoint1, yPoint2, yPoint3, zPoint1, zPoint2, zPoint3;
 
             xPoint2 = xPoint * tileSize;
             zPoint2 = (1 + zPoint) * tileSize;
-            yPoint2 = this.LandscapeMap[(int)xPoint, (int)(1 + zPoint)];
+            yPoint2 = this.LandscapeMap[(Int32)xPoint, (Int32)(1 + zPoint)];
 
             xPoint3 = (xPoint + 1) * tileSize;
             zPoint3 = zPoint * tileSize;
-            yPoint3 = this.LandscapeMap[(int)xPoint + 1, (int)zPoint];
+            yPoint3 = this.LandscapeMap[(Int32)xPoint + 1, (Int32)zPoint];
 
             if (xTile + zTile >= tileSize)
             {
                 xPoint1 = xPoint * tileSize;
                 zPoint1 = zPoint * tileSize;
-                yPoint1 = this.LandscapeMap[(int)xPoint, (int)zPoint];
+                yPoint1 = this.LandscapeMap[(Int32)xPoint, (Int32)zPoint];
             }
             else
             {
                 xPoint1 = (xPoint + 1) * tileSize;
                 zPoint1 = (zPoint + 1) * tileSize;
-                yPoint1 = this.LandscapeMap[(int)xPoint + 1, (int)zPoint + 1];
+                yPoint1 = this.LandscapeMap[(Int32)xPoint + 1, (Int32)zPoint + 1];
             }
 
             float a = -(zPoint3 * yPoint2 - zPoint1 * yPoint2 - zPoint3 * yPoint1 + yPoint1 * zPoint2 + yPoint3 * zPoint1 - zPoint2 * yPoint3);
@@ -215,7 +215,7 @@ namespace MassiveGame
             _blendMap.BindTexture(TextureUnit.Texture4);
 
             /*For normal mapping local variables*/
-            int nmR = -1, nmG = -1, nmB = -1, nmBlack = -1;
+            Int32 nmR = -1, nmG = -1, nmB = -1, nmBlack = -1;
 
             /*TO DO :
              * if texture exists - bind this texture, and assign temp variable samplers ID,
@@ -278,7 +278,7 @@ namespace MassiveGame
             }
         }
 
-        public Terrain(float MapSize, float MaximumHeight, int normalSmoothLvl, string mapFile, string textureR, string textureG,
+        public Terrain(float MapSize, float MaximumHeight, Int32 normalSmoothLvl, string mapFile, string textureR, string textureG,
             string textureB, string textureBlack, string blendMap)
         {
             this._postConstructor = true;

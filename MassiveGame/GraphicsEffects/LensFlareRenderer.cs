@@ -89,135 +89,133 @@ namespace MassiveGame
         public void beginLensFlareDefaultScene()
         {
             postConstructor();
-            _fbo.renderToFBO(3, this._fbo.Texture.Rezolution[2].widthRezolution,
-                this._fbo.Texture.Rezolution[2].heightRezolution);     
+            _fbo.renderToFBO(3, this._fbo.frameTextureHighRezolution.GetTextureRezolution());     
         }
 
         public void beginLensFlareSpecialScene()
         {
             postConstructor();
-            _fbo.renderToFBO(4, this._fbo.Texture.Rezolution[3].widthRezolution,
-                this._fbo.Texture.Rezolution[3].heightRezolution); 
+            _fbo.renderToFBO(4, this._fbo.frameTextureLowRezolution.GetTextureRezolution()); 
         }
 
         public void endLensFlareWithoutPostprocess(Camera camera, int width, int height)
         {
-            /*Extracting brigth parts*/
-            _fbo.renderToFBO(2, this._fbo.Texture.Rezolution[1].widthRezolution,
-                this._fbo.Texture.Rezolution[1].heightRezolution);
+            ///*Extracting brigth parts*/
+            //_fbo.renderToFBO(2, this._fbo.Texture.Rezolution[1].widthRezolution,
+            //    this._fbo.Texture.Rezolution[1].heightRezolution);
 
-            _lensShader.startProgram();
-            _fbo.Texture.bindTexture2D(TextureUnit.Texture0, _fbo.Texture.TextureID[3]);
-            _lensShader.setUniformValuesThreshold(0, this._threshold);
-            VAOManager.renderBuffers(_buffer, PrimitiveType.Triangles);
-            _lensShader.stopProgram();
+            //_lensShader.startProgram();
+            //_fbo.Texture.bindTexture2D(TextureUnit.Texture0, _fbo.Texture.TextureID[3]);
+            //_lensShader.setUniformValuesThreshold(0, this._threshold);
+            //VAOManager.renderBuffers(_buffer, PrimitiveType.Triangles);
+            //_lensShader.stopProgram();
 
-            /*Lens effect*/
-            _fbo.renderToFBO(1, this._fbo.Texture.Rezolution[0].widthRezolution,
-                  this._fbo.Texture.Rezolution[0].heightRezolution);
+            ///*Lens effect*/
+            //_fbo.renderToFBO(1, this._fbo.Texture.Rezolution[0].widthRezolution,
+            //      this._fbo.Texture.Rezolution[0].heightRezolution);
 
-            _lensShader.startProgram();
-            _fbo.Texture.bindTexture2D(TextureUnit.Texture0, _fbo.Texture.TextureID[1]);
-            _lensColor.bindTexture1D(TextureUnit.Texture1, _lensColor.TextureID[0]);
-            _lensShader.setUniformValuesLens(0, 1, this.Ghosts, this.HaloWidth, this.Distortion, this.GhostDispersal);
-            VAOManager.renderBuffers(_buffer, PrimitiveType.Triangles);
-            _lensShader.stopProgram();
+            //_lensShader.startProgram();
+            //_fbo.Texture.bindTexture2D(TextureUnit.Texture0, _fbo.Texture.TextureID[1]);
+            //_lensColor.bindTexture1D(TextureUnit.Texture1, _lensColor.TextureID[0]);
+            //_lensShader.setUniformValuesLens(0, 1, this.Ghosts, this.HaloWidth, this.Distortion, this.GhostDispersal);
+            //VAOManager.renderBuffers(_buffer, PrimitiveType.Triangles);
+            //_lensShader.stopProgram();
 
-            /*Extra passes for blur*/
-            for (int i = 0; i < BlurPassCount; i++)
-            {
-                /*Vertical Blur effect*/
-                _fbo.renderToFBO(2, this._fbo.Texture.Rezolution[1].widthRezolution,
-                    this._fbo.Texture.Rezolution[1].heightRezolution);
+            ///*Extra passes for blur*/
+            //for (int i = 0; i < BlurPassCount; i++)
+            //{
+            //    /*Vertical Blur effect*/
+            //    _fbo.renderToFBO(2, this._fbo.Texture.Rezolution[1].widthRezolution,
+            //        this._fbo.Texture.Rezolution[1].heightRezolution);
 
-                _lensShader.startProgram();
-                _fbo.Texture.bindTexture2D(TextureUnit.Texture0, _fbo.Texture.TextureID[0]);
-                _lensShader.setUniformValuesVerticalBlur(0, normalizedWeights(), getPixOffset(), width, height);
-                VAOManager.renderBuffers(_buffer, PrimitiveType.Triangles);
-                _lensShader.stopProgram();
+            //    _lensShader.startProgram();
+            //    _fbo.Texture.bindTexture2D(TextureUnit.Texture0, _fbo.Texture.TextureID[0]);
+            //    _lensShader.setUniformValuesVerticalBlur(0, normalizedWeights(), getPixOffset(), width, height);
+            //    VAOManager.renderBuffers(_buffer, PrimitiveType.Triangles);
+            //    _lensShader.stopProgram();
 
-                /*Horizontal Blur effect*/
-                _fbo.renderToFBO(1, this._fbo.Texture.Rezolution[0].widthRezolution,
-                        this._fbo.Texture.Rezolution[0].heightRezolution);
+            //    /*Horizontal Blur effect*/
+            //    _fbo.renderToFBO(1, this._fbo.Texture.Rezolution[0].widthRezolution,
+            //            this._fbo.Texture.Rezolution[0].heightRezolution);
 
-                _lensShader.startProgram();
-                _fbo.Texture.bindTexture2D(TextureUnit.Texture0, _fbo.Texture.TextureID[1]);
-                _lensShader.setUniformValuesHorizontalBlur(0, normalizedWeights(), getPixOffset(), width, height);
-                VAOManager.renderBuffers(_buffer, PrimitiveType.Triangles);
-                _lensShader.stopProgram();
-            }
+            //    _lensShader.startProgram();
+            //    _fbo.Texture.bindTexture2D(TextureUnit.Texture0, _fbo.Texture.TextureID[1]);
+            //    _lensShader.setUniformValuesHorizontalBlur(0, normalizedWeights(), getPixOffset(), width, height);
+            //    VAOManager.renderBuffers(_buffer, PrimitiveType.Triangles);
+            //    _lensShader.stopProgram();
+            //}
 
-            /*Add some enhancements to result image*/
-            _fbo.unbindFramebuffer();
-            GL.Viewport(0, 0, width, height);
-            GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
+            ///*Add some enhancements to result image*/
+            //_fbo.unbindFramebuffer();
+            //GL.Viewport(0, 0, width, height);
+            //GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
 
-            _lensShader.startProgram();
-            _fbo.Texture.bindTexture2D(TextureUnit.Texture0, _fbo.Texture.TextureID[2]);
-            _fbo.Texture.bindTexture2D(TextureUnit.Texture1, _fbo.Texture.TextureID[0]);
-            _lensShader.setUniformValuesMod(0, 1);
-            VAOManager.renderBuffers(_buffer, PrimitiveType.Triangles);
-            _lensShader.stopProgram(); 
+            //_lensShader.startProgram();
+            //_fbo.Texture.bindTexture2D(TextureUnit.Texture0, _fbo.Texture.TextureID[2]);
+            //_fbo.Texture.bindTexture2D(TextureUnit.Texture1, _fbo.Texture.TextureID[0]);
+            //_lensShader.setUniformValuesMod(0, 1);
+            //VAOManager.renderBuffers(_buffer, PrimitiveType.Triangles);
+            //_lensShader.stopProgram(); 
         }
 
         public void endLensFlareWithPostprocess(Camera camera, int width, int height, uint postprocessFilterResult)
         {
-            /*Extracting brigth parts*/
-            _fbo.renderToFBO(2, this._fbo.Texture.Rezolution[1].widthRezolution,
-                this._fbo.Texture.Rezolution[1].heightRezolution);
+            ///*Extracting brigth parts*/
+            //_fbo.renderToFBO(2, this._fbo.Texture.Rezolution[1].widthRezolution,
+            //    this._fbo.Texture.Rezolution[1].heightRezolution);
 
-            _lensShader.startProgram();
-            _fbo.Texture.bindTexture2D(TextureUnit.Texture0, _fbo.Texture.TextureID[3]);
-            _lensShader.setUniformValuesThreshold(0, this._threshold);
-            VAOManager.renderBuffers(_buffer, PrimitiveType.Triangles);
-            _lensShader.stopProgram();
+            //_lensShader.startProgram();
+            //_fbo.Texture.bindTexture2D(TextureUnit.Texture0, _fbo.Texture.TextureID[3]);
+            //_lensShader.setUniformValuesThreshold(0, this._threshold);
+            //VAOManager.renderBuffers(_buffer, PrimitiveType.Triangles);
+            //_lensShader.stopProgram();
 
-            /*Lens effect*/
-            _fbo.renderToFBO(1, this._fbo.Texture.Rezolution[0].widthRezolution,
-                  this._fbo.Texture.Rezolution[0].heightRezolution);
+            ///*Lens effect*/
+            //_fbo.renderToFBO(1, this._fbo.Texture.Rezolution[0].widthRezolution,
+            //      this._fbo.Texture.Rezolution[0].heightRezolution);
 
-            _lensShader.startProgram();
-            _fbo.Texture.bindTexture2D(TextureUnit.Texture0, _fbo.Texture.TextureID[1]);
-            _lensColor.bindTexture1D(TextureUnit.Texture1, _lensColor.TextureID[0]);
-            _lensShader.setUniformValuesLens(0, 1, this.Ghosts, this.HaloWidth, this.Distortion, this.GhostDispersal);
-            VAOManager.renderBuffers(_buffer, PrimitiveType.Triangles);
-            _lensShader.stopProgram();
+            //_lensShader.startProgram();
+            //_fbo.Texture.bindTexture2D(TextureUnit.Texture0, _fbo.Texture.TextureID[1]);
+            //_lensColor.bindTexture1D(TextureUnit.Texture1, _lensColor.TextureID[0]);
+            //_lensShader.setUniformValuesLens(0, 1, this.Ghosts, this.HaloWidth, this.Distortion, this.GhostDispersal);
+            //VAOManager.renderBuffers(_buffer, PrimitiveType.Triangles);
+            //_lensShader.stopProgram();
 
-            /*Extra passes for blur*/
-            for (int i = 1; i < 8; i++)
-            {
-                /*Vertical Blur effect*/
-                _fbo.renderToFBO(2, this._fbo.Texture.Rezolution[1].widthRezolution,
-                    this._fbo.Texture.Rezolution[1].heightRezolution);
+            ///*Extra passes for blur*/
+            //for (int i = 1; i < 8; i++)
+            //{
+            //    /*Vertical Blur effect*/
+            //    _fbo.renderToFBO(2, this._fbo.Texture.Rezolution[1].widthRezolution,
+            //        this._fbo.Texture.Rezolution[1].heightRezolution);
 
-                _lensShader.startProgram();
-                _fbo.Texture.bindTexture2D(TextureUnit.Texture0, _fbo.Texture.TextureID[0]);
-                _lensShader.setUniformValuesVerticalBlur(0, normalizedWeights(), getPixOffset(), width, height);
-                VAOManager.renderBuffers(_buffer, PrimitiveType.Triangles);
-                _lensShader.stopProgram();
+            //    _lensShader.startProgram();
+            //    _fbo.Texture.bindTexture2D(TextureUnit.Texture0, _fbo.Texture.TextureID[0]);
+            //    _lensShader.setUniformValuesVerticalBlur(0, normalizedWeights(), getPixOffset(), width, height);
+            //    VAOManager.renderBuffers(_buffer, PrimitiveType.Triangles);
+            //    _lensShader.stopProgram();
 
-                /*Horizontal Blur effect*/
-                _fbo.renderToFBO(1, this._fbo.Texture.Rezolution[0].widthRezolution,
-                        this._fbo.Texture.Rezolution[0].heightRezolution);
+            //    /*Horizontal Blur effect*/
+            //    _fbo.renderToFBO(1, this._fbo.Texture.Rezolution[0].widthRezolution,
+            //            this._fbo.Texture.Rezolution[0].heightRezolution);
 
-                _lensShader.startProgram();
-                _fbo.Texture.bindTexture2D(TextureUnit.Texture0, _fbo.Texture.TextureID[1]);
-                _lensShader.setUniformValuesHorizontalBlur(0, normalizedWeights(), getPixOffset(), width, height);
-                VAOManager.renderBuffers(_buffer, PrimitiveType.Triangles);
-                _lensShader.stopProgram();
-            }
+            //    _lensShader.startProgram();
+            //    _fbo.Texture.bindTexture2D(TextureUnit.Texture0, _fbo.Texture.TextureID[1]);
+            //    _lensShader.setUniformValuesHorizontalBlur(0, normalizedWeights(), getPixOffset(), width, height);
+            //    VAOManager.renderBuffers(_buffer, PrimitiveType.Triangles);
+            //    _lensShader.stopProgram();
+            //}
 
-            /*Add some enhancements to result image*/
-            _fbo.unbindFramebuffer();
-            GL.Viewport(0, 0, width, height);
-            GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
+            ///*Add some enhancements to result image*/
+            //_fbo.unbindFramebuffer();
+            //GL.Viewport(0, 0, width, height);
+            //GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
 
-            _lensShader.startProgram();
-            _fbo.Texture.bindTexture2D(TextureUnit.Texture0, postprocessFilterResult);
-            _fbo.Texture.bindTexture2D(TextureUnit.Texture1, _fbo.Texture.TextureID[0]);
-            _lensShader.setUniformValuesMod(0, 1);
-            VAOManager.renderBuffers(_buffer, PrimitiveType.Triangles);
-            _lensShader.stopProgram();
+            //_lensShader.startProgram();
+            //_fbo.Texture.bindTexture2D(TextureUnit.Texture0, postprocessFilterResult);
+            //_fbo.Texture.bindTexture2D(TextureUnit.Texture1, _fbo.Texture.TextureID[0]);
+            //_lensShader.setUniformValuesMod(0, 1);
+            //VAOManager.renderBuffers(_buffer, PrimitiveType.Triangles);
+            //_lensShader.stopProgram();
         }
 
         #endregion

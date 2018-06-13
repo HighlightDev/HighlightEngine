@@ -17,7 +17,7 @@ namespace MassiveGame.Light_visualization
         #region Definitions 
 
         private const string SHADER_NAME = "Light Visualization";
-        int modelMatrix, viewMatrix, projectionMatrix, lampTexture;
+        Int32 modelMatrix, viewMatrix, projectionMatrix, lampTexture;
 
         #endregion
 
@@ -36,7 +36,7 @@ namespace MassiveGame.Light_visualization
         #region Setters uniform
 
         public void setUniformValues(Matrix4 modelMatrix, Matrix4 viewMatrix,
-            Matrix4 projectionMatrix, int lampTextureSamplerID)
+            Matrix4 projectionMatrix, Int32 lampTextureSamplerID)
         {
             base.loadMatrix(this.modelMatrix, false, modelMatrix);
             base.loadMatrix(this.viewMatrix, false, viewMatrix);
@@ -44,7 +44,7 @@ namespace MassiveGame.Light_visualization
             base.loadInteger(this.lampTexture, lampTextureSamplerID);
         }
 
-        public void setLampTexture(int lampTextureSamplerID)
+        public void setLampTexture(Int32 lampTextureSamplerID)
         {
             base.loadInteger(this.lampTexture, lampTextureSamplerID);
         }

@@ -18,18 +18,18 @@ namespace CParser.WAV_Parser
         }
 
 
-        private int _channels, 
+        private Int32 _channels, 
             _bitsPerSample, 
             _sampleRate;
         private byte[] _soundData;
         public byte[] SoundData { get { return _soundData; } }
-        public int Channels { get { return _channels; } }
-        public int BitsPerSample { get { return _bitsPerSample; } }
-        public int SampleRate { get { return _sampleRate; } }
+        public Int32 Channels { get { return _channels; } }
+        public Int32 BitsPerSample { get { return _bitsPerSample; } }
+        public Int32 SampleRate { get { return _sampleRate; } }
         public ALFormat SoundFormat { get { return GetSoundFormat(_channels, _bitsPerSample); } }
 
 
-        private byte[] LoadWave(Stream stream, out int channels, out int bits, out int rate)
+        private byte[] LoadWave(Stream stream, out Int32 channels, out Int32 bits, out Int32 rate)
         {
             if (stream == null)
                 throw new ArgumentNullException("stream");
@@ -41,7 +41,7 @@ namespace CParser.WAV_Parser
             if (signature != "RIFF")
                 throw new NotSupportedException("Specified stream is not a wave file.");
 
-            int riffChunckSize = reader.ReadInt32();
+            Int32 riffChunckSize = reader.ReadInt32();
             string format = new string(reader.ReadChars(4));
 
             if (format != "WAVE")
@@ -53,31 +53,31 @@ namespace CParser.WAV_Parser
             if (formatSignature != "fmt ")
                 throw new NotSupportedException("Specified wave file is not supported.");
 
-            int formatChunkSize = reader.ReadInt32();
-            int audioFormat = reader.ReadInt16();
-            int numChannels = reader.ReadInt16();
-            int sampleRate = reader.ReadInt32();
-            int byteRate = reader.ReadInt32();
-            int blockAlign = reader.ReadInt16();
-            int bitsPerSample = reader.ReadInt16();
+            Int32 formatChunkSize = reader.ReadInt32();
+            Int32 audioFormat = reader.ReadInt16();
+            Int32 numChannels = reader.ReadInt16();
+            Int32 sampleRate = reader.ReadInt32();
+            Int32 byteRate = reader.ReadInt32();
+            Int32 blockAlign = reader.ReadInt16();
+            Int32 bitsPerSample = reader.ReadInt16();
 
             string dataSignature = new string(reader.ReadChars(4));
             if (dataSignature != "data")
                 throw new NotSupportedException("Specified wave file is not supported.");
 
-            int dataChunkSize = reader.ReadInt32();
+            Int32 dataChunkSize = reader.ReadInt32();
 
             channels = numChannels;
             bits = bitsPerSample;
             rate = sampleRate;
 
-            byte[] waveData = reader.ReadBytes((int)reader.BaseStream.Length);
+            byte[] waveData = reader.ReadBytes((Int32)reader.BaseStream.Length);
             reader.Dispose();
 
             return waveData;
         }
 
-        private ALFormat GetSoundFormat(int channels, int bits)
+        private ALFormat GetSoundFormat(Int32 channels, Int32 bits)
         {
             switch (channels)
             {

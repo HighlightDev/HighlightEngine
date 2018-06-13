@@ -52,10 +52,13 @@ namespace MassiveGame
 
         private Vector3 toWorldCoords(Vector4 eyeCoords)
         {
-            Matrix4 inverseViewMatrix;
+            Matrix4 inverseViewMatrix = Matrix4.Identity;
             try
             {
-                inverseViewMatrix = this.viewMatrix.Inverted();
+                if (!float.IsNaN(viewMatrix.Determinant))
+                {
+                    inverseViewMatrix = this.viewMatrix.Inverted();
+                }
             }
             catch (InvalidOperationException)
             {

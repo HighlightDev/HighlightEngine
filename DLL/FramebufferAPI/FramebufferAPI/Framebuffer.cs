@@ -7,6 +7,7 @@ using OpenTK;
 using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL;
 using TextureLoader;
+using System.Drawing;
 
 namespace FramebufferAPI
 {
@@ -14,9 +15,8 @@ namespace FramebufferAPI
     {
         #region Defines
 
-        protected List<int> framebufferID;
-        protected List<int> renderbufferID;
-        protected Texture2D textures;
+        protected List<Int32> framebufferID;
+        protected List<Int32> renderbufferID;
 
         protected abstract void setTextures();
         protected abstract void setFramebuffers();
@@ -26,16 +26,16 @@ namespace FramebufferAPI
 
         #region Generating
 
-        protected void genFramebuffers(byte countFrameBuffers)
+        protected void genFramebuffers(Int32 countFrameBuffers)
         {
-            int[] id = new int[countFrameBuffers];
+            Int32[] id = new Int32[countFrameBuffers];
             GL.GenFramebuffers(countFrameBuffers, id);
             framebufferID = id.ToList();
         }
 
-        protected void genRenderbuffers(byte countRenderBuffers)
+        protected void genRenderbuffers(Int32 countRenderBuffers)
         {
-            int[] id = new int[countRenderBuffers];
+            Int32[] id = new Int32[countRenderBuffers];
             GL.GenRenderbuffers(countRenderBuffers, id);
             renderbufferID = id.ToList();
         }
@@ -44,7 +44,7 @@ namespace FramebufferAPI
 
         #region Binding
 
-        protected void bindFramebuffer(byte framebufferNumber)
+        protected void bindFramebuffer(Int32 framebufferNumber)
         {
             GL.BindFramebuffer(FramebufferTarget.Framebuffer, framebufferID[framebufferNumber - 1]);
         }
@@ -54,7 +54,7 @@ namespace FramebufferAPI
             GL.BindFramebuffer(FramebufferTarget.Framebuffer, 0);
         }
 
-        protected void bindRenderbuffer(byte renderbufferNumber)
+        protected void bindRenderbuffer(Int32 renderbufferNumber)
         {
             GL.BindRenderbuffer(RenderbufferTarget.Renderbuffer, renderbufferID[renderbufferNumber - 1]);
         }
@@ -63,9 +63,14 @@ namespace FramebufferAPI
 
         #region Attachment
 
-        protected void renderbufferStorage(RenderbufferStorage renderbufferType,int rezolutionWidth, int rezolutionHeigth)
+        protected void renderbufferStorage(RenderbufferStorage renderbufferType, Int32 rezolutionWidth, Int32 rezolutionHeigth)
         {
             GL.RenderbufferStorage(RenderbufferTarget.Renderbuffer, renderbufferType, rezolutionWidth, rezolutionHeigth);
+        }
+
+        protected void renderbufferStorage(RenderbufferStorage renderbufferType, Point screenRezolution)
+        {
+            GL.RenderbufferStorage(RenderbufferTarget.Renderbuffer, renderbufferType, screenRezolution.X, screenRezolution.Y);
         }
 
         protected void attachTextureToFramebuffer(FramebufferAttachment bufferAttach, uint attachedTexture)
@@ -73,7 +78,7 @@ namespace FramebufferAPI
             GL.FramebufferTexture2D(FramebufferTarget.Framebuffer, bufferAttach, TextureTarget.Texture2D, attachedTexture, 0);
         }
 
-        protected void attachTextureToFramebuffer(FramebufferAttachment bufferAttach, int attachedTexture)
+        protected void attachTextureToFramebuffer(FramebufferAttachment bufferAttach, Int32 attachedTexture)
         {
             GL.FramebufferTexture2D(FramebufferTarget.Framebuffer, bufferAttach, TextureTarget.Texture2D, attachedTexture, 0);
         }
@@ -83,7 +88,7 @@ namespace FramebufferAPI
         /// </summary>
         /// <param name="bufferAttach">type of buffer attachment</param>
         /// <param name="renderbufferNumber">number of renderbuffer in the list of renderbuffers</param>
-        protected void attachRenderbufferToFramebuffer(FramebufferAttachment bufferAttach, byte renderbufferNumber)
+        protected void attachRenderbufferToFramebuffer(FramebufferAttachment bufferAttach, Int32 renderbufferNumber)
         {
             GL.FramebufferRenderbuffer(FramebufferTarget.Framebuffer, bufferAttach, RenderbufferTarget.Renderbuffer,
                 renderbufferID[renderbufferNumber - 1]);
@@ -131,7 +136,7 @@ namespace FramebufferAPI
             }
         }
 
-        public int getFramebufferErrorValue()
+        public Int32 getFramebufferErrorValue()
         {
             var log = framebufferSupport();
             if (log == FramebufferErrorCode.FramebufferComplete)
@@ -150,20 +155,29 @@ namespace FramebufferAPI
 
         #region Renderer
 
-        public void renderToFBO(byte framebufferNumber, int viewPortWidth, int viewPortHeight)
+        private void bindFramebufferImpl(Int32 framebufferNumber, Int32 viewPortWidth, Int32 viewPortHeight)
         {
             bindFramebuffer(framebufferNumber);
             GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
             GL.Viewport(0, 0, viewPortWidth, viewPortHeight);
         }
 
+        public void renderToFBO(Int32 framebufferNumber, Int32 viewPortWidth, Int32 viewPortHeight)
+        {
+            bindFramebufferImpl(framebufferNumber, viewPortWidth, viewPortHeight);
+        }
+
+        public void renderToFBO(Int32 framebufferNumber, Point viewPortRezolution)
+        {
+            bindFramebufferImpl(framebufferNumber, viewPortRezolution.X, viewPortRezolution.Y);
+        }
+
         #endregion
 
         #region Cleaning
 
-        public void cleanUp()
+        public virtual void cleanUp()
         {
-            this.textures.cleanUp();
             GL.DeleteRenderbuffers(this.renderbufferID.Count, this.renderbufferID.ToArray());
             GL.BindFramebuffer(FramebufferTarget.Framebuffer, 0);
             GL.DeleteFramebuffers(this.framebufferID.Count, this.framebufferID.ToArray());
@@ -177,8 +191,8 @@ namespace FramebufferAPI
 
         public Framebuffer()
         {
-            this.framebufferID = new List<int>();
-            this.renderbufferID = new List<int>();
+            this.framebufferID = new List<Int32>();
+            this.renderbufferID = new List<Int32>();
             this.setTextures();
             this.setFramebuffers();
             this.setRenderbuffers();

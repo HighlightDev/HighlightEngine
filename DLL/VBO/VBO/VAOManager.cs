@@ -257,7 +257,7 @@ namespace GpuGraphics
             GL.BindVertexArray(0);
         }
 
-        public static void renderInstanced(VAO buffer, PrimitiveType primitiveMode, int count)
+        public static void renderInstanced(VAO buffer, PrimitiveType primitiveMode, Int32 count)
         {
             GL.BindVertexArray(buffer.Vao[0]);
             GL.DrawArraysInstanced(primitiveMode, 0, buffer.getBufferData().getCountVertices(), count);
@@ -282,10 +282,10 @@ namespace GpuGraphics
             GL.BindBuffer(BufferTarget.ArrayBuffer, 0);
         }
 
-        public static void AddUserSingleAttribute(VAO buffer, int attributeIndex, float value, IntPtr offset, IntPtr size)
+        public static void AddUserSingleAttribute(VAO buffer, Int32 attributeIndex, float value, IntPtr offset, IntPtr size)
         {
-            int bufferIndex = 0;
-            for (int i = 0; i < 6 + attributeIndex; i++)
+            Int32 bufferIndex = 0;
+            for (Int32 i = 0; i < 6 + attributeIndex; i++)
             {
                 if (buffer[i]) bufferIndex++;
             }
@@ -294,10 +294,10 @@ namespace GpuGraphics
             GL.BindBuffer(BufferTarget.ArrayBuffer, 0);
         }
 
-        public static void AddUserVectorAttribute(VAO buffer, int attributeIndex, float[,] value, IntPtr offset, IntPtr size)
+        public static void AddUserVectorAttribute(VAO buffer, Int32 attributeIndex, float[,] value, IntPtr offset, IntPtr size)
         {
-            int bufferIndex = 0;
-            for (int i = 0; i < (8 + attributeIndex); i++)
+            Int32 bufferIndex = 0;
+            for (Int32 i = 0; i < (8 + attributeIndex); i++)
             {
                 if (buffer[i]) bufferIndex++;
             }

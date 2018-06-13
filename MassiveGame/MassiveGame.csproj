@@ -174,11 +174,8 @@
     <Compile Include="GraphicsEffects\LensFlareShader.cs" />
     <Compile Include="Light visualization\LampShader.cs" />
     <Compile Include="Light visualization\VisualizeLight.cs" />
-    <Compile Include="Mirror\CustomDepthShader.cs" />
-    <Compile Include="Mirror\SimpleClearDepthShader.cs" />
     <Compile Include="PostFX\PostProcessBase.cs" />
     <Compile Include="PostFX\PostProcessBloom.cs" />
-    <Compile Include="PostFX\PostProcessFramebuffer.cs" />
     <Compile Include="PostFX\PostProcessResult.cs" />
     <Compile Include="RenderCore\ResolveTextureShader.cs" />
     <Compile Include="RenderCore\ScreenQuad.cs" />
@@ -205,9 +202,6 @@
     <Compile Include="Terrain\TerrainBuilder.cs" />
     <Compile Include="Terrain\TerrainRayIntersaction.cs" />
     <Compile Include="Entities\Entity.cs" />
-    <Compile Include="Mirror\Mirror.cs" />
-    <Compile Include="Mirror\MirrorFBO.cs" />
-    <Compile Include="Mirror\MirrorShader.cs" />
     <Compile Include="RawModels\BuildingModels.cs" />
     <Compile Include="RawModels\PlantModels.cs" />
     <Compile Include="RawModels\PlayerModels.cs" />
@@ -334,8 +328,6 @@
     <None Include="Shaders\lampVS.glsl" />
     <None Include="Shaders\lensFlareFS.glsl" />
     <None Include="Shaders\lensFlareVS.glsl" />
-    <None Include="Shaders\mirrorFS.glsl" />
-    <None Include="Shaders\mirrorVS.glsl" />
     <None Include="Shaders\plantFragmentShader.glsl" />
     <None Include="Shaders\plantVertexShader.glsl" />
     <None Include="Shaders\playerFragmentShader.glsl" />

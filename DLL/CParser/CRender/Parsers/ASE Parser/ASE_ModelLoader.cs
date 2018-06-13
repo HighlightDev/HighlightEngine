@@ -33,8 +33,8 @@ namespace CParser.ASE_Parser
 
 
         public string gFileName;        // имя файла
-        private int _countLimbs;        // счетчик под-объектов
-        private int _countReadedCharsInStrFromFile;   // будет указывать на количество прочитанных символов в строке при чтении информации из файла
+        private Int32 _countLimbs;        // счетчик под-объектов
+        private Int32 _countReadedCharsInStrFromFile;   // будет указывать на количество прочитанных символов в строке при чтении информации из файла
         private ASE_Limb[] _limbs;          // массив под-объектов
 
         public float[,] Verts { get; private set; }
@@ -46,7 +46,7 @@ namespace CParser.ASE_Parser
         /// Загрузчик файлов ASE. Загружает все вершины, нормали и текстурные координаты в Limbs, где каждый limb - 1 под-объект.
         /// </summary>
         /// <param name="modelFilePath">Путь к файлу модели.</param>
-        public override int LoadModel(string modelFilePath)
+        public override Int32 LoadModel(string modelFilePath)
         {
             gFileName = modelFilePath;
             objectCounter();
@@ -59,11 +59,11 @@ namespace CParser.ASE_Parser
             string asteriskCheck = "";
             string buff = "";
             // счетчики
-            int limb_ = -1;
-            int faceCounter = 0;
-            int tFaceCounter = 0;
+            Int32 limb_ = -1;
+            Int32 faceCounter = 0;
+            Int32 tFaceCounter = 0;
             // количество вершин и полигонов
-            int vertex = 0, face = 0;
+            Int32 vertex = 0, face = 0;
 
             while ((readerBuff = sr_modelFile.ReadLine()) != null)
             {
@@ -148,7 +148,7 @@ namespace CParser.ASE_Parser
                             a4 = GetFirstWord(readerBuff, _countReadedCharsInStrFromFile);
 
                             // преобразовываем в целое цисло
-                            int NumVertex = System.Convert.ToInt32(a1);
+                            Int32 NumVertex = System.Convert.ToInt32(a1);
 
                             // заменяем точки в представлении числа с плавающей точкой, на запятые, чтобы правильно выполнилась функция 
                             // преобразования строки в дробное число
@@ -185,7 +185,7 @@ namespace CParser.ASE_Parser
                             a7 = GetFirstWord(readerBuff, _countReadedCharsInStrFromFile);
 
                             // получаем номер полигона из первого слова в строке, заменив последний символ ":" после номера на флаг окончания строки.
-                            int NumFace = Convert.ToInt32(a1.Replace(':', '\0'));
+                            Int32 NumFace = Convert.ToInt32(a1.Replace(':', '\0'));
 
                             // записываем номера вершин, которые нас интересуют
                             _limbs[limb_].face[faceCounter + 0] = Convert.ToInt32(a3);
@@ -214,7 +214,7 @@ namespace CParser.ASE_Parser
                             a4 = GetFirstWord(readerBuff, _countReadedCharsInStrFromFile);
 
                             // преобразуем первое слово в номер вершины
-                            int NumVertex = Convert.ToInt32(a1);
+                            Int32 NumVertex = Convert.ToInt32(a1);
 
                             // заменяем точки в представлении числа с плавающей точкой, на запятые, чтобы правильно выполнилась функция 
                             // преобразования строки в дробное число
@@ -246,7 +246,7 @@ namespace CParser.ASE_Parser
                             a3 = GetFirstWord(readerBuff, _countReadedCharsInStrFromFile);
                             a4 = GetFirstWord(readerBuff, _countReadedCharsInStrFromFile);
 
-                            int NumFace = Convert.ToInt32(a1);
+                            Int32 NumFace = Convert.ToInt32(a1);
 
                             // записываем номера вершин, которые опиывают полигон
                             _limbs[limb_].t_face[tFaceCounter + 0] = Convert.ToInt32(a2);
@@ -269,16 +269,16 @@ namespace CParser.ASE_Parser
         #region Getter of first word and object quantity
         // функиця получения первого слова строки
         // from указывает на позицию, начиная с которой будет выполнятся чтение файла
-        private string GetFirstWord(string word, int from)  
+        private string GetFirstWord(string word, Int32 from)  
         {
             char firstChar = word[from];    // первый символ
             string resBuff = "";   // временный буффер
-            int wordLength  = word.Length;   // длина слова
+            Int32 wordLength  = word.Length;   // длина слова
 
             if (word[from] == ' ' || word[from] == '\t') // если первый символ, с которого предстоит искать слово является пробелом или знаком табуляции
             {
                 // необходимо вычислить наличие секции пробелов или знаков табуляции и откинуть их
-                int ax = 0;
+                Int32 ax = 0;
 
                 for (ax = from; ax < wordLength; ax++)  // проходим до конца слова
                 {
@@ -293,7 +293,7 @@ namespace CParser.ASE_Parser
                 else
                     from = ax;
             }
-            int bx = 0;
+            Int32 bx = 0;
 
             for (bx = from; bx < wordLength; bx++)  // вычисляем слово
             {
@@ -345,7 +345,7 @@ namespace CParser.ASE_Parser
             N_Verts = new float[overallVertexQuantity, 3];
             T_Verts = new float[overallVertexQuantity, 2];
 
-            for (int iGlobal = 0, iLocal = 0, objectCounter = 0; (objectCounter < _limbs.Length)
+            for (Int32 iGlobal = 0, iLocal = 0, objectCounter = 0; (objectCounter < _limbs.Length)
                 && (iLocal < _limbs[objectCounter].quantityOfV_F_TV_TF[1])
                 && (iGlobal < overallVertexQuantity); ++iLocal, ++iGlobal)
             {
@@ -382,7 +382,7 @@ namespace CParser.ASE_Parser
             // временные переменные, чтобы код был более понятен 
             float x1, x2, x3, y1, y2, y3, z1, z2, z3;
 
-            for (int iLocal = 0, iGlobal = 0, objectCounter = 0; (objectCounter < _limbs.Length)
+            for (Int32 iLocal = 0, iGlobal = 0, objectCounter = 0; (objectCounter < _limbs.Length)
                 && (iLocal + 3 < _limbs[objectCounter].quantityOfV_F_TV_TF[1])
                 && (iGlobal < N_Verts.Length / 3); ++iLocal, ++iGlobal)
             {

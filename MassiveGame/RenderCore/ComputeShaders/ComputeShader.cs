@@ -155,7 +155,7 @@ namespace MassiveGame.RenderCore.ComputeShaders
 
         protected void showCompileLogInfo(string ShaderName)
         {
-            int capacity = 0;
+            Int32 capacity = 0;
             /*Vertex shader log info*/
             unsafe { GL.GetShader(vertexShaderHandler, ShaderParameter.InfoLogLength, &capacity); }
             StringBuilder info = new StringBuilder(capacity);
@@ -187,7 +187,7 @@ namespace MassiveGame.RenderCore.ComputeShaders
 
         protected void showLinkLogInfo(string ShaderName)
         {
-            int capacity = 0;
+            Int32 capacity = 0;
             /*Shader program link log info*/
             unsafe { GL.GetProgram(renderShaderProgram, GetProgramParameterName.InfoLogLength, &capacity); }
             StringBuilder info = new StringBuilder(capacity);

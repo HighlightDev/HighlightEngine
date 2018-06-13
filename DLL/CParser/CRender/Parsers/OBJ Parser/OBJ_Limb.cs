@@ -11,10 +11,10 @@ namespace CParser.OBJ_Parser
         private OBJ_Limb()
         {
             objectName = String.Empty;
-            quantityOf_V_VT_VN_Face = new int[4];
+            quantityOf_V_VT_VN_Face = new Int32[4];
         }
 
-        public OBJ_Limb(int vertexQuantity, int faceQuantity, int normalVertexQuantity = 0, int textureVertexQuantity = 0)
+        public OBJ_Limb(Int32 vertexQuantity, Int32 faceQuantity, Int32 normalVertexQuantity = 0, Int32 textureVertexQuantity = 0)
             : this()
         {
             // записываем количество вершин и полигонов
@@ -31,7 +31,7 @@ namespace CParser.OBJ_Parser
 
         public float[,] n_vert;
         public string objectName;               // name of obj mesh
-        public int[] quantityOf_V_VT_VN_Face;   // временное хранение информации
+        public Int32[] quantityOf_V_VT_VN_Face;   // временное хранение информации
         public bool ModelHasTexture { get; set; }
                 
         // память для геометрии
@@ -40,7 +40,7 @@ namespace CParser.OBJ_Parser
             vert = new float[quantityOf_V_VT_VN_Face[0], 3];
             t_vert = new float[quantityOf_V_VT_VN_Face[1], 2];
             n_vert = new float[quantityOf_V_VT_VN_Face[2], 3];
-            face = new int[quantityOf_V_VT_VN_Face[3], 3];
+            face = new Int32[quantityOf_V_VT_VN_Face[3], 3];
         }
 
     }

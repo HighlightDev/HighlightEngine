@@ -33,7 +33,7 @@ namespace CParser.OBJ_Parser
 
 
         private string _modelFilePath;
-        private int[] _objectParameterQuantity;
+        private Int32[] _objectParameterQuantity;
         public OBJ_Limb limb;
                 
         
@@ -41,7 +41,7 @@ namespace CParser.OBJ_Parser
         /// Загрузчик файлов OBJ. Загружает все вершины, нормали и текстурные координаты в общий Limb.
         /// </summary>
         /// <param name="modelFilePath">Путь к файлу модели.</param>
-        public override int LoadModel(string modelFilePath)
+        public override Int32 LoadModel(string modelFilePath)
         {
             _modelFilePath = modelFilePath;
             objectParameterCounter();
@@ -129,7 +129,7 @@ namespace CParser.OBJ_Parser
         #region Counter of object parameters
         protected override void objectParameterCounter() //func calculates quantity of object parameters
         {
-            _objectParameterQuantity = new int[4];
+            _objectParameterQuantity = new Int32[4];
             string modelFile = "";
             StreamReader sr_modelFile = new StreamReader(_modelFilePath, Encoding.Default);
 

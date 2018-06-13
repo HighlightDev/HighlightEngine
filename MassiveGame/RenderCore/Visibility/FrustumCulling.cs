@@ -89,7 +89,7 @@ namespace MassiveGame.Optimization
 
         #region Water_optimization
 
-        public static Vector3[] divideWaterCollisionBox(CollisionQuad quad, int divideCount)
+        public static Vector3[] divideWaterCollisionBox(CollisionQuad quad, Int32 divideCount)
         {
             // disable optimize
             if (divideCount == 0) return null;
@@ -98,7 +98,7 @@ namespace MassiveGame.Optimization
             float stepValueX = (quad.RTFCoordinates.X - quad.LBNCoordinates.X) / divideCount;
             float stepValueZ = (quad.RTFCoordinates.Z - quad.LBNCoordinates.Z) / divideCount;
             Vector3[] checkPoints = new Vector3[(2 + divideCount) * (2 + divideCount)];
-            for (int i = 0; i < checkPoints.Length; i++, stepX += stepValueX)
+            for (Int32 i = 0; i < checkPoints.Length; i++, stepX += stepValueX)
             {
                 /*To Do :
                  true - transition to next row
@@ -122,7 +122,7 @@ namespace MassiveGame.Optimization
              and then transform vertices to normalized device coordinates*/
 
             Vector4[] ndcCheckPoints = new Vector4[boxCheckPoints.Length];
-            for (int i = 0; i < ndcCheckPoints.Length; i++)
+            for (Int32 i = 0; i < ndcCheckPoints.Length; i++)
             {
                 ndcCheckPoints[i] = Vector4.Transform(new Vector4(boxCheckPoints[i], 1.0f), viewprojectionMatrix);
                 ndcCheckPoints[i] = new Vector4(new Vector3(ndcCheckPoints[i]) / ndcCheckPoints[i].W, ndcCheckPoints[i].W);

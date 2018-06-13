@@ -27,7 +27,7 @@ namespace UIControls
 
         #region Variables
         private ToolTip _tip;
-        private int _gb_transformation_height;
+        private Int32 _gb_transformation_height;
 
         #region Entity Data
         public Vector3 Translation
@@ -749,7 +749,7 @@ namespace UIControls
 
         private void TB_Bias_MouseWheel(object sender, MouseEventArgs e)
         {
-            int delta = Convert.ToInt32(TB_Bias.Text) + e.Delta / 120;
+            Int32 delta = Convert.ToInt32(TB_Bias.Text) + e.Delta / 120;
             if (delta > 0)
             {
                 TB_Bias.Text = delta.ToString();

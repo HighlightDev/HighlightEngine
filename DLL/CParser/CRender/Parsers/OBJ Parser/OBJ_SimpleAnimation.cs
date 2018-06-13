@@ -31,7 +31,7 @@ namespace CParser.OBJ_Parser
         {
             string[] objFiles = GetAnimationFiles(animationFilesPath);
             animatedModel = new OBJ_ModelLoaderEx[objFiles.Length];
-            for (int i = 0; i < objFiles.Length; ++i)
+            for (Int32 i = 0; i < objFiles.Length; ++i)
             {
                 animatedModel[i] = new OBJ_ModelLoaderEx(false, objFiles[i]);
             }

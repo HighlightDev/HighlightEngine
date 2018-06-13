@@ -1,4 +1,6 @@
-﻿namespace UIControls
+﻿using System;
+
+namespace UIControls
 {
     partial class CheckBoxEx
     {
@@ -51,7 +53,7 @@
             // 
             // CheckBoxEx
             // 
-            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.BackColor = System.Drawing.Color.FromArgb(((Int32)(((byte)(64)))), ((Int32)(((byte)(64)))), ((Int32)(((byte)(64)))));
             this.Controls.Add(this.CB_Label);
             this.Size = new System.Drawing.Size(150, 25);
             this.UseVisualStyleBackColor = false;

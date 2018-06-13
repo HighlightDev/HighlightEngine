@@ -1,4 +1,6 @@
-﻿namespace UIControls
+﻿using System;
+
+namespace UIControls
 {
     partial class RadioButtonEx
     {
@@ -51,7 +53,7 @@
             // 
             // RadioButtonEx
             // 
-            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.BackColor = System.Drawing.Color.FromArgb(((Int32)(((byte)(64)))), ((Int32)(((byte)(64)))), ((Int32)(((byte)(64)))));
             this.Checked = true;
             this.Controls.Add(this.RB_Label);
             this.ForeColor = System.Drawing.SystemColors.ButtonFace;

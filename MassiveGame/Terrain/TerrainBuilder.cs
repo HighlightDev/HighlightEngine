@@ -16,19 +16,19 @@ namespace MassiveGame
         #region LoadTerrain
 
         /*   Загружает карту высот с текстуры , работает в связке с 
-         * getLandscapeHeight(int,int)                           */
+         * getLandscapeHeight(Int32,Int32)                           */
         static public void loadHeightMap(Bitmap bmp, Terrain terrain)
         {
-            for (int i = 0; i < terrain.LandscapeMap.TableSize; i++)
+            for (Int32 i = 0; i < terrain.LandscapeMap.TableSize; i++)
             {
-                for (int j = 0; j < terrain.LandscapeMap.TableSize; j++)
+                for (Int32 j = 0; j < terrain.LandscapeMap.TableSize; j++)
                 {
                     terrain.LandscapeMap.Table[i, j] = Convert.ToInt32(generateMapHeight(i, j, bmp, terrain));
                 }
             }
         }
 
-        static public float generateMapHeight(int x, int z, Bitmap bmp, Terrain terrain)
+        static public float generateMapHeight(Int32 x, Int32 z, Bitmap bmp, Terrain terrain)
         {
             float height = bmp.GetPixel(x, z).R + bmp.GetPixel(x, z).G + bmp.GetPixel(x, z).B;
             height /= Terrain.MAX_PIXEL_COLOUR / 2;
@@ -48,7 +48,7 @@ namespace MassiveGame
         /// <param name="z">z - position on heightmap</param>
         /// <param name="smoothLvl">level of normal smooth</param>
         /// <returns></returns>
-        static public Vector3 getLandscapeSmoothNormal(TableGrid LandscapeMap, Vector3[,] normalVector, int x, int z, int smoothLvl)
+        static public Vector3 getLandscapeSmoothNormal(TableGrid LandscapeMap, Vector3[,] normalVector, Int32 x, Int32 z, Int32 smoothLvl)
         {
             try
             {
@@ -79,7 +79,7 @@ namespace MassiveGame
                 heightR = new Vector3[smoothLvl],
                 heightD = new Vector3[smoothLvl],
                 heightU = new Vector3[smoothLvl];
-                for (int i = 0; i < smoothLvl; i++)
+                for (Int32 i = 0; i < smoothLvl; i++)
                 {
                     heightL[i] = new Vector3(x - (smoothLvl - i) >= 0 ? normalVector[x - (smoothLvl - i), z] : normalVector[x, z]);
                     heightR[i] = new Vector3(x + (smoothLvl - i) < LandscapeMap.TableSize ? normalVector[x + (smoothLvl - i), z] : normalVector[x, z]);
@@ -95,20 +95,20 @@ namespace MassiveGame
             return normal;
         }
 
-        static public VBOArrayF getTerrainAttributes(TableGrid LandscapeMap, int normalSmoothLvl)
+        static public VBOArrayF getTerrainAttributes(TableGrid LandscapeMap, Int32 normalSmoothLvl)
         {
-            int VERTEX_COUNT = LandscapeMap.TableSize - 1;
+            Int32 VERTEX_COUNT = LandscapeMap.TableSize - 1;
             float x, z;
             float[,] vertices = new float[(VERTEX_COUNT * VERTEX_COUNT) * 6, 3];
             float[,] texCoords = new float[(VERTEX_COUNT * VERTEX_COUNT) * 6, 2];
             float[,] normals = new float[(VERTEX_COUNT * VERTEX_COUNT) * 6, 3];
-            int vertexPointer = 0;
+            Int32 vertexPointer = 0;
             Vector3 tempNormal;
             Vector3[,] normalMatrix = new Vector3[LandscapeMap.TableSize, LandscapeMap.TableSize];
 
-            for (int i = 0; i < LandscapeMap.TableSize - 1; i++)
+            for (Int32 i = 0; i < LandscapeMap.TableSize - 1; i++)
             {
-                for (int j = 0; j < LandscapeMap.TableSize - 1; j++)
+                for (Int32 j = 0; j < LandscapeMap.TableSize - 1; j++)
                 {
                     x = i * (float)LandscapeMap.GridStep;
                     z = j * (float)LandscapeMap.GridStep;
@@ -192,9 +192,9 @@ namespace MassiveGame
             }
             // Making smooth normals
             vertexPointer = 0;
-            for (int i = 0; i < LandscapeMap.TableSize - 1; i++)
+            for (Int32 i = 0; i < LandscapeMap.TableSize - 1; i++)
             {
-                for (int j = 0; j < LandscapeMap.TableSize - 1; j++)
+                for (Int32 j = 0; j < LandscapeMap.TableSize - 1; j++)
                 {
                     tempNormal = getLandscapeSmoothNormal(LandscapeMap, normalMatrix, i, j, normalSmoothLvl);
                     normals[vertexPointer, 0] = tempNormal.X;

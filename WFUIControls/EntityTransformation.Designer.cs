@@ -1,4 +1,6 @@
-﻿namespace UIControls
+﻿using System;
+
+namespace UIControls
 {
     partial class EntityTransformation
     {
@@ -152,7 +154,7 @@
             // 
             // B_Left_S_Z
             // 
-            this.B_Left_S_Z.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.B_Left_S_Z.BackColor = System.Drawing.Color.FromArgb(((Int32)(((byte)(64)))), ((Int32)(((byte)(64)))), ((Int32)(((byte)(64)))));
             this.B_Left_S_Z.Cursor = System.Windows.Forms.Cursors.Hand;
             this.B_Left_S_Z.ForeColor = System.Drawing.SystemColors.ActiveCaption;
             this.B_Left_S_Z.Image = global::UIControls.Properties.Resources.button_left_arrow_inactive;
@@ -167,7 +169,7 @@
             // 
             // B_Left_S_Y
             // 
-            this.B_Left_S_Y.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.B_Left_S_Y.BackColor = System.Drawing.Color.FromArgb(((Int32)(((byte)(64)))), ((Int32)(((byte)(64)))), ((Int32)(((byte)(64)))));
             this.B_Left_S_Y.Cursor = System.Windows.Forms.Cursors.Hand;
             this.B_Left_S_Y.ForeColor = System.Drawing.SystemColors.ActiveCaption;
             this.B_Left_S_Y.Image = global::UIControls.Properties.Resources.button_left_arrow_inactive;
@@ -182,7 +184,7 @@
             // 
             // B_Left_S_X
             // 
-            this.B_Left_S_X.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.B_Left_S_X.BackColor = System.Drawing.Color.FromArgb(((Int32)(((byte)(64)))), ((Int32)(((byte)(64)))), ((Int32)(((byte)(64)))));
             this.B_Left_S_X.Cursor = System.Windows.Forms.Cursors.Hand;
             this.B_Left_S_X.ForeColor = System.Drawing.SystemColors.ActiveCaption;
             this.B_Left_S_X.Image = global::UIControls.Properties.Resources.button_left_arrow_inactive;
@@ -197,7 +199,7 @@
             // 
             // B_Left_R_Z
             // 
-            this.B_Left_R_Z.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.B_Left_R_Z.BackColor = System.Drawing.Color.FromArgb(((Int32)(((byte)(64)))), ((Int32)(((byte)(64)))), ((Int32)(((byte)(64)))));
             this.B_Left_R_Z.Cursor = System.Windows.Forms.Cursors.Hand;
             this.B_Left_R_Z.ForeColor = System.Drawing.SystemColors.ActiveCaption;
             this.B_Left_R_Z.Image = global::UIControls.Properties.Resources.button_left_arrow_inactive;
@@ -212,7 +214,7 @@
             // 
             // B_Left_R_Y
             // 
-            this.B_Left_R_Y.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.B_Left_R_Y.BackColor = System.Drawing.Color.FromArgb(((Int32)(((byte)(64)))), ((Int32)(((byte)(64)))), ((Int32)(((byte)(64)))));
             this.B_Left_R_Y.Cursor = System.Windows.Forms.Cursors.Hand;
             this.B_Left_R_Y.ForeColor = System.Drawing.SystemColors.ActiveCaption;
             this.B_Left_R_Y.Image = global::UIControls.Properties.Resources.button_left_arrow_inactive;
@@ -227,7 +229,7 @@
             // 
             // B_Left_R_X
             // 
-            this.B_Left_R_X.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.B_Left_R_X.BackColor = System.Drawing.Color.FromArgb(((Int32)(((byte)(64)))), ((Int32)(((byte)(64)))), ((Int32)(((byte)(64)))));
             this.B_Left_R_X.Cursor = System.Windows.Forms.Cursors.Hand;
             this.B_Left_R_X.ForeColor = System.Drawing.SystemColors.ActiveCaption;
             this.B_Left_R_X.Image = global::UIControls.Properties.Resources.button_left_arrow_inactive;
@@ -242,7 +244,7 @@
             // 
             // B_Left_T_Z
             // 
-            this.B_Left_T_Z.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.B_Left_T_Z.BackColor = System.Drawing.Color.FromArgb(((Int32)(((byte)(64)))), ((Int32)(((byte)(64)))), ((Int32)(((byte)(64)))));
             this.B_Left_T_Z.Cursor = System.Windows.Forms.Cursors.Hand;
             this.B_Left_T_Z.ForeColor = System.Drawing.SystemColors.ActiveCaption;
             this.B_Left_T_Z.Image = global::UIControls.Properties.Resources.button_left_arrow_inactive;
@@ -257,7 +259,7 @@
             // 
             // B_Left_T_Y
             // 
-            this.B_Left_T_Y.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.B_Left_T_Y.BackColor = System.Drawing.Color.FromArgb(((Int32)(((byte)(64)))), ((Int32)(((byte)(64)))), ((Int32)(((byte)(64)))));
             this.B_Left_T_Y.Cursor = System.Windows.Forms.Cursors.Hand;
             this.B_Left_T_Y.ForeColor = System.Drawing.SystemColors.ActiveCaption;
             this.B_Left_T_Y.Image = global::UIControls.Properties.Resources.button_left_arrow_inactive;
@@ -272,7 +274,7 @@
             // 
             // B_Left_T_X
             // 
-            this.B_Left_T_X.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.B_Left_T_X.BackColor = System.Drawing.Color.FromArgb(((Int32)(((byte)(64)))), ((Int32)(((byte)(64)))), ((Int32)(((byte)(64)))));
             this.B_Left_T_X.Cursor = System.Windows.Forms.Cursors.Hand;
             this.B_Left_T_X.ForeColor = System.Drawing.SystemColors.ActiveCaption;
             this.B_Left_T_X.Image = global::UIControls.Properties.Resources.button_left_arrow_inactive;
@@ -288,7 +290,7 @@
             // B_Right_S_Z
             // 
             this.B_Right_S_Z.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.B_Right_S_Z.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.B_Right_S_Z.BackColor = System.Drawing.Color.FromArgb(((Int32)(((byte)(64)))), ((Int32)(((byte)(64)))), ((Int32)(((byte)(64)))));
             this.B_Right_S_Z.Cursor = System.Windows.Forms.Cursors.Hand;
             this.B_Right_S_Z.ForeColor = System.Drawing.SystemColors.ActiveCaption;
             this.B_Right_S_Z.Image = global::UIControls.Properties.Resources.button_right_arrow_inactive;
@@ -304,7 +306,7 @@
             // B_Right_S_Y
             // 
             this.B_Right_S_Y.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.B_Right_S_Y.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.B_Right_S_Y.BackColor = System.Drawing.Color.FromArgb(((Int32)(((byte)(64)))), ((Int32)(((byte)(64)))), ((Int32)(((byte)(64)))));
             this.B_Right_S_Y.Cursor = System.Windows.Forms.Cursors.Hand;
             this.B_Right_S_Y.ForeColor = System.Drawing.SystemColors.ActiveCaption;
             this.B_Right_S_Y.Image = global::UIControls.Properties.Resources.button_right_arrow_inactive;
@@ -320,7 +322,7 @@
             // B_Right_S_X
             // 
             this.B_Right_S_X.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.B_Right_S_X.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.B_Right_S_X.BackColor = System.Drawing.Color.FromArgb(((Int32)(((byte)(64)))), ((Int32)(((byte)(64)))), ((Int32)(((byte)(64)))));
             this.B_Right_S_X.Cursor = System.Windows.Forms.Cursors.Hand;
             this.B_Right_S_X.ForeColor = System.Drawing.SystemColors.ActiveCaption;
             this.B_Right_S_X.Image = global::UIControls.Properties.Resources.button_right_arrow_inactive;
@@ -336,7 +338,7 @@
             // B_Right_R_Z
             // 
             this.B_Right_R_Z.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.B_Right_R_Z.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.B_Right_R_Z.BackColor = System.Drawing.Color.FromArgb(((Int32)(((byte)(64)))), ((Int32)(((byte)(64)))), ((Int32)(((byte)(64)))));
             this.B_Right_R_Z.Cursor = System.Windows.Forms.Cursors.Hand;
             this.B_Right_R_Z.ForeColor = System.Drawing.SystemColors.ActiveCaption;
             this.B_Right_R_Z.Image = global::UIControls.Properties.Resources.button_right_arrow_inactive;
@@ -352,7 +354,7 @@
             // B_Right_R_Y
             // 
             this.B_Right_R_Y.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.B_Right_R_Y.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.B_Right_R_Y.BackColor = System.Drawing.Color.FromArgb(((Int32)(((byte)(64)))), ((Int32)(((byte)(64)))), ((Int32)(((byte)(64)))));
             this.B_Right_R_Y.Cursor = System.Windows.Forms.Cursors.Hand;
             this.B_Right_R_Y.ForeColor = System.Drawing.SystemColors.ActiveCaption;
             this.B_Right_R_Y.Image = global::UIControls.Properties.Resources.button_right_arrow_inactive;
@@ -368,7 +370,7 @@
             // B_Right_R_X
             // 
             this.B_Right_R_X.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.B_Right_R_X.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.B_Right_R_X.BackColor = System.Drawing.Color.FromArgb(((Int32)(((byte)(64)))), ((Int32)(((byte)(64)))), ((Int32)(((byte)(64)))));
             this.B_Right_R_X.Cursor = System.Windows.Forms.Cursors.Hand;
             this.B_Right_R_X.ForeColor = System.Drawing.SystemColors.ActiveCaption;
             this.B_Right_R_X.Image = global::UIControls.Properties.Resources.button_right_arrow_inactive;
@@ -384,7 +386,7 @@
             // B_Right_T_Z
             // 
             this.B_Right_T_Z.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.B_Right_T_Z.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.B_Right_T_Z.BackColor = System.Drawing.Color.FromArgb(((Int32)(((byte)(64)))), ((Int32)(((byte)(64)))), ((Int32)(((byte)(64)))));
             this.B_Right_T_Z.Cursor = System.Windows.Forms.Cursors.Hand;
             this.B_Right_T_Z.ForeColor = System.Drawing.SystemColors.ActiveCaption;
             this.B_Right_T_Z.Image = global::UIControls.Properties.Resources.button_right_arrow_inactive;
@@ -400,7 +402,7 @@
             // B_Right_T_Y
             // 
             this.B_Right_T_Y.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.B_Right_T_Y.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.B_Right_T_Y.BackColor = System.Drawing.Color.FromArgb(((Int32)(((byte)(64)))), ((Int32)(((byte)(64)))), ((Int32)(((byte)(64)))));
             this.B_Right_T_Y.Cursor = System.Windows.Forms.Cursors.Hand;
             this.B_Right_T_Y.ForeColor = System.Drawing.SystemColors.ActiveCaption;
             this.B_Right_T_Y.Image = global::UIControls.Properties.Resources.button_right_arrow_inactive;
@@ -416,7 +418,7 @@
             // B_Right_T_X
             // 
             this.B_Right_T_X.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.B_Right_T_X.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.B_Right_T_X.BackColor = System.Drawing.Color.FromArgb(((Int32)(((byte)(64)))), ((Int32)(((byte)(64)))), ((Int32)(((byte)(64)))));
             this.B_Right_T_X.Cursor = System.Windows.Forms.Cursors.Hand;
             this.B_Right_T_X.ForeColor = System.Drawing.SystemColors.ActiveCaption;
             this.B_Right_T_X.Image = global::UIControls.Properties.Resources.button_right_arrow_inactive;
@@ -706,7 +708,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.BackColor = System.Drawing.Color.FromArgb(((Int32)(((byte)(64)))), ((Int32)(((byte)(64)))), ((Int32)(((byte)(64)))));
             this.Controls.Add(this.P_Transformation);
             this.ForeColor = System.Drawing.SystemColors.ButtonFace;
             this.MaximumSize = new System.Drawing.Size(500, 374);

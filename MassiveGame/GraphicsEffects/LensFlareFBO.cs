@@ -16,24 +16,32 @@ namespace MassiveGame
     {
         #region Definitions
 
-        public Texture2D Texture { private set { base.textures = value; } get { return base.textures; } }
+        public ITexture verticalBlurTexture { private set; get; }
+        public ITexture horizontalBlurTexture { private set; get; }
+        public ITexture frameTextureHighRezolution { private set; get; }
+        public ITexture frameTextureLowRezolution { private set; get; }
 
-        #endregion
+    #endregion
 
-        #region Setters
+    #region Setters
 
-        protected override void setTextures()
+    protected override void setTextures()
         {
             /* Img 1 - vertical blur stage image;
              * Img 2 - horizontal blur stage image;
              * Img 3 - default frametexture, with high rezolution; 
              * Img 4 - frametexture, with low rezolution, for bright parts of sun. */
-            base.textures = new Texture2D();
-            base.textures.genEmptyImg(2, DOUEngine.ScreenRezolution.X / 5, DOUEngine.ScreenRezolution.Y / 5, (int)All.Linear, PixelInternalFormat.Rgb,
+
+            verticalBlurTexture = new Texture2Dlite(DOUEngine.ScreenRezolution.X / 5, DOUEngine.ScreenRezolution.Y / 5, PixelInternalFormat.Rgb,
+                PixelFormat.Rgb, PixelType.UnsignedByte, (int)All.Linear);
+
+            horizontalBlurTexture = new Texture2Dlite(DOUEngine.ScreenRezolution.X / 5, DOUEngine.ScreenRezolution.Y / 5, PixelInternalFormat.Rgb,
+                PixelFormat.Rgb, PixelType.UnsignedByte, (int)All.Linear);
+
+            frameTextureHighRezolution = new Texture2Dlite(DOUEngine.ScreenRezolution.X, DOUEngine.ScreenRezolution.Y, PixelInternalFormat.Rgb,
                 PixelFormat.Rgb, PixelType.UnsignedByte);
-            base.textures.genEmptyImg(1, DOUEngine.ScreenRezolution.X, DOUEngine.ScreenRezolution.Y, (int)All.Nearest, PixelInternalFormat.Rgb,
-                PixelFormat.Rgb, PixelType.UnsignedByte);
-            base.textures.genEmptyImg(1, DOUEngine.ScreenRezolution.X / 5, DOUEngine.ScreenRezolution.Y / 5, (int)All.Nearest, PixelInternalFormat.Rgb,
+
+            frameTextureLowRezolution = new Texture2Dlite(DOUEngine.ScreenRezolution.X / 5, DOUEngine.ScreenRezolution.Y / 5, PixelInternalFormat.Rgb,
                 PixelFormat.Rgb, PixelType.UnsignedByte);
         }
         
@@ -41,15 +49,15 @@ namespace MassiveGame
         {
             base.genFramebuffers(4);
             base.bindFramebuffer(1);
-            base.attachTextureToFramebuffer(FramebufferAttachment.ColorAttachment0, base.textures.TextureID[0]);
+            base.attachTextureToFramebuffer(FramebufferAttachment.ColorAttachment0, verticalBlurTexture.GetTextureDescriptor());
 
             base.bindFramebuffer(2);
-            base.attachTextureToFramebuffer(FramebufferAttachment.ColorAttachment0, base.textures.TextureID[1]);
+            base.attachTextureToFramebuffer(FramebufferAttachment.ColorAttachment0, horizontalBlurTexture.GetTextureDescriptor());
 
             base.bindFramebuffer(3);
-            base.attachTextureToFramebuffer(FramebufferAttachment.ColorAttachment0, base.textures.TextureID[2]);
+            base.attachTextureToFramebuffer(FramebufferAttachment.ColorAttachment0, frameTextureHighRezolution.GetTextureDescriptor());
             base.bindFramebuffer(4);
-            base.attachTextureToFramebuffer(FramebufferAttachment.ColorAttachment0, base.textures.TextureID[3]);
+            base.attachTextureToFramebuffer(FramebufferAttachment.ColorAttachment0, frameTextureLowRezolution.GetTextureDescriptor());
         }
 
         protected override void setRenderbuffers()
@@ -57,14 +65,12 @@ namespace MassiveGame
             base.bindFramebuffer(3);
             base.genRenderbuffers(2);
             base.bindRenderbuffer(1);
-            base.renderbufferStorage(RenderbufferStorage.DepthComponent24, base.textures.Rezolution[2].widthRezolution,
-                base.textures.Rezolution[2].heightRezolution);
+            base.renderbufferStorage(RenderbufferStorage.DepthComponent24, frameTextureHighRezolution.GetTextureRezolution());
             base.attachRenderbufferToFramebuffer(FramebufferAttachment.DepthAttachment, 1);
 
             base.bindFramebuffer(4);
             base.bindRenderbuffer(2);
-            base.renderbufferStorage(RenderbufferStorage.DepthComponent24, base.textures.Rezolution[3].widthRezolution,
-                base.textures.Rezolution[3].heightRezolution);
+            base.renderbufferStorage(RenderbufferStorage.DepthComponent24, frameTextureLowRezolution.GetTextureRezolution());
             base.attachRenderbufferToFramebuffer(FramebufferAttachment.DepthAttachment, 2);
         }
 

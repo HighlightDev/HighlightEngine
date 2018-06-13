@@ -102,7 +102,7 @@ namespace GpuGraphics
         private float[,] _normals;
         private float[,] _textureCoordinates;
         private float[,] _color;
-        private int[] _indices;
+        private Int32[] _indices;
         private float[,] _tangent;
         private float[,] _bitangent;
 
@@ -121,7 +121,7 @@ namespace GpuGraphics
         public float[,] Normals { get { return this._normals; } }
         public float[,] TextureCoordinates { get { return this._textureCoordinates; } }
         public float[,] Color { get { return this._color; } }
-        public int[] Indices { get { return this._indices; } }
+        public Int32[] Indices { get { return this._indices; } }
         public float[,] Tangent { get { return this._tangent; } }
         public float[,] Bitangent { get { return this._bitangent; } }
 
@@ -138,7 +138,7 @@ namespace GpuGraphics
 
         public void MultMatrix(ref Matrix4 modelMatrix)
         {
-            for (int i = 0; i < Vertices.Length / 3; i++)
+            for (Int32 i = 0; i < Vertices.Length / 3; i++)
             {
                 Vector4 vertex = new Vector4(Vertices[i, 0], Vertices[i, 1], Vertices[i, 2], 1.0f);
                 vertex = VectorMath.multMatrix(modelMatrix, vertex);
@@ -158,7 +158,7 @@ namespace GpuGraphics
 
         public void verticesShift(float shiftX, float shiftY, float shiftZ)
         {
-            for (int i = 0;i < this._vertices.Length / 3;i++)
+            for (Int32 i = 0;i < this._vertices.Length / 3;i++)
             {
                 if (shiftX != 0) { this._vertices[i, 0] += shiftX; }
                 if (shiftY != 0) { this._vertices[i, 1] += shiftY; }
@@ -172,7 +172,7 @@ namespace GpuGraphics
 
         private void calculateTangentAndBitangent()
         {
-            for (int i = 0; i < _vertices.Length / 3; i += 3)
+            for (Int32 i = 0; i < _vertices.Length / 3; i += 3)
             {
                 Vector3 v0 = new Vector3(_vertices[i, 0], _vertices[i, 1], _vertices[i, 2]);
                 Vector3 v1 = new Vector3(_vertices[i + 1, 0], _vertices[i + 1, 1], _vertices[i + 1, 2]);
@@ -219,7 +219,7 @@ namespace GpuGraphics
         public Vector3[] getVertices()
         {
             Vector3[] vertices = new Vector3[Vertices.Length / 3];
-            for (int i = 0; i < vertices.Length; i++)
+            for (Int32 i = 0; i < vertices.Length; i++)
             {
                 vertices[i] = new Vector3(Vertices[i, 0], Vertices[i, 1], Vertices[i, 2]);
             }
@@ -228,7 +228,7 @@ namespace GpuGraphics
         public Vector3[] getNormals()
         {
             Vector3[] normals = new Vector3[Normals.Length / 3];
-            for (int i = 0; i < normals.Length; i++)
+            for (Int32 i = 0; i < normals.Length; i++)
             {
                 normals[i] = new Vector3(Normals[i, 0], Normals[i, 1], Normals[i, 2]);
             }
@@ -237,7 +237,7 @@ namespace GpuGraphics
         public Vector2[] getTexCoords()
         {
             Vector2[] texCoords = new Vector2[TextureCoordinates.Length / 2];
-            for (int i = 0; i < texCoords.Length; i++)
+            for (Int32 i = 0; i < texCoords.Length; i++)
             {
                 texCoords[i] = new Vector2(TextureCoordinates[i, 0], TextureCoordinates[i, 1]);
             }
@@ -246,7 +246,7 @@ namespace GpuGraphics
         public Vector3[] getColor()
         {
             Vector3[] color = new Vector3[Color.Length / 3];
-            for (int i = 0; i < color.Length; i++)
+            for (Int32 i = 0; i < color.Length; i++)
             {
                 color[i] = new Vector3(Color[i, 0], Color[i, 1], Color[i, 2]);
             }
@@ -255,7 +255,7 @@ namespace GpuGraphics
         public Vector3[] getTangent()
         {
             Vector3[] tangent = new Vector3[Tangent.Length / 3];
-            for (int i = 0; i < tangent.Length; i++)
+            for (Int32 i = 0; i < tangent.Length; i++)
             {
                 tangent[i] = new Vector3(Tangent[i, 0], Tangent[i, 1], Tangent[i, 2]);
             }
@@ -264,7 +264,7 @@ namespace GpuGraphics
         public Vector3[] getBitangent()
         {
             Vector3[] bitangent = new Vector3[Bitangent.Length / 3];
-            for (int i = 0; i < bitangent.Length; i++)
+            for (Int32 i = 0; i < bitangent.Length; i++)
             {
                 bitangent[i] = new Vector3(Bitangent[i, 0], Bitangent[i, 1], Bitangent[i, 2]);
             }
@@ -354,7 +354,7 @@ namespace GpuGraphics
         }
         public IntPtr getIndicesByteSize()
         {
-            return new IntPtr(sizeof(int) * Indices.Length);
+            return new IntPtr(sizeof(Int32) * Indices.Length);
         }
         public IntPtr getTangentByteSize()
         {
@@ -389,7 +389,7 @@ namespace GpuGraphics
             return new IntPtr(sizeof(float) * _vAttribute4.Length);
         }
        
-        public int getCountVertices()
+        public Int32 getCountVertices()
         {
             return this.Vertices.Length / 3;
         }
@@ -429,7 +429,7 @@ namespace GpuGraphics
             }
             catch (ArgumentException e) { Console.WriteLine(e.Message); }
             _vertices = new float[vertices.Length, 3];
-            for (int i = 0; i < vertices.Length; i++)
+            for (Int32 i = 0; i < vertices.Length; i++)
             {
                 Vertices[i, 0] = vertices[i].X;
                 Vertices[i, 1] = vertices[i].Y;
@@ -448,7 +448,7 @@ namespace GpuGraphics
             catch (ArgumentException e) { Console.WriteLine(e.Message); }
             this._vertices = vertices;
         }
-        public VBOArrayF(float[,] vertices, int[] indices)
+        public VBOArrayF(float[,] vertices, Int32[] indices)
         {
             try
             {
@@ -461,7 +461,7 @@ namespace GpuGraphics
             this._vertices = vertices;
             this._indices = indices;
         }
-        public VBOArrayF(float[,] vertices, float[,] textureCoordinates, int[] indices = null)
+        public VBOArrayF(float[,] vertices, float[,] textureCoordinates, Int32[] indices = null)
         {
             try
             {
@@ -516,7 +516,7 @@ namespace GpuGraphics
             this._vAttribute3 = vAttribute3;
             this._vAttribute4 = vAttribute4;
         }
-        public VBOArrayF(float[,] vertices, float[,] normals, float[,] textureCoordinates, int[] indices = null)
+        public VBOArrayF(float[,] vertices, float[,] normals, float[,] textureCoordinates, Int32[] indices = null)
         {
             try
             {
@@ -531,7 +531,7 @@ namespace GpuGraphics
             this._textureCoordinates = textureCoordinates == null ? this._textureCoordinates : textureCoordinates;
             this._indices = indices;
         }
-        public VBOArrayF(float[,] vertices, float[,] normals, float[,] textureCoordinates, int[] indices = null, bool genNormalMapAttribs = false)
+        public VBOArrayF(float[,] vertices, float[,] normals, float[,] textureCoordinates, Int32[] indices = null, bool genNormalMapAttribs = false)
         {
             try
             {
@@ -552,7 +552,7 @@ namespace GpuGraphics
                 calculateTangentAndBitangent();
             }
         }
-        public VBOArrayF(float[,] vertices, float[,] normals, float[,] textureCoordinates, float[,] color, int[] indices = null)
+        public VBOArrayF(float[,] vertices, float[,] normals, float[,] textureCoordinates, float[,] color, Int32[] indices = null)
         {
             try
             {
@@ -569,7 +569,7 @@ namespace GpuGraphics
             this._indices = indices;
         }
         public VBOArrayF(float[,] vertices, float[,] normals, float[,] textureCoordinates, float[,] color, bool genNormalMapAttribs,
-             int[] indices = null)
+             Int32[] indices = null)
         {
             try
             {

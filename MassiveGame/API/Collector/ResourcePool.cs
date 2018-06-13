@@ -113,7 +113,7 @@ namespace MassiveGame.API.Collector
         private static ConstructorInfo GetCtor(Type ownerType, string vsKey, string fsKey, string gsKey)
         {
             Type[] argsType = new Type[gsKey == String.Empty ? 2 : 3];
-            for (int i = 0; i < argsType.Length; i++)
+            for (Int32 i = 0; i < argsType.Length; i++)
                 argsType[i] = typeof(string);
             return ownerType.GetConstructor(argsType);
         }
@@ -125,7 +125,7 @@ namespace MassiveGame.API.Collector
 
         private static string GetTextureCompositeKey(string[] keys)
         {
-            int keysCount = 0;
+            Int32 keysCount = 0;
             foreach (var item in keys)
                 if (!item.Equals(String.Empty))
                     keysCount++;

@@ -30,8 +30,6 @@ D:\Мультимедиа\Visual Studio Projects\OpenTK Applications\Application
 C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\DLL\VBO\VBO\bin\Debug\VBO.dll
 C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\DLL\VBO\VBO\bin\Debug\VBO.pdb
 C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\DLL\VBO\VBO\bin\Debug\VectorMath.dll
-C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\DLL\VBO\VBO\bin\Debug\OpenTK.pdb
-C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\DLL\VBO\VBO\bin\Debug\OpenTK.xml
 C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\DLL\VBO\VBO\bin\Debug\VectorMath.pdb
 C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\DLL\VBO\VBO\obj\Debug\VBO.csprojResolveAssemblyReference.cache
 C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\DLL\VBO\VBO\obj\Debug\VBO.dll

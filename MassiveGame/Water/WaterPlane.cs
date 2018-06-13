@@ -74,7 +74,7 @@ namespace MassiveGame
             {
                 /*TODO - calculate average value of water height*/
                 var retValue = 0.0f;
-                for (int i = 0; i < _attribs.Vertices.Length / 3; i++)
+                for (Int32 i = 0; i < _attribs.Vertices.Length / 3; i++)
                 {
                     retValue += _attribs.Vertices[i, 1];
                 }
@@ -141,14 +141,14 @@ namespace MassiveGame
         {
             postConstructor();
             /*Select water framebuffer object render to*/
-            _fbo.renderToFBO(1, _fbo.Texture.Rezolution[0].widthRezolution, _fbo.Texture.Rezolution[0].heightRezolution);
+            _fbo.renderToFBO(1, _fbo.ReflectionTexture.GetTextureRezolution());
         }
 
         public void SetRefractionRendertarget()
         {
             postConstructor();
             /*Select water framebuffer object render to*/
-            _fbo.renderToFBO(2, _fbo.Texture.Rezolution[1].widthRezolution, _fbo.Texture.Rezolution[1].heightRezolution);
+            _fbo.renderToFBO(2, _fbo.RefractionTexture.GetTextureRezolution());
         }
 
         public void StencilPass(LiteCamera camera, ref Matrix4 projectionMatrix)
@@ -170,15 +170,24 @@ namespace MassiveGame
             _moveFactor %= 1;
 
             this._shader.startProgram();
-            this._fbo.Texture.bindTexture2D(TextureUnit.Texture0, _fbo.Texture.TextureID[0]);
-            this._fbo.Texture.bindTexture2D(TextureUnit.Texture1, _fbo.Texture.TextureID[1]);
+            this._fbo.ReflectionTexture.BindTexture(TextureUnit.Texture0);
+            this._fbo.RefractionTexture.BindTexture(TextureUnit.Texture1);
             this._waterDistortionMap.BindTexture(TextureUnit.Texture2);
             this._waterNormalMap.BindTexture(TextureUnit.Texture3);
-            this._fbo.Texture.bindTexture2D(TextureUnit.Texture4, _fbo.Texture.TextureID[2]);
-            this._shader.setUniformValues(ref modelMatrix, camera.getViewMatrix(), ref projectionMatrix, 0, 1, 2, 3, 4,
-                camera.getPositionVector(), _moveFactor, _waveStrength, sun, lights, ref nearClipPlane, ref farClipPlane, this.TransparencyDepth,
-                _mist == null ? false : _mist.EnableMist, _mist == null ? 0 : _mist.MistDensity, _mist == null ? 0 : _mist.MistGradient,
-                _mist == null ? new Vector3() : _mist.MistColour);
+            this._fbo.DepthTexture.BindTexture(TextureUnit.Texture4);
+            _shader.setTransformationMatrices(ref modelMatrix, camera.getViewMatrix(), ref projectionMatrix);
+            _shader.setReflectionSampler(0);
+            _shader.setRefractionSampler(1);
+            _shader.setDuDvSampler(2);
+            _shader.setNormalMapSampler(3);
+            _shader.setDepthSampler(4);
+            _shader.setCameraPosition(camera.getPositionVector());
+            _shader.setDistortionProperties(_moveFactor, _waveStrength);
+            _shader.setDirectionalLight(sun);
+            _shader.setPointLight(lights);
+            _shader.setClippingPlanes(ref nearClipPlane, ref farClipPlane);
+            _shader.setMist(_mist);
+            _shader.setTransparancyDepth(TransparencyDepth);
 
             GL.Enable(EnableCap.Blend);
             GL.BlendFunc(BlendingFactorSrc.SrcAlpha, BlendingFactorDest.OneMinusSrcAlpha);
@@ -216,13 +225,13 @@ namespace MassiveGame
                 this._fbo = new WaterFBO();
                 this._postConstructor = !this._postConstructor;
 
-                DOUEngine.uiFrameCreator.PushFrame(new Texture2Dlite((Int32)DOUEngine.Water._fbo.Texture.TextureID[0], new Point(DOUEngine.Water._fbo.Texture.Rezolution[0].widthRezolution, DOUEngine.Water._fbo.Texture.Rezolution[0].heightRezolution)));
-                DOUEngine.uiFrameCreator.PushFrame(new Texture2Dlite((Int32)DOUEngine.Water._fbo.Texture.TextureID[1], new Point(DOUEngine.Water._fbo.Texture.Rezolution[1].widthRezolution, DOUEngine.Water._fbo.Texture.Rezolution[1].heightRezolution)));
+                DOUEngine.uiFrameCreator.PushFrame(new Texture2Dlite((Int32)DOUEngine.Water._fbo.ReflectionTexture.GetTextureDescriptor(), _fbo.ReflectionTexture.GetTextureRezolution()));
+                DOUEngine.uiFrameCreator.PushFrame(new Texture2Dlite((Int32)DOUEngine.Water._fbo.RefractionTexture.GetTextureDescriptor(), _fbo.RefractionTexture.GetTextureRezolution()));
             }
         }
 
         public WaterPlane(string distortionMap, string normalMap, Vector3 translation, Vector3 rotation, Vector3 scaling,
-            WaterQuality quality, int frustumSquares = 0)
+            WaterQuality quality, Int32 frustumSquares = 0)
         {
             this._waterDistortionMap = ResourcePool.GetTexture(distortionMap);
             this._waterNormalMap = ResourcePool.GetTexture(normalMap);

@@ -13,7 +13,7 @@ namespace MassiveGame.Water
     {
         private const string SHADER_NAME = "WaterRefractionTerrainShader";
 
-        private int backTexture, rTexture, gTexture,
+        private Int32 backTexture, rTexture, gTexture,
               bTexture, blendMap, materialAmbient, materialDiffuse,
               ModelMatrix, ViewMatrix, ProjectionMatrix, sunDirection,
               sunAmbientColour, sunDiffuseColour, sunEnable, clipPlane;

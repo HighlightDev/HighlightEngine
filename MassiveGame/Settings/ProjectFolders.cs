@@ -22,7 +22,7 @@ namespace MassiveGame
             Regex folderEx = new Regex(FOLDER_NAME);
             if (folderEx.IsMatch(fileFolder))
             {
-                int index = folderEx.Match(fileFolder).Index;
+                Int32 index = folderEx.Match(fileFolder).Index;
                 FolderPath = fileFolder.Substring(0, index);
             }
             return FolderPath;

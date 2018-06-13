@@ -21,7 +21,7 @@ namespace UIControls
 
 
         #region Variables
-        public int MinimizeCheckBoxHeight
+        public Int32 MinimizeCheckBoxHeight
         {
             get
             {

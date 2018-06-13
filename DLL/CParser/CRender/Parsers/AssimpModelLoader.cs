@@ -42,7 +42,7 @@ namespace CParser
 
             foreach (Mesh mesh in meshes)
             {
-                for (int i = 0; i < mesh.VertexCount; ++i)
+                for (Int32 i = 0; i < mesh.VertexCount; ++i)
                 {
                     float[] temp = new float[3];
                     temp[0] = mesh.Vertices[i].X;
@@ -51,7 +51,7 @@ namespace CParser
                     vert.Add(temp);
                 }
 
-                for (int i = 0; i < mesh.Normals.Length; ++i)
+                for (Int32 i = 0; i < mesh.Normals.Length; ++i)
                 {
                     float[] temp = new float[3];
                     temp[0] = mesh.Normals[i].X;
@@ -60,7 +60,7 @@ namespace CParser
                     n_vert.Add(temp);
                 }
 
-                for (int i = 0; i < mesh.GetTextureCoords(0).Length; ++i)
+                for (Int32 i = 0; i < mesh.GetTextureCoords(0).Length; ++i)
                 {
                     float[] temp = new float[2];
                     temp[0] = mesh.GetTextureCoords(0)[i].X;
@@ -81,7 +81,7 @@ namespace CParser
 
             if ((t_vert.Count == n_vert.Count) && (n_vert.Count == vert.Count))
             {
-                for (int i = 0; i < vert.Count; ++i)
+                for (Int32 i = 0; i < vert.Count; ++i)
                 {
                     Verts[i, 0] = vert[i][0];
                     Verts[i, 1] = vert[i][1];
@@ -97,21 +97,21 @@ namespace CParser
             }
             else
             {
-                for (int i = 0; i < vert.Count; ++i)
+                for (Int32 i = 0; i < vert.Count; ++i)
                 {
                     Verts[i, 0] = vert[i][0];
                     Verts[i, 1] = vert[i][1];
                     Verts[i, 2] = vert[i][2];
                 }
 
-                for (int i = 0; i < n_vert.Count; ++i)
+                for (Int32 i = 0; i < n_vert.Count; ++i)
                 {
                     N_Verts[i, 0] = n_vert[i][0];
                     N_Verts[i, 1] = n_vert[i][1];
                     N_Verts[i, 2] = n_vert[i][2];
                 }
 
-                for (int i = 0; i < t_vert.Count; ++i)
+                for (Int32 i = 0; i < t_vert.Count; ++i)
                 {
                     T_Verts[i, 0] = t_vert[i][0];
                     T_Verts[i, 1] = t_vert[i][1];

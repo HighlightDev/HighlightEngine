@@ -34,17 +34,17 @@ namespace MassiveGame
     {
         #region NestedEnum
 
-      
+
 
         #endregion
 
         #region Definitions
 
+        float ROTATE_MEASURE = 0.08f;
+
         private float MIN_CAMERA_DISTANCE = 5.0f;
         private float MAX_CAMERA_DISTANCE = 250.0f;
         private const float CAMERA_SPEED = 20.5f; 
-        private float currentRotX;
-        private float lastRotX;
 
         public CAMERA_MODE CameraMode { private set; get; }
         public bool SwitchCamera { set; get; }
@@ -89,79 +89,43 @@ namespace MassiveGame
             }
         }
 
-        public void RotateCameraByMouse(int x, int y, int screenWidth, int screenHeight)
+        public void RotateByMouse(Int32 x, Int32 y, Int32 screenWidth, Int32 screenHeight)
         {
-            Point mousePosition = new Point();  //Структура, хранящяя X и Y позиции мыши
+            Int32 middleX = screenWidth >> 1;  //Половина ширины экрана
+            Int32 middleY = screenHeight >> 1; //Половина высоты экрана
 
-            int middleX = screenWidth >> 1;  //Половина ширины экрана
-            int middleY = screenHeight >> 1; //Половина высоты экрана
-            float angleY = 0.0f;    // Направление взгляда вверх/вниз
-            float angleZ = 0.0f;    // Значение, необходимое для вращения влево-вправо (по оси Y)
 
-            // Получаем текущие коорд. мыши
-            mousePosition.X = x;
-            mousePosition.Y = y;
-
-            if ((mousePosition.X == DOUEngine.SCREEN_POSITION_X + middleX)
-                 && (mousePosition.Y == DOUEngine.SCREEN_POSITION_Y + middleY)) return;
             // Теперь, получив координаты курсора, возвращаем его обратно в середину.
-            int captionHeight = ((DOUEngine.WINDOW_BORDER != WindowBorder.Hidden) && (DOUEngine.WINDOW_STATE != WindowState.Fullscreen)) ?
+            Int32 captionHeight = ((DOUEngine.WINDOW_BORDER != WindowBorder.Hidden) && (DOUEngine.WINDOW_STATE != WindowState.Fullscreen)) ?
                 SystemInformation.CaptionHeight : 0; // для корректной работы камеры с учетом рамки
+
             Cursor.Position = new Point(DOUEngine.SCREEN_POSITION_X + middleX,
                 DOUEngine.SCREEN_POSITION_Y + middleY + captionHeight);
-            
-            angleY = ((middleX - mousePosition.X)) / 1000.0f;
-            angleZ = ((middleY - mousePosition.Y)) / 1000.0f;
 
-            lastRotX = currentRotX;     // Сохраняем последний угол вращения и используем заново currentRotX
-            // Если текущее вращение больше 1 градуса, обрежем его, чтобы не вращать слишком быстро
-            if (currentRotX > 1.0f)
-            {
-                currentRotX = 1.0f;
-                // вращаем на оставшийся угол
-                if (lastRotX != 1.0f)
-                {
-                    // Чтобы найти ось, вокруг которой вращаться вверх и вниз, нужно 
-                    // найти вектор, перпендикулярный вектору взгляда камеры и 
-                    // вертикальному вектору.
-                    // Это и будет наша ось. И прежде чем использовать эту ось, нормализовать её.
-                    Vector3 vAxis = Vector3.Cross(LookVector - PosVector, upVector);
-                    vAxis = Vector3.Normalize(vAxis);
+            Int32 deltaX = middleX - x;
+            Int32 deltaY = middleY - y;
 
-                    // Вращаем камеру вокруг нашей оси на заданный угол
-                    rotateCamera(1.0f - lastRotX, (float)vAxis.X, (float)vAxis.Y, (float)vAxis.Z);
-                }
-            }
-            // Если угол меньше -1.0f, убедимся, что вращение не продолжится
-            else if (currentRotX < -1.0f)
-            {
-                currentRotX = -1.0f;
-                if (lastRotX != -1.0f)
-                {
-                    // Опять же вычисляем ось
-                    Vector3 vAxis = Vector3.Cross(LookVector - PosVector, upVector);
-                    vAxis = Vector3.Normalize(vAxis);
 
-                    // Вращаем
-                    rotateCamera(-1.0f - (float)lastRotX, (float)vAxis.X, (float)vAxis.Y, (float)vAxis.Z);
-                }
-            }
-            // Если укладываемся в пределы 1.0f -1.0f - просто вращаем
-            else
-            {
-                Vector3 vAxis = Vector3.Cross(LookVector - PosVector, upVector);
-                vAxis = Vector3.Normalize(vAxis);
-
-                // Вращаем
-                rotateCamera((float)angleZ, (float)vAxis.X, (float)vAxis.Y, (float)vAxis.Z);  
-            }
-            // Всегда вращаем камеру вокруг Y-оси
-            rotateCamera((float)angleY, 0, 1, 0);
+            RotatePosition(-deltaX, -deltaY);
         }
 
-        public void movePosition(float xPositionBias, float zPositionBias)
+        public void RotatePosition(Int32 deltaX, Int32 deltaY)
         {
-            PosVector += new Vector3(xPositionBias, 0, zPositionBias);
+            // rotate pitch
+            Vector3 lookDir = Vector3.Normalize(LookVector - PosVector);
+            Vector3 binormalDir = Vector3.Normalize(Vector3.Cross(lookDir, upVector));
+            Matrix4 rotatePitch = Matrix4.CreateFromAxisAngle(binormalDir, MathHelper.DegreesToRadians(-deltaY * ROTATE_MEASURE));
+
+            // rotate yaw
+            Matrix4 rotateYaw = Matrix4.CreateRotationY(MathHelper.DegreesToRadians(-deltaX * ROTATE_MEASURE));
+
+            Matrix4 rotationMatrix = Matrix4.Identity;
+            rotationMatrix *= Matrix4.CreateTranslation(-LookVector);
+            rotationMatrix *= rotateYaw;
+            rotationMatrix *= rotatePitch;
+            rotationMatrix *= Matrix4.CreateTranslation(LookVector);
+
+            PosVector = new Vector3(VectorMath.multMatrix(rotationMatrix, new Vector4(PosVector, 1.0f)));
         }
 
         public void movePosition(Vector3 positionBias)
@@ -172,24 +136,6 @@ namespace MassiveGame
         public void DetachCamera() //Camera doesn't depend from any object
         {
             CameraMode = CAMERA_MODE.UNDEFINDED;
-        }
-
-        public void rotateCamera(float angle, float x, float y, float z)
-        {
-            Vector3 direction = cameraBridge(angle, x, y, z);
-            if (CameraMode == CAMERA_MODE.FIRST_PERSON)
-            {
-                rotateViewCamera(direction);
-            }
-            else if (CameraMode == CAMERA_MODE.THIRD_PERSON)
-            {
-                rotatePosCamera(direction);
-            }
-        }
-
-        private void rotateViewCamera(Vector3 newDirection)   //Rotate camera around the axis
-        {
-            LookVector = PosVector + newDirection;
         }
 
         private void rotatePosCamera(Vector3 newDirection)
@@ -257,7 +203,7 @@ namespace MassiveGame
             CameraMode = CAMERA_MODE.FIRST_PERSON;
         }
 
-        public void setThirdPersonZoom(int Zoom)
+        public void setThirdPersonZoom(Int32 Zoom)
         {
             if (Zoom == -1)
             {
@@ -297,15 +243,11 @@ namespace MassiveGame
             float upX, float upY, float upZ) : base(eyeX, eyeY, eyeZ, centerX, centerY, centerZ, upX, upY, upZ)
         {
             this.CameraMode = CAMERA_MODE.UNDEFINDED;
-            currentRotX = 0.0f;
-            lastRotX = 0.0f;
         }
 
         public Camera() : base()
         {
             this.CameraMode = CAMERA_MODE.UNDEFINDED;
-            currentRotX = 0.0f;
-            lastRotX = 0.0f;
         }
 
         #endregion

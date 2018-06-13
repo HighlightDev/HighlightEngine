@@ -11,24 +11,24 @@ namespace MassiveGame
         #region Definitions
 
         /* Max available count of light sources */
-        private static int MAX_LIGHTS_COUNT = DOUEngine.MAX_LIGHT_COUNT;
+        private static Int32 MAX_LIGHTS_COUNT = DOUEngine.MAX_LIGHT_COUNT;
         
         private const string SHADER_NAME = "Terrain Shader";
-        private int backTexture, rTexture, gTexture,
+        private Int32 backTexture, rTexture, gTexture,
             bTexture, blendMap, materialAmbient, materialDiffuse,
             ModelMatrix, ViewMatrix, ProjectionMatrix, sunDirection,
             sunAmbientColour, sunDiffuseColour, sunEnable, clipPlane,
             mistEnable, mistDensity, mistGradient, mistColour;
-        private int[] lightPosition = new int[MAX_LIGHTS_COUNT],
-            attenuation = new int[MAX_LIGHTS_COUNT],
-            diffuseColour = new int[MAX_LIGHTS_COUNT],
-            enableLight = new int[MAX_LIGHTS_COUNT];
+        private Int32[] lightPosition = new Int32[MAX_LIGHTS_COUNT],
+            attenuation = new Int32[MAX_LIGHTS_COUNT],
+            diffuseColour = new Int32[MAX_LIGHTS_COUNT],
+            enableLight = new Int32[MAX_LIGHTS_COUNT];
 
         /*  Triggers to enable normal mapping for multitextured terrain */
-        private int enableNMr, enableNMg, enableNMb, enableNMblack;
+        private Int32 enableNMr, enableNMg, enableNMb, enableNMblack;
         /*  Normal map sampler for each rgb component */
-        private int normalMapR, normalMapG, normalMapB, normalMapBlack;
-        private int directionalLightShadowMap, directionalLightShadowMatrix;
+        private Int32 normalMapR, normalMapG, normalMapB, normalMapBlack;
+        private Int32 directionalLightShadowMap, directionalLightShadowMatrix;
           
         #endregion
 
@@ -50,7 +50,7 @@ namespace MassiveGame
             sunAmbientColour = base.getUniformLocation("sunAmbientColour");
             sunDiffuseColour = base.getUniformLocation("sunDiffuseColour");
             sunEnable = base.getUniformLocation("sunEnable");
-            for (int i = 0; i < MAX_LIGHTS_COUNT; i++)
+            for (Int32 i = 0; i < MAX_LIGHTS_COUNT; i++)
             {
                 lightPosition[i] = base.getUniformLocation("lightPosition[" + i + "]");
                 attenuation[i] = base.getUniformLocation("attenuation[" + i + "]");
@@ -156,21 +156,21 @@ namespace MassiveGame
             /*If point lights are enabled*/
             if (lights != null)
             {
-                for (int i = 0; i < (lights.Count <= MAX_LIGHTS_COUNT ? lights.Count : MAX_LIGHTS_COUNT); i++) //Включенные источники света
+                for (Int32 i = 0; i < (lights.Count <= MAX_LIGHTS_COUNT ? lights.Count : MAX_LIGHTS_COUNT); i++) //Включенные источники света
                 {
                     base.loadBool(this.enableLight[i], true);
                     base.loadVector(lightPosition[i], lights[i].Position.Xyz);
                     base.loadVector(attenuation[i], lights[i].Attenuation);
                     base.loadVector(diffuseColour[i], lights[i].Diffuse.Xyz);
                 }
-                for (int i = lights.Count; i < MAX_LIGHTS_COUNT; i++)      //Выключенные источники света
+                for (Int32 i = lights.Count; i < MAX_LIGHTS_COUNT; i++)      //Выключенные источники света
                 {
                     base.loadBool(this.enableLight[i], false);
                 }
             }
             else
             {
-                for (int i = 0; i < MAX_LIGHTS_COUNT; i++)      //Выключенные источники света
+                for (Int32 i = 0; i < MAX_LIGHTS_COUNT; i++)      //Выключенные источники света
                 {
                     base.loadBool(this.enableLight[i], false);
                 }

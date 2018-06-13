@@ -15,6 +15,7 @@ using SystemBitmapData = System.Drawing.Imaging.BitmapData;
 
 namespace TextureLoader
 {
+    [Obsolete("Use Texture2Dlite instead")]
     public class Texture2D
     {
         #region Constructors
@@ -112,7 +113,7 @@ namespace TextureLoader
         {
 
             uint[] glTextureID = new uint[imagePath.Length];
-            int iterator = 0;
+            Int32 iterator = 0;
 
             foreach (string url in imagePath)
             {
@@ -126,32 +127,32 @@ namespace TextureLoader
                     #region Bitmap data
                     // если загрузка прошла успешно 
                     // сохраняем размеры изображения 
-                    int width = image.Width;
-                    int height = image.Height;
+                    Int32 width = image.Width;
+                    Int32 height = image.Height;
 
                     this.Rezolution.Add(new TextureRezolution(width, height));
 
                     // определяем число бит на пиксель 
-                    int pixelFormat = 0;
-                    int bitsPerPixel = 0;
+                    Int32 pixelFormat = 0;
+                    Int32 bitsPerPixel = 0;
                     SystemPixelFormat sPixelFormat = image.PixelFormat;
 
                     switch (sPixelFormat)
                     {
                         case SystemPixelFormat.Format24bppRgb:
-                            pixelFormat = (int)SystemPixelFormat.Format24bppRgb;
+                            pixelFormat = (Int32)SystemPixelFormat.Format24bppRgb;
                             bitsPerPixel = 24;
                             break;
                         case SystemPixelFormat.Format32bppRgb:
-                            pixelFormat = (int)SystemPixelFormat.Format32bppRgb;
+                            pixelFormat = (Int32)SystemPixelFormat.Format32bppRgb;
                             bitsPerPixel = 32;
                             break;
                         case SystemPixelFormat.Format32bppArgb:
-                            pixelFormat = (int)SystemPixelFormat.Format32bppArgb;
+                            pixelFormat = (Int32)SystemPixelFormat.Format32bppArgb;
                             bitsPerPixel = 32;
                             break;
                         case SystemPixelFormat.Format32bppPArgb:
-                            pixelFormat = (int)SystemPixelFormat.Format32bppPArgb;
+                            pixelFormat = (Int32)SystemPixelFormat.Format32bppPArgb;
                             bitsPerPixel = 32;
                             break;
                         default:
@@ -208,14 +209,14 @@ namespace TextureLoader
 
         #region Gen of empty imagies
 
-        private static uint[] genEmptyImagies(int countImagies, int widthRes, int heightRes, int filtration,
+        private static uint[] genEmptyImagies(Int32 countImagies, Int32 widthRes, Int32 heightRes, Int32 filtration,
             PixelInternalFormat colorComponentCount, PixelFormat pixelData, PixelType type, 
             TextureWrapMode texWrap)
         {
             uint[] imageId = new uint[countImagies];
             GL.GenTextures(countImagies, imageId);
 
-            for (int i = 0; i < imageId.Length; i++)
+            for (Int32 i = 0; i < imageId.Length; i++)
             {
                 GL.BindTexture(TextureTarget.Texture2D, imageId[i]);
 
@@ -224,18 +225,18 @@ namespace TextureLoader
 
                 GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter, filtration);
                 GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, filtration);
-                GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapS, (int)texWrap);
-                GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapT, (int)texWrap);
+                GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapS, (Int32)texWrap);
+                GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapT, (Int32)texWrap);
             }
             return imageId;
         }
 
-        public void genEmptyImg(int countImagies, int widthRes, int heightRes, int filtration,
+        public void genEmptyImg(Int32 countImagies, Int32 widthRes, Int32 heightRes, Int32 filtration,
             PixelInternalFormat colorComponentCount, PixelFormat pixelData, PixelType type,
             TextureWrapMode texWrap = TextureWrapMode.Repeat)
         {
             TextureID.AddRange(genEmptyImagies(countImagies, widthRes, heightRes, filtration, colorComponentCount, pixelData, type, texWrap));
-            for (int i = 0; i < countImagies; i++)
+            for (Int32 i = 0; i < countImagies; i++)
             {
                 Rezolution.Add(new TextureRezolution(widthRes, heightRes));
             }
@@ -243,7 +244,7 @@ namespace TextureLoader
 
         #endregion
 
-        private uint MakeGlTexture(int format, IntPtr pixels, int width, int height, 
+        private uint MakeGlTexture(Int32 format, IntPtr pixels, Int32 width, Int32 height, 
             bool generateMipMap, float anisotropyLevel, TextureWrapMode texWrap, MipmapTextureFilter filterType)
         {
             // идентификатор текстурного объекта 
@@ -259,11 +260,11 @@ namespace TextureLoader
             GL.BindTexture(TextureTarget.Texture2D, texObject);
 
             // устанавливаем режим фильтрации и повторения текстуры 
-            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapS, (int)texWrap);
-            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapT, (int)texWrap);
-            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter, (int)TextureMagFilter.Linear);
+            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapS, (Int32)texWrap);
+            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapT, (Int32)texWrap);
+            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter, (Int32)TextureMagFilter.Linear);
             if (!generateMipMap)
-                GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, (int)TextureMinFilter.Linear);
+                GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, (Int32)TextureMinFilter.Linear);
             else
             {
                 if (this.CheckForAnisotropicTextureFiltering())
@@ -271,11 +272,11 @@ namespace TextureLoader
                     GL.TexParameter(TextureTarget.Texture2D, (TextureParameterName)ExtTextureFilterAnisotropic.TextureMaxAnisotropyExt,
                         (anisotropyLevel == -1.0f) ? maxAnisotropy : (anisotropyLevel >= maxAnisotropy) ? maxAnisotropy : (anisotropyLevel < 0.0f) ? 0.0f : anisotropyLevel);
                 }
-                GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, (int)filterType);
+                GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, (Int32)filterType);
                 GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.GenerateMipmap, 1); // 1 stands for TRUE statement
                 GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureLodBias, -0.4f); // might need to use variable to change this value
             }
-            GL.TexEnv(TextureEnvTarget.TextureEnv, TextureEnvParameter.TextureEnvMode, (int)TextureEnvMode.Replace);
+            GL.TexEnv(TextureEnvTarget.TextureEnv, TextureEnvParameter.TextureEnvMode, (Int32)TextureEnvMode.Replace);
 
             // создаем RGB или RGBA текстуру 
             switch (format)
@@ -311,10 +312,10 @@ namespace TextureLoader
 
     public struct TextureRezolution
     {
-        public int widthRezolution;
-        public int heightRezolution;
+        public Int32 widthRezolution;
+        public Int32 heightRezolution;
 
-        public TextureRezolution(int width, int height)
+        public TextureRezolution(Int32 width, Int32 height)
         {
             widthRezolution = width;
             heightRezolution = height;

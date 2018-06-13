@@ -43,7 +43,7 @@ namespace UIControls
                 CB_Label.Text = "      " + value.Trim();
             }
         }
-        public int MaxHeight
+        public Int32 MaxHeight
         {
             get
             {
@@ -138,8 +138,8 @@ namespace UIControls
         }
 
         private bool _clicked = false; // if false then MCB will be minimized, else - will be maximized
-        private int _minimizeBoxHeight;
-        private int _tblHeight;
+        private Int32 _minimizeBoxHeight;
+        private Int32 _tblHeight;
         #endregion
 
 

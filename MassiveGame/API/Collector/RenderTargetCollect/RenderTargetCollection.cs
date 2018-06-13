@@ -82,7 +82,7 @@ namespace MassiveGame.API.Collector.TextureBufferCollect
         {
             bool bExist = false;
             RenderTargetParams key = null;
-            bExist = renderTargetDictionary.Any(new Func<KeyValuePair<RenderTargetParams, int>, bool>(value =>
+            bExist = renderTargetDictionary.Any(new Func<KeyValuePair<RenderTargetParams, Int32>, bool>(value =>
             {
                 if (value.Value == renderTargetHandle)
                 {

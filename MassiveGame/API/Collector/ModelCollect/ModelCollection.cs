@@ -10,12 +10,12 @@ namespace MassiveGame.API.Collector.ModelCollect
     public class ModelCollection
     {
         private Dictionary<string, VAO> modelDictionary;
-        private Dictionary<string, int> referenceCount;
+        private Dictionary<string, Int32> referenceCount;
 
         public ModelCollection()
         {
             modelDictionary = new Dictionary<string, VAO>();
-            referenceCount = new Dictionary<string, int>();
+            referenceCount = new Dictionary<string, Int32>();
         }
 
         public void AddModelToRoot(VAO modelBuffer, string key)

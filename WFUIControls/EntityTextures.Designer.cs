@@ -1,4 +1,6 @@
-﻿namespace UIControls
+﻿using System;
+
+namespace UIControls
 {
     partial class EntityTextures
     {
@@ -67,7 +69,7 @@
             // 
             // CMS_LV
             // 
-            this.CMS_LV.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.CMS_LV.BackColor = System.Drawing.Color.FromArgb(((Int32)(((byte)(64)))), ((Int32)(((byte)(64)))), ((Int32)(((byte)(64)))));
             this.CMS_LV.Font = new System.Drawing.Font("Segoe UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.CMS_LV.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.TSMI_SmallIcons,
@@ -80,7 +82,7 @@
             // 
             // TSMI_SmallIcons
             // 
-            this.TSMI_SmallIcons.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.TSMI_SmallIcons.BackColor = System.Drawing.Color.FromArgb(((Int32)(((byte)(64)))), ((Int32)(((byte)(64)))), ((Int32)(((byte)(64)))));
             this.TSMI_SmallIcons.Font = new System.Drawing.Font("Segoe UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.TSMI_SmallIcons.ForeColor = System.Drawing.SystemColors.ButtonShadow;
             this.TSMI_SmallIcons.Name = "TSMI_SmallIcons";
@@ -92,7 +94,7 @@
             // 
             // TSMI_LargeIcons
             // 
-            this.TSMI_LargeIcons.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.TSMI_LargeIcons.BackColor = System.Drawing.Color.FromArgb(((Int32)(((byte)(64)))), ((Int32)(((byte)(64)))), ((Int32)(((byte)(64)))));
             this.TSMI_LargeIcons.Checked = true;
             this.TSMI_LargeIcons.CheckState = System.Windows.Forms.CheckState.Checked;
             this.TSMI_LargeIcons.Font = new System.Drawing.Font("Segoe UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
@@ -106,14 +108,14 @@
             // 
             // TS_Separator
             // 
-            this.TS_Separator.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.TS_Separator.BackColor = System.Drawing.Color.FromArgb(((Int32)(((byte)(64)))), ((Int32)(((byte)(64)))), ((Int32)(((byte)(64)))));
             this.TS_Separator.ForeColor = System.Drawing.SystemColors.ButtonShadow;
             this.TS_Separator.Name = "TS_Separator";
             this.TS_Separator.Size = new System.Drawing.Size(201, 6);
             // 
             // TSMI_Refresh
             // 
-            this.TSMI_Refresh.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.TSMI_Refresh.BackColor = System.Drawing.Color.FromArgb(((Int32)(((byte)(64)))), ((Int32)(((byte)(64)))), ((Int32)(((byte)(64)))));
             this.TSMI_Refresh.ForeColor = System.Drawing.SystemColors.ButtonShadow;
             this.TSMI_Refresh.Name = "TSMI_Refresh";
             this.TSMI_Refresh.ShortcutKeyDisplayString = "F5";
@@ -123,8 +125,8 @@
             // 
             // MCB_TA
             // 
-            this.MCB_TA.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.MCB_TA.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.MCB_TA.BackColor = System.Drawing.Color.FromArgb(((Int32)(((byte)(64)))), ((Int32)(((byte)(64)))), ((Int32)(((byte)(64)))));
+            this.MCB_TA.BackgroundColor = System.Drawing.Color.FromArgb(((Int32)(((byte)(64)))), ((Int32)(((byte)(64)))), ((Int32)(((byte)(64)))));
             this.MCB_TA.CheckBoxActive = ((System.Drawing.Image)(resources.GetObject("MCB_TA.CheckBoxActive")));
             this.MCB_TA.CheckBoxChecked = ((System.Drawing.Image)(resources.GetObject("MCB_TA.CheckBoxChecked")));
             this.MCB_TA.CheckBoxInactive = ((System.Drawing.Image)(resources.GetObject("MCB_TA.CheckBoxInactive")));
@@ -169,8 +171,8 @@
             // 
             // MCB_NM
             // 
-            this.MCB_NM.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.MCB_NM.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.MCB_NM.BackColor = System.Drawing.Color.FromArgb(((Int32)(((byte)(64)))), ((Int32)(((byte)(64)))), ((Int32)(((byte)(64)))));
+            this.MCB_NM.BackgroundColor = System.Drawing.Color.FromArgb(((Int32)(((byte)(64)))), ((Int32)(((byte)(64)))), ((Int32)(((byte)(64)))));
             this.MCB_NM.CheckBoxActive = ((System.Drawing.Image)(resources.GetObject("MCB_NM.CheckBoxActive")));
             this.MCB_NM.CheckBoxChecked = ((System.Drawing.Image)(resources.GetObject("MCB_NM.CheckBoxChecked")));
             this.MCB_NM.CheckBoxInactive = ((System.Drawing.Image)(resources.GetObject("MCB_NM.CheckBoxInactive")));
@@ -211,8 +213,8 @@
             // 
             // MCB_SM
             // 
-            this.MCB_SM.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.MCB_SM.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.MCB_SM.BackColor = System.Drawing.Color.FromArgb(((Int32)(((byte)(64)))), ((Int32)(((byte)(64)))), ((Int32)(((byte)(64)))));
+            this.MCB_SM.BackgroundColor = System.Drawing.Color.FromArgb(((Int32)(((byte)(64)))), ((Int32)(((byte)(64)))), ((Int32)(((byte)(64)))));
             this.MCB_SM.CheckBoxActive = ((System.Drawing.Image)(resources.GetObject("MCB_SM.CheckBoxActive")));
             this.MCB_SM.CheckBoxChecked = ((System.Drawing.Image)(resources.GetObject("MCB_SM.CheckBoxChecked")));
             this.MCB_SM.CheckBoxInactive = ((System.Drawing.Image)(resources.GetObject("MCB_SM.CheckBoxInactive")));
@@ -257,7 +259,7 @@
             this.AccessibleName = "";
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.BackColor = System.Drawing.Color.FromArgb(((Int32)(((byte)(64)))), ((Int32)(((byte)(64)))), ((Int32)(((byte)(64)))));
             this.Controls.Add(this.TLP);
             this.ForeColor = System.Drawing.SystemColors.ButtonFace;
             this.Name = "EntityTextures";

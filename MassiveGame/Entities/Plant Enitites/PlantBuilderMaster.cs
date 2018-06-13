@@ -17,8 +17,8 @@ namespace MassiveGame
 
         private List<PlantUnit> _plants;
 
-        private readonly int INIT_BUFFER_SIZE;
-        private const int MAX_ENTITIES_COUNT = 8000;
+        private readonly Int32 INIT_BUFFER_SIZE;
+        private const Int32 MAX_ENTITIES_COUNT = 8000;
         private VBOArrayF _attribs;
         private VAO _buffer;
         private PlantShader _shader;
@@ -47,7 +47,7 @@ namespace MassiveGame
         {
             if (plants.Count() > MAX_ENTITIES_COUNT)
             {
-                for (int i = 0; i < MAX_ENTITIES_COUNT; i++)
+                for (Int32 i = 0; i < MAX_ENTITIES_COUNT; i++)
                 {
                     this._plants.Add(plants.ElementAt(i));
                 }
@@ -105,8 +105,8 @@ namespace MassiveGame
             float tempY = 0.0f;
             float tempZ = 0.0f;
 
-            int iterationCount = _attribs.Vertices.Length / 3;
-            for (int i = 0; i < iterationCount; i++)
+            Int32 iterationCount = _attribs.Vertices.Length / 3;
+            for (Int32 i = 0; i < iterationCount; i++)
             {
                 tempX += _attribs.Vertices[i, 0];
                 tempY += _attribs.Vertices[i, 1];
@@ -128,9 +128,9 @@ namespace MassiveGame
         {
             //Выравнивает координаты травы до их обработки
             float tempBottom = attribs.Vertices[0, 1];
-            int iterationCount = attribs.Vertices.Length / 3;
+            Int32 iterationCount = attribs.Vertices.Length / 3;
 
-            for (int i = 0; i < iterationCount; i++)
+            for (Int32 i = 0; i < iterationCount; i++)
             {
                 if (tempBottom > attribs.Vertices[i, 1])   //Находим минимум по Y
                 {
@@ -226,7 +226,7 @@ namespace MassiveGame
             }
         }
 
-        public PlantBuilderMaster(int init_buffer_size, VBOArrayF modelAttribs, string[] textureSets, WindComponent component)
+        public PlantBuilderMaster(Int32 init_buffer_size, VBOArrayF modelAttribs, string[] textureSets, WindComponent component)
         {
             this.INIT_BUFFER_SIZE = init_buffer_size;
             this._plants = new List<PlantUnit>();

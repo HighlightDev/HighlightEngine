@@ -89,8 +89,7 @@ namespace MassiveGame.Engine
                             DOUEngine.PostProc.beginPostProcessing();
                             DrawAll(actualSceenWidth, actualSceenHeight, bInitialDraw);
 
-                            DOUEngine.PostProc.sendPostProcessingToGraphicsFilter(actualSceenWidth, actualSceenHeight, blurEnable);
-                            blurEnable = false; //disable motion blur
+                            DOUEngine.PostProc.sendPostProcessingToGraphicsFilter(actualSceenWidth, actualSceenHeight);
 
                             if (DOUEngine.Lens != null && DOUEngine.Ray != null)
                             {
@@ -130,8 +129,7 @@ namespace MassiveGame.Engine
                             DOUEngine.PostProc.beginPostProcessing();
                             DrawAll(actualSceenWidth, actualSceenHeight, bInitialDraw);
                             /*Pass result on the screen*/
-                            DOUEngine.PostProc.endPostProcessing(actualSceenWidth, actualSceenHeight, blurEnable);
-                            blurEnable = false; //disable motion blur
+                            DOUEngine.PostProc.endPostProcessing(actualSceenWidth, actualSceenHeight);
                         }
                         break;
                     }
@@ -194,8 +192,7 @@ namespace MassiveGame.Engine
 
                         DrawAll(actualSceenWidth, actualSceenHeight, bInitialDraw);
                         /*Pass result on the screen*/
-                        DOUEngine.PostProc.endPostProcessing(actualSceenWidth, actualSceenHeight, blurEnable);
-                        blurEnable = false; //disable motion blur
+                        DOUEngine.PostProc.endPostProcessing(actualSceenWidth, actualSceenHeight);
                         break;
                     }
             }
@@ -598,7 +595,6 @@ namespace MassiveGame.Engine
             }
         }
 
-        private bool blurEnable = false;    //temp
 #endregion
 
     }

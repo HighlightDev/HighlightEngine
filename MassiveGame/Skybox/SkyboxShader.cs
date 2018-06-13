@@ -10,7 +10,7 @@ namespace MassiveGame
         #region Definitions
 
         private const string SHADER_NAME = "Skybox Shader";
-        private int modelMatrix, viewMatrix, projectionMatrix,
+        private Int32 modelMatrix, viewMatrix, projectionMatrix,
             skyboxDayTexture,
             skyboxNightTexture,
             sunPosition,
@@ -47,7 +47,7 @@ namespace MassiveGame
         }
 
         public void setAllUniforms(Matrix4 modelMatrix, Matrix4 viewMatrix,
-            Matrix4 projectionMatrix, int skyboxDayTexture, int skyboxNightTexture, DirectionalLight sun, bool mistEnable, Vector3 mistColour)
+            Matrix4 projectionMatrix, Int32 skyboxDayTexture, Int32 skyboxNightTexture, DirectionalLight sun, bool mistEnable, Vector3 mistColour)
         {
             viewMatrix[3, 0] = 0.0f;    //Запрещаем трансляцию по x
             viewMatrix[3, 1] = 0.0f;    //Запрещаем трансляцию по y

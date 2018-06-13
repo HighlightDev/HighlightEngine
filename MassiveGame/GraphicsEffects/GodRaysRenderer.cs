@@ -31,7 +31,7 @@ namespace MassiveGame
         public float Decay { set; get; }
         public float Weight { set; get; }
         public float Density { set; get; }
-        public int NumSamples { set; get; }
+        public Int32 NumSamples { set; get; }
         public static bool GodRaysEnabled = false;
 
         #endregion
@@ -41,18 +41,17 @@ namespace MassiveGame
         public void beginGodRaysSimple()
         {
             postConstructor();
-            _fbo.renderToFBO(1, _fbo.Texture.Rezolution[0].widthRezolution, _fbo.Texture.Rezolution[0].heightRezolution);
+            _fbo.renderToFBO(1, _fbo.FrameTexture.GetTextureRezolution().X, _fbo.FrameTexture.GetTextureRezolution().Y);
         }
 
         public void beginGodRaysSpecial()
         {
             postConstructor();
-            _fbo.renderToFBO(2, _fbo.Texture.Rezolution[1].widthRezolution, _fbo.Texture.Rezolution[1].heightRezolution);
+            _fbo.renderToFBO(2, _fbo.RadialBlurAppliedTexture.GetTextureRezolution().X, _fbo.RadialBlurAppliedTexture.GetTextureRezolution().Y);
         }
 
-        public void endGodRaysWithoutPostprocess(int width, int height, Vector3 translation, Matrix4 viewMatrix, Matrix4 projectionMatrix)
+        public void endGodRaysWithoutPostprocess(Int32 width, Int32 height, Vector3 translation, Matrix4 viewMatrix, Matrix4 projectionMatrix)
         {
-
             _viewportMatrix = new Matrix4(new Vector4(width / 2, 0, width / 2, 0),
                 new Vector4(0, height / 2, height / 2, 0),
                 new Vector4(0, 0, 1, 0),
@@ -67,14 +66,14 @@ namespace MassiveGame
 
 
             _shader.startProgram();
-            _fbo.Texture.bindTexture2D(TextureUnit.Texture0, _fbo.Texture.TextureID[0]);
-            _fbo.Texture.bindTexture2D(TextureUnit.Texture1, _fbo.Texture.TextureID[1]);
+            _fbo.FrameTexture.BindTexture(TextureUnit.Texture0);
+            _fbo.RadialBlurAppliedTexture.BindTexture(TextureUnit.Texture1);
             _shader.setUniformValuesRadialBlur(0, 1, Exposure, Decay, Weight, Density, NumSamples, radialPosition);
             VAOManager.renderBuffers(_buffer, PrimitiveType.Triangles);
             _shader.stopProgram();
         }
 
-        public void endGodRaysWithPostprocess(int width, int height, Vector3 translation,
+        public void endGodRaysWithPostprocess(Int32 width, Int32 height, Vector3 translation,
             Matrix4 viewMatrix, Matrix4 projectionMatrix, uint filterResult)
         {
             _viewportMatrix = new Matrix4(new Vector4(width / 2, 0, width / 2, 0),
@@ -89,14 +88,15 @@ namespace MassiveGame
             Vector2 radialPosition = getRadialPos(translation, viewMatrix, projectionMatrix, _viewportMatrix);
 
             _shader.startProgram();
-            _fbo.Texture.bindTexture2D(TextureUnit.Texture0, filterResult);
-            _fbo.Texture.bindTexture2D(TextureUnit.Texture1, _fbo.Texture.TextureID[1]);
+            GL.ActiveTexture(TextureUnit.Texture0);
+            GL.BindTexture(TextureTarget.Texture2D, filterResult);
+            _fbo.RadialBlurAppliedTexture.BindTexture(TextureUnit.Texture1);
             _shader.setUniformValuesRadialBlur(0, 1, Exposure, Decay, Weight, Density, NumSamples, radialPosition);
             VAOManager.renderBuffers(_buffer, PrimitiveType.Triangles);
             _shader.stopProgram();
         }
 
-        public void sendGodRaysWithPostprocessToNextStage(int width, int height, Vector3 translation,
+        public void sendGodRaysWithPostprocessToNextStage(Int32 width, Int32 height, Vector3 translation,
             Matrix4 viewMatrix, Matrix4 projectionMatrix, uint filterResult)
         {
 
@@ -105,22 +105,24 @@ namespace MassiveGame
                 new Vector4(0, 0, 1, 0),
                 new Vector4(0, 0, 0, 1));
 
-             _fbo.renderToFBO(1, _fbo.Texture.Rezolution[0].widthRezolution, _fbo.Texture.Rezolution[0].heightRezolution);
+             _fbo.renderToFBO(1, _fbo.FrameTexture.GetTextureRezolution().X, _fbo.FrameTexture.GetTextureRezolution().X);
 
             Vector2 radialPosition = getRadialPos(translation, viewMatrix, projectionMatrix, _viewportMatrix);
 
 
             _shader.startProgram();
-            _fbo.Texture.bindTexture2D(TextureUnit.Texture0, filterResult);
-            _fbo.Texture.bindTexture2D(TextureUnit.Texture1, _fbo.Texture.TextureID[1]);
+
+            GL.ActiveTexture(TextureUnit.Texture0);
+            GL.BindTexture(TextureTarget.Texture2D, filterResult);
+            _fbo.RadialBlurAppliedTexture.BindTexture(TextureUnit.Texture1);
             _shader.setUniformValuesRadialBlur(0, 1, Exposure, Decay, Weight, Density, NumSamples, radialPosition);
             VAOManager.renderBuffers(_buffer, PrimitiveType.Triangles);
             _shader.stopProgram();
 
-            FilterResult = _fbo.Texture.TextureID[0];
+            FilterResult = _fbo.FrameTexture.GetTextureDescriptor();
         }
 
-        public void sendGodRaysWithoutPostprocessToNextStage(int width, int height, Vector3 translation,
+        public void sendGodRaysWithoutPostprocessToNextStage(Int32 width, Int32 height, Vector3 translation,
             Matrix4 viewMatrix, Matrix4 projectionMatrix)
         {
 
@@ -129,19 +131,19 @@ namespace MassiveGame
                 new Vector4(0, 0, 1, 0),
                 new Vector4(0, 0, 0, 1));
 
-            _fbo.renderToFBO(3, _fbo.Texture.Rezolution[2].widthRezolution, _fbo.Texture.Rezolution[2].heightRezolution);
+            _fbo.renderToFBO(3, _fbo.LensFlareTexture.GetTextureRezolution().X, _fbo.LensFlareTexture.GetTextureRezolution().Y);
 
             Vector2 radialPosition = getRadialPos(translation, viewMatrix, projectionMatrix, _viewportMatrix);
 
 
             _shader.startProgram();
-            _fbo.Texture.bindTexture2D(TextureUnit.Texture0, _fbo.Texture.TextureID[0]);
-            _fbo.Texture.bindTexture2D(TextureUnit.Texture1, _fbo.Texture.TextureID[1]);
+            _fbo.FrameTexture.BindTexture(TextureUnit.Texture0);
+            _fbo.RadialBlurAppliedTexture.BindTexture(TextureUnit.Texture1);
             _shader.setUniformValuesRadialBlur(0, 1, Exposure, Decay, Weight, Density, NumSamples, radialPosition);
             VAOManager.renderBuffers(_buffer, PrimitiveType.Triangles);
             _shader.stopProgram();
 
-            FilterResult = _fbo.Texture.TextureID[2];
+            FilterResult = _fbo.LensFlareTexture.GetTextureDescriptor();
         }
 
         #endregion 

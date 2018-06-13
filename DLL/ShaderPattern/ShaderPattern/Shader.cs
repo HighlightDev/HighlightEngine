@@ -51,10 +51,10 @@ namespace ShaderPattern
         private string fsPath;
         private string gsPath;
 
-        private int vertexShaderID;
-        private int fragmentShaderID;
-        private int geometryShaderID;
-        private int shaderProgramID;
+        private Int32 vertexShaderID;
+        private Int32 fragmentShaderID;
+        private Int32 geometryShaderID;
+        private Int32 shaderProgramID;
         protected bool ShaderLoaded { set; get; }
 
         private List<DefineParams> DefineParameters;
@@ -132,7 +132,7 @@ namespace ShaderPattern
 
         protected void showCompileLogInfo(string ShaderName)
         {
-            int capacity = 0;
+            Int32 capacity = 0;
             /*Vertex shader log info*/
             unsafe { GL.GetShader(vertexShaderID, ShaderParameter.InfoLogLength, &capacity); }
             StringBuilder info = new StringBuilder(capacity);
@@ -166,7 +166,7 @@ namespace ShaderPattern
 
         protected void showLinkLogInfo(string ShaderName)
         {
-            int capacity = 0;
+            Int32 capacity = 0;
             /*Shader program link log info*/
             unsafe { GL.GetProgram(shaderProgramID, GetProgramParameterName.InfoLogLength, &capacity); }
             StringBuilder info = new StringBuilder(capacity);
@@ -179,7 +179,7 @@ namespace ShaderPattern
 
         public string getCompileLogInfo(string ShaderName)
         {
-            int capacity = 0;
+            Int32 capacity = 0;
             /*Vertex shader log info*/
             unsafe { GL.GetShader(vertexShaderID, ShaderParameter.InfoLogLength, &capacity); }
             StringBuilder info = new StringBuilder(capacity);
@@ -207,7 +207,7 @@ namespace ShaderPattern
 
         public string getLinkLogInfo(string ShaderName)
         {
-            int capacity = 0;
+            Int32 capacity = 0;
             /*Shader program link log info*/
             unsafe { GL.GetProgram(this.shaderProgramID, GetProgramParameterName.InfoLogLength, &capacity); }
             StringBuilder info = new StringBuilder(capacity);
@@ -251,12 +251,12 @@ namespace ShaderPattern
 
         #region Getters
 
-        protected int getUniformLocation(string uniformName)
+        protected Int32 getUniformLocation(string uniformName)
         {
             return GL.GetUniformLocation(shaderProgramID, uniformName);
         }
 
-        protected int getSubroutineIndex(ShaderType type, string indexName)
+        protected Int32 getSubroutineIndex(ShaderType type, string indexName)
         {
             return GL.GetSubroutineIndex(this.shaderProgramID, type, indexName);
         }
@@ -270,47 +270,47 @@ namespace ShaderPattern
 
         #region Load_uniforms
 
-        protected void loadFloat(int location, float value)
+        protected void loadFloat(Int32 location, float value)
         {
             GL.Uniform1(location, value);
         }
 
-        protected void loadVector(int location, Vector3 vector)
+        protected void loadVector(Int32 location, Vector3 vector)
         {
             GL.Uniform3(location, vector);
         }
 
-        protected void loadVector(int location, Vector4 vector)
+        protected void loadVector(Int32 location, Vector4 vector)
         {
             GL.Uniform4(location, vector);
         }
 
-        protected void loadVector(int location ,Vector2 vector)
+        protected void loadVector(Int32 location ,Vector2 vector)
         {
             GL.Uniform2(location, vector);
         }
 
-        protected void loadBool(int location, bool value)
+        protected void loadBool(Int32 location, bool value)
         {
             GL.Uniform1(location, value ? 1.0f : 0.0f);
         }
 
-        protected void loadMatrix(int location, bool transpose, Matrix4 matrix)
+        protected void loadMatrix(Int32 location, bool transpose, Matrix4 matrix)
         {
             GL.UniformMatrix4(location, transpose, ref matrix);
         }
 
-        protected void loadNormalMatrix(int location, bool transpose, Matrix3 matrix)
+        protected void loadNormalMatrix(Int32 location, bool transpose, Matrix3 matrix)
         {
             GL.UniformMatrix3(location, transpose, ref matrix);
         }
 
-        protected void loadInteger(int location, int value)
+        protected void loadInteger(Int32 location, Int32 value)
         {
             GL.Uniform1(location, value);
         }
 
-        protected void loadSubroutineIndex(ShaderType type, int countIndices , int subroutineIndex)
+        protected void loadSubroutineIndex(ShaderType type, Int32 countIndices , Int32 subroutineIndex)
         {
             GL.UniformSubroutines(type, countIndices, ref subroutineIndex);
         }
@@ -366,8 +366,8 @@ namespace ShaderPattern
             {
                 if (str.StartsWith("#define"))
                 {
-                    int indexName = str.IndexOf(' ');
-                    int indexValue = str.IndexOf(' ', indexName + 1);
+                    Int32 indexName = str.IndexOf(' ');
+                    Int32 indexValue = str.IndexOf(' ', indexName + 1);
                     var name = str.Substring(indexName + 1, indexValue - indexName - 1);
                     var value = str.Substring(indexValue + 1);
                     macros.Add(new DefineParams(name, value));
@@ -387,7 +387,7 @@ namespace ShaderPattern
             }
 
             // update values for existing macros
-            for (int i = 0; i < input.Count; i++)
+            for (Int32 i = 0; i < input.Count; i++)
             {
                 if (macros.Any(def => def.Name == input[i].Name))
                     macros.RemoveAll(def => def.Name == input[i].Name);
@@ -401,7 +401,7 @@ namespace ShaderPattern
                 macroResult += string.Format("#define {0} {1} \n", def.Name, def.Value);
             });
 
-            int startIndex = code.FindIndex(new Predicate<string>(s => s.StartsWith("#version"))) + 2;
+            Int32 startIndex = code.FindIndex(new Predicate<string>(s => s.StartsWith("#version"))) + 2;
             code.Insert(startIndex, macroResult);
 
             string codeResult = string.Empty;

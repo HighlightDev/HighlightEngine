@@ -7,6 +7,7 @@ using ShaderPattern;
 using OpenTK;
 using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL;
+using System.Drawing;
 
 namespace MassiveGame
 {
@@ -15,12 +16,12 @@ namespace MassiveGame
         #region Definations
 
         private const string SHADER_NAME = "Postprocess Shader";
-        private const int BLUR_WIDTH = PostprocessRenderer.MAX_BLUR_WIDTH;
-        int frameTexture, blurTexture, depthTexture, AveLum, screenWidth, screenHeight, blurWidth,
+        private const Int32 BLUR_WIDTH = PostprocessRenderer.MAX_BLUR_WIDTH;
+        Int32 frameTexture, blurTexture, depthTexture, AveLum, screenWidth, screenHeight, blurWidth,
             blurStartEdge, blurEndEdge, bloomThreshold;
-        int[] weights = new int[BLUR_WIDTH], pixOffset = new int[BLUR_WIDTH];
+        Int32[] weights = new Int32[BLUR_WIDTH], pixOffset = new Int32[BLUR_WIDTH];
 
-        int subBlur1, subBlur2, subDefault, subDoF, subBloom1, subBloom2;
+        Int32 subBlur1, subBlur2, subDefault, subDoF, subBloom1, subBloom2;
 
         #endregion
 
@@ -38,7 +39,7 @@ namespace MassiveGame
             blurStartEdge = base.getUniformLocation("blurStartEdge");
             blurEndEdge = base.getUniformLocation("blurEndEdge");
             bloomThreshold = base.getUniformLocation("bloomThreshold");
-            for (int i = 0; i < BLUR_WIDTH; i++)
+            for (Int32 i = 0; i < BLUR_WIDTH; i++)
             {
                 this.weights[i] = base.getUniformLocation("Weight[" + i + "]");
                 this.pixOffset[i] = base.getUniformLocation("PixOffset[" + i + "]");
@@ -56,19 +57,19 @@ namespace MassiveGame
         #region Setters uniform
 
         /*HDR uniforms*/
-        public void setUniforms(int frameTexture, float AveLum)
+        public void setUniforms(Int32 frameTexture, float AveLum)
         {
             base.loadInteger(this.frameTexture, frameTexture);
             base.loadFloat(this.AveLum, AveLum);
         }
 
         /*Blur first pass uniforms*/
-        public void setBlur1Uniforms(int frameTexture, float[] weights, int[] pixOffset, int screenWidth, int screenHeight)
+        public void setBlur1Uniforms(Int32 frameTexture, float[] weights, Int32[] pixOffset, Point screenRezolution)
         {
             base.loadInteger(this.frameTexture, frameTexture);
-            base.loadInteger(this.screenWidth, screenWidth);
-            base.loadInteger(this.screenHeight, screenHeight);
-            for (int i = 0; i < (weights.Length > BLUR_WIDTH ? BLUR_WIDTH : weights.Length); i++)
+            base.loadInteger(this.screenWidth, screenRezolution.X);
+            base.loadInteger(this.screenHeight, screenRezolution.Y);
+            for (Int32 i = 0; i < (weights.Length > BLUR_WIDTH ? BLUR_WIDTH : weights.Length); i++)
             {
                 base.loadFloat(this.weights[i], weights[i]);
                 base.loadInteger(this.pixOffset[i], pixOffset[i]);
@@ -78,12 +79,12 @@ namespace MassiveGame
         }
 
         /*Blur second pass uniforms*/
-        public void setBlur2Uniforms(int frameTexture, float[] weights, int[] pixOffset, int screenWidth, int screenHeight)
+        public void setBlur2Uniforms(Int32 frameTexture, float[] weights, Int32[] pixOffset, Point screenRezolution)
         {
             base.loadInteger(this.frameTexture, frameTexture);
-            base.loadInteger(this.screenWidth, screenWidth);
-            base.loadInteger(this.screenHeight, screenHeight);
-            for (int i = 0; i < (weights.Length > BLUR_WIDTH ? BLUR_WIDTH : weights.Length); i++)
+            base.loadInteger(this.screenWidth, screenRezolution.X);
+            base.loadInteger(this.screenHeight, screenRezolution.Y);
+            for (Int32 i = 0; i < (weights.Length > BLUR_WIDTH ? BLUR_WIDTH : weights.Length); i++)
             {
                 base.loadFloat(this.weights[i], weights[i]);
                 base.loadInteger(this.pixOffset[i], pixOffset[i]);
@@ -93,24 +94,24 @@ namespace MassiveGame
         }
 
         /*Default pass uniforms*/
-        public void setDefaultUniforms(int frameTexture)
+        public void setDefaultUniforms(Int32 frameTexture)
         {
             base.loadInteger(this.frameTexture, frameTexture);
             base.loadSubroutineIndex(ShaderType.FragmentShader, 1, this.subDefault);
         }
 
         /*DoF blur second pass uniforms*/
-        public void setDoFUniforms(int frameTexture, int blurTexture, int depthTexture,
-            float[] weights, int[] pixOffset, float blurStartEdge, float blurEndEdge, int screenWidth, int screenHeight)
+        public void setDoFUniforms(Int32 frameTexture, Int32 blurTexture, Int32 depthTexture,
+            float[] weights, Int32[] pixOffset, float blurStartEdge, float blurEndEdge, Point screenRezolution)
         {
             base.loadInteger(this.frameTexture, frameTexture);
             base.loadInteger(this.blurTexture, blurTexture);
             base.loadInteger(this.depthTexture, depthTexture);
-            base.loadInteger(this.screenWidth, screenWidth);
-            base.loadInteger(this.screenHeight, screenHeight);
+            base.loadInteger(this.screenWidth, screenRezolution.X);
+            base.loadInteger(this.screenHeight, screenRezolution.Y);
             base.loadFloat(this.blurStartEdge, blurStartEdge);
             base.loadFloat(this.blurEndEdge, blurEndEdge);
-            for (int i = 0; i < (weights.Length > BLUR_WIDTH ? BLUR_WIDTH : weights.Length); i++)
+            for (Int32 i = 0; i < (weights.Length > BLUR_WIDTH ? BLUR_WIDTH : weights.Length); i++)
             {
                 base.loadFloat(this.weights[i], weights[i]);
                 base.loadInteger(this.pixOffset[i], pixOffset[i]);
@@ -120,7 +121,7 @@ namespace MassiveGame
         }
 
         /*Bloom brightness pass*/
-        public void setBloom1Uniforms(int frameTexture, float bloomThreshold)
+        public void setBloom1Uniforms(Int32 frameTexture, float bloomThreshold)
         {
             base.loadInteger(this.frameTexture, frameTexture);
             base.loadFloat(this.bloomThreshold, bloomThreshold);
@@ -128,18 +129,20 @@ namespace MassiveGame
         }
 
         /*Bloom blured + default image pass*/
-        public void setBloom2Uniforms(int defaultTexture, int bluredTexture,
-            float[] weights, int[] pixOffset, int screenWidth, int screenHeight)
+        public void setBloom2Uniforms(Int32 defaultTexture, Int32 bluredTexture,
+            float[] weights, Int32[] pixOffset, Point screenRezolution)
         {
             base.loadInteger(this.frameTexture, defaultTexture);
             base.loadInteger(this.blurTexture, bluredTexture);
-            for (int i = 0; i < (weights.Length > BLUR_WIDTH ? BLUR_WIDTH : weights.Length); i++)
+            for (Int32 i = 0; i < (weights.Length > BLUR_WIDTH ? BLUR_WIDTH : weights.Length); i++)
             {
                 base.loadFloat(this.weights[i], weights[i]);
                 base.loadInteger(this.pixOffset[i], pixOffset[i]);
             }
             base.loadInteger(this.blurWidth, weights.Length);
             base.loadSubroutineIndex(ShaderType.FragmentShader, 1, this.subBloom2);
+            base.loadInteger(this.screenWidth, screenRezolution.X);
+            base.loadInteger(this.screenHeight, screenRezolution.Y);
         }
 
         #endregion

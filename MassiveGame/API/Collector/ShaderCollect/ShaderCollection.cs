@@ -10,12 +10,12 @@ namespace MassiveGame.API.Collector.ShaderCollect
     public class ShaderCollection
     {
         private Dictionary<string, Shader> shaderDictionary;
-        private Dictionary<string, int> referenceCount;
+        private Dictionary<string, Int32> referenceCount;
 
         public ShaderCollection()
         {
             shaderDictionary = new Dictionary<string, Shader>();
-            referenceCount = new Dictionary<string, int>();
+            referenceCount = new Dictionary<string, Int32>();
         }
 
         public Shader RetrieveShader(string key, ConstructorInfo ctor)

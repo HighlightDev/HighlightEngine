@@ -485,7 +485,7 @@ namespace PhysicsBox
             // созданных треугольников складываются. И если сумма углов равна 360, то мы внутри! 
             // Если же значение меньше 360, мы снаружи полигона. 
 
-            for (int i = 0; i < verticeCount; i++)      // Проходим циклом по каждой вершине и складываем их углы
+            for (Int32 i = 0; i < verticeCount; i++)      // Проходим циклом по каждой вершине и складываем их углы
             {
                 vA = Polygon[i] - vIntersection;    // Вычитаем точку пересечения из текущей вершины
 
@@ -517,7 +517,7 @@ namespace PhysicsBox
         /// <param name="vLine"></param>
         /// <param name="verticeCount"></param>
         /// <returns></returns>
-        public static bool intersectedPolygon(Vector3[] vPoly, Vector3[] vLine, int verticeCount)
+        public static bool intersectedPolygon(Vector3[] vPoly, Vector3[] vLine, Int32 verticeCount)
         {
             Vector3 vNormal = new Vector3();
             float originDistance = 0;
@@ -558,7 +558,7 @@ namespace PhysicsBox
         /////
         ////////////////////////////// SPHERE POLYGON COLLISION """""""""\\*
 
-        public static bool SpherePolygonCollision(Vector3[] vPolygon, Vector3 vCenter, int vertexCount, float radius)
+        public static bool SpherePolygonCollision(Vector3[] vPolygon, Vector3 vCenter, Int32 vertexCount, float radius)
         {
             //
             // 1) Сначала нужно проверить, пересекается ли сфера с плоскостью, на которой находится 
@@ -620,7 +620,7 @@ namespace PhysicsBox
             // Здесь мы определяем, находится ли сфера спереди, сзади плоскости, или пересекает её.
             // Передаём центр сферы, нормаль полигона, точку на плоскости (любую вершину), радиус
             // сферы и пустой float для сохранения дистанции.
-            int classification = ClassifySphere(vCenter, vNormal, vPolygon[0], radius, ref distance);
+            Int32 classification = ClassifySphere(vCenter, vNormal, vPolygon[0], radius, ref distance);
 
             // Если сфера пересекает плоскость полигона, нам нужно проверить, пересекает ли
             // она сам полигон.
@@ -773,7 +773,7 @@ namespace PhysicsBox
         /////
         ///////////////////////////////// CLASSIFY SPHERE """"""""""\\*
 
-        static int ClassifySphere(Vector3 vCenter,
+        static Int32 ClassifySphere(Vector3 vCenter,
                 Vector3 vNormal, Vector3 vPoint, float radius, ref float distance)
         {
             // Сначала нужно найти расстояние плоскости от начала координат.
@@ -810,7 +810,7 @@ namespace PhysicsBox
         ///////////////////////////////// EDGE SPHERE COLLSIION """"""""""\\*
 
         static bool EdgeSphereCollision(Vector3 vCenter,
-                     Vector3[] vPolygon, int vertexCount, float radius)
+                     Vector3[] vPolygon, Int32 vertexCount, float radius)
         {
             Vector3 vPoint;
 
@@ -818,7 +818,7 @@ namespace PhysicsBox
             // true, если сфера пересекается с каким-либо ребром. 
 
             // Проходим по всем вершинам
-            for (int i = 0; i < vertexCount; i++)
+            for (Int32 i = 0; i < vertexCount; i++)
             {
                 // Это вернёт ближайшую к центру сферы точку текущего ребра.
                 vPoint = ClosestPointOnLine(vPolygon[i], vPolygon[(i + 1) % vertexCount], vCenter);

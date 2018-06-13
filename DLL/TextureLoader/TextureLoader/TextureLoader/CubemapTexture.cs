@@ -26,14 +26,14 @@ namespace TextureLoader
 
         #endregion
 
-        private int textureObj;
+        private Int32 textureObj;
 
-        public int getInfo()
+        public Int32 getInfo()
         {
             return textureObj;
         }
 
-        private static bool checkException(int bitsPP, int bitsPattern)
+        private static bool checkException(Int32 bitsPP, Int32 bitsPattern)
         {
             try
             {
@@ -50,16 +50,16 @@ namespace TextureLoader
             return true;
         }
 
-        private static int GenCubeMap(string[] textureFiles)
+        private static Int32 GenCubeMap(string[] textureFiles)
         {
-            int bitsPattern = -1;
-            int texID;
+            Int32 bitsPattern = -1;
+            Int32 texID;
 
             GL.GenTextures(1, out texID);
             GL.ActiveTexture(TextureUnit.Texture0);
             GL.BindTexture(TextureTarget.TextureCubeMap, texID);
 
-            for (int i = 0; i < textureFiles.Length; i++)
+            for (Int32 i = 0; i < textureFiles.Length; i++)
             {
                 Bitmap image = null;
 
@@ -70,30 +70,30 @@ namespace TextureLoader
                     #region Bitmap data
                     // если загрузка прошла успешно 
                     // сохраняем размеры изображения 
-                    int width = image.Width;
-                    int height = image.Height;
+                    Int32 width = image.Width;
+                    Int32 height = image.Height;
 
                     // определяем число бит на пиксель 
-                    int pixelFormat = 0;
-                    int bitsPerPixel = 0;
+                    Int32 pixelFormat = 0;
+                    Int32 bitsPerPixel = 0;
                     SystemPixelFormat sPixelFormat = image.PixelFormat;
 
                     switch (sPixelFormat)
                     {
                         case SystemPixelFormat.Format24bppRgb:
-                            pixelFormat = (int)SystemPixelFormat.Format24bppRgb;
+                            pixelFormat = (Int32)SystemPixelFormat.Format24bppRgb;
                             bitsPerPixel = 24;
                             break;
                         case SystemPixelFormat.Format32bppRgb:
-                            pixelFormat = (int)SystemPixelFormat.Format32bppRgb;
+                            pixelFormat = (Int32)SystemPixelFormat.Format32bppRgb;
                             bitsPerPixel = 32;
                             break;
                         case SystemPixelFormat.Format32bppArgb:
-                            pixelFormat = (int)SystemPixelFormat.Format32bppArgb;
+                            pixelFormat = (Int32)SystemPixelFormat.Format32bppArgb;
                             bitsPerPixel = 32;
                             break;
                         case SystemPixelFormat.Format32bppPArgb:
-                            pixelFormat = (int)SystemPixelFormat.Format32bppPArgb;
+                            pixelFormat = (Int32)SystemPixelFormat.Format32bppPArgb;
                             bitsPerPixel = 32;
                             break;
                         default:
@@ -144,11 +144,11 @@ namespace TextureLoader
             }
             
             // Parameters
-            GL.TexParameter(TextureTarget.TextureCubeMap, TextureParameterName.TextureMagFilter, (int)TextureMagFilter.Linear);
-            GL.TexParameter(TextureTarget.TextureCubeMap, TextureParameterName.TextureMinFilter, (int)TextureMinFilter.Linear);
-            GL.TexParameter(TextureTarget.TextureCubeMap, TextureParameterName.TextureWrapS, (int)TextureWrapMode.ClampToEdge);
-            GL.TexParameter(TextureTarget.TextureCubeMap, TextureParameterName.TextureWrapT, (int)TextureWrapMode.ClampToEdge);
-            GL.TexParameter(TextureTarget.TextureCubeMap, TextureParameterName.TextureWrapR, (int)TextureWrapMode.ClampToEdge);
+            GL.TexParameter(TextureTarget.TextureCubeMap, TextureParameterName.TextureMagFilter, (Int32)TextureMagFilter.Linear);
+            GL.TexParameter(TextureTarget.TextureCubeMap, TextureParameterName.TextureMinFilter, (Int32)TextureMinFilter.Linear);
+            GL.TexParameter(TextureTarget.TextureCubeMap, TextureParameterName.TextureWrapS, (Int32)TextureWrapMode.ClampToEdge);
+            GL.TexParameter(TextureTarget.TextureCubeMap, TextureParameterName.TextureWrapT, (Int32)TextureWrapMode.ClampToEdge);
+            GL.TexParameter(TextureTarget.TextureCubeMap, TextureParameterName.TextureWrapR, (Int32)TextureWrapMode.ClampToEdge);
 
             GL.BindTexture(TextureTarget.TextureCubeMap, 0);
 
@@ -172,7 +172,7 @@ namespace TextureLoader
             GL.BindTexture(TextureTarget.TextureCubeMap, 0);
         }
 
-        public uint GetTextureHandler()
+        public uint GetTextureDescriptor()
         {
             return (UInt32)textureObj;
         }

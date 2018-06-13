@@ -13,7 +13,9 @@ namespace MassiveGame
     {
         #region Definitions
 
-        public Texture2D Texture { private set { base.textures = value; } get { return base.textures; } }
+        public ITexture ReflectionTexture { set; get; }
+        public ITexture RefractionTexture { set; get; }
+        public ITexture DepthTexture { set; get; }
 
         #endregion
 
@@ -25,10 +27,10 @@ namespace MassiveGame
              1 - for reflection 
              2 - for refraction
              3 - for depth*/
-            base.textures = new Texture2D();
-            base.textures.genEmptyImg(2, (int)(DOUEngine.ScreenRezolution.X / 1.5), (int)(DOUEngine.ScreenRezolution.Y / 1.5), (int)All.Nearest, PixelInternalFormat.Rgb, PixelFormat.Rgb, PixelType.UnsignedByte);
-            base.textures.genEmptyImg(1, (int)(DOUEngine.ScreenRezolution.X / 1.5), (int)(DOUEngine.ScreenRezolution.Y / 1.5), (int)All.Nearest, PixelInternalFormat.Depth24Stencil8,
-                PixelFormat.DepthComponent, PixelType.Float);
+
+            ReflectionTexture = new Texture2Dlite((Int32)(DOUEngine.ScreenRezolution.X / 1.5), (Int32)(DOUEngine.ScreenRezolution.Y / 1.5), PixelInternalFormat.Rgb, PixelFormat.Rgb, PixelType.UnsignedByte);
+            RefractionTexture = new Texture2Dlite((Int32)(DOUEngine.ScreenRezolution.X / 1.5), (Int32)(DOUEngine.ScreenRezolution.Y / 1.5), PixelInternalFormat.Rgb, PixelFormat.Rgb, PixelType.UnsignedByte);
+            DepthTexture = new Texture2Dlite((Int32)(DOUEngine.ScreenRezolution.X / 1.5), (Int32)(DOUEngine.ScreenRezolution.Y / 1.5), PixelInternalFormat.Depth24Stencil8, PixelFormat.DepthComponent, PixelType.Float);
         }
 
         protected override void setFramebuffers()
@@ -38,10 +40,10 @@ namespace MassiveGame
              2 - for refraction*/
             base.genFramebuffers(2);
             base.bindFramebuffer(1);
-            base.attachTextureToFramebuffer(FramebufferAttachment.ColorAttachment0, base.textures.TextureID[0]);
+            base.attachTextureToFramebuffer(FramebufferAttachment.ColorAttachment0, ReflectionTexture.GetTextureDescriptor());
             base.bindFramebuffer(2);
-            base.attachTextureToFramebuffer(FramebufferAttachment.ColorAttachment0, base.textures.TextureID[1]);
-            base.attachTextureToFramebuffer(FramebufferAttachment.DepthStencilAttachment, base.textures.TextureID[2]);
+            base.attachTextureToFramebuffer(FramebufferAttachment.ColorAttachment0, RefractionTexture.GetTextureDescriptor());
+            base.attachTextureToFramebuffer(FramebufferAttachment.DepthStencilAttachment, DepthTexture.GetTextureDescriptor());
         }
 
         protected override void setRenderbuffers()
@@ -51,7 +53,7 @@ namespace MassiveGame
             base.bindFramebuffer(1);
             base.bindRenderbuffer(1);
             base.renderbufferStorage(RenderbufferStorage.Depth24Stencil8,
-                base.textures.Rezolution[0].widthRezolution, base.textures.Rezolution[0].heightRezolution);
+                ReflectionTexture.GetTextureRezolution());
             base.attachRenderbufferToFramebuffer(FramebufferAttachment.DepthStencilAttachment);
         }
 

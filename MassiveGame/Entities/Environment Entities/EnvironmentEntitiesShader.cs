@@ -17,7 +17,7 @@ namespace MassiveGame
         #region Definitions
 
         private const string SHADER_NAME = "Env. entity shader";
-        private int modelMatrix, viewMatrix, projectionMatrix, modelTexSampler, envMapSampler,
+        private Int32 modelMatrix, viewMatrix, projectionMatrix, modelTexSampler, envMapSampler,
             cameraPosition, iorValues;
 
         #endregion
@@ -40,7 +40,7 @@ namespace MassiveGame
         #region Setter
 
         public void setUniformValues(ref Matrix4 modelMatrix, Matrix4 viewMatrix, ref Matrix4 projectionMatrix,
-            Vector3 cameraPosition, int modelTexSampler, int envMapSampler)
+            Vector3 cameraPosition, Int32 modelTexSampler, Int32 envMapSampler)
         {
             base.loadMatrix(this.modelMatrix, false, modelMatrix);
             base.loadMatrix(this.viewMatrix, false, viewMatrix);

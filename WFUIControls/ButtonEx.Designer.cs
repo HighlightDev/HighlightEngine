@@ -1,4 +1,6 @@
-﻿namespace UIControls
+﻿using System;
+
+namespace UIControls
 {
     partial class ButtonEx
     {
@@ -34,7 +36,7 @@
             // 
             // L_Button
             // 
-            this.L_Button.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.L_Button.BackColor = System.Drawing.Color.FromArgb(((Int32)(((byte)(64)))), ((Int32)(((byte)(64)))), ((Int32)(((byte)(64)))));
             this.L_Button.Dock = System.Windows.Forms.DockStyle.Fill;
             this.L_Button.Font = new System.Drawing.Font("Microsoft Sans Serif", 12.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.L_Button.ForeColor = System.Drawing.SystemColors.ButtonFace;
@@ -52,7 +54,7 @@
             // 
             // ButtonEx
             // 
-            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.BackColor = System.Drawing.Color.FromArgb(((Int32)(((byte)(64)))), ((Int32)(((byte)(64)))), ((Int32)(((byte)(64)))));
             this.Controls.Add(this.L_Button);
             this.MinimumSize = new System.Drawing.Size(0, 32);
             this.Size = new System.Drawing.Size(122, 32);

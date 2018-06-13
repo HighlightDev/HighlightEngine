@@ -15,7 +15,9 @@ namespace MassiveGame
     {
         #region Definitions 
 
-        public Texture2D Texture { private set { base.textures = value; } get { return base.textures; } }
+        public ITexture FrameTexture { private set; get; }
+        public ITexture RadialBlurAppliedTexture { private set; get; }
+        public ITexture LensFlareTexture { private set; get; }
 
         #endregion
 
@@ -23,14 +25,13 @@ namespace MassiveGame
 
         protected override void setTextures()
         {
-            base.textures = new Texture2D();
-            textures.genEmptyImg(1, DOUEngine.ScreenRezolution.X, DOUEngine.ScreenRezolution.Y, (int)All.Nearest,PixelInternalFormat.Rgb, PixelFormat.Rgb, PixelType.UnsignedByte);
-            textures.genEmptyImg(1, DOUEngine.ScreenRezolution.X / 10, DOUEngine.ScreenRezolution.Y / 10, (int)All.Linear, PixelInternalFormat.Rgb, PixelFormat.Rgb, PixelType.UnsignedByte);
-
+            FrameTexture = new Texture2Dlite(DOUEngine.ScreenRezolution.X, DOUEngine.ScreenRezolution.Y, PixelInternalFormat.Rgb, PixelFormat.Rgb, PixelType.UnsignedByte);
+            RadialBlurAppliedTexture = new Texture2Dlite(DOUEngine.ScreenRezolution.X / 10, DOUEngine.ScreenRezolution.Y / 10, PixelInternalFormat.Rgb, PixelFormat.Rgb, PixelType.UnsignedByte, (Int32)All.Linear);
+            
             /*IF pp is disabled and lens flare is enabled*/
             if (LensFlareRenderer.LensFlareEnabled)
             {
-                textures.genEmptyImg(1, DOUEngine.ScreenRezolution.X, DOUEngine.ScreenRezolution.Y, (int)All.Linear, PixelInternalFormat.Rgb, PixelFormat.Rgb, PixelType.UnsignedByte);
+                LensFlareTexture = new Texture2Dlite(DOUEngine.ScreenRezolution.X, DOUEngine.ScreenRezolution.Y, PixelInternalFormat.Rgb, PixelFormat.Rgb, PixelType.UnsignedByte, (Int32)All.Linear);
             }
         }
 
@@ -39,16 +40,16 @@ namespace MassiveGame
             base.genFramebuffers(3);
            
             base.bindFramebuffer(2);
-            base.attachTextureToFramebuffer(FramebufferAttachment.ColorAttachment0, base.textures.TextureID[1]);
+            base.attachTextureToFramebuffer(FramebufferAttachment.ColorAttachment0, RadialBlurAppliedTexture.GetTextureDescriptor());
 
             base.bindFramebuffer(1);
-            base.attachTextureToFramebuffer(FramebufferAttachment.ColorAttachment0, base.textures.TextureID[0]);
+            base.attachTextureToFramebuffer(FramebufferAttachment.ColorAttachment0, FrameTexture.GetTextureDescriptor());
 
              /*IF pp is disabled and lens flare is enabled*/
             if (LensFlareRenderer.LensFlareEnabled)
             {
                 base.bindFramebuffer(3);
-                base.attachTextureToFramebuffer(FramebufferAttachment.ColorAttachment0, base.textures.TextureID[2]);
+                base.attachTextureToFramebuffer(FramebufferAttachment.ColorAttachment0, LensFlareTexture.GetTextureDescriptor());
             }
         }
 
@@ -58,18 +59,28 @@ namespace MassiveGame
 
             base.bindFramebuffer(1);
             base.bindRenderbuffer(1);
-            base.renderbufferStorage(RenderbufferStorage.DepthComponent24, base.textures.Rezolution[0].widthRezolution,
-                base.textures.Rezolution[0].heightRezolution);
+            base.renderbufferStorage(RenderbufferStorage.DepthComponent24, FrameTexture.GetTextureRezolution().X,
+                 FrameTexture.GetTextureRezolution().Y);
             base.attachRenderbufferToFramebuffer(FramebufferAttachment.DepthAttachment, 1);
 
             base.bindFramebuffer(2);
             base.bindRenderbuffer(2);
-            base.renderbufferStorage(RenderbufferStorage.DepthComponent24, base.textures.Rezolution[1].widthRezolution,
-                base.textures.Rezolution[1].heightRezolution);
+            base.renderbufferStorage(RenderbufferStorage.DepthComponent24, RadialBlurAppliedTexture.GetTextureRezolution().X,
+                 RadialBlurAppliedTexture.GetTextureRezolution().Y);
             base.attachRenderbufferToFramebuffer(FramebufferAttachment.DepthAttachment, 2);
         }
 
         #endregion
+
+        public override void cleanUp()
+        {
+            FrameTexture.CleanUp();
+            RadialBlurAppliedTexture.CleanUp();
+            if (LensFlareTexture != null)
+                LensFlareTexture.CleanUp();
+
+            base.cleanUp();
+        }
 
         #region Constructor
 

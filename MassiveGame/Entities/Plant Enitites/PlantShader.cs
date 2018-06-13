@@ -10,7 +10,7 @@ namespace MassiveGame
         #region Definitions 
 
         private const string SHADER_NAME = "Plant Shader";
-        private int plantTexture,
+        private Int32 plantTexture,
             materialAmbient,
             materialDiffuse,
             ModelMatrix,
@@ -66,7 +66,7 @@ namespace MassiveGame
 
          #region Setter
 
-         public void setTextureSampler(int sampler)
+         public void setTextureSampler(Int32 sampler)
          {
              base.loadInteger(this.plantTexture, sampler);
          }

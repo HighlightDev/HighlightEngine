@@ -43,7 +43,7 @@ namespace MassiveGame.UI
             preConstructor();
         }
 
-        public Engine(int width, int height) : this()
+        public Engine(Int32 width, Int32 height) : this()
         {
             this.Width = width;
             this.Height = height;
@@ -261,8 +261,8 @@ namespace MassiveGame.UI
             DOUEngine.Lights = new Light_visualization.VisualizeLight(ProjectFolders.TexturesPath + "/LightTextures/" + "light-bulb-icon (1).png"
                 , DOUEngine.PointLight);
 
-            DOUEngine.Lens = new LensFlareRenderer();
-            DOUEngine.Ray = new GodRaysRenderer();
+            //DOUEngine.Lens = new LensFlareRenderer();
+            //DOUEngine.Ray = new GodRaysRenderer();
             //DOUEngine.PostProc = new PostprocessRenderer(PostprocessType.BLOOM);
             //DOUEngine.PostProc.BloomPass = 1;
             //DOUEngine.PostProc.BlurWidth = 18;
@@ -372,13 +372,13 @@ namespace MassiveGame.UI
         {
             if (DOUEngine.Camera.SwitchCamera)
             {
-                DOUEngine.Camera.RotateCameraByMouse(e.X, e.Y, GLControl.Width, GLControl.Height);
-                //Cursor.Hide();
+                DOUEngine.Camera.RotateByMouse(e.X, e.Y, GLControl.Width, GLControl.Height);
+                Cursor.Hide();
 
                 if ((DOUEngine.PrevCursorPosition.X != -1) && (DOUEngine.PrevCursorPosition.Y != -1)) // need to calculate delta of mouse position
                 {
-                    int xDelta = e.X - DOUEngine.PrevCursorPosition.X;
-                    int yDelta = e.Y - DOUEngine.PrevCursorPosition.Y;
+                    Int32 xDelta = e.X - DOUEngine.PrevCursorPosition.X;
+                    Int32 yDelta = e.Y - DOUEngine.PrevCursorPosition.Y;
                 }
 
                 DOUEngine.PrevCursorPosition = e.Location;
@@ -481,25 +481,6 @@ namespace MassiveGame.UI
                         break;
                     }
                 case Keys.N: DOUEngine.NormalMapTrigger = !DOUEngine.NormalMapTrigger; break;
-                case Keys.F:
-                    {
-                        DOUEngine.FirstPersonCameraTrigger = !DOUEngine.FirstPersonCameraTrigger;
-
-                        // TODO : Это пизда 
-                        // -> правки нахуй
-
-                        if (DOUEngine.FirstPersonCameraTrigger)
-                        {
-                            DOUEngine.Camera.SetFirstPerson();
-                        }
-                        else
-                        {
-                            DOUEngine.Camera.SetThirdPerson(DOUEngine.Player);
-                            DOUEngine.Camera.movePosition(0f, 10f); // need to move in right direction
-                        }
-
-                        break;
-                    }
                 case Keys.M:   //Меняем типы полигонов
                     {
                         DOUEngine.ShowLightSource = !DOUEngine.ShowLightSource;
@@ -586,12 +567,12 @@ namespace MassiveGame.UI
         {
             DOUEngine.SCREEN_POSITION_X = this.Location.X + 8;
             DOUEngine.SCREEN_POSITION_Y = this.Location.Y + 8;
-            // для корректной работы камеры с учетом рамки
-            // + 8 из-за того, что при открытии на полный экран, смещение стартовой позиции окна = -8
-            //EngineSingleton.SCREEN_POSITION_X = ((EngineSingleton.WINDOW_BORDER != WindowBorder.Hidden) && (EngineSingleton.WINDOW_STATE != WindowState.Fullscreen))
-            //    ? this.Location.X + 8 : this.Location.X;
-            //EngineSingleton.SCREEN_POSITION_Y = ((EngineSingleton.WINDOW_BORDER != WindowBorder.Hidden) && (EngineSingleton.WINDOW_STATE != WindowState.Fullscreen))
-            //    ? this.Location.Y + 8 : this.Location.Y;
+            //для корректной работы камеры с учетом рамки
+            //+ 8 из - за того, что при открытии на полный экран, смещение стартовой позиции окна = -8
+            DOUEngine.SCREEN_POSITION_X = ((DOUEngine.WINDOW_BORDER != WindowBorder.Hidden) && (DOUEngine.WINDOW_STATE != OpenTK.WindowState.Fullscreen))
+                ? this.Location.X + 8 : this.Location.X;
+            DOUEngine.SCREEN_POSITION_Y = ((DOUEngine.WINDOW_BORDER != WindowBorder.Hidden) && (DOUEngine.WINDOW_STATE != OpenTK.WindowState.Fullscreen))
+                ? this.Location.Y + 8 : this.Location.Y;
         }
 
        

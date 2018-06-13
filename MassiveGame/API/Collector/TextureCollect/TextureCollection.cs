@@ -10,12 +10,12 @@ namespace MassiveGame.API.Collector.TextureCollect
     public class TextureCollection
     {
         private Dictionary<string, ITexture> textureDictionary;
-        private Dictionary<string, int> referenceCount;
+        private Dictionary<string, Int32> referenceCount;
 
         public TextureCollection()
         {
             textureDictionary = new Dictionary<string, ITexture>();
-            referenceCount = new Dictionary<string, int>();
+            referenceCount = new Dictionary<string, Int32>();
         }
 
         public ITexture RetrieveTexture(string key)

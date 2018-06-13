@@ -31,7 +31,7 @@ namespace CParser.OBJ_Parser
             if (file.Exists)
             {
                 string txrFile = "";
-                int index = 0;
+                Int32 index = 0;
                 char[] paramsToTrim = { ' ', '\t', '\'', '\"' };
                 StreamReader sr_txrFile = new StreamReader(dataFilePath, Encoding.UTF8);
 
@@ -58,7 +58,7 @@ namespace CParser.OBJ_Parser
                         txrFile = txrFile.Replace("*MATERIAL_COUNT", "");
                         txrFile = txrFile.Trim(paramsToTrim);
                         materialCount = Convert.ToInt32(txrFile);
-                        materialNumber = new int[materialCount];
+                        materialNumber = new Int32[materialCount];
                         materialPath = new string[materialCount];
                         continue;
                     }

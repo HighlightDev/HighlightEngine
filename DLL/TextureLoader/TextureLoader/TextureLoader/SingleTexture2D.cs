@@ -29,13 +29,13 @@ namespace TextureLoader
         #region Definitions
 
         private float _maxAnisotropy;
-        private int _textureID;
+        private Int32 _textureID;
         private TextureRezolution _rezolution;
         private Bitmap _image;
         private bool _copyBitmap;
 
         public float MaxAnisotropy { get { return _maxAnisotropy; } }
-        public int TextureID { get { return _textureID; } }
+        public Int32 TextureID { get { return _textureID; } }
         public TextureRezolution Rezolution { private set { this._rezolution = value; } get { return this._rezolution; } }
         public Bitmap Image { get { return this._image; } }
 
@@ -75,10 +75,10 @@ namespace TextureLoader
 
         #region Source_parsing
 
-        private int CreateTexture(Bitmap image, TextureWrapMode texWrap = TextureWrapMode.Repeat,
+        private Int32 CreateTexture(Bitmap image, TextureWrapMode texWrap = TextureWrapMode.Repeat,
             MipmapTextureFilter filterType = MipmapTextureFilter.LinearMipmapLinear)
         {
-            int glTextureID = 0;
+            Int32 glTextureID = 0;
             var success = false;
 
             // Save image to local variable
@@ -86,32 +86,32 @@ namespace TextureLoader
 
             // если загрузка прошла успешно 
             // сохраняем размеры изображения 
-            int width = image.Width;
-            int height = image.Height;
+            Int32 width = image.Width;
+            Int32 height = image.Height;
 
             _rezolution = new TextureRezolution(width, height);
 
             // определяем число бит на пиксель 
-            int pixelFormat = 0;
-            int bitsPerPixel = 0;
+            Int32 pixelFormat = 0;
+            Int32 bitsPerPixel = 0;
             SystemPixelFormat sPixelFormat = image.PixelFormat;
 
             switch (sPixelFormat)
             {
                 case SystemPixelFormat.Format24bppRgb:
-                    pixelFormat = (int)SystemPixelFormat.Format24bppRgb;
+                    pixelFormat = (Int32)SystemPixelFormat.Format24bppRgb;
                     bitsPerPixel = 24;
                     break;
                 case SystemPixelFormat.Format32bppRgb:
-                    pixelFormat = (int)SystemPixelFormat.Format32bppRgb;
+                    pixelFormat = (Int32)SystemPixelFormat.Format32bppRgb;
                     bitsPerPixel = 32;
                     break;
                 case SystemPixelFormat.Format32bppArgb:
-                    pixelFormat = (int)SystemPixelFormat.Format32bppArgb;
+                    pixelFormat = (Int32)SystemPixelFormat.Format32bppArgb;
                     bitsPerPixel = 32;
                     break;
                 case SystemPixelFormat.Format32bppPArgb:
-                    pixelFormat = (int)SystemPixelFormat.Format32bppPArgb;
+                    pixelFormat = (Int32)SystemPixelFormat.Format32bppPArgb;
                     bitsPerPixel = 32;
                     break;
                 default:
@@ -169,12 +169,12 @@ namespace TextureLoader
             return glTextureID;
         }
 
-        private int CreateTexture(string imagePath, bool generateMipMap, float anisotropyLevel,
+        private Int32 CreateTexture(string imagePath, bool generateMipMap, float anisotropyLevel,
             TextureWrapMode texWrap = TextureWrapMode.Repeat,
             MipmapTextureFilter filterType = MipmapTextureFilter.LinearMipmapLinear)
         {
 
-            int glTextureID = 0;
+            Int32 glTextureID = 0;
 
             Bitmap image = null;
             var success = false;
@@ -198,32 +198,32 @@ namespace TextureLoader
 
             // если загрузка прошла успешно 
             // сохраняем размеры изображения 
-            int width = image.Width;
-            int height = image.Height;
+            Int32 width = image.Width;
+            Int32 height = image.Height;
 
             _rezolution = new TextureRezolution(width, height);
 
             // определяем число бит на пиксель 
-            int pixelFormat = 0;
-            int bitsPerPixel = 0;
+            Int32 pixelFormat = 0;
+            Int32 bitsPerPixel = 0;
             SystemPixelFormat sPixelFormat = image.PixelFormat;
 
             switch (sPixelFormat)
             {
                 case SystemPixelFormat.Format24bppRgb:
-                    pixelFormat = (int)SystemPixelFormat.Format24bppRgb;
+                    pixelFormat = (Int32)SystemPixelFormat.Format24bppRgb;
                     bitsPerPixel = 24;
                     break;
                 case SystemPixelFormat.Format32bppRgb:
-                    pixelFormat = (int)SystemPixelFormat.Format32bppRgb;
+                    pixelFormat = (Int32)SystemPixelFormat.Format32bppRgb;
                     bitsPerPixel = 32;
                     break;
                 case SystemPixelFormat.Format32bppArgb:
-                    pixelFormat = (int)SystemPixelFormat.Format32bppArgb;
+                    pixelFormat = (Int32)SystemPixelFormat.Format32bppArgb;
                     bitsPerPixel = 32;
                     break;
                 case SystemPixelFormat.Format32bppPArgb:
-                    pixelFormat = (int)SystemPixelFormat.Format32bppPArgb;
+                    pixelFormat = (Int32)SystemPixelFormat.Format32bppPArgb;
                     bitsPerPixel = 32;
                     break;
                 default:
@@ -285,11 +285,11 @@ namespace TextureLoader
 
         #region Gen of empty imagies
 
-        private int genEmptyImage(int widthRes, int heightRes, int filtration,
+        private Int32 genEmptyImage(Int32 widthRes, Int32 heightRes, Int32 filtration,
             PixelInternalFormat colorComponentCount, PixelFormat pixelData, PixelType type,
             TextureWrapMode texWrap)
         {
-            int imageId;
+            Int32 imageId;
             imageId = GL.GenTexture();
 
             GL.ActiveTexture(TextureUnit.Texture0);
@@ -300,15 +300,15 @@ namespace TextureLoader
 
             GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter, filtration);
             GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, filtration);
-            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapS, (int)texWrap);
-            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapT, (int)texWrap);
+            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapS, (Int32)texWrap);
+            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapT, (Int32)texWrap);
 
             unbindTexture2D(TextureUnit.Texture0);
 
             return imageId;
         }
 
-        public void genEmptyImg(int widthRes, int heightRes, int filtration,
+        public void genEmptyImg(Int32 widthRes, Int32 heightRes, Int32 filtration,
             PixelInternalFormat colorComponentCount, PixelFormat pixelData, PixelType type,
             TextureWrapMode texWrap = TextureWrapMode.Repeat)
         {
@@ -321,11 +321,11 @@ namespace TextureLoader
 
         #region Gpu_texture_creation
 
-        private int GenerateTexture(int format, IntPtr pixels, int width, int height,
+        private Int32 GenerateTexture(Int32 format, IntPtr pixels, Int32 width, Int32 height,
             bool generateMipMap, float anisotropyLevel, TextureWrapMode texWrap, MipmapTextureFilter filterType)
         {
             // идентификатор текстурного объекта 
-            int texObject;
+            Int32 texObject;
 
             // генерируем текстурный объект 
             GL.GenTextures(1, out texObject);
@@ -337,11 +337,11 @@ namespace TextureLoader
             GL.BindTexture(TextureTarget.Texture2D, texObject);
 
             // устанавливаем режим фильтрации и повторения текстуры 
-            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapS, (int)texWrap);
-            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapT, (int)texWrap);
-            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter, (int)TextureMagFilter.Linear);
+            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapS, (Int32)texWrap);
+            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapT, (Int32)texWrap);
+            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter, (Int32)TextureMagFilter.Linear);
             if (!generateMipMap)
-                GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, (int)TextureMinFilter.Linear);
+                GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, (Int32)TextureMinFilter.Linear);
             else
             {
                 if (CheckForAnisotropicTextureFiltering())
@@ -349,11 +349,11 @@ namespace TextureLoader
                     GL.TexParameter(TextureTarget.Texture2D, (TextureParameterName)ExtTextureFilterAnisotropic.TextureMaxAnisotropyExt,
                         (anisotropyLevel == -1.0f) ? _maxAnisotropy : (anisotropyLevel >= _maxAnisotropy) ? _maxAnisotropy : (anisotropyLevel < 0.0f) ? 0.0f : anisotropyLevel);
                 }
-                GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, (int)filterType);
+                GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, (Int32)filterType);
                 GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.GenerateMipmap, 1); // 1 stands for TRUE statement
                 GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureLodBias, -0.4f); // might need to use variable to change this value
             }
-            GL.TexEnv(TextureEnvTarget.TextureEnv, TextureEnvParameter.TextureEnvMode, (int)TextureEnvMode.Replace);
+            GL.TexEnv(TextureEnvTarget.TextureEnv, TextureEnvParameter.TextureEnvMode, (Int32)TextureEnvMode.Replace);
 
             // создаем RGB или RGBA текстуру 
             switch (format)
@@ -377,7 +377,7 @@ namespace TextureLoader
 
         #region Binding
 
-        public void bindTexture2D(TextureUnit samplerID, int texID)
+        public void bindTexture2D(TextureUnit samplerID, Int32 texID)
         {
             GL.ActiveTexture(samplerID);
             GL.BindTexture(TextureTarget.Texture2D, texID);

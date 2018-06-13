@@ -14,8 +14,16 @@ namespace MassiveGame
     public class PostprocessFBO : Framebuffer
     {
         #region Definitions
-        
-        public Texture2D Texture { get { return base.textures; } }
+
+        public ITexture FrameTexture;
+
+        public ITexture Dof_BluredTexture;
+        public ITexture Dof_DepthTexture;
+        public ITexture Dof_LensFlareTexture;
+
+        public ITexture Bloom_VerticalBlurTexture;
+        public ITexture Bloom_HorizontalBlurTexture;
+        public ITexture Bloom_LensFlareTexture;
 
         #endregion
 
@@ -23,48 +31,45 @@ namespace MassiveGame
 
         protected override void setTextures()
         {
-            base.textures = new Texture2D();
-            //base.textures.genEmptyImg(1, DOUEngine.ScreenRezolution.X, DOUEngine.ScreenRezolution.Y, (int)All.Nearest, PixelInternalFormat.Rgb32f, PixelFormat.Rgb); //for hdr
+
+            //base.textures.genEmptyImg(1, DOUEngine.ScreenRezolution.X, DOUEngine.ScreenRezolution.Y, (Int32)All.Nearest, PixelInternalFormat.Rgb32f, PixelFormat.Rgb); //for hdr
 
             /*  TO DO:
              *  DOF - generate 3 textures(default image, blured image, depth image)
-             *  Motion_blur - generate 2 textures(default image, blured image)
              *  Bloom - generate 3 textures(default image, brightness image, blured image)*/
+
+            FrameTexture = new Texture2Dlite(DOUEngine.ScreenRezolution.X, DOUEngine.ScreenRezolution.Y, PixelInternalFormat.Rgb, PixelFormat.Rgb, PixelType.UnsignedByte);
+
             switch (PostprocessRenderer.PostProcessType)
             {
                 case PostprocessType.DOF_BLUR :
                     {
-                        base.textures.genEmptyImg(2, DOUEngine.ScreenRezolution.X, DOUEngine.ScreenRezolution.Y, (int)All.Nearest, PixelInternalFormat.Rgb,
-                            PixelFormat.Rgb, PixelType.UnsignedByte); //for screen image and blur
-                        base.textures.genEmptyImg(1, DOUEngine.ScreenRezolution.X, DOUEngine.ScreenRezolution.Y, (int)All.Nearest, PixelInternalFormat.Depth24Stencil8, PixelFormat.DepthStencil,
-                            PixelType.Float); //for depth image
+                        Dof_BluredTexture = new Texture2Dlite(DOUEngine.ScreenRezolution.X, DOUEngine.ScreenRezolution.Y, PixelInternalFormat.Rgb,
+                            PixelFormat.Rgb, PixelType.UnsignedByte);
+                        Dof_DepthTexture = new Texture2Dlite(DOUEngine.ScreenRezolution.X, DOUEngine.ScreenRezolution.Y, PixelInternalFormat.Depth24Stencil8, PixelFormat.DepthStencil,
+                            PixelType.Float);
+
                         /*If lens flare or god rays are enabled - gen additional texture for result*/
                         if (LensFlareRenderer.LensFlareEnabled || GodRaysRenderer.GodRaysEnabled)
                         {
-                            base.textures.genEmptyImg(1, DOUEngine.ScreenRezolution.X, DOUEngine.ScreenRezolution.Y, (int)All.Nearest, PixelInternalFormat.Rgb,
-                              PixelFormat.Rgb, PixelType.UnsignedByte); //for lens flare result sending
+                            Dof_LensFlareTexture = new Texture2Dlite(DOUEngine.ScreenRezolution.X, DOUEngine.ScreenRezolution.Y, PixelInternalFormat.Rgb,
+                              PixelFormat.Rgb, PixelType.UnsignedByte);
                         }
-                        break;
-                    }
-                case PostprocessType.MOTION_BLUR :
-                    {
-                        base.textures.genEmptyImg(1, DOUEngine.ScreenRezolution.X, DOUEngine.ScreenRezolution.Y, (int)All.Nearest, PixelInternalFormat.Rgb,
-                            PixelFormat.Rgb, PixelType.UnsignedByte); //for screen image
-                        base.textures.genEmptyImg(1, DOUEngine.ScreenRezolution.X / 3, DOUEngine.ScreenRezolution.Y / 3, (int)All.Nearest, PixelInternalFormat.Rgb,
-                            PixelFormat.Rgb, PixelType.UnsignedByte); //for blur image
                         break;
                     }
                 case PostprocessType.BLOOM :
                     {
-                        base.textures.genEmptyImg(1, DOUEngine.ScreenRezolution.X, DOUEngine.ScreenRezolution.Y, (int)All.Nearest, PixelInternalFormat.Rgb,
-                            PixelFormat.Rgb, PixelType.UnsignedByte); //for screen image and pass 2 bloom
-                        base.textures.genEmptyImg(2, DOUEngine.ScreenRezolution.X / 7, DOUEngine.ScreenRezolution.Y / 7, (int)All.Linear, PixelInternalFormat.Rgb,
-                            PixelFormat.Rgb, PixelType.UnsignedByte); //for blur pass 3 and 4 
+                        Bloom_HorizontalBlurTexture = new Texture2Dlite(DOUEngine.ScreenRezolution.X / 7, DOUEngine.ScreenRezolution.Y / 7, PixelInternalFormat.Rgb,
+                            PixelFormat.Rgb, PixelType.UnsignedByte, (Int32)All.Linear);
+
+                        Bloom_VerticalBlurTexture = new Texture2Dlite(DOUEngine.ScreenRezolution.X / 7, DOUEngine.ScreenRezolution.Y / 7, PixelInternalFormat.Rgb,
+                           PixelFormat.Rgb, PixelType.UnsignedByte, (Int32)All.Linear);
+                      
                         /*If lens flare or god rays are enabled - gen additional texture for result*/
                         if (LensFlareRenderer.LensFlareEnabled || GodRaysRenderer.GodRaysEnabled)
                         {
-                            base.textures.genEmptyImg(1, DOUEngine.ScreenRezolution.X, DOUEngine.ScreenRezolution.Y, (int)All.Nearest, PixelInternalFormat.Rgb,
-                             PixelFormat.Rgb, PixelType.UnsignedByte); //for lens flare result sending
+                            Bloom_LensFlareTexture = new Texture2Dlite(DOUEngine.ScreenRezolution.X, DOUEngine.ScreenRezolution.Y, PixelInternalFormat.Rgb,
+                             PixelFormat.Rgb, PixelType.UnsignedByte);
                         }
                         break;
                     }
@@ -75,34 +80,26 @@ namespace MassiveGame
         {
             switch (PostprocessRenderer.PostProcessType)
             {
-                case PostprocessType.MOTION_BLUR:
-                    {
-                        base.genFramebuffers(2);
-                        /*Blur framebuffer + blur texture*/
-                        base.bindFramebuffer(2);
-                        base.attachTextureToFramebuffer(FramebufferAttachment.ColorAttachment0, base.textures.TextureID[1]);
-                        /*Scene framebuffer + frame texture*/
-                        base.bindFramebuffer(1);
-                        base.attachTextureToFramebuffer(FramebufferAttachment.ColorAttachment0, base.textures.TextureID[0]);
-                        break;
-                    }
                 case PostprocessType.DOF_BLUR:
                     {
-                        if (LensFlareRenderer.LensFlareEnabled || GodRaysRenderer.GodRaysEnabled) { base.genFramebuffers(3); }
-                        else { base.genFramebuffers(2); }
+                        if (LensFlareRenderer.LensFlareEnabled || GodRaysRenderer.GodRaysEnabled)
+                            base.genFramebuffers(3); 
+                        else
+                            base.genFramebuffers(2); 
+
                         /*Blur framebuffer + blur texture*/
                         base.bindFramebuffer(2);
-                        base.attachTextureToFramebuffer(FramebufferAttachment.ColorAttachment0, base.textures.TextureID[1]);
+                        base.attachTextureToFramebuffer(FramebufferAttachment.ColorAttachment0, Dof_BluredTexture.GetTextureDescriptor());
                         /*Scene framebuffer + frame texture*/
                         base.bindFramebuffer(1);
-                        base.attachTextureToFramebuffer(FramebufferAttachment.ColorAttachment0, base.textures.TextureID[0]);
+                        base.attachTextureToFramebuffer(FramebufferAttachment.ColorAttachment0, FrameTexture.GetTextureDescriptor());
                         /* + depth texture*/
-                        base.attachTextureToFramebuffer(FramebufferAttachment.DepthAttachment, base.textures.TextureID[2]);
+                        base.attachTextureToFramebuffer(FramebufferAttachment.DepthAttachment, Dof_DepthTexture.GetTextureDescriptor());
                         if (LensFlareRenderer.LensFlareEnabled || GodRaysRenderer.GodRaysEnabled)
                         {
                             /* For Lens flare or god rays result*/
                             base.bindFramebuffer(3);
-                            base.attachTextureToFramebuffer(FramebufferAttachment.ColorAttachment0, base.textures.TextureID[3]);
+                            base.attachTextureToFramebuffer(FramebufferAttachment.ColorAttachment0, Dof_LensFlareTexture.GetTextureDescriptor());
                         }
                         break;
                     }
@@ -112,18 +109,18 @@ namespace MassiveGame
                         else { base.genFramebuffers(3); }
                         /*Blur framebuffer + blur texture*/
                         base.bindFramebuffer(3);
-                        base.attachTextureToFramebuffer(FramebufferAttachment.ColorAttachment0, base.textures.TextureID[2]);
+                        base.attachTextureToFramebuffer(FramebufferAttachment.ColorAttachment0, Bloom_HorizontalBlurTexture.GetTextureDescriptor());
                         /*Brightness framebuffer + brightness texture*/
                         base.bindFramebuffer(2);
-                        base.attachTextureToFramebuffer(FramebufferAttachment.ColorAttachment0, base.textures.TextureID[1]);
+                        base.attachTextureToFramebuffer(FramebufferAttachment.ColorAttachment0, Bloom_VerticalBlurTexture.GetTextureDescriptor());
                         /*Scene framebuffer + frame texture*/
                         base.bindFramebuffer(1);
-                        base.attachTextureToFramebuffer(FramebufferAttachment.ColorAttachment0, base.textures.TextureID[0]);
+                        base.attachTextureToFramebuffer(FramebufferAttachment.ColorAttachment0, FrameTexture.GetTextureDescriptor());
                         if (LensFlareRenderer.LensFlareEnabled || GodRaysRenderer.GodRaysEnabled)
                         {
                             /* For Lens flare or god rays result*/
                             base.bindFramebuffer(4);
-                            base.attachTextureToFramebuffer(FramebufferAttachment.ColorAttachment0, base.textures.TextureID[3]);
+                            base.attachTextureToFramebuffer(FramebufferAttachment.ColorAttachment0, Bloom_LensFlareTexture.GetTextureDescriptor());
                         }
                         break;
                     }
@@ -133,18 +130,39 @@ namespace MassiveGame
         protected override void setRenderbuffers()
         {
             /*Attaching depth to framebuffer*/
-            if (PostprocessRenderer.PostProcessType == PostprocessType.MOTION_BLUR || PostprocessRenderer.PostProcessType == PostprocessType.BLOOM)
+            if (PostprocessRenderer.PostProcessType == PostprocessType.BLOOM)
             {
                 base.bindFramebuffer(1);
                 base.genRenderbuffers(1);
                 base.bindRenderbuffer(1);
-                base.renderbufferStorage(RenderbufferStorage.Depth24Stencil8, base.textures.Rezolution[0].widthRezolution,
-                    base.textures.Rezolution[0].heightRezolution);
+                base.renderbufferStorage(RenderbufferStorage.Depth24Stencil8, FrameTexture.GetTextureRezolution().X,
+                    FrameTexture.GetTextureRezolution().Y);
                 base.attachRenderbufferToFramebuffer(FramebufferAttachment.DepthStencilAttachment, 1);
             }
         }
 
         #endregion
+
+        public override void cleanUp()
+        {
+            FrameTexture.CleanUp();
+            if (PostprocessRenderer.PostProcessType == PostprocessType.DOF_BLUR)
+            {
+                Dof_BluredTexture.CleanUp();
+                Dof_DepthTexture.CleanUp();
+                if (Dof_LensFlareTexture != null)
+                    Dof_LensFlareTexture.CleanUp();
+            }
+
+            else if (PostprocessRenderer.PostProcessType == PostprocessType.BLOOM)
+            {
+                Bloom_VerticalBlurTexture.CleanUp();
+                Bloom_HorizontalBlurTexture.CleanUp();
+                if (Bloom_LensFlareTexture != null)
+                    Bloom_LensFlareTexture.CleanUp();
+            }
+            base.cleanUp();
+        }
 
         #region Constructor
 

@@ -19,7 +19,7 @@ namespace MassiveGame.RenderCore.Shadows
 
         public ShadowMapCache()
         {
-            cacheMap = new Dictionary<CacheSlot, int>(3);
+            cacheMap = new Dictionary<CacheSlot, Int32>(3);
         }
 
         public void SetShadowMap(CacheSlot slot, Int32 cacheMapHandler)

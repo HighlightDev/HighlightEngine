@@ -149,8 +149,8 @@ namespace UIControls
 
 
         #region Variables
-        public static int GroupCount { get; private set; }
-        public static int TextureCount { get; private set; }
+        public static Int32 GroupCount { get; private set; }
+        public static Int32 TextureCount { get; private set; }
         public static string PathToTextures { get; set; }
         public static List<string> GroupNames { get; private set; }
         public static List<string[]> TexturePaths { get; private set; }
@@ -173,7 +173,7 @@ namespace UIControls
             );
 
             string[] subdirectories = Directory.GetDirectories(PathToTextures);
-            for (int i = 0; i < subdirectories.Length; ++i)
+            for (Int32 i = 0; i < subdirectories.Length; ++i)
             {
                 GroupNames.Add(
                      GetGroupNameFromPath(subdirectories[i], true, '/')
@@ -186,7 +186,7 @@ namespace UIControls
         // group creation based on names from GroupNameCreation method
         private static void GroupCreation()
         {
-            for (int i = 0; i < GroupCount; ++i)
+            for (Int32 i = 0; i < GroupCount; ++i)
             {
                 Groups.Add(
                     new ListViewGroup(GroupNames[i], HorizontalAlignment.Center)
@@ -201,7 +201,7 @@ namespace UIControls
             );
             TextureNames.Add(new string[TexturePaths[0].Length]);
 
-            for (int i = 1; i < GroupCount; ++i)
+            for (Int32 i = 1; i < GroupCount; ++i)
             {
                 TexturePaths.Add(
                     GetTexturesFromDirectory(PathToTextures + GroupNames[i] + "\\")
@@ -217,9 +217,9 @@ namespace UIControls
         // extraction texture names from texture paths
         private static void TextureNameCreation()
         {
-            for (int i = 0; i < TexturePaths.Count; ++i)
+            for (Int32 i = 0; i < TexturePaths.Count; ++i)
             {
-                for (int j = 0; j < TexturePaths[i].Length; ++j)
+                for (Int32 j = 0; j < TexturePaths[i].Length; ++j)
                 {
                     if (i == 0)
                         TextureNames[i][j] = TexturePaths[i][j].Replace(PathToTextures, "");
@@ -231,9 +231,9 @@ namespace UIControls
         // loading textures and creation icons from them, also setting size of icons
         private static void ImageListCreation()
         {
-            for (int i = 0; i < GroupCount; ++i)
+            for (Int32 i = 0; i < GroupCount; ++i)
             {
-                for (int j = 0; j < TexturePaths[i].Length; ++j)
+                for (Int32 j = 0; j < TexturePaths[i].Length; ++j)
                 {
                     SmallIconList.Images.Add(
                         TextureNames[i][j], new Bitmap(TexturePaths[i][j])
@@ -259,10 +259,10 @@ namespace UIControls
             listView.LargeImageList = LargeIconList;
             listView.LargeImageList.ImageSize = LargeIconSize;
 
-            for (int i = 0, imgIndex = 0; i < GroupCount; ++i)
+            for (Int32 i = 0, imgIndex = 0; i < GroupCount; ++i)
             {
                 listView.Groups.Add(Groups[i]);
-                for (int j = 0; j < TexturePaths[i].Length; ++j, ++imgIndex)
+                for (Int32 j = 0; j < TexturePaths[i].Length; ++j, ++imgIndex)
                 {
                     listView.Items.Add(new ListViewItem(TextureNames[i][j], imgIndex, listView.Groups[i]));
                 }

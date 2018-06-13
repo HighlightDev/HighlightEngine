@@ -11,7 +11,7 @@ namespace MassiveGame.Sun.DayCycle
 
         public DayPhases Phases { set; get; }
         public float TimeFlow { set; get; }
-        public int TimerPeriod { set; get; }
+        public Int32 TimerPeriod { set; get; }
         private float time;
         private DirectionalLight sun;
         private float traectoryRadius;

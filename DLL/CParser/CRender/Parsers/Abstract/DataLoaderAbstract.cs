@@ -8,8 +8,8 @@ namespace CParser
     public abstract class DataLoaderAbstract
     {
         protected string _modelName = "";
-        public int materialCount = 0;
-        public int[] materialNumber = null;
+        public Int32 materialCount = 0;
+        public Int32[] materialNumber = null;
 
         public abstract void LoadData(string dataFilePath);
 

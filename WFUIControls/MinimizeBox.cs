@@ -32,7 +32,7 @@ namespace UIControls
                 L_Header.Text = "   " + value.Trim();
             }
         }
-        public int MaxHeight
+        public Int32 MaxHeight
         {
             get
             {
@@ -123,8 +123,8 @@ namespace UIControls
         }
 
         private bool _clicked = false;
-        private int _minimizeBoxHeight;
-        private int _tblHeight;
+        private Int32 _minimizeBoxHeight;
+        private Int32 _tblHeight;
         #endregion
 
 

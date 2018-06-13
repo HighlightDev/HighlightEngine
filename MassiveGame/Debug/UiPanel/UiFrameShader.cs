@@ -15,13 +15,13 @@ namespace MassiveGame.Debug.UiPanel
         #region Definitions
 
         private const string ShaderName = "UiFrame Shader";
-        private int uiTexture, screenSpaceMatrix;
+        private Int32 uiTexture, screenSpaceMatrix;
 
         #endregion
 
         #region Seter
 
-        public void SetUiTextureSampler(int uiTextureSampler)
+        public void SetUiTextureSampler(Int32 uiTextureSampler)
         {
             base.loadInteger(uiTexture, uiTextureSampler);
         }

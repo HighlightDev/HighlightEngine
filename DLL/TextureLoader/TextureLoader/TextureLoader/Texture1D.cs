@@ -80,7 +80,7 @@ namespace TextureLoader
             MipmapTextureFilter filterType = MipmapTextureFilter.LinearMipmapLinear)
         {
             uint[] glTextureID = new uint[imagePath.Length];
-            int iterator = 0;
+            Int32 iterator = 0;
 
             foreach (string url in imagePath)
             {
@@ -94,29 +94,29 @@ namespace TextureLoader
                     #region Bitmap data
                     // если загрузка прошла успешно 
                     // сохраняем размеры изображения 
-                    int width = image.Width;
+                    Int32 width = image.Width;
 
                     // определяем число бит на пиксель 
-                    int pixelFormat = 0;
-                    int bitsPerPixel = 0;
+                    Int32 pixelFormat = 0;
+                    Int32 bitsPerPixel = 0;
                     SystemPixelFormat sPixelFormat = image.PixelFormat;
 
                     switch (sPixelFormat)
                     {
                         case SystemPixelFormat.Format24bppRgb:
-                            pixelFormat = (int)SystemPixelFormat.Format24bppRgb;
+                            pixelFormat = (Int32)SystemPixelFormat.Format24bppRgb;
                             bitsPerPixel = 24;
                             break;
                         case SystemPixelFormat.Format32bppRgb:
-                            pixelFormat = (int)SystemPixelFormat.Format32bppRgb;
+                            pixelFormat = (Int32)SystemPixelFormat.Format32bppRgb;
                             bitsPerPixel = 32;
                             break;
                         case SystemPixelFormat.Format32bppArgb:
-                            pixelFormat = (int)SystemPixelFormat.Format32bppArgb;
+                            pixelFormat = (Int32)SystemPixelFormat.Format32bppArgb;
                             bitsPerPixel = 32;
                             break;
                         case SystemPixelFormat.Format32bppPArgb:
-                            pixelFormat = (int)SystemPixelFormat.Format32bppPArgb;
+                            pixelFormat = (Int32)SystemPixelFormat.Format32bppPArgb;
                             bitsPerPixel = 32;
                             break;
                         default:
@@ -171,7 +171,7 @@ namespace TextureLoader
             return glTextureID;
         }
 
-        private static uint MakeGlTexture(int Format, IntPtr pixels, int width, bool generateMipMap, float anisotropyLevel, MipmapTextureFilter filterType)
+        private static uint MakeGlTexture(Int32 Format, IntPtr pixels, Int32 width, bool generateMipMap, float anisotropyLevel, MipmapTextureFilter filterType)
         {
             // идентификатор текстурного объекта 
             uint texObject;
@@ -186,11 +186,11 @@ namespace TextureLoader
             GL.BindTexture(TextureTarget.Texture1D, texObject);
 
             // устанавливаем режим фильтрации и повторения текстуры 
-            GL.TexParameter(TextureTarget.Texture1D, TextureParameterName.TextureWrapS, (int)TextureWrapMode.Repeat);
-            GL.TexParameter(TextureTarget.Texture1D, TextureParameterName.TextureWrapT, (int)TextureWrapMode.Repeat);
-            GL.TexParameter(TextureTarget.Texture1D, TextureParameterName.TextureMagFilter, (int)TextureMagFilter.Linear);
+            GL.TexParameter(TextureTarget.Texture1D, TextureParameterName.TextureWrapS, (Int32)TextureWrapMode.Repeat);
+            GL.TexParameter(TextureTarget.Texture1D, TextureParameterName.TextureWrapT, (Int32)TextureWrapMode.Repeat);
+            GL.TexParameter(TextureTarget.Texture1D, TextureParameterName.TextureMagFilter, (Int32)TextureMagFilter.Linear);
             if (!generateMipMap)
-                GL.TexParameter(TextureTarget.Texture1D, TextureParameterName.TextureMinFilter, (int)TextureMinFilter.Linear);
+                GL.TexParameter(TextureTarget.Texture1D, TextureParameterName.TextureMinFilter, (Int32)TextureMinFilter.Linear);
             else
             {
                 if (CheckForAnisotropicTextureFiltering())
@@ -198,11 +198,11 @@ namespace TextureLoader
                     GL.TexParameter(TextureTarget.Texture1D, (TextureParameterName)ExtTextureFilterAnisotropic.TextureMaxAnisotropyExt,
                         (anisotropyLevel == -1.0f) ? maxAnisotropy : (anisotropyLevel >= maxAnisotropy) ? maxAnisotropy : (anisotropyLevel < 0.0f) ? 0.0f : anisotropyLevel);
                 }
-                GL.TexParameter(TextureTarget.Texture1D, TextureParameterName.TextureMinFilter, (int)filterType);
+                GL.TexParameter(TextureTarget.Texture1D, TextureParameterName.TextureMinFilter, (Int32)filterType);
                 GL.TexParameter(TextureTarget.Texture1D, TextureParameterName.GenerateMipmap, 1);
                 GL.TexParameter(TextureTarget.Texture1D, TextureParameterName.TextureLodBias, -0.4f); // might need to use variable to change this value
             }
-            GL.TexEnv(TextureEnvTarget.TextureEnv, TextureEnvParameter.TextureEnvMode, (int)TextureEnvMode.Replace);
+            GL.TexEnv(TextureEnvTarget.TextureEnv, TextureEnvParameter.TextureEnvMode, (Int32)TextureEnvMode.Replace);
 
             // создаем RGB или RGBA текстуру 
             switch (Format)

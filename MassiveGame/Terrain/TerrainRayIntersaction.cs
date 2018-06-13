@@ -15,7 +15,7 @@ namespace MassiveGame
         #region Definition
 
         private const float RAY_DISTANCE = 400;
-        private const int RECURSION_COUNT = 200;
+        private const Int32 RECURSION_COUNT = 200;
 
         #endregion
 
@@ -26,7 +26,7 @@ namespace MassiveGame
             Vector3 endPoint = getEndPoint(ray);
             Vector3 startPoint = ray.StartPosition;
             Vector3 middlePoint = new Vector3(0);
-            for (int i = 0; i < RECURSION_COUNT; i++)
+            for (Int32 i = 0; i < RECURSION_COUNT; i++)
             {
                 middlePoint = endPoint - (endPoint - startPoint) / 2; // Divide by two
                 if (isUnderTerrain(terrain, middlePoint)) //If height of landscape is beyond point

@@ -73,7 +73,7 @@ namespace MassiveGame
         protected virtual List<PointLight> GetRelevantPointLights(List<PointLight> PotentialyAffectedPointLights)
         {
             List<PointLight> AffectedPointLights = new List<PointLight>();
-            for (int i = 0; i < PotentialyAffectedPointLights.Count; i++)
+            for (Int32 i = 0; i < PotentialyAffectedPointLights.Count; i++)
             {
                 if (LightVisibilityMap[i])
                 {
@@ -86,7 +86,7 @@ namespace MassiveGame
         public virtual void IsLightAffecting(List<PointLight> LightList)
         {
             LightVisibilityMap.Init(LightList.Count, false);
-            for (int i = 0; i < LightList.Count; i++)
+            for (Int32 i = 0; i < LightList.Count; i++)
             {
                BoundBase bound = GetAABBFromAllChildComponents();
                 LightVisibilityMap[i] = GeometricMath.IsSphereVsSphereIntersection((FSphere)bound,
@@ -225,7 +225,7 @@ namespace MassiveGame
 
         private float[,] GetTransformedVertices(ref Matrix4 modelMatrix, float[,] vertices)
         {
-            for (int i = 0; i < vertices.Length / 3; i++)
+            for (Int32 i = 0; i < vertices.Length / 3; i++)
             {
                 Vector4 vertex = new Vector4(vertices[i, 0], vertices[i, 1], vertices[i, 2], 1.0f);
                 vertex = VectorMath.multMatrix(modelMatrix, vertex);
@@ -239,7 +239,7 @@ namespace MassiveGame
         private Vector3[] GetVerticesVectors(float[,] vertices)
         {
             Vector3[] vectors = new Vector3[vertices.Length / 3];
-            for (int i = 0; i < vectors.Length; i++)
+            for (Int32 i = 0; i < vectors.Length; i++)
             {
                 vectors[i] = new Vector3(vertices[i, 0], vertices[i, 1], vertices[i, 2]);
             }

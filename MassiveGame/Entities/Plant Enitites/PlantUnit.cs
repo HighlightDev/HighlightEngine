@@ -19,7 +19,7 @@ namespace MassiveGame
 
         #region Randomize_values
 
-        private void randomizePlant(int seed, float MAP_SIZE, uint[] textures)
+        private void randomizePlant(Int32 seed, float MAP_SIZE, uint[] textures)
         {
             Random random = new Random(seed);
             float tempX = Translation.X, tempZ = Translation.Z;
@@ -29,14 +29,14 @@ namespace MassiveGame
 
             WindLoop = 0.0f;
             WindLoop = Convert.ToSingle(random.NextDouble() * 360.0f);
-            textureID = (uint)random.Next((int)textures[0], (int)textures.Last() + 1);
+            textureID = (uint)random.Next((Int32)textures[0], (Int32)textures.Last() + 1);
         }
 
         #endregion
 
         #region Constructor
 
-        public PlantUnit(int seed, Vector3 Scale, float MAP_SIZE, uint[] textures)
+        public PlantUnit(Int32 seed, Vector3 Scale, float MAP_SIZE, uint[] textures)
         {
             this.Translation = new Vector3(0);
             this.Scale = Scale;

@@ -36,7 +36,7 @@ namespace GpuGraphics
             return _dataInserted;
         }
 
-        public bool this[int index]
+        public bool this[Int32 index]
         {
             get
             {
@@ -70,7 +70,7 @@ namespace GpuGraphics
         {
             return _buffersUsage[bufferIndex];
         }
-        public int getBuffersCount()
+        public Int32 getBuffersCount()
         {
             return _vboID.Length;
         }

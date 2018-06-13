@@ -9,7 +9,7 @@ namespace CParser
     {
         protected bool isLoad;      // загружен ли (флаг)
 
-        public abstract int LoadModel(string modelFilePath);
+        public abstract Int32 LoadModel(string modelFilePath);
 
         protected abstract void ConvertModelData();
 

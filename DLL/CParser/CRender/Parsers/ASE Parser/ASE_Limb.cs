@@ -13,12 +13,12 @@ namespace CParser.ASE_Parser
         private ASE_Limb()
         {
             t_face = null;
-            quantityOfV_F_TV_TF = new int[4];
+            quantityOfV_F_TV_TF = new Int32[4];
         }
 
         // при инициализации мы должны указать количество вершин (vertex) и 
         // полигонов (face) которые описывают геометри под-объекта
-        public ASE_Limb(int vertex, int face)
+        public ASE_Limb(Int32 vertex, Int32 face)
             : this()
         {
             // записываем количество вершин и полигонов
@@ -30,10 +30,10 @@ namespace CParser.ASE_Parser
         }
         #endregion
 
-        public new int[] face;
-        public int[] t_face;
+        public new Int32[] face;
+        public Int32[] t_face;
         // временное хранение информации
-        public int[] quantityOfV_F_TV_TF;
+        public Int32[] quantityOfV_F_TV_TF;
 
 
         #region Memmory allocation
@@ -41,21 +41,21 @@ namespace CParser.ASE_Parser
         protected override void MemoryForModel()
         {
             vert = new float[quantityOfV_F_TV_TF[0], 3];
-            face = new int[quantityOfV_F_TV_TF[1]];
+            face = new Int32[quantityOfV_F_TV_TF[1]];
         }
         
         // массивы для текстурных координат
-        public void CreateTextureVertexMemory(int t_vertex)
+        public void CreateTextureVertexMemory(Int32 t_vertex)
         {
             quantityOfV_F_TV_TF[2] = t_vertex;
             t_vert = new float[quantityOfV_F_TV_TF[2], 2];
         }
 
         // привязка значений текстурных координат к полигонам 
-        public void CreateTextureFaceMemory(int t_face_local)
+        public void CreateTextureFaceMemory(Int32 t_face_local)
         {
             quantityOfV_F_TV_TF[3] = t_face_local * 3;
-            t_face = new int[quantityOfV_F_TV_TF[3]];
+            t_face = new Int32[quantityOfV_F_TV_TF[3]];
         }
         #endregion
 

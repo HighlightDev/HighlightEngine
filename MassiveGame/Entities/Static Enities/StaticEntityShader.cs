@@ -12,8 +12,8 @@ namespace MassiveGame
         #region Definitions
 
         private const string SHADER_NAME = "StaticEntity Shader";
-        private static int MAX_LIGHTS_COUNT = DOUEngine.MAX_LIGHT_COUNT; //Максимальное количество источников света, доступных для обработки
-        private int entityTexture,
+        private static Int32 MAX_LIGHTS_COUNT = DOUEngine.MAX_LIGHT_COUNT; //Максимальное количество источников света, доступных для обработки
+        private Int32 entityTexture,
             entityNormalMap,
             entitySpecularMap,
             glowingMap,
@@ -39,11 +39,11 @@ namespace MassiveGame
             directionalLightShadowMap,
             directionalLightShadowMatrix;
 
-        private int[] lightPosition = new int[MAX_LIGHTS_COUNT],
-            attenuation = new int[MAX_LIGHTS_COUNT],
-            diffuseColour = new int[MAX_LIGHTS_COUNT],
-            specularColour = new int[MAX_LIGHTS_COUNT],
-            enableLight = new int[MAX_LIGHTS_COUNT];
+        private Int32[] lightPosition = new Int32[MAX_LIGHTS_COUNT],
+            attenuation = new Int32[MAX_LIGHTS_COUNT],
+            diffuseColour = new Int32[MAX_LIGHTS_COUNT],
+            specularColour = new Int32[MAX_LIGHTS_COUNT],
+            enableLight = new Int32[MAX_LIGHTS_COUNT];
 
         #endregion
 
@@ -73,7 +73,7 @@ namespace MassiveGame
             mistDensity = base.getUniformLocation("mistDensity");
             mistGradient = base.getUniformLocation("mistGradient");
             mistColour = base.getUniformLocation("mistColour");
-            for (int i = 0; i < MAX_LIGHTS_COUNT; i++)
+            for (Int32 i = 0; i < MAX_LIGHTS_COUNT; i++)
             {
                 lightPosition[i] = base.getUniformLocation("lightPosition[" + i + "]");
                 attenuation[i] = base.getUniformLocation("attenuation[" + i + "]");
@@ -90,24 +90,24 @@ namespace MassiveGame
 
         #region Setter
 
-        public void SetDiffuseMap(int diffuseMapSampler)
+        public void SetDiffuseMap(Int32 diffuseMapSampler)
         {
             base.loadInteger(entityTexture, diffuseMapSampler);
         }
 
-        public void SetGlowingMap(int glowingMapSampler)
+        public void SetGlowingMap(Int32 glowingMapSampler)
         {
             base.loadInteger(this.glowingMap, glowingMapSampler);
         }
 
-        public void SetNormalMap(int normalMapSampler, bool bEnableNormalMap)
+        public void SetNormalMap(Int32 normalMapSampler, bool bEnableNormalMap)
         {
             if (bEnableNormalMap)
                 base.loadInteger(this.entityNormalMap, normalMapSampler);
             base.loadBool(this.normalMapEnDis, bEnableNormalMap);
         }
 
-        public void SetSpecularMap(int specularMapSampler)
+        public void SetSpecularMap(Int32 specularMapSampler)
         {
             base.loadInteger(this.entitySpecularMap, specularMapSampler);
         }
@@ -146,7 +146,7 @@ namespace MassiveGame
             /*If point lights are enabled*/
             if (lights != null)
             {
-                for (int i = 0; i < (lights.Count <= MAX_LIGHTS_COUNT ? lights.Count : MAX_LIGHTS_COUNT); i++) //Включенные источники света
+                for (Int32 i = 0; i < (lights.Count <= MAX_LIGHTS_COUNT ? lights.Count : MAX_LIGHTS_COUNT); i++) //Включенные источники света
                 {
                     base.loadBool(this.enableLight[i], true);
                     base.loadVector(lightPosition[i], new Vector3(lights[i].Position.X, lights[i].Position.Y, lights[i].Position.Z));
@@ -154,14 +154,14 @@ namespace MassiveGame
                     base.loadVector(diffuseColour[i], new Vector3(lights[i].Diffuse.X, lights[i].Diffuse.Y, lights[i].Diffuse.Z));
                     base.loadVector(specularColour[i], new Vector3(lights[i].Specular.X, lights[i].Specular.Y, lights[i].Specular.Z));
                 }
-                for (int i = lights.Count; i < MAX_LIGHTS_COUNT; i++)      //Выключенные источники света
+                for (Int32 i = lights.Count; i < MAX_LIGHTS_COUNT; i++)      //Выключенные источники света
                 {
                     base.loadBool(this.enableLight[i], false);
                 }
             }
             else
             {
-                for (int i = 0; i < MAX_LIGHTS_COUNT; i++)      //Выключенные источники света
+                for (Int32 i = 0; i < MAX_LIGHTS_COUNT; i++)      //Выключенные источники света
                 {
                     base.loadBool(this.enableLight[i], false);
                 }
@@ -198,7 +198,7 @@ namespace MassiveGame
             base.loadMatrix(directionalLightShadowMatrix, false, ShadowMatrix);
         }
 
-        public void setUniformValuesWithNormalMap(int sampler, int normalMap, int specularMap, int glowingMap, Vector3 materialAmbient,
+        public void setUniformValuesWithNormalMap(Int32 sampler, Int32 normalMap, Int32 specularMap, Int32 glowingMap, Vector3 materialAmbient,
             Vector3 materialDiffuse, Vector3 materialSpecular, float reflectivity,
             float shineDamper, ref Matrix4 ModelMatrix, Matrix4 ViewMatrix,
             ref Matrix4 ProjectionMatrix, List<PointLight> lights, DirectionalLight Sun,
@@ -233,7 +233,7 @@ namespace MassiveGame
             /*If point lights are enabled*/
             if (lights != null)
             {
-                for (int i = 0; i < (lights.Count <= MAX_LIGHTS_COUNT ? lights.Count : MAX_LIGHTS_COUNT); i++) //Включенные источники света
+                for (Int32 i = 0; i < (lights.Count <= MAX_LIGHTS_COUNT ? lights.Count : MAX_LIGHTS_COUNT); i++) //Включенные источники света
                 {
                     base.loadBool(this.enableLight[i], true);
                     base.loadVector(lightPosition[i], new Vector3(lights[i].Position.X, lights[i].Position.Y, lights[i].Position.Z));
@@ -241,14 +241,14 @@ namespace MassiveGame
                     base.loadVector(diffuseColour[i], new Vector3(lights[i].Diffuse.X, lights[i].Diffuse.Y, lights[i].Diffuse.Z));
                     base.loadVector(specularColour[i], new Vector3(lights[i].Specular.X, lights[i].Specular.Y, lights[i].Specular.Z));
                 }
-                for (int i = lights.Count; i < MAX_LIGHTS_COUNT; i++)      //Выключенные источники света
+                for (Int32 i = lights.Count; i < MAX_LIGHTS_COUNT; i++)      //Выключенные источники света
                 {
                     base.loadBool(this.enableLight[i], false);
                 }
             }
             else
             {
-                for (int i = 0; i < MAX_LIGHTS_COUNT; i++)      //Выключенные источники света
+                for (Int32 i = 0; i < MAX_LIGHTS_COUNT; i++)      //Выключенные источники света
                 {
                     base.loadBool(this.enableLight[i], false);
                 }
@@ -262,7 +262,7 @@ namespace MassiveGame
             base.loadVector(this.mistColour, MistColour);
         }
 
-        public void setUniformValuesWithoutNormalMap(int sampler, int glowingMap, Vector3 materialAmbient,
+        public void setUniformValuesWithoutNormalMap(Int32 sampler, Int32 glowingMap, Vector3 materialAmbient,
            Vector3 materialDiffuse, Vector3 materialSpecular, float reflectivity,
            float shineDamper, ref Matrix4 ModelMatrix, Matrix4 ViewMatrix,
            ref Matrix4 ProjectionMatrix, List<PointLight> lights, DirectionalLight Sun,
@@ -295,7 +295,7 @@ namespace MassiveGame
             /*If point lights are enabled*/
             if (lights != null)
             {
-                for (int i = 0; i < (lights.Count <= MAX_LIGHTS_COUNT ? lights.Count : MAX_LIGHTS_COUNT); i++) //Включенные источники света
+                for (Int32 i = 0; i < (lights.Count <= MAX_LIGHTS_COUNT ? lights.Count : MAX_LIGHTS_COUNT); i++) //Включенные источники света
                 {
                     base.loadBool(this.enableLight[i], true);
                     base.loadVector(lightPosition[i], new Vector3(lights[i].Position.X, lights[i].Position.Y, lights[i].Position.Z));
@@ -303,14 +303,14 @@ namespace MassiveGame
                     base.loadVector(diffuseColour[i], new Vector3(lights[i].Diffuse.X, lights[i].Diffuse.Y, lights[i].Diffuse.Z));
                     base.loadVector(specularColour[i], new Vector3(lights[i].Specular.X, lights[i].Specular.Y, lights[i].Specular.Z));
                 }
-                for (int i = lights.Count; i < MAX_LIGHTS_COUNT; i++)      //Выключенные источники света
+                for (Int32 i = lights.Count; i < MAX_LIGHTS_COUNT; i++)      //Выключенные источники света
                 {
                     base.loadBool(this.enableLight[i], false);
                 }
             }
             else
             {
-                for (int i = 0; i < MAX_LIGHTS_COUNT; i++)      //Выключенные источники света
+                for (Int32 i = 0; i < MAX_LIGHTS_COUNT; i++)      //Выключенные источники света
                 {
                     base.loadBool(this.enableLight[i], false);
                 }
@@ -371,7 +371,7 @@ namespace MassiveGame
 
         private const string SHADER_NAME = "SpecialStaticEntity Shader";
 
-        private int ModelMatrix,
+        private Int32 ModelMatrix,
             ViewMatrix,
             ProjectionMatrix;
             

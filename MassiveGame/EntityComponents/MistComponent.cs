@@ -66,13 +66,13 @@ namespace MassiveGame
             else return true;
         }
 
-        public void appear(double renderTime, int fadeTime, FadeType fType, float densityThreshold)
+        public void appear(double renderTime, Int32 fadeTime, FadeType fType, float densityThreshold)
         {
             /*In case if  mist has already increased*/
             if (!checkAppear(this._density, densityThreshold)) return;
 
-            int oneRedrawTime = convertFromSecToMsec(renderTime);
-            int beatTime = fadeTime / oneRedrawTime;
+            Int32 oneRedrawTime = convertFromSecToMsec(renderTime);
+            Int32 beatTime = fadeTime / oneRedrawTime;
 
             switch(fType)
             {
@@ -122,19 +122,19 @@ namespace MassiveGame
             else return true;
         }
 
-        private int convertFromSecToMsec(double sTime)
+        private Int32 convertFromSecToMsec(double sTime)
         {
-            int msTime = Convert.ToInt32(sTime * 1000);
+            Int32 msTime = Convert.ToInt32(sTime * 1000);
             return msTime;
         }
 
-        public void fade(double renderTime, int fadeTime, FadeType fType, float densityThreshold)
+        public void fade(double renderTime, Int32 fadeTime, FadeType fType, float densityThreshold)
         {
             /*In case if  mist has already dicreased*/
             if (!checkFade(this._density, densityThreshold)) return;
 
-            int oneRedrawTime = convertFromSecToMsec(renderTime);
-            int beatTime = fadeTime / oneRedrawTime;
+            Int32 oneRedrawTime = convertFromSecToMsec(renderTime);
+            Int32 beatTime = fadeTime / oneRedrawTime;
 
             switch (fType)
             {

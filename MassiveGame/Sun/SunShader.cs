@@ -10,7 +10,7 @@ namespace MassiveGame
         #region Definitions 
 
         private const string SHADER_NAME = "Sun shader";
-        private int modelMatrix, viewMatrix, projectionMatrix, sunTexture1, sunTexture2,
+        private Int32 modelMatrix, viewMatrix, projectionMatrix, sunTexture1, sunTexture2,
             sunDirection, clipPlane;
 
         #endregion
@@ -38,7 +38,7 @@ namespace MassiveGame
         }
 
         public void setUniformValues(ref Matrix4 modelMatrix, Matrix4 viewMatrix, ref Matrix4 projectionMatrix,
-            DirectionalLight sun, int sun1TexSampler, int sun2TexSampler)
+            DirectionalLight sun, Int32 sun1TexSampler, Int32 sun2TexSampler)
         {
             viewMatrix[3, 0] = 0.0f;
             viewMatrix[3, 1] = 0.0f;

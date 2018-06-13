@@ -217,8 +217,8 @@ namespace OTKWinForm
 
         private void GLControl_MouseMove(object sender, MouseEventArgs e)
         {
-            int xDelta = e.X - PrevCursorPosition.X;
-            int yDelta = e.Y - PrevCursorPosition.Y;
+            Int32 xDelta = e.X - PrevCursorPosition.X;
+            Int32 yDelta = e.Y - PrevCursorPosition.Y;
             if (e.Button == MouseButtons.Right)
             {
                 Editor.EditorCamera.RotateByMouse(xDelta, yDelta);

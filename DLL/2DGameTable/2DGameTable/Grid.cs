@@ -8,11 +8,11 @@ namespace Grid
 {
     public class TableGrid                    //class to work with table
     {
-        public int TableSize { set; get; }
+        public Int32 TableSize { set; get; }
         public float[,] Table { set { _tableGrid = value; } get { return _tableGrid; } }
         public double GridStep { get; private set; }          //step between cells in table
 
-        public float this[int i, int j]
+        public float this[Int32 i, Int32 j]
         {
             set { _tableGrid[i, j] = value; }
             get { return _tableGrid[i, j]; }
@@ -31,7 +31,7 @@ namespace Grid
             _tableGrid = new float[TableSize, TableSize];
             GridStep = 0.0;
         }
-        public TableGrid(int TableSize, double GridStep)    //constructor
+        public TableGrid(Int32 TableSize, double GridStep)    //constructor
         {
             this.TableSize = TableSize;
             _tableGrid = new float[TableSize, TableSize];

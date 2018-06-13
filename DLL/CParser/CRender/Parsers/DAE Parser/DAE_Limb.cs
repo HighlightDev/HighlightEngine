@@ -23,9 +23,9 @@ namespace CParser.DAE_Parser
         public float[,] verts;
         public float[,] n_verts;
         public float[,] t_verts;
-        public int[,] face;
+        public Int32[,] face;
         // additional data, could be deleted
-        public int[,] lines;
+        public Int32[,] lines;
         public string objectID;
         public string objectName;
     }

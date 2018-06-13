@@ -14,7 +14,7 @@ namespace PhysicsBox
     {
         public Vector3 LBNCoordinates { set; get; }
         public Vector3 RTFCoordinates { set; get; }
-        public int ID { set; get; }
+        public Int32 ID { set; get; }
         public Vector4 Color { set; get; }
         private float[,] _renderCoordinates;
 

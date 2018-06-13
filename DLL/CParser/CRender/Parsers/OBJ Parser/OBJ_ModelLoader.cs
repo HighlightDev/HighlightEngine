@@ -38,8 +38,8 @@ namespace CParser.OBJ_Parser
 
 
         private string _modelFilePath;
-        private int _objectQuantity;
-        private int[,] _objectParameterQuantity;
+        private Int32 _objectQuantity;
+        private Int32[,] _objectParameterQuantity;
         protected float[,] verts;
         protected float[,] t_verts;
         protected float[,] n_verts;
@@ -54,7 +54,7 @@ namespace CParser.OBJ_Parser
         /// Загрузчик файлов OBJ. Загружает все вершины, нормали и текстурные координаты в Limbs, где каждый limb - 1 под-объект.
         /// </summary>
         /// <param name="modelFilePath">Путь к файлу модели.</param>
-        public override int LoadModel(string modelFilePath)
+        public override Int32 LoadModel(string modelFilePath)
         {
             _modelFilePath = modelFilePath;
             objectCounter();
@@ -65,13 +65,13 @@ namespace CParser.OBJ_Parser
             bool objectCounterTrigger = false;
             StreamReader sr_modelFile = new StreamReader(_modelFilePath, Encoding.Default);
 
-            for (int i = 0; i < _objectQuantity; ++i)
+            for (Int32 i = 0; i < _objectQuantity; ++i)
             {
                 limbs[i] = new OBJ_Limb(_objectParameterQuantity[i, 0], 
                                        _objectParameterQuantity[i, 3], 
                                        _objectParameterQuantity[i, 2], 
                                        _objectParameterQuantity[i, 1]);
-                int j = 0; //iterator
+                Int32 j = 0; //iterator
                 //trigger for correct work of file reader
                 bool fileTrigger = false;
                 //triggers for correct work of iterator j
@@ -159,12 +159,12 @@ namespace CParser.OBJ_Parser
                         }
                         string face = modelFile.Remove(0, 2);
                         string[] splittedString = face.Split(' ');
-                        int sumOfPrevValsOfVertexes = 0;        //for de-globalization of vertex counter in faces
-                        int sumOfPrevValsOfTexVertexes = 0;     //for de-globalization of texture vertex counter in faces
-                        int sumOfPrevValsOfNormalVertexes = 0;  //for de-globalization of normal vertex counter in faces
+                        Int32 sumOfPrevValsOfVertexes = 0;        //for de-globalization of vertex counter in faces
+                        Int32 sumOfPrevValsOfTexVertexes = 0;     //for de-globalization of texture vertex counter in faces
+                        Int32 sumOfPrevValsOfNormalVertexes = 0;  //for de-globalization of normal vertex counter in faces
 
                         if (i > 0)
-                            for (int l = 0; l < i; l++)
+                            for (Int32 l = 0; l < i; l++)
                             {
                                 sumOfPrevValsOfVertexes += _objectParameterQuantity[l, 0];
                                 sumOfPrevValsOfTexVertexes += _objectParameterQuantity[l, 1];
@@ -220,18 +220,18 @@ namespace CParser.OBJ_Parser
 
         protected virtual void objectParameterCounter() //func calculates quantity of object parameters
         {
-            _objectParameterQuantity = new int[_objectQuantity, 4];
+            _objectParameterQuantity = new Int32[_objectQuantity, 4];
             string modelFile = "";
             bool objectCounterTrigger = false;
             StreamReader sr_modelFile = new StreamReader(_modelFilePath, Encoding.Default);
 
-            for (int i = 0; i < _objectQuantity; ++i)
+            for (Int32 i = 0; i < _objectQuantity; ++i)
             {
                 //temporary vault of parameter quantity
-                int vertexQuantity = 0;
-                int vertexTextureQuantity = 0;
-                int vertexNormalQuantity = 0;
-                int faceQuantity = 0;
+                Int32 vertexQuantity = 0;
+                Int32 vertexTextureQuantity = 0;
+                Int32 vertexNormalQuantity = 0;
+                Int32 faceQuantity = 0;
                 bool fileTrigger = false;
 
                 while (!sr_modelFile.EndOfStream)
@@ -292,7 +292,7 @@ namespace CParser.OBJ_Parser
             n_verts = new float[overallVertexQuantity, 3];
             t_verts = new float[overallVertexQuantity, 2];
 
-            for (int iGlobal = 0, iLocal = 0, objectCounter = 0; (objectCounter < this.limbs.Length)
+            for (Int32 iGlobal = 0, iLocal = 0, objectCounter = 0; (objectCounter < this.limbs.Length)
                 && (iLocal < this.limbs[objectCounter].quantityOf_V_VT_VN_Face[3])
                 && (iGlobal < overallVertexQuantity); ++iLocal, ++iGlobal)
             {

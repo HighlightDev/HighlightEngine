@@ -28,14 +28,14 @@ namespace MassiveGame
         public const float DAY_TIMER_HASTE = 10;
         public const float SCREEN_ASPECT_RATIO = 16f / 9f;
 
-        public static int SCREEN_POSITION_X = 120;
-        public static int SCREEN_POSITION_Y = 50;
-        public static int SCREEN_WIDTH = 1020;
-        public static int SCREEN_HEIGHT = 800;
-        public static int TIMER_CALLBACK = 0;
+        public static Int32 SCREEN_POSITION_X = 120;
+        public static Int32 SCREEN_POSITION_Y = 50;
+        public static Int32 SCREEN_WIDTH = 1020;
+        public static Int32 SCREEN_HEIGHT = 800;
+        public static Int32 TIMER_CALLBACK = 0;
         public static WindowBorder WINDOW_BORDER = WindowBorder.Resizable;
         public static WindowState WINDOW_STATE = WindowState.Normal;
-        public static int MAX_LIGHT_COUNT = 5;  //Максимальное количество источников света присутствующих на сцене
+        public static Int32 MAX_LIGHT_COUNT = 5;  //Максимальное количество источников света присутствующих на сцене
         public static float RenderTime = 0;
 
         // ///*Temp triggers*/// //
@@ -44,7 +44,6 @@ namespace MassiveGame
         public static bool NormalMapTrigger = true;   //temp for normal mapping
         public static bool BorderTrigger = true;     //temp for border setup
         public static bool StateTrigger = true;     //temp for window state setup
-        public static bool FirstPersonCameraTrigger = false;     //temp for camera setup
         public static bool AltTrigger = false;
         public static bool ControlLeftTrigger = false;
         public static bool RedrawScene = false;

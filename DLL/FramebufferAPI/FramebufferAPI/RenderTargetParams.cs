@@ -56,7 +56,7 @@ namespace FramebufferAPI
             return (RenderTargetParams)obj == this;
         }
 
-        public override int GetHashCode()
+        public override Int32 GetHashCode()
         {
             return base.GetHashCode();
         }

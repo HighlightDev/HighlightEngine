@@ -15,7 +15,7 @@ namespace MassiveGame.Entities.Plant_Enitites
         {
             if (plants.Count() == 0) { return attribs; }
 
-            int size = plants.Count();
+            Int32 size = plants.Count();
             float[] windS = new float[size];
             float[] tSampler = new float[size];
 
@@ -35,7 +35,7 @@ namespace MassiveGame.Entities.Plant_Enitites
                         {
                             fixed (float* matrix4 = matrixColumn4)
                             {
-                                for (int i = 0, baseDim = 0; i < size; i++, baseDim += 4)
+                                for (Int32 i = 0, baseDim = 0; i < size; i++, baseDim += 4)
                                 {
                                     var item = plants.ElementAt(i);
                                     var modelMatrix = Matrix4.Identity;
@@ -75,7 +75,7 @@ namespace MassiveGame.Entities.Plant_Enitites
                 windS, tSampler, matrixColumn1, matrixColumn2, matrixColumn3, matrixColumn4);
         }
 
-        public static VBOArrayF BuildBuilderUserAttributeBuffer(IEnumerable<PlantUnit> plants, VBOArrayF attribs, int buffer_size)
+        public static VBOArrayF BuildBuilderUserAttributeBuffer(IEnumerable<PlantUnit> plants, VBOArrayF attribs, Int32 buffer_size)
         {
             if (plants.Count() == 0) { return attribs; }
 
@@ -84,7 +84,7 @@ namespace MassiveGame.Entities.Plant_Enitites
                 throw new ArgumentException();
             }
 
-            int size = plants.Count();
+            Int32 size = plants.Count();
             float[] windS = new float[buffer_size];
             float[] tSampler = new float[buffer_size];
 
@@ -103,7 +103,7 @@ namespace MassiveGame.Entities.Plant_Enitites
                         {
                             fixed (float* matrix4 = matrixColumn4)
                             {
-                                for (int i = 0, baseDim = 0; i < size; i++, baseDim += 4)
+                                for (Int32 i = 0, baseDim = 0; i < size; i++, baseDim += 4)
                                 {
                                     var item = plants.ElementAt(i);
                                     var modelMatrix = Matrix4.Identity;
@@ -143,7 +143,7 @@ namespace MassiveGame.Entities.Plant_Enitites
                 windS, tSampler, matrixColumn1, matrixColumn2, matrixColumn3, matrixColumn4);
         }
 
-        public static void AddBuilderUserAttribute(PlantUnit plant, VAO buffer, int plantsCountBeforeAddition)
+        public static void AddBuilderUserAttribute(PlantUnit plant, VAO buffer, Int32 plantsCountBeforeAddition)
         {
             float windS = 0.0f, tSampler = 0.0f;
 

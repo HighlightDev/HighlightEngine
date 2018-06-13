@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using TextureLoader;
 using MassiveGame.RenderCore.Lights;
+using System;
 
 namespace MassiveGame
 {
@@ -18,7 +19,7 @@ namespace MassiveGame
         private readonly float MAP_SIZE;
 
         private List<PlantUnit> _plants;
-        private const int MAX_ENTITIES_COUNT = 8000;
+        private const Int32 MAX_ENTITIES_COUNT = 8000;
         private VBOArrayF _attribs;
         private VAO _buffer;
         private PlantShader _shader;
@@ -48,7 +49,7 @@ namespace MassiveGame
             if (plants.Count() > MAX_ENTITIES_COUNT)
             {
                 this._plants = new List<PlantUnit>();
-                for (int i = 0; i < MAX_ENTITIES_COUNT; i++)
+                for (Int32 i = 0; i < MAX_ENTITIES_COUNT; i++)
                 {
                     this._plants.Add(plants.ElementAt(i));
                 }
@@ -79,8 +80,8 @@ namespace MassiveGame
             float tempY = 0.0f;
             float tempZ = 0.0f;
 
-            int iterationCount = _attribs.Vertices.Length / 3;
-            for (int i = 0; i < iterationCount; i++)
+            Int32 iterationCount = _attribs.Vertices.Length / 3;
+            for (Int32 i = 0; i < iterationCount; i++)
             {
                 tempX += _attribs.Vertices[i, 0];
                 tempY += _attribs.Vertices[i, 1];
@@ -102,9 +103,9 @@ namespace MassiveGame
         {
             //Выравнивает координаты травы до их обработки
             float tempBottom = attribs.Vertices[0, 1];
-            int iterationCount = attribs.Vertices.Length / 3;
+            Int32 iterationCount = attribs.Vertices.Length / 3;
 
-            for (int i = 0; i < iterationCount; i++)
+            for (Int32 i = 0; i < iterationCount; i++)
             {
                 if (tempBottom > attribs.Vertices[i, 1])   //Находим минимум по Y
                 {
@@ -196,7 +197,7 @@ namespace MassiveGame
         }
 
       // TODO : это временный конструктор
-        public PlantReadyMaster(int entityCount, float MAP_SIZE, VBOArrayF ModelAttribs, Vector3 Scale, 
+        public PlantReadyMaster(Int32 entityCount, float MAP_SIZE, VBOArrayF ModelAttribs, Vector3 Scale, 
              string[] textureSets, WindComponent component, MistComponent mist = null)
         {
             _postConstructor = true;
@@ -213,7 +214,7 @@ namespace MassiveGame
 
             _meshCenter = GetCenter();
             _plants = new List<PlantUnit>();
-            for (int i = 0; i < entityCount; i++)
+            for (Int32 i = 0; i < entityCount; i++)
             {
                 _plants.Add(new PlantUnit(i, Scale, MAP_SIZE, new uint[] { 1, 2, 3 }));
             }

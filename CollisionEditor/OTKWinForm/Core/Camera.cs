@@ -48,12 +48,12 @@ namespace OTKWinForm.Core
             }
         }
 
-        public void RotateByMouse(int deltaX, int deltaY)
+        public void RotateByMouse(Int32 deltaX, Int32 deltaY)
         {
             RotatePosition(deltaX, deltaY);
         }
 
-        public void RotatePosition(int deltaX, int deltaY)
+        public void RotatePosition(Int32 deltaX, Int32 deltaY)
         {
             // rotate pitch
             Vector3 lookDir = Vector3.Normalize(Look - Position);

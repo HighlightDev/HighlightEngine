@@ -15,13 +15,13 @@ namespace MassiveGame
     {
         #region Difinitions
 
-        private const int BLUR_WIDTH = LensFlareRenderer.MAX_BLUR_WIDTH;
+        private const Int32 BLUR_WIDTH = LensFlareRenderer.MAX_BLUR_WIDTH;
         private const string SHADER_NAME = "Lens flare shader";
-        private int frameTexture, threshold, lensColor,
+        private Int32 frameTexture, threshold, lensColor,
              screenWidth, screenHeight, blurWidth, bluredTexture, GhostDispersal, HaloWidth, Distortion, Ghosts;
-        private int[] weights = new int[BLUR_WIDTH], pixOffset = new int[BLUR_WIDTH];
+        private Int32[] weights = new Int32[BLUR_WIDTH], pixOffset = new Int32[BLUR_WIDTH];
 
-        private int lensThreshold, lensEffect, vertBlur, horizBlur, lensModifer, lensSimple;
+        private Int32 lensThreshold, lensEffect, vertBlur, horizBlur, lensModifer, lensSimple;
         #endregion
 
         #region Getters
@@ -33,7 +33,7 @@ namespace MassiveGame
             lensColor = base.getUniformLocation("lensColor");
             screenWidth = base.getUniformLocation("screenWidth");
             screenHeight = base.getUniformLocation("screenHeight");
-            for (int i = 0; i < BLUR_WIDTH; i++)
+            for (Int32 i = 0; i < BLUR_WIDTH; i++)
             {
                 this.weights[i] = base.getUniformLocation("Weight[" + i + "]");
                 this.pixOffset[i] = base.getUniformLocation("PixOffset[" + i + "]");
@@ -56,20 +56,20 @@ namespace MassiveGame
 
         #region Setters
 
-        public void setUniformValuesSimple(int frameTexSampler)
+        public void setUniformValuesSimple(Int32 frameTexSampler)
         {
             base.loadInteger(this.frameTexture, frameTexSampler);
             base.loadSubroutineIndex(ShaderType.FragmentShader, 1, this.lensSimple);
         }
 
-        public void setUniformValuesThreshold(int frameTexSampler, float threshold)
+        public void setUniformValuesThreshold(Int32 frameTexSampler, float threshold)
         {
             base.loadInteger(this.frameTexture, frameTexSampler);
             base.loadFloat(this.threshold, threshold);
             base.loadSubroutineIndex(ShaderType.FragmentShader, 1, this.lensThreshold);
         }
 
-        public void setUniformValuesLens(int frameTexSampler, int lensColorSampler, int Ghosts,
+        public void setUniformValuesLens(Int32 frameTexSampler, Int32 lensColorSampler, Int32 Ghosts,
             float HaloWidth, float Distortion, float GhostDispersal) 
         {
             base.loadInteger(this.frameTexture, frameTexSampler);
@@ -81,13 +81,13 @@ namespace MassiveGame
             base.loadSubroutineIndex(ShaderType.FragmentShader, 1, this.lensEffect);
         }
 
-        public void setUniformValuesVerticalBlur(int frameTexSampler, float[] weights, int[] pixOffset,
-            int screenWidth, int screenHeight)
+        public void setUniformValuesVerticalBlur(Int32 frameTexSampler, float[] weights, Int32[] pixOffset,
+            Int32 screenWidth, Int32 screenHeight)
         {
             base.loadInteger(this.frameTexture, frameTexSampler);
             base.loadInteger(this.screenWidth, screenWidth);
             base.loadInteger(this.screenHeight, screenHeight);
-            for (int i = 0; i < (weights.Length > BLUR_WIDTH ? BLUR_WIDTH : weights.Length); i++)
+            for (Int32 i = 0; i < (weights.Length > BLUR_WIDTH ? BLUR_WIDTH : weights.Length); i++)
             {
                 base.loadFloat(this.weights[i], weights[i]);
                 base.loadInteger(this.pixOffset[i], pixOffset[i]);
@@ -96,13 +96,13 @@ namespace MassiveGame
             base.loadSubroutineIndex(ShaderType.FragmentShader, 1, this.vertBlur);
         }
 
-        public void setUniformValuesHorizontalBlur(int frameTexSampler, float[] weights, int[] pixOffset,
-           int screenWidth, int screenHeight)
+        public void setUniformValuesHorizontalBlur(Int32 frameTexSampler, float[] weights, Int32[] pixOffset,
+           Int32 screenWidth, Int32 screenHeight)
         {
             base.loadInteger(this.frameTexture, frameTexSampler);
             base.loadInteger(this.screenWidth, screenWidth);
             base.loadInteger(this.screenHeight, screenHeight);
-            for (int i = 0; i < (weights.Length > BLUR_WIDTH ? BLUR_WIDTH : weights.Length); i++)
+            for (Int32 i = 0; i < (weights.Length > BLUR_WIDTH ? BLUR_WIDTH : weights.Length); i++)
             {
                 base.loadFloat(this.weights[i], weights[i]);
                 base.loadInteger(this.pixOffset[i], pixOffset[i]);
@@ -111,7 +111,7 @@ namespace MassiveGame
             base.loadSubroutineIndex(ShaderType.FragmentShader, 1, this.horizBlur);
         }
 
-        public void setUniformValuesMod(int frameTexSampler, int bluredTexture)
+        public void setUniformValuesMod(Int32 frameTexSampler, Int32 bluredTexture)
         {
             base.loadInteger(this.frameTexture, frameTexSampler);
             base.loadInteger(this.bluredTexture, bluredTexture);

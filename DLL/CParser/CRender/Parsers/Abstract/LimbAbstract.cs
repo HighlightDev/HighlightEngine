@@ -10,7 +10,7 @@ namespace CParser
         // массивы для хранения данных (геометрии и текстурных координат)
         public float[,] vert = null;
         public float[,] t_vert = null;
-        public int[,] face = null;
+        public Int32[,] face = null;
 
         protected abstract void MemoryForModel();
     }

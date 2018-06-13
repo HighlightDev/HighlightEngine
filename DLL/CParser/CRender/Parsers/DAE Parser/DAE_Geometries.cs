@@ -12,7 +12,7 @@ namespace CParser.DAE_Parser
         #region Constructors
         private DAE_Geometries()
         {
-            faceCollection = new List<int[,]>();
+            faceCollection = new List<Int32[,]>();
             _limbs = new List<DAE_Limb>();
             _limb = null;
             Verts = null;
@@ -38,7 +38,7 @@ namespace CParser.DAE_Parser
         #endregion
 
 
-        private List<int[,]> faceCollection;
+        private List<Int32[,]> faceCollection;
         private List<DAE_Limb> _limbs;
         private DAE_Limb _limb;
         public float[,] Verts { get; private set; }
@@ -46,10 +46,10 @@ namespace CParser.DAE_Parser
         public float[,] N_Verts { get; private set; }
 
 
-        private int LoadGeometry(string pathToAnimation)
+        private Int32 LoadGeometry(string pathToAnimation)
         {
             string currentLine = String.Empty;
-            int startPos = 0,
+            Int32 startPos = 0,
                 polylistCounter = 0;
             bool linesTagUsage = false;
             StreamReader sr_animFile = new StreamReader(pathToAnimation, Encoding.UTF8);
@@ -152,7 +152,7 @@ namespace CParser.DAE_Parser
                         break;
                     }
 
-                    int startPos = currentLine.IndexOf("\"", currentLine.IndexOf(" id=")) + 1;
+                    Int32 startPos = currentLine.IndexOf("\"", currentLine.IndexOf(" id=")) + 1;
                     string sourceID = currentLine.Substring(startPos, currentLine.IndexOf("\"", startPos + 1) - startPos);
                     
                     startPos = currentLine.IndexOf("\"", currentLine.IndexOf(" count=")) + 1;
@@ -191,7 +191,7 @@ namespace CParser.DAE_Parser
 //-----------------------------------------------------------------------------------------------------------//
                 if (currentLine.StartsWith("<accessor "))
                 {
-                    int startPos = currentLine.IndexOf("\"", currentLine.IndexOf(" count=")) + 1;
+                    Int32 startPos = currentLine.IndexOf("\"", currentLine.IndexOf(" count=")) + 1;
                     elementQuantityPerAxis = Convert.ToUInt32(currentLine.Substring(startPos, currentLine.IndexOf("\"", startPos + 1) - startPos));
                     startPos = currentLine.IndexOf("\"", currentLine.IndexOf(" stride=")) + 1;
                     uint stride = Convert.ToUInt32(currentLine.Substring(startPos, currentLine.IndexOf("\"", startPos + 1) - startPos));
@@ -295,9 +295,9 @@ namespace CParser.DAE_Parser
 
         private void linesParser(string currentLine, StreamReader sr_animFile)
         {
-            int startPos = currentLine.IndexOf("\"", currentLine.IndexOf(" count=")) + 1;
-            int countLines = Convert.ToInt32(currentLine.Substring(startPos, currentLine.IndexOf("\"", startPos + 1) - startPos));
-            _limb.lines = new int[countLines, 2];
+            Int32 startPos = currentLine.IndexOf("\"", currentLine.IndexOf(" count=")) + 1;
+            Int32 countLines = Convert.ToInt32(currentLine.Substring(startPos, currentLine.IndexOf("\"", startPos + 1) - startPos));
+            _limb.lines = new Int32[countLines, 2];
 
             while (true)
             {
@@ -324,13 +324,13 @@ namespace CParser.DAE_Parser
             countLines = 0;
         }
 
-        private int polylistParser(string currentLine, StreamReader sr_animFile)
+        private Int32 polylistParser(string currentLine, StreamReader sr_animFile)
         {
-            int[,] faceLocal;
-            int startPos = currentLine.IndexOf("\"", currentLine.IndexOf(" count=")) + 1;
-            int countVertices = Convert.ToInt32(currentLine.Substring(startPos, currentLine.IndexOf("\"", startPos + 1) - startPos));
+            Int32[,] faceLocal;
+            Int32 startPos = currentLine.IndexOf("\"", currentLine.IndexOf(" count=")) + 1;
+            Int32 countVertices = Convert.ToInt32(currentLine.Substring(startPos, currentLine.IndexOf("\"", startPos + 1) - startPos));
             string semantic = String.Empty;
-            int vertexOffset = -1,
+            Int32 vertexOffset = -1,
                 normalOffset = -1,
                 texcoordOffset = -1;
 
@@ -379,7 +379,7 @@ namespace CParser.DAE_Parser
                 }
                 if (currentLine.StartsWith("<p>"))
                 {
-                    faceLocal = new int[countVertices * 3, 3];
+                    faceLocal = new Int32[countVertices * 3, 3];
                     string[] tempStr = currentLine.Replace("<p>", "").Replace("</p>", "").Trim().Split(' ');
 
                     if ((vertexOffset == -1) && (normalOffset == -1) && (texcoordOffset == -1))
@@ -438,15 +438,15 @@ namespace CParser.DAE_Parser
         #endregion
 
         #region Data converters
-        private int ConvertLinesToFaces(int polylistCounter)
+        private Int32 ConvertLinesToFaces(Int32 polylistCounter)
         {
-            int faceLengthAdditional = (_limb.lines.Length / 2) * 3;
+            Int32 faceLengthAdditional = (_limb.lines.Length / 2) * 3;
 
             if (polylistCounter == 0)
             {
-                _limb.face = new int[faceLengthAdditional, 3];
+                _limb.face = new Int32[faceLengthAdditional, 3];
 
-                for (int i = 0, j = 0; (i < faceLengthAdditional); i += 3, ++j)
+                for (Int32 i = 0, j = 0; (i < faceLengthAdditional); i += 3, ++j)
                 {
                     _limb.face[i + 0, 0] = _limb.lines[j + 0, 0];
                     _limb.face[i + 0, 1] = 0;
@@ -466,17 +466,17 @@ namespace CParser.DAE_Parser
             }
             else if (polylistCounter > 0)
             {
-                int faceLengthOverall = faceLengthAdditional + _limb.face.Length / 3;
-                int[,] tempFaceVault = new int[faceLengthOverall, 3];
+                Int32 faceLengthOverall = faceLengthAdditional + _limb.face.Length / 3;
+                Int32[,] tempFaceVault = new Int32[faceLengthOverall, 3];
 
-                for (int i = 0; i < _limb.face.Length / 3; ++i)
+                for (Int32 i = 0; i < _limb.face.Length / 3; ++i)
                 {
                     tempFaceVault[i, 0] = _limb.face[i, 0];
                     tempFaceVault[i, 1] = _limb.face[i, 1];
                     tempFaceVault[i, 2] = _limb.face[i, 2];
                 }
 
-                for (int i = _limb.face.Length / 3, j = 0; i < faceLengthOverall; i += 3, ++j)
+                for (Int32 i = _limb.face.Length / 3, j = 0; i < faceLengthOverall; i += 3, ++j)
                 {
                     tempFaceVault[i + 0, 0] = _limb.lines[j, 0];
                     tempFaceVault[i + 0, 1] = 0;
@@ -501,24 +501,24 @@ namespace CParser.DAE_Parser
                 return -1;
         }
 
-        private int ConvertFaceListToArray(int polylistCounter)
+        private Int32 ConvertFaceListToArray(Int32 polylistCounter)
         {
             if (polylistCounter > 1)
             {
                 uint overallFaceQuantity = 0;
 
-                foreach (int[,] faceCollectionItem in faceCollection)
+                foreach (Int32[,] faceCollectionItem in faceCollection)
                 {
                     overallFaceQuantity += Convert.ToUInt32(faceCollectionItem.Length / 3);
                 }
 
-                _limb.face = new int[overallFaceQuantity, 3];
+                _limb.face = new Int32[overallFaceQuantity, 3];
 
-                int[,] tempFace = null;
-                int objectCounter = 0;
+                Int32[,] tempFace = null;
+                Int32 objectCounter = 0;
                 if (overallFaceQuantity <= Int32.MaxValue)
                 {
-                    for (int iGlobal = 0, iLocal = 0; (objectCounter < faceCollection.Count)
+                    for (Int32 iGlobal = 0, iLocal = 0; (objectCounter < faceCollection.Count)
                             && (iLocal < _limb.face.Length / 3)
                             && (iGlobal < overallFaceQuantity); ++iLocal, ++iGlobal)
                     {
@@ -574,7 +574,7 @@ namespace CParser.DAE_Parser
         {
             uint overallVertexQuantity = 0;
 
-            for (int i = 0; i < _limbs.Count; ++i)
+            for (Int32 i = 0; i < _limbs.Count; ++i)
             {
                 overallVertexQuantity += Convert.ToUInt32(_limbs[i].face.Length / 3);
             }
@@ -583,7 +583,7 @@ namespace CParser.DAE_Parser
             N_Verts = new float[overallVertexQuantity, 3];
             T_Verts = new float[overallVertexQuantity, 2];
 
-            int objectCounter = 0;
+            Int32 objectCounter = 0;
             if (overallVertexQuantity <= UInt32.MaxValue)
             {
                 for (uint iGlobal = 0, iLocal = 0; (objectCounter < _limbs.Count)
@@ -673,7 +673,7 @@ namespace CParser.DAE_Parser
             {
                 if (additionalData)
                 {
-                    for (int i = 0; i < _limbs.Count; ++i)
+                    for (Int32 i = 0; i < _limbs.Count; ++i)
                     {
                         _limbs[i].lines = null;
                         _limbs[i].objectID = String.Empty;

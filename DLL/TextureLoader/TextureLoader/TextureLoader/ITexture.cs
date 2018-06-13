@@ -13,7 +13,7 @@ namespace TextureLoader
         void BindTexture(TextureUnit samplerID);
         void UnbindTexture(TextureUnit samplerID);
         void CleanUp();
-        UInt32 GetTextureHandler();
+        UInt32 GetTextureDescriptor();
         TextureTarget GetTextureTarget();
         Point GetTextureRezolution();
     }

@@ -15,7 +15,7 @@ namespace MassiveGame
         #region Definitions
 
         private const string SHADER_NAME = "GodRays Shader";
-        private int frameTexture, bluredTexture, exposure, decay, weight,
+        private Int32 frameTexture, bluredTexture, exposure, decay, weight,
             radialPosition, density, numSamples;
 
         #endregion
@@ -38,8 +38,8 @@ namespace MassiveGame
 
         #region Setter
 
-        public void setUniformValuesRadialBlur(int frameTexture, int bluredTexture, float exposure,
-            float decay, float weigth, float density, int numSamples, Vector2 radialPosition)
+        public void setUniformValuesRadialBlur(Int32 frameTexture, Int32 bluredTexture, float exposure,
+            float decay, float weigth, float density, Int32 numSamples, Vector2 radialPosition)
         {
             base.loadInteger(this.frameTexture, frameTexture);
             base.loadInteger(this.bluredTexture, bluredTexture);

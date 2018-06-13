@@ -29,7 +29,7 @@ namespace CParser.OBJ_Parser
         // Ks - The Ks statement specifies the specular reflectivity.
         public double[,] specularReflectivity = null;
         // illum - The "illum" statement specifies the illumination model to use in the material.
-        public int[] illuminationNumber = null;
+        public Int32[] illuminationNumber = null;
         // d factor - Specifies the dissolve for the current material. 
         public double[] dissolveFactor = null;
         // Ns exponent - Specifies the specular exponent for the current material. This defines the focus of the specular highlight.
@@ -68,7 +68,7 @@ namespace CParser.OBJ_Parser
             FileInfo file = new FileInfo(dataFilePath);
             if (file.Exists)
             {
-                int index = -1;
+                Int32 index = -1;
                 string[] tempVault = new string[3];
                 string mtlFileString = "", mtlFilePrefix = "";
                 StreamReader sr_mtlFile = new StreamReader(dataFilePath, Encoding.UTF8);
@@ -142,9 +142,9 @@ namespace CParser.OBJ_Parser
             }
         }
 
-        private void initVariables(int materialQuantity)
+        private void initVariables(Int32 materialQuantity)
         {
-            materialNumber = new int[materialQuantity];
+            materialNumber = new Int32[materialQuantity];
             materialName = new string[materialQuantity];
             materialPath = new string[materialQuantity];
             ambientReflectivity = new double[materialQuantity, 3];
@@ -153,7 +153,7 @@ namespace CParser.OBJ_Parser
             specularExponent = new double[materialQuantity];
             opticalDensity = new double[materialQuantity];
             dissolveFactor = new double[materialQuantity];
-            illuminationNumber = new int[materialQuantity];
+            illuminationNumber = new Int32[materialQuantity];
         }
 
     }

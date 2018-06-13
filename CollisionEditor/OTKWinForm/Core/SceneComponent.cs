@@ -63,7 +63,7 @@ namespace OTKWinForm.Core
 
             var iterationCount = vertices.Length / 3;
 
-            for (int i = 0; i < iterationCount; i++)
+            for (Int32 i = 0; i < iterationCount; i++)
             {
                 if (tempRight < vertices[i, 0])  //Находим максимум по Х
                 {
@@ -91,7 +91,7 @@ namespace OTKWinForm.Core
 
             var iterationCount = vertices.Length / 3;
 
-            for (int i = 0; i < iterationCount; i++)
+            for (Int32 i = 0; i < iterationCount; i++)
             {
                 if (tempLeft > vertices[i, 0]) //Находим минимум по Х
                 {
