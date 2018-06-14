@@ -2,7 +2,7 @@
 
 layout (location = 0) out vec4 FragColor;
 
-uniform sampler2D frameTexture;
+//uniform sampler2D frameTexture;
 uniform sampler2D bluredTexture;
 
 uniform int numSamples;
@@ -42,7 +42,7 @@ void main()
          result *= exposure;
 
 		 //Add result to default image
-		 result = texture(frameTexture, texCoords) + result; 
+		 //result = texture(frameTexture, texCoords) + result; 
 
 		 FragColor = result;
     }

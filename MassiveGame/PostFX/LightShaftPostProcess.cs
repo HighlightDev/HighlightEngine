@@ -80,6 +80,10 @@ namespace MassiveGame.PostFX
             RenderTarget.renderToFBO(4, RenderTarget.LightShaftsResultTexture.GetTextureRezolution());
 
             shader.startProgram();
+
+            frameTexture.BindTexture(TextureUnit.Texture0);
+            RenderTarget.RadialBlurAppliedTexture.BindTexture(TextureUnit.Texture1);
+
             shader.SetFrameTextureSampler(0);
             shader.SetBrightPartsTextureSampler(1);
             shader.SetRadialBlurCenterPositionInScreenSpace(radialBlurScreenSpacePosition);

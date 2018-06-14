@@ -177,8 +177,9 @@ namespace MassiveGame
         {
             if (_postConstructor)
             {
-              
-                _postConstructor = !_postConstructor;
+                DOUEngine.uiFrameCreator.PushFrame(_fbo.RadialBlurAppliedTexture);
+                
+                  _postConstructor = !_postConstructor;
             }
         }
 
