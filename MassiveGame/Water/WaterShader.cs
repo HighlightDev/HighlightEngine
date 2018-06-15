@@ -3,15 +3,16 @@ using System.Collections.Generic;
 using ShaderPattern;
 using OpenTK;
 using MassiveGame.RenderCore.Lights;
+using MassiveGame.RenderCore;
 
 namespace MassiveGame
 {
-    public class WaterShader : Shader
+    public class WaterShader : ShaderBase
     {
         #region Definitions
 
         private const string SHADER_NAME = "Water Shader";
-        private static Int32 MAX_LIGHTS_COUNT = DOUEngine.MAX_LIGHT_COUNT; //Максимальное количество источников света, доступных для обработки
+        private static Int32 MAX_LIGHTS_COUNT = DOUEngine.MAX_LIGHT_COUNT;
         Int32 modelMatrix, viewMatrix, projectionMatrix, reflectionTexture, refractionTexture,
             dudvTexture, normalMap, depthTexture, cameraPosition, moveFactor, waveStrength, sunPos, sunSpecularColour,
             nearClipPlane, farClipPlane, transparencyDepth, mistEnable, mistDensity, mistGradient, mistColour;
@@ -169,16 +170,8 @@ namespace MassiveGame
         #region Constructor
 
         public WaterShader(string vsPath, string fsPath)
-            : base(vsPath, fsPath)
+            : base(SHADER_NAME, vsPath, fsPath)
         {
-            if (base.ShaderLoaded)
-            {
-                base.showCompileLogInfo(SHADER_NAME);
-                base.showLinkLogInfo(SHADER_NAME);
-                Debug.Log.addToLog(getCompileLogInfo(SHADER_NAME));
-                Debug.Log.addToLog(getLinkLogInfo(SHADER_NAME));
-            }
-            else Debug.Log.addToLog( DateTime.Now.ToString() + "  " + SHADER_NAME + " : shader file(s) not found!");
         }
 
         #endregion

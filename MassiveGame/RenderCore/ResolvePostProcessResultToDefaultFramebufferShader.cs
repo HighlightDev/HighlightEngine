@@ -8,7 +8,7 @@ using ShaderPattern;
 
 namespace MassiveGame.RenderCore
 {
-    public class ResolvePostProcessResultToDefaultFramebufferShader : Shader
+    public class ResolvePostProcessResultToDefaultFramebufferShader : ShaderBase
     {
         private const string SHADER_NAME = "ResolvePostProcessResultToDefaultFramebuffer Shader";
         private Int32 frameSampler, postProcessResultSampler;
@@ -29,16 +29,9 @@ namespace MassiveGame.RenderCore
             loadInteger(this.postProcessResultSampler, postProcessResultSampler);
         }
 
-        public ResolvePostProcessResultToDefaultFramebufferShader(string VertexShaderFile, string FragmentShaderFile) : base(VertexShaderFile, FragmentShaderFile)
+        public ResolvePostProcessResultToDefaultFramebufferShader(string VertexShaderFile, string FragmentShaderFile) 
+            : base(SHADER_NAME, VertexShaderFile, FragmentShaderFile)
         {
-            if (base.ShaderLoaded)
-            {
-                base.showCompileLogInfo(SHADER_NAME);
-                base.showLinkLogInfo(SHADER_NAME);
-                Debug.Log.addToLog(getCompileLogInfo(SHADER_NAME));
-                Debug.Log.addToLog(getLinkLogInfo(SHADER_NAME));
-            }
-            else Debug.Log.addToLog(DateTime.Now.ToString() + "  " + SHADER_NAME + " : shader file(s) not found!");
         }
 
         protected override void SetShaderMacros()

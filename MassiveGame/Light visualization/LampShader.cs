@@ -9,10 +9,11 @@ using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL;
 using PhysicsBox;
 using ShaderPattern;
+using MassiveGame.RenderCore;
 
 namespace MassiveGame.Light_visualization
 {
-    public class LampShader : Shader
+    public class LampShader : ShaderBase
     {
         #region Definitions 
 
@@ -59,16 +60,8 @@ namespace MassiveGame.Light_visualization
         #region Constructor
 
         public LampShader(string vsPath, string fsPath, string gsPath)
-            : base(vsPath, fsPath, gsPath)
+            : base(SHADER_NAME, vsPath, fsPath, gsPath)
         {
-            if (base.ShaderLoaded)
-            {
-                base.showCompileLogInfo(SHADER_NAME);
-                base.showLinkLogInfo(SHADER_NAME);
-                Debug.Log.addToLog(getCompileLogInfo(SHADER_NAME));
-                Debug.Log.addToLog(getLinkLogInfo(SHADER_NAME));
-            }
-            else { Debug.Log.addToLog( DateTime.Now.ToString() + "  " + SHADER_NAME + "shader file(s) not found!"); }
         }
 
         #endregion

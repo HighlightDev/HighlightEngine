@@ -2,10 +2,11 @@
 using ShaderPattern;
 using System;
 using MassiveGame.RenderCore.Lights;
+using MassiveGame.RenderCore;
 
 namespace MassiveGame
 {
-    public sealed class PlantShader : Shader
+    public sealed class PlantShader : ShaderBase
     {
         #region Definitions 
 
@@ -136,16 +137,8 @@ namespace MassiveGame
          #region Constructor
 
          public PlantShader(string VertexShaderFile, string FragmentShaderFile)
-             : base(VertexShaderFile, FragmentShaderFile)
+             : base(SHADER_NAME, VertexShaderFile, FragmentShaderFile)
          {
-             if (base.ShaderLoaded)
-             {
-                 base.showCompileLogInfo(SHADER_NAME);
-                 base.showLinkLogInfo(SHADER_NAME);
-                 Debug.Log.addToLog( getCompileLogInfo(SHADER_NAME));
-                 Debug.Log.addToLog( getLinkLogInfo(SHADER_NAME));
-             }
-             else Debug.Log.addToLog( DateTime.Now.ToString() + "  " + SHADER_NAME + " : shader file(s) not found!");
          }
 
          #endregion

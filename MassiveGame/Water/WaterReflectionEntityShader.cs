@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace MassiveGame.RenderCore
 {
-    public class WaterReflectionEntityShader : Shader
+    public class WaterReflectionEntityShader : ShaderBase
     {
         private const string SHADER_NAME = "WaterReflecitonEntityShader";
 
@@ -33,15 +33,9 @@ namespace MassiveGame.RenderCore
             bSpecularMapEnable,
             lightWorldMatrix;
 
-        public WaterReflectionEntityShader(string VertexShaderFile, string FragmentShaderFile) : base(VertexShaderFile, FragmentShaderFile)
+        public WaterReflectionEntityShader(string VertexShaderFile, string FragmentShaderFile) 
+            : base(SHADER_NAME, VertexShaderFile, FragmentShaderFile)
         {
-            if (ShaderLoaded)
-            {
-                showCompileLogInfo(SHADER_NAME);
-                showLinkLogInfo(SHADER_NAME);
-                Debug.Log.addToLog(getCompileLogInfo(SHADER_NAME));
-                Debug.Log.addToLog(getLinkLogInfo(SHADER_NAME));
-            }
         }
 
         public void SetTexture(Int32 textureSampler)

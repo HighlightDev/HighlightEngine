@@ -8,10 +8,11 @@ using OpenTK;
 using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL;
 using System.Drawing;
+using MassiveGame.RenderCore;
 
 namespace MassiveGame
 {
-    class PostprocessShader : Shader
+    class PostprocessShader : ShaderBase
     {
         #region Definations
 
@@ -162,7 +163,7 @@ namespace MassiveGame
         #region Constructor
 
         public PostprocessShader(string vsPath, string fsPath)
-            : base(vsPath, fsPath)
+            : base(SHADER_NAME, vsPath, fsPath)
         {
             if (base.ShaderLoaded)
             {

@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace MassiveGame.RenderCore.Shadows
 {
-    public class BasicShadowShader : Shader
+    public class BasicShadowShader : ShaderBase
     {
         private Int32 worldMatrix, shadowViewMatrix, shadowProjectionMatrix;
         private const string SHADER_NAME = "BasicShadowShader";
@@ -31,13 +31,9 @@ namespace MassiveGame.RenderCore.Shadows
             loadMatrix(this.shadowProjectionMatrix, false, shadowProjectionMatrix);
         }
 
-        public BasicShadowShader(string VertexShaderFile, string FragmentShaderFile) : base(VertexShaderFile, FragmentShaderFile)
+        public BasicShadowShader(string VertexShaderFile, string FragmentShaderFile) 
+            : base(SHADER_NAME, VertexShaderFile, FragmentShaderFile)
         {
-            if (ShaderLoaded)
-            {
-                showCompileLogInfo(SHADER_NAME);
-                showLinkLogInfo(SHADER_NAME);
-            }
         }
     }
 }

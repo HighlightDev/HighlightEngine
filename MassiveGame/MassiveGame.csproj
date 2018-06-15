@@ -134,7 +134,9 @@
     <Compile Include="Physics\CollisionBehaviorManager.cs" />
     <Compile Include="Physics\OutputData\OutputData.cs" />
     <Compile Include="Physics\CollisionUnit.cs" />
+    <Compile Include="PostFX\LensFlarePostProcess.cs" />
     <Compile Include="PostFX\LightShaftPostProcess.cs" />
+    <Compile Include="PostFX\PostProcessShaderBase.cs" />
     <Compile Include="PostFX\PostProcessStage.cs" />
     <Compile Include="RenderCore\ComputeShaders\ComputeShader.cs" />
     <Compile Include="RenderCore\DefaultFrameBuffer.cs" />
@@ -145,6 +147,7 @@
     <Compile Include="RenderCore\Lights\ShaderLight.cs" />
     <Compile Include="RenderCore\Lights\SpotLight.cs" />
     <Compile Include="RenderCore\ResolvePostProcessResultToDefaultFramebufferShader.cs" />
+    <Compile Include="RenderCore\ShaderBase.cs" />
     <Compile Include="Settings\PostFxSettings.cs" />
     <Compile Include="Settings\SettingsLoader.cs" />
     <Compile Include="Water\WaterReflectionEntityShader.cs" />
@@ -177,7 +180,7 @@
     <Compile Include="GraphicsEffects\LensFlareShader.cs" />
     <Compile Include="Light visualization\LampShader.cs" />
     <Compile Include="Light visualization\VisualizeLight.cs" />
-    <Compile Include="PostFX\BasePostProcess.cs" />
+    <Compile Include="PostFX\PostProcessBase.cs" />
     <Compile Include="PostFX\PostProcessBloom.cs" />
     <Compile Include="RenderCore\CopyTextureShader.cs" />
     <Compile Include="RenderCore\ScreenQuad.cs" />

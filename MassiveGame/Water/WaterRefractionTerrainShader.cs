@@ -1,4 +1,5 @@
-﻿using MassiveGame.RenderCore.Lights;
+﻿using MassiveGame.RenderCore;
+using MassiveGame.RenderCore.Lights;
 using OpenTK;
 using ShaderPattern;
 using System;
@@ -9,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace MassiveGame.Water
 {
-    public class WaterRefractionTerrainShader : Shader
+    public class WaterRefractionTerrainShader : ShaderBase
     {
         private const string SHADER_NAME = "WaterRefractionTerrainShader";
 
@@ -18,15 +19,9 @@ namespace MassiveGame.Water
               ModelMatrix, ViewMatrix, ProjectionMatrix, sunDirection,
               sunAmbientColour, sunDiffuseColour, sunEnable, clipPlane;
               
-        public WaterRefractionTerrainShader(string VertexShaderFile, string FragmentShaderFile) : base(VertexShaderFile, FragmentShaderFile)
+        public WaterRefractionTerrainShader(string VertexShaderFile, string FragmentShaderFile) 
+            : base(SHADER_NAME, VertexShaderFile, FragmentShaderFile)
         {
-            if (ShaderLoaded)
-            {
-                showCompileLogInfo(SHADER_NAME);
-                showLinkLogInfo(SHADER_NAME);
-                Debug.Log.addToLog(getCompileLogInfo(SHADER_NAME));
-                Debug.Log.addToLog(getLinkLogInfo(SHADER_NAME));
-            }
         }
 
         protected override void getAllUniformLocations()

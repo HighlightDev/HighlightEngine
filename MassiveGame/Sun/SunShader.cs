@@ -2,10 +2,11 @@
 using ShaderPattern;
 using OpenTK;
 using MassiveGame.RenderCore.Lights;
+using MassiveGame.RenderCore;
 
 namespace MassiveGame
 {
-    public class SunShader : Shader
+    public class SunShader : ShaderBase
     {
         #region Definitions 
 
@@ -63,16 +64,8 @@ namespace MassiveGame
         #region Constructor
 
         public SunShader(string VSPath, string FSPath)
-            : base(VSPath, FSPath)
+            : base(SHADER_NAME, VSPath, FSPath)
         {
-            if (base.ShaderLoaded)
-            {
-                base.showCompileLogInfo(SHADER_NAME);
-                base.showLinkLogInfo(SHADER_NAME);
-                Debug.Log.addToLog(getCompileLogInfo(SHADER_NAME));
-                Debug.Log.addToLog(getLinkLogInfo(SHADER_NAME));
-            }
-            else Debug.Log.addToLog( DateTime.Now.ToString() + "  " + SHADER_NAME + " : shader file(s) not found!");
         }
 
         #endregion

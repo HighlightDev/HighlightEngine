@@ -7,14 +7,15 @@ using ShaderPattern;
 using OpenTK;
 using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL;
+using MassiveGame.RenderCore;
 
 namespace MassiveGame.Debug.UiPanel
 {
-    public class UiFrameShader : Shader
+    public class UiFrameShader : ShaderBase
     {
         #region Definitions
 
-        private const string ShaderName = "UiFrame Shader";
+        private const string SHADER_NAME = "UiFrame Shader";
         private Int32 uiTexture, screenSpaceMatrix;
 
         #endregion
@@ -50,15 +51,8 @@ namespace MassiveGame.Debug.UiPanel
         #region Constructor
 
         public UiFrameShader(string vsPath, string fsPath)
-            : base(vsPath, fsPath)
+            : base(SHADER_NAME, vsPath, fsPath)
         {
-            if (base.ShaderLoaded)
-            {
-                base.showCompileLogInfo(ShaderName);
-                base.showLinkLogInfo(ShaderName);
-                Debug.Log.addToLog(base.getCompileLogInfo(ShaderName));
-                Debug.Log.addToLog(base.getLinkLogInfo(ShaderName));
-            }
         }
 
         #endregion

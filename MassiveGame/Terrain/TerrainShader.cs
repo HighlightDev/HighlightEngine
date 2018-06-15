@@ -3,10 +3,11 @@ using MassiveGame.RenderCore.Lights;
 using ShaderPattern;
 using System;
 using System.Collections.Generic;
+using MassiveGame.RenderCore;
 
 namespace MassiveGame
 {
-    public class TerrainShader : Shader
+    public class TerrainShader : ShaderBase
     {
         #region Definitions
 
@@ -211,16 +212,8 @@ namespace MassiveGame
         #region Constructor
 
         public TerrainShader(string VertexShaderFile, string FragmentShaderFile)
-            : base(VertexShaderFile, FragmentShaderFile)
+            : base(SHADER_NAME, VertexShaderFile, FragmentShaderFile)
         {
-            if (base.ShaderLoaded)
-            {
-                base.showCompileLogInfo(SHADER_NAME);
-                base.showLinkLogInfo(SHADER_NAME);
-                Debug.Log.addToLog(getCompileLogInfo(SHADER_NAME));
-                Debug.Log.addToLog(getLinkLogInfo(SHADER_NAME));
-            }
-            else Debug.Log.addToLog( DateTime.Now.ToString() + "  " + SHADER_NAME + " : shader file(s) not found!");
         }
 
         #endregion

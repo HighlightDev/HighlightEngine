@@ -4,10 +4,11 @@ using ShaderPattern;
 using System;
 using System.Collections.Generic;
 using OpenTK.Graphics.OpenGL;
+using MassiveGame.RenderCore;
 
 namespace MassiveGame
 {
-    public class StaticEntityShader : Shader
+    public class StaticEntityShader : ShaderBase
     {
         #region Definitions
 
@@ -336,36 +337,15 @@ namespace MassiveGame
 
         #region Constructor
 
-        public StaticEntityShader(string VertexShaderFile, string FragmentShaderFile, string GeometryShaderFile)
-            : base(VertexShaderFile, FragmentShaderFile, GeometryShaderFile)
-        {
-            if (base.ShaderLoaded)
-            {
-                base.showCompileLogInfo(SHADER_NAME);
-                base.showLinkLogInfo(SHADER_NAME);
-                Debug.Log.addToLog(getCompileLogInfo(SHADER_NAME));
-                Debug.Log.addToLog(getLinkLogInfo(SHADER_NAME));
-            }
-            else Debug.Log.addToLog(DateTime.Now.ToString() + "  " + SHADER_NAME + " : shader file(s) not found!");
-        }
-
         public StaticEntityShader(string VertexShaderFile, string FragmentShaderFile)
-            : base(VertexShaderFile, FragmentShaderFile)
+            : base(SHADER_NAME, VertexShaderFile, FragmentShaderFile)
         {
-            if (base.ShaderLoaded)
-            {
-                base.showCompileLogInfo(SHADER_NAME);
-                base.showLinkLogInfo(SHADER_NAME);
-                Debug.Log.addToLog(getCompileLogInfo(SHADER_NAME));
-                Debug.Log.addToLog(getLinkLogInfo(SHADER_NAME));
-            }
-            else Debug.Log.addToLog(DateTime.Now.ToString() + "  " + SHADER_NAME + " : shader file(s) not found!");
         }
 
         #endregion
     }
 
-    public class SpecialStaticEntityShader : Shader
+    public class SpecialStaticEntityShader : ShaderBase
     {
         #region Definitions
 
@@ -408,16 +388,8 @@ namespace MassiveGame
         #region Constructor
 
         public SpecialStaticEntityShader(string VertexShaderFile, string FragmentShaderFile, string GeometryShaderFile)
-            : base(VertexShaderFile, FragmentShaderFile, GeometryShaderFile)
+            : base(SHADER_NAME, VertexShaderFile, FragmentShaderFile, GeometryShaderFile)
         {
-            if (base.ShaderLoaded)
-            {
-                base.showCompileLogInfo(SHADER_NAME);
-                base.showLinkLogInfo(SHADER_NAME);
-                Debug.Log.addToLog(getCompileLogInfo(SHADER_NAME));
-                Debug.Log.addToLog(getLinkLogInfo(SHADER_NAME));
-            }
-            else Debug.Log.addToLog(SHADER_NAME + " : shader file(s) not found!");
         }
         #endregion
     }

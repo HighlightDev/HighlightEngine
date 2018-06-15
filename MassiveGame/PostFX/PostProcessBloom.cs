@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace MassiveGame.PostFX
 {
-    public class PostProcessBloom : BasePostProcess
+    public class PostProcessBloom : PostProcessBase
     {
 
 

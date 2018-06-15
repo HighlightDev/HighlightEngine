@@ -7,10 +7,16 @@ using OpenTK;
 using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL;
 using ShaderPattern;
+using MassiveGame.RenderCore;
+using MassiveGame.PostFX;
 
 namespace MassiveGame
 {
-    public class GodRaysShader : Shader
+    public interface type { };
+    public interface a : type { };
+    public interface b : type { };
+
+    public class GodRaysShader<T> : PostProcessShaderBase where T : type
     {
         #region Definitions
 
@@ -95,21 +101,24 @@ namespace MassiveGame
 
         protected override void SetShaderMacros()
         {
+            Type t = typeof(T);
+
+            if (t == typeof(a))
+            {
+                SetDefine(ShaderTypeFlag.FragmentShader, "HAS_PREVIOUS_STAGE", "1");
+            }
+            else if (t == typeof(b))
+            {
+                SetDefine(ShaderTypeFlag.FragmentShader, "HAS_PREVIOUS_STAGE", "0");
+            }
         }
 
         #region Constructor
 
         public GodRaysShader(string VSPath, string FSPath)
-            : base(VSPath, FSPath)
+            : base(SHADER_NAME, VSPath, FSPath)
         {
-            if (base.ShaderLoaded)
-            {
-                base.showCompileLogInfo(SHADER_NAME);
-                base.showLinkLogInfo(SHADER_NAME);
-                Debug.Log.addToLog(getCompileLogInfo(SHADER_NAME));
-                Debug.Log.addToLog(getLinkLogInfo(SHADER_NAME));
-            }
-            else Debug.Log.addToLog(DateTime.Now.ToString() + "  " + SHADER_NAME + " : shader file(s) not found!");
+           
         }
 
         #endregion

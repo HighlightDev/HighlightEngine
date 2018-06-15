@@ -9,14 +9,16 @@ using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL;
 
 using ShaderPattern;
+using MassiveGame.RenderCore;
 
 namespace MassiveGame
 {
-    public class EnvironmentEntitiesShader : Shader
+    public class EnvironmentEntitiesShader : ShaderBase
     {
         #region Definitions
 
         private const string SHADER_NAME = "Env. entity shader";
+
         private Int32 modelMatrix, viewMatrix, projectionMatrix, modelTexSampler, envMapSampler,
             cameraPosition, iorValues;
 
@@ -59,16 +61,8 @@ namespace MassiveGame
         #region Constructor
 
         public EnvironmentEntitiesShader(string vsPath, string fsPath)
-            : base(vsPath, fsPath)
+            : base(SHADER_NAME, vsPath, fsPath)
         {
-            if (base.ShaderLoaded)
-            {
-                base.showCompileLogInfo(SHADER_NAME);
-                base.showLinkLogInfo(SHADER_NAME);
-                Debug.Log.addToLog(getCompileLogInfo(SHADER_NAME));
-                Debug.Log.addToLog(getLinkLogInfo(SHADER_NAME));
-            }
-            else Debug.Log.addToLog(DateTime.Now.ToString() + "  " + SHADER_NAME + " : shader file(s) not found!");
         }
 
         #endregion

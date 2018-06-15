@@ -8,20 +8,14 @@ using System.Threading.Tasks;
 
 namespace MassiveGame.RenderCore
 {
-    public class StencilPassShader : Shader
+    public class StencilPassShader : ShaderBase
     {
         private const string SHADER_NAME = "STENCIL PASS";
         private Int32 projectionMatrix, viewMatrix, worldMatrix;
 
-        public StencilPassShader(string VertexShaderFile, string FragmentShaderFile) : base(VertexShaderFile, FragmentShaderFile)
+        public StencilPassShader(string VertexShaderFile, string FragmentShaderFile) 
+            : base(SHADER_NAME, VertexShaderFile, FragmentShaderFile)
         {
-            if (ShaderLoaded)
-            {
-                showCompileLogInfo(SHADER_NAME);
-                showLinkLogInfo(SHADER_NAME);
-                Debug.Log.addToLog(getCompileLogInfo(SHADER_NAME));
-                Debug.Log.addToLog(getLinkLogInfo(SHADER_NAME));
-            }
         }
 
         protected override void getAllUniformLocations()

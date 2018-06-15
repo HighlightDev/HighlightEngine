@@ -21,6 +21,8 @@ namespace MassiveGame
         public ITexture frameTextureHighRezolution { private set; get; }
         public ITexture frameTextureLowRezolution { private set; get; }
 
+        public ITexture lensFlareResultTexture { private set; get; }
+
     #endregion
 
     #region Setters
@@ -43,11 +45,18 @@ namespace MassiveGame
 
             frameTextureLowRezolution = new Texture2Dlite(DOUEngine.ScreenRezolution.X / 5, DOUEngine.ScreenRezolution.Y / 5, PixelInternalFormat.Rgb,
                 PixelFormat.Rgb, PixelType.UnsignedByte);
+
+            lensFlareResultTexture = new Texture2Dlite(DOUEngine.ScreenRezolution.X, DOUEngine.ScreenRezolution.Y, PixelInternalFormat.Rgb,
+                PixelFormat.Rgb, PixelType.UnsignedByte);
         }
         
         protected override void setFramebuffers()
         {
-            base.genFramebuffers(4);
+            base.genFramebuffers(5);
+
+            base.bindFramebuffer(5);
+            attachTextureToFramebuffer(FramebufferAttachment.ColorAttachment0, lensFlareResultTexture.GetTextureDescriptor());
+
             base.bindFramebuffer(1);
             base.attachTextureToFramebuffer(FramebufferAttachment.ColorAttachment0, verticalBlurTexture.GetTextureDescriptor());
 

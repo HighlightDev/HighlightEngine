@@ -12,10 +12,10 @@ using GpuGraphics;
 
 namespace MassiveGame.PostFX
 {
-    public class LightShaftPostProcess : BasePostProcess
+    public class LightShaftPostProcess : PostProcessBase
     {
         public GodRaysFBO RenderTarget;
-        private GodRaysShader shader;
+        private GodRaysShader<type> shader;
         private Matrix4 viewportMatrix;
 
         public float Exposure { set; get; }
@@ -36,7 +36,7 @@ namespace MassiveGame.PostFX
         private void postConstructor()
         {
             RenderTarget = new GodRaysFBO();
-            shader = (GodRaysShader)ResourcePool.GetShaderProgram(ProjectFolders.ShadersPath + "godrayVS.glsl", ProjectFolders.ShadersPath + "godrayFS.glsl", "", typeof(GodRaysShader));
+            shader = (GodRaysShader<type>)ResourcePool.GetShaderProgram(ProjectFolders.ShadersPath + "godrayVS.glsl", ProjectFolders.ShadersPath + "godrayFS.glsl", "", typeof(GodRaysShader<type>));
             DOUEngine.uiFrameCreator.PushFrame(RenderTarget.LightShaftsResultTexture);
             bPostConstructor = false;
         }

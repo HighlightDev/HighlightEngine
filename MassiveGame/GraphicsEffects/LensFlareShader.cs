@@ -8,10 +8,11 @@ using GpuGraphics;
 using OpenTK;
 using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL;
+using MassiveGame.RenderCore;
 
 namespace MassiveGame
 {
-    public class LensFlareShader : Shader
+    public class LensFlareShader : ShaderBase
     {
         #region Difinitions
 
@@ -129,16 +130,8 @@ namespace MassiveGame
         #region Constructor
 
         public LensFlareShader(string VSPath, string FSPath)
-            : base(VSPath, FSPath)
+            : base(SHADER_NAME, VSPath, FSPath)
         {
-            if (base.ShaderLoaded)
-            {
-                base.showCompileLogInfo(SHADER_NAME);
-                base.showLinkLogInfo(SHADER_NAME);
-                Debug.Log.addToLog(getCompileLogInfo(SHADER_NAME));
-                Debug.Log.addToLog(getLinkLogInfo(SHADER_NAME));
-            }
-            else Debug.Log.addToLog(DateTime.Now.ToString() + "  " + SHADER_NAME + " : shader file(s) not found!");
         }
 
         #endregion
