@@ -136,6 +136,7 @@
     <Compile Include="Physics\CollisionUnit.cs" />
     <Compile Include="PostFX\LensFlarePostProcess.cs" />
     <Compile Include="PostFX\LightShaftPostProcess.cs" />
+    <Compile Include="PostFX\PostProcessSettings.cs" />
     <Compile Include="PostFX\PostProcessShaderBase.cs" />
     <Compile Include="PostFX\PostProcessStage.cs" />
     <Compile Include="RenderCore\ComputeShaders\ComputeShader.cs" />

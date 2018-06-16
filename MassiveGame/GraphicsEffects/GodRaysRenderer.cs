@@ -12,6 +12,7 @@ using FramebufferAPI;
 using MassiveGame.RenderCore;
 using TextureLoader;
 using MassiveGame.Debug.UiPanel;
+using MassiveGame.PostFX;
 
 namespace MassiveGame
 {
@@ -23,7 +24,7 @@ namespace MassiveGame
         private VAO _buffer;
         private bool _postConstructor;
         public GodRaysFBO _fbo;
-        private GodRaysShader<type> _shader;
+        private GodRaysShader<PostProcessSubsequenceType> _shader;
         private Matrix4 _viewportMatrix;
 
         public uint FilterResult { private set; get; }
@@ -199,7 +200,7 @@ namespace MassiveGame
 
             VAOManager.genVAO(_buffer);
             VAOManager.setBufferData(BufferTarget.ArrayBuffer, _buffer);
-            _shader = new GodRaysShader<type>(ProjectFolders.ShadersPath + "godrayVS.glsl", ProjectFolders.ShadersPath + "godrayFS.glsl");
+            //_shader = new GodRaysShader<PostProcessSubsequenceType>(ProjectFolders.ShadersPath + "godrayVS.glsl", ProjectFolders.ShadersPath + "godrayFS.glsl");
             _fbo = new GodRaysFBO();
         }
 

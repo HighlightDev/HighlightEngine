@@ -7,17 +7,53 @@ using System.Threading.Tasks;
 
 namespace MassiveGame.PostFX
 {
-    public class PostProcessShaderBase : ShaderBase
-    {
+    public interface PostProcessSubsequenceType { };
+    public interface ApplySubsequentPostProcessResult : PostProcessSubsequenceType { };
+    public interface DiscardSubsequentPostProcessResult : PostProcessSubsequenceType { };
 
-        public PostProcessShaderBase(string shaderName, string VertexShaderFile, string FragmentShaderFile) 
+    public class PostProcessShaderBase<T> : ShaderBase where T : PostProcessSubsequenceType
+    {
+        readonly PostProcessSubsequenceType_Inner PreviousPostProcessResult = typeof(T) == typeof(ApplySubsequentPostProcessResult) ?
+            PostProcessSubsequenceType_Inner.ApplyPreviousPostProcess : PostProcessSubsequenceType_Inner.DiscardPreviousPostProcess;
+
+        Int32 previousPostProcessResultSampler = -1;
+
+        public PostProcessShaderBase(string shaderName, string VertexShaderFile, string FragmentShaderFile)
             : base(shaderName, VertexShaderFile, FragmentShaderFile)
         {
+        }
 
+        protected override void getAllUniformLocations()
+        {
+            base.getAllUniformLocations();
+            if (PreviousPostProcessResult == PostProcessSubsequenceType_Inner.ApplyPreviousPostProcess)
+            {
+                previousPostProcessResultSampler = getUniformLocation("previousPostProcessResultSampler");
+            }
+        }
+
+        public void SetPreviousPostProcessResultSampler(Int32 prevPostProcessResultSampler)
+        {
+            if (PreviousPostProcessResult == PostProcessSubsequenceType_Inner.ApplyPreviousPostProcess)
+                loadInteger(previousPostProcessResultSampler, prevPostProcessResultSampler);
         }
 
         protected override void SetShaderMacros()
         {
+            if (PreviousPostProcessResult == PostProcessSubsequenceType_Inner.ApplyPreviousPostProcess)
+            {
+                SetDefine(ShaderTypeFlag.FragmentShader, "HAS_PREVIOUS_STAGE", "1");
+            }
+            else
+            {
+                SetDefine(ShaderTypeFlag.FragmentShader, "HAS_PREVIOUS_STAGE", "0");
+            }
+        }
+
+        private enum PostProcessSubsequenceType_Inner
+        {
+            ApplyPreviousPostProcess = 0,
+            DiscardPreviousPostProcess = 1
         }
     }
 }

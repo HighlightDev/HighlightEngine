@@ -34,17 +34,17 @@ namespace MassiveGame
              * Img 3 - default frametexture, with high rezolution; 
              * Img 4 - frametexture, with low rezolution, for bright parts of sun. */
 
-            verticalBlurTexture = new Texture2Dlite(DOUEngine.ScreenRezolution.X / 5, DOUEngine.ScreenRezolution.Y / 5, PixelInternalFormat.Rgb,
+            verticalBlurTexture = new Texture2Dlite(DOUEngine.ScreenRezolution.X / 10, DOUEngine.ScreenRezolution.Y / 10, PixelInternalFormat.Rgb,
                 PixelFormat.Rgb, PixelType.UnsignedByte, (int)All.Linear);
 
-            horizontalBlurTexture = new Texture2Dlite(DOUEngine.ScreenRezolution.X / 5, DOUEngine.ScreenRezolution.Y / 5, PixelInternalFormat.Rgb,
+            horizontalBlurTexture = new Texture2Dlite(DOUEngine.ScreenRezolution.X / 10, DOUEngine.ScreenRezolution.Y / 10, PixelInternalFormat.Rgb,
                 PixelFormat.Rgb, PixelType.UnsignedByte, (int)All.Linear);
 
             frameTextureHighRezolution = new Texture2Dlite(DOUEngine.ScreenRezolution.X, DOUEngine.ScreenRezolution.Y, PixelInternalFormat.Rgb,
                 PixelFormat.Rgb, PixelType.UnsignedByte);
 
-            frameTextureLowRezolution = new Texture2Dlite(DOUEngine.ScreenRezolution.X / 5, DOUEngine.ScreenRezolution.Y / 5, PixelInternalFormat.Rgb,
-                PixelFormat.Rgb, PixelType.UnsignedByte);
+            frameTextureLowRezolution = new Texture2Dlite(DOUEngine.ScreenRezolution.X / 10, DOUEngine.ScreenRezolution.Y / 10, PixelInternalFormat.Rgb,
+                PixelFormat.Rgb, PixelType.UnsignedByte, (int)All.Linear);
 
             lensFlareResultTexture = new Texture2Dlite(DOUEngine.ScreenRezolution.X, DOUEngine.ScreenRezolution.Y, PixelInternalFormat.Rgb,
                 PixelFormat.Rgb, PixelType.UnsignedByte);

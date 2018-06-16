@@ -9,10 +9,12 @@ using OpenTK;
 using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL;
 using MassiveGame.RenderCore;
+using System.Drawing;
+using MassiveGame.PostFX;
 
 namespace MassiveGame
 {
-    public class LensFlareShader : ShaderBase
+    public class LensFlareShader<T> : PostProcessShaderBase<T> where T: PostProcessSubsequenceType
     {
         #region Difinitions
 
@@ -29,6 +31,8 @@ namespace MassiveGame
 
         protected override void getAllUniformLocations()
         {
+            base.getAllUniformLocations();
+
             frameTexture = base.getUniformLocation("frameTexture");
             threshold = base.getUniformLocation("threshold");
             lensColor = base.getUniformLocation("lensColor");
@@ -98,11 +102,11 @@ namespace MassiveGame
         }
 
         public void setUniformValuesHorizontalBlur(Int32 frameTexSampler, float[] weights, Int32[] pixOffset,
-           Int32 screenWidth, Int32 screenHeight)
+           Point screenRezolution)
         {
             base.loadInteger(this.frameTexture, frameTexSampler);
-            base.loadInteger(this.screenWidth, screenWidth);
-            base.loadInteger(this.screenHeight, screenHeight);
+            base.loadInteger(this.screenWidth, screenRezolution.X);
+            base.loadInteger(this.screenHeight, screenRezolution.Y);
             for (Int32 i = 0; i < (weights.Length > BLUR_WIDTH ? BLUR_WIDTH : weights.Length); i++)
             {
                 base.loadFloat(this.weights[i], weights[i]);
@@ -112,15 +116,15 @@ namespace MassiveGame
             base.loadSubroutineIndex(ShaderType.FragmentShader, 1, this.horizBlur);
         }
 
-        public void setUniformValuesMod(Int32 frameTexSampler, Int32 bluredTexture)
+        public void setUniformValuesMod(Int32 bluredTexture)
         {
-            base.loadInteger(this.frameTexture, frameTexSampler);
             base.loadInteger(this.bluredTexture, bluredTexture);
             base.loadSubroutineIndex(ShaderType.FragmentShader, 1, this.lensModifer);
         }
 
         protected override void SetShaderMacros()
         {
+            base.SetShaderMacros();
             SetDefine(ShaderTypeFlag.FragmentShader, "lum", "vec3(0.2126, 0.7152, 0.0722)");
             SetDefine(ShaderTypeFlag.FragmentShader, "MAX_BLUR_WIDTH", "30");
         }

@@ -12,11 +12,7 @@ using MassiveGame.PostFX;
 
 namespace MassiveGame
 {
-    public interface type { };
-    public interface a : type { };
-    public interface b : type { };
-
-    public class GodRaysShader<T> : PostProcessShaderBase where T : type
+    public class GodRaysShader<T> : PostProcessShaderBase<T> where T : PostProcessSubsequenceType
     {
         #region Definitions
 
@@ -101,16 +97,7 @@ namespace MassiveGame
 
         protected override void SetShaderMacros()
         {
-            Type t = typeof(T);
-
-            if (t == typeof(a))
-            {
-                SetDefine(ShaderTypeFlag.FragmentShader, "HAS_PREVIOUS_STAGE", "1");
-            }
-            else if (t == typeof(b))
-            {
-                SetDefine(ShaderTypeFlag.FragmentShader, "HAS_PREVIOUS_STAGE", "0");
-            }
+            base.SetShaderMacros();
         }
 
         #region Constructor

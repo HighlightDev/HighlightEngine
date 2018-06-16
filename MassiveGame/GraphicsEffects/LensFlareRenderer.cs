@@ -11,6 +11,7 @@ using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL;
 using TextureLoader;
 using MassiveGame.API.Collector;
+using MassiveGame.PostFX;
 
 namespace MassiveGame
 {
@@ -27,7 +28,7 @@ namespace MassiveGame
         private VAO _buffer;
         private bool _postConstructor;
         private LensFlareFBO _fbo;
-        private LensFlareShader _lensShader;
+        private LensFlareShader<PostProcessSubsequenceType> _lensShader;
         private Texture1D _lensColor;
         private int _blurWidth;
         public int BlurWidth
@@ -277,7 +278,7 @@ namespace MassiveGame
                 VAOManager.genVAO(_buffer);
                 VAOManager.setBufferData(BufferTarget.ArrayBuffer, _buffer);
                 _fbo = new LensFlareFBO();
-                _lensShader = new LensFlareShader(ProjectFolders.ShadersPath + "lensFlareVS.glsl",
+                _lensShader = new LensFlareShader<PostProcessSubsequenceType>(ProjectFolders.ShadersPath + "lensFlareVS.glsl",
                     ProjectFolders.ShadersPath + "lensFlareFS.glsl");
                 _postConstructor = !_postConstructor;
             }

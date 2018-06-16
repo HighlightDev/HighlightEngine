@@ -283,7 +283,7 @@ namespace MassiveGame.UI
 
 
             DOUEngine.uiFrameCreator = new UiFrameMaster();
-            DOUEngine.uiFrameCreator.PushFrame(DOUEngine.Sun.GetShadowHandler().GetTextureHandler());
+            //DOUEngine.uiFrameCreator.PushFrame(DOUEngine.Sun.GetShadowHandler().GetTextureHandler());
            
             //ch = new ComputeShader();
             //ch.Init();

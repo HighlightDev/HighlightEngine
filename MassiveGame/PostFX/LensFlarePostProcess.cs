@@ -4,10 +4,11 @@ using System;
 using TextureLoader;
 using OpenTK.Graphics.OpenGL;
 using GpuGraphics;
+using System.Drawing;
 
 namespace MassiveGame.PostFX
 {
-    public class LensFlarePostProcess : PostProcessBase
+    public class LensFlarePostProcess<T> : PostProcessBase where T: PostProcessSubsequenceType
     {
         private const int MAX_BLUR_WIDTH = 30;
         private const int MIN_BLUR_WIDTH = 2;
@@ -15,7 +16,7 @@ namespace MassiveGame.PostFX
         private const int BLUR_MAX_PASS_COUNT = 20;
 
         private LensFlareFBO renderTarget;
-        private LensFlareShader lensShader;
+        private LensFlareShader<T> lensShader;
         private Texture1D lensColor;
 
         private int blurWidth;
@@ -71,9 +72,6 @@ namespace MassiveGame.PostFX
             get { return blurPassCount; }
         }
 
-        private GodRaysShader<type> shader;
-        private Matrix4 viewportMatrix;
-
         public LensFlarePostProcess() : base()
         {
             this.blurWidth = 20;
@@ -82,27 +80,30 @@ namespace MassiveGame.PostFX
             this.haloWidth = 0.55f;
             this.distortion = 3.50f;
             this.threshold = 0.5f;
-            this.blurPassCount = 1;
+            this.blurPassCount = 4;
             this.lensColor = new Texture1D(new string[] { ProjectFolders.LensFlareTexturePath + "lenscolor.png" }, false, 0);
         }
 
         private void postConstructor()
         {
             renderTarget = new LensFlareFBO();
-            lensShader = (LensFlareShader)ResourcePool.GetShaderProgram(ProjectFolders.ShadersPath + "lensFlareVS.glsl",
-                ProjectFolders.ShadersPath + "lensFlareFS.glsl", "", typeof(LensFlareShader));
+            if (DOUEngine.postProcessSettings.bEnable_LightShafts)
+            {
+                lensShader = (LensFlareShader<T>)ResourcePool.GetShaderProgram(ProjectFolders.ShadersPath + "lensFlareVS.glsl",
+                    ProjectFolders.ShadersPath + "lensFlareFS.glsl", "", typeof(LensFlareShader<T>));
+            }
             bPostConstructor = false;
-            //DOUEngine.uiFrameCreator.PushFrame(renderTarget.);
+            DOUEngine.uiFrameCreator.PushFrame(renderTarget.lensFlareResultTexture);
         }
 
-        public override ITexture GetPostProcessResult(ITexture frameTexture, Int32 actualScreenWidth, Int32 actualScreenHeight)
+        public override ITexture GetPostProcessResult(ITexture frameTexture, Point actualScreenRezolution, ITexture previousPostProcessResult = null)
         {
             if (bPostConstructor)
                 postConstructor();
 
             /*Extracting bright parts*/
             renderTarget.renderToFBO(4, renderTarget.frameTextureLowRezolution.GetTextureRezolution());
-            base.GetPostProcessResult(null, 0, 0);
+            base.GetPostProcessResult(null, actualScreenRezolution);
 
             renderTarget.renderToFBO(2, renderTarget.horizontalBlurTexture.GetTextureRezolution());
 
@@ -130,7 +131,7 @@ namespace MassiveGame.PostFX
 
                 lensShader.startProgram();
                 renderTarget.verticalBlurTexture.BindTexture(TextureUnit.Texture0);
-                lensShader.setUniformValuesHorizontalBlur(0, normalizedWeights(blurWidth), getPixOffset(blurWidth), actualScreenWidth, actualScreenHeight);
+                lensShader.setUniformValuesHorizontalBlur(0, normalizedWeights(blurWidth), getPixOffset(blurWidth), actualScreenRezolution);
                 VAOManager.renderBuffers(quadBuffer, PrimitiveType.Triangles);
                 lensShader.stopProgram();
 
@@ -139,24 +140,28 @@ namespace MassiveGame.PostFX
 
                 lensShader.startProgram();
                 renderTarget.horizontalBlurTexture.BindTexture(TextureUnit.Texture0);
-                lensShader.setUniformValuesHorizontalBlur(0, normalizedWeights(blurWidth), getPixOffset(blurWidth), actualScreenWidth, actualScreenHeight);
+                lensShader.setUniformValuesHorizontalBlur(0, normalizedWeights(blurWidth), getPixOffset(blurWidth), actualScreenRezolution);
                 VAOManager.renderBuffers(quadBuffer, PrimitiveType.Triangles);
                 lensShader.stopProgram();
             }
 
-            /*Add some enhancements to result image*/
-            renderTarget.unbindFramebuffer();
-            GL.Viewport(0, 0, actualScreenWidth, actualScreenHeight);
-            GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
+            renderTarget.renderToFBO(5, renderTarget.lensFlareResultTexture.GetTextureRezolution());
 
             lensShader.startProgram();
-            //renderTarget.Texture.bindTexture2D(TextureUnit.Texture0, postprocessFilterResult);
-            renderTarget.verticalBlurTexture.BindTexture(TextureUnit.Texture1);
-            lensShader.setUniformValuesMod(0, 1);
+
+            // If this is one post process stage from many
+            if (previousPostProcessResult != null)
+            {
+                previousPostProcessResult.BindTexture(TextureUnit.Texture1);
+                lensShader.SetPreviousPostProcessResultSampler(1);
+            }
+
+            renderTarget.verticalBlurTexture.BindTexture(TextureUnit.Texture0);
+            lensShader.setUniformValuesMod(0);
             VAOManager.renderBuffers(quadBuffer, PrimitiveType.Triangles);
             lensShader.stopProgram();
 
-            return null;
+            return renderTarget.lensFlareResultTexture;
         }
 
         protected override void RenderScene(LiteCamera camera)
@@ -194,6 +199,13 @@ namespace MassiveGame.PostFX
 
             /*Stop culling*/
             GL.Disable(EnableCap.CullFace);
+        }
+
+        public override void CleanUp()
+        {
+            renderTarget.cleanUp();
+            renderTarget.lensFlareResultTexture.CleanUp();
+            ResourcePool.ReleaseShaderProgram(lensShader);
         }
     }
 }

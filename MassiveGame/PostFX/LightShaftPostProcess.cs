@@ -9,13 +9,16 @@ using OpenTK.Graphics.OpenGL;
 using TextureLoader;
 using MassiveGame.API.Collector;
 using GpuGraphics;
+using System.Drawing;
 
 namespace MassiveGame.PostFX
 {
-    public class LightShaftPostProcess : PostProcessBase
+    public class LightShaftPostProcess<T> : PostProcessBase where T: PostProcessSubsequenceType
     {
-        public GodRaysFBO RenderTarget;
-        private GodRaysShader<type> shader;
+        public GodRaysFBO renderTarget;
+
+        private GodRaysShader<T> shader;
+
         private Matrix4 viewportMatrix;
 
         public float Exposure { set; get; }
@@ -35,9 +38,10 @@ namespace MassiveGame.PostFX
 
         private void postConstructor()
         {
-            RenderTarget = new GodRaysFBO();
-            shader = (GodRaysShader<type>)ResourcePool.GetShaderProgram(ProjectFolders.ShadersPath + "godrayVS.glsl", ProjectFolders.ShadersPath + "godrayFS.glsl", "", typeof(GodRaysShader<type>));
-            DOUEngine.uiFrameCreator.PushFrame(RenderTarget.LightShaftsResultTexture);
+            renderTarget = new GodRaysFBO();
+            shader = (GodRaysShader<T>)ResourcePool.GetShaderProgram(ProjectFolders.ShadersPath + "godrayVS.glsl",
+                ProjectFolders.ShadersPath + "godrayFS.glsl", "", typeof(GodRaysShader<T>));
+            DOUEngine.uiFrameCreator.PushFrame(renderTarget.LightShaftsResultTexture);
             bPostConstructor = false;
         }
 
@@ -60,29 +64,29 @@ namespace MassiveGame.PostFX
             return ndc;
         }
 
-        public override ITexture GetPostProcessResult(ITexture frameTexture, Int32 actualScreenWidth, Int32 actualScreenHeight)
+        public override ITexture GetPostProcessResult(ITexture frameTexture, Point actualScreenRezolution, ITexture previousPostProcessResult = null)
         {
             if (bPostConstructor)
                 postConstructor();
 
             // Rendering bright objects to render target
-            RenderTarget.renderToFBO(2, RenderTarget.RadialBlurAppliedTexture.GetTextureRezolution());
-            base.GetPostProcessResult(null, 0, 0);
+            renderTarget.renderToFBO(2, renderTarget.RadialBlurAppliedTexture.GetTextureRezolution());
+            base.GetPostProcessResult(null, actualScreenRezolution);
 
-            viewportMatrix = new Matrix4(new Vector4(actualScreenWidth / 2, 0, actualScreenWidth / 2, 0),
-              new Vector4(0, actualScreenHeight / 2, actualScreenHeight / 2, 0),
+            viewportMatrix = new Matrix4(new Vector4(actualScreenRezolution.X / 2, 0, actualScreenRezolution.X / 2, 0),
+              new Vector4(0, actualScreenRezolution.Y / 2, actualScreenRezolution.Y / 2, 0),
               new Vector4(0, 0, 1, 0),
               new Vector4(0, 0, 0, 1));
 
             var radialBlurScreenSpacePosition = getRadialPos(DOUEngine.Sun.Position, DOUEngine.Camera.getViewMatrix(), ref DOUEngine.ProjectionMatrix, ref viewportMatrix);
 
             // Render to light shaft result render target
-            RenderTarget.renderToFBO(4, RenderTarget.LightShaftsResultTexture.GetTextureRezolution());
+            renderTarget.renderToFBO(4, renderTarget.LightShaftsResultTexture.GetTextureRezolution());
 
             shader.startProgram();
 
             frameTexture.BindTexture(TextureUnit.Texture0);
-            RenderTarget.RadialBlurAppliedTexture.BindTexture(TextureUnit.Texture1);
+            renderTarget.RadialBlurAppliedTexture.BindTexture(TextureUnit.Texture1);
 
             shader.SetFrameTextureSampler(0);
             shader.SetBrightPartsTextureSampler(1);
@@ -95,7 +99,7 @@ namespace MassiveGame.PostFX
             VAOManager.renderBuffers(quadBuffer, PrimitiveType.Triangles);
             shader.stopProgram();
 
-            return RenderTarget.LightShaftsResultTexture;
+            return renderTarget.LightShaftsResultTexture;
         }
 
         protected override void RenderScene(LiteCamera camera)
@@ -138,6 +142,12 @@ namespace MassiveGame.PostFX
                     DOUEngine.SunReplica.renderSun(DOUEngine.Camera, ref DOUEngine.ProjectionMatrix);
                 }
             }
+        }
+
+        public override void CleanUp()
+        {
+            renderTarget.cleanUp();
+            renderTarget.LensFlareTexture.CleanUp();
         }
     }
 }

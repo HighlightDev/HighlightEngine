@@ -3,6 +3,7 @@ using MassiveGame.RenderCore;
 using OpenTK;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -64,7 +65,7 @@ namespace MassiveGame.PostFX
 
         #endregion
 
-        public virtual ITexture GetPostProcessResult(ITexture frameTexture, Int32 actualScreenWidth, Int32 actualScreenHeight)
+        public virtual ITexture GetPostProcessResult(ITexture frameTexture, Point actualScreenRezolution, ITexture previousPostProcessResult = null)
         {
             RenderScene(DOUEngine.Camera);
             return null;
@@ -73,5 +74,7 @@ namespace MassiveGame.PostFX
         protected virtual void RenderScene(LiteCamera camera)
         {
         }
+
+        public abstract void CleanUp();
     }
 }

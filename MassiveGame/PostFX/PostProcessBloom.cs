@@ -14,5 +14,10 @@ namespace MassiveGame.PostFX
         {
 
         }
+
+        public override void CleanUp()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

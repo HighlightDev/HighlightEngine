@@ -12,6 +12,7 @@ using MassiveGame.Debug.UiPanel;
 using MassiveGame.API.EventHandlers;
 using MassiveGame.Settings;
 using MassiveGame.RenderCore;
+using MassiveGame.PostFX;
 
 namespace MassiveGame
 {
@@ -86,5 +87,7 @@ namespace MassiveGame
         public static Point ShadowMapRezolution;
         public static UiFrameMaster uiFrameCreator;
         public static List<IDrawable> shadowList;
+
+        public static PostProcessSettings postProcessSettings = new PostProcessSettings { bEnable_LensFlare = true, bEnable_LightShafts = true }; // Initialize from .ini
     }
 }

@@ -12,13 +12,31 @@ namespace MassiveGame.PostFX
     public class PostProcessStage
     {
         private bool bPostProcessEnabled = true;
-        private LightShaftPostProcess lightShaftsPP;
+        private PostProcessBase lightShaftsPP = null;
+        private PostProcessBase lensFlaresPP = null;
 
         public PostProcessStage()
         {
             // if light shafts enabled
 
-            lightShaftsPP = new LightShaftPostProcess();
+            //lensFlaresPP = new LensFlarePostProcess();
+            if (false)
+            {
+                lightShaftsPP = new LightShaftPostProcess<ApplySubsequentPostProcessResult>();
+            }
+            else
+            {
+                lightShaftsPP = new LightShaftPostProcess<DiscardSubsequentPostProcessResult>();
+            }
+
+            if (DOUEngine.postProcessSettings.bEnable_LightShafts)
+            {
+                lensFlaresPP = new LensFlarePostProcess<ApplySubsequentPostProcessResult>();
+            }
+            else
+            {
+                lensFlaresPP = new LensFlarePostProcess<DiscardSubsequentPostProcessResult>();
+            }
         }
 
         public void ExecutePostProcessPass(ITexture frameTexture, Point actualScreenRezolution)
@@ -28,7 +46,13 @@ namespace MassiveGame.PostFX
             // Light shafts
             if (bPostProcessEnabled && DOUEngine.SunReplica.IsInCameraView && lightShaftsPP != null)
             {
-                subsequentPostProcessResult = lightShaftsPP.GetPostProcessResult(frameTexture, actualScreenRezolution.X, actualScreenRezolution.Y);
+                subsequentPostProcessResult = lightShaftsPP.GetPostProcessResult(frameTexture, actualScreenRezolution);
+            }
+
+            // Lens flares
+            if (bPostProcessEnabled && DOUEngine.SunReplica.IsInCameraView && lensFlaresPP != null)
+            {
+                subsequentPostProcessResult = lensFlaresPP.GetPostProcessResult(frameTexture, actualScreenRezolution, subsequentPostProcessResult);
             }
 
             if (subsequentPostProcessResult != null)

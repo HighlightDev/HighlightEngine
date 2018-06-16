@@ -1,5 +1,6 @@
 #version 400
 
+#define HAS_PREVIOUS_STAGE 1 
 #define lum vec3(0.2126, 0.7152, 0.0722) 
 #define MAX_BLUR_WIDTH 30
 layout (location = 0) out vec4 FragColor;
@@ -7,6 +8,10 @@ layout (location = 0) out vec4 FragColor;
 uniform sampler2D frameTexture;
 uniform sampler1D lensColor;
 uniform sampler2D bluredTexture;
+
+#if HAS_PREVIOUS_STAGE == 1
+uniform sampler2D previousPostProcessResultSampler;
+#endif
 
 uniform int Ghosts;
 uniform float GhostDispersal;
@@ -135,7 +140,12 @@ subroutine(LensFlare)
 vec4 lensModifer(vec2 TC)
 {
     vec4 lensFlare = texture(bluredTexture, TC);
-	vec4 resultColor = texture(frameTexture, TC) + lensFlare;
+	vec4 resultColor = lensFlare;
+
+#if HAS_PREVIOUS_STAGE == 1
+    resultColor += texture(previousPostProcessResultSampler, TC);
+#endif
+
     return resultColor;
 }
 
@@ -143,7 +153,6 @@ void main(void)
 {
 	//Invert y-axis texture coordinate
 	vec2 texcoord = vec2(texCoord.x, 1 - texCoord.y);
-
 
 	FragColor = lens(texcoord);
 }
