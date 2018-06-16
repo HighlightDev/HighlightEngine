@@ -30,6 +30,7 @@ namespace MassiveGame.UI
         private Stopwatch renderTime;
         private RenderThread renderThread;
         private GameThread gameThread;
+        private Point actualScreenRezolution;
        
         private CollisionHeadUnit collisionHeadUnit;
 
@@ -43,7 +44,8 @@ namespace MassiveGame.UI
             preConstructor();
         }
 
-        public Engine(Int32 width, Int32 height) : this()
+        public Engine(Int32 width, Int32 height) 
+            : this()
         {
             this.Width = width;
             this.Height = height;
@@ -52,7 +54,7 @@ namespace MassiveGame.UI
         private void preConstructor() //Start initialize values
         {
             SettingsLoader settingsLoader = new SettingsLoader();
-            DOUEngine.ScreenRezolution = settingsLoader.GetScreenRezolution();
+            DOUEngine.domainFramebufferRezolution = settingsLoader.GetScreenRezolution();
             DOUEngine.ShadowMapRezolution = settingsLoader.GetDirectionalShadowMapRezolution();
 
             DOUEngine.Camera = new Camera();
@@ -75,21 +77,20 @@ namespace MassiveGame.UI
                     File.Delete(@"NewModel.msh");
                 defaultMatrixSettings();
 
+
                 setTestValues();
 
                 // add objects to optimization list
-                DOUEngine.RenderedPrimitives = new List<IVisible> { DOUEngine.SunReplica, DOUEngine.Water,
-                    DOUEngine.Player, DOUEngine.Enemy, DOUEngine.EnvObj };
-                DOUEngine.RenderedPrimitives.AddRange(DOUEngine.City);
+                DOUEngine.RenderableMeshCollection = new List<IVisible> { DOUEngine.SunReplica, DOUEngine.Water,
+                    DOUEngine.Player, DOUEngine.Enemy };
+                DOUEngine.RenderableMeshCollection.AddRange(DOUEngine.City);
 
-                DOUEngine.AffectedByLightPrimitives = new List<ILightAffection> { DOUEngine.Player, DOUEngine.Enemy, DOUEngine.EnvObj };
-                DOUEngine.AffectedByLightPrimitives.AddRange(DOUEngine.City);
+                DOUEngine.LitByLightSourcesMeshCollection = new List<ILightHit> { DOUEngine.Player, DOUEngine.Enemy };
+                DOUEngine.LitByLightSourcesMeshCollection.AddRange(DOUEngine.City);
 
                 // Start game and render thread execution
                 renderThread = new RenderThread();
                 gameThread = new GameThread(100, 1);
-
-                renderThread.DefaultFB = new DefaultFrameBuffer(this.Width, this.Height);
             }
         }
         #endregion
@@ -256,16 +257,12 @@ namespace MassiveGame.UI
             //EngineSingleton.EnvObj = new EnvironmentEntities(PlayerModels.getPlayerModel1(true), TextureSet.PlayerTextureSet2,
             //    TextureSet.SkyboxDayCubemapTexture, new Vector3(180, 0, 220), new Vector3(0, 0, 0), new Vector3(10));
 
-            DOUEngine.Lights = new Light_visualization.VisualizeLight(ProjectFolders.TexturesPath + "/LightTextures/" + "light-bulb-icon (1).png"
+            DOUEngine.pointLightDebugRenderer = new Light_visualization.PointLightsDebugRenderer(ProjectFolders.TexturesPath + "/LightTextures/" + "light-bulb-icon (1).png"
                 , DOUEngine.PointLight);
 
-            //DOUEngine.Lens = new LensFlareRenderer();
-            DOUEngine.Ray = new GodRaysRenderer();
             //DOUEngine.PostProc = new PostprocessRenderer(PostprocessType.BLOOM);
             //DOUEngine.PostProc.BloomPass = 1;
             //DOUEngine.PostProc.BlurWidth = 18;
-
-            setGraphicsSettings();
 
             //gras = new Grass(new Vector3(1, 0, 1), new Vector3(1), new Vector3(0), new Vector3(0.2f, 0.8f, 0.3f));
             //envObj = new EnvironmentEntities(PlayerModels.getPlayerModel1(false), TextureSet.PlayerTextureSet2, TextureSet.SkyboxDayCubemapTexture,
@@ -323,14 +320,17 @@ namespace MassiveGame.UI
         private void OnRender(object sender, PaintEventArgs e)
         {
             postConstructor();
+
             // Maybe somehow I can remove this trick
             AdjustMouseCursor();
+
             renderTime.Restart();
-            renderThread.ThreadExecution(this.Width, this.Height, bPostConstructor);
-            bPostConstructor = false;
-            DOUEngine.RenderTime = (float)renderTime.Elapsed.TotalSeconds;
+            renderThread.ThreadExecution(ref actualScreenRezolution, bPostConstructor);
+            DOUEngine.RENDER_TIME = (float)renderTime.Elapsed.TotalSeconds;
             GLControl.SwapBuffers();
             GLControl.Invalidate();
+
+            bPostConstructor = false;
         }
 
         #endregion
@@ -348,14 +348,8 @@ namespace MassiveGame.UI
         private void OnResize(object sender, EventArgs e)
         {
             GL.Viewport(0, 0, this.Width, this.Height);
-            defaultMatrixSettings();
+            actualScreenRezolution = new Point(this.Width, this.Height);
             GLControl.Invalidate();
-
-            if (renderThread != null)
-            {
-                renderThread.DefaultFB.CleanUp();
-                renderThread.DefaultFB = new DefaultFrameBuffer(DOUEngine.ScreenRezolution.X, DOUEngine.ScreenRezolution.Y);
-            }
         }
 
         private void OnMove(object sender, EventArgs e)
@@ -472,7 +466,6 @@ namespace MassiveGame.UI
             switch (e.KeyCode)
             {
                 #region In-game settings
-                case Keys.Back: DOUEngine.CollisionBoxRender = !DOUEngine.CollisionBoxRender; break;
                 case Keys.R:
                     {
 
@@ -481,7 +474,6 @@ namespace MassiveGame.UI
                 case Keys.N: DOUEngine.NormalMapTrigger = !DOUEngine.NormalMapTrigger; break;
                 case Keys.M:   //Меняем типы полигонов
                     {
-                        DOUEngine.ShowLightSource = !DOUEngine.ShowLightSource;
                         if (DOUEngine.Mode == PrimitiveType.Triangles)
                         {
                             DOUEngine.Mode = PrimitiveType.Lines;
@@ -551,16 +543,6 @@ namespace MassiveGame.UI
 
         #region System functions
 
-        private void setGraphicsSettings()
-        {
-            /*TO DO - postprocess settings assigning*/
-            if (DOUEngine.PostProc == null && (DOUEngine.Lens == null && DOUEngine.Ray == null)) DOUEngine.Settings = PostProcessFlag.PostFx_and_GrEffects_Disable;
-            if (DOUEngine.PostProc != null && (DOUEngine.Lens == null && DOUEngine.Ray == null)) DOUEngine.Settings = PostProcessFlag.PostFxEnable | PostProcessFlag.GrEffectsDisable;
-            if (DOUEngine.PostProc == null && (DOUEngine.Lens != null || DOUEngine.Ray != null)) DOUEngine.Settings = PostProcessFlag.PostFxDisable | PostProcessFlag.GrEffectsEnable;
-            if (DOUEngine.PostProc != null && (DOUEngine.Lens != null || DOUEngine.Ray != null)) DOUEngine.Settings = PostProcessFlag.PostFx_and_GrEffects_Enable;
-            /*TO DO - postprocess settings assigning*/
-        }
-
         private void AdjustMouseCursor()
         {
             DOUEngine.SCREEN_POSITION_X = this.Location.X + 8;
@@ -595,8 +577,6 @@ namespace MassiveGame.UI
             if (DOUEngine.Skybox != null) DOUEngine.Skybox.cleanUp();
 
             if (DOUEngine.PostProc != null) DOUEngine.PostProc.cleanUp();
-            if (DOUEngine.Lens != null) DOUEngine.Lens.cleanUp();
-            if (DOUEngine.Ray != null) DOUEngine.Ray.cleanUp();
 
             //this.sourceAmbient.Delete();
             //AudioMaster.CleanUp();

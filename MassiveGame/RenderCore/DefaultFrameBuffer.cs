@@ -43,7 +43,17 @@ namespace MassiveGame.RenderCore
             return RenderTargetHandler;
         }
 
+        public DefaultFrameBuffer(Point virtualScreenRezolution)
+        {
+            InitFramebuffer(virtualScreenRezolution.X, virtualScreenRezolution.Y);
+        }
+
         public DefaultFrameBuffer(Int32 WidthRezolution, Int32 HeightRezolution)
+        {
+            InitFramebuffer(WidthRezolution, HeightRezolution);
+        }
+
+        private void InitFramebuffer(Int32 WidthRezolution, Int32 HeightRezolution)
         {
             FrameBufferSettings = new RenderTargetParams(TextureTarget.Texture2D, 0, PixelInternalFormat.Rgb, WidthRezolution, HeightRezolution, PixelFormat.Rgb, PixelType.UnsignedByte);
             RenderTargetHandler = ResourcePool.GetRenderTarget(FrameBufferSettings);

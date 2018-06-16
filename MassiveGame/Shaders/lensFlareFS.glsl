@@ -9,7 +9,7 @@ uniform sampler2D frameTexture;
 uniform sampler1D lensColor;
 uniform sampler2D bluredTexture;
 
-#if HAS_PREVIOUS_STAGE == 1
+#if HAS_PREVIOUS_STAGE
 uniform sampler2D previousPostProcessResultSampler;
 #endif
 
@@ -142,7 +142,7 @@ vec4 lensModifer(vec2 TC)
     vec4 lensFlare = texture(bluredTexture, TC);
 	vec4 resultColor = lensFlare;
 
-#if HAS_PREVIOUS_STAGE == 1
+#if HAS_PREVIOUS_STAGE
     resultColor += texture(previousPostProcessResultSampler, TC);
 #endif
 

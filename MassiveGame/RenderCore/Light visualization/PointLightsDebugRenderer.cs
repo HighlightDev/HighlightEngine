@@ -9,17 +9,16 @@ using MassiveGame.RenderCore.Lights;
 
 namespace MassiveGame.Light_visualization
 {
-
-    public class VisualizeLight
+    public class PointLightsDebugRenderer
     {
         private ITexture _texture;
-        private LampShader _shader;
+        private PointLightDebugShader _shader;
         private bool _postConstructor;
         private VBOArrayF _attributes;
         private VAO _buffer;
         private List<PointLight> _lamps;
 
-        public void render(Camera camera, Matrix4 projectionMatrix)
+        public void Render(Camera camera, Matrix4 projectionMatrix)
         {
             postConstructor();
 
@@ -38,8 +37,8 @@ namespace MassiveGame.Light_visualization
         {
             if (_postConstructor)
             {
-                this._shader = (LampShader)ResourcePool.GetShaderProgram(ProjectFolders.ShadersPath + "lampVS.glsl",
-                    ProjectFolders.ShadersPath + "lampFS.glsl", ProjectFolders.ShadersPath + "lampGS.glsl", typeof(LampShader));
+                this._shader = (PointLightDebugShader)ResourcePool.GetShaderProgram(ProjectFolders.ShadersPath + "lampVS.glsl",
+                    ProjectFolders.ShadersPath + "lampFS.glsl", ProjectFolders.ShadersPath + "lampGS.glsl", typeof(PointLightDebugShader));
                 this._buffer = new VAO(_attributes);
                 VAOManager.genVAO(_buffer);
                 VAOManager.setBufferData(BufferTarget.ArrayBuffer, _buffer);
@@ -47,7 +46,7 @@ namespace MassiveGame.Light_visualization
             }
         }
 
-        public VisualizeLight(string LampTexture, List<PointLight> lamps)
+        public PointLightsDebugRenderer(string LampTexture, List<PointLight> lamps)
         {
             this._texture = ResourcePool.GetTexture(LampTexture);
             this._lamps = lamps;

@@ -39,7 +39,7 @@ namespace MassiveGame.PostFX
             }
         }
 
-        public void ExecutePostProcessPass(ITexture frameTexture, Point actualScreenRezolution)
+        public void ExecutePostProcessPass(ITexture frameTexture, ref Point actualScreenRezolution)
         {
             ITexture subsequentPostProcessResult = null;
 
@@ -61,7 +61,7 @@ namespace MassiveGame.PostFX
             }
             else
             {
-                DOUEngine.uiFrameCreator.RenderInputTexture(frameTexture, actualScreenRezolution);
+                DOUEngine.uiFrameCreator.RenderFullScreenInputTexture(frameTexture, actualScreenRezolution);
             }
         }
     }

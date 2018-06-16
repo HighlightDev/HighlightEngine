@@ -38,37 +38,37 @@ namespace MassiveGame
              *  DOF - generate 3 textures(default image, blured image, depth image)
              *  Bloom - generate 3 textures(default image, brightness image, blured image)*/
 
-            FrameTexture = new Texture2Dlite(DOUEngine.ScreenRezolution.X, DOUEngine.ScreenRezolution.Y, PixelInternalFormat.Rgb, PixelFormat.Rgb, PixelType.UnsignedByte);
+            FrameTexture = new Texture2Dlite(DOUEngine.domainFramebufferRezolution.X, DOUEngine.domainFramebufferRezolution.Y, PixelInternalFormat.Rgb, PixelFormat.Rgb, PixelType.UnsignedByte);
 
             switch (PostprocessRenderer.PostProcessType)
             {
                 case PostprocessType.DOF_BLUR :
                     {
-                        Dof_BluredTexture = new Texture2Dlite(DOUEngine.ScreenRezolution.X, DOUEngine.ScreenRezolution.Y, PixelInternalFormat.Rgb,
+                        Dof_BluredTexture = new Texture2Dlite(DOUEngine.domainFramebufferRezolution.X, DOUEngine.domainFramebufferRezolution.Y, PixelInternalFormat.Rgb,
                             PixelFormat.Rgb, PixelType.UnsignedByte);
-                        Dof_DepthTexture = new Texture2Dlite(DOUEngine.ScreenRezolution.X, DOUEngine.ScreenRezolution.Y, PixelInternalFormat.Depth24Stencil8, PixelFormat.DepthStencil,
+                        Dof_DepthTexture = new Texture2Dlite(DOUEngine.domainFramebufferRezolution.X, DOUEngine.domainFramebufferRezolution.Y, PixelInternalFormat.Depth24Stencil8, PixelFormat.DepthStencil,
                             PixelType.Float);
 
                         /*If lens flare or god rays are enabled - gen additional texture for result*/
-                        if (LensFlareRenderer.LensFlareEnabled || GodRaysRenderer.GodRaysEnabled)
+                        if (true/*LensFlareRenderer.LensFlareEnabled || GodRaysRenderer.GodRaysEnabled*/)
                         {
-                            Dof_LensFlareTexture = new Texture2Dlite(DOUEngine.ScreenRezolution.X, DOUEngine.ScreenRezolution.Y, PixelInternalFormat.Rgb,
+                            Dof_LensFlareTexture = new Texture2Dlite(DOUEngine.domainFramebufferRezolution.X, DOUEngine.domainFramebufferRezolution.Y, PixelInternalFormat.Rgb,
                               PixelFormat.Rgb, PixelType.UnsignedByte);
                         }
                         break;
                     }
                 case PostprocessType.BLOOM :
                     {
-                        Bloom_HorizontalBlurTexture = new Texture2Dlite(DOUEngine.ScreenRezolution.X / 7, DOUEngine.ScreenRezolution.Y / 7, PixelInternalFormat.Rgb,
+                        Bloom_HorizontalBlurTexture = new Texture2Dlite(DOUEngine.domainFramebufferRezolution.X / 7, DOUEngine.domainFramebufferRezolution.Y / 7, PixelInternalFormat.Rgb,
                             PixelFormat.Rgb, PixelType.UnsignedByte, (Int32)All.Linear);
 
-                        Bloom_VerticalBlurTexture = new Texture2Dlite(DOUEngine.ScreenRezolution.X / 7, DOUEngine.ScreenRezolution.Y / 7, PixelInternalFormat.Rgb,
+                        Bloom_VerticalBlurTexture = new Texture2Dlite(DOUEngine.domainFramebufferRezolution.X / 7, DOUEngine.domainFramebufferRezolution.Y / 7, PixelInternalFormat.Rgb,
                            PixelFormat.Rgb, PixelType.UnsignedByte, (Int32)All.Linear);
                       
                         /*If lens flare or god rays are enabled - gen additional texture for result*/
-                        if (LensFlareRenderer.LensFlareEnabled || GodRaysRenderer.GodRaysEnabled)
+                        if (true/*LensFlareRenderer.LensFlareEnabled || GodRaysRenderer.GodRaysEnabled*/)
                         {
-                            Bloom_LensFlareTexture = new Texture2Dlite(DOUEngine.ScreenRezolution.X, DOUEngine.ScreenRezolution.Y, PixelInternalFormat.Rgb,
+                            Bloom_LensFlareTexture = new Texture2Dlite(DOUEngine.domainFramebufferRezolution.X, DOUEngine.domainFramebufferRezolution.Y, PixelInternalFormat.Rgb,
                              PixelFormat.Rgb, PixelType.UnsignedByte);
                         }
                         break;
@@ -82,7 +82,7 @@ namespace MassiveGame
             {
                 case PostprocessType.DOF_BLUR:
                     {
-                        if (LensFlareRenderer.LensFlareEnabled || GodRaysRenderer.GodRaysEnabled)
+                        if (/*LensFlareRenderer.LensFlareEnabled || GodRaysRenderer.GodRaysEnabled*/true)
                             base.genFramebuffers(3); 
                         else
                             base.genFramebuffers(2); 
@@ -95,7 +95,7 @@ namespace MassiveGame
                         base.attachTextureToFramebuffer(FramebufferAttachment.ColorAttachment0, FrameTexture.GetTextureDescriptor());
                         /* + depth texture*/
                         base.attachTextureToFramebuffer(FramebufferAttachment.DepthAttachment, Dof_DepthTexture.GetTextureDescriptor());
-                        if (LensFlareRenderer.LensFlareEnabled || GodRaysRenderer.GodRaysEnabled)
+                        if (true/*LensFlareRenderer.LensFlareEnabled || GodRaysRenderer.GodRaysEnabled*/)
                         {
                             /* For Lens flare or god rays result*/
                             base.bindFramebuffer(3);
@@ -105,8 +105,14 @@ namespace MassiveGame
                     }
                 case PostprocessType.BLOOM:
                     {
-                        if (LensFlareRenderer.LensFlareEnabled || GodRaysRenderer.GodRaysEnabled) { base.genFramebuffers(4); }
-                        else { base.genFramebuffers(3); }
+                        if (true/*LensFlareRenderer.LensFlareEnabled || GodRaysRenderer.GodRaysEnabled*/)
+                        {
+                            base.genFramebuffers(4);
+                        }
+                        else
+                        {
+                            base.genFramebuffers(3);
+                        }
                         /*Blur framebuffer + blur texture*/
                         base.bindFramebuffer(3);
                         base.attachTextureToFramebuffer(FramebufferAttachment.ColorAttachment0, Bloom_HorizontalBlurTexture.GetTextureDescriptor());
@@ -116,7 +122,7 @@ namespace MassiveGame
                         /*Scene framebuffer + frame texture*/
                         base.bindFramebuffer(1);
                         base.attachTextureToFramebuffer(FramebufferAttachment.ColorAttachment0, FrameTexture.GetTextureDescriptor());
-                        if (LensFlareRenderer.LensFlareEnabled || GodRaysRenderer.GodRaysEnabled)
+                        if (true/*LensFlareRenderer.LensFlareEnabled || GodRaysRenderer.GodRaysEnabled*/)
                         {
                             /* For Lens flare or god rays result*/
                             base.bindFramebuffer(4);

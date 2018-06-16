@@ -11,19 +11,23 @@ namespace MassiveGame
     {
         private const string FOLDER_NAME = "bin";
 
+        private static string FolderPath = String.Empty;
+
         /// <summary>
         /// Retrieves folder path to system files
         /// </summary>
         /// <returns> Folder path </returns>
         public static string getFolderPath()
         {
-            string FolderPath = "";
-            string fileFolder = System.Environment.CurrentDirectory;
-            Regex folderEx = new Regex(FOLDER_NAME);
-            if (folderEx.IsMatch(fileFolder))
+            if (FolderPath == String.Empty)
             {
-                Int32 index = folderEx.Match(fileFolder).Index;
-                FolderPath = fileFolder.Substring(0, index);
+                string fileFolder = System.Environment.CurrentDirectory;
+                Regex folderEx = new Regex(FOLDER_NAME);
+                if (folderEx.IsMatch(fileFolder))
+                {
+                    Int32 index = folderEx.Match(fileFolder).Index;
+                    FolderPath = fileFolder.Substring(0, index);
+                }
             }
             return FolderPath;
         }
@@ -62,7 +66,7 @@ namespace MassiveGame
         public static string SunTexturePath { get { return @"" + getFolderPath() + _sunTexturePath; } }
         public static string LensFlareTexturePath { get { return @"" + getFolderPath() + _lensFlareTexturePath; } }
 
-        static public class AudioFolders
+        public static class AudioFolders
         {
             private static string _audioPath = "/Audio/";
             private static string _audioMaterialPath = "/Audio/material/";

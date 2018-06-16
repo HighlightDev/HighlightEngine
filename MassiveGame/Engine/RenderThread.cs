@@ -1,17 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 using OpenTK;
-using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL;
 using System.Drawing;
 using MassiveGame.RenderCore;
-using MassiveGame.RenderCore.ComputeShaders;
-using MassiveGame.Settings;
 using MassiveGame.Optimization;
 using MassiveGame.RenderCore.Visibility;
 using MassiveGame.PostFX;
@@ -26,58 +18,45 @@ namespace MassiveGame.Engine
 
         public RenderThread()
         {
+            DefaultFB = new DefaultFrameBuffer(DOUEngine.domainFramebufferRezolution);
             postProcessStage = new PostProcessStage();
         }
 
-        private void PreDrawClear()
+        private void PreDrawClearBuffers()
         {
             GL.Enable(EnableCap.DepthTest);
             GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit | ClearBufferMask.StencilBufferBit);
             GL.ClearColor(Color.Black);
         }
 
-        private void VisibilityTest()
+        private void VisibilityCheckPass()
         {
             // Find which primitives are visible for current frame
-            VisibilityApi.IsInView(DOUEngine.RenderedPrimitives,
-               ref DOUEngine.ProjectionMatrix, DOUEngine.Camera.getViewMatrix());
+            VisibilityCheckApi.CheckMeshIsVisible(DOUEngine.RenderableMeshCollection, ref DOUEngine.ProjectionMatrix, DOUEngine.Camera.getViewMatrix());
 
-            // Find which light sources affects on primitives
-            LightAffectionApi.IsLightAffects(DOUEngine.AffectedByLightPrimitives, DOUEngine.PointLight);
+            // Find which light sources effects on meshes
+            LightHitCheckApi.CheckLightSourceHitMesh(DOUEngine.LitByLightSourcesMeshCollection, DOUEngine.PointLight);
         }
 
-        public void ThreadExecution(Int32 actualSceenWidth, Int32 actualSceenHeight, bool bInitialDraw)
+        public void ThreadExecution(ref Point actualScreenRezolution, bool bInitialDraw)
         {
-            PreDrawClear();
-            VisibilityTest();
+            PreDrawClearBuffers();
+            VisibilityCheckPass();
 
-            DepthPass(actualSceenWidth, actualSceenHeight, bInitialDraw);
+            DepthPass(ref actualScreenRezolution, bInitialDraw);
             DistortionsPass();
-
-            DrawCall(actualSceenWidth, actualSceenHeight, bInitialDraw);
+            DrawCall(ref actualScreenRezolution, bInitialDraw);
         }
 
         #region Render queue
 
-        private void DrawCall(Int32 actualSceenWidth, Int32 actualSceenHeight, bool bInitialDraw)
+        private void DrawCall(ref Point actualScreenRezolution, bool bInitialDraw)
         {
-            /*  TO DO :
-             *  PP_AND_LENS_DISABLED - render scene to default framebuffer;                   *
-             *  PP_AND_LENS_ENABLED - render scene to postprocess framebuffer                 *
-             *  and apply postprocess filters, then render scene with color masking,          *
-             *  and sun without masking to lens framebuffer and apply lens flare. Add lens    *
-             *  contribution to pp result image;                                              *
-             *  PP_DISABLED_LENS_ENABLED - render scene with color masking,                   *
-             *  and sun without masking to lens framebuffer and apply lens flare. Add lens    *
-             *  contribution to default image;                                                *
-             *  PP_ENABLED_LENS_DISABLED - render scene to postprocess framebuffer            *
-             *  and apply postprocess filters.                                                */
-
             DefaultFB.Bind();
-            DrawAll(actualSceenWidth, actualSceenHeight, bInitialDraw);
+            DrawAll(ref actualScreenRezolution, bInitialDraw);
             DefaultFB.Unbind();
 
-            postProcessStage.ExecutePostProcessPass(DefaultFB.GetTextureHandler(), new Point(actualSceenWidth, actualSceenHeight));
+            postProcessStage.ExecutePostProcessPass(DefaultFB.GetTextureHandler(), ref actualScreenRezolution);
 
             //switch (DOUEngine.Settings)
             //{
@@ -211,7 +190,8 @@ namespace MassiveGame.Engine
         #endregion
 
         #region Render functions
-        private void DrawAll(Int32 actualSceenWidth, Int32 actualSceenHeight, bool bInitialDraw)
+
+        private void DrawAll(ref Point actualScreenRezolution, bool bInitialDraw)
         {
             RenderBasePass(DOUEngine.Camera);
 #if DEBUG
@@ -256,12 +236,12 @@ namespace MassiveGame.Engine
             DOUEngine.uiFrameCreator.RenderFrames();
         }
 
-        private void DepthPass(Int32 actualSceenWidth, Int32 actualScreenHeight, bool bInitialDraw)
+        private void DepthPass(ref Point actualScreenRezolution, bool bInitialDraw)
         {
             if (!bInitialDraw)
             {
                 DOUEngine.Sun.GetShadowHandler().WriteDepth(DOUEngine.shadowList, ref DOUEngine.ProjectionMatrix);
-                GL.Viewport(0, 0, actualSceenWidth, actualScreenHeight);
+                GL.Viewport(0, 0, actualScreenRezolution.X, actualScreenRezolution.Y);
             }
         }
 
@@ -269,12 +249,9 @@ namespace MassiveGame.Engine
         {
             /*TO DO :
              * If point lights exist - show them */
-            if (DOUEngine.ShowLightSource)
+            if (DOUEngine.PointLight != null)
             {
-                if (DOUEngine.PointLight != null)
-                {
-                    DOUEngine.Lights.render(DOUEngine.Camera, DOUEngine.ProjectionMatrix);
-                }
+                DOUEngine.pointLightDebugRenderer.Render(DOUEngine.Camera, DOUEngine.ProjectionMatrix);
             }
         }
       
@@ -309,8 +286,8 @@ namespace MassiveGame.Engine
 
             GL.Disable(EnableCap.CullFace);
 
-            if (DOUEngine.Grass != null) DOUEngine.Grass.renderEntities(DOUEngine.Sun, camera, DOUEngine.ProjectionMatrix, (float)DOUEngine.RenderTime, DOUEngine.terrain);
-            if (DOUEngine.Plant1 != null) DOUEngine.Plant1.renderEntities(DOUEngine.Sun, camera, DOUEngine.ProjectionMatrix, (float)DOUEngine.RenderTime, DOUEngine.terrain);
+            if (DOUEngine.Grass != null) DOUEngine.Grass.renderEntities(DOUEngine.Sun, camera, DOUEngine.ProjectionMatrix, (float)DOUEngine.RENDER_TIME, DOUEngine.terrain);
+            if (DOUEngine.Plant1 != null) DOUEngine.Plant1.renderEntities(DOUEngine.Sun, camera, DOUEngine.ProjectionMatrix, (float)DOUEngine.RENDER_TIME, DOUEngine.terrain);
 
             if (DOUEngine.City != null)
             {
@@ -345,7 +322,7 @@ namespace MassiveGame.Engine
                 GL.CullFace(CullFaceMode.Back);
                 GL.Enable(EnableCap.CullFace);
 
-                DOUEngine.Water.renderWater(DOUEngine.Camera, ref DOUEngine.ProjectionMatrix, (float)DOUEngine.RenderTime,
+                DOUEngine.Water.renderWater(DOUEngine.Camera, ref DOUEngine.ProjectionMatrix, (float)DOUEngine.RENDER_TIME,
                         DOUEngine.NEAR_CLIPPING_PLANE, DOUEngine.FAR_CLIPPING_PLANE, DOUEngine.Sun, DOUEngine.PointLight);
 
                 GL.Disable(EnableCap.CullFace);
@@ -442,8 +419,8 @@ namespace MassiveGame.Engine
             false - disable EngineSingleton.Grass refractions*/
             if (quality.EnableGrassRefraction)
             {
-                if (DOUEngine.Grass != null) DOUEngine.Grass.renderEntities(DOUEngine.Sun, camera, DOUEngine.ProjectionMatrix, (float)DOUEngine.RenderTime, DOUEngine.terrain, clipPlane);
-                if (DOUEngine.Plant1 != null) DOUEngine.Plant1.renderEntities(DOUEngine.Sun, camera, DOUEngine.ProjectionMatrix, (float)DOUEngine.RenderTime, DOUEngine.terrain, clipPlane);
+                if (DOUEngine.Grass != null) DOUEngine.Grass.renderEntities(DOUEngine.Sun, camera, DOUEngine.ProjectionMatrix, (float)DOUEngine.RENDER_TIME, DOUEngine.terrain, clipPlane);
+                if (DOUEngine.Plant1 != null) DOUEngine.Plant1.renderEntities(DOUEngine.Sun, camera, DOUEngine.ProjectionMatrix, (float)DOUEngine.RENDER_TIME, DOUEngine.terrain, clipPlane);
             }
 
             /*TO DO : true - enable building refractions
@@ -543,7 +520,7 @@ namespace MassiveGame.Engine
             GL.Disable(EnableCap.CullFace);
 
 
-            if (DOUEngine.Plant1 != null) DOUEngine.Plant1.renderEntities(DOUEngine.Sun, camera, DOUEngine.ProjectionMatrix, (float)DOUEngine.RenderTime, DOUEngine.terrain);
+            if (DOUEngine.Plant1 != null) DOUEngine.Plant1.renderEntities(DOUEngine.Sun, camera, DOUEngine.ProjectionMatrix, (float)DOUEngine.RENDER_TIME, DOUEngine.terrain);
 
             if (DOUEngine.City != null) foreach (Building house in DOUEngine.City)
                 { house.renderObject(DOUEngine.Mode, DOUEngine.NormalMapTrigger, DOUEngine.Sun, DOUEngine.PointLight, camera, ref DOUEngine.ProjectionMatrix); }

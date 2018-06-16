@@ -13,12 +13,16 @@ using MassiveGame.RenderCore;
 
 namespace MassiveGame.Light_visualization
 {
-    public class LampShader : ShaderBase
+    public class PointLightDebugShader : ShaderBase
     {
         #region Definitions 
 
         private const string SHADER_NAME = "Light Visualization";
         Int32 modelMatrix, viewMatrix, projectionMatrix, lampTexture;
+
+        public PointLightDebugShader(string shaderName, string VertexShaderFile, string FragmentShaderFile, string GeometryShaderFile = "") : base(shaderName, VertexShaderFile, FragmentShaderFile, GeometryShaderFile)
+        {
+        }
 
         #endregion
 
@@ -59,7 +63,7 @@ namespace MassiveGame.Light_visualization
 
         #region Constructor
 
-        public LampShader(string vsPath, string fsPath, string gsPath)
+        public PointLightDebugShader(string vsPath, string fsPath, string gsPath)
             : base(SHADER_NAME, vsPath, fsPath, gsPath)
         {
         }

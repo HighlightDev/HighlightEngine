@@ -15,9 +15,9 @@ namespace MassiveGame.PostFX
 {
     public class LightShaftPostProcess<T> : PostProcessBase where T: PostProcessSubsequenceType
     {
-        public GodRaysFBO renderTarget;
+        public LightShaftFramebufferObject renderTarget;
 
-        private GodRaysShader<T> shader;
+        private LightShaftShader<T> shader;
 
         private Matrix4 viewportMatrix;
 
@@ -38,9 +38,9 @@ namespace MassiveGame.PostFX
 
         private void postConstructor()
         {
-            renderTarget = new GodRaysFBO();
-            shader = (GodRaysShader<T>)ResourcePool.GetShaderProgram(ProjectFolders.ShadersPath + "godrayVS.glsl",
-                ProjectFolders.ShadersPath + "godrayFS.glsl", "", typeof(GodRaysShader<T>));
+            renderTarget = new LightShaftFramebufferObject();
+            shader = (LightShaftShader<T>)ResourcePool.GetShaderProgram(ProjectFolders.ShadersPath + "godrayVS.glsl",
+                ProjectFolders.ShadersPath + "godrayFS.glsl", "", typeof(LightShaftShader<T>));
             DOUEngine.uiFrameCreator.PushFrame(renderTarget.LightShaftsResultTexture);
             bPostConstructor = false;
         }
@@ -81,7 +81,7 @@ namespace MassiveGame.PostFX
             var radialBlurScreenSpacePosition = getRadialPos(DOUEngine.Sun.Position, DOUEngine.Camera.getViewMatrix(), ref DOUEngine.ProjectionMatrix, ref viewportMatrix);
 
             // Render to light shaft result render target
-            renderTarget.renderToFBO(4, renderTarget.LightShaftsResultTexture.GetTextureRezolution());
+            renderTarget.renderToFBO(3, renderTarget.LightShaftsResultTexture.GetTextureRezolution());
 
             shader.startProgram();
 
@@ -119,7 +119,7 @@ namespace MassiveGame.PostFX
             GL.Disable(EnableCap.CullFace);
 
 
-            if (DOUEngine.Plant1 != null) DOUEngine.Plant1.renderEntities(DOUEngine.Sun, camera, DOUEngine.ProjectionMatrix, (float)DOUEngine.RenderTime, DOUEngine.terrain);
+            if (DOUEngine.Plant1 != null) DOUEngine.Plant1.renderEntities(DOUEngine.Sun, camera, DOUEngine.ProjectionMatrix, (float)DOUEngine.RENDER_TIME, DOUEngine.terrain);
 
             if (DOUEngine.City != null) foreach (Building house in DOUEngine.City)
                 { house.renderObject(DOUEngine.Mode, DOUEngine.NormalMapTrigger, DOUEngine.Sun, DOUEngine.PointLight, camera, ref DOUEngine.ProjectionMatrix); }
@@ -147,7 +147,7 @@ namespace MassiveGame.PostFX
         public override void CleanUp()
         {
             renderTarget.cleanUp();
-            renderTarget.LensFlareTexture.CleanUp();
+            renderTarget.LightShaftsResultTexture.CleanUp();
         }
     }
 }

@@ -1,12 +1,7 @@
-﻿using MassiveGame.Optimization;
-using MassiveGame.RenderCore.Visibility;
-using OpenTK;
+﻿using OpenTK;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 
 namespace MassiveGame.Engine
 {
@@ -80,7 +75,7 @@ namespace MassiveGame.Engine
                     DOUEngine.SunReplica.UpdateFrustumCullingInfo();
 
                 if (DOUEngine.Skybox != null)
-                    DOUEngine.Skybox.UpdateAnimation(Convert.ToSingle(DOUEngine.RenderTime));
+                    DOUEngine.Skybox.UpdateAnimation(Convert.ToSingle(DOUEngine.RENDER_TIME));
             }
         }
     }

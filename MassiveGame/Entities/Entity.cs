@@ -18,7 +18,7 @@ using PhysicsBox.MathTypes;
 
 namespace MassiveGame
 {
-    public abstract class Entity: Component, IVisible, ILightAffection, IDrawable
+    public abstract class Entity: Component, IVisible, ILightHit, IDrawable
     {
         #region Definitions 
 
@@ -83,7 +83,7 @@ namespace MassiveGame
             return AffectedPointLights;
         }
 
-        public virtual void IsLightAffecting(List<PointLight> LightList)
+        public virtual void IsLitByLightSource(List<PointLight> LightList)
         {
             LightVisibilityMap.Init(LightList.Count, false);
             for (Int32 i = 0; i < LightList.Count; i++)

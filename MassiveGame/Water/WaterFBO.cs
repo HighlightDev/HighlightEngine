@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using TextureLoader;
 using FramebufferAPI;
 using OpenTK.Graphics.OpenGL;
@@ -28,9 +24,9 @@ namespace MassiveGame
              2 - for refraction
              3 - for depth*/
 
-            ReflectionTexture = new Texture2Dlite((Int32)(DOUEngine.ScreenRezolution.X / 1.5), (Int32)(DOUEngine.ScreenRezolution.Y / 1.5), PixelInternalFormat.Rgb, PixelFormat.Rgb, PixelType.UnsignedByte);
-            RefractionTexture = new Texture2Dlite((Int32)(DOUEngine.ScreenRezolution.X / 1.5), (Int32)(DOUEngine.ScreenRezolution.Y / 1.5), PixelInternalFormat.Rgb, PixelFormat.Rgb, PixelType.UnsignedByte);
-            DepthTexture = new Texture2Dlite((Int32)(DOUEngine.ScreenRezolution.X / 1.5), (Int32)(DOUEngine.ScreenRezolution.Y / 1.5), PixelInternalFormat.Depth24Stencil8, PixelFormat.DepthComponent, PixelType.Float);
+            ReflectionTexture = new Texture2Dlite((Int32)(DOUEngine.domainFramebufferRezolution.X / 1.5), (Int32)(DOUEngine.domainFramebufferRezolution.Y / 1.5), PixelInternalFormat.Rgb, PixelFormat.Rgb, PixelType.UnsignedByte);
+            RefractionTexture = new Texture2Dlite((Int32)(DOUEngine.domainFramebufferRezolution.X / 1.5), (Int32)(DOUEngine.domainFramebufferRezolution.Y / 1.5), PixelInternalFormat.Rgb, PixelFormat.Rgb, PixelType.UnsignedByte);
+            DepthTexture = new Texture2Dlite((Int32)(DOUEngine.domainFramebufferRezolution.X / 1.5), (Int32)(DOUEngine.domainFramebufferRezolution.Y / 1.5), PixelInternalFormat.Depth24Stencil8, PixelFormat.DepthComponent, PixelType.Float);
         }
 
         protected override void setFramebuffers()

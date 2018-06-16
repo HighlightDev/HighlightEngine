@@ -8,14 +8,13 @@ using System.Drawing;
 
 namespace MassiveGame.PostFX
 {
-    public class LensFlarePostProcess<T> : PostProcessBase where T: PostProcessSubsequenceType
+    public class LensFlarePostProcess<T> : PostProcessBase where T : PostProcessSubsequenceType
     {
-        private const int MAX_BLUR_WIDTH = 30;
+        public const int MAX_BLUR_WIDTH = 30;
         private const int MIN_BLUR_WIDTH = 2;
-
         private const int BLUR_MAX_PASS_COUNT = 20;
 
-        private LensFlareFBO renderTarget;
+        private LensFlareFramebufferObject renderTarget;
         private LensFlareShader<T> lensShader;
         private Texture1D lensColor;
 
@@ -86,12 +85,9 @@ namespace MassiveGame.PostFX
 
         private void postConstructor()
         {
-            renderTarget = new LensFlareFBO();
-            if (DOUEngine.postProcessSettings.bEnable_LightShafts)
-            {
-                lensShader = (LensFlareShader<T>)ResourcePool.GetShaderProgram(ProjectFolders.ShadersPath + "lensFlareVS.glsl",
-                    ProjectFolders.ShadersPath + "lensFlareFS.glsl", "", typeof(LensFlareShader<T>));
-            }
+            renderTarget = new LensFlareFramebufferObject();
+            lensShader = (LensFlareShader<T>)ResourcePool.GetShaderProgram(ProjectFolders.ShadersPath + "lensFlareVS.glsl",
+                ProjectFolders.ShadersPath + "lensFlareFS.glsl", "", typeof(LensFlareShader<T>));
             bPostConstructor = false;
             DOUEngine.uiFrameCreator.PushFrame(renderTarget.lensFlareResultTexture);
         }
@@ -102,7 +98,7 @@ namespace MassiveGame.PostFX
                 postConstructor();
 
             /*Extracting bright parts*/
-            renderTarget.renderToFBO(4, renderTarget.frameTextureLowRezolution.GetTextureRezolution());
+            renderTarget.renderToFBO(3, renderTarget.frameTextureLowRezolution.GetTextureRezolution());
             base.GetPostProcessResult(null, actualScreenRezolution);
 
             renderTarget.renderToFBO(2, renderTarget.horizontalBlurTexture.GetTextureRezolution());
@@ -145,7 +141,7 @@ namespace MassiveGame.PostFX
                 lensShader.stopProgram();
             }
 
-            renderTarget.renderToFBO(5, renderTarget.lensFlareResultTexture.GetTextureRezolution());
+            renderTarget.renderToFBO(4, renderTarget.lensFlareResultTexture.GetTextureRezolution());
 
             lensShader.startProgram();
 

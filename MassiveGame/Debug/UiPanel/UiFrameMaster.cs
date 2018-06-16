@@ -79,7 +79,7 @@ namespace MassiveGame.Debug.UiPanel
             _shader.stopProgram();
         }
 
-        public void RenderInputTexture(ITexture renderTexture, Point screenRezolution)
+        public void RenderFullScreenInputTexture(ITexture renderTexture, Point screenRezolution)
         {
             PostConstructor();
             GL.BindFramebuffer(FramebufferTarget.Framebuffer, 0);

@@ -12,7 +12,7 @@ using MassiveGame.PostFX;
 
 namespace MassiveGame
 {
-    public class GodRaysShader<T> : PostProcessShaderBase<T> where T : PostProcessSubsequenceType
+    public class LightShaftShader<T> : PostProcessShaderBase<T> where T : PostProcessSubsequenceType
     {
         #region Definitions
 
@@ -102,7 +102,7 @@ namespace MassiveGame
 
         #region Constructor
 
-        public GodRaysShader(string VSPath, string FSPath)
+        public LightShaftShader(string VSPath, string FSPath)
             : base(SHADER_NAME, VSPath, FSPath)
         {
            
