@@ -9,20 +9,21 @@ using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL;
 using System.Drawing;
 using MassiveGame.RenderCore;
+using MassiveGame.PostFX;
 
 namespace MassiveGame
 {
-    class PostprocessShader : ShaderBase
+    class PostprocessShader<T> : PostProcessShaderBase<T> where T : PostProcessSubsequenceType
     {
         #region Definations
 
         private const string SHADER_NAME = "Postprocess Shader";
+
         private const Int32 BLUR_WIDTH = PostprocessRenderer.MAX_BLUR_WIDTH;
         Int32 frameTexture, blurTexture, depthTexture, AveLum, screenWidth, screenHeight, blurWidth,
-            blurStartEdge, blurEndEdge, bloomThreshold;
-        Int32[] weights = new Int32[BLUR_WIDTH], pixOffset = new Int32[BLUR_WIDTH];
+            blurStartEdge, blurEndEdge, bloomThreshold, subBlur1, subBlur2, subDefault, subDoF, subBloom1, subBloom2;
 
-        Int32 subBlur1, subBlur2, subDefault, subDoF, subBloom1, subBloom2;
+        Int32[] weights = new Int32[BLUR_WIDTH], pixOffset = new Int32[BLUR_WIDTH];
 
         #endregion
 
@@ -165,14 +166,6 @@ namespace MassiveGame
         public PostprocessShader(string vsPath, string fsPath)
             : base(SHADER_NAME, vsPath, fsPath)
         {
-            if (base.ShaderLoaded)
-            {
-                base.showCompileLogInfo(SHADER_NAME);
-                base.showLinkLogInfo(SHADER_NAME);
-                Debug.Log.addToLog(getCompileLogInfo(SHADER_NAME));
-                Debug.Log.addToLog(getLinkLogInfo(SHADER_NAME));
-            }
-            else Debug.Log.addToLog( DateTime.Now.ToString() + "  " + SHADER_NAME + " : shader file(s) not found!");
         }
 
         #endregion

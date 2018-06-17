@@ -1,7 +1,5 @@
-16.06.2018 20:30:45  Water Framebuffer 1 : Framebuffer : complete.
-16.06.2018 20:30:45  Water Framebuffer 2 : Framebuffer : complete.
-16.06.2018 20:30:46  GodRays Framebuffer 1 : Framebuffer : complete.
-16.06.2018 20:30:46  LensFlare Framebuffer 1 : Framebuffer : complete.
-
-Time elapsed : 00:01:36.2570000
+17.06.2018 17:34:49  Water Framebuffer 1 : Framebuffer : complete.
+17.06.2018 17:34:49  Water Framebuffer 2 : Framebuffer : complete.
+17.06.2018 17:34:49  GodRays Framebuffer 1 : Framebuffer : complete.
+17.06.2018 17:34:49  LensFlare Framebuffer 1 : Framebuffer : complete.
 

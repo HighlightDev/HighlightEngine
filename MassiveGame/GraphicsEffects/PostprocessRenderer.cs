@@ -1,4 +1,5 @@
 ﻿using GpuGraphics;
+using MassiveGame.PostFX;
 using OpenTK;
 using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL;
@@ -82,7 +83,7 @@ namespace MassiveGame
         private Vector3 _luma;
         private bool _postConstructor;
         private PostprocessFBO _fbo;
-        private PostprocessShader _shader;
+        private PostprocessShader<PostProcessSubsequenceType> _shader;
         private VBOArrayF _attribs;
         private VAO _buffer;
 
@@ -381,7 +382,7 @@ namespace MassiveGame
         {
             if (this._postConstructor)
             {
-                this._shader = new PostprocessShader(ProjectFolders.ShadersPath + "postprocessVS.glsl",
+                this._shader = new PostprocessShader<PostProcessSubsequenceType>(ProjectFolders.ShadersPath + "postprocessVS.glsl",
                     ProjectFolders.ShadersPath + "postprocessFS.glsl");
                 VAOManager.genVAO(_buffer);
                 VAOManager.setBufferData(BufferTarget.ArrayBuffer, _buffer);

@@ -17,8 +17,7 @@ namespace MassiveGame
         #region Definitions
 
         private const string SHADER_NAME = "GodRays Shader";
-        private Int32 frameTexture, brightPartsTexture, exposure, decay, weight,
-            radialPosition, density, numSamples;
+        private Int32 frameTexture, brightPartsTexture, exposure, decay, weight, radialPosition, density, numSamples;
 
         #endregion
 

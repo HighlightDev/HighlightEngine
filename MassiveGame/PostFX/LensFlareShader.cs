@@ -21,11 +21,11 @@ namespace MassiveGame
         private const Int32 BLUR_WIDTH = LensFlarePostProcess<PostProcessSubsequenceType>.MAX_BLUR_WIDTH;
         private const string SHADER_NAME = "Lens flare shader";
 
-        private Int32 frameTexture, threshold, lensColor,
-             screenWidth, screenHeight, blurWidth, bluredTexture, GhostDispersal, HaloWidth, Distortion, Ghosts;
+        private Int32 frameTexture, threshold, lensColor, screenWidth, screenHeight, blurWidth, bluredTexture, GhostDispersal, HaloWidth, Distortion, Ghosts,
+            lensThreshold, lensEffect, vertBlur, horizBlur, lensModifer, lensSimple;
+
         private Int32[] weights = new Int32[BLUR_WIDTH], pixOffset = new Int32[BLUR_WIDTH];
 
-        private Int32 lensThreshold, lensEffect, vertBlur, horizBlur, lensModifer, lensSimple;
         #endregion
 
         #region Getters
