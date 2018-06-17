@@ -50,10 +50,8 @@
     <Compile Include="ITexture.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RectParams.cs" />
-    <Compile Include="SingleTexture2D.cs" />
     <Compile Include="Texture1D.cs" />
     <Compile Include="Texture2D.cs" />
-    <Compile Include="Texture2Dlite.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

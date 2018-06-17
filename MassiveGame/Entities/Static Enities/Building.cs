@@ -153,7 +153,6 @@ namespace MassiveGame
             if (_specularMap != null)
                 _specularMap.BindTexture(TextureUnit.Texture2);  //Bind specular map
 
-            /*   Передаем юниформ переменные в шейдер */
             _shader.SetDiffuseMap(0);
             _shader.SetNormalMap(1, enableNormalMapping);
             _shader.SetSpecularMap(2);
@@ -167,9 +166,9 @@ namespace MassiveGame
 
             if (Sun != null)
             {
-                ITexture shadowMap = Sun.GetShadowHandler().GetTextureHandler();
+                ITexture shadowMap = Sun.GetShadow().GetShadowMapTexture();
                 shadowMap.BindTexture(TextureUnit.Texture4); // shadowmap
-                _shader.SetDirectionalLightShadowMatrix(Sun.GetShadowHandler().GetShadowMatrix(ref modelMatrix, ref ProjectionMatrix));
+                _shader.SetDirectionalLightShadowMatrix(Sun.GetShadow().GetShadowMatrix(ref modelMatrix, ref ProjectionMatrix));
             }
             _shader.SetDirectionalLightShadowMap(4);
 

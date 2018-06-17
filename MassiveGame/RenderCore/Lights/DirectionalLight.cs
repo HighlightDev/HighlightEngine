@@ -16,7 +16,7 @@ namespace MassiveGame.RenderCore.Lights
         public Vector3 Position { set; get; }
         public Vector3 Destination { set; get; }
 
-        public ShadowDirectionalLight GetShadowHandler()
+        public ShadowDirectionalLight GetShadow()
         {
             return (ShadowDirectionalLight)Shadow;
         }

@@ -228,9 +228,9 @@ namespace MassiveGame
             if (Sun != null)
             {
                 // Get shadow handler
-                ITexture shadowMap = Sun.GetShadowHandler().GetTextureHandler();
+                ITexture shadowMap = Sun.GetShadow().GetShadowMapTexture();
                 shadowMap.BindTexture(TextureUnit.Texture9); // shadowmap
-                _shader.SetDirectionalLightShadowMatrix(Sun.GetShadowHandler().GetShadowMatrix(ref ModelMatrix, ref ProjectionMatrix));
+                _shader.SetDirectionalLightShadowMatrix(Sun.GetShadow().GetShadowMatrix(ref ModelMatrix, ref ProjectionMatrix));
             }
 
             _shader.SetTextureR(1, nmR, nmR > 0);
@@ -246,7 +246,7 @@ namespace MassiveGame
             _shader.SetClippingPlane(ref clipPlane);
             _shader.SetDirectionalLightShadowMap(9);
 
-            VAOManager.renderBuffers(_buffer, mode);   //Отправляем рендеринг на GPU
+            VAOManager.renderBuffers(_buffer, mode);
             _shader.stopProgram();
         }
 

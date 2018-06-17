@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using TextureLoader;
 
 namespace MassiveGame.API.Collector.TextureBufferCollect
 {
@@ -13,7 +14,7 @@ namespace MassiveGame.API.Collector.TextureBufferCollect
         private readonly Int32 MAX_RENDER_TARGETS;
         private Int32 AllocatedRenderTargets;
 
-        private Dictionary<RenderTargetParams, Int32> renderTargetDictionary;
+        private Dictionary<RenderTargetParams, ITexture> renderTargetDictionary;
         private Dictionary<RenderTargetParams, Int32> referenceCount;
 
         public RenderTargetCollection(Int32 MaxRenderTargets)
@@ -21,18 +22,18 @@ namespace MassiveGame.API.Collector.TextureBufferCollect
             MAX_RENDER_TARGETS = MaxRenderTargets;
             AllocatedRenderTargets = 0;
 
-            renderTargetDictionary = new Dictionary<RenderTargetParams, Int32>();
+            renderTargetDictionary = new Dictionary<RenderTargetParams, ITexture>();
             referenceCount = new Dictionary<RenderTargetParams, Int32>();
         }
 
-        public Int32 RetrieveRenderTarget(RenderTargetParams RenderTargetKey)
+        public ITexture RetrieveRenderTarget(RenderTargetParams RenderTargetKey)
         {
             return TryGetRenderTarget(RenderTargetKey);
         }
 
-        private Int32 TryGetRenderTarget(RenderTargetParams RenderTargetKey)
+        private ITexture TryGetRenderTarget(RenderTargetParams RenderTargetKey)
         {
-            Int32 result = -1;
+            ITexture result = null;
             bool bAccessForbidden = false;
             bool bExist = renderTargetDictionary.TryGetValue(RenderTargetKey, out result);
             // Check if current render target is busy, if yes - we can't use it, else - we can reuse this render target
@@ -78,11 +79,11 @@ namespace MassiveGame.API.Collector.TextureBufferCollect
             }
         }
 
-        public void ReleaseRenderTarget(Int32 renderTargetHandle)
+        public void ReleaseRenderTarget(ITexture renderTargetHandle)
         {
             bool bExist = false;
             RenderTargetParams key = null;
-            bExist = renderTargetDictionary.Any(new Func<KeyValuePair<RenderTargetParams, Int32>, bool>(value =>
+            bExist = renderTargetDictionary.Any(new Func<KeyValuePair<RenderTargetParams, ITexture>, bool>(value =>
             {
                 if (value.Value == renderTargetHandle)
                 {

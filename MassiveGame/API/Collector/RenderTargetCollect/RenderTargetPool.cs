@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TextureLoader;
 
 namespace MassiveGame.API.Collector.TextureBufferCollect
 {
@@ -16,7 +17,7 @@ namespace MassiveGame.API.Collector.TextureBufferCollect
             textureBufferCollection = new RenderTargetCollection(MaxRenderTargets);
         }
 
-        public Int32 AllocateTextureBuffer(RenderTargetParams RenderTargetKey)
+        public ITexture AllocateTextureBuffer(RenderTargetParams RenderTargetKey)
         {
             return textureBufferCollection.RetrieveRenderTarget(RenderTargetKey);
         }
@@ -26,7 +27,7 @@ namespace MassiveGame.API.Collector.TextureBufferCollect
             textureBufferCollection.ReleaseRenderTarget(RenderTargetKey);
         }
 
-        public void ReleaseRenderTarget(Int32 RenderTarget)
+        public void ReleaseRenderTarget(ITexture RenderTarget)
         {
             textureBufferCollection.ReleaseRenderTarget(RenderTarget);
         }

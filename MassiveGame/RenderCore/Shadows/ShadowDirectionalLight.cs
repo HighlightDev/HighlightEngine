@@ -45,7 +45,7 @@ namespace MassiveGame.RenderCore.Shadows
         protected override void PrepareRenderTarget()
         {
             GL.BindFramebuffer(FramebufferTarget.Framebuffer, FramebufferHandler);
-            GL.FramebufferTexture2D(FramebufferTarget.Framebuffer, FramebufferAttachment.DepthAttachment, TextureTarget.Texture2D, RenderTargetHandler, 0);
+            GL.FramebufferTexture2D(FramebufferTarget.Framebuffer, FramebufferAttachment.DepthAttachment, TextureTarget.Texture2D, ShadowMapTexture.GetTextureDescriptor(), 0);
             GL.DrawBuffer(DrawBufferMode.None);
             GL.ReadBuffer(ReadBufferMode.None);
             GL.BindFramebuffer(FramebufferTarget.Framebuffer, 0);

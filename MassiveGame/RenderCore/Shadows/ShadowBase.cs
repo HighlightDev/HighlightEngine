@@ -23,7 +23,7 @@ namespace MassiveGame.RenderCore.Shadows
         protected abstract void PrepareRenderTarget();
 
         protected RenderTargetParams RTParams;
-        protected Int32 RenderTargetHandler;
+        protected ITexture ShadowMapTexture;
         protected Int32 FramebufferHandler;
 
         protected BasicShadowShader shadowShader;
@@ -47,13 +47,13 @@ namespace MassiveGame.RenderCore.Shadows
         public void AllocateRenderTarget(RenderTargetParams shadowMapSettings)
         {
             RTParams = shadowMapSettings;
-            RenderTargetHandler = ResourcePool.GetRenderTarget(shadowMapSettings);
+            ShadowMapTexture = ResourcePool.GetRenderTarget(shadowMapSettings);
             FramebufferHandler = GL.GenFramebuffer();
         }
 
         public void DeallocateRenderTarget()
         {
-            ResourcePool.ReleaseRenderTarget(RenderTargetHandler);
+            ResourcePool.ReleaseRenderTarget(ShadowMapTexture);
             GL.DeleteFramebuffer(FramebufferHandler);
         }
 
@@ -97,12 +97,9 @@ namespace MassiveGame.RenderCore.Shadows
             DeallocateRenderTarget();
         }
 
-        public ITexture GetTextureHandler()
+        public ITexture GetShadowMapTexture()
         {
-            ITexture result = null;
-            if (RenderTargetHandler != -1)
-                result = new Texture2Dlite(RenderTargetHandler, new Point(RTParams.TexBufferWidth, RTParams.TexBufferHeight));
-            return result;
+            return ShadowMapTexture;
         }
     }
 }

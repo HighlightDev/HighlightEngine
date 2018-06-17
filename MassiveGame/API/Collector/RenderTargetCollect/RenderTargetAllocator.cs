@@ -8,13 +8,16 @@ using System.Threading.Tasks;
 using OpenTK;
 using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL;
+using TextureLoader;
+using System.Drawing;
 
 namespace MassiveGame.API.Collector.TextureBufferCollect
 {
     public static class RenderTargetAllocator
     {
-        public static Int32 AllocateRenderTarget(RenderTargetParams renderTargetParams)
+        public static ITexture AllocateRenderTarget(RenderTargetParams renderTargetParams)
         {
+            ITexture result = null;
             Int32 renderTarget = GL.GenTexture();
             GL.BindTexture(renderTargetParams.TexTarget, renderTarget);
             GL.TexImage2D(renderTargetParams.TexTarget, renderTargetParams.TexMipLvl, renderTargetParams.TexPixelInternalFormat, renderTargetParams.TexBufferWidth,
@@ -26,12 +29,14 @@ namespace MassiveGame.API.Collector.TextureBufferCollect
             GL.TexParameter(renderTargetParams.TexTarget, TextureParameterName.TextureWrapS, (Int32)All.ClampToBorder);
             GL.TexParameter(renderTargetParams.TexTarget, TextureParameterName.TextureWrapT, (Int32)All.ClampToBorder);
             GL.TexParameter(renderTargetParams.TexTarget, TextureParameterName.TextureBorderColor, borderColor);
-            return renderTarget;
+
+            result = new Texture2D(renderTarget, new Point(renderTargetParams.TexBufferWidth, renderTargetParams.TexBufferHeight));
+            return result;
         }
 
-        public static void ReleaseRenderTarget(Int32 RenderTarget)
+        public static void ReleaseRenderTarget(ITexture RenderTarget)
         {
-            GL.DeleteTexture(RenderTarget);
+            RenderTarget.CleanUp();
         }
     }
 }

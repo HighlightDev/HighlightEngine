@@ -65,7 +65,7 @@ namespace MassiveGame.API.Collector
             renderTargetCollector.ReleaseRenderTarget(RenderTargetParam);
         }
 
-        public static void ReleaseRenderTarget(Int32 RenderTarget)
+        public static void ReleaseRenderTarget(ITexture RenderTarget)
         {
             renderTargetCollector.ReleaseRenderTarget(RenderTarget);
         }
@@ -74,7 +74,7 @@ namespace MassiveGame.API.Collector
 
         #region Get
 
-        public static Int32 GetRenderTarget(RenderTargetParams RenderTargetParam)
+        public static ITexture GetRenderTarget(RenderTargetParams RenderTargetParam)
         {
             return renderTargetCollector.AllocateTextureBuffer(RenderTargetParam);
         }

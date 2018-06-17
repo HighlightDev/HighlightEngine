@@ -28,7 +28,7 @@ namespace MassiveGame.API.Collector.TextureCollect
 
         private static ITexture LoadTexture2dFromFile(string pathToFile)
         {
-            return new Texture2Dlite(pathToFile, false);
+            return new Texture2D(pathToFile, false);
         }
 
         private static ITexture LoadTextureCubeFromFile(string[] pathToFiles)

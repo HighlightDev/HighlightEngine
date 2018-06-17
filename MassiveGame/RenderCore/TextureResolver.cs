@@ -51,7 +51,7 @@ namespace MassiveGame.RenderCore
         public static ITexture CopyTexture(ITexture src)
         {
             ITexture dst = null;
-            var emptyTexture = Texture2Dlite.genEmptyImage(src.GetTextureRezolution().X, src.GetTextureRezolution().Y,
+            var emptyTexture = Texture2D.genEmptyImage(src.GetTextureRezolution().X, src.GetTextureRezolution().Y,
                 (Int32)All.Nearest, PixelInternalFormat.Rgb, OpenTK.Graphics.OpenGL.PixelFormat.Rgb, PixelType.UnsignedByte, TextureWrapMode.Repeat);
 
             var renderTarget = GL.GenFramebuffer();
@@ -73,7 +73,7 @@ namespace MassiveGame.RenderCore
             GL.BindFramebuffer(FramebufferTarget.Framebuffer, 0);
             GL.DeleteFramebuffer(renderTarget);
 
-            dst = new Texture2Dlite(emptyTexture, src.GetTextureRezolution());
+            dst = new Texture2D(emptyTexture, src.GetTextureRezolution());
             return dst;
         }
     }

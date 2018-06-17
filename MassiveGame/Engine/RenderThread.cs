@@ -56,7 +56,7 @@ namespace MassiveGame.Engine
             DrawAll(ref actualScreenRezolution, bInitialDraw);
             DefaultFB.Unbind();
 
-            postProcessStage.ExecutePostProcessPass(DefaultFB.GetTextureHandler(), ref actualScreenRezolution);
+            postProcessStage.ExecutePostProcessPass(DefaultFB.GetColorTexture(), ref actualScreenRezolution);
 
             //switch (DOUEngine.Settings)
             //{
@@ -240,7 +240,7 @@ namespace MassiveGame.Engine
         {
             if (!bInitialDraw)
             {
-                DOUEngine.Sun.GetShadowHandler().WriteDepth(DOUEngine.shadowList, ref DOUEngine.ProjectionMatrix);
+                DOUEngine.Sun.GetShadow().WriteDepth(DOUEngine.shadowList, ref DOUEngine.ProjectionMatrix);
                 GL.Viewport(0, 0, actualScreenRezolution.X, actualScreenRezolution.Y);
             }
         }

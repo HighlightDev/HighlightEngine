@@ -41,7 +41,6 @@ namespace MassiveGame.PostFX
             renderTarget = new LightShaftFramebufferObject();
             shader = (LightShaftShader<T>)ResourcePool.GetShaderProgram(ProjectFolders.ShadersPath + "godrayVS.glsl",
                 ProjectFolders.ShadersPath + "godrayFS.glsl", "", typeof(LightShaftShader<T>));
-            DOUEngine.uiFrameCreator.PushFrame(renderTarget.LightShaftsResultTexture);
             bPostConstructor = false;
         }
 

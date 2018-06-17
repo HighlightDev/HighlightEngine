@@ -32,16 +32,16 @@ namespace MassiveGame
              * Img 3 - texture with low rezolution for bright parts of sun;
              * Img 4 - lens flare result texture */
 
-            verticalBlurTexture = new Texture2Dlite(DOUEngine.domainFramebufferRezolution.X / 10, DOUEngine.domainFramebufferRezolution.Y / 10, PixelInternalFormat.Rgb,
+            verticalBlurTexture = new Texture2D(DOUEngine.domainFramebufferRezolution.X / 10, DOUEngine.domainFramebufferRezolution.Y / 10, PixelInternalFormat.Rgb,
                 PixelFormat.Rgb, PixelType.UnsignedByte, (int)All.Linear);
 
-            horizontalBlurTexture = new Texture2Dlite(DOUEngine.domainFramebufferRezolution.X / 10, DOUEngine.domainFramebufferRezolution.Y / 10, PixelInternalFormat.Rgb,
+            horizontalBlurTexture = new Texture2D(DOUEngine.domainFramebufferRezolution.X / 10, DOUEngine.domainFramebufferRezolution.Y / 10, PixelInternalFormat.Rgb,
                 PixelFormat.Rgb, PixelType.UnsignedByte, (int)All.Linear);
 
-            frameTextureLowRezolution = new Texture2Dlite(DOUEngine.domainFramebufferRezolution.X / 10, DOUEngine.domainFramebufferRezolution.Y / 10, PixelInternalFormat.Rgb,
+            frameTextureLowRezolution = new Texture2D(DOUEngine.domainFramebufferRezolution.X / 10, DOUEngine.domainFramebufferRezolution.Y / 10, PixelInternalFormat.Rgb,
                 PixelFormat.Rgb, PixelType.UnsignedByte, (int)All.Linear);
 
-            lensFlareResultTexture = new Texture2Dlite(DOUEngine.domainFramebufferRezolution.X, DOUEngine.domainFramebufferRezolution.Y, PixelInternalFormat.Rgb,
+            lensFlareResultTexture = new Texture2D(DOUEngine.domainFramebufferRezolution.X, DOUEngine.domainFramebufferRezolution.Y, PixelInternalFormat.Rgb,
                 PixelFormat.Rgb, PixelType.UnsignedByte);
         }
         

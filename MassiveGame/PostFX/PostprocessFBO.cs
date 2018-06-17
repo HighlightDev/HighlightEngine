@@ -38,37 +38,37 @@ namespace MassiveGame
              *  DOF - generate 3 textures(default image, blured image, depth image)
              *  Bloom - generate 3 textures(default image, brightness image, blured image)*/
 
-            FrameTexture = new Texture2Dlite(DOUEngine.domainFramebufferRezolution.X, DOUEngine.domainFramebufferRezolution.Y, PixelInternalFormat.Rgb, PixelFormat.Rgb, PixelType.UnsignedByte);
+            FrameTexture = new Texture2D(DOUEngine.domainFramebufferRezolution.X, DOUEngine.domainFramebufferRezolution.Y, PixelInternalFormat.Rgb, PixelFormat.Rgb, PixelType.UnsignedByte);
 
             switch (PostprocessRenderer.PostProcessType)
             {
                 case PostprocessType.DOF_BLUR :
                     {
-                        Dof_BluredTexture = new Texture2Dlite(DOUEngine.domainFramebufferRezolution.X, DOUEngine.domainFramebufferRezolution.Y, PixelInternalFormat.Rgb,
+                        Dof_BluredTexture = new Texture2D(DOUEngine.domainFramebufferRezolution.X, DOUEngine.domainFramebufferRezolution.Y, PixelInternalFormat.Rgb,
                             PixelFormat.Rgb, PixelType.UnsignedByte);
-                        Dof_DepthTexture = new Texture2Dlite(DOUEngine.domainFramebufferRezolution.X, DOUEngine.domainFramebufferRezolution.Y, PixelInternalFormat.Depth24Stencil8, PixelFormat.DepthStencil,
+                        Dof_DepthTexture = new Texture2D(DOUEngine.domainFramebufferRezolution.X, DOUEngine.domainFramebufferRezolution.Y, PixelInternalFormat.Depth24Stencil8, PixelFormat.DepthStencil,
                             PixelType.Float);
 
                         /*If lens flare or god rays are enabled - gen additional texture for result*/
                         if (true/*LensFlareRenderer.LensFlareEnabled || GodRaysRenderer.GodRaysEnabled*/)
                         {
-                            Dof_LensFlareTexture = new Texture2Dlite(DOUEngine.domainFramebufferRezolution.X, DOUEngine.domainFramebufferRezolution.Y, PixelInternalFormat.Rgb,
+                            Dof_LensFlareTexture = new Texture2D(DOUEngine.domainFramebufferRezolution.X, DOUEngine.domainFramebufferRezolution.Y, PixelInternalFormat.Rgb,
                               PixelFormat.Rgb, PixelType.UnsignedByte);
                         }
                         break;
                     }
                 case PostprocessType.BLOOM :
                     {
-                        Bloom_HorizontalBlurTexture = new Texture2Dlite(DOUEngine.domainFramebufferRezolution.X / 7, DOUEngine.domainFramebufferRezolution.Y / 7, PixelInternalFormat.Rgb,
+                        Bloom_HorizontalBlurTexture = new Texture2D(DOUEngine.domainFramebufferRezolution.X / 7, DOUEngine.domainFramebufferRezolution.Y / 7, PixelInternalFormat.Rgb,
                             PixelFormat.Rgb, PixelType.UnsignedByte, (Int32)All.Linear);
 
-                        Bloom_VerticalBlurTexture = new Texture2Dlite(DOUEngine.domainFramebufferRezolution.X / 7, DOUEngine.domainFramebufferRezolution.Y / 7, PixelInternalFormat.Rgb,
+                        Bloom_VerticalBlurTexture = new Texture2D(DOUEngine.domainFramebufferRezolution.X / 7, DOUEngine.domainFramebufferRezolution.Y / 7, PixelInternalFormat.Rgb,
                            PixelFormat.Rgb, PixelType.UnsignedByte, (Int32)All.Linear);
                       
                         /*If lens flare or god rays are enabled - gen additional texture for result*/
                         if (true/*LensFlareRenderer.LensFlareEnabled || GodRaysRenderer.GodRaysEnabled*/)
                         {
-                            Bloom_LensFlareTexture = new Texture2Dlite(DOUEngine.domainFramebufferRezolution.X, DOUEngine.domainFramebufferRezolution.Y, PixelInternalFormat.Rgb,
+                            Bloom_LensFlareTexture = new Texture2D(DOUEngine.domainFramebufferRezolution.X, DOUEngine.domainFramebufferRezolution.Y, PixelInternalFormat.Rgb,
                              PixelFormat.Rgb, PixelType.UnsignedByte);
                         }
                         break;

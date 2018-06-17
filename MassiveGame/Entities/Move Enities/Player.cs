@@ -151,9 +151,9 @@ namespace MassiveGame
             if (Sun != null)
             {
                 // Get shadow handler
-                ITexture shadowMap = Sun.GetShadowHandler().GetTextureHandler();
+                ITexture shadowMap = Sun.GetShadow().GetShadowMapTexture();
                 shadowMap.BindTexture(TextureUnit.Texture1); // shadowmap
-                _shader.SetDirectionalLightShadowMatrix(Sun.GetShadowHandler().GetShadowMatrix(ref modelMatrix, ref ProjectionMatrix));
+                _shader.SetDirectionalLightShadowMatrix(Sun.GetShadow().GetShadowMatrix(ref modelMatrix, ref ProjectionMatrix));
             }
             _texture.BindTexture(TextureUnit.Texture0); // diffusemap
             if (bEnableNormalMapping && _normalMap != null)

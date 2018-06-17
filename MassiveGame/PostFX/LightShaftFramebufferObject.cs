@@ -19,9 +19,9 @@ namespace MassiveGame
 
         protected override void setTextures()
         {
-            LightShaftsResultTexture = new Texture2Dlite(DOUEngine.domainFramebufferRezolution.X, DOUEngine.domainFramebufferRezolution.Y, PixelInternalFormat.Rgb, PixelFormat.Rgb, PixelType.UnsignedByte);
-            FrameTexture = new Texture2Dlite(DOUEngine.domainFramebufferRezolution.X, DOUEngine.domainFramebufferRezolution.Y, PixelInternalFormat.Rgb, PixelFormat.Rgb, PixelType.UnsignedByte);
-            RadialBlurAppliedTexture = new Texture2Dlite(DOUEngine.domainFramebufferRezolution.X / 10, DOUEngine.domainFramebufferRezolution.Y / 10, PixelInternalFormat.Rgb, PixelFormat.Rgb, PixelType.UnsignedByte, (Int32)All.Linear);
+            LightShaftsResultTexture = new Texture2D(DOUEngine.domainFramebufferRezolution.X, DOUEngine.domainFramebufferRezolution.Y, PixelInternalFormat.Rgb, PixelFormat.Rgb, PixelType.UnsignedByte);
+            FrameTexture = new Texture2D(DOUEngine.domainFramebufferRezolution.X, DOUEngine.domainFramebufferRezolution.Y, PixelInternalFormat.Rgb, PixelFormat.Rgb, PixelType.UnsignedByte);
+            RadialBlurAppliedTexture = new Texture2D(DOUEngine.domainFramebufferRezolution.X / 10, DOUEngine.domainFramebufferRezolution.Y / 10, PixelInternalFormat.Rgb, PixelFormat.Rgb, PixelType.UnsignedByte, (Int32)All.Linear);
         }
 
         protected override void setFramebuffers()
