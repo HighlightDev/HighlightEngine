@@ -18,7 +18,7 @@ namespace MassiveGame.PostFX
 
         public PostProcessStage()
         {
-            if (DOUEngine.postProcessSettings.bEnable_Bloom)
+            if (DOUEngine.postProcessSettings.bSupported_Bloom)
             {
                 if (false)
                 {
@@ -30,9 +30,9 @@ namespace MassiveGame.PostFX
                 }
             }
 
-            if (DOUEngine.postProcessSettings.bEnable_LightShafts)
+            if (DOUEngine.postProcessSettings.bSupported_LightShafts)
             {
-                if (DOUEngine.postProcessSettings.bEnable_Bloom)
+                if (DOUEngine.postProcessSettings.bSupported_Bloom)
                 {
                     lightShaftsPP = new LightShaftPostProcess<ApplySubsequentPostProcessResult>();
                 }
@@ -42,9 +42,9 @@ namespace MassiveGame.PostFX
                 }
             }
 
-            if (DOUEngine.postProcessSettings.bEnable_LensFlare)
+            if (DOUEngine.postProcessSettings.bSupported_LensFlare)
             {
-                if (DOUEngine.postProcessSettings.bEnable_LightShafts)
+                if (DOUEngine.postProcessSettings.bSupported_LightShafts)
                 {
                     lensFlaresPP = new LensFlarePostProcess<ApplySubsequentPostProcessResult>();
                 }

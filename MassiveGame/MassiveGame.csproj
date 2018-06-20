@@ -152,6 +152,7 @@
     <Compile Include="RenderCore\Lights\SpotLight.cs" />
     <Compile Include="RenderCore\ResolvePostProcessResultToDefaultFramebufferShader.cs" />
     <Compile Include="RenderCore\ShaderBase.cs" />
+    <Compile Include="Settings\PropertyConverter.cs" />
     <Compile Include="Settings\SettingsLoader.cs" />
     <Compile Include="Water\WaterReflectionEntityShader.cs" />
     <Compile Include="Water\WaterRefractionEntityShader.cs" />

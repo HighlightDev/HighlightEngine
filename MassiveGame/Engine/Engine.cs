@@ -51,18 +51,25 @@ namespace MassiveGame.UI
             this.Height = height;
         }
 
-        private void preConstructor() //Start initialize values
+        private void LoadIniSettings()
         {
             SettingsLoader settingsLoader = new SettingsLoader();
             DOUEngine.domainFramebufferRezolution = settingsLoader.GetScreenRezolution();
             DOUEngine.ShadowMapRezolution = settingsLoader.GetDirectionalShadowMapRezolution();
+            DOUEngine.postProcessSettings.bSupported_Bloom = settingsLoader.GetIsBloomSupported();
+            DOUEngine.postProcessSettings.bSupported_LightShafts = settingsLoader.GetIsLightShaftsSupported();
+            DOUEngine.postProcessSettings.bSupported_LensFlare = settingsLoader.GetIsLensFlaresSupported();
+        }
 
+        private void preConstructor() //Start initialize values
+        {
             DOUEngine.Camera = new Camera();
             DOUEngine.PrevCursorPosition = new System.Drawing.Point(-1, -1);
             DOUEngine.ElapsedTime = DateTime.Now;
             DOUEngine.keyboardMask = new API.EventHandlers.KeyboardHandler();
 
-            collisionHeadUnit = new CollisionHeadUnit();
+            LoadIniSettings();
+
             renderTime = new Stopwatch();
         }
 
@@ -70,6 +77,7 @@ namespace MassiveGame.UI
         {
             if (bPostConstructor)
             {
+                collisionHeadUnit = new CollisionHeadUnit();
                 DOUEngine.ProjectionMatrix = Matrix4.Identity;
                 DOUEngine.City = new List<Building>();
                 // need to delete NewMesh.msh if it exists
