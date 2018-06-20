@@ -42,6 +42,7 @@ namespace MassiveGame.PostFX
             shader = (LightShaftShader<T>)ResourcePool.GetShaderProgram(ProjectFolders.ShadersPath + "godrayVS.glsl",
                 ProjectFolders.ShadersPath + "godrayFS.glsl", "", typeof(LightShaftShader<T>));
             bPostConstructor = false;
+            DOUEngine.uiFrameCreator.PushFrame(renderTarget.LightShaftsResultTexture);
         }
 
         private Vector2 getRadialPos(Vector3 translation, Matrix4 viewMatrix, ref Matrix4 projectionMatrix,
@@ -84,11 +85,15 @@ namespace MassiveGame.PostFX
 
             shader.startProgram();
 
-            frameTexture.BindTexture(TextureUnit.Texture0);
-            renderTarget.RadialBlurAppliedTexture.BindTexture(TextureUnit.Texture1);
+            if (previousPostProcessResult != null)
+            {
+                previousPostProcessResult.BindTexture(TextureUnit.Texture1);
+                shader.SetPreviousPostProcessResultSampler(1);
+            }
 
-            shader.SetFrameTextureSampler(0);
-            shader.SetBrightPartsTextureSampler(1);
+            renderTarget.RadialBlurAppliedTexture.BindTexture(TextureUnit.Texture0);
+
+            shader.SetBrightPartsTextureSampler(0);
             shader.SetRadialBlurCenterPositionInScreenSpace(radialBlurScreenSpacePosition);
             shader.SetRadialBlurExposure(Exposure);
             shader.SetRadialBlurDecay(Decay);
@@ -97,6 +102,8 @@ namespace MassiveGame.PostFX
             shader.SetRadialBlurWeight(Weight);
             VAOManager.renderBuffers(quadBuffer, PrimitiveType.Triangles);
             shader.stopProgram();
+
+            renderTarget.unbindFramebuffer();
 
             return renderTarget.LightShaftsResultTexture;
         }
@@ -146,7 +153,7 @@ namespace MassiveGame.PostFX
         public override void CleanUp()
         {
             renderTarget.cleanUp();
-            renderTarget.LightShaftsResultTexture.CleanUp();
+            ResourcePool.ReleaseShaderProgram(shader);
         }
     }
 }

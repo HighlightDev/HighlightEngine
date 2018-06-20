@@ -77,6 +77,6 @@ namespace MassiveGame
         public static UiFrameMaster uiFrameCreator;
         public static List<IDrawable> shadowList;
 
-        public static PostProcessSettings postProcessSettings = new PostProcessSettings { bEnable_LensFlare = true, bEnable_LightShafts = true }; // Must be initialized from .ini
+        public static PostProcessSettings postProcessSettings = new PostProcessSettings { bEnable_LensFlare = true, bEnable_LightShafts = true, bEnable_Bloom = true }; // Must be initialized from .ini
     }
 }

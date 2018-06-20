@@ -31,6 +31,7 @@ namespace MassiveGame
 
         protected override void getAllUniformLocations()
         {
+            base.getAllUniformLocations();
             frameTexture = base.getUniformLocation("frameTexture");
             blurTexture = base.getUniformLocation("blurTexture");
             depthTexture = base.getUniformLocation("depthTexture");
@@ -151,6 +152,7 @@ namespace MassiveGame
 
         protected override void SetShaderMacros()
         {
+            base.SetShaderMacros();
             SetDefine(ShaderTypeFlag.FragmentShader, "White", "0.928");
             SetDefine(ShaderTypeFlag.FragmentShader, "Exposure", "0.35");
             SetDefine(ShaderTypeFlag.FragmentShader, "MAX_BLUR_WIDTH", "10");

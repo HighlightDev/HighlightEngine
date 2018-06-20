@@ -23,7 +23,6 @@ uniform int PixOffset[MAX_BLUR_WIDTH];
 uniform int screenHeight;
 uniform int screenWidth;
 uniform int blurWidth;
-uniform mat3 starburstMatrix;
 
 noperspective in vec2 texCoord;
 

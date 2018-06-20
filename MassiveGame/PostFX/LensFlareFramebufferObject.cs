@@ -21,11 +21,11 @@ namespace MassiveGame
         public ITexture frameTextureLowRezolution { private set; get; }
         public ITexture lensFlareResultTexture { private set; get; }
 
-    #endregion
+        #endregion
 
-    #region Setters
+        #region Setters
 
-    protected override void setTextures()
+        protected override void setTextures()
         {
             /* Img 1 - vertical blur stage image;
              * Img 2 - horizontal blur stage image;
@@ -44,7 +44,7 @@ namespace MassiveGame
             lensFlareResultTexture = new Texture2D(DOUEngine.domainFramebufferRezolution.X, DOUEngine.domainFramebufferRezolution.Y, PixelInternalFormat.Rgb,
                 PixelFormat.Rgb, PixelType.UnsignedByte);
         }
-        
+
         protected override void setFramebuffers()
         {
             base.genFramebuffers(4);
@@ -82,6 +82,15 @@ namespace MassiveGame
         {
             Debug.Log.addToLog(DateTime.Now.ToString() + "  " + "LensFlare Framebuffer 1 : " + base.getFramebufferLog());
             base.unbindFramebuffer();
+        }
+
+        public override void cleanUp()
+        {
+            verticalBlurTexture.CleanUp();
+            horizontalBlurTexture.CleanUp();
+            frameTextureLowRezolution.CleanUp();
+            lensFlareResultTexture.CleanUp();
+            base.cleanUp();
         }
 
         #endregion

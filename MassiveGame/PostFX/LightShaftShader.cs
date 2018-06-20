@@ -17,7 +17,7 @@ namespace MassiveGame
         #region Definitions
 
         private const string SHADER_NAME = "GodRays Shader";
-        private Int32 frameTexture, brightPartsTexture, exposure, decay, weight, radialPosition, density, numSamples;
+        private Int32 brightPartsTexture, exposure, decay, weight, radialPosition, density, numSamples;
 
         #endregion
 
@@ -25,7 +25,7 @@ namespace MassiveGame
 
         protected override void getAllUniformLocations()
         {
-            frameTexture = base.getUniformLocation("frameTexture");
+            base.getAllUniformLocations();
             brightPartsTexture = base.getUniformLocation("bluredTexture");
             exposure = base.getUniformLocation("exposure");
             decay = base.getUniformLocation("decay");
@@ -42,7 +42,6 @@ namespace MassiveGame
         public void setUniformValuesRadialBlur(Int32 frameTexture, Int32 bluredTexture, float exposure,
             float decay, float weigth, float density, Int32 numSamples, Vector2 radialPosition)
         {
-            base.loadInteger(this.frameTexture, frameTexture);
             base.loadInteger(this.brightPartsTexture, bluredTexture);
             base.loadFloat(this.exposure, exposure);
             base.loadFloat(this.decay, decay);
@@ -50,11 +49,6 @@ namespace MassiveGame
             base.loadFloat(this.density, density);
             base.loadInteger(this.numSamples, numSamples);
             base.loadVector(this.radialPosition, radialPosition);
-        }
-
-        public void SetFrameTextureSampler(Int32 frameTextureSampler)
-        {
-            base.loadInteger(this.frameTexture, frameTextureSampler);
         }
 
         public void SetBrightPartsTextureSampler(Int32 brightPartsTextureSampler)

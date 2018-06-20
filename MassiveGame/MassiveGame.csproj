@@ -134,6 +134,9 @@
     <Compile Include="Physics\CollisionBehaviorManager.cs" />
     <Compile Include="Physics\OutputData\OutputData.cs" />
     <Compile Include="Physics\CollisionUnit.cs" />
+    <Compile Include="PostFX\BloomFramebufferObject.cs" />
+    <Compile Include="PostFX\BloomPostProcess.cs" />
+    <Compile Include="PostFX\BloomShader.cs" />
     <Compile Include="PostFX\LensFlarePostProcess.cs" />
     <Compile Include="PostFX\LightShaftPostProcess.cs" />
     <Compile Include="PostFX\PostProcessSettings.cs" />
@@ -179,7 +182,6 @@
     <Compile Include="RenderCore\Light visualization\PointLightDebugShader.cs" />
     <Compile Include="RenderCore\Light visualization\PointLightsDebugRenderer.cs" />
     <Compile Include="PostFX\PostProcessBase.cs" />
-    <Compile Include="PostFX\PostProcessBloom.cs" />
     <Compile Include="RenderCore\CopyTextureShader.cs" />
     <Compile Include="RenderCore\ScreenQuad.cs" />
     <Compile Include="RenderCore\Shadows\BasicShadowShader.cs" />
@@ -302,6 +304,8 @@
     <None Include="ModelFiles\wall_5_door.obj" />
     <None Include="ModelFiles\wall_5_without_door.obj" />
     <None Include="ModelFiles\wall_6_door.obj" />
+    <None Include="Shaders\bloomFS.glsl" />
+    <None Include="Shaders\bloomVS.glsl" />
     <None Include="Shaders\resolvePostProcessResultToDefaultFramebufferFS.glsl" />
     <None Include="Shaders\resolvePostProcessResultToDefaultFramebufferVS.glsl" />
     <None Include="Shaders\particleCS.glsl" />

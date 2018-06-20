@@ -12,30 +12,46 @@ namespace MassiveGame.PostFX
     public class PostProcessStage
     {
         private bool bPostProcessEnabled = true;
+        private PostProcessBase bloomPP = null;
         private PostProcessBase lightShaftsPP = null;
         private PostProcessBase lensFlaresPP = null;
 
         public PostProcessStage()
         {
-            // if light shafts enabled
-
-            //lensFlaresPP = new LensFlarePostProcess();
-            if (false)
+            if (DOUEngine.postProcessSettings.bEnable_Bloom)
             {
-                lightShaftsPP = new LightShaftPostProcess<ApplySubsequentPostProcessResult>();
-            }
-            else
-            {
-                lightShaftsPP = new LightShaftPostProcess<DiscardSubsequentPostProcessResult>();
+                if (false)
+                {
+                    bloomPP = new BloomPostProcess<ApplySubsequentPostProcessResult>();
+                }
+                else
+                {
+                    bloomPP = new BloomPostProcess<DiscardSubsequentPostProcessResult>();
+                }
             }
 
             if (DOUEngine.postProcessSettings.bEnable_LightShafts)
             {
-                lensFlaresPP = new LensFlarePostProcess<ApplySubsequentPostProcessResult>();
+                if (DOUEngine.postProcessSettings.bEnable_Bloom)
+                {
+                    lightShaftsPP = new LightShaftPostProcess<ApplySubsequentPostProcessResult>();
+                }
+                else
+                {
+                    lightShaftsPP = new LightShaftPostProcess<DiscardSubsequentPostProcessResult>();
+                }
             }
-            else
+
+            if (DOUEngine.postProcessSettings.bEnable_LensFlare)
             {
-                lensFlaresPP = new LensFlarePostProcess<DiscardSubsequentPostProcessResult>();
+                if (DOUEngine.postProcessSettings.bEnable_LightShafts)
+                {
+                    lensFlaresPP = new LensFlarePostProcess<ApplySubsequentPostProcessResult>();
+                }
+                else
+                {
+                    lensFlaresPP = new LensFlarePostProcess<DiscardSubsequentPostProcessResult>();
+                }
             }
         }
 
@@ -43,10 +59,16 @@ namespace MassiveGame.PostFX
         {
             ITexture subsequentPostProcessResult = null;
 
+            // Bloom
+            if (bPostProcessEnabled && bloomPP != null)
+            {
+                subsequentPostProcessResult = bloomPP.GetPostProcessResult(frameTexture, actualScreenRezolution, subsequentPostProcessResult);
+            }
+
             // Light shafts
             if (bPostProcessEnabled && DOUEngine.SunReplica.IsInCameraView && lightShaftsPP != null)
             {
-                subsequentPostProcessResult = lightShaftsPP.GetPostProcessResult(frameTexture, actualScreenRezolution);
+                subsequentPostProcessResult = lightShaftsPP.GetPostProcessResult(frameTexture, actualScreenRezolution, subsequentPostProcessResult);
             }
 
             // Lens flares

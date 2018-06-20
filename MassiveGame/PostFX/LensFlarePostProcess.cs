@@ -157,6 +157,8 @@ namespace MassiveGame.PostFX
             VAOManager.renderBuffers(quadBuffer, PrimitiveType.Triangles);
             lensShader.stopProgram();
 
+            renderTarget.unbindFramebuffer();
+
             return renderTarget.lensFlareResultTexture;
         }
 
@@ -200,7 +202,6 @@ namespace MassiveGame.PostFX
         public override void CleanUp()
         {
             renderTarget.cleanUp();
-            renderTarget.lensFlareResultTexture.CleanUp();
             ResourcePool.ReleaseShaderProgram(lensShader);
         }
     }
