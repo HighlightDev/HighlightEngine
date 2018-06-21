@@ -16,8 +16,18 @@ namespace MassiveGame.Settings
         public SettingsLoader()
         {
             string pathToIni = ProjectFolders.getFolderPath() + "/Settings/settings.ini";
-            using (StreamReader reader = new StreamReader(pathToIni))
-                IniContent = reader.ReadToEnd();
+
+            try
+            {
+                using (StreamReader reader = new StreamReader(pathToIni))
+                    IniContent = reader.ReadToEnd();
+            }
+            catch (FileLoadException ex)
+            {
+                Debug.Log.addToLog(ex.Message);
+                Console.WriteLine(ex.Message);
+                throw;
+            }
         }
 
         #region core
@@ -26,26 +36,16 @@ namespace MassiveGame.Settings
         {
             try
             {
-                if (IniContent == null)
-                    throw new FileLoadException("Could not load ini file");
-
                 Int32 indexOfProperty = IniContent.IndexOf(propertyName + " = ");
 
                 if (indexOfProperty == -1)
                     throw new ArgumentException();
-
 
                 Int32 propertyLength = IniContent.IndexOf(";", indexOfProperty) + 1;
                 string propertyString = IniContent.Substring(indexOfProperty, propertyLength - indexOfProperty);
                 indexOfProperty = propertyString.IndexOf("= ") + 1;
                 string property = propertyString.Substring(indexOfProperty, propertyString.IndexOf(";") - indexOfProperty);
                 return converter.Convert(property);
-            }
-            catch (FileLoadException ex)
-            {
-                Debug.Log.addToLog(ex.Message);
-                Console.WriteLine(ex.Message);
-                throw;
             }
             catch (ArgumentException ex)
             {
@@ -56,6 +56,17 @@ namespace MassiveGame.Settings
         }
 
         #endregion
+
+        public void SetGlobalSettings()
+        {
+            DOUEngine.globalSettings.DomainFramebufferRezolution = GetScreenRezolution();
+            DOUEngine.globalSettings.ShadowMapRezolution = GetDirectionalShadowMapRezolution();
+            DOUEngine.globalSettings.bSupported_Bloom = GetIsBloomSupported();
+            DOUEngine.globalSettings.bSupported_LightShafts = GetIsLightShaftsSupported();
+            DOUEngine.globalSettings.bSupported_LensFlare = GetIsLensFlaresSupported();
+            DOUEngine.globalSettings.bSupported_MipMap = GetIsMipMapSupported();
+            DOUEngine.globalSettings.AnisotropicFilterValue = GetAnisotropicFilteringValue();
+        }
 
         public Point GetDirectionalShadowMapRezolution()
         {
@@ -92,6 +103,20 @@ namespace MassiveGame.Settings
             IPropertyConverter convertToBool = new PropertyToBool();
             var bEnableLensFlare = (bool)ReadProperty(convertToBool, "lensflare");
             return bEnableLensFlare;
+        }
+
+        public bool GetIsMipMapSupported()
+        {
+            IPropertyConverter convertToBool = new PropertyToBool();
+            var bEnableMipMap = (bool)ReadProperty(convertToBool, "mipmap");
+            return bEnableMipMap;
+        }
+
+        public float GetAnisotropicFilteringValue()
+        {
+            IPropertyConverter convertToFloat = new PropertyToFloat();
+            var anisotropicFilteringValue = (float)ReadProperty(convertToFloat, "anisotropic");
+            return anisotropicFilteringValue;
         }
     }
 }

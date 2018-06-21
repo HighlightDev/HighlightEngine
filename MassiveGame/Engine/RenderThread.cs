@@ -13,13 +13,13 @@ namespace MassiveGame.Engine
     public class RenderThread
     {
         public DefaultFrameBuffer DefaultFB { set; get; }
-        public PostProcessStage postProcessStage { set; get; }
+        public PostProcessStageRenderer postProcessStage { set; get; }
         //private ComputeShader ch;
 
         public RenderThread()
         {
-            DefaultFB = new DefaultFrameBuffer(DOUEngine.domainFramebufferRezolution);
-            postProcessStage = new PostProcessStage();
+            DefaultFB = new DefaultFrameBuffer(DOUEngine.globalSettings.DomainFramebufferRezolution);
+            postProcessStage = new PostProcessStageRenderer();
         }
 
         private void PreDrawClearBuffers()
@@ -35,7 +35,7 @@ namespace MassiveGame.Engine
             VisibilityCheckApi.CheckMeshIsVisible(DOUEngine.RenderableMeshCollection, ref DOUEngine.ProjectionMatrix, DOUEngine.Camera.getViewMatrix());
 
             // Find which light sources effects on meshes
-            LightHitCheckApi.CheckLightSourceHitMesh(DOUEngine.LitByLightSourcesMeshCollection, DOUEngine.PointLight);
+            LightHitCheckApi.CheckLightSourceHitsMesh(DOUEngine.LitByLightSourcesMeshCollection, DOUEngine.PointLight);
         }
 
         public void ThreadExecution(ref Point actualScreenRezolution, bool bInitialDraw)
@@ -43,17 +43,25 @@ namespace MassiveGame.Engine
             PreDrawClearBuffers();
             VisibilityCheckPass();
 
-            DepthPass(ref actualScreenRezolution, bInitialDraw);
-            DistortionsPass();
-            DrawCall(ref actualScreenRezolution, bInitialDraw);
+            if (!bInitialDraw)
+            {
+                DepthPassDraw(ref actualScreenRezolution);
+            }
+
+            DistortionsPassDraw();
+            BasePassDraw(ref actualScreenRezolution);
+
+#if DEBUG
+            DebugInfoPassDraw(ref actualScreenRezolution);
+#endif
         }
 
         #region Render queue
 
-        private void DrawCall(ref Point actualScreenRezolution, bool bInitialDraw)
+        private void BasePassDraw(ref Point actualScreenRezolution)
         {
             DefaultFB.Bind();
-            DrawAll(ref actualScreenRezolution, bInitialDraw);
+            RenderBaseMeshes(DOUEngine.Camera);
             DefaultFB.Unbind();
 
             postProcessStage.ExecutePostProcessPass(DefaultFB.GetColorTexture(), ref actualScreenRezolution);
@@ -187,75 +195,32 @@ namespace MassiveGame.Engine
             //DOUEngine.uiFrameCreator.RenderInputTexture(DefaultFB.GetTextureHandler(), new Point(actualSceenWidth, actualSceenHeight));
         }
 
-        #endregion
-
-        #region Render functions
-
-        private void DrawAll(ref Point actualScreenRezolution, bool bInitialDraw)
+        private void DepthPassDraw(ref Point actualScreenRezolution)
         {
-            RenderBasePass(DOUEngine.Camera);
-#if DEBUG
+            DOUEngine.Sun.GetShadow().WriteDepth(DOUEngine.shadowList, ref DOUEngine.ProjectionMatrix);
+            GL.Viewport(0, 0, actualScreenRezolution.X, actualScreenRezolution.Y);
+        }
+
+        private void DistortionsPassDraw()
+        {
+            if (DOUEngine.Water != null && DOUEngine.Water.IsInCameraView)
+            {
+                DOUEngine.Water.SetReflectionRendertarget();
+                RenderToReflectionRenderTarget(DOUEngine.Camera, new Vector4(0, -1, 0, DOUEngine.Water.WaterHeight), DOUEngine.Water.Quality);
+
+                DOUEngine.Water.SetRefractionRendertarget();
+                RenderToRefractionRenderTarget(DOUEngine.Camera, new Vector4(0, -1, 0, DOUEngine.Water.WaterHeight), DOUEngine.Water.Quality);
+            }
+        }
+
+        private void DebugInfoPassDraw(ref Point actualScreenRezoltuion)
+        {
             RenderLamps();
             RenderBoundingBoxes();
-            RenderDebugInfo();
-#endif
+            RenderDebugFramePanels();
         }
 
-        private void RenderBoundingBoxes()
-        {
-            Matrix4 viewMatrix = DOUEngine.Camera.getViewMatrix();
-
-            if (DOUEngine.Player != null)
-            {
-                DOUEngine.Player.RenderBound(ref DOUEngine.ProjectionMatrix, ref viewMatrix, System.Drawing.Color.Red);
-            }
-
-            if (!Object.Equals(DOUEngine.Enemy, null))
-            {
-                DOUEngine.Enemy.RenderBound(ref DOUEngine.ProjectionMatrix, ref viewMatrix, System.Drawing.Color.Red);
-            }
-
-            if (DOUEngine.City != null)
-            {
-                foreach (var item in DOUEngine.City)
-                    item.RenderBound(ref DOUEngine.ProjectionMatrix, ref viewMatrix, System.Drawing.Color.Red);
-            }
-
-            if (DOUEngine.SunReplica != null && DOUEngine.SunReplica.CQuad != null)
-            {
-                var matrix = DOUEngine.Camera.getViewMatrix();
-                matrix[3, 0] = 0.0f;
-                matrix[3, 1] = 0.0f;
-                matrix[3, 2] = 0.0f;
-                DOUEngine.SunReplica.CQuad.renderQuad(matrix, ref DOUEngine.ProjectionMatrix);
-            }
-        }
-    
-        private void RenderDebugInfo()
-        {
-            DOUEngine.uiFrameCreator.RenderFrames();
-        }
-
-        private void DepthPass(ref Point actualScreenRezolution, bool bInitialDraw)
-        {
-            if (!bInitialDraw)
-            {
-                DOUEngine.Sun.GetShadow().WriteDepth(DOUEngine.shadowList, ref DOUEngine.ProjectionMatrix);
-                GL.Viewport(0, 0, actualScreenRezolution.X, actualScreenRezolution.Y);
-            }
-        }
-
-        private void RenderLamps()
-        {
-            /*TO DO :
-             * If point lights exist - show them */
-            if (DOUEngine.PointLight != null)
-            {
-                DOUEngine.pointLightDebugRenderer.Render(DOUEngine.Camera, DOUEngine.ProjectionMatrix);
-            }
-        }
-      
-        private void RenderBasePass(Camera camera)
+        private void RenderBaseMeshes(Camera camera)
         {
             /*TO DO :
              * Culling back faces of Skybox (cause we don't see them)
@@ -282,6 +247,12 @@ namespace MassiveGame.Engine
                 {
                     DOUEngine.SunReplica.renderSun(DOUEngine.Camera, ref DOUEngine.ProjectionMatrix);
                 }
+            }
+
+            if (DOUEngine.Water != null && DOUEngine.Water.IsInCameraView)
+            {
+                DOUEngine.Water.renderWater(DOUEngine.Camera, ref DOUEngine.ProjectionMatrix, (float)DOUEngine.RENDER_TIME,
+                        DOUEngine.NEAR_CLIPPING_PLANE, DOUEngine.FAR_CLIPPING_PLANE, DOUEngine.Sun, DOUEngine.PointLight);
             }
 
             GL.Disable(EnableCap.CullFace);
@@ -312,20 +283,6 @@ namespace MassiveGame.Engine
                 {
                     DOUEngine.Enemy.renderObject(DOUEngine.Mode, DOUEngine.NormalMapTrigger, DOUEngine.Sun, DOUEngine.PointLight, camera, ref DOUEngine.ProjectionMatrix);
                 }
-            }
-
-            /*TO DO :
-             true - allow EngineSingleton.Water rendering 
-             false - disallow */
-            if (DOUEngine.Water != null && DOUEngine.Water.IsInCameraView)
-            {
-                GL.CullFace(CullFaceMode.Back);
-                GL.Enable(EnableCap.CullFace);
-
-                DOUEngine.Water.renderWater(DOUEngine.Camera, ref DOUEngine.ProjectionMatrix, (float)DOUEngine.RENDER_TIME,
-                        DOUEngine.NEAR_CLIPPING_PLANE, DOUEngine.FAR_CLIPPING_PLANE, DOUEngine.Sun, DOUEngine.PointLight);
-
-                GL.Disable(EnableCap.CullFace);
             }
 
             // ITS for TEST! COMPUTE SHADERS!
@@ -395,7 +352,6 @@ namespace MassiveGame.Engine
             GL.Disable(EnableCap.StencilTest); // Disable stencil test 
         }
 
-        /*Render settings for EngineSingleton.Water refractions*/
         private void RenderToRefractionRenderTarget(LiteCamera camera, Vector4 clipPlane, WaterQuality quality)
         {
             GL.Enable(EnableCap.StencilTest); // Enable stencil test
@@ -454,98 +410,52 @@ namespace MassiveGame.Engine
             GL.Disable(EnableCap.StencilTest); // Enable stencil test
         }
 
-        private void DistortionsPass()
+        private void RenderLamps()
         {
-            if (DOUEngine.Water != null && DOUEngine.Water.IsInCameraView)
+            /*TO DO :
+             * If point lights exist - show them */
+            if (DOUEngine.PointLight != null)
             {
-                DOUEngine.Water.SetReflectionRendertarget();
-                RenderToReflectionRenderTarget(DOUEngine.Camera, new Vector4(0, -1, 0, DOUEngine.Water.WaterHeight), DOUEngine.Water.Quality);
-
-                DOUEngine.Water.SetRefractionRendertarget();
-                RenderToRefractionRenderTarget(DOUEngine.Camera, new Vector4(0, -1, 0, DOUEngine.Water.WaterHeight), DOUEngine.Water.Quality);
+                DOUEngine.pointLightDebugRenderer.Render(DOUEngine.Camera, DOUEngine.ProjectionMatrix);
             }
         }
 
-        private void renderToLensFlareScene(Camera camera)
+        private void RenderBoundingBoxes()
         {
-            /*TO DO :
-             * Culling back faces of all objects on scene
-             * and enabling color masking */
-
-            GL.ColorMask(false, false, false, true);
-            GL.CullFace(CullFaceMode.Back);
-            GL.Enable(EnableCap.CullFace);
-
-            if (DOUEngine.terrain != null) DOUEngine.terrain.renderTerrain(DOUEngine.Mode, DOUEngine.Sun, DOUEngine.PointLight, camera, DOUEngine.ProjectionMatrix);
-            if (DOUEngine.City != null) foreach (Building house in DOUEngine.City)
-                { house.renderObject(DOUEngine.Mode, DOUEngine.NormalMapTrigger, DOUEngine.Sun, DOUEngine.PointLight, camera, ref DOUEngine.ProjectionMatrix); }
+            Matrix4 viewMatrix = DOUEngine.Camera.getViewMatrix();
 
             if (DOUEngine.Player != null)
             {
-                if (DOUEngine.Player.IsInCameraView)
-                {
-                    DOUEngine.Player.renderObject(DOUEngine.Mode, DOUEngine.NormalMapTrigger, DOUEngine.Sun, DOUEngine.PointLight, camera, ref DOUEngine.ProjectionMatrix);
-                }
+                DOUEngine.Player.RenderBound(ref DOUEngine.ProjectionMatrix, ref viewMatrix, System.Drawing.Color.Red);
             }
-            if (DOUEngine.Enemy != null) DOUEngine.Enemy.renderObject(DOUEngine.Mode, DOUEngine.NormalMapTrigger, DOUEngine.Sun, DOUEngine.PointLight, camera, ref DOUEngine.ProjectionMatrix);
 
-            /*Disable color masking*/
-            GL.ColorMask(true, true, true, true);
-            if (!Object.Equals(DOUEngine.SunReplica, null))
+            if (!Object.Equals(DOUEngine.Enemy, null))
             {
-                if (DOUEngine.SunReplica.IsInCameraView)
-                {
-                    DOUEngine.SunReplica.renderSun(DOUEngine.Camera, ref DOUEngine.ProjectionMatrix, new Vector3(DOUEngine.SunReplica.LENS_FLARE_SUN_SIZE / DOUEngine.SunReplica.SUN_SIZE));
-                }
+                DOUEngine.Enemy.RenderBound(ref DOUEngine.ProjectionMatrix, ref viewMatrix, System.Drawing.Color.Red);
             }
 
-            /*Stop culling*/
-            GL.Disable(EnableCap.CullFace);
+            if (DOUEngine.City != null)
+            {
+                foreach (var item in DOUEngine.City)
+                    item.RenderBound(ref DOUEngine.ProjectionMatrix, ref viewMatrix, System.Drawing.Color.Red);
+            }
+
+            if (DOUEngine.SunReplica != null && DOUEngine.SunReplica.CQuad != null)
+            {
+                var matrix = DOUEngine.Camera.getViewMatrix();
+                matrix[3, 0] = 0.0f;
+                matrix[3, 1] = 0.0f;
+                matrix[3, 2] = 0.0f;
+                DOUEngine.SunReplica.CQuad.renderQuad(matrix, ref DOUEngine.ProjectionMatrix);
+            }
         }
 
-        private void renderToGodRaysScene(Camera camera)
+        private void RenderDebugFramePanels()
         {
-            /*TO DO :
-            * Culling back faces and enabling color masking */
-            GL.ColorMask(false, false, false, true);
-            GL.Enable(EnableCap.CullFace);
-            GL.CullFace(CullFaceMode.Back);
-            GL.Clear(ClearBufferMask.DepthBufferBit);
-
-            if (DOUEngine.Skybox != null) DOUEngine.Skybox.renderSkybox(DOUEngine.Camera, DOUEngine.Sun, DOUEngine.ProjectionMatrix);
-
-            GL.Clear(ClearBufferMask.DepthBufferBit);
-            if (DOUEngine.terrain != null) DOUEngine.terrain.renderTerrain(DOUEngine.Mode, DOUEngine.Sun, DOUEngine.PointLight, camera, DOUEngine.ProjectionMatrix);
-
-            GL.Disable(EnableCap.CullFace);
-
-
-            if (DOUEngine.Plant1 != null) DOUEngine.Plant1.renderEntities(DOUEngine.Sun, camera, DOUEngine.ProjectionMatrix, (float)DOUEngine.RENDER_TIME, DOUEngine.terrain);
-
-            if (DOUEngine.City != null) foreach (Building house in DOUEngine.City)
-                { house.renderObject(DOUEngine.Mode, DOUEngine.NormalMapTrigger, DOUEngine.Sun, DOUEngine.PointLight, camera, ref DOUEngine.ProjectionMatrix); }
-
-            if (DOUEngine.Player != null)
-            {
-                if (DOUEngine.Player.IsInCameraView)
-                {
-                    DOUEngine.Player.renderObject(DOUEngine.Mode, DOUEngine.NormalMapTrigger, DOUEngine.Sun, DOUEngine.PointLight, camera, ref DOUEngine.ProjectionMatrix);
-                }
-            }
-            if (DOUEngine.Enemy != null) DOUEngine.Enemy.renderObject(DOUEngine.Mode, DOUEngine.NormalMapTrigger, DOUEngine.Sun, DOUEngine.PointLight, camera, ref DOUEngine.ProjectionMatrix);
-
-            GL.ColorMask(true, true, true, true);
-
-            if (!Object.Equals(DOUEngine.SunReplica, null))
-            {
-                if (DOUEngine.SunReplica.IsInCameraView)
-                {
-                    DOUEngine.SunReplica.renderSun(DOUEngine.Camera, ref DOUEngine.ProjectionMatrix);
-                }
-            }
+            DOUEngine.uiFrameCreator.RenderFrames();
         }
 
-#endregion
+        #endregion
 
     }
 }

@@ -12,7 +12,6 @@ using MassiveGame.Debug.UiPanel;
 using MassiveGame.API.EventHandlers;
 using MassiveGame.Settings;
 using MassiveGame.RenderCore;
-using MassiveGame.PostFX;
 
 namespace MassiveGame
 {
@@ -70,13 +69,10 @@ namespace MassiveGame
         public static  Point PrevCursorPosition;
 
         public static KeyboardHandler keyboardMask;
-
-        public static Point domainFramebufferRezolution;
-
-        public static Point ShadowMapRezolution;
+       
         public static UiFrameMaster uiFrameCreator;
         public static List<IDrawable> shadowList;
 
-        public static PostProcessSettings postProcessSettings = new PostProcessSettings(); // Must be initialized from .ini
+        public static GlobalSettings globalSettings = new GlobalSettings();
     }
 }

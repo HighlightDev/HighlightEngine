@@ -12,6 +12,7 @@ using ShaderPattern;
 using MassiveGame.API.Collector;
 using GpuGraphics;
 using System.Drawing;
+using FramebufferAPI;
 
 namespace MassiveGame.RenderCore
 {
@@ -50,14 +51,12 @@ namespace MassiveGame.RenderCore
 
         public static ITexture CopyTexture(ITexture src)
         {
-            ITexture dst = null;
-            var emptyTexture = Texture2D.genEmptyImage(src.GetTextureRezolution().X, src.GetTextureRezolution().Y,
-                (Int32)All.Nearest, PixelInternalFormat.Rgb, OpenTK.Graphics.OpenGL.PixelFormat.Rgb, PixelType.UnsignedByte, TextureWrapMode.Repeat);
+            ITexture dst = ResourcePool.GetRenderTarget(src.GetTextureParameters());
 
             var renderTarget = GL.GenFramebuffer();
 
             GL.BindFramebuffer(FramebufferTarget.Framebuffer, renderTarget);
-            GL.FramebufferTexture2D(FramebufferTarget.Framebuffer, FramebufferAttachment.ColorAttachment0, src.GetTextureTarget(), emptyTexture, 0);
+            GL.FramebufferTexture2D(FramebufferTarget.Framebuffer, FramebufferAttachment.ColorAttachment0, src.GetTextureParameters().TexTarget, dst.GetTextureDescriptor(), 0);
             GL.DrawBuffer(DrawBufferMode.ColorAttachment0);
 
             GL.Disable(EnableCap.DepthTest);
@@ -73,7 +72,6 @@ namespace MassiveGame.RenderCore
             GL.BindFramebuffer(FramebufferTarget.Framebuffer, 0);
             GL.DeleteFramebuffer(renderTarget);
 
-            dst = new Texture2D(emptyTexture, src.GetTextureRezolution());
             return dst;
         }
     }

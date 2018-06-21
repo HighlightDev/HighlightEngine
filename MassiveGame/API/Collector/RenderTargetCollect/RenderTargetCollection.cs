@@ -14,24 +14,38 @@ namespace MassiveGame.API.Collector.TextureBufferCollect
         private readonly Int32 MAX_RENDER_TARGETS;
         private Int32 AllocatedRenderTargets;
 
-        private Dictionary<RenderTargetParams, ITexture> renderTargetDictionary;
-        private Dictionary<RenderTargetParams, Int32> referenceCount;
+        private Dictionary<TextureParameters, ITexture> renderTargetDictionary;
+        private Dictionary<TextureParameters, Int32> referenceCount;
 
         public RenderTargetCollection(Int32 MaxRenderTargets)
         {
             MAX_RENDER_TARGETS = MaxRenderTargets;
             AllocatedRenderTargets = 0;
 
-            renderTargetDictionary = new Dictionary<RenderTargetParams, ITexture>();
-            referenceCount = new Dictionary<RenderTargetParams, Int32>();
+            renderTargetDictionary = new Dictionary<TextureParameters, ITexture>();
+            referenceCount = new Dictionary<TextureParameters, Int32>();
         }
 
-        public ITexture RetrieveRenderTarget(RenderTargetParams RenderTargetKey)
+        public Int32 GetRenderTargetCount()
+        {
+            return renderTargetDictionary.Count;
+        }
+
+        public ITexture GetRenderTargetAt(Int32 index)
+        {
+            ITexture result = null;
+            if (index < GetRenderTargetCount())
+                result = renderTargetDictionary.ToList()[index].Value;
+
+            return result;
+        }
+
+        public ITexture RetrieveRenderTarget(TextureParameters RenderTargetKey)
         {
             return TryGetRenderTarget(RenderTargetKey);
         }
 
-        private ITexture TryGetRenderTarget(RenderTargetParams RenderTargetKey)
+        private ITexture TryGetRenderTarget(TextureParameters RenderTargetKey)
         {
             ITexture result = null;
             bool bAccessForbidden = false;
@@ -56,7 +70,7 @@ namespace MassiveGame.API.Collector.TextureBufferCollect
             return result;
         }
 
-        private void IncreaseRefCounter(RenderTargetParams RenderTargetKey, bool exist, bool bAccessForbidden)
+        private void IncreaseRefCounter(TextureParameters RenderTargetKey, bool exist, bool bAccessForbidden)
         {
             if (exist)
             {
@@ -69,7 +83,7 @@ namespace MassiveGame.API.Collector.TextureBufferCollect
             }
         }
 
-        public void ReleaseRenderTarget(RenderTargetParams RenderTargetKey)
+        public void ReleaseRenderTarget(TextureParameters RenderTargetKey)
         {
             bool bExist = false;
             bExist = renderTargetDictionary.Any(value => value.Key == RenderTargetKey);
@@ -82,8 +96,8 @@ namespace MassiveGame.API.Collector.TextureBufferCollect
         public void ReleaseRenderTarget(ITexture renderTargetHandle)
         {
             bool bExist = false;
-            RenderTargetParams key = null;
-            bExist = renderTargetDictionary.Any(new Func<KeyValuePair<RenderTargetParams, ITexture>, bool>(value =>
+            TextureParameters key = null;
+            bExist = renderTargetDictionary.Any(new Func<KeyValuePair<TextureParameters, ITexture>, bool>(value =>
             {
                 if (value.Value == renderTargetHandle)
                 {
@@ -102,7 +116,7 @@ namespace MassiveGame.API.Collector.TextureBufferCollect
             }
         }
 
-        private void DecrementReference(RenderTargetParams RenderTargetKey)
+        private void DecrementReference(TextureParameters RenderTargetKey)
         {
             referenceCount[RenderTargetKey]--;
             if (referenceCount[RenderTargetKey] == 0/* && AllocatedRenderTargets > MAX_RENDER_TARGETS*/)

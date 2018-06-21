@@ -269,11 +269,6 @@ namespace MassiveGame
                 _buffer = new VAO(_attribs);
                 VAOManager.genVAO(_buffer); //Генерируем буффер
                 VAOManager.setBufferData(BufferTarget.ArrayBuffer, _buffer);  //Заносим данные в буффер
-
-                //setNormalMapR(new Texture2D(new string[] { ProjectFolders.NormalMapsPath + "brick_nm_high.png" }));
-                //setNormalMapG(new Texture2D(new string[] { ProjectFolders.NormalMapsPath + "brick_nm_high.png" }));
-                //setNormalMapBlack(new Texture2D(new string[] { ProjectFolders.NormalMapsPath + "brick_nm_high.png" }));
-
                 this._postConstructor = !this._postConstructor;
             }
         }

@@ -1,7 +1,7 @@
-﻿using FramebufferAPI;
-using OpenTK;
+﻿using OpenTK;
 using OpenTK.Graphics.OpenGL;
 using MassiveGame.RenderCore.Lights;
+using TextureLoader;
 
 namespace MassiveGame.RenderCore.Shadows
 {
@@ -12,7 +12,7 @@ namespace MassiveGame.RenderCore.Shadows
         private ShadowOrthoBuilder Builder;
         private LiteCamera ViewerCamera;
 
-        public ShadowDirectionalLight(LiteCamera viewerCamera, RenderTargetParams ShadowMapSettings, DirectionalLight LightSource) : base(ShadowMapSettings)
+        public ShadowDirectionalLight(LiteCamera viewerCamera, TextureParameters ShadowMapSettings, DirectionalLight LightSource) : base(ShadowMapSettings)
         {
             ViewerCamera = viewerCamera;
             Builder = new ShadowOrthoBuilder();

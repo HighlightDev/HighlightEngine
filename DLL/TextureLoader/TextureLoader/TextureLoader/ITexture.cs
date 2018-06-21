@@ -1,10 +1,6 @@
 ﻿using OpenTK.Graphics.OpenGL;
 using System;
-using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace TextureLoader
 {
@@ -14,7 +10,7 @@ namespace TextureLoader
         void UnbindTexture(TextureUnit samplerID);
         void CleanUp();
         UInt32 GetTextureDescriptor();
-        TextureTarget GetTextureTarget();
         Point GetTextureRezolution();
+        TextureParameters GetTextureParameters();
     }
 }

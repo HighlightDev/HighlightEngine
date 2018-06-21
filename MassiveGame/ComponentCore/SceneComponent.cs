@@ -34,91 +34,16 @@ namespace MassiveGame.ComponentCore
             base.Tick(ref projectionMatrix, ref viewMatrix);
         }
 
-        // TEMP
-        //private float[,] GetVertices()
-        //{
-        //    OBB obb = Bound as OBB;
-
-        //    if (obb == null)
-        //        return null;
-
-        //    Vector3[] vertices = obb.GetObbVertices();
-
-        //    float[,] vertex = new float[36, 3] {
-        //        {vertices[0].X, vertices[0].Y, vertices[0].Z },
-        //        {vertices[1].X, vertices[1].Y, vertices[1].Z },
-        //        {vertices[7].X, vertices[7].Y, vertices[7].Z },
-
-        //        {vertices[7].X, vertices[7].Y, vertices[7].Z },
-        //        {vertices[2].X, vertices[2].Y, vertices[2].Z },
-        //        {vertices[0].X, vertices[0].Y, vertices[0].Z },
-
-        //        {vertices[3].X, vertices[3].Y, vertices[3].Z },
-        //        {vertices[6].X, vertices[6].Y, vertices[6].Z },
-        //        {vertices[4].X, vertices[4].Y, vertices[4].Z },
-
-        //        {vertices[4].X, vertices[4].Y, vertices[4].Z },
-        //        {vertices[5].X, vertices[5].Y, vertices[5].Z },
-        //        {vertices[3].X, vertices[3].Y, vertices[3].Z },
-
-        //        {vertices[3].X, vertices[3].Y, vertices[3].Z },
-        //        {vertices[0].X, vertices[0].Y, vertices[0].Z },
-        //        {vertices[1].X, vertices[1].Y, vertices[1].Z },
-
-        //        {vertices[1].X, vertices[1].Y, vertices[1].Z },
-        //        {vertices[6].X, vertices[6].Y, vertices[6].Z },
-        //        {vertices[3].X, vertices[3].Y, vertices[3].Z },
-
-        //        {vertices[5].X, vertices[5].Y, vertices[5].Z },
-        //        {vertices[2].X, vertices[2].Y, vertices[2].Z },
-        //        {vertices[7].X, vertices[7].Y, vertices[7].Z },
-
-        //        {vertices[7].X, vertices[7].Y, vertices[7].Z },
-        //        {vertices[4].X, vertices[4].Y, vertices[4].Z },
-        //        {vertices[5].X, vertices[5].Y, vertices[5].Z },
-
-        //        {vertices[5].X, vertices[5].Y, vertices[5].Z },
-        //        {vertices[2].X, vertices[2].Y, vertices[2].Z },
-        //        {vertices[0].X, vertices[0].Y, vertices[0].Z },
-
-        //        {vertices[0].X, vertices[0].Y, vertices[0].Z },
-        //        {vertices[3].X, vertices[3].Y, vertices[3].Z },
-        //        {vertices[5].X, vertices[5].Y, vertices[5].Z },
-
-        //        {vertices[6].X, vertices[6].Y, vertices[6].Z },
-        //        {vertices[1].X, vertices[1].Y, vertices[1].Z },
-        //        {vertices[7].X, vertices[7].Y, vertices[7].Z },
-
-        //        {vertices[7].X, vertices[7].Y, vertices[7].Z },
-        //        {vertices[4].X, vertices[4].Y, vertices[4].Z },
-        //        {vertices[6].X, vertices[6].Y, vertices[6].Z },
-        //    };
-
-
-        //    return vertex;
-        //}
-
-
         public override void RenderBound(ref Matrix4 projectionMatrix, ref Matrix4 viewMatrix, Color4 color)
         {
-            // TEMP for bug fix
-
-            //var tempTest = GetVertices();
             float[,] vertices;
             Matrix4 worldMatrix = Matrix4.Identity;
-            //if (tempTest != null)
-            //{
-            //    vertices = tempTest;
-            //}
-            //else
-            {
-                vertices = buffer.getBufferData().Vertices;
-                if ((Bound.GetBoundType() & BoundBase.BoundType.AABB) == BoundBase.BoundType.AABB)
-                    worldMatrix = (Bound as AABB).ScalePlusTranslation;
-                else
-                    worldMatrix = (Bound as OBB).TransformationMatrix;
+            vertices = buffer.getBufferData().Vertices;
+            if ((Bound.GetBoundType() & BoundBase.BoundType.AABB) == BoundBase.BoundType.AABB)
+                worldMatrix = (Bound as AABB).ScalePlusTranslation;
+            else
+                worldMatrix = (Bound as OBB).TransformationMatrix;
 
-            }
 
 
             Matrix4 modelViewMatrix = worldMatrix * viewMatrix;

@@ -22,7 +22,7 @@ namespace MassiveGame.RenderCore.Shadows
         public abstract Matrix4 GetShadowViewMatrix();
         protected abstract void PrepareRenderTarget();
 
-        protected RenderTargetParams RTParams;
+        protected TextureParameters RTParams;
         protected ITexture ShadowMapTexture;
         protected Int32 FramebufferHandler;
 
@@ -44,7 +44,7 @@ namespace MassiveGame.RenderCore.Shadows
             return result;
         }
 
-        public void AllocateRenderTarget(RenderTargetParams shadowMapSettings)
+        public void AllocateRenderTarget(TextureParameters shadowMapSettings)
         {
             RTParams = shadowMapSettings;
             ShadowMapTexture = ResourcePool.GetRenderTarget(shadowMapSettings);
@@ -85,7 +85,7 @@ namespace MassiveGame.RenderCore.Shadows
             GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
         }
 
-        public ShadowBase(RenderTargetParams ShadowMapSettings)
+        public ShadowBase(TextureParameters ShadowMapSettings)
         {
             shadowShader = (BasicShadowShader)ResourcePool.GetShaderProgram(ProjectFolders.ShadersPath + "basicShadowVS.glsl", ProjectFolders.ShadersPath + "basicShadowFS.glsl", "", typeof(BasicShadowShader));
             AllocateRenderTarget(ShadowMapSettings);

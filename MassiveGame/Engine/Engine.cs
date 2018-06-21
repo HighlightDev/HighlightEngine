@@ -22,6 +22,7 @@ using MassiveGame.Debug.UiPanel;
 using MassiveGame.ComponentCore;
 using System.IO;
 using TextureLoader;
+using MassiveGame.API.Collector;
 
 namespace MassiveGame.UI
 {
@@ -54,11 +55,7 @@ namespace MassiveGame.UI
         private void LoadIniSettings()
         {
             SettingsLoader settingsLoader = new SettingsLoader();
-            DOUEngine.domainFramebufferRezolution = settingsLoader.GetScreenRezolution();
-            DOUEngine.ShadowMapRezolution = settingsLoader.GetDirectionalShadowMapRezolution();
-            DOUEngine.postProcessSettings.bSupported_Bloom = settingsLoader.GetIsBloomSupported();
-            DOUEngine.postProcessSettings.bSupported_LightShafts = settingsLoader.GetIsLightShaftsSupported();
-            DOUEngine.postProcessSettings.bSupported_LensFlare = settingsLoader.GetIsLensFlaresSupported();
+            settingsLoader.SetGlobalSettings();
         }
 
         private void preConstructor() //Start initialize values
@@ -105,7 +102,7 @@ namespace MassiveGame.UI
  
         private void setTestValues()
         {
-            var rtParams = new RenderTargetParams(TextureTarget.Texture2D, 0, PixelInternalFormat.DepthComponent16, DOUEngine.ShadowMapRezolution.X, DOUEngine.ShadowMapRezolution.Y, PixelFormat.DepthComponent, PixelType.Float);
+            var rtParams = new TextureParameters(TextureTarget.Texture2D, TextureMagFilter.Nearest, TextureMinFilter.Nearest, 0, PixelInternalFormat.DepthComponent16, DOUEngine.globalSettings.ShadowMapRezolution.X, DOUEngine.globalSettings.ShadowMapRezolution.Y, PixelFormat.DepthComponent, PixelType.Float);
             DOUEngine.Sun = new DirectionalLight(rtParams, new Vector3(-100, -10, 50), new Vector4(0.4f, 0.4f, 0.4f, 1),
                 new Vector4(0.7f, 0.7f, 0.7f, 1.0f), new Vector4(1, 1, 1, 1));
             DOUEngine.Sun.GetShadow().CreateShadowMapCache();
@@ -288,7 +285,6 @@ namespace MassiveGame.UI
 
 
             DOUEngine.uiFrameCreator = new UiFrameMaster();
-            //DOUEngine.uiFrameCreator.PushFrame(DOUEngine.Sun.GetShadowHandler().GetTextureHandler());
            
             //ch = new ComputeShader();
             //ch.Init();
@@ -416,40 +412,19 @@ namespace MassiveGame.UI
 
         private void OnMouseWheel(object sender, MouseEventArgs e)
         {
-            //if (DOUEngine.PostProc != null)
-            //{
-            //    if (e.Delta > 0)
-            //    {
-            //        DOUEngine.PostProc.BlurWidth--;
-            //        DOUEngine.PostProc.BloomThreshold -= 0.1f;
-            //    }
-            //    if (e.Delta < 0)
-            //    {
-            //        DOUEngine.PostProc.BlurWidth++;
-            //        DOUEngine.PostProc.BloomThreshold += 0.1f;
-            //    }
-            //}
-            //else
-            //{
-            //    if (e.Delta > 0)
-            //    {
-            //        DOUEngine.Camera.setThirdPersonZoom(-1);
-            //    }
-            //    if (e.Delta < 0)
-            //    {
-            //        DOUEngine.Camera.setThirdPersonZoom(1);
-            //    }
-            //}
-
             if (DOUEngine.DayCycle != null)
             {
                 if (e.Delta > 0)
                 {
-                    DOUEngine.DayCycle.TimeFlow += 0.05f;
+                    DOUEngine.DayCycle.TimeFlow += 0.01f;
                 }
-                if (e.Delta < 0)
+                else if (e.Delta < 0 && DOUEngine.DayCycle.TimeFlow >= 0)
                 {
-                    DOUEngine.DayCycle.TimeFlow -= 0.05f;
+                    DOUEngine.DayCycle.TimeFlow -= 0.01f;
+                }
+                else if (DOUEngine.DayCycle.TimeFlow < 0)
+                {
+                    DOUEngine.DayCycle.TimeFlow = 0.0f;
                 }
             }
         }
@@ -469,6 +444,8 @@ namespace MassiveGame.UI
             return base.ProcessCmdKey(ref msg, keyData);
         }
 
+        Int32 renderTargetIndex = 0;
+
         private void OnKeyDown(object sender, KeyEventArgs e)
         {
             switch (e.KeyCode)
@@ -480,7 +457,7 @@ namespace MassiveGame.UI
                         break;
                     }
                 case Keys.N: DOUEngine.NormalMapTrigger = !DOUEngine.NormalMapTrigger; break;
-                case Keys.M:   //Меняем типы полигонов
+                case Keys.M:   
                     {
                         if (DOUEngine.Mode == PrimitiveType.Triangles)
                         {
@@ -503,6 +480,20 @@ namespace MassiveGame.UI
                     {
                         DOUEngine.Water.WaveSpeed -= 0.1f;
                         DOUEngine.Water.WaveStrength -= 0.1f;
+                        break;
+                    }
+                case Keys.Insert:
+                    {
+                        DOUEngine.uiFrameCreator.PushFrame(ResourcePool.GetRenderTargetAt(renderTargetIndex));
+                        Int32 count = ResourcePool.GetRenderTargetCount();
+                        if (renderTargetIndex + 1 >= count)
+                        {
+                            renderTargetIndex = 0;
+                        }
+                        else
+                        {
+                            ++renderTargetIndex;
+                        }
                         break;
                     }
                     #endregion

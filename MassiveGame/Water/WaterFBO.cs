@@ -2,6 +2,7 @@
 using TextureLoader;
 using FramebufferAPI;
 using OpenTK.Graphics.OpenGL;
+using MassiveGame.API.Collector;
 
 namespace MassiveGame
 {
@@ -24,9 +25,10 @@ namespace MassiveGame
              2 - for refraction
              3 - for depth*/
 
-            ReflectionTexture = new Texture2D((Int32)(DOUEngine.domainFramebufferRezolution.X / 1.5), (Int32)(DOUEngine.domainFramebufferRezolution.Y / 1.5), PixelInternalFormat.Rgb, PixelFormat.Rgb, PixelType.UnsignedByte);
-            RefractionTexture = new Texture2D((Int32)(DOUEngine.domainFramebufferRezolution.X / 1.5), (Int32)(DOUEngine.domainFramebufferRezolution.Y / 1.5), PixelInternalFormat.Rgb, PixelFormat.Rgb, PixelType.UnsignedByte);
-            DepthTexture = new Texture2D((Int32)(DOUEngine.domainFramebufferRezolution.X / 1.5), (Int32)(DOUEngine.domainFramebufferRezolution.Y / 1.5), PixelInternalFormat.Depth24Stencil8, PixelFormat.DepthComponent, PixelType.Float);
+            ReflectionTexture = ResourcePool.GetRenderTarget(new TextureParameters(TextureTarget.Texture2D, TextureMagFilter.Nearest, TextureMinFilter.Nearest, 0, PixelInternalFormat.Rgb, (Int32)(DOUEngine.globalSettings.DomainFramebufferRezolution.X / 1.5), (Int32)(DOUEngine.globalSettings.DomainFramebufferRezolution.Y / 1.5), PixelFormat.Rgb, PixelType.UnsignedByte));
+            RefractionTexture = ResourcePool.GetRenderTarget(new TextureParameters(TextureTarget.Texture2D, TextureMagFilter.Nearest, TextureMinFilter.Nearest, 0, PixelInternalFormat.Rgb, (Int32)(DOUEngine.globalSettings.DomainFramebufferRezolution.X / 1.5), (Int32)(DOUEngine.globalSettings.DomainFramebufferRezolution.Y / 1.5), PixelFormat.Rgb, PixelType.UnsignedByte));
+            DepthTexture = ResourcePool.GetRenderTarget(new TextureParameters(TextureTarget.Texture2D, TextureMagFilter.Nearest, TextureMinFilter.Nearest, 0, PixelInternalFormat.Depth24Stencil8,
+                (Int32)(DOUEngine.globalSettings.DomainFramebufferRezolution.X / 1.5f), (Int32)(DOUEngine.globalSettings.DomainFramebufferRezolution.Y / 1.5f), PixelFormat.DepthComponent, PixelType.Float));
         }
 
         protected override void setFramebuffers()
@@ -55,16 +57,19 @@ namespace MassiveGame
 
         #endregion
 
+        public override void cleanUp()
+        {
+            ResourcePool.ReleaseRenderTarget(ReflectionTexture);
+            ResourcePool.ReleaseRenderTarget(RefractionTexture);
+            ResourcePool.ReleaseRenderTarget(DepthTexture);
+            base.cleanUp();
+        }
+
         #region Constructor
 
         public WaterFBO()
             : base()
         {
-            base.bindFramebuffer(1);
-            Debug.Log.addToLog( DateTime.Now.ToString() + "  " + "Water Framebuffer 1 : " + base.getFramebufferLog());
-            base.bindFramebuffer(2);
-            Debug.Log.addToLog( DateTime.Now.ToString() + "  " + "Water Framebuffer 2 : " + base.getFramebufferLog());
-            base.unbindFramebuffer();
         }
 
         #endregion

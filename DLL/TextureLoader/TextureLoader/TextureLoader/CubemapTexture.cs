@@ -1,12 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using OpenTK;
-using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL;
 
 using SystemPixelFormat = System.Drawing.Imaging.PixelFormat;
@@ -21,8 +14,11 @@ namespace TextureLoader
 
         public CubemapTexture(string[] textureFiles)
         {
+
             textureObj = GenCubeMap(textureFiles);
         }
+
+        public TextureParameters TextureParameters { set; get; }
 
         #endregion
 
@@ -177,14 +173,14 @@ namespace TextureLoader
             return (UInt32)textureObj;
         }
 
-        public TextureTarget GetTextureTarget()
-        {
-            return TextureTarget.TextureCubeMap;
-        }
-
         public Point GetTextureRezolution()
         {
-            throw new NotImplementedException("Cubemap doesn't have one texture, it has six.");
+            return new Point(TextureParameters.TexBufferWidth, TextureParameters.TexBufferHeight);
+        }
+
+        public TextureParameters GetTextureParameters()
+        {
+            return TextureParameters;
         }
     }
 }

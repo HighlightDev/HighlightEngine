@@ -31,17 +31,17 @@ namespace MassiveGame.Debug.UiPanel
 
         public void PushFrame(ITexture texture)
         {
-            if (frameTextures.Count < MAX_FRAME_COUNT)
-            {
-                frameTextures.Add(texture);
-            }
+            if (frameTextures.Count >= MAX_FRAME_COUNT)
+                PopFrame();
+
+            frameTextures.Add(texture);
         }
 
         public void PopFrame()
         {
             if (frameTextures.Count != 0)
             {
-                frameTextures.Remove(frameTextures.Last());
+                frameTextures.Remove(frameTextures.First());
             }
         }
 

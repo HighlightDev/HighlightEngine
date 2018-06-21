@@ -20,8 +20,8 @@ namespace MassiveGame.RenderCore
         private ITexture ColorTexture;
         private ITexture DepthStencilTexture;
 
-        private RenderTargetParams ColorTextureParams;
-        private RenderTargetParams DepthStencilTextureParams;
+        private TextureParameters ColorTextureParams;
+        private TextureParameters DepthStencilTextureParams;
         
         public void Bind()
         {
@@ -35,7 +35,7 @@ namespace MassiveGame.RenderCore
             GL.BindFramebuffer(FramebufferTarget.Framebuffer, 0);
         }
 
-        public RenderTargetParams GetParams()
+        public TextureParameters GetParams()
         {
             return ColorTextureParams;
         }
@@ -52,8 +52,8 @@ namespace MassiveGame.RenderCore
 
         private void InitFramebuffer(Int32 WidthRezolution, Int32 HeightRezolution)
         {
-            ColorTextureParams = new RenderTargetParams(TextureTarget.Texture2D, 0, PixelInternalFormat.Rgb, WidthRezolution, HeightRezolution, PixelFormat.Rgb, PixelType.UnsignedByte);
-            DepthStencilTextureParams = new RenderTargetParams(TextureTarget.Texture2D, 0, PixelInternalFormat.Depth24Stencil8, WidthRezolution, HeightRezolution, PixelFormat.DepthComponent, PixelType.Float);
+            ColorTextureParams = new TextureParameters(TextureTarget.Texture2D, TextureMagFilter.Nearest, TextureMinFilter.Nearest, 0, PixelInternalFormat.Rgb, WidthRezolution, HeightRezolution, PixelFormat.Rgb, PixelType.UnsignedByte);
+            DepthStencilTextureParams = new TextureParameters(TextureTarget.Texture2D, TextureMagFilter.Nearest, TextureMinFilter.Nearest, 0, PixelInternalFormat.Depth24Stencil8, WidthRezolution, HeightRezolution, PixelFormat.DepthComponent, PixelType.Float);
             ColorTexture = ResourcePool.GetRenderTarget(ColorTextureParams);
             DepthStencilTexture = ResourcePool.GetRenderTarget(DepthStencilTextureParams);
 

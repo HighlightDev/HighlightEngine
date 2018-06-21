@@ -5,6 +5,7 @@ using System.Text;
 using OpenTK;
 using MassiveGame.RenderCore.Shadows;
 using FramebufferAPI;
+using TextureLoader;
 
 namespace MassiveGame.RenderCore.Lights
 {
@@ -25,7 +26,7 @@ namespace MassiveGame.RenderCore.Lights
 
         #region Constructors
 
-        public DirectionalLight(RenderTargetParams rtParams, Vector3 direction, Vector4 ambient, Vector4 diffuse, Vector4 specular)
+        public DirectionalLight(TextureParameters rtParams, Vector3 direction, Vector4 ambient, Vector4 diffuse, Vector4 specular)
             : base(ambient, diffuse, specular)
         {
             Shadow = new ShadowDirectionalLight(DOUEngine.Camera, rtParams, this);

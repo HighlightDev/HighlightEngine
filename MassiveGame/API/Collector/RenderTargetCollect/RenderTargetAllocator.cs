@@ -15,7 +15,7 @@ namespace MassiveGame.API.Collector.TextureBufferCollect
 {
     public static class RenderTargetAllocator
     {
-        public static ITexture AllocateRenderTarget(RenderTargetParams renderTargetParams)
+        public static ITexture AllocateRenderTarget(TextureParameters renderTargetParams)
         {
             ITexture result = null;
             Int32 renderTarget = GL.GenTexture();
@@ -23,12 +23,10 @@ namespace MassiveGame.API.Collector.TextureBufferCollect
             GL.TexImage2D(renderTargetParams.TexTarget, renderTargetParams.TexMipLvl, renderTargetParams.TexPixelInternalFormat, renderTargetParams.TexBufferWidth,
                 renderTargetParams.TexBufferHeight, 0, renderTargetParams.TexPixelFormat, renderTargetParams.TexPixelType, new IntPtr(0));
 
-            float[] borderColor = new float[4] { 1.0f, 1.0f, 1.0f, 1.0f };
-            GL.TexParameter(renderTargetParams.TexTarget, TextureParameterName.TextureMagFilter, (Int32)All.Nearest);
-            GL.TexParameter(renderTargetParams.TexTarget, TextureParameterName.TextureMinFilter, (Int32)All.Nearest);
-            GL.TexParameter(renderTargetParams.TexTarget, TextureParameterName.TextureWrapS, (Int32)All.ClampToBorder);
-            GL.TexParameter(renderTargetParams.TexTarget, TextureParameterName.TextureWrapT, (Int32)All.ClampToBorder);
-            GL.TexParameter(renderTargetParams.TexTarget, TextureParameterName.TextureBorderColor, borderColor);
+            GL.TexParameter(renderTargetParams.TexTarget, TextureParameterName.TextureMagFilter, (Int32)renderTargetParams.MagFilter);
+            GL.TexParameter(renderTargetParams.TexTarget, TextureParameterName.TextureMinFilter, (Int32)renderTargetParams.MinFilter);
+            GL.TexParameter(renderTargetParams.TexTarget, TextureParameterName.TextureWrapS, (Int32)All.Repeat);
+            GL.TexParameter(renderTargetParams.TexTarget, TextureParameterName.TextureWrapT, (Int32)All.Repeat);
 
             result = new Texture2D(renderTarget, new Point(renderTargetParams.TexBufferWidth, renderTargetParams.TexBufferHeight));
             return result;

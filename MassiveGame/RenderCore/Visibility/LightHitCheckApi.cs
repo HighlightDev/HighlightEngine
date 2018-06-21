@@ -5,7 +5,7 @@ namespace MassiveGame.RenderCore.Visibility
 {
     public static class LightHitCheckApi
     {
-        public static void CheckLightSourceHitMesh(List<ILightHit> meshes, List<PointLight> lightSources)
+        public static void CheckLightSourceHitsMesh(List<ILightHit> meshes, List<PointLight> lightSources)
         {
             foreach (var mesh in meshes)
             {

@@ -10,26 +10,36 @@ namespace MassiveGame.API.Collector.TextureBufferCollect
 {
     public class RenderTargetPool
     {
-        private RenderTargetCollection textureBufferCollection;
+        private RenderTargetCollection renderTargetBufferCollection;
 
         public RenderTargetPool(Int32 MaxRenderTargets)
         {
-            textureBufferCollection = new RenderTargetCollection(MaxRenderTargets);
+            renderTargetBufferCollection = new RenderTargetCollection(MaxRenderTargets);
         }
 
-        public ITexture AllocateTextureBuffer(RenderTargetParams RenderTargetKey)
+        public Int32 GetRenderTargetCount()
         {
-            return textureBufferCollection.RetrieveRenderTarget(RenderTargetKey);
+            return renderTargetBufferCollection.GetRenderTargetCount();
         }
 
-        public void ReleaseRenderTarget(RenderTargetParams RenderTargetKey)
+        public ITexture GetRenderTargetAt(Int32 index)
         {
-            textureBufferCollection.ReleaseRenderTarget(RenderTargetKey);
+            return renderTargetBufferCollection.GetRenderTargetAt(index);
+        }
+
+        public ITexture AllocateTextureBuffer(TextureParameters RenderTargetKey)
+        {
+            return renderTargetBufferCollection.RetrieveRenderTarget(RenderTargetKey);
+        }
+
+        public void ReleaseRenderTarget(TextureParameters RenderTargetKey)
+        {
+            renderTargetBufferCollection.ReleaseRenderTarget(RenderTargetKey);
         }
 
         public void ReleaseRenderTarget(ITexture RenderTarget)
         {
-            textureBufferCollection.ReleaseRenderTarget(RenderTarget);
+            renderTargetBufferCollection.ReleaseRenderTarget(RenderTarget);
         }
     }
 }
