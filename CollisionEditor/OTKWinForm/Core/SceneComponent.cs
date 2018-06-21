@@ -57,26 +57,15 @@ namespace OTKWinForm.Core
         {
             float[,] vertices = model.Buffer.getBufferData().Vertices;
 
-            float tempRight = vertices[0, 0],
-                  tempTop = vertices[0, 1],
-                  tempFar = vertices[0, 2];
+            float tempRight = vertices[0, 0], tempTop = vertices[0, 1], tempFar = vertices[0, 2];
 
             var iterationCount = vertices.Length / 3;
 
             for (Int32 i = 0; i < iterationCount; i++)
             {
-                if (tempRight < vertices[i, 0])  //Находим максимум по Х
-                {
-                    tempRight = vertices[i, 0];
-                }
-                if (tempTop < vertices[i, 1])  //Находим максимум по Y
-                {
-                    tempTop = vertices[i, 1];
-                }
-                if (tempFar < vertices[i, 2])  //Находим максимум по Z
-                {
-                    tempFar = vertices[i, 2];
-                }
+                tempRight = Math.Max(tempRight, vertices[i, 0]);
+                tempTop = Math.Max(tempTop, vertices[i, 1]);
+                tempFar = Math.Max(tempFar, vertices[i, 2]);
             }
             return new Vector3(tempRight, tempTop, tempFar);
         }

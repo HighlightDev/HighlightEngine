@@ -243,7 +243,7 @@ namespace MassiveGame
             this.quad = new CollisionQuad(-1.0f, 1.0f, 0.0f, 0.0f, -1.0f, 1.0f);
             _moveFactor = 0.0f;
             _waveSpeed = 0.3f;
-            _waveStrength = 0.02f;
+            _waveStrength = 0.04f;
             _transparencyDepth = 10000f;
             this._buffer = new VAO(this._attribs);
             /*First pass postconstructor*/

@@ -7,7 +7,6 @@ using PhysicsBox.MathTypes;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using static MassiveGame.Physics.CollisionHeadUnit;
 
 namespace MassiveGame.Physics
 {
@@ -304,7 +303,6 @@ namespace MassiveGame.Physics
 
         private List<Vector3> GetPreviousFreeFallBottomPositionsForRayCast(BoundBase characterBound, MovableEntity characterEntity)
         {
-
             Vector3 boundOrigin = characterBound.GetOrigin();
             Vector3 boundMax = characterBound.GetMax();
             Vector3 boundMin = characterBound.GetMin();

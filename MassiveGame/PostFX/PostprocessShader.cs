@@ -1,14 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using ShaderPattern;
-using OpenTK;
-using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL;
 using System.Drawing;
-using MassiveGame.RenderCore;
 using MassiveGame.PostFX;
 
 namespace MassiveGame

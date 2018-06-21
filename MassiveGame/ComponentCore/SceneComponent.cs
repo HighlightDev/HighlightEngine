@@ -44,8 +44,6 @@ namespace MassiveGame.ComponentCore
             else
                 worldMatrix = (Bound as OBB).TransformationMatrix;
 
-
-
             Matrix4 modelViewMatrix = worldMatrix * viewMatrix;
 
             GL.MatrixMode(MatrixMode.Projection);
