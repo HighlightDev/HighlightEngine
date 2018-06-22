@@ -265,10 +265,6 @@ namespace MassiveGame.UI
             DOUEngine.pointLightDebugRenderer = new Light_visualization.PointLightsDebugRenderer(ProjectFolders.TexturesPath + "/LightTextures/" + "light-bulb-icon (1).png"
                 , DOUEngine.PointLight);
 
-            //DOUEngine.PostProc = new PostprocessRenderer(PostprocessType.BLOOM);
-            //DOUEngine.PostProc.BloomPass = 1;
-            //DOUEngine.PostProc.BlurWidth = 18;
-
             //gras = new Grass(new Vector3(1, 0, 1), new Vector3(1), new Vector3(0), new Vector3(0.2f, 0.8f, 0.3f));
             //envObj = new EnvironmentEntities(PlayerModels.getPlayerModel1(false), TextureSet.PlayerTextureSet2, TextureSet.SkyboxDayCubemapTexture,
             //    new Vector3(40, 70, 40), new Vector3(0, 0, 0), new Vector3(0.5f));
@@ -418,7 +414,7 @@ namespace MassiveGame.UI
                 {
                     DOUEngine.DayCycle.TimeFlow += 0.01f;
                 }
-                else if (e.Delta < 0 && DOUEngine.DayCycle.TimeFlow >= 0)
+                else if (e.Delta < 0 && DOUEngine.DayCycle.TimeFlow > 0)
                 {
                     DOUEngine.DayCycle.TimeFlow -= 0.01f;
                 }
@@ -564,21 +560,12 @@ namespace MassiveGame.UI
             if (DOUEngine.Water != null) DOUEngine.Water.cleanUp();
             if (DOUEngine.SunReplica != null) DOUEngine.SunReplica.cleanUp();
             if (DOUEngine.terrain != null) DOUEngine.terrain.cleanUp();
-
             if (DOUEngine.Player != null) DOUEngine.Player.cleanUp();
             if (DOUEngine.Enemy != null) DOUEngine.Enemy.cleanUp();
             if (DOUEngine.Grass != null) DOUEngine.Grass.cleanUp();
             if (DOUEngine.Plant1 != null) DOUEngine.Plant1.cleanUp();
-
-
             if (DOUEngine.City != null) foreach (Building house in DOUEngine.City) { house.cleanUp(); }
-
             if (DOUEngine.Skybox != null) DOUEngine.Skybox.cleanUp();
-
-            if (DOUEngine.PostProc != null) DOUEngine.PostProc.cleanUp();
-
-            //this.sourceAmbient.Delete();
-            //AudioMaster.CleanUp();
         }
 
         #endregion

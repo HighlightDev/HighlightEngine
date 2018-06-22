@@ -13,6 +13,34 @@ namespace MassiveGame.PostFX
 {
     public abstract class PostProcessBase
     {
+        public const int BLUR_MAX_PASS_COUNT = 20;
+        public const int BLUR_MIN_PASS_COUNT = 1;
+
+        public const Int32 MAX_BLUR_WIDTH = 10;
+        public const Int32 MIN_BLUR_WIDTH = 2;
+
+        protected bool blurWidthChanged;
+        protected float[] blurWeights;
+
+        private Int32 blurWidth;
+        public Int32 BlurWidth
+        {
+            set
+            {
+                blurWidth = value < MIN_BLUR_WIDTH ? MIN_BLUR_WIDTH :
+                    value > MAX_BLUR_WIDTH ? MAX_BLUR_WIDTH : value;
+                this.blurWidthChanged = true;
+            }
+            get { return blurWidth; }
+        }
+
+        private int blurPassCount;
+        public int BlurPassCount
+        {
+            set { blurPassCount = value < BLUR_MIN_PASS_COUNT ? BLUR_MIN_PASS_COUNT : value > BLUR_MAX_PASS_COUNT ? BLUR_MAX_PASS_COUNT : value; }
+            get { return blurPassCount; }
+        }
+
         protected VAO quadBuffer;
         protected bool bPostConstructor;
 
@@ -65,7 +93,7 @@ namespace MassiveGame.PostFX
 
         #endregion
 
-        public virtual ITexture GetPostProcessResult(ITexture frameTexture, Point actualScreenRezolution, ITexture previousPostProcessResult = null)
+        public virtual ITexture GetPostProcessResult(ITexture frameColorTexture, ITexture frameDepthTexture, Point actualScreenRezolution, ITexture previousPostProcessResult = null)
         {
             RenderScene(DOUEngine.Camera);
             return null;

@@ -10,25 +10,10 @@ namespace MassiveGame.PostFX.LensFlare
 {
     public class LensFlarePostProcess<T> : PostProcessBase where T : PostProcessSubsequenceType
     {
-        public const int MAX_BLUR_WIDTH = 30;
-        private const int MIN_BLUR_WIDTH = 2;
-        private const int BLUR_MAX_PASS_COUNT = 20;
-
         private LensFlareFramebufferObject renderTarget;
         private LensFlareShader<T> lensShader;
         private Texture1D lensColor;
-
-        private int blurWidth;
-        public int BlurWidth
-        {
-            set
-            {
-                blurWidth = value < MIN_BLUR_WIDTH ? MIN_BLUR_WIDTH :
-                    value > MAX_BLUR_WIDTH ? MAX_BLUR_WIDTH : value;
-            }
-            get { return blurWidth; }
-        }
-
+      
         private float ghostDispersal;
         public float GhostDispersal
         {
@@ -64,41 +49,35 @@ namespace MassiveGame.PostFX.LensFlare
             get { return this.threshold; }
         }
 
-        private int blurPassCount;
-        public int BlurPassCount
-        {
-            set { blurPassCount = value < 1 ? 1 : value > BLUR_MAX_PASS_COUNT ? BLUR_MAX_PASS_COUNT : value; }
-            get { return blurPassCount; }
-        }
-
         public LensFlarePostProcess() : base()
         {
-            this.blurWidth = 20;
+            this.BlurWidth = 20;
             this.ghostDispersal = 0.37f;
             this.ghosts = 5;
             this.haloWidth = 0.55f;
             this.distortion = 3.50f;
             this.threshold = 0.5f;
-            this.blurPassCount = 4;
             this.lensColor = new Texture1D(new string[] { ProjectFolders.LensFlareTexturePath + "lenscolor.png" }, false, 0);
         }
 
         private void postConstructor()
         {
-            renderTarget = new LensFlareFramebufferObject();
-            lensShader = (LensFlareShader<T>)ResourcePool.GetShaderProgram(ProjectFolders.ShadersPath + "lensFlareVS.glsl",
-                ProjectFolders.ShadersPath + "lensFlareFS.glsl", "", typeof(LensFlareShader<T>));
-            bPostConstructor = false;
+            if (bPostConstructor)
+            {
+                renderTarget = new LensFlareFramebufferObject();
+                lensShader = (LensFlareShader<T>)ResourcePool.GetShaderProgram(ProjectFolders.ShadersPath + "lensFlareVS.glsl",
+                    ProjectFolders.ShadersPath + "lensFlareFS.glsl", "", typeof(LensFlareShader<T>));
+                bPostConstructor = false;
+            }
         }
 
-        public override ITexture GetPostProcessResult(ITexture frameTexture, Point actualScreenRezolution, ITexture previousPostProcessResult = null)
+        public override ITexture GetPostProcessResult(ITexture frameColorTexture, ITexture frameDepthTexture, Point actualScreenRezolution, ITexture previousPostProcessResult = null)
         {
-            if (bPostConstructor)
-                postConstructor();
+            postConstructor();
 
             /*Extracting bright parts*/
             renderTarget.renderToFBO(3, renderTarget.frameTextureLowRezolution.GetTextureRezolution());
-            base.GetPostProcessResult(null, actualScreenRezolution);
+            base.GetPostProcessResult(frameColorTexture, frameDepthTexture, actualScreenRezolution);
 
             renderTarget.renderToFBO(2, renderTarget.horizontalBlurTexture.GetTextureRezolution());
 
@@ -119,14 +98,14 @@ namespace MassiveGame.PostFX.LensFlare
             lensShader.stopProgram();
 
             /*Extra passes for blur*/
-            for (int i = 1; i < BlurPassCount; i++)
+            for (int i = 0; i < BlurPassCount; i++)
             {
                 /*Horizontal Blur effect*/
                 renderTarget.renderToFBO(2, this.renderTarget.horizontalBlurTexture.GetTextureRezolution());
 
                 lensShader.startProgram();
                 renderTarget.verticalBlurTexture.BindTexture(TextureUnit.Texture0);
-                lensShader.setUniformValuesHorizontalBlur(0, normalizedWeights(blurWidth), getPixOffset(blurWidth), actualScreenRezolution);
+                lensShader.setUniformValuesHorizontalBlur(0, normalizedWeights(BlurWidth), getPixOffset(BlurWidth), actualScreenRezolution);
                 VAOManager.renderBuffers(quadBuffer, PrimitiveType.Triangles);
                 lensShader.stopProgram();
 
@@ -135,7 +114,7 @@ namespace MassiveGame.PostFX.LensFlare
 
                 lensShader.startProgram();
                 renderTarget.horizontalBlurTexture.BindTexture(TextureUnit.Texture0);
-                lensShader.setUniformValuesHorizontalBlur(0, normalizedWeights(blurWidth), getPixOffset(blurWidth), actualScreenRezolution);
+                lensShader.setUniformValuesHorizontalBlur(0, normalizedWeights(BlurWidth), getPixOffset(BlurWidth), actualScreenRezolution);
                 VAOManager.renderBuffers(quadBuffer, PrimitiveType.Triangles);
                 lensShader.stopProgram();
             }

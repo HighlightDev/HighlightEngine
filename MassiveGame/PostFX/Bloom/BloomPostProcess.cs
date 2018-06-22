@@ -14,38 +14,11 @@ namespace MassiveGame.PostFX.Bloom
 {
     public class BloomPostProcess<T> : PostProcessBase where T : PostProcessSubsequenceType
     {
-        public const Int32 BLOOM_MAX_PASS_COUNT = 40;
-        public const Int32 BLOOM_MIN_PASS_COUNT = 1;
-        public const Int32 MAX_BLUR_WIDTH = 10;
-        public const Int32 MIN_BLUR_WIDTH = 2;
-
-        private bool blurWidthChanged;
-        private float[] blurWeights;
-
-        private Int32 blurWidth;
-        public Int32 BlurWidth
-        {
-            set
-            {
-                blurWidth = value < MIN_BLUR_WIDTH ? MIN_BLUR_WIDTH :
-                    value > MAX_BLUR_WIDTH ? MAX_BLUR_WIDTH : value;
-                this.blurWidthChanged = true;
-            }
-            get { return blurWidth; }
-        }
-
         private float bloomThreshold;
         public float BloomThreshold
         {
             set { bloomThreshold = value; }
             get { return bloomThreshold; }
-        }
-
-        private Int32 bloomPass;
-        public Int32 BloomPass
-        {
-            set { bloomPass = value < BLOOM_MIN_PASS_COUNT ? 1 : value > BLOOM_MAX_PASS_COUNT ? BLOOM_MAX_PASS_COUNT : value; }
-            get { return this.bloomPass; }
         }
 
         private BloomFramebufferObject renderTarget;
@@ -54,27 +27,29 @@ namespace MassiveGame.PostFX.Bloom
         public BloomPostProcess() : base()
         {
             BloomThreshold = 0.9f;
-            BloomPass = 2;
             BlurWidth = 10;
+            BlurPassCount = 4;
             blurWidthChanged = true;
         }
 
         private void postConstructor()
         {
-            renderTarget = new BloomFramebufferObject();
-            bloomShader = (BloomShader<T>)ResourcePool.GetShaderProgram(ProjectFolders.ShadersPath + "bloomVS.glsl",
-                ProjectFolders.ShadersPath + "bloomFS.glsl", "", typeof(BloomShader<T>));
-            bPostConstructor = false;
+            if (bPostConstructor)
+            {
+                renderTarget = new BloomFramebufferObject();
+                bloomShader = (BloomShader<T>)ResourcePool.GetShaderProgram(ProjectFolders.ShadersPath + "bloomVS.glsl",
+                    ProjectFolders.ShadersPath + "bloomFS.glsl", "", typeof(BloomShader<T>));
+                bPostConstructor = false;
+            }
         }
 
-        public override ITexture GetPostProcessResult(ITexture frameTexture, Point actualScreenRezolution, ITexture previousPostProcessResult = null)
+        public override ITexture GetPostProcessResult(ITexture frameColorTexture, ITexture frameDepthTexture, Point actualScreenRezolution, ITexture previousPostProcessResult = null)
         {
-            if (bPostConstructor)
-                postConstructor();
+            postConstructor();
 
             if (this.blurWidthChanged)
             {
-                this.blurWeights = normalizedWeights(blurWidth);
+                this.blurWeights = normalizedWeights(BlurWidth);
                 this.blurWidthChanged = false;
             }
 
@@ -82,19 +57,19 @@ namespace MassiveGame.PostFX.Bloom
             renderTarget.renderToFBO(1, renderTarget.verticalBlurTexture.GetTextureRezolution());
             GL.Disable(EnableCap.DepthTest);
             bloomShader.startProgram();
-            frameTexture.BindTexture(TextureUnit.Texture0);
+            frameColorTexture.BindTexture(TextureUnit.Texture0);
             bloomShader.setExtractingBrightPixelsUniforms(0, BloomThreshold);
             VAOManager.renderBuffers(quadBuffer, PrimitiveType.Triangles);
             bloomShader.stopProgram();
 
             /*Gauss blur*/
-            for (Int32 i = BLOOM_MIN_PASS_COUNT; i < BloomPass; i++)
+            for (Int32 i = 0; i < BlurPassCount; i++)
             {
                 /*Horizontal blur of image*/
                 renderTarget.renderToFBO(2, renderTarget.horizontalBlurTexture.GetTextureRezolution());
                 bloomShader.startProgram();
                 renderTarget.verticalBlurTexture.BindTexture(TextureUnit.Texture0);
-                bloomShader.setHorizontalBlurUniforms(0, blurWeights, getPixOffset(blurWidth), renderTarget.verticalBlurTexture.GetTextureRezolution());
+                bloomShader.setHorizontalBlurUniforms(0, blurWeights, getPixOffset(BlurWidth), renderTarget.verticalBlurTexture.GetTextureRezolution());
                 VAOManager.renderBuffers(quadBuffer, PrimitiveType.Triangles);
                 bloomShader.stopProgram();
 
@@ -102,7 +77,7 @@ namespace MassiveGame.PostFX.Bloom
                 renderTarget.renderToFBO(1, renderTarget.verticalBlurTexture.GetTextureRezolution());
                 bloomShader.startProgram();
                 renderTarget.horizontalBlurTexture.BindTexture(TextureUnit.Texture0);
-                bloomShader.setVerticalBlurUniforms(0, blurWeights, getPixOffset(blurWidth), renderTarget.horizontalBlurTexture.GetTextureRezolution());
+                bloomShader.setVerticalBlurUniforms(0, blurWeights, getPixOffset(BlurWidth), renderTarget.horizontalBlurTexture.GetTextureRezolution());
                 VAOManager.renderBuffers(quadBuffer, PrimitiveType.Triangles);
                 bloomShader.stopProgram();
             }

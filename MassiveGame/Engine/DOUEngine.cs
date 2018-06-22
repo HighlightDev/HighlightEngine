@@ -59,7 +59,6 @@ namespace MassiveGame
         public static  PlantReadyMaster Plant1;
         public static  Skybox Skybox;
         public static  MousePicker Picker;
-        public static  PostprocessRenderer PostProc;
         public static  WaterPlane Water;
         public static  SunRenderer SunReplica;
         public static  MistComponent Mist;

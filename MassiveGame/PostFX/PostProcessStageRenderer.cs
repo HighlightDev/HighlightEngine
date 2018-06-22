@@ -59,35 +59,35 @@ namespace MassiveGame.PostFX
             }
         }
 
-        public void ExecutePostProcessPass(ITexture frameTexture, ref Point actualScreenRezolution)
+        public void ExecutePostProcessPass(ITexture frameColorTexture, ITexture frameDepthTexture, ref Point actualScreenRezolution)
         {
             ITexture subsequentPostProcessResult = null;
 
             // Bloom
             if (bPostProcessEnabled && bloomPP != null)
             {
-                subsequentPostProcessResult = bloomPP.GetPostProcessResult(frameTexture, actualScreenRezolution, subsequentPostProcessResult);
+                subsequentPostProcessResult = bloomPP.GetPostProcessResult(frameColorTexture, frameDepthTexture, actualScreenRezolution, subsequentPostProcessResult);
             }
 
             // Light shafts
             if (bPostProcessEnabled && DOUEngine.SunReplica.IsInCameraView && lightShaftsPP != null)
             {
-                subsequentPostProcessResult = lightShaftsPP.GetPostProcessResult(frameTexture, actualScreenRezolution, subsequentPostProcessResult);
+                subsequentPostProcessResult = lightShaftsPP.GetPostProcessResult(frameColorTexture, frameDepthTexture, actualScreenRezolution, subsequentPostProcessResult);
             }
 
             // Lens flares
             if (bPostProcessEnabled && DOUEngine.SunReplica.IsInCameraView && lensFlaresPP != null)
             {
-                subsequentPostProcessResult = lensFlaresPP.GetPostProcessResult(frameTexture, actualScreenRezolution, subsequentPostProcessResult);
+                subsequentPostProcessResult = lensFlaresPP.GetPostProcessResult(frameColorTexture, frameDepthTexture, actualScreenRezolution, subsequentPostProcessResult);
             }
 
             if (subsequentPostProcessResult != null)
             {
-                TextureResolver.ResolvePostProcessResultToDefaultFramebuffer(frameTexture, subsequentPostProcessResult, actualScreenRezolution);
+                TextureResolver.ResolvePostProcessResultToDefaultFramebuffer(frameColorTexture, subsequentPostProcessResult, actualScreenRezolution);
             }
             else
             {
-                DOUEngine.uiFrameCreator.RenderFullScreenInputTexture(frameTexture, actualScreenRezolution);
+                DOUEngine.uiFrameCreator.RenderFullScreenInputTexture(frameColorTexture, actualScreenRezolution);
             }
         }
     }

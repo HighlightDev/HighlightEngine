@@ -137,6 +137,9 @@
     <Compile Include="PostFX\Bloom\BloomFramebufferObject.cs" />
     <Compile Include="PostFX\Bloom\BloomPostProcess.cs" />
     <Compile Include="PostFX\Bloom\BloomShader.cs" />
+    <Compile Include="PostFX\DepthOfField\DepthOfFieldFramebufferObject.cs" />
+    <Compile Include="PostFX\DepthOfField\DepthOfFieldPostProcess.cs" />
+    <Compile Include="PostFX\DepthOfField\DepthOfFieldShader.cs" />
     <Compile Include="PostFX\LensFlare\LensFlarePostProcess.cs" />
     <Compile Include="PostFX\LightShafts\LightShaftPostProcess.cs" />
     <Compile Include="Settings\GlobalSettings.cs" />
@@ -196,9 +199,6 @@
     <Compile Include="RenderCore\Visibility\IVisible.cs" />
     <Compile Include="RenderCore\Visibility\LightHitCheckApi.cs" />
     <Compile Include="RenderCore\Visibility\VisibilityCheckApi.cs" />
-    <Compile Include="PostFX\PostprocessFBO.cs" />
-    <Compile Include="GraphicsEffects\PostprocessRenderer.cs" />
-    <Compile Include="PostFX\PostprocessShader.cs" />
     <Compile Include="RenderCore\Visibility\ILightHit.cs" />
     <Compile Include="Settings\ProjectFolders.cs" />
     <Compile Include="Sun\DayCycle\DayLightCycle.cs" />
@@ -307,6 +307,8 @@
     <None Include="ModelFiles\wall_6_door.obj" />
     <None Include="Shaders\bloomFS.glsl" />
     <None Include="Shaders\bloomVS.glsl" />
+    <None Include="Shaders\depthOfFieldFS.glsl" />
+    <None Include="Shaders\depthOfFieldVS.glsl" />
     <None Include="Shaders\resolvePostProcessResultToDefaultFramebufferFS.glsl" />
     <None Include="Shaders\resolvePostProcessResultToDefaultFramebufferVS.glsl" />
     <None Include="Shaders\particleCS.glsl" />
@@ -328,8 +330,8 @@
     <None Include="Shaders\buildingVShader.glsl" />
     <None Include="Shaders\envFS.glsl" />
     <None Include="Shaders\envVS.glsl" />
-    <None Include="Shaders\godrayFS.glsl" />
-    <None Include="Shaders\godrayVS.glsl" />
+    <None Include="Shaders\lightShaftsFS.glsl" />
+    <None Include="Shaders\lightShaftsVS.glsl" />
     <None Include="Shaders\grassFS.glsl" />
     <None Include="Shaders\grassGS.glsl" />
     <None Include="Shaders\grassVS.glsl" />
@@ -345,8 +347,6 @@
     <None Include="Shaders\polyFS.glsl" />
     <None Include="Shaders\polyGS.glsl" />
     <None Include="Shaders\polyVS.glsl" />
-    <None Include="Shaders\postprocessFS.glsl" />
-    <None Include="Shaders\postprocessVS.glsl" />
     <None Include="Shaders\copyTextureFS.glsl" />
     <None Include="Shaders\copyTextureVS.glsl" />
     <None Include="Shaders\skyboxFragmentShader.glsl" />

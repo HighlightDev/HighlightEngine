@@ -1,38 +1,31 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using OpenTK.Graphics.OpenGL;
 using System.Drawing;
 
-namespace MassiveGame.PostFX.Bloom
+namespace MassiveGame.PostFX.DepthOfField
 {
-    public class BloomShader<T> : PostProcessShaderBase<T> where T : PostProcessSubsequenceType
+    public class DepthOfFieldShader<T> : PostProcessShaderBase<T> where T : PostProcessSubsequenceType
     {
-        #region Definations
+        const string SHADER_NAME = "DepthOfField Shader";
 
-        private const string SHADER_NAME = "Bloom shader";
-
-        private const Int32 BLUR_WIDTH = BloomPostProcess<T>.MAX_BLUR_WIDTH;
-        Int32 frameTexture, blurTexture, screenWidth, screenHeight, blurWidth,
-            bloomThreshold, subroutineVerticalBlur, subroutineHorizontalBlur, subroutineExtractBrightParts, subroutineEndBloom;
+        private const Int32 BLUR_WIDTH = DepthOfFieldPostProcess<T>.MAX_BLUR_WIDTH;
+        Int32 blurTexture, depthTexture, screenWidth, screenHeight, blurWidth,
+            blurStartEdge, blurEndEdge, subroutineVerticalBlur, subroutineHorizontalBlur, subroutineDepthOfField;
 
         Int32[] weights = new Int32[BLUR_WIDTH], pixOffset = new Int32[BLUR_WIDTH];
-
-        #endregion
 
         #region Getters uniform
 
         protected override void getAllUniformLocations()
         {
             base.getAllUniformLocations();
-            frameTexture = base.getUniformLocation("frameTexture");
             blurTexture = base.getUniformLocation("blurTexture");
+            depthTexture = base.getUniformLocation("depthTexture");
             screenWidth = base.getUniformLocation("screenWidth");
             screenHeight = base.getUniformLocation("screenHeight");
             blurWidth = base.getUniformLocation("blurWidth");
-            bloomThreshold = base.getUniformLocation("bloomThreshold");
+            blurStartEdge = base.getUniformLocation("blurStartEdge");
+            blurEndEdge = base.getUniformLocation("blurEndEdge");
             for (Int32 i = 0; i < BLUR_WIDTH; i++)
             {
                 this.weights[i] = base.getUniformLocation("Weight[" + i + "]");
@@ -40,19 +33,19 @@ namespace MassiveGame.PostFX.Bloom
             }
             subroutineVerticalBlur = base.getSubroutineIndex(ShaderType.FragmentShader, "verticalBlur");
             subroutineHorizontalBlur = base.getSubroutineIndex(ShaderType.FragmentShader, "horizontalBlur");
-            subroutineExtractBrightParts = base.getSubroutineIndex(ShaderType.FragmentShader, "extractBrightParts");
-            subroutineEndBloom = base.getSubroutineIndex(ShaderType.FragmentShader, "endBloom");
+            subroutineDepthOfField = base.getSubroutineIndex(ShaderType.FragmentShader, "depthOfField");
         }
 
         #endregion
 
         #region Setters uniform
 
-        public void setVerticalBlurUniforms(Int32 frameTexture, float[] weights, Int32[] pixOffset, Point screenRezolution)
+        /*Blur first pass uniforms*/
+        public void setVerticalBlurUniforms(Int32 blurTexSampler, float[] weights, Int32[] pixOffset, Point screenRezolution)
         {
-            base.loadInteger(this.frameTexture, frameTexture);
-            base.loadInteger(this.screenWidth, screenRezolution.X);
-            base.loadInteger(this.screenHeight, screenRezolution.Y);
+            loadInteger(this.blurTexture, blurTexSampler);
+            loadInteger(this.screenWidth, screenRezolution.X);
+            loadInteger(this.screenHeight, screenRezolution.Y);
             for (Int32 i = 0; i < (weights.Length > BLUR_WIDTH ? BLUR_WIDTH : weights.Length); i++)
             {
                 base.loadFloat(this.weights[i], weights[i]);
@@ -62,9 +55,10 @@ namespace MassiveGame.PostFX.Bloom
             base.loadSubroutineIndex(ShaderType.FragmentShader, 1, this.subroutineVerticalBlur);
         }
 
-        public void setHorizontalBlurUniforms(Int32 frameTexture, float[] weights, Int32[] pixOffset, Point screenRezolution)
+        /*Blur second pass uniforms*/
+        public void setHorizontalBlurUniforms(Int32 blurTexSampler, float[] weights, Int32[] pixOffset, Point screenRezolution)
         {
-            base.loadInteger(this.frameTexture, frameTexture);
+            loadInteger(this.blurTexture, blurTexSampler);
             base.loadInteger(this.screenWidth, screenRezolution.X);
             base.loadInteger(this.screenHeight, screenRezolution.Y);
             for (Int32 i = 0; i < (weights.Length > BLUR_WIDTH ? BLUR_WIDTH : weights.Length); i++)
@@ -75,18 +69,21 @@ namespace MassiveGame.PostFX.Bloom
             base.loadInteger(this.blurWidth, weights.Length);
             base.loadSubroutineIndex(ShaderType.FragmentShader, 1, this.subroutineHorizontalBlur);
         }
-  
-        public void setExtractingBrightPixelsUniforms(Int32 frameTexture, float bloomThreshold)
-        {
-            base.loadInteger(this.frameTexture, frameTexture);
-            base.loadFloat(this.bloomThreshold, bloomThreshold);
-            base.loadSubroutineIndex(ShaderType.FragmentShader, 1, this.subroutineExtractBrightParts);
-        }
 
-        public void setEndBloomUniforms(Int32 bluredTexture)
+        /*Depth of Field pass uniforms*/
+        public void setDoFUniforms(Int32 blurTexSampler, Int32 depthTexSampler, float blurStartEdge, float blurEndEdge)
         {
-            base.loadInteger(this.blurTexture, bluredTexture);
-            base.loadSubroutineIndex(ShaderType.FragmentShader, 1, this.subroutineEndBloom);
+            base.loadInteger(this.blurTexture, blurTexture);
+            base.loadInteger(this.depthTexture, depthTexture);
+            base.loadFloat(this.blurStartEdge, blurStartEdge);
+            base.loadFloat(this.blurEndEdge, blurEndEdge);
+            for (Int32 i = 0; i < (weights.Length > BLUR_WIDTH ? BLUR_WIDTH : weights.Length); i++)
+            {
+                base.loadFloat(this.weights[i], weights[i]);
+                base.loadInteger(this.pixOffset[i], pixOffset[i]);
+            }
+            base.loadInteger(this.blurWidth, weights.Length);
+            base.loadSubroutineIndex(ShaderType.FragmentShader, 1, this.subroutineDepthOfField);
         }
 
         #endregion
@@ -94,17 +91,12 @@ namespace MassiveGame.PostFX.Bloom
         protected override void SetShaderMacros()
         {
             base.SetShaderMacros();
-            SetDefine(ShaderTypeFlag.FragmentShader, "lum", "vec3(0.2126, 0.7152, 0.0722)");
             SetDefine(ShaderTypeFlag.FragmentShader, "MAX_BLUR_WIDTH", BLUR_WIDTH.ToString());
         }
 
-        #region Constructor
-
-        public BloomShader(string vsPath, string fsPath)
-            : base(SHADER_NAME, vsPath, fsPath)
+        public DepthOfFieldShader(string VertexShaderFile, string FragmentShaderFile) 
+            : base(SHADER_NAME, VertexShaderFile, FragmentShaderFile)
         {
         }
-
-        #endregion
     }
 }

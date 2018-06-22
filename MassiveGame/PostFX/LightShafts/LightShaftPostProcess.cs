@@ -38,10 +38,13 @@ namespace MassiveGame.PostFX.LightShafts
 
         private void postConstructor()
         {
-            renderTarget = new LightShaftFramebufferObject();
-            shader = (LightShaftShader<T>)ResourcePool.GetShaderProgram(ProjectFolders.ShadersPath + "godrayVS.glsl",
-                ProjectFolders.ShadersPath + "godrayFS.glsl", "", typeof(LightShaftShader<T>));
-            bPostConstructor = false;
+            if (bPostConstructor)
+            {
+                renderTarget = new LightShaftFramebufferObject();
+                shader = (LightShaftShader<T>)ResourcePool.GetShaderProgram(ProjectFolders.ShadersPath + "lightShaftsVS.glsl",
+                    ProjectFolders.ShadersPath + "lightShaftsFS.glsl", "", typeof(LightShaftShader<T>));
+                bPostConstructor = false;
+            }
         }
 
         private Vector2 getRadialPos(Vector3 translation, Matrix4 viewMatrix, ref Matrix4 projectionMatrix,
@@ -63,17 +66,16 @@ namespace MassiveGame.PostFX.LightShafts
             return ndc;
         }
 
-        public override ITexture GetPostProcessResult(ITexture frameTexture, Point actualScreenRezolution, ITexture previousPostProcessResult = null)
+        public override ITexture GetPostProcessResult(ITexture frameColorTexture, ITexture frameDepthTexture, Point actualScreenRezolution, ITexture previousPostProcessResult = null)
         {
-            if (bPostConstructor)
-                postConstructor();
+            postConstructor();
 
             // Rendering bright objects to render target
             renderTarget.renderToFBO(1, renderTarget.RadialBlurAppliedTexture.GetTextureRezolution());
-            base.GetPostProcessResult(null, actualScreenRezolution);
+            base.GetPostProcessResult(frameColorTexture, frameDepthTexture, actualScreenRezolution);
 
-            viewportMatrix = new Matrix4(new Vector4(actualScreenRezolution.X / 2, 0, actualScreenRezolution.X / 2, 0),
-              new Vector4(0, actualScreenRezolution.Y / 2, actualScreenRezolution.Y / 2, 0),
+            viewportMatrix = new Matrix4(new Vector4(actualScreenRezolution.X * 0.5f, 0, actualScreenRezolution.X * 0.5f, 0),
+              new Vector4(0, actualScreenRezolution.Y * 0.5f, actualScreenRezolution.Y * 0.5f, 0),
               new Vector4(0, 0, 1, 0),
               new Vector4(0, 0, 0, 1));
 
