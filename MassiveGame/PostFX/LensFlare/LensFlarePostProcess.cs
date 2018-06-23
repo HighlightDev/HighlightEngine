@@ -149,7 +149,14 @@ namespace MassiveGame.PostFX.LensFlare
             GL.ColorMask(false, false, false, true);
             GL.CullFace(CullFaceMode.Back);
             GL.Enable(EnableCap.CullFace);
+            GL.Clear(ClearBufferMask.DepthBufferBit);
 
+            if (DOUEngine.Skybox != null)
+            {
+                DOUEngine.Skybox.renderSkybox(DOUEngine.Camera, DOUEngine.Sun, DOUEngine.ProjectionMatrix);
+            }
+
+            GL.Clear(ClearBufferMask.DepthBufferBit);
             if (DOUEngine.terrain != null)
             {
                 DOUEngine.terrain.renderTerrain(DOUEngine.Mode, DOUEngine.Sun, DOUEngine.PointLight, camera, DOUEngine.ProjectionMatrix);

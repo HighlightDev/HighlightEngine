@@ -13,7 +13,7 @@ namespace MassiveGame.PostFX
 
     public class PostProcessShaderBase<T> : ShaderBase where T : PostProcessSubsequenceType
     {
-        readonly PostProcessSubsequenceType_Inner PreviousPostProcessResult = typeof(T) == typeof(ApplySubsequentPostProcessResult) ?
+        protected readonly PostProcessSubsequenceType_Inner PreviousPostProcessResult = typeof(T) == typeof(ApplySubsequentPostProcessResult) ?
             PostProcessSubsequenceType_Inner.ApplyPreviousPostProcess : PostProcessSubsequenceType_Inner.DiscardPreviousPostProcess;
 
         Int32 previousPostProcessResultSampler = -1;
@@ -40,17 +40,14 @@ namespace MassiveGame.PostFX
 
         protected override void SetShaderMacros()
         {
+            Int32 bHasPreviousStage = 0;
             if (PreviousPostProcessResult == PostProcessSubsequenceType_Inner.ApplyPreviousPostProcess)
-            {
-                SetDefine(ShaderTypeFlag.FragmentShader, "HAS_PREVIOUS_STAGE", "1");
-            }
-            else
-            {
-                SetDefine(ShaderTypeFlag.FragmentShader, "HAS_PREVIOUS_STAGE", "0");
-            }
+                bHasPreviousStage = 1;
+
+            SetDefine<Int32>(ShaderTypeFlag.FragmentShader, "HAS_PREVIOUS_STAGE", bHasPreviousStage);
         }
 
-        private enum PostProcessSubsequenceType_Inner
+        protected enum PostProcessSubsequenceType_Inner
         {
             ApplyPreviousPostProcess = 0,
             DiscardPreviousPostProcess = 1

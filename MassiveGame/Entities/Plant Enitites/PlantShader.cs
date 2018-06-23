@@ -35,7 +35,7 @@ namespace MassiveGame
 
         protected override void SetShaderMacros()
         {
-            SetDefine(ShaderTypeFlag.FragmentShader, "MAX_MIST_VISIBLE_AREA", "1.0");
+            SetDefine<float>(ShaderTypeFlag.FragmentShader, "MAX_MIST_VISIBLE_AREA", 1.0f);
         }
 
         #region Getter

@@ -1,8 +1,8 @@
 #version 400
 
 #define zenith vec3(0, 1, 0) 
-#define UPPER_LIMIT 30.0 
-#define LOWER_LIMIT 0.0
+#define UPPER_LIMIT 30 
+#define LOWER_LIMIT 0
 layout (location = 0) out vec4 FragColor;
 
 uniform samplerCube skyboxSampler;

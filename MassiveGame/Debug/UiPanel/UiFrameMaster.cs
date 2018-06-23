@@ -70,9 +70,15 @@ namespace MassiveGame.Debug.UiPanel
         private void Render(ITexture renderTexture, Int32 index)
         {
             PostConstructor();
+
+            var texturePixelFormat = renderTexture.GetTextureParameters().TexPixelFormat;
+            bool bDepthTexture = (texturePixelFormat == PixelFormat.DepthComponent || texturePixelFormat == PixelFormat.DepthComponent);
+
+
             var screenSpaceMatrix = GetScreenSpaceMatrix(index);
             _shader.startProgram();
             renderTexture.BindTexture(TextureUnit.Texture0);
+            _shader.SetIsDepthTexture(bDepthTexture);
             _shader.SetUiTextureSampler(0);
             _shader.SetScreenSpaceMatrix(screenSpaceMatrix);
             VAOManager.renderBuffers(_buffer, PrimitiveType.Triangles);

@@ -46,6 +46,7 @@ namespace MassiveGame.PostFX
 
         public PostProcessBase()
         {
+            blurWidthChanged = true;
             bPostConstructor = true;
             quadBuffer = ScreenQuad.GetScreenQuadBuffer();
         }

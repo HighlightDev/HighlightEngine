@@ -10,21 +10,36 @@ using TextureLoader;
 using MassiveGame.PostFX.Bloom;
 using MassiveGame.PostFX.LensFlare;
 using MassiveGame.PostFX.LightShafts;
+using MassiveGame.PostFX.DepthOfField;
 
 namespace MassiveGame.PostFX
 {
     public class PostProcessStageRenderer
     {
         private bool bPostProcessEnabled = true;
+        private PostProcessBase depthOfFieldPP = null;
         private PostProcessBase bloomPP = null;
         private PostProcessBase lightShaftsPP = null;
         private PostProcessBase lensFlaresPP = null;
 
         public PostProcessStageRenderer()
         {
+
+            if (DOUEngine.globalSettings.bSupported_DepthOfField)
+            {
+                //if (DOUEngine.globalSettings.bSupported_LensFlare)
+                //{
+                //    depthOfFieldPP = new DepthOfFieldPostProcess<ApplySubsequentPostProcessResult>();
+                //}
+                //else
+                {
+                    depthOfFieldPP = new DepthOfFieldPostProcess<DiscardSubsequentPostProcessResult>();
+                }
+            }
+
             if (DOUEngine.globalSettings.bSupported_Bloom)
             {
-                if (false)
+                if (DOUEngine.globalSettings.bSupported_DepthOfField)
                 {
                     bloomPP = new BloomPostProcess<ApplySubsequentPostProcessResult>();
                 }
@@ -57,11 +72,18 @@ namespace MassiveGame.PostFX
                     lensFlaresPP = new LensFlarePostProcess<DiscardSubsequentPostProcessResult>();
                 }
             }
+          
         }
 
         public void ExecutePostProcessPass(ITexture frameColorTexture, ITexture frameDepthTexture, ref Point actualScreenRezolution)
         {
             ITexture subsequentPostProcessResult = null;
+
+            // DoF
+            if (bPostProcessEnabled && depthOfFieldPP != null)
+            {
+                subsequentPostProcessResult = depthOfFieldPP.GetPostProcessResult(frameColorTexture, frameDepthTexture, actualScreenRezolution, null);
+            }
 
             // Bloom
             if (bPostProcessEnabled && bloomPP != null)
@@ -81,9 +103,13 @@ namespace MassiveGame.PostFX
                 subsequentPostProcessResult = lensFlaresPP.GetPostProcessResult(frameColorTexture, frameDepthTexture, actualScreenRezolution, subsequentPostProcessResult);
             }
 
+            // Resolve post process result texture or default color texture to default framebuffer
             if (subsequentPostProcessResult != null)
             {
-                TextureResolver.ResolvePostProcessResultToDefaultFramebuffer(frameColorTexture, subsequentPostProcessResult, actualScreenRezolution);
+                if (depthOfFieldPP == null)
+                    TextureResolver.ResolvePostProcessResultToDefaultFramebuffer(frameColorTexture, subsequentPostProcessResult, actualScreenRezolution);
+                else
+                    DOUEngine.uiFrameCreator.RenderFullScreenInputTexture(subsequentPostProcessResult, actualScreenRezolution);
             }
             else
             {

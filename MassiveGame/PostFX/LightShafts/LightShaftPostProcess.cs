@@ -165,6 +165,9 @@ namespace MassiveGame.PostFX.LightShafts
             {
                 DOUEngine.SunReplica.renderSun(DOUEngine.Camera, ref DOUEngine.ProjectionMatrix);
             }
+
+            /*Stop culling*/
+            GL.Disable(EnableCap.CullFace);
         }
 
         public override void CleanUp()

@@ -20,14 +20,11 @@ namespace MassiveGame.RenderCore
         private ITexture ColorTexture;
         private ITexture DepthStencilTexture;
 
-        private TextureParameters ColorTextureParams;
-        private TextureParameters DepthStencilTextureParams;
-        
         public void Bind()
         {
             GL.BindFramebuffer(FramebufferTarget.Framebuffer, FramebufferDescriptor);
             GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit | ClearBufferMask.StencilBufferBit);
-            GL.Viewport(0, 0, ColorTextureParams.TexBufferWidth, ColorTextureParams.TexBufferHeight);
+            GL.Viewport(0, 0, ColorTexture.GetTextureRezolution().X, ColorTexture.GetTextureRezolution().Y);
         }
 
         public void Unbind()
@@ -37,7 +34,7 @@ namespace MassiveGame.RenderCore
 
         public TextureParameters GetParams()
         {
-            return ColorTextureParams;
+            return ColorTexture.GetTextureParameters();
         }
 
         public DefaultFrameBuffer(Point virtualScreenRezolution)
@@ -52,15 +49,15 @@ namespace MassiveGame.RenderCore
 
         private void InitFramebuffer(Int32 WidthRezolution, Int32 HeightRezolution)
         {
-            ColorTextureParams = new TextureParameters(TextureTarget.Texture2D, TextureMagFilter.Nearest, TextureMinFilter.Nearest, 0, PixelInternalFormat.Rgb, WidthRezolution, HeightRezolution, PixelFormat.Rgb, PixelType.UnsignedByte);
-            DepthStencilTextureParams = new TextureParameters(TextureTarget.Texture2D, TextureMagFilter.Nearest, TextureMinFilter.Nearest, 0, PixelInternalFormat.Depth24Stencil8, WidthRezolution, HeightRezolution, PixelFormat.DepthComponent, PixelType.Float);
+            var ColorTextureParams = new TextureParameters(TextureTarget.Texture2D, TextureMagFilter.Nearest, TextureMinFilter.Nearest, 0, PixelInternalFormat.Rgb, WidthRezolution, HeightRezolution, PixelFormat.Rgb, PixelType.UnsignedByte);
+            var DepthStencilTextureParams = new TextureParameters(TextureTarget.Texture2D, TextureMagFilter.Nearest, TextureMinFilter.Nearest, 0, PixelInternalFormat.DepthComponent24, WidthRezolution, HeightRezolution, PixelFormat.DepthComponent, PixelType.Float);
             ColorTexture = ResourcePool.GetRenderTarget(ColorTextureParams);
             DepthStencilTexture = ResourcePool.GetRenderTarget(DepthStencilTextureParams);
 
             FramebufferDescriptor = GL.GenFramebuffer();
             GL.BindFramebuffer(FramebufferTarget.Framebuffer, FramebufferDescriptor);
             GL.FramebufferTexture2D(FramebufferTarget.Framebuffer, FramebufferAttachment.ColorAttachment0, TextureTarget.Texture2D, ColorTexture.GetTextureDescriptor(), 0);
-            GL.FramebufferTexture2D(FramebufferTarget.Framebuffer, FramebufferAttachment.DepthStencilAttachment, TextureTarget.Texture2D, DepthStencilTexture.GetTextureDescriptor(), 0);
+            GL.FramebufferTexture2D(FramebufferTarget.Framebuffer, FramebufferAttachment.DepthAttachment, TextureTarget.Texture2D, DepthStencilTexture.GetTextureDescriptor(), 0);
             GL.DrawBuffer(DrawBufferMode.ColorAttachment0);
             GL.ReadBuffer(ReadBufferMode.None);
             GL.BindFramebuffer(FramebufferTarget.Framebuffer, 0);

@@ -58,7 +58,7 @@ namespace MassiveGame.Light_visualization
 
         protected override void SetShaderMacros()
         {
-            SetDefine(ShaderTypeFlag.GeometryShader, "SIZE", "1.4");
+            SetDefine<float>(ShaderTypeFlag.GeometryShader, "SIZE", 1.4f);
         }
 
         #region Constructor

@@ -447,9 +447,10 @@ namespace ShaderPattern
             AddPrecompiledEditToShader();
         }
 
-        public void SetDefine(ShaderTypeFlag shaderType, string name, string formatValue)
+        public void SetDefine<T>(ShaderTypeFlag shaderType, string name, T value) where T : struct
         {
-            DefineParameters.Add(new DefineParams(name, formatValue, shaderType));
+            string formatedValue = ShaderMacrosConverter<T>.ConvertToString(value);
+            DefineParameters.Add(new DefineParams(name, formatedValue, shaderType));
         }
 
         private void ClearAfterPrecompilationEditStage()

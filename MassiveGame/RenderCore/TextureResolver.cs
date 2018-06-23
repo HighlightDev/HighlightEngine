@@ -41,7 +41,6 @@ namespace MassiveGame.RenderCore
 
             frameTexture.BindTexture(TextureUnit.Texture0);
             postProcessResultTexture.BindTexture(TextureUnit.Texture1);
-            resolvePostProcessShader.setFrameSampler(0);
             resolvePostProcessShader.setPostProcessResultSampler(1);
             var quadBuffer = ScreenQuad.GetScreenQuadBuffer();
             VAOManager.renderBuffers(quadBuffer, PrimitiveType.Triangles);

@@ -311,7 +311,7 @@ namespace MassiveGame
             }
             else
             {
-                for (Int32 i = 0; i < MAX_LIGHTS_COUNT; i++)      //Выключенные источники света
+                for (Int32 i = 0; i < MAX_LIGHTS_COUNT; i++)  
                 {
                     base.loadBool(this.enableLight[i], false);
                 }
@@ -329,10 +329,10 @@ namespace MassiveGame
 
         protected override void SetShaderMacros()
         {
-            SetDefine(ShaderTypeFlag.VertexShader | ShaderTypeFlag.FragmentShader, "MAX_LIGHT_COUNT", DOUEngine.MAX_LIGHT_COUNT.ToString());
-            SetDefine(ShaderTypeFlag.FragmentShader, "MAX_MIST_VISIBLE_AREA", "1.0");
-            SetDefine(ShaderTypeFlag.FragmentShader, "SHADOWMAP_BIAS", "0.005");
-            SetDefine(ShaderTypeFlag.FragmentShader, "PCF_SAMPLES", "2");
+            SetDefine<Int32>(ShaderTypeFlag.VertexShader | ShaderTypeFlag.FragmentShader, "MAX_LIGHT_COUNT", DOUEngine.MAX_LIGHT_COUNT);
+            SetDefine<float>(ShaderTypeFlag.FragmentShader, "MAX_MIST_VISIBLE_AREA", 1.0f);
+            SetDefine<float>(ShaderTypeFlag.FragmentShader, "SHADOWMAP_BIAS", 0.005f);
+            SetDefine<Int32>(ShaderTypeFlag.FragmentShader, "PCF_SAMPLES", 2);
         }
 
         #region Constructor

@@ -161,10 +161,10 @@ namespace MassiveGame
 
         protected override void SetShaderMacros()
         {
-            SetDefine(ShaderTypeFlag.VertexShader | ShaderTypeFlag.FragmentShader, "MAX_LIGHT_COUNT", DOUEngine.MAX_LIGHT_COUNT.ToString());
-            SetDefine(ShaderTypeFlag.VertexShader, "tiling", "3.0");
-            SetDefine(ShaderTypeFlag.FragmentShader, "materialReflectivity", "1.1f");
-            SetDefine(ShaderTypeFlag.FragmentShader, "materialShineDamper", "100.0f");
+            SetDefine<Int32>(ShaderTypeFlag.VertexShader | ShaderTypeFlag.FragmentShader, "MAX_LIGHT_COUNT", DOUEngine.MAX_LIGHT_COUNT);
+            SetDefine<float>(ShaderTypeFlag.VertexShader, "tiling", 3.0f);
+            SetDefine<float>(ShaderTypeFlag.FragmentShader, "materialReflectivity", 1.1f);
+            SetDefine<float>(ShaderTypeFlag.FragmentShader, "materialShineDamper", 100.0f);
         }
 
         #region Constructor

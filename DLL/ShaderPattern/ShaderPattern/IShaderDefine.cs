@@ -10,6 +10,6 @@ namespace ShaderPattern
 {
     public interface IShaderDefine
     {
-        void SetDefine(ShaderTypeFlag shaderType, string name, string formatValue);
+        void SetDefine<T>(ShaderTypeFlag shaderType, string name, T value) where T : struct;
     }
 }

@@ -61,6 +61,7 @@ namespace MassiveGame.Settings
         {
             DOUEngine.globalSettings.DomainFramebufferRezolution = GetScreenRezolution();
             DOUEngine.globalSettings.ShadowMapRezolution = GetDirectionalShadowMapRezolution();
+            DOUEngine.globalSettings.bSupported_DepthOfField = GetIsDepthOfFieldSupported();
             DOUEngine.globalSettings.bSupported_Bloom = GetIsBloomSupported();
             DOUEngine.globalSettings.bSupported_LightShafts = GetIsLightShaftsSupported();
             DOUEngine.globalSettings.bSupported_LensFlare = GetIsLensFlaresSupported();
@@ -103,6 +104,13 @@ namespace MassiveGame.Settings
             IPropertyConverter convertToBool = new PropertyToBool();
             var bEnableLensFlare = (bool)ReadProperty(convertToBool, "lensflare");
             return bEnableLensFlare;
+        }
+
+        public bool GetIsDepthOfFieldSupported()
+        {
+            IPropertyConverter convertToBoll = new PropertyToBool();
+            var bEnableDoF = (bool)ReadProperty(convertToBoll, "depthOfField");
+            return bEnableDoF;
         }
 
         public bool GetIsMipMapSupported()

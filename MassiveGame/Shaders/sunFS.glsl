@@ -1,6 +1,6 @@
 #version 400
 
-#define rCoef 1.2000000 
+#define rCoef 1.2 
 #define gCoef 0.7692307 
 #define bCoef 0.5555555
 layout (location = 0) out vec4 FragColor;

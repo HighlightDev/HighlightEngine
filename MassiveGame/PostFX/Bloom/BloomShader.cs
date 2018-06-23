@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using OpenTK.Graphics.OpenGL;
 using System.Drawing;
+using OpenTK;
 
 namespace MassiveGame.PostFX.Bloom
 {
@@ -94,8 +95,8 @@ namespace MassiveGame.PostFX.Bloom
         protected override void SetShaderMacros()
         {
             base.SetShaderMacros();
-            SetDefine(ShaderTypeFlag.FragmentShader, "lum", "vec3(0.2126, 0.7152, 0.0722)");
-            SetDefine(ShaderTypeFlag.FragmentShader, "MAX_BLUR_WIDTH", BLUR_WIDTH.ToString());
+            SetDefine<Vector3>(ShaderTypeFlag.FragmentShader, "lum", new Vector3(0.2126f, 0.7152f, 0.0722f));
+            SetDefine<Int32>(ShaderTypeFlag.FragmentShader, "MAX_BLUR_WIDTH", BLUR_WIDTH);
         }
 
         #region Constructor

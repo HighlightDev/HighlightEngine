@@ -1,7 +1,7 @@
 #version 400
 
 #define MAX_LIGHT_COUNT 5 
-#define tiling 3.0
+#define tiling 3
 
 layout (location = 0) in vec3 Vertex;
 layout (location = 1) in vec3 Normal;

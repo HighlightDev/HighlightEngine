@@ -41,6 +41,10 @@ namespace MassiveGame.PostFX.DepthOfField
         public DepthOfFieldPostProcess()
             : base()
         {
+            this.BlurWidth = 8;
+            this.BlurStartEdge = 0.98f;
+            this.BlurEndEdge = 0.95f;
+            this.BlurPassCount = 1;
         }
 
         private void PostConstructor()
@@ -50,6 +54,7 @@ namespace MassiveGame.PostFX.DepthOfField
                 renderTarget = new DepthOfFieldFramebufferObject();
                 dofShader = (DepthOfFieldShader<T>)ResourcePool.GetShaderProgram(ProjectFolders.ShadersPath + "depthOfFieldVS.glsl",
                     ProjectFolders.ShadersPath + "depthOfFieldFS.glsl", "", typeof(DepthOfFieldShader<T>));
+
                 bPostConstructor = false;
             }
         }
@@ -64,49 +69,51 @@ namespace MassiveGame.PostFX.DepthOfField
                 this.blurWidthChanged = false;
             }
 
-            // First blur pass is necessary, so I can easily enter blur cycle with result from blur in vertical blur render target
             GL.Disable(EnableCap.DepthTest);
             renderTarget.renderToFBO(1, renderTarget.VerticalBlurTexture.GetTextureRezolution());
             dofShader.startProgram();
             frameColorTexture.BindTexture(TextureUnit.Texture0);
-            dofShader.setVerticalBlurUniforms(0, blurWeights, getPixOffset(BlurWidth), renderTarget.VerticalBlurTexture.GetTextureRezolution());
+            dofShader.setDownsamplerUniforms(0);
             VAOManager.renderBuffers(quadBuffer, PrimitiveType.Triangles);
-
-            renderTarget.renderToFBO(2, renderTarget.HorizontalBlurTexture.GetTextureRezolution());
-            renderTarget.VerticalBlurTexture.BindTexture(TextureUnit.Texture0);
-            dofShader.setHorizontalBlurUniforms(0, blurWeights, getPixOffset(BlurWidth), renderTarget.VerticalBlurTexture.GetTextureRezolution());
-            VAOManager.renderBuffers(quadBuffer, PrimitiveType.Triangles);
-
+            dofShader.stopProgram();
+          
             /*Gauss blur*/
-            for (Int32 i = 1; i < BlurPassCount; i++)
+            for (Int32 i = 0; i < BlurPassCount; i++)
             {
-                /*Vertical blur of bright parts of image*/
-                renderTarget.renderToFBO(1, renderTarget.VerticalBlurTexture.GetTextureRezolution());
-                dofShader.startProgram();
-                renderTarget.HorizontalBlurTexture.BindTexture(TextureUnit.Texture0);
-                dofShader.setHorizontalBlurUniforms(0, blurWeights, getPixOffset(BlurWidth), renderTarget.HorizontalBlurTexture.GetTextureRezolution());
-                VAOManager.renderBuffers(quadBuffer, PrimitiveType.Triangles);
-
                 /*Horizontal blur of image*/
                 renderTarget.renderToFBO(2, renderTarget.HorizontalBlurTexture.GetTextureRezolution());
                 dofShader.startProgram();
                 renderTarget.VerticalBlurTexture.BindTexture(TextureUnit.Texture0);
+                dofShader.setHorizontalBlurUniforms(0, blurWeights, getPixOffset(BlurWidth), renderTarget.HorizontalBlurTexture.GetTextureRezolution());
+                VAOManager.renderBuffers(quadBuffer, PrimitiveType.Triangles);
+                dofShader.stopProgram();
+
+                /*Vertical blur of image*/
+                renderTarget.renderToFBO(1, renderTarget.VerticalBlurTexture.GetTextureRezolution());
+                dofShader.startProgram();
+                renderTarget.HorizontalBlurTexture.BindTexture(TextureUnit.Texture0);
                 dofShader.setVerticalBlurUniforms(0, blurWeights, getPixOffset(BlurWidth), renderTarget.VerticalBlurTexture.GetTextureRezolution());
                 VAOManager.renderBuffers(quadBuffer, PrimitiveType.Triangles);
+                dofShader.stopProgram();
             }
 
             // Blend DoF post process result with previous post process result, if such exists
             renderTarget.renderToFBO(3, renderTarget.DepthOfFieldResultTexture.GetTextureRezolution());
+            dofShader.startProgram();
 
             if (previousPostProcessResult != null)
             {
                 previousPostProcessResult.BindTexture(TextureUnit.Texture2);
                 dofShader.SetPreviousPostProcessResultSampler(2);
             }
+            else
+            {
+                frameColorTexture.BindTexture(TextureUnit.Texture2);
+                dofShader.SetFrameTextureSampler(2);
+            }
 
-            dofShader.startProgram();
-            renderTarget.HorizontalBlurTexture.BindTexture(TextureUnit.Texture0);
-            renderTarget.DepthOfFieldResultTexture.BindTexture(TextureUnit.Texture1);
+            renderTarget.VerticalBlurTexture.BindTexture(TextureUnit.Texture0);
+            frameDepthTexture.BindTexture(TextureUnit.Texture1);
             dofShader.setDoFUniforms(0, 1, BlurStartEdge, BlurEndEdge);
             VAOManager.renderBuffers(quadBuffer, PrimitiveType.Triangles);
             dofShader.stopProgram();

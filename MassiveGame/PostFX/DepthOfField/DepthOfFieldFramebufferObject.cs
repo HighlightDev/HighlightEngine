@@ -51,6 +51,7 @@ namespace MassiveGame.PostFX.DepthOfField
             attachTextureToFramebuffer(FramebufferAttachment.ColorAttachment0, HorizontalBlurTexture.GetTextureDescriptor());
             bindFramebuffer(3);
             attachTextureToFramebuffer(FramebufferAttachment.ColorAttachment0, DepthOfFieldResultTexture.GetTextureDescriptor());
+            unbindFramebuffer();
         }
 
         protected override void setRenderbuffers()

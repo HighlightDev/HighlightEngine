@@ -7,6 +7,7 @@ using MassiveGame.RenderCore;
 using MassiveGame.Optimization;
 using MassiveGame.RenderCore.Visibility;
 using MassiveGame.PostFX;
+using TextureLoader;
 
 namespace MassiveGame.Engine
 {
@@ -42,18 +43,13 @@ namespace MassiveGame.Engine
         {
             PreDrawClearBuffers();
             VisibilityCheckPass();
-
             if (!bInitialDraw)
             {
                 DepthPassDraw(ref actualScreenRezolution);
             }
-
             DistortionsPassDraw();
             BasePassDraw(ref actualScreenRezolution);
-
-#if DEBUG
-            DebugInfoPassDraw(ref actualScreenRezolution);
-#endif
+            PostProcessPass(DefaultFB.GetColorTexture(), DefaultFB.GetDepthStencilTexture(), ref actualScreenRezolution);
         }
 
         #region Render queue
@@ -62,9 +58,10 @@ namespace MassiveGame.Engine
         {
             DefaultFB.Bind();
             RenderBaseMeshes(DOUEngine.Camera);
+#if DEBUG
+            RenderDebugInfo(ref actualScreenRezolution);
+#endif
             DefaultFB.Unbind();
-
-            postProcessStage.ExecutePostProcessPass(DefaultFB.GetColorTexture(), DefaultFB.GetDepthStencilTexture(), ref actualScreenRezolution);
         }
 
         private void DepthPassDraw(ref Point actualScreenRezolution)
@@ -85,11 +82,16 @@ namespace MassiveGame.Engine
             }
         }
 
-        private void DebugInfoPassDraw(ref Point actualScreenRezoltuion)
+        private void RenderDebugInfo(ref Point actualScreenRezoltuion)
         {
             RenderLamps();
             RenderBoundingBoxes();
             RenderDebugFramePanels();
+        }
+
+        private void PostProcessPass(ITexture colorTexture, ITexture depthTexture, ref Point actualScreenRezolution)
+        {
+            postProcessStage.ExecutePostProcessPass(colorTexture, depthTexture, ref actualScreenRezolution);
         }
 
         private void RenderBaseMeshes(Camera camera)

@@ -16,6 +16,7 @@ namespace MassiveGame.Settings
         public Point ShadowMapRezolution { set; get; } = new Point(256, 256);
 
         // PostProcess
+        public bool bSupported_DepthOfField { get; set; } = false;
         public bool bSupported_Bloom { set; get; } = false;
         public bool bSupported_LightShafts { set; get; } = false;
         public bool bSupported_LensFlare { set; get; } = false;

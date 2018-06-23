@@ -56,9 +56,9 @@ namespace MassiveGame
 
         protected override void SetShaderMacros()
         {
-            SetDefine(ShaderTypeFlag.FragmentShader, "rCoef", "1.2000000");
-            SetDefine(ShaderTypeFlag.FragmentShader, "gCoef", "0.7692307");
-            SetDefine(ShaderTypeFlag.FragmentShader, "bCoef", "0.5555555");
+            SetDefine<float>(ShaderTypeFlag.FragmentShader, "rCoef", 1.2f);
+            SetDefine<float>(ShaderTypeFlag.FragmentShader, "gCoef", 0.7692307f);
+            SetDefine<float>(ShaderTypeFlag.FragmentShader, "bCoef", 0.5555555f);
         }
 
         #region Constructor

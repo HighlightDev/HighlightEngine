@@ -1,6 +1,6 @@
 #version 400
 
-#define MAX_MIST_VISIBLE_AREA 1.0
+#define MAX_MIST_VISIBLE_AREA 1
 layout (location = 0) out vec4 FragColor;
 
 uniform sampler2D plantTexture;
