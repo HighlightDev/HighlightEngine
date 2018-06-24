@@ -343,7 +343,7 @@ namespace MassiveGame
             return Matrix4.Identity;
         }
 
-        public VAO GetModel()
+        public VAO GetMesh()
         {
             return _buffer;
         }

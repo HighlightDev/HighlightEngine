@@ -136,7 +136,7 @@ namespace MassiveGame
             return IsInCameraView;
         }
 
-        public VAO GetModel()
+        public VAO GetMesh()
         {
             return _model.Buffer;
         }

@@ -153,7 +153,7 @@ namespace FramebufferAPI
         private void bindFramebufferImpl(Int32 framebufferNumber, Int32 viewPortWidth, Int32 viewPortHeight)
         {
             bindFramebuffer(framebufferNumber);
-            GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
+            GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit | ClearBufferMask.StencilBufferBit);
             GL.Viewport(0, 0, viewPortWidth, viewPortHeight);
         }
 

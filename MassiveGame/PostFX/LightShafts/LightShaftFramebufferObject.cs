@@ -21,10 +21,10 @@ namespace MassiveGame.PostFX.LightShafts
         {
             RadialBlurAppliedTexture = ResourcePool.GetRenderTarget(new TextureParameters(TextureTarget.Texture2D, TextureMagFilter.Linear, TextureMinFilter.Linear,
              0, PixelInternalFormat.Rgb, DOUEngine.globalSettings.DomainFramebufferRezolution.X / 10,
-             DOUEngine.globalSettings.DomainFramebufferRezolution.Y / 10, PixelFormat.Rgb, PixelType.UnsignedByte));
+             DOUEngine.globalSettings.DomainFramebufferRezolution.Y / 10, PixelFormat.Rgb, PixelType.UnsignedByte, TextureWrapMode.Repeat));
 
             LightShaftsResultTexture = ResourcePool.GetRenderTarget(new TextureParameters(TextureTarget.Texture2D, TextureMagFilter.Nearest, TextureMinFilter.Nearest, 0, PixelInternalFormat.Rgb,
-               DOUEngine.globalSettings.DomainFramebufferRezolution.X, DOUEngine.globalSettings.DomainFramebufferRezolution.Y, PixelFormat.Rgb, PixelType.UnsignedByte));
+               DOUEngine.globalSettings.DomainFramebufferRezolution.X, DOUEngine.globalSettings.DomainFramebufferRezolution.Y, PixelFormat.Rgb, PixelType.UnsignedByte, TextureWrapMode.Repeat));
         }
 
         protected override void setFramebuffers()

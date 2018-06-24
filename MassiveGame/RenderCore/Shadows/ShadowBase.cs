@@ -74,7 +74,7 @@ namespace MassiveGame.RenderCore.Shadows
                 if (actor != null)
                 {
                     shadowShader.SetUniformValues(actor.GetWorldMatrix(), shadowViewMatrix, shadowProjectionMatrix);
-                    VAOManager.renderBuffers(actor.GetModel(), OpenTK.Graphics.OpenGL.PrimitiveType.Triangles);
+                    VAOManager.renderBuffers(actor.GetMesh(), OpenTK.Graphics.OpenGL.PrimitiveType.Triangles);
                 }
             }
             shadowShader.stopProgram();

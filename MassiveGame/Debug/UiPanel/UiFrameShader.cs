@@ -16,7 +16,7 @@ namespace MassiveGame.Debug.UiPanel
         #region Definitions
 
         private const string SHADER_NAME = "UiFrame Shader";
-        private Int32 uiTexture, screenSpaceMatrix, bDepthTexture;
+        private Int32 uiTexture, screenSpaceMatrix, bPerspectiveDepthTexture;
 
         #endregion
 
@@ -32,9 +32,9 @@ namespace MassiveGame.Debug.UiPanel
             loadMatrix(this.screenSpaceMatrix, false, screenSpaceMatrix);
         }
 
-        public void SetIsDepthTexture(bool bDepthTexture)
+        public void SetIsDepthTexture(bool bPerspectiveDepthTexture)
         {
-            loadBool(this.bDepthTexture, bDepthTexture);
+            loadBool(this.bPerspectiveDepthTexture, bPerspectiveDepthTexture);
         }
 
         #endregion
@@ -45,7 +45,7 @@ namespace MassiveGame.Debug.UiPanel
         {
             uiTexture = base.getUniformLocation("uiTexture");
             screenSpaceMatrix = getUniformLocation("screenSpaceMatrix");
-            bDepthTexture = getUniformLocation("bDepthTexture");
+            bPerspectiveDepthTexture = getUniformLocation("bPerspectiveDepthTexture");
         }
 
         #endregion

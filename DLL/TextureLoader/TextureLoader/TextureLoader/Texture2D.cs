@@ -30,7 +30,7 @@ namespace TextureLoader
             TextureParameters.TexBufferHeight = rectParams.Y;
         }
 
-        public Texture2D(TextureLoader.TextureParameters textureParameters, TextureWrapMode texWrap = TextureWrapMode.Repeat)
+        public Texture2D(TextureLoader.TextureParameters textureParameters)
         {
             TextureParameters = textureParameters;
 
@@ -39,10 +39,10 @@ namespace TextureLoader
 
             GL.TexImage2D(TextureTarget.Texture2D, 0, textureParameters.TexPixelInternalFormat, textureParameters.TexBufferWidth, textureParameters.TexBufferHeight, 0 , textureParameters.TexPixelFormat, textureParameters.TexPixelType, new IntPtr(0));
 
-            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter, (Int32)textureParameters.MagFilter);
-            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, (Int32)textureParameters.MinFilter);
-            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapS, (Int32)texWrap);
-            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapT, (Int32)texWrap);
+            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter, (Int32)textureParameters.TexMagFilter);
+            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, (Int32)textureParameters.TexMinFilter);
+            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapS, (Int32)textureParameters.TexWrapMode);
+            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapT, (Int32)textureParameters.TexWrapMode);
         }
 
         #region Externals

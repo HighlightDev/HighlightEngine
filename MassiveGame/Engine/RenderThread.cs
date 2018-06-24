@@ -23,13 +23,6 @@ namespace MassiveGame.Engine
             postProcessStage = new PostProcessStageRenderer();
         }
 
-        private void PreDrawClearBuffers()
-        {
-            GL.Enable(EnableCap.DepthTest);
-            GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit | ClearBufferMask.StencilBufferBit);
-            GL.ClearColor(Color.Black);
-        }
-
         private void VisibilityCheckPass()
         {
             // Find which primitives are visible for current frame
@@ -41,8 +34,8 @@ namespace MassiveGame.Engine
 
         public void ThreadExecution(ref Point actualScreenRezolution, bool bInitialDraw)
         {
-            PreDrawClearBuffers();
             VisibilityCheckPass();
+
             if (!bInitialDraw)
             {
                 DepthPassDraw(ref actualScreenRezolution);
@@ -50,9 +43,13 @@ namespace MassiveGame.Engine
             DistortionsPassDraw();
             BasePassDraw(ref actualScreenRezolution);
             PostProcessPass(DefaultFB.GetColorTexture(), DefaultFB.GetDepthStencilTexture(), ref actualScreenRezolution);
+
+#if DEBUG
+            DebugFramePanelsPass();
+#endif
         }
 
-        #region Render queue
+        #region Draw passes
 
         private void BasePassDraw(ref Point actualScreenRezolution)
         {
@@ -82,17 +79,20 @@ namespace MassiveGame.Engine
             }
         }
 
-        private void RenderDebugInfo(ref Point actualScreenRezoltuion)
-        {
-            RenderLamps();
-            RenderBoundingBoxes();
-            RenderDebugFramePanels();
-        }
-
         private void PostProcessPass(ITexture colorTexture, ITexture depthTexture, ref Point actualScreenRezolution)
         {
             postProcessStage.ExecutePostProcessPass(colorTexture, depthTexture, ref actualScreenRezolution);
         }
+
+        private void DebugFramePanelsPass()
+        {
+            GL.Disable(EnableCap.DepthTest);
+            RenderDebugFramePanels();
+        }
+
+        #endregion
+
+        #region Render functions
 
         private void RenderBaseMeshes(Camera camera)
         {
@@ -103,7 +103,7 @@ namespace MassiveGame.Engine
              * Clearing depth buffer, cause Skybox is infinite   */
 
             GL.Disable(EnableCap.DepthTest);
-
+            GL.DepthMask(false);
             GL.Enable(EnableCap.CullFace);
             GL.CullFace(CullFaceMode.Back);
 
@@ -111,7 +111,7 @@ namespace MassiveGame.Engine
                 DOUEngine.Skybox.renderSkybox(DOUEngine.Camera, DOUEngine.Sun, DOUEngine.ProjectionMatrix);
 
             GL.Enable(EnableCap.DepthTest);
-            GL.Clear(ClearBufferMask.DepthBufferBit);
+            GL.DepthMask(true);
 
             if (DOUEngine.terrain != null) DOUEngine.terrain.renderTerrain(DOUEngine.Mode, DOUEngine.Sun, DOUEngine.PointLight, camera, DOUEngine.ProjectionMatrix);
 
@@ -282,6 +282,12 @@ namespace MassiveGame.Engine
             if (DOUEngine.terrain != null) DOUEngine.terrain.RenderWaterRefraction(DOUEngine.Sun, camera, ref DOUEngine.ProjectionMatrix, clipPlane);
             GL.Disable(EnableCap.CullFace);
             GL.Disable(EnableCap.StencilTest); // Enable stencil test
+        }
+
+        private void RenderDebugInfo(ref Point actualScreenRezoltuion)
+        {
+            RenderLamps();
+            RenderBoundingBoxes();
         }
 
         private void RenderLamps()

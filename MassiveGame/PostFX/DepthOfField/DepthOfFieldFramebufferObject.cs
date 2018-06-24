@@ -27,14 +27,14 @@ namespace MassiveGame.PostFX.DepthOfField
         {
             var verticalBlurRederTargetParams = new TextureParameters(TextureTarget.Texture2D, TextureMagFilter.Linear, TextureMinFilter.Linear,
                0, PixelInternalFormat.Rgb, DOUEngine.globalSettings.DomainFramebufferRezolution.X / 10,
-               DOUEngine.globalSettings.DomainFramebufferRezolution.Y / 10, PixelFormat.Rgb, PixelType.UnsignedByte);
+               DOUEngine.globalSettings.DomainFramebufferRezolution.Y / 10, PixelFormat.Rgb, PixelType.UnsignedByte, TextureWrapMode.Repeat);
 
             var horizontalBlurRenderTargetParams = new TextureParameters(TextureTarget.Texture2D, TextureMagFilter.Linear, TextureMinFilter.Linear,
              0, PixelInternalFormat.Rgb, DOUEngine.globalSettings.DomainFramebufferRezolution.X / 10,
-             DOUEngine.globalSettings.DomainFramebufferRezolution.Y / 10, PixelFormat.Rgb, PixelType.UnsignedByte);
+             DOUEngine.globalSettings.DomainFramebufferRezolution.Y / 10, PixelFormat.Rgb, PixelType.UnsignedByte, TextureWrapMode.Repeat);
 
             var depthOfFieldRenderTargetPrams = new TextureParameters(TextureTarget.Texture2D, TextureMagFilter.Nearest, TextureMinFilter.Nearest, 0, PixelInternalFormat.Rgb,
-               DOUEngine.globalSettings.DomainFramebufferRezolution.X, DOUEngine.globalSettings.DomainFramebufferRezolution.Y, PixelFormat.Rgb, PixelType.UnsignedByte);
+               DOUEngine.globalSettings.DomainFramebufferRezolution.X, DOUEngine.globalSettings.DomainFramebufferRezolution.Y, PixelFormat.Rgb, PixelType.UnsignedByte, TextureWrapMode.Repeat);
 
             VerticalBlurTexture = ResourcePool.GetRenderTarget(verticalBlurRederTargetParams);
             HorizontalBlurTexture = ResourcePool.GetRenderTarget(horizontalBlurRenderTargetParams);

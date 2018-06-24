@@ -82,11 +82,11 @@ void main(void)
 
     // depth to ground
 	float depth = texture(depthTexture, refractionTexCoords).r;
-	float floorDistance = 2.0 * nearClipPlane * farClipPlane / (farClipPlane + nearClipPlane - (2.0 * depth - 1.0) * (farClipPlane - nearClipPlane));
+	float floorDistance = (2.0 * nearClipPlane * farClipPlane) / (farClipPlane + nearClipPlane - (2.0 * depth - 1.0) * (farClipPlane - nearClipPlane));
 
     // depth to water plane
 	depth = gl_FragCoord.z;
-	float waterDistance = 2.0 * nearClipPlane * farClipPlane / (farClipPlane + nearClipPlane - (2.0 * depth - 1.0) * (farClipPlane - nearClipPlane));
+	float waterDistance = (2.0 * nearClipPlane * farClipPlane) / (farClipPlane + nearClipPlane - (2.0 * depth - 1.0) * (farClipPlane - nearClipPlane));
 	float waterDepth = floorDistance - waterDistance;
 
 	//Distortion

@@ -26,7 +26,7 @@ namespace MassiveGame
         public const float SCREEN_ASPECT_RATIO = 16f / 9f;
         public const Int32 MAX_LIGHT_COUNT = 5;
         public const float NEAR_CLIPPING_PLANE = 0.1f;
-        public const float FAR_CLIPPING_PLANE = 1000;
+        public const float FAR_CLIPPING_PLANE = 900;
 
         public static Int32 SCREEN_POSITION_X = 120;
         public static Int32 SCREEN_POSITION_Y = 50;

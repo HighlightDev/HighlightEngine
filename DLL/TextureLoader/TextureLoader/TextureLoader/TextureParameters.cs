@@ -6,19 +6,20 @@ namespace TextureLoader
     public class TextureParameters
     {
         public TextureTarget TexTarget { set; get; }
-        public TextureMagFilter MagFilter { set; get; }
-        public TextureMinFilter MinFilter { set; get; }
+        public TextureMagFilter TexMagFilter { set; get; }
+        public TextureMinFilter TexMinFilter { set; get; }
         public Int32 TexMipLvl { set; get; }
         public PixelInternalFormat TexPixelInternalFormat { set; get; }
         public Int32 TexBufferWidth { set; get; }
         public Int32 TexBufferHeight { set; get; }
         public PixelFormat TexPixelFormat { set; get; }
         public PixelType TexPixelType { set; get; }
+        public TextureWrapMode TexWrapMode { set; get; }
 
         public TextureParameters(TextureTarget texTarget, TextureMagFilter magFilter, TextureMinFilter minFilter,
             Int32 texMipLvl, PixelInternalFormat texPixelInternalFormat,
             Int32 texBufferWidth, Int32 texBufferHeight,
-            PixelFormat texPixelFormat, PixelType texPixelType)
+            PixelFormat texPixelFormat, PixelType texPixelType, TextureWrapMode texWrapMode)
         {
             TexTarget = texTarget;
             TexMipLvl = texMipLvl;
@@ -27,8 +28,9 @@ namespace TextureLoader
             TexBufferHeight = texBufferHeight;
             TexPixelFormat = texPixelFormat;
             TexPixelType = texPixelType;
-            MagFilter = magFilter;
-            MinFilter = minFilter;
+            TexMagFilter = magFilter;
+            TexMinFilter = minFilter;
+            TexWrapMode = texWrapMode;
         }
 
         public TextureParameters()
@@ -46,8 +48,9 @@ namespace TextureLoader
                 left.TexBufferHeight == right.TexBufferHeight &&
                 left.TexPixelFormat == right.TexPixelFormat &&
                 left.TexPixelType == right.TexPixelType &&
-                left.MagFilter == right.MagFilter &&
-                left.MinFilter == right.MinFilter;
+                left.TexMagFilter == right.TexMagFilter &&
+                left.TexMinFilter == right.TexMinFilter &&
+                left.TexWrapMode == right.TexWrapMode;
             return bEqual;
         }
 

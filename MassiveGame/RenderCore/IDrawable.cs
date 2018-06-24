@@ -11,7 +11,7 @@ namespace MassiveGame.RenderCore
 {
     public interface IDrawable
     {
-        VAO GetModel();
+        VAO GetMesh();
         ITexture GetDiffuseMap();
         ITexture GetNormalMap();
         ITexture GetSpecularMap();

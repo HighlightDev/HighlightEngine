@@ -102,7 +102,7 @@ namespace MassiveGame.UI
  
         private void setTestValues()
         {
-            var rtParams = new TextureParameters(TextureTarget.Texture2D, TextureMagFilter.Nearest, TextureMinFilter.Nearest, 0, PixelInternalFormat.DepthComponent16, DOUEngine.globalSettings.ShadowMapRezolution.X, DOUEngine.globalSettings.ShadowMapRezolution.Y, PixelFormat.DepthComponent, PixelType.Float);
+            var rtParams = new TextureParameters(TextureTarget.Texture2D, TextureMagFilter.Nearest, TextureMinFilter.Nearest, 0, PixelInternalFormat.DepthComponent16, DOUEngine.globalSettings.ShadowMapRezolution.X, DOUEngine.globalSettings.ShadowMapRezolution.Y, PixelFormat.DepthComponent, PixelType.Float, TextureWrapMode.Repeat);
             DOUEngine.Sun = new DirectionalLight(rtParams, new Vector3(-100, -10, 50), new Vector4(0.4f, 0.4f, 0.4f, 1),
                 new Vector4(0.7f, 0.7f, 0.7f, 1.0f), new Vector4(1, 1, 1, 1));
             DOUEngine.Sun.GetShadow().CreateShadowMapCache();
