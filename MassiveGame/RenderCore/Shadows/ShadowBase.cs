@@ -22,7 +22,6 @@ namespace MassiveGame.RenderCore.Shadows
         public abstract Matrix4 GetShadowViewMatrix();
         protected abstract void PrepareRenderTarget();
 
-        protected TextureParameters RTParams;
         protected ITexture ShadowMapTexture;
         protected Int32 FramebufferHandler;
 
@@ -46,7 +45,6 @@ namespace MassiveGame.RenderCore.Shadows
 
         public void AllocateRenderTarget(TextureParameters shadowMapSettings)
         {
-            RTParams = shadowMapSettings;
             ShadowMapTexture = ResourcePool.GetRenderTarget(shadowMapSettings);
             FramebufferHandler = GL.GenFramebuffer();
         }
@@ -59,7 +57,7 @@ namespace MassiveGame.RenderCore.Shadows
 
         public void WriteDepth(IList<IDrawable> CastingShadowActors, ref Matrix4 ProjectionMatrix)
         {
-            GL.Viewport(0, 0, RTParams.TexBufferWidth, RTParams.TexBufferHeight);
+            GL.Viewport(0, 0, ShadowMapTexture.GetTextureRezolution().X, ShadowMapTexture.GetTextureRezolution().Y);
             GL.BindFramebuffer(FramebufferTarget.Framebuffer, FramebufferHandler);
             GL.Clear(ClearBufferMask.DepthBufferBit);
 
@@ -82,7 +80,6 @@ namespace MassiveGame.RenderCore.Shadows
             //GL.CullFace(CullFaceMode.Back);
 
             GL.BindFramebuffer(FramebufferTarget.Framebuffer, 0);
-            GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
         }
 
         public ShadowBase(TextureParameters ShadowMapSettings)

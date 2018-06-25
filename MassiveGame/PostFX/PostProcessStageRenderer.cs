@@ -51,7 +51,7 @@ namespace MassiveGame.PostFX
 
             if (DOUEngine.globalSettings.bSupported_LightShafts)
             {
-                if (DOUEngine.globalSettings.bSupported_Bloom)
+                if (DOUEngine.globalSettings.bSupported_Bloom || DOUEngine.globalSettings.bSupported_DepthOfField)
                 {
                     lightShaftsPP = new LightShaftPostProcess<ApplySubsequentPostProcessResult>();
                 }
@@ -63,7 +63,7 @@ namespace MassiveGame.PostFX
 
             if (DOUEngine.globalSettings.bSupported_LensFlare)
             {
-                if (DOUEngine.globalSettings.bSupported_LightShafts)
+                if (DOUEngine.globalSettings.bSupported_LightShafts || DOUEngine.globalSettings.bSupported_Bloom || DOUEngine.globalSettings.bSupported_DepthOfField)
                 {
                     lensFlaresPP = new LensFlarePostProcess<ApplySubsequentPostProcessResult>();
                 }

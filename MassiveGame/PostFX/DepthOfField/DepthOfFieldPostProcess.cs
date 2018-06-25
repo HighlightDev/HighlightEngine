@@ -42,8 +42,8 @@ namespace MassiveGame.PostFX.DepthOfField
             : base()
         {
             this.BlurWidth = 8;
-            this.BlurStartEdge = 0.98f;
-            this.BlurEndEdge = 0.95f;
+            this.BlurStartEdge = 0.5f;
+            this.BlurEndEdge = 1f;
             this.BlurPassCount = 1;
         }
 

@@ -94,6 +94,7 @@ namespace MassiveGame.Debug.UiPanel
             renderTexture.BindTexture(TextureUnit.Texture0);
             _shader.SetUiTextureSampler(0);
             _shader.SetScreenSpaceMatrix(Matrix4.Identity);
+            _shader.SetIsDepthTexture(false);
             VAOManager.renderBuffers(_buffer, PrimitiveType.Triangles);
             _shader.stopProgram();
         }

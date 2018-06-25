@@ -7,7 +7,7 @@ layout (location = 0) out vec4 FragColor;
 in vec2 texCoords;
 
 uniform sampler2D uiTexture;
-uniform bool bPerspectiveDepthTexture;
+uniform bool bPerspectiveDepthTexture = false;
 
 float ToLinearDepth(float nonLinearDepth)
 {

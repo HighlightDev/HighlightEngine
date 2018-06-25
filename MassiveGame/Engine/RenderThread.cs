@@ -32,10 +32,17 @@ namespace MassiveGame.Engine
             LightHitCheckApi.CheckLightSourceHitsMesh(DOUEngine.LitByLightSourcesMeshCollection, DOUEngine.PointLight);
         }
 
+        private void PreDrawClearBuffers()
+        {
+            GL.Enable(EnableCap.DepthTest);
+            GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit | ClearBufferMask.StencilBufferBit);
+            GL.ClearColor(Color.Black);
+        }
+
         public void ThreadExecution(ref Point actualScreenRezolution, bool bInitialDraw)
         {
             VisibilityCheckPass();
-
+            PreDrawClearBuffers();
             if (!bInitialDraw)
             {
                 DepthPassDraw(ref actualScreenRezolution);
@@ -184,8 +191,8 @@ namespace MassiveGame.Engine
             GL.StencilMask(0x00);
             GL.StencilOp(StencilOp.Keep, StencilOp.Keep, StencilOp.Keep); // Set stencil operation
 
-            /* Culling back facies of terrain
-             * Culling back facies of EngineSingleton.Skybox
+            /* Culling back faces of terrain
+             * Culling back faces of EngineSingleton.Skybox
              * Disable depth test cause skybox is infinite     */
 
             GL.Disable(EnableCap.DepthTest);

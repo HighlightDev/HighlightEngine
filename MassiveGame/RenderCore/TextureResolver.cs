@@ -36,7 +36,7 @@ namespace MassiveGame.RenderCore
             GL.Clear(ClearBufferMask.DepthBufferBit | ClearBufferMask.ColorBufferBit | ClearBufferMask.StencilBufferBit);
             GL.Viewport(0, 0, actualScreenRezolution.X, actualScreenRezolution.Y);
 
-            GL.Disable(EnableCap.DepthTest);
+            //GL.Disable(EnableCap.DepthTest);
             resolvePostProcessShader.startProgram();
 
             frameTexture.BindTexture(TextureUnit.Texture0);
@@ -58,7 +58,7 @@ namespace MassiveGame.RenderCore
             GL.FramebufferTexture2D(FramebufferTarget.Framebuffer, FramebufferAttachment.ColorAttachment0, src.GetTextureParameters().TexTarget, dst.GetTextureDescriptor(), 0);
             GL.DrawBuffer(DrawBufferMode.ColorAttachment0);
 
-            GL.Disable(EnableCap.DepthTest);
+            //GL.Disable(EnableCap.DepthTest);
             GL.Viewport(0, 0, src.GetTextureRezolution().X, src.GetTextureRezolution().Y);
             // start copy texture to render target
             copyShader.startProgram();

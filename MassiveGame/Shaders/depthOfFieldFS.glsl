@@ -2,7 +2,7 @@
 
 #define HAS_PREVIOUS_STAGE 0 
 #define zNearPlane 0.1 
-#define zFarPlane 1000 
+#define zFarPlane 900 
 #define MAX_BLUR_WIDTH 10
 layout (location = 0) out vec4 FragColor;
 
@@ -29,12 +29,9 @@ uniform int blurWidth;
 uniform float blurStartEdge;
 uniform float blurEndEdge;
 
-const float S = 0.5;
-const float E = 0.6;
-
 float ToLinearDepth(float nonLinearDepth)
 {
-    float linearDepth = 2.0 * zNearPlane * zFarPlane / (zFarPlane + zNearPlane - nonLinearDepth * (zFarPlane - zNearPlane));
+    float linearDepth = (2.0 * zNearPlane) / (zFarPlane + zNearPlane - nonLinearDepth * (zFarPlane - zNearPlane));
     return linearDepth;
 }
 
@@ -91,15 +88,7 @@ vec4 depthOfField()
     float nonLinearDepth = 2.0 * (depthSample.r) - 1.0;
     float linearDepth = ToLinearDepth(nonLinearDepth);
 
-	float stepValue = smoothstep(S, E, depthSample.r);
-
-    #if 0
-    float koef = 0;
-    if (linearDepth >= blurStartEdge && linearDepth <= blurEndEdge)
-        koef = 1;
-
-    stepValue *= koef;
-    #endif
+	float stepValue = smoothstep(blurStartEdge, blurEndEdge, linearDepth);
 
 	return mix(dstColorSample, bluredColorSample, stepValue);
 }

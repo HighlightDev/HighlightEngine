@@ -55,7 +55,7 @@ namespace MassiveGame.PostFX.Bloom
 
             /*Render bright parts of the image to vertical blur render target*/
             renderTarget.renderToFBO(1, renderTarget.verticalBlurTexture.GetTextureRezolution());
-            GL.Disable(EnableCap.DepthTest);
+            //GL.Disable(EnableCap.DepthTest);
             bloomShader.startProgram();
             frameColorTexture.BindTexture(TextureUnit.Texture0);
             bloomShader.setExtractingBrightPixelsUniforms(0, BloomThreshold);
@@ -85,13 +85,13 @@ namespace MassiveGame.PostFX.Bloom
             // Blend bloom post process result with previous post process result, if such exists
             renderTarget.renderToFBO(3, renderTarget.bloomResultTexture.GetTextureRezolution());
 
+            bloomShader.startProgram();
             if (previousPostProcessResult != null)
             {
                 previousPostProcessResult.BindTexture(TextureUnit.Texture1);
                 bloomShader.SetPreviousPostProcessResultSampler(1);
             }
-
-            bloomShader.startProgram();
+           
             renderTarget.verticalBlurTexture.BindTexture(TextureUnit.Texture0);
             bloomShader.setEndBloomUniforms(0);
             VAOManager.renderBuffers(quadBuffer, PrimitiveType.Triangles);
