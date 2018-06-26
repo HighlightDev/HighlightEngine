@@ -1,13 +1,84 @@
 ﻿using OpenTK;
 using PhysicsBox;
+using PhysicsBox.ComponentCore;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
+using VMath;
 
 namespace MassiveGame
 {
+    public class LiteCameraExt
+    {
+        float ROTATE_MEASURE = 0.08f;
+
+        public Vector3 LocalSpaceCamDir { set; get; }
+        public float DistanceToTarget { set; get; }
+        public Entity Target { set; get; }
+        public Matrix3 AccumulatedRotation { set; get; }
+
+        public LiteCameraExt(Vector3 CamDir, float distanceToTarget, Entity target)
+        {
+            this.LocalSpaceCamDir = CamDir;
+            DistanceToTarget = distanceToTarget;
+            Target = target;
+            AccumulatedRotation = Matrix3.Identity;
+        }
+
+
+        public void RotateDirByMouse(Int32 x, Int32 y, Int32 screenWidth, Int32 screenHeight)
+        {
+            Int32 middleX = screenWidth >> 1;
+            Int32 middleY = screenHeight >> 1; 
+
+
+            Int32 captionHeight = ((DOUEngine.WINDOW_BORDER != WindowBorder.Hidden) && (DOUEngine.WINDOW_STATE != WindowState.Fullscreen)) ?
+                SystemInformation.CaptionHeight : 0;
+
+            Cursor.Position = new Point(DOUEngine.SCREEN_POSITION_X + middleX,
+                DOUEngine.SCREEN_POSITION_Y + middleY + captionHeight);
+
+            Int32 deltaX = middleX - x;
+            Int32 deltaY = middleY - y;
+
+
+            RotateDirection(-deltaX, -deltaY);
+        }
+
+        private void RotateDirection(Int32 deltaX, Int32 deltaY)
+        {
+            float anglePitch = -deltaY * ROTATE_MEASURE;
+            float angleYaw = -deltaX * ROTATE_MEASURE;
+
+            Vector3 rightVector = Vector3.Cross(LocalSpaceCamDir, new Vector3(0, 1, 0)).Normalized();
+
+            Matrix3 rotatePitch = Matrix3.CreateFromAxisAngle(rightVector, MathHelper.DegreesToRadians(anglePitch));
+            Matrix3 rotateYaw = Matrix3.CreateRotationY(MathHelper.DegreesToRadians(angleYaw));
+           
+            Matrix3 rotationMatrix = Matrix3.Identity;
+            rotationMatrix *= rotateYaw;
+            rotationMatrix *= rotatePitch;
+
+            AccumulatedRotation *= rotationMatrix;
+        }
+
+        public Matrix4 GetViewMatrix()
+        {
+            Vector3 WorldSpaceCameraDirection = VectorMath.multMatrix(AccumulatedRotation, LocalSpaceCamDir);
+
+            Vector3 target = (Target as Component).ComponentTranslation;
+            Vector3 eye = target + (-WorldSpaceCameraDirection * DistanceToTarget);
+            Vector3 up = new Vector3(0, 1, 0);
+
+            return Matrix4.LookAt(eye, target, up);
+        }
+
+    }
+
     public class LiteCamera
     {
         #region Definitions

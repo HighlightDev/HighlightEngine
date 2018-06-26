@@ -45,6 +45,15 @@ namespace VMath
             return tempV;
         }
 
+        public static Vector3 multMatrix(Matrix3 lhs, Vector3 rhs)
+        {
+            Vector3 tempV = new Vector3();
+            tempV.X = Vector3.Dot(lhs.Row0, tempV);
+            tempV.Y = Vector3.Dot(lhs.Row1, tempV);
+            tempV.Z = Vector3.Dot(lhs.Row2, tempV);
+            return tempV;
+        }
+
         #endregion
         #region Conversions
 

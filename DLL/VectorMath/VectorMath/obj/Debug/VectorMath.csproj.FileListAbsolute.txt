@@ -7,8 +7,6 @@ D:\Мультимедиа\Visual Studio Projects\OpenTK Applications\Application
 D:\Мультимедиа\Visual Studio Projects\OpenTK Applications\Applications\MassiveGame\MassiveGame\DLL\VectorMath\VectorMath\obj\Debug\VectorMath.pdb
 C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\DLL\VectorMath\VectorMath\bin\Debug\VectorMath.dll
 C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\DLL\VectorMath\VectorMath\bin\Debug\VectorMath.pdb
-C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\DLL\VectorMath\VectorMath\bin\Debug\OpenTK.pdb
-C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\DLL\VectorMath\VectorMath\bin\Debug\OpenTK.xml
 C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\DLL\VectorMath\VectorMath\obj\Debug\VectorMath.csprojResolveAssemblyReference.cache
 C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\DLL\VectorMath\VectorMath\obj\Debug\VectorMath.dll
 C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\DLL\VectorMath\VectorMath\obj\Debug\VectorMath.pdb
