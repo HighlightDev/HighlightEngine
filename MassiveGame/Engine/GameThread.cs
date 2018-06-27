@@ -56,7 +56,7 @@ namespace MassiveGame.Engine
 
                 DOUEngine.Picker.Update();
                 DOUEngine.Mist.Update();
-                DOUEngine.Camera.Update(DOUEngine.terrain);
+                //DOUEngine.Camera.Update(DOUEngine.terrain);
                 DOUEngine.DayCycle.UpdateTimeFlow();
 
                 // Do smth better (PlayerController)
@@ -68,7 +68,7 @@ namespace MassiveGame.Engine
                     {
                         DOUEngine.Player.MoveActor();
                     }
-                    DOUEngine.Camera.UpdateHeight(previousPosition);
+                    //DOUEngine.Camera.UpdateHeight(previousPosition);
                 }
 
                 if (DOUEngine.SunReplica != null)

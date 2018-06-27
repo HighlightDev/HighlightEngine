@@ -53,199 +53,163 @@ namespace MassiveGame
 
         public void moveCamera(CAMERA_DIRECTIONS direction)
         {
-            Vector3 vector = LookVector - PosVector;
-            vector.Normalize();
+            //Vector3 vector = LookVector - PosVector;
+            //vector.Normalize();
 
-            switch (direction)
-            {
-                case CAMERA_DIRECTIONS.FORWARD:
-                    {
-                        PosVector += vector * CAMERA_SPEED;
-                        LookVector += vector * CAMERA_SPEED;
-                        break;
-                    }
-                case CAMERA_DIRECTIONS.BACK:
-                    {
-                        PosVector -= vector * CAMERA_SPEED;
-                        LookVector -= vector * CAMERA_SPEED;
-                        break;
-                    }
-                case CAMERA_DIRECTIONS.LEFT:
-                    {
-                        Vector3 directionAxis = Vector3.Cross(vector, upVector);
-                        directionAxis.Normalize();
-                        PosVector -= directionAxis * CAMERA_SPEED;
-                        LookVector -= directionAxis * CAMERA_SPEED;
-                        break;
-                    }
-                case CAMERA_DIRECTIONS.RIGHT:
-                    {
-                        Vector3 directionAxis = Vector3.Cross(vector, upVector);
-                        directionAxis.Normalize();
-                        PosVector += directionAxis * CAMERA_SPEED;
-                        LookVector += directionAxis * CAMERA_SPEED;
-                        break;
-                    }
-            }
+            //switch (direction)
+            //{
+            //    case CAMERA_DIRECTIONS.FORWARD:
+            //        {
+            //            PosVector += vector * CAMERA_SPEED;
+            //            LookVector += vector * CAMERA_SPEED;
+            //            break;
+            //        }
+            //    case CAMERA_DIRECTIONS.BACK:
+            //        {
+            //            PosVector -= vector * CAMERA_SPEED;
+            //            LookVector -= vector * CAMERA_SPEED;
+            //            break;
+            //        }
+            //    case CAMERA_DIRECTIONS.LEFT:
+            //        {
+            //            Vector3 directionAxis = Vector3.Cross(vector, upVector);
+            //            directionAxis.Normalize();
+            //            PosVector -= directionAxis * CAMERA_SPEED;
+            //            LookVector -= directionAxis * CAMERA_SPEED;
+            //            break;
+            //        }
+            //    case CAMERA_DIRECTIONS.RIGHT:
+            //        {
+            //            Vector3 directionAxis = Vector3.Cross(vector, upVector);
+            //            directionAxis.Normalize();
+            //            PosVector += directionAxis * CAMERA_SPEED;
+            //            LookVector += directionAxis * CAMERA_SPEED;
+            //            break;
+            //        }
+            //}
         }
 
-        public void RotateByMouse(Int32 x, Int32 y, Int32 screenWidth, Int32 screenHeight)
-        {
-            Int32 middleX = screenWidth >> 1;  //Половина ширины экрана
-            Int32 middleY = screenHeight >> 1; //Половина высоты экрана
+        //public void RotateByMouse(Int32 x, Int32 y, Int32 screenWidth, Int32 screenHeight)
+        //{
+        //    Int32 middleX = screenWidth >> 1;  //Половина ширины экрана
+        //    Int32 middleY = screenHeight >> 1; //Половина высоты экрана
 
 
-            // Теперь, получив координаты курсора, возвращаем его обратно в середину.
-            Int32 captionHeight = ((DOUEngine.WINDOW_BORDER != WindowBorder.Hidden) && (DOUEngine.WINDOW_STATE != WindowState.Fullscreen)) ?
-                SystemInformation.CaptionHeight : 0; // для корректной работы камеры с учетом рамки
+        //    // Теперь, получив координаты курсора, возвращаем его обратно в середину.
+        //    Int32 captionHeight = ((DOUEngine.WINDOW_BORDER != WindowBorder.Hidden) && (DOUEngine.WINDOW_STATE != WindowState.Fullscreen)) ?
+        //        SystemInformation.CaptionHeight : 0; // для корректной работы камеры с учетом рамки
 
-            Cursor.Position = new Point(DOUEngine.SCREEN_POSITION_X + middleX,
-                DOUEngine.SCREEN_POSITION_Y + middleY + captionHeight);
+        //    Cursor.Position = new Point(DOUEngine.SCREEN_POSITION_X + middleX,
+        //        DOUEngine.SCREEN_POSITION_Y + middleY + captionHeight);
 
-            Int32 deltaX = middleX - x;
-            Int32 deltaY = middleY - y;
+        //    Int32 deltaX = middleX - x;
+        //    Int32 deltaY = middleY - y;
 
 
-            RotatePosition(-deltaX, -deltaY);
-        }
+        //    RotatePosition(-deltaX, -deltaY);
+        //}
 
-        public void RotatePosition(Int32 deltaX, Int32 deltaY)
-        {
-            // rotate pitch
-            Vector3 lookDir = Vector3.Normalize(LookVector - PosVector);
-            Vector3 binormalDir = Vector3.Normalize(Vector3.Cross(lookDir, upVector));
-            Matrix4 rotatePitch = Matrix4.CreateFromAxisAngle(binormalDir, MathHelper.DegreesToRadians(-deltaY * ROTATE_MEASURE));
+        //public void RotatePosition(Int32 deltaX, Int32 deltaY)
+        //{
+        //    // rotate pitch
+        //    Vector3 lookDir = Vector3.Normalize(LookVector - PosVector);
+        //    Vector3 binormalDir = Vector3.Normalize(Vector3.Cross(lookDir, upVector));
+        //    Matrix4 rotatePitch = Matrix4.CreateFromAxisAngle(binormalDir, MathHelper.DegreesToRadians(-deltaY * ROTATE_MEASURE));
 
-            // rotate yaw
-            Matrix4 rotateYaw = Matrix4.CreateRotationY(MathHelper.DegreesToRadians(-deltaX * ROTATE_MEASURE));
+        //    // rotate yaw
+        //    Matrix4 rotateYaw = Matrix4.CreateRotationY(MathHelper.DegreesToRadians(-deltaX * ROTATE_MEASURE));
 
-            Matrix4 rotationMatrix = Matrix4.Identity;
-            rotationMatrix *= Matrix4.CreateTranslation(-LookVector);
-            rotationMatrix *= rotateYaw;
-            rotationMatrix *= rotatePitch;
-            rotationMatrix *= Matrix4.CreateTranslation(LookVector);
+        //    Matrix4 rotationMatrix = Matrix4.Identity;
+        //    rotationMatrix *= Matrix4.CreateTranslation(-LookVector);
+        //    rotationMatrix *= rotateYaw;
+        //    rotationMatrix *= rotatePitch;
+        //    rotationMatrix *= Matrix4.CreateTranslation(LookVector);
 
-            PosVector = new Vector3(VectorMath.multMatrix(rotationMatrix, new Vector4(PosVector, 1.0f)));
-        }
+        //    PosVector = new Vector3(VectorMath.multMatrix(rotationMatrix, new Vector4(PosVector, 1.0f)));
+        //}
 
-        public void movePosition(Vector3 positionBias)
-        {
-            PosVector += positionBias;
-        }
+        //public void movePosition(Vector3 positionBias)
+        //{
+        //    PosVector += positionBias;
+        //}
       
         public void DetachCamera() //Camera doesn't depend from any object
         {
             CameraMode = CAMERA_MODE.UNDEFINDED;
         }
 
-        private void rotatePosCamera(Vector3 newDirection)
-        {
-            PosVector = LookVector + newDirection;
-        }
+        //public void Update(Terrain terrain)
+        //{
+        //    if (CameraMode == CAMERA_MODE.THIRD_PERSON)
+        //    {
+        //        this.LookVector = Target.GetCharacterCollisionBound().GetOrigin();
+        //    }
 
-        private Vector3 cameraBridge(float angle, float x, float y, float z)   //Rotate camera around the axis
-        {
-            float[] vNewDirection = new float[3];
-            float[] vDirection = new float[3];
+        //    //if (terrain != null)
+        //    //{
+        //    //    var currentYlvl = terrain.getLandscapeHeight(PosVector.X, PosVector.Z);
+        //    //    this.PosVector.Y = PosVector.Y < currentYlvl + 1.3f ? currentYlvl + 1.3f : PosVector.Y;
+        //    //}
+        //}
 
-            // Получим наш вектор взгляда (направление, куда мы смотрим)
-            vDirection[0] = LookVector.X - PosVector.X;    //направление по X
-            vDirection[1] = LookVector.Y - PosVector.Y;    //направление по Y
-            vDirection[2] = LookVector.Z - PosVector.Z;    //направление по Z
+        //public void SetThirdPerson(MovableEntity obj)
+        //{
+        //    CameraMode = CAMERA_MODE.THIRD_PERSON;
+        //    Target = obj;
 
-            float cosTheta = Convert.ToSingle(Math.Cos(angle));
-            float sinTheta = Convert.ToSingle(Math.Sin(angle));
-
-            // Найдем новую позицию X для вращаемой точки
-            vNewDirection[0] = (cosTheta + (1 - cosTheta) * x * x) * vDirection[0];
-            vNewDirection[0] += ((1 - cosTheta) * x * y - z * sinTheta) * vDirection[1];
-            vNewDirection[0] += ((1 - cosTheta) * x * z + y * sinTheta) * vDirection[2];
-
-            // Найдем позицию Y
-            vNewDirection[1] = ((1 - cosTheta) * x * y + z * sinTheta) * vDirection[0];
-            vNewDirection[1] += (cosTheta + (1 - cosTheta) * y * y) * vDirection[1];
-            vNewDirection[1] += ((1 - cosTheta) * y * z - x * sinTheta) * vDirection[2];
-
-            // И позицию Z
-            vNewDirection[2] = ((1 - cosTheta) * x * z - y * sinTheta) * vDirection[0];
-            vNewDirection[2] += ((1 - cosTheta) * y * z + x * sinTheta) * vDirection[1];
-            vNewDirection[2] += (cosTheta + (1 - cosTheta) * z * z) * vDirection[2];
-
-            return new Vector3(vNewDirection[0], vNewDirection[1], vNewDirection[2]);
-        }
-
-        public void Update(Terrain terrain)
-        {
-            if (CameraMode == CAMERA_MODE.THIRD_PERSON)
-            {
-                this.LookVector = Target.GetCharacterCollisionBound().GetOrigin();
-            }
-
-            //if (terrain != null)
-            //{
-            //    var currentYlvl = terrain.getLandscapeHeight(PosVector.X, PosVector.Z);
-            //    this.PosVector.Y = PosVector.Y < currentYlvl + 1.3f ? currentYlvl + 1.3f : PosVector.Y;
-            //}
-        }
-
-        public void SetThirdPerson(MovableEntity obj)
-        {
-            CameraMode = CAMERA_MODE.THIRD_PERSON;
-            Target = obj;
-
-            Vector3 objCenter = new Vector3(0);
-            //obj.ComponentTranslation;
-            PosVector += new Vector3(objCenter.X, objCenter.Y + 40, objCenter.Z + 10);
-        }
+        //    Vector3 objCenter = new Vector3(0);
+        //    //obj.ComponentTranslation;
+        //    PosVector += new Vector3(objCenter.X, objCenter.Y + 40, objCenter.Z + 10);
+        //}
 
         public void SetFirstPerson()
         {
             CameraMode = CAMERA_MODE.FIRST_PERSON;
         }
 
-        public void setThirdPersonZoom(Int32 Zoom)
-        {
-            if (Zoom == -1)
-            {
-                var temp = LookVector - PosVector;
-                float length = temp.Length;
-                Vector3 zoomIn = GetNormalizedDirection();
-                if (length < MIN_CAMERA_DISTANCE) return;
-                PosVector += zoomIn * CAMERA_SPEED;
-            }
-            if (Zoom == 1)
-            {
-                var temp = PosVector - LookVector;
-                float length = temp.Length;
-                Vector3 zoomOut = Vector3.Normalize(temp);
-                if (length > MAX_CAMERA_DISTANCE) return;
-                PosVector += zoomOut * CAMERA_SPEED;
-            }
-        }
+        //public void setThirdPersonZoom(Int32 Zoom)
+        //{
+        //    if (Zoom == -1)
+        //    {
+        //        var temp = LookVector - PosVector;
+        //        float length = temp.Length;
+        //        Vector3 zoomIn = GetNormalizedDirection();
+        //        if (length < MIN_CAMERA_DISTANCE) return;
+        //        PosVector += zoomIn * CAMERA_SPEED;
+        //    }
+        //    if (Zoom == 1)
+        //    {
+        //        var temp = PosVector - LookVector;
+        //        float length = temp.Length;
+        //        Vector3 zoomOut = Vector3.Normalize(temp);
+        //        if (length > MAX_CAMERA_DISTANCE) return;
+        //        PosVector += zoomOut * CAMERA_SPEED;
+        //    }
+        //}
 
-        public void UpdateHeight(Vector3 previousPosition)
-        {
-            if (CameraMode == CAMERA_MODE.THIRD_PERSON)
-            {
-                var heightBias = Target.ComponentTranslation.Y - previousPosition.Y;
-                var dist = GetNormalizedDirection() * Target.Speed;
-                if (Target.ComponentTranslation != previousPosition)
-                {
-                    movePosition(new Vector3(dist.X, heightBias, dist.Z));
-                }
-            }
-        }
+        //public void UpdateHeight(Vector3 previousPosition)
+        //{
+        //    if (CameraMode == CAMERA_MODE.THIRD_PERSON)
+        //    {
+        //        var heightBias = Target.ComponentTranslation.Y - previousPosition.Y;
+        //        var dist = GetNormalizedDirection() * Target.Speed;
+        //        if (Target.ComponentTranslation != previousPosition)
+        //        {
+        //            movePosition(new Vector3(dist.X, heightBias, dist.Z));
+        //        }
+        //    }
+        //}
 
         #region Constructor
 
-        public Camera(float eyeX, float eyeY, float eyeZ,
-            float centerX, float centerY, float centerZ,
-            float upX, float upY, float upZ) : base(eyeX, eyeY, eyeZ, centerX, centerY, centerZ, upX, upY, upZ)
-        {
-            this.CameraMode = CAMERA_MODE.UNDEFINDED;
-        }
+        //public Camera(float eyeX, float eyeY, float eyeZ,
+        //    float centerX, float centerY, float centerZ,
+        //    float upX, float upY, float upZ) : base(eyeX, eyeY, eyeZ, centerX, centerY, centerZ, upX, upY, upZ)
+        //{
+        //    this.CameraMode = CAMERA_MODE.UNDEFINDED;
+        //}
 
-        public Camera() : base()
+        public Camera(Vector3 CamDir, float distanceToTarget) : base(CamDir, distanceToTarget)
         {
             this.CameraMode = CAMERA_MODE.UNDEFINDED;
         }

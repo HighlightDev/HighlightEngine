@@ -48,9 +48,9 @@ namespace VMath
         public static Vector3 multMatrix(Matrix3 lhs, Vector3 rhs)
         {
             Vector3 tempV = new Vector3();
-            tempV.X = Vector3.Dot(lhs.Row0, tempV);
-            tempV.Y = Vector3.Dot(lhs.Row1, tempV);
-            tempV.Z = Vector3.Dot(lhs.Row2, tempV);
+            tempV.X = Vector3.Dot(lhs.Row0, rhs);
+            tempV.Y = Vector3.Dot(lhs.Row1, rhs);
+            tempV.Z = Vector3.Dot(lhs.Row2, rhs);
             return tempV;
         }
 

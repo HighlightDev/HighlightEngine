@@ -60,7 +60,7 @@ namespace MassiveGame.UI
 
         private void preConstructor() //Start initialize values
         {
-            DOUEngine.Camera = new Camera();
+            DOUEngine.Camera = new Camera(new Vector3(1, 0, 0), 45);
             DOUEngine.PrevCursorPosition = new System.Drawing.Point(-1, -1);
             DOUEngine.ElapsedTime = DateTime.Now;
             DOUEngine.keyboardMask = new API.EventHandlers.KeyboardHandler();
@@ -269,7 +269,7 @@ namespace MassiveGame.UI
             //envObj = new EnvironmentEntities(PlayerModels.getPlayerModel1(false), TextureSet.PlayerTextureSet2, TextureSet.SkyboxDayCubemapTexture,
             //    new Vector3(40, 70, 40), new Vector3(0, 0, 0), new Vector3(0.5f));
 
-            DOUEngine.Camera.SetThirdPerson(DOUEngine.Player);
+            DOUEngine.Camera.SetThirdPersonTarget(DOUEngine.Player);
             //DOUEngine.Player.SetActionMovedDelegateListener((o, e) => DOUEngine.Camera.SetThirdPerson(o as MovableEntity));
             //DOUEngine.Camera.SetFirstPerson();
 
@@ -364,7 +364,7 @@ namespace MassiveGame.UI
         {
             if (DOUEngine.Camera.SwitchCamera)
             {
-                DOUEngine.Camera.RotateByMouse(e.X, e.Y, GLControl.Width, GLControl.Height);
+                DOUEngine.Camera.RotateDirByMouse(e.X, e.Y, GLControl.Width, GLControl.Height);
                 Cursor.Hide();
 
                 if ((DOUEngine.PrevCursorPosition.X != -1) && (DOUEngine.PrevCursorPosition.Y != -1)) // need to calculate delta of mouse position
