@@ -36,7 +36,7 @@ namespace MassiveGame
 
         protected ITexture _specularMap;
 
-        protected RenderMap LightVisibilityMap;
+        protected BoolMap LightVisibilityMap;
 
         public void SetComponents(List<Component> components)
         {
@@ -220,7 +220,7 @@ namespace MassiveGame
             this._isInCameraView = true;
             this._mist = null;
             this._postConstructor = true;
-            LightVisibilityMap = new RenderMap();
+            LightVisibilityMap = new BoolMap();
         }
 
         private float[,] GetTransformedVertices(ref Matrix4 modelMatrix, float[,] vertices)

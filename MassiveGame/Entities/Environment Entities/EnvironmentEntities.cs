@@ -11,6 +11,7 @@ using OpenTK.Graphics.OpenGL;
 using GpuGraphics;
 using TextureLoader;
 using MassiveGame.API.Collector;
+using MassiveGame.Core;
 
 namespace MassiveGame
 {
@@ -34,7 +35,7 @@ namespace MassiveGame
             _shader.startProgram();
             _texture.BindTexture(TextureUnit.Texture0);
             _envMap.BindTexture(TextureUnit.Texture1);
-            _shader.setUniformValues(ref modelMatrix, camera.getViewMatrix(), ref projectionMatrix, camera.getPositionVector(), 0, 1);
+            _shader.setUniformValues(ref modelMatrix, camera.getViewMatrix(), ref projectionMatrix, camera.getEyeVector(), 0, 1);
             VAOManager.renderBuffers(this._model.Buffer, PrimitiveType.Triangles);
             _shader.stopProgram();
         }

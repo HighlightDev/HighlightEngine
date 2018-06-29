@@ -334,7 +334,7 @@ namespace MassiveGame.Physics
             List<Vector3> currentPositionsForRayCast = GetCurrentMiddlePositionsForRayCast(characterBound, character);
             List<FRay> listOfRays = new List<FRay>();
             for (Int32 i = 0; i < currentPositionsForRayCast.Count; i++)
-                listOfRays.Add(new FRay(currentPositionsForRayCast[i], -DOUEngine.Camera.getUpVector()));
+                listOfRays.Add(new FRay(currentPositionsForRayCast[i], -DOUEngine.Camera.GetUpVector()));
 
             RayCastOutputData closestRayCastDown = GetClosestRayCastResultFromMultipleRayCast(listOfRays, collidedBounds, character);
 
@@ -403,7 +403,7 @@ namespace MassiveGame.Physics
             // Ray cast from middle height position to avoid miss ray casting
             Vector3 rayCastStartPosition = new Vector3(origin);
 
-            FRay rayDown = new FRay(rayCastStartPosition, -DOUEngine.Camera.getUpVector());
+            FRay rayDown = new FRay(rayCastStartPosition, -DOUEngine.Camera.GetUpVector());
             float intersectionDistance = TerrainRayIntersection.Intersection_TerrainRay(DOUEngine.terrain, rayDown);
 
             // Subtract length of bound extent from middle height position
@@ -513,7 +513,7 @@ namespace MassiveGame.Physics
                     {
                         // Restore previous position and set velocity to fall
                         character.popPositionStack();
-                        character.Velocity = -DOUEngine.Camera.getUpVector();
+                        character.Velocity = -DOUEngine.Camera.GetUpVector();
                         break;
                     }
 
@@ -559,14 +559,14 @@ namespace MassiveGame.Physics
                                     // This is quick fix
                                     character.ActorState = BEHAVIOR_STATE.MOVE;
                                     character.popPositionStack();
-                                    character.Velocity = -DOUEngine.Camera.getUpVector();
+                                    character.Velocity = -DOUEngine.Camera.GetUpVector();
                                 }
                             }
                             // No ray collision, but bound collision exists, bound position is unknown - return to previous position and set velocity to down
                             else
                             {
                                 character.popPositionStack();
-                                character.Velocity = -DOUEngine.Camera.getUpVector();
+                                character.Velocity = -DOUEngine.Camera.GetUpVector();
                             }
                         }
                         // Character could be elevated on terrain 

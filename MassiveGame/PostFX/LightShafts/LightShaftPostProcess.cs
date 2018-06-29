@@ -10,6 +10,7 @@ using TextureLoader;
 using MassiveGame.API.Collector;
 using GpuGraphics;
 using System.Drawing;
+using MassiveGame.Core;
 
 namespace MassiveGame.PostFX.LightShafts
 {
@@ -109,7 +110,7 @@ namespace MassiveGame.PostFX.LightShafts
             return renderTarget.LightShaftsResultTexture;
         }
 
-        protected override void RenderScene(LiteCamera camera)
+        protected override void RenderScene(Camera camera)
         {
             // Culling back faces and enabling color masking 
             GL.ColorMask(false, false, false, true);

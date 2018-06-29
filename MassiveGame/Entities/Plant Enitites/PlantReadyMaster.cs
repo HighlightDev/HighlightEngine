@@ -8,6 +8,7 @@ using System.Linq;
 using TextureLoader;
 using MassiveGame.RenderCore.Lights;
 using System;
+using MassiveGame.Core;
 
 namespace MassiveGame
 {
@@ -141,7 +142,7 @@ namespace MassiveGame
 
         #region Renderer
 
-        public void renderEntities(DirectionalLight sun, LiteCamera camera, Matrix4 projectionMatrix, float time, Terrain terrain = null,
+        public void renderEntities(DirectionalLight sun, Camera camera, Matrix4 projectionMatrix, float time, Terrain terrain = null,
             Vector4 clipPlane = new Vector4())
         {
             postConstructor(terrain);
@@ -151,13 +152,13 @@ namespace MassiveGame
 
             _shader.startProgram();
 
-            _texture[0].BindTexture(TextureUnit.Texture0);      //Биндим текстуру
+            _texture[0].BindTexture(TextureUnit.Texture0); 
             if (_texture.Count > 1)
             {
-                _texture[1].BindTexture(TextureUnit.Texture1);      //Биндим текстуру
+                _texture[1].BindTexture(TextureUnit.Texture1);
                 if (_texture.Count == 3)
                 {
-                    _texture[2].BindTexture(TextureUnit.Texture2);      //Биндим текстуру
+                    _texture[2].BindTexture(TextureUnit.Texture2);
                 }
             }
 

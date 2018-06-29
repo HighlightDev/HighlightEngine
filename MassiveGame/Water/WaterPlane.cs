@@ -12,6 +12,7 @@ using MassiveGame.API.Collector;
 using PhysicsBox.MathTypes;
 using MassiveGame.RenderCore;
 using System.Drawing;
+using MassiveGame.Core;
 
 namespace MassiveGame
 {
@@ -151,7 +152,7 @@ namespace MassiveGame
             _fbo.renderToFBO(2, _fbo.RefractionTexture.GetTextureRezolution());
         }
 
-        public void StencilPass(LiteCamera camera, ref Matrix4 projectionMatrix)
+        public void StencilPass(Camera camera, ref Matrix4 projectionMatrix)
         {
             postConstructor();
             stencilPassShader.startProgram();
@@ -181,7 +182,7 @@ namespace MassiveGame
             _shader.setDuDvSampler(2);
             _shader.setNormalMapSampler(3);
             _shader.setDepthSampler(4);
-            _shader.setCameraPosition(camera.getPositionVector());
+            _shader.setCameraPosition(camera.getEyeVector());
             _shader.setDistortionProperties(_moveFactor, _waveStrength);
             _shader.setDirectionalLight(sun);
             _shader.setPointLight(lights);

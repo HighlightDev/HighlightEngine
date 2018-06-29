@@ -6,6 +6,7 @@ using TextureLoader;
 using GpuGraphics;
 using MassiveGame.API.Collector;
 using MassiveGame.RenderCore.Lights;
+using MassiveGame.Core;
 
 namespace MassiveGame.Light_visualization
 {

@@ -9,6 +9,7 @@ using PhysicsBox;
 using MassiveGame.API.Collector;
 using TextureLoader;
 using MassiveGame.RenderCore;
+using MassiveGame.Core;
 
 namespace MassiveGame
 {   
@@ -69,7 +70,7 @@ namespace MassiveGame
             return mirrorMatrix;
         }
 
-        public void RenderWaterRefraction( DirectionalLight Sun, LiteCamera camera, ref Matrix4 ProjectionMatrix,
+        public void RenderWaterRefraction( DirectionalLight Sun, Camera camera, ref Matrix4 ProjectionMatrix,
             Vector4 clipPlane = new Vector4())
         {
             if (_postConstructor)
@@ -99,7 +100,7 @@ namespace MassiveGame
             liteRefractionShader.stopProgram();
         }
 
-        public void RenderWaterReflection(WaterPlane water, DirectionalLight Sun, LiteCamera camera, ref Matrix4 ProjectionMatrix,
+        public void RenderWaterReflection(WaterPlane water, DirectionalLight Sun, Camera camera, ref Matrix4 ProjectionMatrix,
             Vector4 clipPlane = new Vector4())
         {
             if (_postConstructor)
@@ -133,7 +134,7 @@ namespace MassiveGame
         // Mirroring
 
         public override void renderObject(PrimitiveType mode, bool bEnableNormalMapping,
-            DirectionalLight Sun, List<PointLight> lights, LiteCamera camera, ref Matrix4 ProjectionMatrix,
+            DirectionalLight Sun, List<PointLight> lights, Camera camera, ref Matrix4 ProjectionMatrix,
             Vector4 clipPlane = new Vector4())
         {
             postConstructor();

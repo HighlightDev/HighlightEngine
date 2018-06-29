@@ -1,4 +1,5 @@
 ﻿using GpuGraphics;
+using MassiveGame.Core;
 using MassiveGame.RenderCore;
 using OpenTK;
 using System;
@@ -100,7 +101,7 @@ namespace MassiveGame.PostFX
             return null;
         }
 
-        protected virtual void RenderScene(LiteCamera camera)
+        protected virtual void RenderScene(Camera camera)
         {
         }
 

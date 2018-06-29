@@ -131,7 +131,7 @@ namespace MassiveGame
 
         #region Renderer
 
-        public void RenderWaterReflection(WaterPlane water, DirectionalLight Sun, LiteCamera camera, ref Matrix4 ProjectionMatrix, Vector4 clipPlane)
+        public void RenderWaterReflection(WaterPlane water, DirectionalLight Sun, Camera camera, ref Matrix4 ProjectionMatrix, Vector4 clipPlane)
         {
             if (_postConstructor)
                 return;
@@ -165,7 +165,7 @@ namespace MassiveGame
             GL.Disable(EnableCap.ClipDistance0);
         }
 
-        public void RenderWaterRefraction(DirectionalLight Sun, LiteCamera camera, ref Matrix4 ProjectionMatrix, Vector4 clipPlane)
+        public void RenderWaterRefraction(DirectionalLight Sun, Camera camera, ref Matrix4 ProjectionMatrix, Vector4 clipPlane)
         {
             if (_postConstructor)
                 return;
@@ -197,7 +197,7 @@ namespace MassiveGame
         }
 
         public void renderTerrain(PrimitiveType mode, DirectionalLight Sun,
-            List<PointLight> pointLights, LiteCamera camera, Matrix4 ProjectionMatrix, Vector4 clipPlane = new Vector4())     //Rendering ландшафта
+            List<PointLight> pointLights, Camera camera, Matrix4 ProjectionMatrix, Vector4 clipPlane = new Vector4())     //Rendering ландшафта
         {
             postConstructor();
             Matrix4 ModelMatrix = Matrix4.Identity;

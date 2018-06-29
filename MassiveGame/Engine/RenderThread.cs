@@ -8,6 +8,7 @@ using MassiveGame.Optimization;
 using MassiveGame.RenderCore.Visibility;
 using MassiveGame.PostFX;
 using TextureLoader;
+using MassiveGame.Core;
 
 namespace MassiveGame.Engine
 {
@@ -172,7 +173,7 @@ namespace MassiveGame.Engine
             //ch.Render(worldMatrix, DOUEngine.Camera.getViewMatrix(), DOUEngine.ProjectionMatrix);
         }
 
-        private void RenderToReflectionRenderTarget(LiteCamera camera, Vector4 clipPlane, WaterQuality quality)
+        private void RenderToReflectionRenderTarget(Camera camera, Vector4 clipPlane, WaterQuality quality)
         {
             GL.Enable(EnableCap.StencilTest); // Enable stencil test
             GL.DepthMask(false); // Disable write depth
@@ -233,7 +234,7 @@ namespace MassiveGame.Engine
             GL.Disable(EnableCap.StencilTest); // Disable stencil test 
         }
 
-        private void RenderToRefractionRenderTarget(LiteCamera camera, Vector4 clipPlane, WaterQuality quality)
+        private void RenderToRefractionRenderTarget(Camera camera, Vector4 clipPlane, WaterQuality quality)
         {
             GL.Enable(EnableCap.StencilTest); // Enable stencil test
             GL.DepthMask(false); // Disable write depth

@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using TextureLoader;
 using MassiveGame.RenderCore.Lights;
+using MassiveGame.Core;
 
 namespace MassiveGame
 {
@@ -167,7 +168,7 @@ namespace MassiveGame
 
         #region Renderer
 
-        public void renderEntities(DirectionalLight sun, LiteCamera camera, Matrix4 projectionMatrix, float time, Terrain terrain = null,
+        public void renderEntities(DirectionalLight sun, Camera camera, Matrix4 projectionMatrix, float time, Terrain terrain = null,
             Vector4 clipPlane = new Vector4())
         {
             if (this._bufferAssembled)

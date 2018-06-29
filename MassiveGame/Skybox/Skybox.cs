@@ -4,6 +4,7 @@ using OpenTK.Graphics.OpenGL;
 using TextureLoader;
 using MassiveGame.API.Collector;
 using MassiveGame.RenderCore.Lights;
+using MassiveGame.Core;
 
 namespace MassiveGame
 {
@@ -40,7 +41,7 @@ namespace MassiveGame
             _moveFactor %= 360.0f;
         }
 
-        public void RenderWaterReflection(WaterPlane water, LiteCamera camera, DirectionalLight sun, Matrix4 projectionMatrix, Vector4 clipPlane)
+        public void RenderWaterReflection(WaterPlane water, Camera camera, DirectionalLight sun, Matrix4 projectionMatrix, Vector4 clipPlane)
         {
             if (_postConstructor)
                 return;
@@ -62,7 +63,7 @@ namespace MassiveGame
             GL.Disable(EnableCap.ClipDistance0);
         }
 
-        public void renderSkybox(LiteCamera camera, DirectionalLight sun, Matrix4 projectionMatrix)
+        public void renderSkybox(Camera camera, DirectionalLight sun, Matrix4 projectionMatrix)
         {
             postConstructor();
 

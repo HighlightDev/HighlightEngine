@@ -12,7 +12,7 @@ using System.Text;
 
 using VMath;
 
-namespace MassiveGame
+namespace MassiveGame.Core
 {
     public enum CAMERA_DIRECTIONS
     {
@@ -22,57 +22,36 @@ namespace MassiveGame
         BACK,
         STAY
     }
-
-    public enum CAMERA_MODE
+   
+    public class Camera : ThirdPersonCamera
     {
-        UNDEFINDED,
-        FIRST_PERSON,
-        THIRD_PERSON
-    }
-
-    public class Camera : LiteCamera
-    {
-        #region NestedEnum
-
-
-
-        #endregion
 
         #region Definitions
-
-        float ROTATE_MEASURE = 0.08f;
-
-        private float MIN_CAMERA_DISTANCE = 5.0f;
-        private float MAX_CAMERA_DISTANCE = 250.0f;
-        private const float CAMERA_SPEED = 20.5f; 
-
-        public CAMERA_MODE CameraMode { private set; get; }
-        public bool SwitchCamera { set; get; }
+        private const float CAMERA_SPEED = 20.5f;
 
         #endregion
 
         public void moveCamera(CAMERA_DIRECTIONS direction)
         {
-            //Vector3 vector = LookVector - PosVector;
-            //vector.Normalize();
+            Vector3 forwardVector = GetEyeSpaceForwardVector();
 
             //switch (direction)
             //{
             //    case CAMERA_DIRECTIONS.FORWARD:
             //        {
-            //            PosVector += vector * CAMERA_SPEED;
-            //            LookVector += vector * CAMERA_SPEED;
+            //            PosVector += forwardVector * CAMERA_SPEED;
+            //            LookVector += forwardVector * CAMERA_SPEED;
             //            break;
             //        }
             //    case CAMERA_DIRECTIONS.BACK:
             //        {
-            //            PosVector -= vector * CAMERA_SPEED;
-            //            LookVector -= vector * CAMERA_SPEED;
+            //            PosVector -= forwardVector * CAMERA_SPEED;
+            //            LookVector -= forwardVector * CAMERA_SPEED;
             //            break;
             //        }
             //    case CAMERA_DIRECTIONS.LEFT:
             //        {
-            //            Vector3 directionAxis = Vector3.Cross(vector, upVector);
+            //            Vector3 directionAxis = Vector3.Cross(forwardVector, GetUpVector());
             //            directionAxis.Normalize();
             //            PosVector -= directionAxis * CAMERA_SPEED;
             //            LookVector -= directionAxis * CAMERA_SPEED;
@@ -80,7 +59,7 @@ namespace MassiveGame
             //        }
             //    case CAMERA_DIRECTIONS.RIGHT:
             //        {
-            //            Vector3 directionAxis = Vector3.Cross(vector, upVector);
+            //            Vector3 directionAxis = Vector3.Cross(forwardVector, GetUpVector());
             //            directionAxis.Normalize();
             //            PosVector += directionAxis * CAMERA_SPEED;
             //            LookVector += directionAxis * CAMERA_SPEED;
@@ -133,11 +112,6 @@ namespace MassiveGame
         //    PosVector += positionBias;
         //}
       
-        public void DetachCamera() //Camera doesn't depend from any object
-        {
-            CameraMode = CAMERA_MODE.UNDEFINDED;
-        }
-
         //public void Update(Terrain terrain)
         //{
         //    if (CameraMode == CAMERA_MODE.THIRD_PERSON)
@@ -161,12 +135,7 @@ namespace MassiveGame
         //    //obj.ComponentTranslation;
         //    PosVector += new Vector3(objCenter.X, objCenter.Y + 40, objCenter.Z + 10);
         //}
-
-        public void SetFirstPerson()
-        {
-            CameraMode = CAMERA_MODE.FIRST_PERSON;
-        }
-
+      
         //public void setThirdPersonZoom(Int32 Zoom)
         //{
         //    if (Zoom == -1)
@@ -211,7 +180,7 @@ namespace MassiveGame
 
         public Camera(Vector3 CamDir, float distanceToTarget) : base(CamDir, distanceToTarget)
         {
-            this.CameraMode = CAMERA_MODE.UNDEFINDED;
+            
         }
 
         #endregion

@@ -5,6 +5,7 @@ using OpenTK.Graphics.OpenGL;
 using PhysicsBox;
 using MassiveGame.RenderCore.Lights;
 using MassiveGame.Physics;
+using MassiveGame.Core;
 
 namespace MassiveGame
 {
@@ -22,7 +23,7 @@ namespace MassiveGame
 
         #region Renderer
 
-        public virtual void renderObject(PrimitiveType mode, bool enableNormalMapping, DirectionalLight Sun, List<PointLight> lights, LiteCamera camera,
+        public virtual void renderObject(PrimitiveType mode, bool enableNormalMapping, DirectionalLight Sun, List<PointLight> lights, Camera camera,
             ref Matrix4 ProjectionMatrix, Vector4 clipPlane) { }
 
         #endregion

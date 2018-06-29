@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace MassiveGame.Core
 {
-    public class RenderMap
+    public class BoolMap
     {
         private bool[] map;
 

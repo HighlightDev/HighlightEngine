@@ -2,6 +2,7 @@
 using OpenTK.Graphics.OpenGL;
 using MassiveGame.RenderCore.Lights;
 using TextureLoader;
+using MassiveGame.Core;
 
 namespace MassiveGame.RenderCore.Shadows
 {
@@ -10,9 +11,9 @@ namespace MassiveGame.RenderCore.Shadows
         private DirectionalLight LightSource;
         private ShadowMapCache cache;
         private ShadowOrthoBuilder Builder;
-        private LiteCamera ViewerCamera;
+        private Camera ViewerCamera;
 
-        public ShadowDirectionalLight(LiteCamera viewerCamera, TextureParameters ShadowMapSettings, DirectionalLight LightSource) : base(ShadowMapSettings)
+        public ShadowDirectionalLight(Camera viewerCamera, TextureParameters ShadowMapSettings, DirectionalLight LightSource) : base(ShadowMapSettings)
         {
             ViewerCamera = viewerCamera;
             Builder = new ShadowOrthoBuilder();
@@ -29,7 +30,7 @@ namespace MassiveGame.RenderCore.Shadows
         {
             Vector3 normLightDir = LightSource.Direction.Normalized();
 
-            Vector3 targetPositon = ViewerCamera.Target.GetCharacterCollisionBound().GetOrigin();
+            Vector3 targetPositon = ViewerCamera.GetThirdPersonTarget().GetCharacterCollisionBound().GetOrigin();
             Vector3 shadowCastPosition = new Vector3(targetPositon.X, LightSource.Position.Y, targetPositon.Z);
             Vector3 lightTranslatedPosition = normLightDir * 300;
             var lightEye = new Vector3(shadowCastPosition.X - lightTranslatedPosition.X, shadowCastPosition.Y + lightTranslatedPosition.Y, shadowCastPosition.Z - lightTranslatedPosition.Z);

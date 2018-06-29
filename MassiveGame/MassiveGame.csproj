@@ -111,6 +111,7 @@
     <Compile Include="API\Collector\TextureCollect\TextureAllocator.cs" />
     <Compile Include="API\Collector\TextureCollect\TextureCollection.cs" />
     <Compile Include="API\Collector\TextureCollect\TexturePool.cs" />
+    <Compile Include="Core\BaseCamera.cs" />
     <Compile Include="Core\PlayerController.cs" />
     <Compile Include="Debug\UiPanel\UiFrameMaster.cs" />
     <Compile Include="Engine\GameThread.cs" />
@@ -126,8 +127,8 @@
     <Compile Include="API\Factory\ObjectArguments\StaticEntityArguments.cs" />
     <Compile Include="API\Factory\StaticEntityCreator.cs" />
     <Compile Include="API\MouseObjectDetector\MousePicker.cs" />
-    <Compile Include="Camera\Camera.cs" />
-    <Compile Include="Camera\LiteCamera.cs" />
+    <Compile Include="Core\Camera.cs" />
+    <Compile Include="Core\ThirdPersonCamera.cs" />
     <Compile Include="ComponentCore\SceneComponent.cs" />
     <Compile Include="Core\ISerializable.cs" />
     <Compile Include="Physics\CollisionHeadUnit.cs" />
@@ -160,7 +161,7 @@
     <Compile Include="Water\WaterReflectionEntityShader.cs" />
     <Compile Include="Water\WaterRefractionEntityShader.cs" />
     <Compile Include="RenderCore\TextureResolver.cs" />
-    <Compile Include="Core\RenderMap.cs" />
+    <Compile Include="Core\BoolMap.cs" />
     <Compile Include="Debug\Log.cs" />
     <Compile Include="Debug\UiPanel\UiFrameShader.cs" />
     <Compile Include="Engine\DOUEngine.cs" />
@@ -468,7 +469,9 @@
       <Name>VectorMath</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Camera\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -5,6 +5,7 @@ using TextureLoader;
 using OpenTK.Graphics.OpenGL;
 using GpuGraphics;
 using System.Drawing;
+using MassiveGame.Core;
 
 namespace MassiveGame.PostFX.LensFlare
 {
@@ -140,7 +141,7 @@ namespace MassiveGame.PostFX.LensFlare
             return renderTarget.lensFlareResultTexture;
         }
 
-        protected override void RenderScene(LiteCamera camera)
+        protected override void RenderScene(Camera camera)
         {
             /*TO DO :
              * Culling back faces of all objects on scene

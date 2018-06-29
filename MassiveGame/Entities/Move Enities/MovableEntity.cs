@@ -8,6 +8,7 @@ using OpenTK.Graphics.OpenGL;
 using MassiveGame.RenderCore.Shadows;
 using PhysicsBox.MathTypes;
 using MassiveGame.Physics;
+using MassiveGame.Core;
 
 namespace MassiveGame
 {
@@ -103,7 +104,7 @@ namespace MassiveGame
         #region Renderer
 
         public abstract void renderObject(PrimitiveType mode, bool enableNormalMapping, DirectionalLight Sun,
-            List<PointLight> lights, LiteCamera camera, ref Matrix4 ProjectionMatrix, Vector4 clipPlane);
+            List<PointLight> lights, Camera camera, ref Matrix4 ProjectionMatrix, Vector4 clipPlane);
 
         #endregion
 
@@ -137,7 +138,7 @@ namespace MassiveGame
 
 
                 ActorState = BEHAVIOR_STATE.MOVE;
-                var velocityVector = DOUEngine.Camera.GetNormalizedDirection();
+                var velocityVector = DOUEngine.Camera.GetEyeSpaceForwardVector();
                 velocityVector.Y = 0.0f;
                 Velocity = velocityVector;
 

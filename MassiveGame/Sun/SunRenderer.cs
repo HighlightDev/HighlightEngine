@@ -8,6 +8,7 @@ using PhysicsBox;
 using MassiveGame.Optimization;
 using System.Threading;
 using MassiveGame.API.Collector;
+using MassiveGame.Core;
 
 namespace MassiveGame
 {
@@ -63,7 +64,7 @@ namespace MassiveGame
             _cQuad.synchronizeCoordinates(lbn.X, rtf.X, lbn.Y, rtf.Y, lbn.Z, lbn.Z);
         }
 
-        public void RenderWaterReflection(WaterPlane water, LiteCamera camera, ref Matrix4 ProjectionMatrix, Vector4 clipPlane, Vector3 scale = new Vector3())
+        public void RenderWaterReflection(WaterPlane water, Camera camera, ref Matrix4 ProjectionMatrix, Vector4 clipPlane, Vector3 scale = new Vector3())
         {
             if (_postConstructor)
                 return;
@@ -91,7 +92,7 @@ namespace MassiveGame
             GL.Disable(EnableCap.ClipDistance0);
         }
 
-        public void renderSun(LiteCamera camera, ref Matrix4 projectionMatrix, Vector3 scale = new Vector3())
+        public void renderSun(Camera camera, ref Matrix4 projectionMatrix, Vector3 scale = new Vector3())
         {
             postConstructor();
             if (scale.X == 0 || scale.Y == 0) scale = new Vector3(1);

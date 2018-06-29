@@ -23,6 +23,7 @@ using MassiveGame.ComponentCore;
 using System.IO;
 using TextureLoader;
 using MassiveGame.API.Collector;
+using MassiveGame.Core;
 
 namespace MassiveGame.UI
 {
@@ -364,7 +365,7 @@ namespace MassiveGame.UI
         {
             if (DOUEngine.Camera.SwitchCamera)
             {
-                DOUEngine.Camera.RotateDirByMouse(e.X, e.Y, GLControl.Width, GLControl.Height);
+                DOUEngine.Camera.Rotate(e.X, e.Y, new Point(Width, GLControl.Height));
                 Cursor.Hide();
 
                 if ((DOUEngine.PrevCursorPosition.X != -1) && (DOUEngine.PrevCursorPosition.Y != -1)) // need to calculate delta of mouse position
