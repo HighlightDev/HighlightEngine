@@ -101,7 +101,7 @@ namespace MassiveGame.PostFX
             return null;
         }
 
-        protected virtual void RenderScene(Camera camera)
+        protected virtual void RenderScene(BaseCamera camera)
         {
         }
 

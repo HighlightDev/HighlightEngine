@@ -54,7 +54,7 @@ namespace MassiveGame
             return mirrorMatrix;
         }
 
-        public void RenderWaterReflection(WaterPlane water, DirectionalLight Sun, Camera camera, ref Matrix4 ProjectionMatrix,
+        public void RenderWaterReflection(WaterPlane water, DirectionalLight Sun, BaseCamera camera, ref Matrix4 ProjectionMatrix,
             Vector4 clipPlane = new Vector4())
         {
             if (_postConstructor)
@@ -80,7 +80,7 @@ namespace MassiveGame
             liteReflectionShader.SetNormalMap(1);
             liteReflectionShader.SetSpecularMap(2);
             liteReflectionShader.SetMaterial(_material);
-            liteReflectionShader.SetTransformationMatrices(ref mirrorMatrix, ref modelMatrix, camera.getViewMatrix(), ref ProjectionMatrix);
+            liteReflectionShader.SetTransformationMatrices(ref mirrorMatrix, ref modelMatrix, camera.GetViewMatrix(), ref ProjectionMatrix);
             liteReflectionShader.SetDirectionalLight(Sun);
             liteReflectionShader.SetClipPlane(ref clipPlane);
 
@@ -88,7 +88,7 @@ namespace MassiveGame
             liteReflectionShader.stopProgram();
         }
 
-        public void RenderWaterRefraction(DirectionalLight Sun, Camera camera, ref Matrix4 ProjectionMatrix,
+        public void RenderWaterRefraction(DirectionalLight Sun, BaseCamera camera, ref Matrix4 ProjectionMatrix,
             Vector4 clipPlane = new Vector4())
         {
             if (_postConstructor)
@@ -113,7 +113,7 @@ namespace MassiveGame
             liteRefractionShader.SetNormalMap(1);
             liteRefractionShader.SetSpecularMap(2);
             liteRefractionShader.SetMaterial(_material);
-            liteRefractionShader.SetTransformationMatrices(ref modelMatrix, camera.getViewMatrix(), ref ProjectionMatrix);
+            liteRefractionShader.SetTransformationMatrices(ref modelMatrix, camera.GetViewMatrix(), ref ProjectionMatrix);
             liteRefractionShader.SetDirectionalLight(Sun);
             liteRefractionShader.SetClipPlane(ref clipPlane);
 
@@ -132,7 +132,7 @@ namespace MassiveGame
         }
 
         public override void renderObject(PrimitiveType mode, bool enableNormalMapping, DirectionalLight Sun,
-           List<PointLight> lights, Camera camera, ref Matrix4 ProjectionMatrix, Vector4 clipPlane = new Vector4())
+           List<PointLight> lights, BaseCamera camera, ref Matrix4 ProjectionMatrix, Vector4 clipPlane = new Vector4())
         {
             postConstructor();
 
@@ -159,7 +159,7 @@ namespace MassiveGame
             _shader.SetSpecularMap(2);
             _shader.SetGlowingMap(3);
             _shader.SetMaterial(_material);
-            _shader.SetTransformationMatrices(ref modelMatrix, camera.getViewMatrix(), ref ProjectionMatrix);
+            _shader.SetTransformationMatrices(ref modelMatrix, camera.GetViewMatrix(), ref ProjectionMatrix);
             _shader.SetPointLights(GetRelevantPointLights(lights));
             _shader.SetDirectionalLight(Sun);
             _shader.SetClippingPlane(ref clipPlane);
@@ -180,7 +180,7 @@ namespace MassiveGame
             if (mode == PrimitiveType.Lines)
             {
                 _specialShader.startProgram();
-                _specialShader.setUniformValues(ref modelMatrix, camera.getViewMatrix(),
+                _specialShader.setUniformValues(ref modelMatrix, camera.GetViewMatrix(),
                     ref ProjectionMatrix);
                 VAOManager.renderBuffers(_model.Buffer, PrimitiveType.Triangles);
                 _specialShader.stopProgram();

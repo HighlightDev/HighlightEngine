@@ -41,7 +41,7 @@ namespace MassiveGame
             _moveFactor %= 360.0f;
         }
 
-        public void RenderWaterReflection(WaterPlane water, Camera camera, DirectionalLight sun, Matrix4 projectionMatrix, Vector4 clipPlane)
+        public void RenderWaterReflection(WaterPlane water, BaseCamera camera, DirectionalLight sun, Matrix4 projectionMatrix, Vector4 clipPlane)
         {
             if (_postConstructor)
                 return;
@@ -54,7 +54,7 @@ namespace MassiveGame
             shader.startProgram();
             skyboxDayTexture.BindTexture(TextureUnit.Texture0);
             skyboxNightTexture.BindTexture(TextureUnit.Texture1);
-            shader.setAllUniforms(mirrorMatrix, camera.getViewMatrix(), projectionMatrix, 0, 1, sun, _mist == null ? false : _mist.EnableMist,
+            shader.setAllUniforms(mirrorMatrix, camera.GetViewMatrix(), projectionMatrix, 0, 1, sun, _mist == null ? false : _mist.EnableMist,
                 _mist == null ? new Vector3() : _mist.MistColour);
             shader.SetClipPlane(ref clipPlane);
             VAOManager.renderBuffers(buffer, PrimitiveType.Triangles);
@@ -63,7 +63,7 @@ namespace MassiveGame
             GL.Disable(EnableCap.ClipDistance0);
         }
 
-        public void renderSkybox(Camera camera, DirectionalLight sun, Matrix4 projectionMatrix)
+        public void renderSkybox(BaseCamera camera, DirectionalLight sun, Matrix4 projectionMatrix)
         {
             postConstructor();
 
@@ -74,7 +74,7 @@ namespace MassiveGame
             shader.startProgram();
             skyboxDayTexture.BindTexture(TextureUnit.Texture0);
             skyboxNightTexture.BindTexture(TextureUnit.Texture1);
-            shader.setAllUniforms(modelMatrix, camera.getViewMatrix(), projectionMatrix, 0, 1, sun, _mist == null ? false : _mist.EnableMist,
+            shader.setAllUniforms(modelMatrix, camera.GetViewMatrix(), projectionMatrix, 0, 1, sun, _mist == null ? false : _mist.EnableMist,
                 _mist == null ? new Vector3() : _mist.MistColour);
             VAOManager.renderBuffers(buffer, PrimitiveType.Triangles);
             shader.stopProgram();

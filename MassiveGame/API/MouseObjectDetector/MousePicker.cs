@@ -17,22 +17,22 @@ namespace MassiveGame
 
         private Matrix4 pojectionMatrix;
         private Matrix4 viewMatrix;
-        private Camera camera;
+        private BaseCamera camera;
 
         #endregion
 
         #region PickerUse
 
-        public MousePicker(Matrix4 projectionMatrix, Camera camera)
+        public MousePicker(Matrix4 projectionMatrix, BaseCamera camera)
         {
             this.camera = camera;
             this.pojectionMatrix = projectionMatrix;
-            this.viewMatrix = camera.getViewMatrix();
+            this.viewMatrix = camera.GetViewMatrix();
         }
 
         public void Update()
         {
-            this.viewMatrix = camera.getViewMatrix();
+            this.viewMatrix = camera.GetViewMatrix();
             this.currentRay = calculateMouseRay();
         }
 

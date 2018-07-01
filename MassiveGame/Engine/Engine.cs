@@ -61,7 +61,7 @@ namespace MassiveGame.UI
 
         private void preConstructor() //Start initialize values
         {
-            DOUEngine.Camera = new Camera(new Vector3(1, 0, 0), 45);
+            DOUEngine.Camera = new ThirdPersonCamera(new Vector3(1, 0, 0), 45);
             DOUEngine.PrevCursorPosition = new System.Drawing.Point(-1, -1);
             DOUEngine.ElapsedTime = DateTime.Now;
             DOUEngine.keyboardMask = new API.EventHandlers.KeyboardHandler();
@@ -270,7 +270,7 @@ namespace MassiveGame.UI
             //envObj = new EnvironmentEntities(PlayerModels.getPlayerModel1(false), TextureSet.PlayerTextureSet2, TextureSet.SkyboxDayCubemapTexture,
             //    new Vector3(40, 70, 40), new Vector3(0, 0, 0), new Vector3(0.5f));
 
-            DOUEngine.Camera.SetThirdPersonTarget(DOUEngine.Player);
+            (DOUEngine.Camera as ThirdPersonCamera).SetThirdPersonTarget(DOUEngine.Player);
             //DOUEngine.Player.SetActionMovedDelegateListener((o, e) => DOUEngine.Camera.SetThirdPerson(o as MovableEntity));
             //DOUEngine.Camera.SetFirstPerson();
 
@@ -430,15 +430,17 @@ namespace MassiveGame.UI
         #region Key events
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData) // arrow keys event
         {
+            return base.ProcessCmdKey(ref msg, keyData);
+
+            throw new NotImplementedException();
             switch (keyData)
             {
-                case Keys.Up: DOUEngine.Camera.moveCamera(CAMERA_DIRECTIONS.FORWARD); return true;
-                case Keys.Down: DOUEngine.Camera.moveCamera(CAMERA_DIRECTIONS.BACK); return true;
-                case Keys.Left: DOUEngine.Camera.moveCamera(CAMERA_DIRECTIONS.LEFT); return true;
-                case Keys.Right: DOUEngine.Camera.moveCamera(CAMERA_DIRECTIONS.RIGHT); return true;
-            }
 
-            return base.ProcessCmdKey(ref msg, keyData);
+                //case Keys.Up: DOUEngine.Camera.moveCamera(CAMERA_DIRECTIONS.FORWARD); return true;
+                //case Keys.Down: DOUEngine.Camera.moveCamera(CAMERA_DIRECTIONS.BACK); return true;
+                //case Keys.Left: DOUEngine.Camera.moveCamera(CAMERA_DIRECTIONS.LEFT); return true;
+                //case Keys.Right: DOUEngine.Camera.moveCamera(CAMERA_DIRECTIONS.RIGHT); return true;
+            }
         }
 
         Int32 renderTargetIndex = 0;

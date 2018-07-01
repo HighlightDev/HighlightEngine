@@ -80,7 +80,7 @@ namespace MassiveGame.PostFX.LightShafts
               new Vector4(0, 0, 1, 0),
               new Vector4(0, 0, 0, 1));
 
-            var radialBlurScreenSpacePosition = getRadialPos(DOUEngine.Sun.Position, DOUEngine.Camera.getViewMatrix(), ref DOUEngine.ProjectionMatrix, ref viewportMatrix);
+            var radialBlurScreenSpacePosition = getRadialPos(DOUEngine.Sun.Position, DOUEngine.Camera.GetViewMatrix(), ref DOUEngine.ProjectionMatrix, ref viewportMatrix);
 
             // Render to light shaft result render target
             renderTarget.renderToFBO(2, renderTarget.LightShaftsResultTexture.GetTextureRezolution());
@@ -110,7 +110,7 @@ namespace MassiveGame.PostFX.LightShafts
             return renderTarget.LightShaftsResultTexture;
         }
 
-        protected override void RenderScene(Camera camera)
+        protected override void RenderScene(BaseCamera camera)
         {
             // Culling back faces and enabling color masking 
             GL.ColorMask(false, false, false, true);

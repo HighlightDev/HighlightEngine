@@ -23,13 +23,19 @@ namespace MassiveGame.Core
         STAY
     }
    
-    public class Camera : ThirdPersonCamera
+    public class FirstPersonCamera : BaseCamera
     {
 
         #region Definitions
         private const float CAMERA_SPEED = 20.5f;
 
         #endregion
+
+        public FirstPersonCamera(Vector3 CamDir, Vector3 CameraPosition)
+        : base()
+        {
+
+        }
 
         public void moveCamera(CAMERA_DIRECTIONS direction)
         {
@@ -66,6 +72,21 @@ namespace MassiveGame.Core
             //            break;
             //        }
             //}
+        }
+
+        public override Vector3 GetEyeVector()
+        {
+            throw new NotImplementedException();
+        }
+
+        public override Vector3 GetTargetVector()
+        {
+            throw new NotImplementedException();
+        }
+
+        public override Vector3 GetLocalSpaceUpVector()
+        {
+            throw new NotImplementedException();
         }
 
         //public void RotateByMouse(Int32 x, Int32 y, Int32 screenWidth, Int32 screenHeight)
@@ -111,7 +132,7 @@ namespace MassiveGame.Core
         //{
         //    PosVector += positionBias;
         //}
-      
+
         //public void Update(Terrain terrain)
         //{
         //    if (CameraMode == CAMERA_MODE.THIRD_PERSON)
@@ -135,7 +156,7 @@ namespace MassiveGame.Core
         //    //obj.ComponentTranslation;
         //    PosVector += new Vector3(objCenter.X, objCenter.Y + 40, objCenter.Z + 10);
         //}
-      
+
         //public void setThirdPersonZoom(Int32 Zoom)
         //{
         //    if (Zoom == -1)
@@ -177,11 +198,6 @@ namespace MassiveGame.Core
         //{
         //    this.CameraMode = CAMERA_MODE.UNDEFINDED;
         //}
-
-        public Camera(Vector3 CamDir, float distanceToTarget) : base(CamDir, distanceToTarget)
-        {
-            
-        }
 
         #endregion
     }

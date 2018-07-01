@@ -131,7 +131,7 @@ namespace MassiveGame
 
         #region Renderer
 
-        public void RenderWaterReflection(WaterPlane water, DirectionalLight Sun, Camera camera, ref Matrix4 ProjectionMatrix, Vector4 clipPlane)
+        public void RenderWaterReflection(WaterPlane water, DirectionalLight Sun, BaseCamera camera, ref Matrix4 ProjectionMatrix, Vector4 clipPlane)
         {
             if (_postConstructor)
                 return;
@@ -157,7 +157,7 @@ namespace MassiveGame
             liteReflectionShader.SetTextureBlack(0);
             liteReflectionShader.SetBlendMap(4);
             liteReflectionShader.SetMaterial(_terrainMaterial);
-            liteReflectionShader.SetTransformationMatrices(ref mirrorMatrix, ref modelMatrix, camera.getViewMatrix(), ref ProjectionMatrix);
+            liteReflectionShader.SetTransformationMatrices(ref mirrorMatrix, ref modelMatrix, camera.GetViewMatrix(), ref ProjectionMatrix);
             liteReflectionShader.SetDirectionalLight(Sun);
             liteReflectionShader.SetClippingPlane(ref clipPlane);
             VAOManager.renderBuffers(_buffer, PrimitiveType.Triangles);   //Отправляем рендеринг на GPU
@@ -165,7 +165,7 @@ namespace MassiveGame
             GL.Disable(EnableCap.ClipDistance0);
         }
 
-        public void RenderWaterRefraction(DirectionalLight Sun, Camera camera, ref Matrix4 ProjectionMatrix, Vector4 clipPlane)
+        public void RenderWaterRefraction(DirectionalLight Sun, BaseCamera camera, ref Matrix4 ProjectionMatrix, Vector4 clipPlane)
         {
             if (_postConstructor)
                 return;
@@ -188,16 +188,16 @@ namespace MassiveGame
             liteRefractionShader.SetTextureBlack(0);
             liteRefractionShader.SetBlendMap(4);
             liteRefractionShader.SetMaterial(_terrainMaterial);
-            liteRefractionShader.SetTransformationMatrices(ref modelMatrix, camera.getViewMatrix(), ref ProjectionMatrix);
+            liteRefractionShader.SetTransformationMatrices(ref modelMatrix, camera.GetViewMatrix(), ref ProjectionMatrix);
             liteRefractionShader.SetDirectionalLight(Sun);
             liteRefractionShader.SetClippingPlane(ref clipPlane);
-            VAOManager.renderBuffers(_buffer, PrimitiveType.Triangles);   //Отправляем рендеринг на GPU
+            VAOManager.renderBuffers(_buffer, PrimitiveType.Triangles);
             liteRefractionShader.stopProgram();
             GL.Disable(EnableCap.ClipDistance0);
         }
 
         public void renderTerrain(PrimitiveType mode, DirectionalLight Sun,
-            List<PointLight> pointLights, Camera camera, Matrix4 ProjectionMatrix, Vector4 clipPlane = new Vector4())     //Rendering ландшафта
+            List<PointLight> pointLights, BaseCamera camera, Matrix4 ProjectionMatrix, Vector4 clipPlane = new Vector4())     //Rendering ландшафта
         {
             postConstructor();
             Matrix4 ModelMatrix = Matrix4.Identity;
@@ -239,7 +239,7 @@ namespace MassiveGame
             _shader.SetTextureBlack(0, nmBlack, nmBlack > 0);
             _shader.SetBlendMap(4);
             _shader.SetMaterial(_terrainMaterial);
-            _shader.SetTransformationMatrices(ref ModelMatrix, camera.getViewMatrix(), ref ProjectionMatrix);
+            _shader.SetTransformationMatrices(ref ModelMatrix, camera.GetViewMatrix(), ref ProjectionMatrix);
             _shader.SetDirectionalLight(Sun);
             _shader.SetPointLights(pointLights);
             _shader.SetMist(_mist);

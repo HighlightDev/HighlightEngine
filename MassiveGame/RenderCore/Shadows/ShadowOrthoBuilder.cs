@@ -58,9 +58,9 @@ namespace MassiveGame.RenderCore.Shadows
             return result;
         }
 
-        private void GetEdgePoints(Camera viewerCamera, ConvexVolume volume, out Vector3 LBN, out Vector3 RTF)
+        private void GetEdgePoints(BaseCamera viewerCamera, ConvexVolume volume, out Vector3 LBN, out Vector3 RTF)
         {
-            Vector3 ViewerPosition = viewerCamera.getEyeVector();
+            Vector3 ViewerPosition = viewerCamera.GetEyeVector();
 
             // Find left and right edges
             Vector3 IntersectionPointC = GetLeftRightIntersectionPoint(ViewerPosition, volume.FarPlane, volume.LeftPlane);
@@ -116,11 +116,11 @@ namespace MassiveGame.RenderCore.Shadows
             RTF = new Vector3(right, top, far);
         }
 
-        public Matrix4 CreateOrthographicProjection(Camera viewerCamera, ref Matrix4 projectionMatrix)
+        public Matrix4 CreateOrthographicProjection(BaseCamera viewerCamera, ref Matrix4 projectionMatrix)
         {
             Matrix4 result = Matrix4.Identity;
             Matrix4 ViewProjectionMatrix = Matrix4.Identity;
-            ViewProjectionMatrix *= viewerCamera.getViewMatrix();
+            ViewProjectionMatrix *= viewerCamera.GetViewMatrix();
             ViewProjectionMatrix *= projectionMatrix;
 
             ConvexVolume cameraVolume = new ConvexVolume(ViewProjectionMatrix);

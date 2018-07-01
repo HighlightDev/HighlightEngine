@@ -19,7 +19,6 @@ C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\DLL\ShaderP
 C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\DLL\ShaderPattern\ShaderPattern\obj\Debug\ShaderPattern.pdb
 D:\HighlightEngine\HighlightEngine\DLL\ShaderPattern\ShaderPattern\bin\Debug\ShaderPattern.dll
 D:\HighlightEngine\HighlightEngine\DLL\ShaderPattern\ShaderPattern\bin\Debug\ShaderPattern.pdb
-D:\HighlightEngine\HighlightEngine\DLL\ShaderPattern\ShaderPattern\obj\Debug\ShaderPattern.csprojAssemblyReference.cache
 D:\HighlightEngine\HighlightEngine\DLL\ShaderPattern\ShaderPattern\obj\Debug\ShaderPattern.csproj.CoreCompileInputs.cache
 D:\HighlightEngine\HighlightEngine\DLL\ShaderPattern\ShaderPattern\obj\Debug\ShaderPattern.csproj.CopyComplete
 D:\HighlightEngine\HighlightEngine\DLL\ShaderPattern\ShaderPattern\obj\Debug\ShaderPattern.dll

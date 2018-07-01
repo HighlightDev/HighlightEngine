@@ -80,7 +80,7 @@ namespace OTKWinForm
             for (Int32 i = 0; i < enabledKeys.Length; i++)
             {
                 if (enabledKeys[i])
-                    Editor.EditorCamera.FirstPersonMove((Camera.Direction)(i));
+                    Editor.EditorCamera.FirstPersonMove((FirstPersonCamera.Direction)(i));
             }
 
             UpdateEditorGUI();

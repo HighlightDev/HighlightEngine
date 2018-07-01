@@ -23,7 +23,7 @@ namespace MassiveGame
 
         #region Renderer
 
-        public virtual void renderObject(PrimitiveType mode, bool enableNormalMapping, DirectionalLight Sun, List<PointLight> lights, Camera camera,
+        public virtual void renderObject(PrimitiveType mode, bool enableNormalMapping, DirectionalLight Sun, List<PointLight> lights, BaseCamera camera,
             ref Matrix4 ProjectionMatrix, Vector4 clipPlane) { }
 
         #endregion

@@ -141,7 +141,7 @@ namespace MassiveGame.PostFX.LensFlare
             return renderTarget.lensFlareResultTexture;
         }
 
-        protected override void RenderScene(Camera camera)
+        protected override void RenderScene(BaseCamera camera)
         {
             /*TO DO :
              * Culling back faces of all objects on scene

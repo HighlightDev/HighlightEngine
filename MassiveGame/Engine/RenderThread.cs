@@ -27,7 +27,7 @@ namespace MassiveGame.Engine
         private void VisibilityCheckPass()
         {
             // Find which primitives are visible for current frame
-            VisibilityCheckApi.CheckMeshIsVisible(DOUEngine.RenderableMeshCollection, ref DOUEngine.ProjectionMatrix, DOUEngine.Camera.getViewMatrix());
+            VisibilityCheckApi.CheckMeshIsVisible(DOUEngine.RenderableMeshCollection, ref DOUEngine.ProjectionMatrix, DOUEngine.Camera.GetViewMatrix());
 
             // Find which light sources effects on meshes
             LightHitCheckApi.CheckLightSourceHitsMesh(DOUEngine.LitByLightSourcesMeshCollection, DOUEngine.PointLight);
@@ -102,7 +102,7 @@ namespace MassiveGame.Engine
 
         #region Render functions
 
-        private void RenderBaseMeshes(Camera camera)
+        private void RenderBaseMeshes(BaseCamera camera)
         {
             /*TO DO :
              * Culling back faces of Skybox (cause we don't see them)
@@ -173,7 +173,7 @@ namespace MassiveGame.Engine
             //ch.Render(worldMatrix, DOUEngine.Camera.getViewMatrix(), DOUEngine.ProjectionMatrix);
         }
 
-        private void RenderToReflectionRenderTarget(Camera camera, Vector4 clipPlane, WaterQuality quality)
+        private void RenderToReflectionRenderTarget(BaseCamera camera, Vector4 clipPlane, WaterQuality quality)
         {
             GL.Enable(EnableCap.StencilTest); // Enable stencil test
             GL.DepthMask(false); // Disable write depth
@@ -234,7 +234,7 @@ namespace MassiveGame.Engine
             GL.Disable(EnableCap.StencilTest); // Disable stencil test 
         }
 
-        private void RenderToRefractionRenderTarget(Camera camera, Vector4 clipPlane, WaterQuality quality)
+        private void RenderToRefractionRenderTarget(BaseCamera camera, Vector4 clipPlane, WaterQuality quality)
         {
             GL.Enable(EnableCap.StencilTest); // Enable stencil test
             GL.DepthMask(false); // Disable write depth
@@ -310,7 +310,7 @@ namespace MassiveGame.Engine
 
         private void RenderBoundingBoxes()
         {
-            Matrix4 viewMatrix = DOUEngine.Camera.getViewMatrix();
+            Matrix4 viewMatrix = DOUEngine.Camera.GetViewMatrix();
 
             if (DOUEngine.Player != null)
             {
@@ -330,7 +330,7 @@ namespace MassiveGame.Engine
 
             if (DOUEngine.SunReplica != null && DOUEngine.SunReplica.CQuad != null)
             {
-                var matrix = DOUEngine.Camera.getViewMatrix();
+                var matrix = DOUEngine.Camera.GetViewMatrix();
                 matrix[3, 0] = 0.0f;
                 matrix[3, 1] = 0.0f;
                 matrix[3, 2] = 0.0f;

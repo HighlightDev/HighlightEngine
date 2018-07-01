@@ -28,7 +28,7 @@ namespace MassiveGame.Engine
 
         private void TickEntities()
         {
-            Matrix4 viewMatrix = DOUEngine.Camera.getViewMatrix();
+            Matrix4 viewMatrix = DOUEngine.Camera.GetViewMatrix();
 
             if (DOUEngine.Player != null)
             {

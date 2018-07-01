@@ -127,7 +127,7 @@
     <Compile Include="API\Factory\ObjectArguments\StaticEntityArguments.cs" />
     <Compile Include="API\Factory\StaticEntityCreator.cs" />
     <Compile Include="API\MouseObjectDetector\MousePicker.cs" />
-    <Compile Include="Core\Camera.cs" />
+    <Compile Include="Core\FirstPersonCamera.cs" />
     <Compile Include="Core\ThirdPersonCamera.cs" />
     <Compile Include="ComponentCore\SceneComponent.cs" />
     <Compile Include="Core\ISerializable.cs" />

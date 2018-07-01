@@ -152,16 +152,16 @@ namespace MassiveGame
             _fbo.renderToFBO(2, _fbo.RefractionTexture.GetTextureRezolution());
         }
 
-        public void StencilPass(Camera camera, ref Matrix4 projectionMatrix)
+        public void StencilPass(BaseCamera camera, ref Matrix4 projectionMatrix)
         {
             postConstructor();
             stencilPassShader.startProgram();
-            stencilPassShader.SetUniformVariables(ref projectionMatrix, camera.getViewMatrix(), ref modelMatrix);
+            stencilPassShader.SetUniformVariables(ref projectionMatrix, camera.GetViewMatrix(), ref modelMatrix);
             VAOManager.renderBuffers(this._buffer, PrimitiveType.Triangles);
             stencilPassShader.stopProgram();
         }
 
-        public void renderWater(Camera camera, ref Matrix4 projectionMatrix, float frameTimeSec, float nearClipPlane, float farClipPlane
+        public void renderWater(BaseCamera camera, ref Matrix4 projectionMatrix, float frameTimeSec, float nearClipPlane, float farClipPlane
             , DirectionalLight sun = null, List<PointLight> lights = null)
         {
             postConstructor();
@@ -176,13 +176,13 @@ namespace MassiveGame
             this._waterDistortionMap.BindTexture(TextureUnit.Texture2);
             this._waterNormalMap.BindTexture(TextureUnit.Texture3);
             this._fbo.DepthTexture.BindTexture(TextureUnit.Texture4);
-            _shader.setTransformationMatrices(ref modelMatrix, camera.getViewMatrix(), ref projectionMatrix);
+            _shader.setTransformationMatrices(ref modelMatrix, camera.GetViewMatrix(), ref projectionMatrix);
             _shader.setReflectionSampler(0);
             _shader.setRefractionSampler(1);
             _shader.setDuDvSampler(2);
             _shader.setNormalMapSampler(3);
             _shader.setDepthSampler(4);
-            _shader.setCameraPosition(camera.getEyeVector());
+            _shader.setCameraPosition(camera.GetEyeVector());
             _shader.setDistortionProperties(_moveFactor, _waveStrength);
             _shader.setDirectionalLight(sun);
             _shader.setPointLight(lights);

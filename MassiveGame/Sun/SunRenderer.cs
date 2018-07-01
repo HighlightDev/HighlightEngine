@@ -64,7 +64,7 @@ namespace MassiveGame
             _cQuad.synchronizeCoordinates(lbn.X, rtf.X, lbn.Y, rtf.Y, lbn.Z, lbn.Z);
         }
 
-        public void RenderWaterReflection(WaterPlane water, Camera camera, ref Matrix4 ProjectionMatrix, Vector4 clipPlane, Vector3 scale = new Vector3())
+        public void RenderWaterReflection(WaterPlane water, BaseCamera camera, ref Matrix4 ProjectionMatrix, Vector4 clipPlane, Vector3 scale = new Vector3())
         {
             if (_postConstructor)
                 return;
@@ -81,7 +81,7 @@ namespace MassiveGame
             _shader.startProgram();
             _texture1.BindTexture(TextureUnit.Texture0);
             _texture2.BindTexture(TextureUnit.Texture1);
-            _shader.setUniformValues(ref modelMatrix, camera.getViewMatrix(), ref ProjectionMatrix, _sun, 0, 1);
+            _shader.setUniformValues(ref modelMatrix, camera.GetViewMatrix(), ref ProjectionMatrix, _sun, 0, 1);
             _shader.SetClipPlane(ref clipPlane);
             GL.Enable(EnableCap.Blend);
             GL.BlendFunc(BlendingFactorSrc.SrcAlpha, BlendingFactorDest.OneMinusSrcAlpha);
@@ -92,7 +92,7 @@ namespace MassiveGame
             GL.Disable(EnableCap.ClipDistance0);
         }
 
-        public void renderSun(Camera camera, ref Matrix4 projectionMatrix, Vector3 scale = new Vector3())
+        public void renderSun(BaseCamera camera, ref Matrix4 projectionMatrix, Vector3 scale = new Vector3())
         {
             postConstructor();
             if (scale.X == 0 || scale.Y == 0) scale = new Vector3(1);
@@ -104,7 +104,7 @@ namespace MassiveGame
             _shader.startProgram();
             _texture1.BindTexture(TextureUnit.Texture0);
             _texture2.BindTexture(TextureUnit.Texture1);
-            _shader.setUniformValues(ref modelMatrix, camera.getViewMatrix(), ref projectionMatrix, _sun, 0, 1);
+            _shader.setUniformValues(ref modelMatrix, camera.GetViewMatrix(), ref projectionMatrix, _sun, 0, 1);
             GL.Enable(EnableCap.Blend);
             GL.BlendFunc(BlendingFactorSrc.SrcAlpha, BlendingFactorDest.OneMinusSrcAlpha);
             VAOManager.renderBuffers(_buffer, PrimitiveType.Triangles);

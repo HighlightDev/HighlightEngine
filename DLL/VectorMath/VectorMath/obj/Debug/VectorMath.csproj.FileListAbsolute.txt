@@ -12,7 +12,6 @@ C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\DLL\VectorM
 C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\DLL\VectorMath\VectorMath\obj\Debug\VectorMath.pdb
 D:\HighlightEngine\HighlightEngine\DLL\VectorMath\VectorMath\bin\Debug\VectorMath.dll
 D:\HighlightEngine\HighlightEngine\DLL\VectorMath\VectorMath\bin\Debug\VectorMath.pdb
-D:\HighlightEngine\HighlightEngine\DLL\VectorMath\VectorMath\obj\Debug\VectorMath.csprojAssemblyReference.cache
 D:\HighlightEngine\HighlightEngine\DLL\VectorMath\VectorMath\obj\Debug\VectorMath.csproj.CoreCompileInputs.cache
 D:\HighlightEngine\HighlightEngine\DLL\VectorMath\VectorMath\obj\Debug\VectorMath.csproj.CopyComplete
 D:\HighlightEngine\HighlightEngine\DLL\VectorMath\VectorMath\obj\Debug\VectorMath.dll

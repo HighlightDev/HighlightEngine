@@ -38,8 +38,8 @@ D:\HighlightEngine\HighlightEngine\DLL\VBO\VBO\bin\Debug\VBO.dll
 D:\HighlightEngine\HighlightEngine\DLL\VBO\VBO\bin\Debug\VBO.pdb
 D:\HighlightEngine\HighlightEngine\DLL\VBO\VBO\bin\Debug\VectorMath.dll
 D:\HighlightEngine\HighlightEngine\DLL\VBO\VBO\bin\Debug\VectorMath.pdb
-D:\HighlightEngine\HighlightEngine\DLL\VBO\VBO\obj\Debug\VBO.csprojAssemblyReference.cache
 D:\HighlightEngine\HighlightEngine\DLL\VBO\VBO\obj\Debug\VBO.csproj.CoreCompileInputs.cache
 D:\HighlightEngine\HighlightEngine\DLL\VBO\VBO\obj\Debug\VBO.csproj.CopyComplete
 D:\HighlightEngine\HighlightEngine\DLL\VBO\VBO\obj\Debug\VBO.dll
 D:\HighlightEngine\HighlightEngine\DLL\VBO\VBO\obj\Debug\VBO.pdb
+D:\HighlightEngine\HighlightEngine\DLL\VBO\VBO\obj\Debug\VBO.csprojAssemblyReference.cache

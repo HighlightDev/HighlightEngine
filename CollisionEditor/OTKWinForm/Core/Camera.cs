@@ -8,7 +8,7 @@ using VMath;
 
 namespace OTKWinForm.Core
 {
-    public class Camera
+    public class FirstPersonCamera
     {
         public enum Direction
         {
@@ -70,7 +70,7 @@ namespace OTKWinForm.Core
             this.Position = new Vector3(VectorMath.multMatrix(rotationMatrix, new Vector4(this.Position, 1.0f)));
         }
 
-        public Camera(float posX, float posY, float posZ,
+        public FirstPersonCamera(float posX, float posY, float posZ,
             float lookX, float lookY, float lookZ,
             float upX, float upY, float upZ)
         {

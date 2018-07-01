@@ -8,7 +8,7 @@ namespace MassiveGame.Core
 {
     public class PlayerController
     {
-        public Camera playerCamera;
+        public BaseCamera playerCamera;
         public MovableEntity player;
 
         public PlayerController(MovableEntity player)

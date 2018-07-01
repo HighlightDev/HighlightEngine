@@ -19,7 +19,7 @@ namespace MassiveGame.Light_visualization
         private VAO _buffer;
         private List<PointLight> _lamps;
 
-        public void Render(Camera camera, Matrix4 projectionMatrix)
+        public void Render(BaseCamera camera, Matrix4 projectionMatrix)
         {
             postConstructor();
 
@@ -28,7 +28,7 @@ namespace MassiveGame.Light_visualization
                 Matrix4 modelMatrix = Matrix4.CreateTranslation(lamp.Position.Xyz);
                 _shader.startProgram();
                 _texture.BindTexture(TextureUnit.Texture0);
-                _shader.setUniformValues(modelMatrix, camera.getViewMatrix(), projectionMatrix, 0);
+                _shader.setUniformValues(modelMatrix, camera.GetViewMatrix(), projectionMatrix, 0);
                 VAOManager.renderBuffers(_buffer, PrimitiveType.Points);
                 _shader.stopProgram();
             }

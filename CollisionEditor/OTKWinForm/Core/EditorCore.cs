@@ -21,7 +21,7 @@ namespace OTKWinForm.Core
         private Skybox skybox;
         private Matrix4 projectionMatrix;
 
-        public Camera EditorCamera { set; get; }
+        public FirstPersonCamera EditorCamera { set; get; }
 
         public ITexture DefaultTexture;
         public BasicShader DefaultShader;
@@ -38,7 +38,7 @@ namespace OTKWinForm.Core
             CollisionBoxPath = System.Environment.CurrentDirectory + "/../../Mesh/playerCube.obj";
 
             BuildProjectionMatrix();
-            EditorCamera = new Camera(0, 0, 10, 0, 0, 0, 0, 1, 0);
+            EditorCamera = new FirstPersonCamera(0, 0, 10, 0, 0, 0, 0, 1, 0);
         }
 
         private void BuildProjectionMatrix()

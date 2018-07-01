@@ -168,7 +168,7 @@ namespace MassiveGame
 
         #region Renderer
 
-        public void renderEntities(DirectionalLight sun, Camera camera, Matrix4 projectionMatrix, float time, Terrain terrain = null,
+        public void renderEntities(DirectionalLight sun, BaseCamera camera, Matrix4 projectionMatrix, float time, Terrain terrain = null,
             Vector4 clipPlane = new Vector4())
         {
             if (this._bufferAssembled)
@@ -191,7 +191,7 @@ namespace MassiveGame
 
                 _shader.setTextureSampler(0);
                 _shader.setMaterial(_grassMaterial);
-                _shader.setViewMatrix(camera.getViewMatrix());
+                _shader.setViewMatrix(camera.GetViewMatrix());
                 _shader.setProjectionMatrix(ref projectionMatrix);
                 _shader.setSun(sun);
                 _shader.setWind(_wind);
