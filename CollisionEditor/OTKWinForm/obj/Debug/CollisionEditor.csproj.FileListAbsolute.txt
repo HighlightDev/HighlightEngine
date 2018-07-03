@@ -67,7 +67,6 @@ D:\HighlightEngine\HighlightEngine\CollisionEditor\OTKWinForm\bin\Debug\TextureL
 D:\HighlightEngine\HighlightEngine\CollisionEditor\OTKWinForm\bin\Debug\VBO.dll
 D:\HighlightEngine\HighlightEngine\CollisionEditor\OTKWinForm\bin\Debug\VectorMath.dll
 D:\HighlightEngine\HighlightEngine\CollisionEditor\OTKWinForm\bin\Debug\AssimpNet.dll
-D:\HighlightEngine\HighlightEngine\CollisionEditor\OTKWinForm\bin\Debug\AudioEngine.dll
 D:\HighlightEngine\HighlightEngine\CollisionEditor\OTKWinForm\bin\Debug\FramebufferAPI.dll
 D:\HighlightEngine\HighlightEngine\CollisionEditor\OTKWinForm\bin\Debug\2DGameTable.dll
 D:\HighlightEngine\HighlightEngine\CollisionEditor\OTKWinForm\bin\Debug\CParser.pdb

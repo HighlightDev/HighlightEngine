@@ -270,7 +270,10 @@ namespace MassiveGame.UI
             //envObj = new EnvironmentEntities(PlayerModels.getPlayerModel1(false), TextureSet.PlayerTextureSet2, TextureSet.SkyboxDayCubemapTexture,
             //    new Vector3(40, 70, 40), new Vector3(0, 0, 0), new Vector3(0.5f));
 
-            (DOUEngine.Camera as ThirdPersonCamera).SetThirdPersonTarget(DOUEngine.Player);
+            if (DOUEngine.Camera as ThirdPersonCamera != null)
+            {
+                (DOUEngine.Camera as ThirdPersonCamera).SetThirdPersonTarget(DOUEngine.Player);
+            }
             //DOUEngine.Player.SetActionMovedDelegateListener((o, e) => DOUEngine.Camera.SetThirdPerson(o as MovableEntity));
             //DOUEngine.Camera.SetFirstPerson();
 
@@ -430,17 +433,19 @@ namespace MassiveGame.UI
         #region Key events
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData) // arrow keys event
         {
-            return base.ProcessCmdKey(ref msg, keyData);
-
-            throw new NotImplementedException();
-            switch (keyData)
+            FirstPersonCamera firstPersonCamera = DOUEngine.Camera as FirstPersonCamera;
+            if (firstPersonCamera != null)
             {
-
-                //case Keys.Up: DOUEngine.Camera.moveCamera(CAMERA_DIRECTIONS.FORWARD); return true;
-                //case Keys.Down: DOUEngine.Camera.moveCamera(CAMERA_DIRECTIONS.BACK); return true;
-                //case Keys.Left: DOUEngine.Camera.moveCamera(CAMERA_DIRECTIONS.LEFT); return true;
-                //case Keys.Right: DOUEngine.Camera.moveCamera(CAMERA_DIRECTIONS.RIGHT); return true;
+                switch (keyData)
+                {
+                    case Keys.Up: firstPersonCamera.moveCamera(CameraDirections.FORWARD); return true;
+                    case Keys.Down: firstPersonCamera.moveCamera(CameraDirections.BACK); return true;
+                    case Keys.Left: firstPersonCamera.moveCamera(CameraDirections.LEFT); return true;
+                    case Keys.Right: firstPersonCamera.moveCamera(CameraDirections.RIGHT); return true;
+                }
             }
+
+            return base.ProcessCmdKey(ref msg, keyData);
         }
 
         Int32 renderTargetIndex = 0;

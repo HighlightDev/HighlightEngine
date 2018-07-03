@@ -123,5 +123,19 @@ namespace MassiveGame.Core
 
             rotationMatrix = rotMat * rotationMatrix;
         }
+
+        public Vector3 LerpPosition(float t, float t1, float t2, Vector3 position1, Vector3 position2)
+        {
+            Vector3 resultPosition = Vector3.Zero;
+
+            float x_delta = t2 - t1;
+            float x_zero_offset = t - t1;
+
+            resultPosition.X = ((position2.X - position1.X) / x_delta) * x_zero_offset + position1.X;
+            resultPosition.Y = ((position2.Y - position1.Y) / x_delta) * x_zero_offset + position1.Y;
+            resultPosition.Z = ((position2.Z - position1.Z) / x_delta) * x_zero_offset + position1.Z;
+
+            return resultPosition;
+        }
     }
 }
