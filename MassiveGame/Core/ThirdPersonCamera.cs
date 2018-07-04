@@ -17,6 +17,10 @@ namespace MassiveGame.Core
         private float cameraDistanceToTarget;
         private MovableEntity thirdPersonTarget;
         private bool bThirdPersonTargetTransformationDirty = true;
+        private Vector3 actualTargetVector;
+        private float lerpTimeElapsed = 0.0f;
+
+        private float interpolationTime = 1500f;
 
         public ThirdPersonCamera() : base()
         {
@@ -35,9 +39,16 @@ namespace MassiveGame.Core
         {
             if (bThirdPersonTargetTransformationDirty)
             {
+                Vector3 finalTargetVector = thirdPersonTarget.ComponentTranslation;
+                lerpTimeElapsed = Math.Min(lerpTimeElapsed + DeltaTime, interpolationTime);
 
-                // calculate actual current position using lerp    
-                bThirdPersonTargetTransformationDirty = false;
+                actualTargetVector = LerpPosition(lerpTimeElapsed, 0, interpolationTime, actualTargetVector, finalTargetVector);
+                
+                // If camera is at supposed position  
+                if (GeometricMath.CMP(lerpTimeElapsed, interpolationTime) > 0)
+                {
+                    bThirdPersonTargetTransformationDirty = false;
+                }
             }
         }
 
@@ -59,7 +70,7 @@ namespace MassiveGame.Core
             if (thirdPersonTarget == null)
                 return Vector3.Zero;
 
-            return (thirdPersonTarget as Component).ComponentTranslation;
+            return actualTargetVector;
         }
 
         public void SetCameraDistanceToTarget(float cameraDistanceToTarget)
@@ -80,6 +91,7 @@ namespace MassiveGame.Core
         public void SetThirdPersonTarget(MovableEntity thirdPersonTarget)
         {
             this.thirdPersonTarget = thirdPersonTarget;
+            actualTargetVector = thirdPersonTarget.ComponentTranslation;
             thirdPersonTarget.ActionMove += new EventHandler(ThirdPersonTargetTransformationDirty);
         }
 
