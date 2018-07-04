@@ -1,5 +1,6 @@
 ﻿using OpenTK;
 using System;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 
@@ -9,11 +10,14 @@ namespace MassiveGame.Engine
     {
         private System.Threading.Timer gameThreadTimer;
         private object lockGameThread = new object();
+        private Stopwatch gameTickTime;
 
         public GameThread(Int32 delay, Int32 period)
         {
             gameThreadTimer = new System.Threading.Timer(new System.Threading.TimerCallback(ThreadExecution));
             gameThreadTimer.Change(delay, period);
+            gameTickTime = new Stopwatch();
+            gameTickTime.Start();
         }
 
         public void SuspendGameThread()
@@ -26,7 +30,7 @@ namespace MassiveGame.Engine
             gameThreadTimer.Change(0, 20);
         }
 
-        private void TickEntities()
+        private void TickEntities(float deltaTime)
         {
             Matrix4 viewMatrix = DOUEngine.Camera.GetViewMatrix();
 
@@ -52,7 +56,10 @@ namespace MassiveGame.Engine
             // Forbid parallel game thread execution
             lock (lockGameThread)
             {
-                TickEntities();
+                float deltaTime = (float)gameTickTime.Elapsed.TotalSeconds;
+                gameTickTime.Restart();
+                DOUEngine.Camera.CameraTick(deltaTime);
+                TickEntities(deltaTime);
 
                 DOUEngine.Picker.Update();
                 DOUEngine.Mist.Update();

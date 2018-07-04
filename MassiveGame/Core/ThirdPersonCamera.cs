@@ -15,8 +15,8 @@ namespace MassiveGame.Core
     public class ThirdPersonCamera : BaseCamera
     {
         private float cameraDistanceToTarget;
-
         private MovableEntity thirdPersonTarget;
+        private bool bThirdPersonTargetTransformationDirty = true;
 
         public ThirdPersonCamera() : base()
         {
@@ -29,6 +29,16 @@ namespace MassiveGame.Core
         {
             this.localSpaceForwardVector = localSpaceForwardVector;
             cameraDistanceToTarget = camDistanceToThirdPersonTarget;
+        }
+
+        public override void CameraTick(float DeltaTime)
+        {
+            if (bThirdPersonTargetTransformationDirty)
+            {
+
+                // calculate actual current position using lerp    
+                bThirdPersonTargetTransformationDirty = false;
+            }
         }
 
         public override Vector3 GetLocalSpaceUpVector()
@@ -70,6 +80,12 @@ namespace MassiveGame.Core
         public void SetThirdPersonTarget(MovableEntity thirdPersonTarget)
         {
             this.thirdPersonTarget = thirdPersonTarget;
+            thirdPersonTarget.ActionMove += new EventHandler(ThirdPersonTargetTransformationDirty);
+        }
+
+        private void ThirdPersonTargetTransformationDirty(object sender, EventArgs e)
+        {
+            bThirdPersonTargetTransformationDirty = true;
         }
     }
 }

@@ -29,6 +29,12 @@ namespace MassiveGame.Core
             FirstPersonCameraPosition = Vector3.Zero;
         }
 
+        public override void CameraTick(float DeltaTime)
+        {
+            // do some actions here
+
+        }
+
         public override Vector3 GetEyeVector()
         {
             return FirstPersonCameraPosition;

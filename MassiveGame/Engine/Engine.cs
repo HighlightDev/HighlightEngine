@@ -29,7 +29,7 @@ namespace MassiveGame.UI
 {
     public partial class Engine : Form
     {
-        private Stopwatch renderTime;
+        private Stopwatch renderTickTime;
         private RenderThread renderThread;
         private GameThread gameThread;
         private Point actualScreenRezolution;
@@ -68,7 +68,7 @@ namespace MassiveGame.UI
 
             LoadIniSettings();
 
-            renderTime = new Stopwatch();
+            renderTickTime = new Stopwatch();
         }
 
         private void postConstructor()
@@ -318,7 +318,7 @@ namespace MassiveGame.UI
         private void OnLoad(object sender, EventArgs e)
         {
             // Every frame capture time of draw call execution
-            renderTime.Start();
+            renderTickTime.Start();
         }
 
         private void OnRender(object sender, PaintEventArgs e)
@@ -328,9 +328,9 @@ namespace MassiveGame.UI
             // Maybe somehow I can remove this trick
             AdjustMouseCursor();
 
-            renderTime.Restart();
+            renderTickTime.Restart();
             renderThread.ThreadExecution(ref actualScreenRezolution, bPostConstructor);
-            DOUEngine.RENDER_TIME = (float)renderTime.Elapsed.TotalSeconds;
+            DOUEngine.RENDER_TIME = (float)renderTickTime.Elapsed.TotalSeconds;
             GLControl.SwapBuffers();
             GLControl.Invalidate();
 

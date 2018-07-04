@@ -21,10 +21,8 @@ namespace MassiveGame
 
     public abstract class MovableEntity : Entity
     {
-        #region Definitions
-
         protected BEHAVIOR_STATE actorState;
-        protected Vector3 velocity;
+        protected MovementStack objectStack;
 
         public BEHAVIOR_STATE ActorState
         {
@@ -38,29 +36,14 @@ namespace MassiveGame
             }
             get { return actorState; }
         }
-
-        public Vector3 Velocity
-        {
-            set { velocity = value; }
-            get { return velocity; }
-        }
+        public Vector3 Velocity { set; get; }
+        public float Speed { protected set; get; }
+        public event EventHandler ActionMove;
 
         public BoundBase GetCharacterCollisionBound()
         {
             return ChildrenComponents[0].Bound;
         }
-
-        protected float _speed;
-        protected MovementStack objectStack;
-        public event EventHandler ActionMove;
-
-        public virtual float Speed
-        {
-            protected set { this._speed = value; }
-            get { return this._speed; }
-        }
-
-        #endregion
 
         public override void UpdateTransformation()
         {
@@ -87,7 +70,7 @@ namespace MassiveGame
             }
             else if (ActorState == BEHAVIOR_STATE.IDLE)
             {
-
+                // no implementation here
             }
         }
 
@@ -126,27 +109,21 @@ namespace MassiveGame
                 ActionMove(this, null);
         }
 
-        static bool bCanMove = true;
-
         public void MoveActor()
         {
-            if (bCanMove)
-            {
-                // Actor shouldn't move while free fall
-                if (ActorState == BEHAVIOR_STATE.FREE_FALLING)
-                    return;
+            // Actor shouldn't move while free fall
+            if (ActorState == BEHAVIOR_STATE.FREE_FALLING)
+                return;
 
+            ActorState = BEHAVIOR_STATE.MOVE;
+            var velocityVector = DOUEngine.Camera.GetEyeSpaceForwardVector();
+            velocityVector.Y = 0.0f;
+            Velocity = velocityVector;
 
-                ActorState = BEHAVIOR_STATE.MOVE;
-                var velocityVector = DOUEngine.Camera.GetEyeSpaceForwardVector();
-                velocityVector.Y = 0.0f;
-                Velocity = velocityVector;
+            ComponentTranslation = ComponentTranslation + Velocity * Speed;
 
-                if (ActionMove != null)
-                    this.ActionMove(this, null);
-
-                ComponentTranslation = ComponentTranslation + Velocity * Speed;
-            }
+            if (ActionMove != null)
+                this.ActionMove(this, null);
         }
 
         #region Position_stack_functions
@@ -181,7 +158,7 @@ namespace MassiveGame
             ActorState = BEHAVIOR_STATE.FREE_FALLING;
             this.objectStack = new MovementStack();
             pushPositionStack();
-            this._speed = Speed;
+            this.Speed = Speed;
         }
 
         #endregion

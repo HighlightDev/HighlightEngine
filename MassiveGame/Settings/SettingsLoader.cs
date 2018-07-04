@@ -11,7 +11,7 @@ namespace MassiveGame.Settings
 {
     public class SettingsLoader
     {
-        string IniContent = null;
+        private string IniContent = null;
 
         public SettingsLoader()
         {
@@ -67,6 +67,9 @@ namespace MassiveGame.Settings
             DOUEngine.globalSettings.bSupported_LensFlare = GetIsLensFlaresSupported();
             DOUEngine.globalSettings.bSupported_MipMap = GetIsMipMapSupported();
             DOUEngine.globalSettings.AnisotropicFilterValue = GetAnisotropicFilteringValue();
+
+
+            CleanIniProperty();
         }
 
         public Point GetDirectionalShadowMapRezolution()
@@ -125,6 +128,11 @@ namespace MassiveGame.Settings
             IPropertyConverter convertToFloat = new PropertyToFloat();
             var anisotropicFilteringValue = (float)ReadProperty(convertToFloat, "anisotropic");
             return anisotropicFilteringValue;
+        }
+
+        private void CleanIniProperty()
+        {
+            IniContent = null;
         }
     }
 }
