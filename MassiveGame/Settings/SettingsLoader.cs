@@ -59,14 +59,14 @@ namespace MassiveGame.Settings
 
         public void SetGlobalSettings()
         {
-            DOUEngine.globalSettings.DomainFramebufferRezolution = GetScreenRezolution();
-            DOUEngine.globalSettings.ShadowMapRezolution = GetDirectionalShadowMapRezolution();
-            DOUEngine.globalSettings.bSupported_DepthOfField = GetIsDepthOfFieldSupported();
-            DOUEngine.globalSettings.bSupported_Bloom = GetIsBloomSupported();
-            DOUEngine.globalSettings.bSupported_LightShafts = GetIsLightShaftsSupported();
-            DOUEngine.globalSettings.bSupported_LensFlare = GetIsLensFlaresSupported();
-            DOUEngine.globalSettings.bSupported_MipMap = GetIsMipMapSupported();
-            DOUEngine.globalSettings.AnisotropicFilterValue = GetAnisotropicFilteringValue();
+            EngineStatics.globalSettings.DomainFramebufferRezolution = GetScreenRezolution();
+            EngineStatics.globalSettings.ShadowMapRezolution = GetDirectionalShadowMapRezolution();
+            EngineStatics.globalSettings.bSupported_DepthOfField = GetIsDepthOfFieldSupported();
+            EngineStatics.globalSettings.bSupported_Bloom = GetIsBloomSupported();
+            EngineStatics.globalSettings.bSupported_LightShafts = GetIsLightShaftsSupported();
+            EngineStatics.globalSettings.bSupported_LensFlare = GetIsLensFlaresSupported();
+            EngineStatics.globalSettings.bSupported_MipMap = GetIsMipMapSupported();
+            EngineStatics.globalSettings.AnisotropicFilterValue = GetAnisotropicFilteringValue();
 
 
             CleanIniProperty();

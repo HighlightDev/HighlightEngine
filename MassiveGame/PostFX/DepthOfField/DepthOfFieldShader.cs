@@ -110,8 +110,8 @@ namespace MassiveGame.PostFX.DepthOfField
         protected override void SetShaderMacros()
         {
             base.SetShaderMacros();
-            SetDefine<float>(ShaderTypeFlag.FragmentShader, "zNearPlane", DOUEngine.NEAR_CLIPPING_PLANE);
-            SetDefine<float>(ShaderTypeFlag.FragmentShader, "zFarPlane", DOUEngine.FAR_CLIPPING_PLANE);
+            SetDefine<float>(ShaderTypeFlag.FragmentShader, "zNearPlane", EngineStatics.NEAR_CLIPPING_PLANE);
+            SetDefine<float>(ShaderTypeFlag.FragmentShader, "zFarPlane", EngineStatics.FAR_CLIPPING_PLANE);
             SetDefine<Int32>(ShaderTypeFlag.FragmentShader, "MAX_BLUR_WIDTH", BLUR_WIDTH);
         }
 

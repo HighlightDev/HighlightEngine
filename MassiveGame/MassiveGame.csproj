@@ -164,7 +164,7 @@
     <Compile Include="Core\BoolMap.cs" />
     <Compile Include="Debug\Log.cs" />
     <Compile Include="Debug\UiPanel\UiFrameShader.cs" />
-    <Compile Include="Engine\DOUEngine.cs" />
+    <Compile Include="Engine\EngineStatics.cs" />
     <Compile Include="Entities\Environment Entities\EnvironmentEntities.cs" />
     <Compile Include="Entities\Environment Entities\EnvironmentEntitiesShader.cs" />
     <Compile Include="Entities\Move Enities\MovableEntity.cs" />

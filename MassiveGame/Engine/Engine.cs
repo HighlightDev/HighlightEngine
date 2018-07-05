@@ -61,10 +61,10 @@ namespace MassiveGame.UI
 
         private void preConstructor() //Start initialize values
         {
-            DOUEngine.Camera = new ThirdPersonCamera(new Vector3(1, 0, 0), 45);
-            DOUEngine.PrevCursorPosition = new System.Drawing.Point(-1, -1);
-            DOUEngine.ElapsedTime = DateTime.Now;
-            DOUEngine.keyboardMask = new API.EventHandlers.KeyboardHandler();
+            EngineStatics.Camera = new ThirdPersonCamera(new Vector3(1, 0, 0), 45);
+            EngineStatics.PrevCursorPosition = new System.Drawing.Point(-1, -1);
+            EngineStatics.ElapsedTime = DateTime.Now;
+            EngineStatics.keyboardMask = new API.EventHandlers.KeyboardHandler();
 
             LoadIniSettings();
 
@@ -76,8 +76,8 @@ namespace MassiveGame.UI
             if (bPostConstructor)
             {
                 collisionHeadUnit = new CollisionHeadUnit();
-                DOUEngine.ProjectionMatrix = Matrix4.Identity;
-                DOUEngine.City = new List<Building>();
+                EngineStatics.ProjectionMatrix = Matrix4.Identity;
+                EngineStatics.City = new List<Building>();
                 // need to delete NewMesh.msh if it exists
                 if (File.Exists(@"NewModel.msh"))
                     File.Delete(@"NewModel.msh");
@@ -87,12 +87,12 @@ namespace MassiveGame.UI
                 setTestValues();
 
                 // add objects to optimization list
-                DOUEngine.RenderableMeshCollection = new List<IVisible> { DOUEngine.SunReplica, DOUEngine.Water,
-                    DOUEngine.Player, DOUEngine.Enemy };
-                DOUEngine.RenderableMeshCollection.AddRange(DOUEngine.City);
+                EngineStatics.RenderableMeshCollection = new List<IVisible> { EngineStatics.SunReplica, EngineStatics.Water,
+                    EngineStatics.Player, EngineStatics.Enemy };
+                EngineStatics.RenderableMeshCollection.AddRange(EngineStatics.City);
 
-                DOUEngine.LitByLightSourcesMeshCollection = new List<ILightHit> { DOUEngine.Player, DOUEngine.Enemy };
-                DOUEngine.LitByLightSourcesMeshCollection.AddRange(DOUEngine.City);
+                EngineStatics.LitByLightSourcesMeshCollection = new List<ILightHit> { EngineStatics.Player, EngineStatics.Enemy };
+                EngineStatics.LitByLightSourcesMeshCollection.AddRange(EngineStatics.City);
 
                 // Start game and render thread execution
                 renderThread = new RenderThread();
@@ -103,25 +103,25 @@ namespace MassiveGame.UI
  
         private void setTestValues()
         {
-            var rtParams = new TextureParameters(TextureTarget.Texture2D, TextureMagFilter.Nearest, TextureMinFilter.Nearest, 0, PixelInternalFormat.DepthComponent16, DOUEngine.globalSettings.ShadowMapRezolution.X, DOUEngine.globalSettings.ShadowMapRezolution.Y, PixelFormat.DepthComponent, PixelType.Float, TextureWrapMode.Repeat);
-            DOUEngine.Sun = new DirectionalLight(rtParams, new Vector3(-100, -10, 50), new Vector4(0.4f, 0.4f, 0.4f, 1),
+            var rtParams = new TextureParameters(TextureTarget.Texture2D, TextureMagFilter.Nearest, TextureMinFilter.Nearest, 0, PixelInternalFormat.DepthComponent16, EngineStatics.globalSettings.ShadowMapRezolution.X, EngineStatics.globalSettings.ShadowMapRezolution.Y, PixelFormat.DepthComponent, PixelType.Float, TextureWrapMode.Repeat);
+            EngineStatics.Sun = new DirectionalLight(rtParams, new Vector3(-100, -10, 50), new Vector4(0.4f, 0.4f, 0.4f, 1),
                 new Vector4(0.7f, 0.7f, 0.7f, 1.0f), new Vector4(1, 1, 1, 1));
-            DOUEngine.Sun.GetShadow().CreateShadowMapCache();
+            EngineStatics.Sun.GetShadow().CreateShadowMapCache();
 
             var dayPhases = new MassiveGame.Sun.DayCycle.DayPhases(new Sun.DayCycle.DayPhases.Morning(new Vector3(0.3f, 0.3f, 0.3f), new Vector3(0.7f, 0.7f, 0.7f), new Vector3(.7f)),
                     new Sun.DayCycle.DayPhases.Day(new Vector3(0.4f, 0.4f, 0.4f), new Vector3(0.9f, 0.79f, 0.79f), new Vector3(1.0f)),
                 new Sun.DayCycle.DayPhases.Evening(new Vector3(0.3f, 0.3f, 0.3f), new Vector3(0.7f, 0.30f, 0.30f), new Vector3(0.9f)),
                 new Sun.DayCycle.DayPhases.Night(new Vector3(0.09f, 0.09f, 0.09f), new Vector3(0.1f, 0.1f, 0.1f), new Vector3(0.0f)));
 
-            DOUEngine.DayCycle = new DayLightCycle(DOUEngine.Sun,
-                DOUEngine.MAP_SIZE, dayPhases);
-            DOUEngine.DayCycle.SetTime(25);
-            DOUEngine.DayCycle.TimeFlow = 0.001f;
+            EngineStatics.DayCycle = new DayLightCycle(EngineStatics.Sun,
+                EngineStatics.MAP_SIZE, dayPhases);
+            EngineStatics.DayCycle.SetTime(25);
+            EngineStatics.DayCycle.TimeFlow = 0.001f;
 
-            DOUEngine.PointLight = new List<PointLight>();
+            EngineStatics.PointLight = new List<PointLight>();
           
             /*Create mist component*/
-            DOUEngine.Mist = new MistComponent(0.003f, 1f, new Vector3(0.7f, 0.75f, 0.8f));
+            EngineStatics.Mist = new MistComponent(0.003f, 1f, new Vector3(0.7f, 0.75f, 0.8f));
 
             // temporary
 
@@ -155,8 +155,8 @@ namespace MassiveGame.UI
             //  new Vector3(230, 7.5f + DOUEngine.MAP_HEIGHT, 115), new Vector3(0, 180, 0), new Vector3(30, 30, 30))));
             //DOUEngine.City.Add((Building)EngineObjectCreator.CreateInstance(new StaticEntityArguments(modelPath, texturePath, normalMapPath, specularMapPath,
             //   new Vector3(230, 10 + DOUEngine.MAP_HEIGHT, 48), new Vector3(0, 180, 0), new Vector3(30, 30, 30))));
-            DOUEngine.City.Add((Building)EngineObjectCreator.CreateInstance(new StaticEntityArguments(modelPath, texturePath, normalMapPath, specularMapPath,
-              new Vector3(170, 13f + DOUEngine.MAP_HEIGHT, 170), new Vector3(0, 180, 0), new Vector3(10, 10, 10))));
+            EngineStatics.City.Add((Building)EngineObjectCreator.CreateInstance(new StaticEntityArguments(modelPath, texturePath, normalMapPath, specularMapPath,
+              new Vector3(170, 13f + EngineStatics.MAP_HEIGHT, 170), new Vector3(0, 180, 0), new Vector3(10, 10, 10))));
             //DOUEngine.City.Add((Building)EngineObjectCreator.CreateInstance(new StaticEntityArguments(modelPath, texturePath, normalMapPath, specularMapPath,
             //   new Vector3(280, 10, 350), new Vector3(0, 180, 0), new Vector3(10))));
             //DOUEngine.City.Add((Building)EngineObjectCreator.CreateInstance(new StaticEntityArguments(modelPath, texturePath, normalMapPath, specularMapPath,
@@ -169,7 +169,7 @@ namespace MassiveGame.UI
             SerializedComponentsContainer container;
             Component parent = new Component();
             Component component;
-            foreach (var item in DOUEngine.City)
+            foreach (var item in EngineStatics.City)
             {
                 // TEST
                 container = serializer.DeserializeComponents("12345.cl");
@@ -178,7 +178,7 @@ namespace MassiveGame.UI
                 item.SetComponents(component.ChildrenComponents);
                 item.SetCollisionHeadUnit(collisionHeadUnit);
 
-                item.SetMistComponent(DOUEngine.Mist);
+                item.SetMistComponent(EngineStatics.Mist);
             }
 
             modelPath = ProjectFolders.ModelsPath + "playerCube.obj";
@@ -189,8 +189,8 @@ namespace MassiveGame.UI
             MovableEntityArguments arg = new MovableEntityArguments(modelPath, texturePath, normalMapPath, specularMapPath,
                 0.9f, new Vector3(170, 1000, 170), new Vector3(0), new Vector3(5));
 
-            DOUEngine.Player = (Player)EngineObjectCreator.CreateInstance(arg);
-            DOUEngine.Player.SetMistComponent(DOUEngine.Mist);
+            EngineStatics.Player = (Player)EngineObjectCreator.CreateInstance(arg);
+            EngineStatics.Player.SetMistComponent(EngineStatics.Mist);
 
             // TEST components
             container = serializer.DeserializeComponents("123.cl");
@@ -198,9 +198,9 @@ namespace MassiveGame.UI
             parent.ChildrenComponents = container.SerializedComponents;
             component = convertToSceneComponent(parent);
             // TEST
-            DOUEngine.Player.SetComponents(component.ChildrenComponents);
+            EngineStatics.Player.SetComponents(component.ChildrenComponents);
 
-            DOUEngine.Player.SetCollisionHeadUnit(collisionHeadUnit);
+            EngineStatics.Player.SetCollisionHeadUnit(collisionHeadUnit);
 
             modelPath = ProjectFolders.ModelsPath + "playerCube.obj";
             texturePath = ProjectFolders.MultitexturesPath + "b.png";
@@ -208,30 +208,30 @@ namespace MassiveGame.UI
             arg = new MovableEntityArguments(modelPath, texturePath, normalMapPath, specularMapPath,
                 0.3f, new Vector3(180, 20, 220), new Vector3(0, 0, 0), new Vector3(10));
 
-            DOUEngine.Enemy = (Player)EngineObjectCreator.CreateInstance(arg);
-            DOUEngine.Enemy.SetMistComponent(DOUEngine.Mist);
+            EngineStatics.Enemy = (Player)EngineObjectCreator.CreateInstance(arg);
+            EngineStatics.Enemy.SetMistComponent(EngineStatics.Mist);
 
             container = serializer.DeserializeComponents("123.cl");
             parent = new Component();
             parent.ChildrenComponents = container.SerializedComponents;
             component = convertToSceneComponent(parent);
-            DOUEngine.Enemy.SetComponents(component.ChildrenComponents);
-            DOUEngine.Enemy.SetCollisionHeadUnit(collisionHeadUnit);
+            EngineStatics.Enemy.SetComponents(component.ChildrenComponents);
+            EngineStatics.Enemy.SetCollisionHeadUnit(collisionHeadUnit);
             arg = null;
 
-            DOUEngine.Grass = new PlantReadyMaster(
-                4000, DOUEngine.MAP_SIZE, PlantModels.getBillboardModel1(), new Vector3(1),
+            EngineStatics.Grass = new PlantReadyMaster(
+                4000, EngineStatics.MAP_SIZE, PlantModels.getBillboardModel1(), new Vector3(1),
                 new string[] { ProjectFolders.GrassTexturesPath + "grass1.png",
                     ProjectFolders.GrassTexturesPath + "grass2.png",
-                    ProjectFolders.GrassTexturesPath + "grass3.png"}, new WindComponent(2.35f, 1.1f, 0.6f, new Vector3(0.6f, 0, 0.3f)), DOUEngine.Mist);    //Добавление травы
+                    ProjectFolders.GrassTexturesPath + "grass3.png"}, new WindComponent(2.35f, 1.1f, 0.6f, new Vector3(0.6f, 0, 0.3f)), EngineStatics.Mist);    //Добавление травы
 
             //EngineSingleton.Grass = new PlantBuilderMaster(100, PlantModels.getBillboardModel1(), TextureSet.PlantTextureSet, new WindComponent(2.35f, 1.1f, 0.6f, new Vector3(0.6f, 0, 0.3f)));    //Добавление травы
 
-            DOUEngine.Plant1 = new PlantReadyMaster(13, DOUEngine.MAP_SIZE, PlantModels.getPlantModel2(), new Vector3(1),
+            EngineStatics.Plant1 = new PlantReadyMaster(13, EngineStatics.MAP_SIZE, PlantModels.getPlantModel2(), new Vector3(1),
                 new string[] { ProjectFolders.GrassTexturesPath + "fern.png" },
-              new WindComponent(0.95f, 0.35f, 0.5f, new Vector3(0.5f, 0, 0.5f)), DOUEngine.Mist);
+              new WindComponent(0.95f, 0.35f, 0.5f, new Vector3(0.5f, 0, 0.5f)), EngineStatics.Mist);
 
-            DOUEngine.Skybox = new Skybox(
+            EngineStatics.Skybox = new Skybox(
                     new string[] { ProjectFolders.SkyboxTexturesPath + "/Day/" + "right.bmp",
                     ProjectFolders.SkyboxTexturesPath + "/Day/" + "left.bmp",
                     ProjectFolders.SkyboxTexturesPath + "/Day/" + "top.bmp",
@@ -244,47 +244,47 @@ namespace MassiveGame.UI
                     ProjectFolders.SkyboxTexturesPath + "/Night/" + "bottom.png",
                     ProjectFolders.SkyboxTexturesPath + "/Night/" + "back.png",
                     ProjectFolders.SkyboxTexturesPath + "/Night/" + "front.png" });
-            DOUEngine.Skybox.setMistComponent(DOUEngine.Mist);
+            EngineStatics.Skybox.setMistComponent(EngineStatics.Mist);
 
             //EngineSingleton.SourceAmbient = new Source(EngineSingleton.SB_ambient, 0.05f, 1, new Vector3(0, 0, 0), new Vector3(0, 0, 0));
             //EngineSingleton.SourceAmbient.SetMaxDistance(0);
             //EngineSingleton.SourceAmbient.SetLooping(true);
             //EngineSingleton.SourceAmbient.Play();
 
-            DOUEngine.Water = new WaterPlane(ProjectFolders.WaterTexturePath + "DUDV.png", ProjectFolders.WaterTexturePath + "normal.png",
+            EngineStatics.Water = new WaterPlane(ProjectFolders.WaterTexturePath + "DUDV.png", ProjectFolders.WaterTexturePath + "normal.png",
                 new Vector3(160, 29, 200), new Vector3(0, 0, 0), new Vector3(200, 1, 200), new WaterQuality(true, true, true), 10);
             //DOUEngine.Water.setMist(DOUEngine.Mist);
 
-            DOUEngine.SunReplica = new SunRenderer(DOUEngine.Sun, ProjectFolders.SunTexturePath + "sunC.png",
+            EngineStatics.SunReplica = new SunRenderer(EngineStatics.Sun, ProjectFolders.SunTexturePath + "sunC.png",
                     ProjectFolders.SunTexturePath + "sunB.png");
 
-            DOUEngine.Picker = new MousePicker(DOUEngine.ProjectionMatrix, DOUEngine.Camera);
+            EngineStatics.Picker = new MousePicker(EngineStatics.ProjectionMatrix, EngineStatics.Camera);
 
             //EngineSingleton.EnvObj = new EnvironmentEntities(PlayerModels.getPlayerModel1(true), TextureSet.PlayerTextureSet2,
             //    TextureSet.SkyboxDayCubemapTexture, new Vector3(180, 0, 220), new Vector3(0, 0, 0), new Vector3(10));
 
-            DOUEngine.pointLightDebugRenderer = new Light_visualization.PointLightsDebugRenderer(ProjectFolders.TexturesPath + "/LightTextures/" + "light-bulb-icon (1).png"
-                , DOUEngine.PointLight);
+            EngineStatics.pointLightDebugRenderer = new Light_visualization.PointLightsDebugRenderer(ProjectFolders.TexturesPath + "/LightTextures/" + "light-bulb-icon (1).png"
+                , EngineStatics.PointLight);
 
             //gras = new Grass(new Vector3(1, 0, 1), new Vector3(1), new Vector3(0), new Vector3(0.2f, 0.8f, 0.3f));
             //envObj = new EnvironmentEntities(PlayerModels.getPlayerModel1(false), TextureSet.PlayerTextureSet2, TextureSet.SkyboxDayCubemapTexture,
             //    new Vector3(40, 70, 40), new Vector3(0, 0, 0), new Vector3(0.5f));
 
-            if (DOUEngine.Camera as ThirdPersonCamera != null)
+            if (EngineStatics.Camera as ThirdPersonCamera != null)
             {
-                (DOUEngine.Camera as ThirdPersonCamera).SetThirdPersonTarget(DOUEngine.Player);
+                (EngineStatics.Camera as ThirdPersonCamera).SetThirdPersonTarget(EngineStatics.Player);
             }
             //DOUEngine.Player.SetActionMovedDelegateListener((o, e) => DOUEngine.Camera.SetThirdPerson(o as MovableEntity));
             //DOUEngine.Camera.SetFirstPerson();
 
-            DOUEngine.shadowList = new List<IDrawable>();
-            DOUEngine.City.ForEach(new Action<Building>((house) => { DOUEngine.shadowList.Add(house); }));
-            DOUEngine.shadowList.Add(DOUEngine.Player);
-            DOUEngine.shadowList.Add(DOUEngine.Enemy);
-            DOUEngine.shadowList.Add(DOUEngine.terrain);
+            EngineStatics.shadowList = new List<IDrawable>();
+            EngineStatics.City.ForEach(new Action<Building>((house) => { EngineStatics.shadowList.Add(house); }));
+            EngineStatics.shadowList.Add(EngineStatics.Player);
+            EngineStatics.shadowList.Add(EngineStatics.Enemy);
+            EngineStatics.shadowList.Add(EngineStatics.terrain);
 
 
-            DOUEngine.uiFrameCreator = new UiFrameMaster();
+            EngineStatics.uiFrameCreator = new UiFrameMaster();
            
             //ch = new ComputeShader();
             //ch.Init();
@@ -330,7 +330,7 @@ namespace MassiveGame.UI
 
             renderTickTime.Restart();
             renderThread.ThreadExecution(ref actualScreenRezolution, bPostConstructor);
-            DOUEngine.RENDER_TIME = (float)renderTickTime.Elapsed.TotalSeconds;
+            EngineStatics.RENDER_TIME = (float)renderTickTime.Elapsed.TotalSeconds;
             GLControl.SwapBuffers();
             GLControl.Invalidate();
 
@@ -343,8 +343,8 @@ namespace MassiveGame.UI
         private void defaultMatrixSettings()
         {
             // create projection matrix
-            DOUEngine.ProjectionMatrix = Matrix4.CreatePerspectiveFieldOfView(MathHelper.DegreesToRadians(DOUEngine.FoV), DOUEngine.SCREEN_ASPECT_RATIO,
-                DOUEngine.NEAR_CLIPPING_PLANE, DOUEngine.FAR_CLIPPING_PLANE);
+            EngineStatics.ProjectionMatrix = Matrix4.CreatePerspectiveFieldOfView(MathHelper.DegreesToRadians(EngineStatics.FoV), EngineStatics.SCREEN_ASPECT_RATIO,
+                EngineStatics.NEAR_CLIPPING_PLANE, EngineStatics.FAR_CLIPPING_PLANE);
         }
 
         #region Form Move&Resize events
@@ -358,26 +358,26 @@ namespace MassiveGame.UI
 
         private void OnMove(object sender, EventArgs e)
         {
-            DOUEngine.SCREEN_POSITION_X = this.Left;
-            DOUEngine.SCREEN_POSITION_Y = this.Top;
+            EngineStatics.SCREEN_POSITION_X = this.Left;
+            EngineStatics.SCREEN_POSITION_Y = this.Top;
         }
         #endregion
 
         #region Mouse events
         private void OnMouseMove(object sender, MouseEventArgs e)
         {
-            if (DOUEngine.Camera.SwitchCamera)
+            if (EngineStatics.Camera.SwitchCamera)
             {
-                DOUEngine.Camera.Rotate(e.X, e.Y, new Point(Width, GLControl.Height));
+                EngineStatics.Camera.Rotate(e.X, e.Y, new Point(Width, GLControl.Height));
                 Cursor.Hide();
 
-                if ((DOUEngine.PrevCursorPosition.X != -1) && (DOUEngine.PrevCursorPosition.Y != -1)) // need to calculate delta of mouse position
+                if ((EngineStatics.PrevCursorPosition.X != -1) && (EngineStatics.PrevCursorPosition.Y != -1)) // need to calculate delta of mouse position
                 {
-                    Int32 xDelta = e.X - DOUEngine.PrevCursorPosition.X;
-                    Int32 yDelta = e.Y - DOUEngine.PrevCursorPosition.Y;
+                    Int32 xDelta = e.X - EngineStatics.PrevCursorPosition.X;
+                    Int32 yDelta = e.Y - EngineStatics.PrevCursorPosition.Y;
                 }
 
-                DOUEngine.PrevCursorPosition = e.Location;
+                EngineStatics.PrevCursorPosition = e.Location;
             }
             else
             {
@@ -404,7 +404,7 @@ namespace MassiveGame.UI
                 case MouseButtons.Right:
                     {
                         //mist.aEngineSingleton.PostProcear(this.RenderTime, 10000, FadeType.LINEARLY, 0.016f);
-                        DOUEngine.Camera.SwitchCamera = !DOUEngine.Camera.SwitchCamera;
+                        EngineStatics.Camera.SwitchCamera = !EngineStatics.Camera.SwitchCamera;
                         break;
                     }
             }
@@ -412,19 +412,19 @@ namespace MassiveGame.UI
 
         private void OnMouseWheel(object sender, MouseEventArgs e)
         {
-            if (DOUEngine.DayCycle != null)
+            if (EngineStatics.DayCycle != null)
             {
                 if (e.Delta > 0)
                 {
-                    DOUEngine.DayCycle.TimeFlow += 0.01f;
+                    EngineStatics.DayCycle.TimeFlow += 0.01f;
                 }
-                else if (e.Delta < 0 && DOUEngine.DayCycle.TimeFlow > 0)
+                else if (e.Delta < 0 && EngineStatics.DayCycle.TimeFlow > 0)
                 {
-                    DOUEngine.DayCycle.TimeFlow -= 0.01f;
+                    EngineStatics.DayCycle.TimeFlow -= 0.01f;
                 }
-                else if (DOUEngine.DayCycle.TimeFlow < 0)
+                else if (EngineStatics.DayCycle.TimeFlow < 0)
                 {
-                    DOUEngine.DayCycle.TimeFlow = 0.0f;
+                    EngineStatics.DayCycle.TimeFlow = 0.0f;
                 }
             }
         }
@@ -433,7 +433,7 @@ namespace MassiveGame.UI
         #region Key events
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData) // arrow keys event
         {
-            FirstPersonCamera firstPersonCamera = DOUEngine.Camera as FirstPersonCamera;
+            FirstPersonCamera firstPersonCamera = EngineStatics.Camera as FirstPersonCamera;
             if (firstPersonCamera != null)
             {
                 switch (keyData)
@@ -460,35 +460,35 @@ namespace MassiveGame.UI
 
                         break;
                     }
-                case Keys.N: DOUEngine.NormalMapTrigger = !DOUEngine.NormalMapTrigger; break;
+                case Keys.N: EngineStatics.NormalMapTrigger = !EngineStatics.NormalMapTrigger; break;
                 case Keys.M:   
                     {
-                        if (DOUEngine.Mode == PrimitiveType.Triangles)
+                        if (EngineStatics.Mode == PrimitiveType.Triangles)
                         {
-                            DOUEngine.Mode = PrimitiveType.Lines;
+                            EngineStatics.Mode = PrimitiveType.Lines;
                         }
                         else
                         {
-                            DOUEngine.Mode = PrimitiveType.Triangles;
+                            EngineStatics.Mode = PrimitiveType.Triangles;
                         }
                         break;
                     }
                 case Keys.Escape: this.Close(); break;//Exit
                 case Keys.Add:
                     {
-                        DOUEngine.Water.WaveSpeed += 0.1f;
-                        DOUEngine.Water.WaveStrength += 0.1f;
+                        EngineStatics.Water.WaveSpeed += 0.1f;
+                        EngineStatics.Water.WaveStrength += 0.1f;
                         break;
                     }
                 case Keys.Subtract:
                     {
-                        DOUEngine.Water.WaveSpeed -= 0.1f;
-                        DOUEngine.Water.WaveStrength -= 0.1f;
+                        EngineStatics.Water.WaveSpeed -= 0.1f;
+                        EngineStatics.Water.WaveStrength -= 0.1f;
                         break;
                     }
                 case Keys.Insert:
                     {
-                        DOUEngine.uiFrameCreator.PushFrame(ResourcePool.GetRenderTargetAt(renderTargetIndex));
+                        EngineStatics.uiFrameCreator.PushFrame(ResourcePool.GetRenderTargetAt(renderTargetIndex));
                         Int32 count = ResourcePool.GetRenderTargetCount();
                         if (renderTargetIndex + 1 >= count)
                         {
@@ -507,16 +507,16 @@ namespace MassiveGame.UI
         private void OnKeyPress(object sender, System.Windows.Forms.KeyPressEventArgs args)
         {
             if (args.KeyChar == 'W' || args.KeyChar == 'w')
-            { DOUEngine.keyboardMask[0] = true; }
+            { EngineStatics.keyboardMask[0] = true; }
             else if (args.KeyChar == 'A' || args.KeyChar == 'a')
-            { DOUEngine.keyboardMask[1] = true; }
+            { EngineStatics.keyboardMask[1] = true; }
             else if (args.KeyChar == 'S' || args.KeyChar == 's')
-            { DOUEngine.keyboardMask[2] = true; }
+            { EngineStatics.keyboardMask[2] = true; }
             else if (args.KeyChar == 'D' || args.KeyChar == 'd')
-            { DOUEngine.keyboardMask[3] = true; }
+            { EngineStatics.keyboardMask[3] = true; }
             else if (args.KeyChar == ' ')
             {
-                DOUEngine.keyboardMask[4] = true;
+                EngineStatics.keyboardMask[4] = true;
             }
         }
 
@@ -524,11 +524,11 @@ namespace MassiveGame.UI
         {
             switch (args.KeyData)
             {
-                case Keys.W: { DOUEngine.keyboardMask[0] = false; break; }
-                case Keys.A: { DOUEngine.keyboardMask[1] = false; break; }
-                case Keys.S: { DOUEngine.keyboardMask[2] = false; break; }
-                case Keys.D: { DOUEngine.keyboardMask[3] = false; break; }
-                case Keys.Space: { DOUEngine.keyboardMask[4] = false; break; }
+                case Keys.W: { EngineStatics.keyboardMask[0] = false; break; }
+                case Keys.A: { EngineStatics.keyboardMask[1] = false; break; }
+                case Keys.S: { EngineStatics.keyboardMask[2] = false; break; }
+                case Keys.D: { EngineStatics.keyboardMask[3] = false; break; }
+                case Keys.Space: { EngineStatics.keyboardMask[4] = false; break; }
             }
         }
 
@@ -539,7 +539,7 @@ namespace MassiveGame.UI
         {
             base.OnClosing(e);
             cleanEverythingUp();
-            Debug.Log.addToLog(String.Format("\nTime elapsed : {0}", DateTime.Now - DOUEngine.ElapsedTime));
+            Debug.Log.addToLog(String.Format("\nTime elapsed : {0}", DateTime.Now - EngineStatics.ElapsedTime));
             Environment.Exit(0);
         }
         #endregion
@@ -548,13 +548,13 @@ namespace MassiveGame.UI
 
         private void AdjustMouseCursor()
         {
-            DOUEngine.SCREEN_POSITION_X = this.Location.X + 8;
-            DOUEngine.SCREEN_POSITION_Y = this.Location.Y + 8;
+            EngineStatics.SCREEN_POSITION_X = this.Location.X + 8;
+            EngineStatics.SCREEN_POSITION_Y = this.Location.Y + 8;
             //для корректной работы камеры с учетом рамки
             //+ 8 из - за того, что при открытии на полный экран, смещение стартовой позиции окна = -8
-            DOUEngine.SCREEN_POSITION_X = ((DOUEngine.WINDOW_BORDER != WindowBorder.Hidden) && (DOUEngine.WINDOW_STATE != OpenTK.WindowState.Fullscreen))
+            EngineStatics.SCREEN_POSITION_X = ((EngineStatics.WINDOW_BORDER != WindowBorder.Hidden) && (EngineStatics.WINDOW_STATE != OpenTK.WindowState.Fullscreen))
                 ? this.Location.X + 8 : this.Location.X;
-            DOUEngine.SCREEN_POSITION_Y = ((DOUEngine.WINDOW_BORDER != WindowBorder.Hidden) && (DOUEngine.WINDOW_STATE != OpenTK.WindowState.Fullscreen))
+            EngineStatics.SCREEN_POSITION_Y = ((EngineStatics.WINDOW_BORDER != WindowBorder.Hidden) && (EngineStatics.WINDOW_STATE != OpenTK.WindowState.Fullscreen))
                 ? this.Location.Y + 8 : this.Location.Y;
         }
 
@@ -565,15 +565,15 @@ namespace MassiveGame.UI
       
         private void cleanEverythingUp()
         {
-            if (DOUEngine.Water != null) DOUEngine.Water.cleanUp();
-            if (DOUEngine.SunReplica != null) DOUEngine.SunReplica.cleanUp();
-            if (DOUEngine.terrain != null) DOUEngine.terrain.cleanUp();
-            if (DOUEngine.Player != null) DOUEngine.Player.cleanUp();
-            if (DOUEngine.Enemy != null) DOUEngine.Enemy.cleanUp();
-            if (DOUEngine.Grass != null) DOUEngine.Grass.cleanUp();
-            if (DOUEngine.Plant1 != null) DOUEngine.Plant1.cleanUp();
-            if (DOUEngine.City != null) foreach (Building house in DOUEngine.City) { house.cleanUp(); }
-            if (DOUEngine.Skybox != null) DOUEngine.Skybox.cleanUp();
+            if (EngineStatics.Water != null) EngineStatics.Water.cleanUp();
+            if (EngineStatics.SunReplica != null) EngineStatics.SunReplica.cleanUp();
+            if (EngineStatics.terrain != null) EngineStatics.terrain.cleanUp();
+            if (EngineStatics.Player != null) EngineStatics.Player.cleanUp();
+            if (EngineStatics.Enemy != null) EngineStatics.Enemy.cleanUp();
+            if (EngineStatics.Grass != null) EngineStatics.Grass.cleanUp();
+            if (EngineStatics.Plant1 != null) EngineStatics.Plant1.cleanUp();
+            if (EngineStatics.City != null) foreach (Building house in EngineStatics.City) { house.cleanUp(); }
+            if (EngineStatics.Skybox != null) EngineStatics.Skybox.cleanUp();
         }
 
         #endregion

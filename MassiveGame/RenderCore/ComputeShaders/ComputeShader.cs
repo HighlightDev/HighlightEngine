@@ -117,7 +117,7 @@ namespace MassiveGame.RenderCore.ComputeShaders
 
         private float Lerp(float x1, float x2, float y1, float y2, float x)
         {
-            return ((y2 - y1) / (x2 - x1)) * (x2 - x) + y1;
+            return ((y2 - y1) / (x2 - x1)) * (x - x1) + y1;
         }
 
         private void InitBuffers()

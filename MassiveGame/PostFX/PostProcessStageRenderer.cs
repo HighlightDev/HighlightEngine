@@ -25,7 +25,7 @@ namespace MassiveGame.PostFX
         public PostProcessStageRenderer()
         {
 
-            if (DOUEngine.globalSettings.bSupported_DepthOfField)
+            if (EngineStatics.globalSettings.bSupported_DepthOfField)
             {
                 //if (DOUEngine.globalSettings.bSupported_LensFlare)
                 //{
@@ -37,9 +37,9 @@ namespace MassiveGame.PostFX
                 }
             }
 
-            if (DOUEngine.globalSettings.bSupported_Bloom)
+            if (EngineStatics.globalSettings.bSupported_Bloom)
             {
-                if (DOUEngine.globalSettings.bSupported_DepthOfField)
+                if (EngineStatics.globalSettings.bSupported_DepthOfField)
                 {
                     bloomPP = new BloomPostProcess<ApplySubsequentPostProcessResult>();
                 }
@@ -49,9 +49,9 @@ namespace MassiveGame.PostFX
                 }
             }
 
-            if (DOUEngine.globalSettings.bSupported_LightShafts)
+            if (EngineStatics.globalSettings.bSupported_LightShafts)
             {
-                if (DOUEngine.globalSettings.bSupported_Bloom || DOUEngine.globalSettings.bSupported_DepthOfField)
+                if (EngineStatics.globalSettings.bSupported_Bloom || EngineStatics.globalSettings.bSupported_DepthOfField)
                 {
                     lightShaftsPP = new LightShaftPostProcess<ApplySubsequentPostProcessResult>();
                 }
@@ -61,9 +61,9 @@ namespace MassiveGame.PostFX
                 }
             }
 
-            if (DOUEngine.globalSettings.bSupported_LensFlare)
+            if (EngineStatics.globalSettings.bSupported_LensFlare)
             {
-                if (DOUEngine.globalSettings.bSupported_LightShafts || DOUEngine.globalSettings.bSupported_Bloom || DOUEngine.globalSettings.bSupported_DepthOfField)
+                if (EngineStatics.globalSettings.bSupported_LightShafts || EngineStatics.globalSettings.bSupported_Bloom || EngineStatics.globalSettings.bSupported_DepthOfField)
                 {
                     lensFlaresPP = new LensFlarePostProcess<ApplySubsequentPostProcessResult>();
                 }
@@ -92,13 +92,13 @@ namespace MassiveGame.PostFX
             }
 
             // Light shafts
-            if (bPostProcessEnabled && DOUEngine.SunReplica.IsInCameraView && lightShaftsPP != null)
+            if (bPostProcessEnabled && EngineStatics.SunReplica.IsInCameraView && lightShaftsPP != null)
             {
                 subsequentPostProcessResult = lightShaftsPP.GetPostProcessResult(frameColorTexture, frameDepthTexture, actualScreenRezolution, subsequentPostProcessResult);
             }
 
             // Lens flares
-            if (bPostProcessEnabled && DOUEngine.SunReplica.IsInCameraView && lensFlaresPP != null)
+            if (bPostProcessEnabled && EngineStatics.SunReplica.IsInCameraView && lensFlaresPP != null)
             {
                 subsequentPostProcessResult = lensFlaresPP.GetPostProcessResult(frameColorTexture, frameDepthTexture, actualScreenRezolution, subsequentPostProcessResult);
             }
@@ -109,11 +109,11 @@ namespace MassiveGame.PostFX
                 if (depthOfFieldPP == null)
                     TextureResolver.ResolvePostProcessResultToDefaultFramebuffer(frameColorTexture, subsequentPostProcessResult, actualScreenRezolution);
                 else
-                    DOUEngine.uiFrameCreator.RenderFullScreenInputTexture(subsequentPostProcessResult, actualScreenRezolution);
+                    EngineStatics.uiFrameCreator.RenderFullScreenInputTexture(subsequentPostProcessResult, actualScreenRezolution);
             }
             else
             {
-                DOUEngine.uiFrameCreator.RenderFullScreenInputTexture(frameColorTexture, actualScreenRezolution);
+                EngineStatics.uiFrameCreator.RenderFullScreenInputTexture(frameColorTexture, actualScreenRezolution);
             }
         }
     }

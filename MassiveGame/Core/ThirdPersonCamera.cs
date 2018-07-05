@@ -16,11 +16,10 @@ namespace MassiveGame.Core
     {
         private float cameraDistanceToTarget;
         private MovableEntity thirdPersonTarget;
-        private bool bThirdPersonTargetTransformationDirty = true;
+        private bool bThirdPersonTargetTransformationDirty = false;
         private Vector3 actualTargetVector;
         private float lerpTimeElapsed = 0.0f;
-
-        private float interpolationTime = 1500f;
+        private float timeForInterpolation = 0.1f;
 
         public ThirdPersonCamera() : base()
         {
@@ -40,13 +39,14 @@ namespace MassiveGame.Core
             if (bThirdPersonTargetTransformationDirty)
             {
                 Vector3 finalTargetVector = thirdPersonTarget.ComponentTranslation;
-                lerpTimeElapsed = Math.Min(lerpTimeElapsed + DeltaTime, interpolationTime);
+                lerpTimeElapsed = Math.Min(lerpTimeElapsed + DeltaTime, timeForInterpolation);
 
-                actualTargetVector = LerpPosition(lerpTimeElapsed, 0, interpolationTime, actualTargetVector, finalTargetVector);
+                actualTargetVector = LerpPosition(lerpTimeElapsed, 0.0f, timeForInterpolation, ref actualTargetVector, ref finalTargetVector);
                 
-                // If camera is at supposed position  
-                if (GeometricMath.CMP(lerpTimeElapsed, interpolationTime) > 0)
+                // If camera is at final position  
+                if (GeometricMath.CMP(lerpTimeElapsed, timeForInterpolation) > 0)
                 {
+                    lerpTimeElapsed = 0.0f;
                     bThirdPersonTargetTransformationDirty = false;
                 }
             }
@@ -92,11 +92,12 @@ namespace MassiveGame.Core
         {
             this.thirdPersonTarget = thirdPersonTarget;
             actualTargetVector = thirdPersonTarget.ComponentTranslation;
-            thirdPersonTarget.ActionMove += new EventHandler(ThirdPersonTargetTransformationDirty);
+            thirdPersonTarget.TransformationDirtyEvent += new EventHandler(ThirdPersonTargetTransformationDirty);
         }
 
         private void ThirdPersonTargetTransformationDirty(object sender, EventArgs e)
         {
+            lerpTimeElapsed = 0.0f;
             bThirdPersonTargetTransformationDirty = true;
         }
     }

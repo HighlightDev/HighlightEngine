@@ -25,10 +25,10 @@ namespace MassiveGame
              2 - for refraction
              3 - for depth*/
 
-            ReflectionTexture = ResourcePool.GetRenderTarget(new TextureParameters(TextureTarget.Texture2D, TextureMagFilter.Nearest, TextureMinFilter.Nearest, 0, PixelInternalFormat.Rgb, (Int32)(DOUEngine.globalSettings.DomainFramebufferRezolution.X / 1.5), (Int32)(DOUEngine.globalSettings.DomainFramebufferRezolution.Y / 1.5), PixelFormat.Rgb, PixelType.UnsignedByte, TextureWrapMode.Repeat));
-            RefractionTexture = ResourcePool.GetRenderTarget(new TextureParameters(TextureTarget.Texture2D, TextureMagFilter.Nearest, TextureMinFilter.Nearest, 0, PixelInternalFormat.Rgb, (Int32)(DOUEngine.globalSettings.DomainFramebufferRezolution.X / 1.5), (Int32)(DOUEngine.globalSettings.DomainFramebufferRezolution.Y / 1.5), PixelFormat.Rgb, PixelType.UnsignedByte, TextureWrapMode.Repeat));
+            ReflectionTexture = ResourcePool.GetRenderTarget(new TextureParameters(TextureTarget.Texture2D, TextureMagFilter.Nearest, TextureMinFilter.Nearest, 0, PixelInternalFormat.Rgb, (Int32)(EngineStatics.globalSettings.DomainFramebufferRezolution.X / 1.5), (Int32)(EngineStatics.globalSettings.DomainFramebufferRezolution.Y / 1.5), PixelFormat.Rgb, PixelType.UnsignedByte, TextureWrapMode.Repeat));
+            RefractionTexture = ResourcePool.GetRenderTarget(new TextureParameters(TextureTarget.Texture2D, TextureMagFilter.Nearest, TextureMinFilter.Nearest, 0, PixelInternalFormat.Rgb, (Int32)(EngineStatics.globalSettings.DomainFramebufferRezolution.X / 1.5), (Int32)(EngineStatics.globalSettings.DomainFramebufferRezolution.Y / 1.5), PixelFormat.Rgb, PixelType.UnsignedByte, TextureWrapMode.Repeat));
             DepthTexture = ResourcePool.GetRenderTarget(new TextureParameters(TextureTarget.Texture2D, TextureMagFilter.Nearest, TextureMinFilter.Nearest, 0, PixelInternalFormat.Depth24Stencil8,
-                (Int32)(DOUEngine.globalSettings.DomainFramebufferRezolution.X / 1.5f), (Int32)(DOUEngine.globalSettings.DomainFramebufferRezolution.Y / 1.5f), PixelFormat.DepthComponent, PixelType.Float, TextureWrapMode.Repeat));
+                (Int32)(EngineStatics.globalSettings.DomainFramebufferRezolution.X / 1.5f), (Int32)(EngineStatics.globalSettings.DomainFramebufferRezolution.Y / 1.5f), PixelFormat.DepthComponent, PixelType.Float, TextureWrapMode.Repeat));
         }
 
         protected override void setFramebuffers()

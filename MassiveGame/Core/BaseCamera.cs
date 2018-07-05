@@ -96,11 +96,11 @@ namespace MassiveGame.Core
             Int32 middleX = screenRezolution.X >> 1;
             Int32 middleY = screenRezolution.Y >> 1;
 
-            Int32 captionHeight = ((DOUEngine.WINDOW_BORDER != WindowBorder.Hidden) && (DOUEngine.WINDOW_STATE != WindowState.Fullscreen)) ?
+            Int32 captionHeight = ((EngineStatics.WINDOW_BORDER != WindowBorder.Hidden) && (EngineStatics.WINDOW_STATE != WindowState.Fullscreen)) ?
                 SystemInformation.CaptionHeight : 0;
 
-            Cursor.Position = new Point(DOUEngine.SCREEN_POSITION_X + middleX,
-                DOUEngine.SCREEN_POSITION_Y + middleY + captionHeight);
+            Cursor.Position = new Point(EngineStatics.SCREEN_POSITION_X + middleX,
+                EngineStatics.SCREEN_POSITION_Y + middleY + captionHeight);
 
             Int32 deltaX = middleX - x;
             Int32 deltaY = middleY - y;
@@ -126,12 +126,12 @@ namespace MassiveGame.Core
             rotationMatrix = rotMat * rotationMatrix;
         }
 
-        public Vector3 LerpPosition(float t, float t1, float t2, Vector3 position1, Vector3 position2)
+        public Vector3 LerpPosition(float t, float t1, float t2, ref Vector3 position1, ref Vector3 position2)
         {
             Vector3 resultPosition = Vector3.Zero;
 
             float x_delta = t2 - t1;
-            float x_zero_offset = t2 - t;
+            float x_zero_offset = t - t1;
 
             resultPosition.X = ((position2.X - position1.X) / x_delta) * x_zero_offset + position1.X;
             resultPosition.Y = ((position2.Y - position1.Y) / x_delta) * x_zero_offset + position1.Y;

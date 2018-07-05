@@ -12,7 +12,7 @@ namespace MassiveGame
         #region Definitions
 
         private const string SHADER_NAME = "Water Shader";
-        private static Int32 MAX_LIGHTS_COUNT = DOUEngine.MAX_LIGHT_COUNT;
+        private static Int32 MAX_LIGHTS_COUNT = EngineStatics.MAX_LIGHT_COUNT;
         Int32 modelMatrix, viewMatrix, projectionMatrix, reflectionTexture, refractionTexture,
             dudvTexture, normalMap, depthTexture, cameraPosition, moveFactor, waveStrength, sunPos, sunSpecularColour,
             nearClipPlane, farClipPlane, transparencyDepth, mistEnable, mistDensity, mistGradient, mistColour;
@@ -161,7 +161,7 @@ namespace MassiveGame
 
         protected override void SetShaderMacros()
         {
-            SetDefine<Int32>(ShaderTypeFlag.VertexShader | ShaderTypeFlag.FragmentShader, "MAX_LIGHT_COUNT", DOUEngine.MAX_LIGHT_COUNT);
+            SetDefine<Int32>(ShaderTypeFlag.VertexShader | ShaderTypeFlag.FragmentShader, "MAX_LIGHT_COUNT", EngineStatics.MAX_LIGHT_COUNT);
             SetDefine<float>(ShaderTypeFlag.VertexShader, "tiling", 3.0f);
             SetDefine<float>(ShaderTypeFlag.FragmentShader, "materialReflectivity", 1.1f);
             SetDefine<float>(ShaderTypeFlag.FragmentShader, "materialShineDamper", 100.0f);

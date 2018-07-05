@@ -32,22 +32,22 @@ namespace MassiveGame.Engine
 
         private void TickEntities(float deltaTime)
         {
-            Matrix4 viewMatrix = DOUEngine.Camera.GetViewMatrix();
+            Matrix4 viewMatrix = EngineStatics.Camera.GetViewMatrix();
 
-            if (DOUEngine.Player != null)
+            if (EngineStatics.Player != null)
             {
-                DOUEngine.Player.Tick(ref DOUEngine.ProjectionMatrix, ref viewMatrix);
+                EngineStatics.Player.Tick(ref EngineStatics.ProjectionMatrix, ref viewMatrix);
             }
 
-            if (!Object.Equals(DOUEngine.Enemy, null))
+            if (!Object.Equals(EngineStatics.Enemy, null))
             {
-                DOUEngine.Enemy.Tick(ref DOUEngine.ProjectionMatrix, ref viewMatrix);
+                EngineStatics.Enemy.Tick(ref EngineStatics.ProjectionMatrix, ref viewMatrix);
             }
 
-            if (DOUEngine.City != null)
+            if (EngineStatics.City != null)
             {
-                foreach (var item in DOUEngine.City)
-                    item.Tick(ref DOUEngine.ProjectionMatrix, ref viewMatrix);
+                foreach (var item in EngineStatics.City)
+                    item.Tick(ref EngineStatics.ProjectionMatrix, ref viewMatrix);
             }
         }
 
@@ -58,31 +58,31 @@ namespace MassiveGame.Engine
             {
                 float deltaTime = (float)gameTickTime.Elapsed.TotalSeconds;
                 gameTickTime.Restart();
-                DOUEngine.Camera.CameraTick(deltaTime);
+                EngineStatics.Camera.CameraTick(deltaTime);
                 TickEntities(deltaTime);
 
-                DOUEngine.Picker.Update();
-                DOUEngine.Mist.Update();
+                EngineStatics.Picker.Update();
+                EngineStatics.Mist.Update();
                 //DOUEngine.Camera.Update(DOUEngine.terrain);
-                DOUEngine.DayCycle.UpdateTimeFlow();
+                EngineStatics.DayCycle.UpdateTimeFlow();
 
                 // Do smth better (PlayerController)
-                if (DOUEngine.keyboardMask.GetWASDKeysMask().Any<bool>((key) => key == true))
+                if (EngineStatics.keyboardMask.GetWASDKeysMask().Any<bool>((key) => key == true))
                 {
-                    var previousPosition = DOUEngine.Player.ComponentTranslation;
+                    var previousPosition = EngineStatics.Player.ComponentTranslation;
 
-                    if (DOUEngine.Player != null)
+                    if (EngineStatics.Player != null)
                     {
-                        DOUEngine.Player.MoveActor();
+                        EngineStatics.Player.MoveActor();
                     }
                     //DOUEngine.Camera.UpdateHeight(previousPosition);
                 }
 
-                if (DOUEngine.SunReplica != null)
-                    DOUEngine.SunReplica.UpdateFrustumCullingInfo();
+                if (EngineStatics.SunReplica != null)
+                    EngineStatics.SunReplica.UpdateFrustumCullingInfo();
 
-                if (DOUEngine.Skybox != null)
-                    DOUEngine.Skybox.UpdateAnimation(Convert.ToSingle(DOUEngine.RENDER_TIME));
+                if (EngineStatics.Skybox != null)
+                    EngineStatics.Skybox.UpdateAnimation(Convert.ToSingle(EngineStatics.RENDER_TIME));
             }
         }
     }

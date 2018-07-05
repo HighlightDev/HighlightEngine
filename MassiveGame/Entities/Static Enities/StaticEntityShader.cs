@@ -13,7 +13,7 @@ namespace MassiveGame
         #region Definitions
 
         private const string SHADER_NAME = "StaticEntity Shader";
-        private static Int32 MAX_LIGHTS_COUNT = DOUEngine.MAX_LIGHT_COUNT; //Максимальное количество источников света, доступных для обработки
+        private static Int32 MAX_LIGHTS_COUNT = EngineStatics.MAX_LIGHT_COUNT; //Максимальное количество источников света, доступных для обработки
         private Int32 entityTexture,
             entityNormalMap,
             entitySpecularMap,
@@ -329,7 +329,7 @@ namespace MassiveGame
 
         protected override void SetShaderMacros()
         {
-            SetDefine<Int32>(ShaderTypeFlag.VertexShader | ShaderTypeFlag.FragmentShader, "MAX_LIGHT_COUNT", DOUEngine.MAX_LIGHT_COUNT);
+            SetDefine<Int32>(ShaderTypeFlag.VertexShader | ShaderTypeFlag.FragmentShader, "MAX_LIGHT_COUNT", EngineStatics.MAX_LIGHT_COUNT);
             SetDefine<float>(ShaderTypeFlag.FragmentShader, "MAX_MIST_VISIBLE_AREA", 1.0f);
             SetDefine<float>(ShaderTypeFlag.FragmentShader, "SHADOWMAP_BIAS", 0.005f);
             SetDefine<Int32>(ShaderTypeFlag.FragmentShader, "PCF_SAMPLES", 2);

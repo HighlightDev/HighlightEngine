@@ -97,7 +97,7 @@ namespace MassiveGame.PostFX
 
         public virtual ITexture GetPostProcessResult(ITexture frameColorTexture, ITexture frameDepthTexture, Point actualScreenRezolution, ITexture previousPostProcessResult = null)
         {
-            RenderScene(DOUEngine.Camera);
+            RenderScene(EngineStatics.Camera);
             return null;
         }
 

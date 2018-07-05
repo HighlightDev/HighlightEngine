@@ -28,7 +28,7 @@ namespace MassiveGame.API.Collector.TextureCollect
 
         private static ITexture LoadTexture2dFromFile(string pathToFile)
         {
-            return new Texture2D(pathToFile, DOUEngine.globalSettings.bSupported_MipMap, DOUEngine.globalSettings.AnisotropicFilterValue);
+            return new Texture2D(pathToFile, EngineStatics.globalSettings.bSupported_MipMap, EngineStatics.globalSettings.AnisotropicFilterValue);
         }
 
         private static ITexture LoadTextureCubeFromFile(string[] pathToFiles)

@@ -80,7 +80,7 @@ namespace MassiveGame.PostFX.LightShafts
               new Vector4(0, 0, 1, 0),
               new Vector4(0, 0, 0, 1));
 
-            var radialBlurScreenSpacePosition = getRadialPos(DOUEngine.Sun.Position, DOUEngine.Camera.GetViewMatrix(), ref DOUEngine.ProjectionMatrix, ref viewportMatrix);
+            var radialBlurScreenSpacePosition = getRadialPos(EngineStatics.Sun.Position, EngineStatics.Camera.GetViewMatrix(), ref EngineStatics.ProjectionMatrix, ref viewportMatrix);
 
             // Render to light shaft result render target
             renderTarget.renderToFBO(2, renderTarget.LightShaftsResultTexture.GetTextureRezolution());
@@ -118,53 +118,53 @@ namespace MassiveGame.PostFX.LightShafts
             GL.CullFace(CullFaceMode.Back);
             GL.Clear(ClearBufferMask.DepthBufferBit);
 
-            if (DOUEngine.Skybox != null)
+            if (EngineStatics.Skybox != null)
             {
-                DOUEngine.Skybox.renderSkybox(DOUEngine.Camera, DOUEngine.Sun, DOUEngine.ProjectionMatrix);
+                EngineStatics.Skybox.renderSkybox(EngineStatics.Camera, EngineStatics.Sun, EngineStatics.ProjectionMatrix);
             }
 
             GL.Clear(ClearBufferMask.DepthBufferBit);
-            if (DOUEngine.terrain != null)
+            if (EngineStatics.terrain != null)
             {
-                DOUEngine.terrain.renderTerrain(DOUEngine.Mode, DOUEngine.Sun, DOUEngine.PointLight, camera, DOUEngine.ProjectionMatrix);
+                EngineStatics.terrain.renderTerrain(EngineStatics.Mode, EngineStatics.Sun, EngineStatics.PointLight, camera, EngineStatics.ProjectionMatrix);
             }
 
             GL.Disable(EnableCap.CullFace);
 
-            if (DOUEngine.Plant1 != null)
+            if (EngineStatics.Plant1 != null)
             {
-                DOUEngine.Plant1.renderEntities(DOUEngine.Sun, camera, DOUEngine.ProjectionMatrix, (float)DOUEngine.RENDER_TIME, DOUEngine.terrain);
+                EngineStatics.Plant1.renderEntities(EngineStatics.Sun, camera, EngineStatics.ProjectionMatrix, (float)EngineStatics.RENDER_TIME, EngineStatics.terrain);
             }
 
-            if (DOUEngine.City != null)
+            if (EngineStatics.City != null)
             {
-                foreach (Building house in DOUEngine.City)
+                foreach (Building house in EngineStatics.City)
                 {
                     if (house.IsInCameraView)
-                        house.renderObject(DOUEngine.Mode, DOUEngine.NormalMapTrigger, DOUEngine.Sun, DOUEngine.PointLight, camera, ref DOUEngine.ProjectionMatrix);
+                        house.renderObject(EngineStatics.Mode, EngineStatics.NormalMapTrigger, EngineStatics.Sun, EngineStatics.PointLight, camera, ref EngineStatics.ProjectionMatrix);
                 }
             }
 
-            if (DOUEngine.Player != null && DOUEngine.Player.IsInCameraView)
+            if (EngineStatics.Player != null && EngineStatics.Player.IsInCameraView)
             {
-                DOUEngine.Player.renderObject(DOUEngine.Mode, DOUEngine.NormalMapTrigger, DOUEngine.Sun, DOUEngine.PointLight, camera, ref DOUEngine.ProjectionMatrix);
+                EngineStatics.Player.renderObject(EngineStatics.Mode, EngineStatics.NormalMapTrigger, EngineStatics.Sun, EngineStatics.PointLight, camera, ref EngineStatics.ProjectionMatrix);
             }
 
-            if (DOUEngine.Enemy != null && DOUEngine.Enemy.IsInCameraView)
+            if (EngineStatics.Enemy != null && EngineStatics.Enemy.IsInCameraView)
             {
-                DOUEngine.Enemy.renderObject(DOUEngine.Mode, DOUEngine.NormalMapTrigger, DOUEngine.Sun, DOUEngine.PointLight, camera, ref DOUEngine.ProjectionMatrix);
+                EngineStatics.Enemy.renderObject(EngineStatics.Mode, EngineStatics.NormalMapTrigger, EngineStatics.Sun, EngineStatics.PointLight, camera, ref EngineStatics.ProjectionMatrix);
             }
 
-            if (DOUEngine.Water != null && DOUEngine.Water.IsInCameraView)
+            if (EngineStatics.Water != null && EngineStatics.Water.IsInCameraView)
             {
-                DOUEngine.Water.StencilPass(camera, ref DOUEngine.ProjectionMatrix);
+                EngineStatics.Water.StencilPass(camera, ref EngineStatics.ProjectionMatrix);
             }
 
             GL.ColorMask(true, true, true, true);
 
-            if (DOUEngine.SunReplica != null && DOUEngine.SunReplica.IsInCameraView)
+            if (EngineStatics.SunReplica != null && EngineStatics.SunReplica.IsInCameraView)
             {
-                DOUEngine.SunReplica.renderSun(DOUEngine.Camera, ref DOUEngine.ProjectionMatrix);
+                EngineStatics.SunReplica.renderSun(EngineStatics.Camera, ref EngineStatics.ProjectionMatrix);
             }
 
             /*Stop culling*/

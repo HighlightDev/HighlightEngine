@@ -12,7 +12,7 @@ namespace MassiveGame
         #region Definitions
 
         /* Max available count of light sources */
-        private static Int32 MAX_LIGHTS_COUNT = DOUEngine.MAX_LIGHT_COUNT;
+        private static Int32 MAX_LIGHTS_COUNT = EngineStatics.MAX_LIGHT_COUNT;
         
         private const string SHADER_NAME = "Terrain Shader";
         private Int32 backTexture, rTexture, gTexture,
@@ -203,7 +203,7 @@ namespace MassiveGame
 
         protected override void SetShaderMacros()
         {
-            SetDefine<Int32>(ShaderTypeFlag.VertexShader | ShaderTypeFlag.FragmentShader, "LIGHT_COUNT", DOUEngine.MAX_LIGHT_COUNT);
+            SetDefine<Int32>(ShaderTypeFlag.VertexShader | ShaderTypeFlag.FragmentShader, "LIGHT_COUNT", EngineStatics.MAX_LIGHT_COUNT);
             SetDefine<float>(ShaderTypeFlag.FragmentShader, "MAX_MIST_VISIBLE_AREA", 1.0f);
             SetDefine<float>(ShaderTypeFlag.FragmentShader, "SHADOWMAP_BIAS", 0.005f);
             SetDefine<Int32>(ShaderTypeFlag.FragmentShader, "PCF_SAMPLES", 2);

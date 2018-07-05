@@ -12,7 +12,7 @@ using MassiveGame.Core;
 
 namespace MassiveGame
 {
-    public enum BEHAVIOR_STATE
+    public enum BehaviorState
     {
         IDLE,
         MOVE,
@@ -21,15 +21,15 @@ namespace MassiveGame
 
     public abstract class MovableEntity : Entity
     {
-        protected BEHAVIOR_STATE actorState;
+        protected BehaviorState actorState;
         protected MovementStack objectStack;
 
-        public BEHAVIOR_STATE ActorState
+        public BehaviorState ActorState
         {
             set
             {
                 // Set velocity to default 
-                if (value == BEHAVIOR_STATE.IDLE)
+                if (value == BehaviorState.IDLE)
                     Velocity = new Vector3(0);
 
                 actorState = value;
@@ -38,7 +38,7 @@ namespace MassiveGame
         }
         public Vector3 Velocity { set; get; }
         public float Speed { protected set; get; }
-        public event EventHandler ActionMove;
+        public event EventHandler TransformationDirtyEvent;
 
         public BoundBase GetCharacterCollisionBound()
         {
@@ -56,19 +56,19 @@ namespace MassiveGame
         {
             base.Tick(ref projectionMatrix, ref viewMatrix);
 
-            if (ActorState == BEHAVIOR_STATE.FREE_FALLING)
+            if (ActorState == BehaviorState.FREE_FALLING)
             {
                 // Character is in free fall, must be calculated new height regarding to body free falling mechanics
                 if (collisionHeadUnit != null)
                     collisionHeadUnit.TryCollision(this);
                 Velocity = BodyMechanics.UpdateFreeFallVelocity(Velocity);
             }
-            else if (ActorState == BEHAVIOR_STATE.MOVE)
+            else if (ActorState == BehaviorState.MOVE)
             {
                 if (collisionHeadUnit != null)
                     collisionHeadUnit.TryCollision(this);
             }
-            else if (ActorState == BEHAVIOR_STATE.IDLE)
+            else if (ActorState == BehaviorState.IDLE)
             {
                 // no implementation here
             }
@@ -95,7 +95,7 @@ namespace MassiveGame
 
         public void SetActionMovedDelegateListener(EventHandler handler)
         {
-            this.ActionMove += handler;
+            this.TransformationDirtyEvent += handler;
         }
 
         #endregion
@@ -105,25 +105,25 @@ namespace MassiveGame
         public void collisionOffset(Vector3 newPosition)
         {
             ComponentTranslation = newPosition;
-            if (ActionMove != null)
-                ActionMove(this, null);
+            if (TransformationDirtyEvent != null)
+                TransformationDirtyEvent(this, null);
         }
 
         public void MoveActor()
         {
             // Actor shouldn't move while free fall
-            if (ActorState == BEHAVIOR_STATE.FREE_FALLING)
+            if (ActorState == BehaviorState.FREE_FALLING)
                 return;
 
-            ActorState = BEHAVIOR_STATE.MOVE;
-            var velocityVector = DOUEngine.Camera.GetEyeSpaceForwardVector();
+            ActorState = BehaviorState.MOVE;
+            var velocityVector = EngineStatics.Camera.GetEyeSpaceForwardVector();
             velocityVector.Y = 0.0f;
             Velocity = velocityVector;
 
             ComponentTranslation = ComponentTranslation + Velocity * Speed;
 
-            if (ActionMove != null)
-                this.ActionMove(this, null);
+            if (TransformationDirtyEvent != null)
+                this.TransformationDirtyEvent(this, null);
         }
 
         #region Position_stack_functions
@@ -136,8 +136,8 @@ namespace MassiveGame
         public virtual void popPositionStack()
         {
             ComponentTranslation = objectStack.popPositionValues();
-            if (ActionMove != null)
-                ActionMove(this, null);
+            if (TransformationDirtyEvent != null)
+                TransformationDirtyEvent(this, null);
         }
 
         public Vector3 GetStackPosition()
@@ -155,7 +155,7 @@ namespace MassiveGame
             , float Speed, Vector3 translation, Vector3 rotation, Vector3 scale) :
             base(modelPath, texturePath, normalMapPath, specularMapPath, translation, rotation, scale)
         {
-            ActorState = BEHAVIOR_STATE.FREE_FALLING;
+            ActorState = BehaviorState.FREE_FALLING;
             this.objectStack = new MovementStack();
             pushPositionStack();
             this.Speed = Speed;

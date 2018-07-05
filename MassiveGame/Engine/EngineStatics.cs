@@ -16,7 +16,7 @@ using MassiveGame.Core;
 
 namespace MassiveGame
 {
-    public static class DOUEngine
+    public static class EngineStatics
     {
         public static PrimitiveType Mode = PrimitiveType.Triangles;
        

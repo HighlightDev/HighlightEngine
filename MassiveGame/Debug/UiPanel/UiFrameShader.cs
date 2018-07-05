@@ -52,8 +52,8 @@ namespace MassiveGame.Debug.UiPanel
 
         protected override void SetShaderMacros()
         {
-            SetDefine<float>(ShaderTypeFlag.FragmentShader, "zNearPlane", DOUEngine.NEAR_CLIPPING_PLANE);
-            SetDefine<float>(ShaderTypeFlag.FragmentShader, "zFarPlane", DOUEngine.FAR_CLIPPING_PLANE);
+            SetDefine<float>(ShaderTypeFlag.FragmentShader, "zNearPlane", EngineStatics.NEAR_CLIPPING_PLANE);
+            SetDefine<float>(ShaderTypeFlag.FragmentShader, "zFarPlane", EngineStatics.FAR_CLIPPING_PLANE);
         }
 
         #region Constructor

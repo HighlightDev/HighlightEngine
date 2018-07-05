@@ -29,7 +29,7 @@ namespace MassiveGame.RenderCore.Lights
         public DirectionalLight(TextureParameters rtParams, Vector3 direction, Vector4 ambient, Vector4 diffuse, Vector4 specular)
             : base(ambient, diffuse, specular)
         {
-            Shadow = new ShadowDirectionalLight(DOUEngine.Camera, rtParams, this);
+            Shadow = new ShadowDirectionalLight(EngineStatics.Camera, rtParams, this);
             this.Direction = direction;
         }
 

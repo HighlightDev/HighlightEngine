@@ -334,7 +334,7 @@ namespace MassiveGame.Physics
             List<Vector3> currentPositionsForRayCast = GetCurrentMiddlePositionsForRayCast(characterBound, character);
             List<FRay> listOfRays = new List<FRay>();
             for (Int32 i = 0; i < currentPositionsForRayCast.Count; i++)
-                listOfRays.Add(new FRay(currentPositionsForRayCast[i], -DOUEngine.Camera.GetLocalSpaceUpVector()));
+                listOfRays.Add(new FRay(currentPositionsForRayCast[i], -EngineStatics.Camera.GetLocalSpaceUpVector()));
 
             RayCastOutputData closestRayCastDown = GetClosestRayCastResultFromMultipleRayCast(listOfRays, collidedBounds, character);
 
@@ -348,11 +348,11 @@ namespace MassiveGame.Physics
                     Vector3 elevationPosition = characterBound.GetOrigin();
                     elevationPosition.Y += distanceToStep;
                     character.collisionOffset(elevationPosition);
-                    character.ActorState = BEHAVIOR_STATE.IDLE;
+                    character.ActorState = BehaviorState.IDLE;
                 }
                 // Character now goes to free fall
                 else
-                    character.ActorState = BEHAVIOR_STATE.FREE_FALLING;
+                    character.ActorState = BehaviorState.FREE_FALLING;
 
                 character.pushPositionStack();
             }
@@ -360,7 +360,7 @@ namespace MassiveGame.Physics
             {
 
                 character.popPositionStack();
-                character.ActorState = BEHAVIOR_STATE.IDLE;
+                character.ActorState = BehaviorState.IDLE;
             }
         }
 
@@ -376,11 +376,11 @@ namespace MassiveGame.Physics
                 rayCastStartPosition.Y = boundMin.Y;
 
                 FRay ray = new FRay(rayCastStartPosition, character.Velocity);
-                float intersectionDistance = TerrainRayIntersection.Intersection_TerrainRay(DOUEngine.terrain, ray);
+                float intersectionDistance = TerrainRayIntersection.Intersection_TerrainRay(EngineStatics.terrain, ray);
 
                 // Character is still in free fall, just update position
                 if (intersectionDistance < 0.0f || RAYCAST_INTERSECTION_FAR(BodyMechanics.GetFreeFallDistanceInVelocity(character.Velocity), intersectionDistance))
-                    character.ComponentTranslation = BodyMechanics.UpdateFreeFallPosition(character.ComponentTranslation, character.Velocity);
+                    character.collisionOffset(BodyMechanics.UpdateFreeFallPosition(character.ComponentTranslation, character.Velocity));
 
                 // Character could be elevated on terrain 
                 else
@@ -388,7 +388,7 @@ namespace MassiveGame.Physics
                     Vector3 CharacterNewPosition = ray.GetPositionInTime(intersectionDistance);
                     CharacterNewPosition.Y += character.GetCharacterCollisionBound().GetExtent().Y;
                     character.collisionOffset(CharacterNewPosition);
-                    character.ActorState = BEHAVIOR_STATE.IDLE;
+                    character.ActorState = BehaviorState.IDLE;
                 }
             }
 
@@ -403,8 +403,8 @@ namespace MassiveGame.Physics
             // Ray cast from middle height position to avoid miss ray casting
             Vector3 rayCastStartPosition = new Vector3(origin);
 
-            FRay rayDown = new FRay(rayCastStartPosition, -DOUEngine.Camera.GetLocalSpaceUpVector());
-            float intersectionDistance = TerrainRayIntersection.Intersection_TerrainRay(DOUEngine.terrain, rayDown);
+            FRay rayDown = new FRay(rayCastStartPosition, -EngineStatics.Camera.GetLocalSpaceUpVector());
+            float intersectionDistance = TerrainRayIntersection.Intersection_TerrainRay(EngineStatics.terrain, rayDown);
 
             // Subtract length of bound extent from middle height position
             float boundExtent = origin.Y - boundMin.Y;
@@ -412,7 +412,7 @@ namespace MassiveGame.Physics
 
             // Character is in free fall, next position will be calculated in next tick
             if (intersectionDistance < 0.0f || RAYCAST_INTERSECTION_FAR(BodyMechanics.GetFreeFallDistanceInVelocity(character.Velocity), actualIntersectionDistance))
-                character.ActorState = BEHAVIOR_STATE.FREE_FALLING;
+                character.ActorState = BehaviorState.FREE_FALLING;
 
             // Check if character can reach that height
             else
@@ -420,7 +420,7 @@ namespace MassiveGame.Physics
                 Vector3 CharacterNewPosition = rayDown.GetPositionInTime(intersectionDistance);
                 CharacterNewPosition.Y += character.GetCharacterCollisionBound().GetExtent().Y;
                 character.collisionOffset(CharacterNewPosition);
-                character.ActorState = BEHAVIOR_STATE.IDLE;
+                character.ActorState = BehaviorState.IDLE;
             }
             
 
@@ -436,7 +436,7 @@ namespace MassiveGame.Physics
                 case EntityType.MOVABLE_ENTITY:
                     {
                         characterEntity.popPositionStack();
-                        characterEntity.ActorState = BEHAVIOR_STATE.IDLE;
+                        characterEntity.ActorState = BehaviorState.IDLE;
                         break;
                     }
 
@@ -487,7 +487,7 @@ namespace MassiveGame.Physics
                                 else
                                     characterEntity.popPositionStack();
 
-                                characterEntity.ActorState = BEHAVIOR_STATE.IDLE;
+                                characterEntity.ActorState = BehaviorState.IDLE;
                             }
                         }
                         /*  There was no intersection with ray, this could be one of these reasons :
@@ -513,7 +513,7 @@ namespace MassiveGame.Physics
                     {
                         // Restore previous position and set velocity to fall
                         character.popPositionStack();
-                        character.Velocity = -DOUEngine.Camera.GetLocalSpaceUpVector();
+                        character.Velocity = -EngineStatics.Camera.GetLocalSpaceUpVector();
                         break;
                     }
 
@@ -529,7 +529,7 @@ namespace MassiveGame.Physics
 
                         // Necessary data for subsequent calculations
                         RayCastOutputData rayCastOutputData = null;
-                        float terrainIntersectionDistance = TerrainRayIntersection.Intersection_TerrainRay(DOUEngine.terrain, rayFromMiddleBottom);
+                        float terrainIntersectionDistance = TerrainRayIntersection.Intersection_TerrainRay(EngineStatics.terrain, rayFromMiddleBottom);
 
                         bool bTerrainIntersection = !(terrainIntersectionDistance < 0.0f ||
                             RAYCAST_INTERSECTION_FAR(BodyMechanics.GetFreeFallDistanceInVelocity(character.Velocity), terrainIntersectionDistance));
@@ -551,22 +551,22 @@ namespace MassiveGame.Physics
                                         BoundOrigin.Z);
                                     character.collisionOffset(NewCharacterPosition);
                                     character.pushPositionStack();
-                                    character.ActorState = BEHAVIOR_STATE.IDLE;
+                                    character.ActorState = BehaviorState.IDLE;
                                 }
                                 // If normal is down directed or too up directed - character can't step on this surface - return to previous position and set velocity to down
                                 else
                                 {
                                     // This is quick fix
-                                    character.ActorState = BEHAVIOR_STATE.MOVE;
+                                    character.ActorState = BehaviorState.MOVE;
                                     character.popPositionStack();
-                                    character.Velocity = -DOUEngine.Camera.GetLocalSpaceUpVector();
+                                    character.Velocity = -EngineStatics.Camera.GetLocalSpaceUpVector();
                                 }
                             }
                             // No ray collision, but bound collision exists, bound position is unknown - return to previous position and set velocity to down
                             else
                             {
                                 character.popPositionStack();
-                                character.Velocity = -DOUEngine.Camera.GetLocalSpaceUpVector();
+                                character.Velocity = -EngineStatics.Camera.GetLocalSpaceUpVector();
                             }
                         }
                         // Character could be elevated on terrain 
@@ -575,7 +575,7 @@ namespace MassiveGame.Physics
                             Vector3 CharacterNewPosition = rayFromMiddleBottom.GetPositionInTime(terrainIntersectionDistance);
                             CharacterNewPosition.Y += character.GetCharacterCollisionBound().GetExtent().Y;
                             character.collisionOffset(CharacterNewPosition);
-                            character.ActorState = BEHAVIOR_STATE.IDLE;
+                            character.ActorState = BehaviorState.IDLE;
                             character.pushPositionStack();
                         }
 
@@ -594,10 +594,10 @@ namespace MassiveGame.Physics
             {
                 // Character is in free fall and has no collision with bounds
                 // need to find his next position
-                case BEHAVIOR_STATE.FREE_FALLING: ProcessNoCollisionAtState_FreeFalling(character); break;
+                case BehaviorState.FREE_FALLING: ProcessNoCollisionAtState_FreeFalling(character); break;
                 // Character is moving and has no collision with bound
                 // he may be colliding with terrain, if yes - elevate him on it, else - set free falling state
-                case BEHAVIOR_STATE.MOVE: ProcessNoCollisionAtState_Move(character); break;
+                case BehaviorState.MOVE: ProcessNoCollisionAtState_Move(character); break;
             }
         }
 
@@ -615,8 +615,8 @@ namespace MassiveGame.Physics
 
             switch (character.ActorState)
             {
-                case BEHAVIOR_STATE.FREE_FALLING: ProcessCollisionAtState_FreeFalling(character, collidedEntity, collidedBounds); break;
-                case BEHAVIOR_STATE.MOVE: ProcessCollisionAtState_Move(character, collidedEntity, collidedBounds); break;
+                case BehaviorState.FREE_FALLING: ProcessCollisionAtState_FreeFalling(character, collidedEntity, collidedBounds); break;
+                case BehaviorState.MOVE: ProcessCollisionAtState_Move(character, collidedEntity, collidedBounds); break;
             }
         }
     }
