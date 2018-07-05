@@ -88,9 +88,10 @@ namespace MassiveGame
             LightVisibilityMap.Init(LightList.Count, false);
             for (Int32 i = 0; i < LightList.Count; i++)
             {
-               BoundBase bound = GetAABBFromAllChildComponents();
-                LightVisibilityMap[i] = GeometricMath.IsSphereVsSphereIntersection((FSphere)bound,
-                    new FSphere(LightList[i].Position.Xyz, LightList[i].AttenuationRadius));
+                BoundBase bound = GetAABBFromAllChildComponents();
+                FSphere boundSphere = (FSphere)bound;
+                FSphere lightSphere = new FSphere(LightList[i].Position.Xyz, LightList[i].AttenuationRadius);
+                LightVisibilityMap[i] = GeometricMath.IsSphereVsSphereIntersection(ref boundSphere, ref lightSphere);
             }
         }
 

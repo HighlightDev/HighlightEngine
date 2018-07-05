@@ -60,13 +60,13 @@ namespace MassiveGame
             {
                 // Character is in free fall, must be calculated new height regarding to body free falling mechanics
                 if (collisionHeadUnit != null)
-                    collisionHeadUnit.TryCollision(this);
+                    collisionHeadUnit.TryEntityCollision(this);
                 Velocity = BodyMechanics.UpdateFreeFallVelocity(Velocity);
             }
             else if (ActorState == BehaviorState.MOVE)
             {
                 if (collisionHeadUnit != null)
-                    collisionHeadUnit.TryCollision(this);
+                    collisionHeadUnit.TryEntityCollision(this);
             }
             else if (ActorState == BehaviorState.IDLE)
             {

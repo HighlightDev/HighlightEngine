@@ -61,7 +61,7 @@ namespace MassiveGame.UI
 
         private void preConstructor() //Start initialize values
         {
-            EngineStatics.Camera = new ThirdPersonCamera(new Vector3(1, 0, 0), 45);
+            EngineStatics.Camera = new ThirdPersonCamera(new Vector3(0.5f, -0.8f, 0), 45);
             EngineStatics.PrevCursorPosition = new System.Drawing.Point(-1, -1);
             EngineStatics.ElapsedTime = DateTime.Now;
             EngineStatics.keyboardMask = new API.EventHandlers.KeyboardHandler();
@@ -187,7 +187,7 @@ namespace MassiveGame.UI
             specularMapPath = ProjectFolders.SpecularMapsPath + "brick_sm.png";
 
             MovableEntityArguments arg = new MovableEntityArguments(modelPath, texturePath, normalMapPath, specularMapPath,
-                0.9f, new Vector3(170, 1000, 170), new Vector3(0), new Vector3(5));
+                0.6f, new Vector3(170, 1200, 170), new Vector3(0), new Vector3(5));
 
             EngineStatics.Player = (Player)EngineObjectCreator.CreateInstance(arg);
             EngineStatics.Player.SetMistComponent(EngineStatics.Mist);
@@ -206,7 +206,7 @@ namespace MassiveGame.UI
             texturePath = ProjectFolders.MultitexturesPath + "b.png";
 
             arg = new MovableEntityArguments(modelPath, texturePath, normalMapPath, specularMapPath,
-                0.3f, new Vector3(180, 20, 220), new Vector3(0, 0, 0), new Vector3(10));
+                0.3f, new Vector3(180, 200, 220), new Vector3(0, 0, 0), new Vector3(10));
 
             EngineStatics.Enemy = (Player)EngineObjectCreator.CreateInstance(arg);
             EngineStatics.Enemy.SetMistComponent(EngineStatics.Mist);
@@ -246,11 +246,6 @@ namespace MassiveGame.UI
                     ProjectFolders.SkyboxTexturesPath + "/Night/" + "front.png" });
             EngineStatics.Skybox.setMistComponent(EngineStatics.Mist);
 
-            //EngineSingleton.SourceAmbient = new Source(EngineSingleton.SB_ambient, 0.05f, 1, new Vector3(0, 0, 0), new Vector3(0, 0, 0));
-            //EngineSingleton.SourceAmbient.SetMaxDistance(0);
-            //EngineSingleton.SourceAmbient.SetLooping(true);
-            //EngineSingleton.SourceAmbient.Play();
-
             EngineStatics.Water = new WaterPlane(ProjectFolders.WaterTexturePath + "DUDV.png", ProjectFolders.WaterTexturePath + "normal.png",
                 new Vector3(160, 29, 200), new Vector3(0, 0, 0), new Vector3(200, 1, 200), new WaterQuality(true, true, true), 10);
             //DOUEngine.Water.setMist(DOUEngine.Mist);
@@ -274,7 +269,6 @@ namespace MassiveGame.UI
             {
                 (EngineStatics.Camera as ThirdPersonCamera).SetThirdPersonTarget(EngineStatics.Player);
             }
-            //DOUEngine.Player.SetActionMovedDelegateListener((o, e) => DOUEngine.Camera.SetThirdPerson(o as MovableEntity));
             //DOUEngine.Camera.SetFirstPerson();
 
             EngineStatics.shadowList = new List<IDrawable>();

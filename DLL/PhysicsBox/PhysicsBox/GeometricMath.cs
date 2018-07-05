@@ -831,7 +831,7 @@ namespace PhysicsBox
             return false;
         }
 
-        public static bool IsSphereVsSphereIntersection(FSphere sphere1, FSphere sphere2)
+        public static bool IsSphereVsSphereIntersection(ref FSphere sphere1, ref FSphere sphere2)
         {
             Vector3 SphereOriginDistance = sphere1.Origin - sphere2.Origin;
             float SquaredDistance = Vector3.Dot(SphereOriginDistance, SphereOriginDistance);

@@ -19,7 +19,7 @@ namespace MassiveGame.Core
         private bool bThirdPersonTargetTransformationDirty = false;
         private Vector3 actualTargetVector;
         private float lerpTimeElapsed = 0.0f;
-        private float timeForInterpolation = 0.1f;
+        private float timeForInterpolation = 0.15f;
 
         public ThirdPersonCamera() : base()
         {
@@ -30,7 +30,7 @@ namespace MassiveGame.Core
         public ThirdPersonCamera(Vector3 localSpaceForwardVector, float camDistanceToThirdPersonTarget)
             : this()
         {
-            this.localSpaceForwardVector = localSpaceForwardVector;
+            this.localSpaceForwardVector = this.eyeSpaceForwardVector = localSpaceForwardVector.Normalized();
             cameraDistanceToTarget = camDistanceToThirdPersonTarget;
         }
 
@@ -38,11 +38,17 @@ namespace MassiveGame.Core
         {
             if (bThirdPersonTargetTransformationDirty)
             {
-                Vector3 finalTargetVector = thirdPersonTarget.ComponentTranslation;
                 lerpTimeElapsed = Math.Min(lerpTimeElapsed + DeltaTime, timeForInterpolation);
 
+                Vector3 finalTargetVector = thirdPersonTarget.ComponentTranslation;
                 actualTargetVector = LerpPosition(lerpTimeElapsed, 0.0f, timeForInterpolation, ref actualTargetVector, ref finalTargetVector);
-                
+
+                // Update camera position in case of collision
+                if (collisionHeadUnit != null)
+                {
+                    collisionHeadUnit.TryCameraCollision(this);
+                }
+
                 // If camera is at final position  
                 if (GeometricMath.CMP(lerpTimeElapsed, timeForInterpolation) > 0)
                 {

@@ -19,7 +19,7 @@ namespace MassiveGame.Core
         public FirstPersonCamera(Vector3 localSpaceForwardVector, Vector3 CameraPosition)
         : base()
         {
-            this.localSpaceForwardVector = localSpaceForwardVector;
+            this.localSpaceForwardVector = localSpaceForwardVector.Normalized();
             FirstPersonCameraPosition = CameraPosition;
         }
 

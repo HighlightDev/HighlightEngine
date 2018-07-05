@@ -1,4 +1,6 @@
-﻿using OpenTK;
+﻿using MassiveGame.Physics;
+using OpenTK;
+using PhysicsBox.MathTypes;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -15,16 +17,16 @@ namespace MassiveGame.Core
         // some unnecessary staff
         public bool SwitchCamera { set; get; }
 
-        protected float rotateSensetivity = 0.08f;
-
         protected Vector3 localSpaceRightVector;
         protected Vector3 localSpaceUpVector;
         protected Vector3 localSpaceForwardVector;
-
         protected Vector3 eyeSpaceRightVector;
         protected Vector3 eyeSpaceForwardVector;
-
         protected Matrix3 rotationMatrix;
+        protected CollisionHeadUnit collisionHeadUnit = null;
+
+        private float collisionSphereRadius = 2f;
+        private float rotateSensetivity = 0.08f;
 
         public BaseCamera()
         {
@@ -36,6 +38,11 @@ namespace MassiveGame.Core
         }
 
         public abstract void CameraTick(float DeltaTime);
+
+        public void SetCollisionHeadUnit(CollisionHeadUnit collisionHeadUnit)
+        {
+            this.collisionHeadUnit = collisionHeadUnit;
+        }
 
         public void SetLocalSpaceUpVector(Vector3 upVector)
         {
@@ -89,6 +96,11 @@ namespace MassiveGame.Core
         public Matrix3 GetRotationMatrix()
         {
             return rotationMatrix;
+        }
+
+        public FSphere GetCameraCollisionSphere()
+        {
+            return new FSphere(GetEyeVector(), collisionSphereRadius);
         }
 
         public void Rotate(Int32 x, Int32 y, Point screenRezolution)
