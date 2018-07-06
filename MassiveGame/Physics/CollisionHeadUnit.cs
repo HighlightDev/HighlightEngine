@@ -132,14 +132,13 @@ namespace MassiveGame.Physics
             CollisionOutput.Clear();
         }
 
-        private void CheckFrameBoundingBoxAndCameraSphereCollision(ref bool bSphereAndFrameBoundingBoxCollision, ref BaseCamera camera, ref Component collidedRootComponent,
+        private void CheckFrameBoundingBoxAndCameraSphereCollision(ref bool bSphereAndFrameBoundingBoxCollision, ref FSphere cameraCollisionSphere, ref Component collidedRootComponent,
             ref List<BoundBase> collidedRootBounds)
         {
             foreach (var unit in CollisionUnits)
             {
-                FSphere cameraCollisionSphere = camera.GetCameraCollisionSphere();
-                FSphere aabb2 = (FSphere)(unit.GetAndTryUpdateFramingBoundingBox());
-                if (GeometricMath.IsSphereVsSphereIntersection(ref cameraCollisionSphere, ref aabb2))
+                FSphere aabbCollisionSphere = (FSphere)(unit.GetAndTryUpdateFramingBoundingBox());
+                if (GeometricMath.IsSphereVsSphereIntersection(ref cameraCollisionSphere, ref aabbCollisionSphere))
                 {
                     bSphereAndFrameBoundingBoxCollision = true;
                     collidedRootComponent = unit.RootComponent;
@@ -148,15 +147,43 @@ namespace MassiveGame.Physics
             }
         }
 
+        private void CheckRegularBoundingBoxAndCameraSphereCollision(ref bool bSphereAndFrameBoundingBoxCollision,
+            ref List<BoundBase> collidedRootBounds, ref FSphere cameraCollisionSphere, ref List<BoundBase> collidedBounds)
+        {
+            foreach (var testingBound in collidedRootBounds)
+            {
+                FSphere obbCollisionSphere = (FSphere)testingBound;
+
+                if (GeometricMath.IsSphereVsSphereIntersection(ref cameraCollisionSphere, ref obbCollisionSphere))
+                {
+                    collidedBounds.Add(testingBound);
+                }
+            }
+
+            if (collidedBounds.Count > 0)
+                bSphereAndFrameBoundingBoxCollision = true;
+        }
+
         public void TryCameraCollision(BaseCamera camera)
         {
             return;
-
+            
             bool bSphereAndFrameBoundingBoxCollision = false;
             Component collidedRootComponent = null;
             List<BoundBase> collidedRootBounds = new List<BoundBase>();
+            FSphere cameraCollisionSphere = camera.GetCameraCollisionSphere();
 
-            CheckFrameBoundingBoxAndCameraSphereCollision(ref bSphereAndFrameBoundingBoxCollision, ref camera, ref collidedRootComponent, ref collidedRootBounds);
+            CheckFrameBoundingBoxAndCameraSphereCollision(ref bSphereAndFrameBoundingBoxCollision, ref cameraCollisionSphere, ref collidedRootComponent, ref collidedRootBounds);
+
+            List<BoundBase> collidedBounds = new List<BoundBase>();
+            CheckRegularBoundingBoxAndCameraSphereCollision(ref bSphereAndFrameBoundingBoxCollision, ref collidedRootBounds, ref cameraCollisionSphere, ref collidedBounds);
+
+            if (bSphereAndFrameBoundingBoxCollision)
+            {
+
+                // collision exists
+
+            }
         }
     }
 }

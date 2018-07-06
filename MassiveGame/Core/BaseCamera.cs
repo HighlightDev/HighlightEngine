@@ -120,6 +120,8 @@ namespace MassiveGame.Core
             UpdateRotationMatrix(-deltaX, -deltaY);
         }
 
+        float pitch = 0.0f;
+
         private void UpdateRotationMatrix(Int32 deltaX, Int32 deltaY)
         {
             eyeSpaceForwardVector = VectorMath.multMatrix(rotationMatrix, localSpaceForwardVector).Normalized();
@@ -136,6 +138,10 @@ namespace MassiveGame.Core
             rotMat *= rotatePitch;
 
             rotationMatrix = rotMat * rotationMatrix;
+
+            //Console.Clear();
+            //pitch = (float)Math.Atan2(-rotationMatrix[2, 0], Math.Sqrt(rotationMatrix[2, 1] * rotationMatrix[2, 1] + rotationMatrix[2, 2] * rotationMatrix[2, 2]));
+            //Console.WriteLine(pitch);
         }
 
         public Vector3 LerpPosition(float t, float t1, float t2, ref Vector3 position1, ref Vector3 position2)
