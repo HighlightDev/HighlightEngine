@@ -269,6 +269,7 @@ namespace MassiveGame.UI
             {
                 (EngineStatics.Camera as ThirdPersonCamera).SetThirdPersonTarget(EngineStatics.Player);
             }
+            EngineStatics.Camera.SetCollisionHeadUnit(collisionHeadUnit);
             //DOUEngine.Camera.SetFirstPerson();
 
             EngineStatics.shadowList = new List<IDrawable>();

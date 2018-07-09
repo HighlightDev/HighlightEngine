@@ -63,7 +63,6 @@ namespace MassiveGame.Engine
 
                 EngineStatics.Picker.Update();
                 EngineStatics.Mist.Update();
-                //DOUEngine.Camera.Update(DOUEngine.terrain);
                 EngineStatics.DayCycle.UpdateTimeFlow();
 
                 // Do smth better (PlayerController)

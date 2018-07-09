@@ -22,3 +22,4 @@ C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\MassiveGame
 C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\MassiveGame\obj\Debug\MassiveGame.exe
 C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\MassiveGame\obj\Debug\MassiveGame.pdb
 C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\MassiveGame\obj\Debug\MassiveGame.UI.Engine.resources
+C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\MassiveGame\obj\Debug\MassiveGame.csprojResolveAssemblyReference.cache

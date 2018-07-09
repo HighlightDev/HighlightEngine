@@ -14,16 +14,18 @@ namespace MassiveGame.Core
 {
     public class ThirdPersonCamera : BaseCamera
     {
-        private float cameraDistanceToTarget;
+        private float distanceFromTargetToCamera;
         private MovableEntity thirdPersonTarget;
         private bool bThirdPersonTargetTransformationDirty = false;
         private Vector3 actualTargetVector;
         private float lerpTimeElapsed = 0.0f;
         private float timeForInterpolation = 0.15f;
 
+        public readonly float SeekDistanceFromTargetToCamera;
+
         public ThirdPersonCamera() : base()
         {
-            cameraDistanceToTarget = 20.0f;
+            distanceFromTargetToCamera = SeekDistanceFromTargetToCamera = 20.0f;
             thirdPersonTarget = null;
         }
 
@@ -31,7 +33,7 @@ namespace MassiveGame.Core
             : this()
         {
             this.localSpaceForwardVector = this.eyeSpaceForwardVector = localSpaceForwardVector.Normalized();
-            cameraDistanceToTarget = camDistanceToThirdPersonTarget;
+            distanceFromTargetToCamera = SeekDistanceFromTargetToCamera = camDistanceToThirdPersonTarget;
         }
 
         public override void CameraTick(float DeltaTime)
@@ -68,7 +70,7 @@ namespace MassiveGame.Core
             if (thirdPersonTarget == null)
                 return Vector3.Zero;
 
-            return GetTargetVector() - (GetEyeSpaceForwardVector() * cameraDistanceToTarget);
+            return GetTargetVector() - (GetEyeSpaceForwardVector() * distanceFromTargetToCamera);
         }
 
         public override Vector3 GetTargetVector()
@@ -79,14 +81,14 @@ namespace MassiveGame.Core
             return actualTargetVector;
         }
 
-        public void SetCameraDistanceToTarget(float cameraDistanceToTarget)
+        public void SetDistanceFromTargetToCamera(float distanceFromTargetToCamera)
         {
-            this.cameraDistanceToTarget = cameraDistanceToTarget;
+            this.distanceFromTargetToCamera = distanceFromTargetToCamera;
         }
 
-        public float GetCameraDistanceToTarget()
+        public float GetDistanceFromTargetToCamera()
         {
-            return cameraDistanceToTarget;
+            return distanceFromTargetToCamera;
         }
 
         public MovableEntity GetThirdPersonTarget()

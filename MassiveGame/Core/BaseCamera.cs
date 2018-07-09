@@ -25,7 +25,7 @@ namespace MassiveGame.Core
         protected Matrix3 rotationMatrix;
         protected CollisionHeadUnit collisionHeadUnit = null;
 
-        private float collisionSphereRadius = 2f;
+        public float CameraCollisionSphereRadius { set; get; } = 5.0f;
         private float rotateSensetivity = 0.08f;
 
         public BaseCamera()
@@ -100,7 +100,7 @@ namespace MassiveGame.Core
 
         public FSphere GetCameraCollisionSphere()
         {
-            return new FSphere(GetEyeVector(), collisionSphereRadius);
+            return new FSphere(GetEyeVector(), CameraCollisionSphereRadius);
         }
 
         public void Rotate(Int32 x, Int32 y, Point screenRezolution)
