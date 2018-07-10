@@ -132,16 +132,23 @@ namespace MassiveGame.Physics
             CollisionOutput.Clear();
         }
 
-        private void CheckFrameBoundingBoxAndCameraSphereCollision(ref FSphere cameraCollisionSphere, ref List<BoundBase> collidedRootBounds)
+        private List<BoundBase> GetBoundingBoxesForCameraCollisionTest(ref FSphere cameraCollisionSphere, Component characterRootComponent)
         {
+            List<BoundBase> resultCollidedRootBounds = new List<BoundBase>();
+
             foreach (var unit in CollisionUnits)
             {
+                if (unit.RootComponent == characterRootComponent)
+                    continue;
+
                 FSphere aabbCollisionSphere = (FSphere)(unit.GetAndTryUpdateFramingBoundingBox());
                 if (GeometricMath.IsSphereVsSphereIntersection(ref cameraCollisionSphere, ref aabbCollisionSphere))
                 {
-                    collidedRootBounds.AddRange(unit.GetBoundingBoxes());
+                    resultCollidedRootBounds.AddRange(unit.GetBoundingBoxes());
                 }
             }
+
+            return resultCollidedRootBounds;
         }
 
         private void CheckRegularBoundingBoxAndCameraSphereCollision(ref bool bSphereAndFrameBoundingBoxCollision,
@@ -159,12 +166,10 @@ namespace MassiveGame.Physics
             }
         }
 
-        private bool IsCameraCollisionWithBoundingBoxes(FSphere cameraCollisionSphere)
+        private bool IsCameraCollisionWithBoundingBoxes(ref FSphere cameraCollisionSphere, List<BoundBase> collidedRootBounds)
         {
             bool bSphereAndRegularBoundingBoxCollision = false;
-            List<BoundBase> collidedRootBounds = new List<BoundBase>();
-
-            CheckFrameBoundingBoxAndCameraSphereCollision(ref cameraCollisionSphere, ref collidedRootBounds);
+           
             CheckRegularBoundingBoxAndCameraSphereCollision(ref bSphereAndRegularBoundingBoxCollision, ref collidedRootBounds, ref cameraCollisionSphere);
 
             return bSphereAndRegularBoundingBoxCollision;
@@ -188,9 +193,6 @@ namespace MassiveGame.Physics
 
         public void TryCameraCollision(BaseCamera camera)
         {
-
-            return;
-
             ThirdPersonCamera thirdPersonCamera = camera as ThirdPersonCamera;
             if (thirdPersonCamera == null)
                 return;
@@ -198,16 +200,23 @@ namespace MassiveGame.Physics
             // Start moving from camera target to it's seek position
             float distanceFromTargetToCamera = thirdPersonCamera.SeekDistanceFromTargetToCamera;
             Vector3 cameraForwardVector = thirdPersonCamera.GetEyeSpaceForwardVector();
-            Vector3 startPosition = thirdPersonCamera.GetTargetVector() - cameraForwardVector * thirdPersonCamera.CameraCollisionSphereRadius;
+            Vector3 startPosition = thirdPersonCamera.GetTargetVector();
 
-            float safeInterval = thirdPersonCamera.CameraCollisionSphereRadius;
+            float safeInterval = thirdPersonCamera.CameraCollisionSphereRadius / 2;
            
-            for (float interval = safeInterval; interval <= distanceFromTargetToCamera; interval += thirdPersonCamera.CameraCollisionSphereRadius)
+            for (float interval = safeInterval; interval <= distanceFromTargetToCamera; interval += (thirdPersonCamera.CameraCollisionSphereRadius / 10.0f))
             {
                 var intermediatePosition = startPosition - cameraForwardVector * interval;
+
+                FSphere cameraCollisionSphere = new FSphere(intermediatePosition, thirdPersonCamera.CameraCollisionSphereRadius);
+                var boundingBoxes = GetBoundingBoxesForCameraCollisionTest(ref cameraCollisionSphere, thirdPersonCamera.GetThirdPersonTarget().GetRootComponent());
+                if (boundingBoxes.Count > 0)
+                {
+                    if (IsCameraCollisionWithBoundingBoxes(ref cameraCollisionSphere, boundingBoxes))
+                        break;
+                }
+
                 safeInterval = interval;
-                if (IsCameraCollisionWithBoundingBoxes(new FSphere(intermediatePosition, thirdPersonCamera.CameraCollisionSphereRadius)))
-                    break;
             }
 
             thirdPersonCamera.SetDistanceFromTargetToCamera(safeInterval);

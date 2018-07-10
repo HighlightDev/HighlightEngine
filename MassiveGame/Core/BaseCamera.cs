@@ -25,7 +25,9 @@ namespace MassiveGame.Core
         protected Matrix3 rotationMatrix;
         protected CollisionHeadUnit collisionHeadUnit = null;
 
-        public float CameraCollisionSphereRadius { set; get; } = 5.0f;
+        protected bool bTransformationDirty = false;
+
+        public float CameraCollisionSphereRadius { set; get; } = 8.0f;
         private float rotateSensetivity = 0.08f;
 
         public BaseCamera()
@@ -138,6 +140,8 @@ namespace MassiveGame.Core
             rotMat *= rotatePitch;
 
             rotationMatrix = rotMat * rotationMatrix;
+
+            bTransformationDirty = true;
 
             //Console.Clear();
             //pitch = (float)Math.Atan2(-rotationMatrix[2, 0], Math.Sqrt(rotationMatrix[2, 1] * rotationMatrix[2, 1] + rotationMatrix[2, 2] * rotationMatrix[2, 2]));

@@ -38,18 +38,21 @@ namespace MassiveGame.Core
 
         public override void CameraTick(float DeltaTime)
         {
+            if (bTransformationDirty)
+            {
+                if (collisionHeadUnit != null)
+                {
+                    collisionHeadUnit.TryCameraCollision(this);
+                }
+                bTransformationDirty = false;
+            }
+
             if (bThirdPersonTargetTransformationDirty)
             {
                 lerpTimeElapsed = Math.Min(lerpTimeElapsed + DeltaTime, timeForInterpolation);
 
                 Vector3 finalTargetVector = thirdPersonTarget.ComponentTranslation;
                 actualTargetVector = LerpPosition(lerpTimeElapsed, 0.0f, timeForInterpolation, ref actualTargetVector, ref finalTargetVector);
-
-                // Update camera position in case of collision
-                if (collisionHeadUnit != null)
-                {
-                    collisionHeadUnit.TryCameraCollision(this);
-                }
 
                 // If camera is at final position  
                 if (GeometricMath.CMP(lerpTimeElapsed, timeForInterpolation) > 0)

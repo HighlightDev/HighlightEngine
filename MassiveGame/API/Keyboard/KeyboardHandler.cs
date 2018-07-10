@@ -9,6 +9,15 @@ namespace MassiveGame.API.EventHandlers
 {
     public class KeyboardHandler
     {
+        private static bool[] keyboardMaskArray;
+
+        public bool this[Int32 i] { set { keyboardMaskArray[i] = value; } get { return keyboardMaskArray[i]; } }
+
+        public KeyboardHandler()
+        {
+            keyboardMaskArray = new bool[5];
+        }
+
         public void Event_KeyPress(object sender, System.Windows.Forms.KeyPressEventArgs args)
         {
 
@@ -18,15 +27,6 @@ namespace MassiveGame.API.EventHandlers
         {
 
         }
-
-        private static bool[] keyboardMaskArray;
-
-        public KeyboardHandler()
-        {
-            keyboardMaskArray = new bool[5];
-        }
-
-        public bool this[Int32 i] { set { keyboardMaskArray[i] = value; } get { return keyboardMaskArray[i]; } }
 
         public bool[] GetWASDKeysMask()
         {

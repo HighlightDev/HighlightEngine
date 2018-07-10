@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MassiveGame.API.EventHandlers;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,8 +9,19 @@ namespace MassiveGame.Core
 {
     public class PlayerController
     {
-        public BaseCamera playerCamera;
-        public MovableEntity player;
+        private ThirdPersonCamera mainCamera;
+        private MovableEntity player;
+        private KeyboardHandler keyboard;
+
+        private void SetBindingKeyboardKey(char key)
+        {
+            
+        }
+
+        private void InitBindingsKeyboardKeys()
+        {
+            
+        }
 
         public PlayerController(MovableEntity player)
         {
