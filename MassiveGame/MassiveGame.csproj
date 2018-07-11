@@ -156,6 +156,7 @@
     <Compile Include="RenderCore\Lights\SpotLight.cs" />
     <Compile Include="RenderCore\ResolvePostProcessResultToDefaultFramebufferShader.cs" />
     <Compile Include="RenderCore\ShaderBase.cs" />
+    <Compile Include="Settings\KeyboardBindingsLoader.cs" />
     <Compile Include="Settings\PropertyConverter.cs" />
     <Compile Include="Settings\SettingsLoader.cs" />
     <Compile Include="Water\WaterReflectionEntityShader.cs" />
@@ -306,6 +307,7 @@
     <None Include="ModelFiles\wall_5_door.obj" />
     <None Include="ModelFiles\wall_5_without_door.obj" />
     <None Include="ModelFiles\wall_6_door.obj" />
+    <None Include="Settings\keybindings.ini" />
     <None Include="Shaders\bloomFS.glsl" />
     <None Include="Shaders\bloomVS.glsl" />
     <None Include="Shaders\depthOfFieldFS.glsl" />

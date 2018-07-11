@@ -202,7 +202,7 @@ namespace MassiveGame.Physics
             Vector3 cameraForwardVector = thirdPersonCamera.GetEyeSpaceForwardVector();
             Vector3 startPosition = thirdPersonCamera.GetTargetVector();
 
-            float safeInterval = thirdPersonCamera.CameraCollisionSphereRadius / 2;
+            float safeInterval = thirdPersonCamera.CameraCollisionSphereRadius;
            
             for (float interval = safeInterval; interval <= distanceFromTargetToCamera; interval += (thirdPersonCamera.CameraCollisionSphereRadius / 10.0f))
             {

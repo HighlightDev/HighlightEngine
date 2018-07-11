@@ -66,16 +66,7 @@ namespace MassiveGame.Engine
                 EngineStatics.DayCycle.UpdateTimeFlow();
 
                 // Do smth better (PlayerController)
-                if (EngineStatics.keyboardMask.GetWASDKeysMask().Any<bool>((key) => key == true))
-                {
-                    var previousPosition = EngineStatics.Player.ComponentTranslation;
-
-                    if (EngineStatics.Player != null)
-                    {
-                        EngineStatics.Player.MoveActor();
-                    }
-                    //DOUEngine.Camera.UpdateHeight(previousPosition);
-                }
+                EngineStatics.playerController.InvokeBindings();
 
                 if (EngineStatics.SunReplica != null)
                     EngineStatics.SunReplica.UpdateFrustumCullingInfo();

@@ -64,7 +64,7 @@ namespace MassiveGame.UI
             EngineStatics.Camera = new ThirdPersonCamera(new Vector3(0.5f, -0.8f, 0), 45);
             EngineStatics.PrevCursorPosition = new System.Drawing.Point(-1, -1);
             EngineStatics.ElapsedTime = DateTime.Now;
-            EngineStatics.keyboardMask = new API.EventHandlers.KeyboardHandler();
+            EngineStatics.playerController = new PlayerController(EngineStatics.Camera as ThirdPersonCamera);
 
             LoadIniSettings();
 
@@ -85,6 +85,8 @@ namespace MassiveGame.UI
 
 
                 setTestValues();
+                KeyboardBindingsLoader bindingsLoader = new KeyboardBindingsLoader();
+                bindingsLoader.SetKeyboardBindings();
 
                 // add objects to optimization list
                 EngineStatics.RenderableMeshCollection = new List<IVisible> { EngineStatics.SunReplica, EngineStatics.Water,
@@ -501,30 +503,13 @@ namespace MassiveGame.UI
 
         private void OnKeyPress(object sender, System.Windows.Forms.KeyPressEventArgs args)
         {
-            if (args.KeyChar == 'W' || args.KeyChar == 'w')
-            { EngineStatics.keyboardMask[0] = true; }
-            else if (args.KeyChar == 'A' || args.KeyChar == 'a')
-            { EngineStatics.keyboardMask[1] = true; }
-            else if (args.KeyChar == 'S' || args.KeyChar == 's')
-            { EngineStatics.keyboardMask[2] = true; }
-            else if (args.KeyChar == 'D' || args.KeyChar == 'd')
-            { EngineStatics.keyboardMask[3] = true; }
-            else if (args.KeyChar == ' ')
-            {
-                EngineStatics.keyboardMask[4] = true;
-            }
+            Keys key = (Keys)char.ToUpper(args.KeyChar);
+            EngineStatics.playerController.GetKeyboardHandler().KeyPress(key);
         }
 
         private void OnKeyUp(object sender, KeyEventArgs args)
         {
-            switch (args.KeyData)
-            {
-                case Keys.W: { EngineStatics.keyboardMask[0] = false; break; }
-                case Keys.A: { EngineStatics.keyboardMask[1] = false; break; }
-                case Keys.S: { EngineStatics.keyboardMask[2] = false; break; }
-                case Keys.D: { EngineStatics.keyboardMask[3] = false; break; }
-                case Keys.Space: { EngineStatics.keyboardMask[4] = false; break; }
-            }
+            EngineStatics.playerController.GetKeyboardHandler().KeyRelease(args.KeyData);
         }
 
         #endregion

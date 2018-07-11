@@ -68,7 +68,7 @@ namespace MassiveGame
         public static  List<ILightHit> LitByLightSourcesMeshCollection;
         public static  Point PrevCursorPosition;
 
-        public static KeyboardHandler keyboardMask;
+        public static PlayerController playerController;
        
         public static UiFrameMaster uiFrameCreator;
         public static List<IDrawable> shadowList;

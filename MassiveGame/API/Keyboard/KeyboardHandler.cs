@@ -9,38 +9,38 @@ namespace MassiveGame.API.EventHandlers
 {
     public class KeyboardHandler
     {
-        private static bool[] keyboardMaskArray;
-
-        public bool this[Int32 i] { set { keyboardMaskArray[i] = value; } get { return keyboardMaskArray[i]; } }
+        private Dictionary<Keys, bool> keyboardMaskMap;
 
         public KeyboardHandler()
         {
-            keyboardMaskArray = new bool[5];
+            keyboardMaskMap = new Dictionary<Keys, bool>();
         }
 
-        public void Event_KeyPress(object sender, System.Windows.Forms.KeyPressEventArgs args)
+        public void AllocateKey(Keys key)
         {
-
+            keyboardMaskMap.Add(key, false);
         }
 
-        public void Event_KeyRelease(object sender, System.Windows.Forms.KeyEventArgs args)
+        public void KeyPress(Keys key)
         {
-
+            if (keyboardMaskMap.ContainsKey(key))
+                keyboardMaskMap[key] = true;
         }
 
-        public bool[] GetWASDKeysMask()
+        public void KeyRelease(Keys key)
         {
-            bool[] moveMask = new bool[4];
-            for (Int32 i = 0; i < 4;i ++)
-            {
-                moveMask[i] = keyboardMaskArray[i];
-            }
-            return moveMask;
-        }  
+            if (keyboardMaskMap.ContainsKey(key))
+                keyboardMaskMap[key] = false;
+        } 
         
-        public bool GetSpacebarKeyMask()
+        public bool GetKeyState(Keys key)
         {
-            return keyboardMaskArray[4];
-        }    
+            bool bEnabled = false;
+
+            if (keyboardMaskMap.ContainsKey(key))
+                bEnabled = keyboardMaskMap[key];
+
+            return bEnabled;
+        }  
     }
 }
