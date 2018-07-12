@@ -1,20 +1,19 @@
 ﻿using OpenTK;
 using System;
 using System.Diagnostics;
-using System.Linq;
 using System.Threading;
 
 namespace MassiveGame.Engine
 {
     public class GameThread
     {
-        private System.Threading.Timer gameThreadTimer;
+        private Timer gameThreadTimer;
         private object lockGameThread = new object();
         private Stopwatch gameTickTime;
 
         public GameThread(Int32 delay, Int32 period)
         {
-            gameThreadTimer = new System.Threading.Timer(new System.Threading.TimerCallback(ThreadExecution));
+            gameThreadTimer = new Timer(new TimerCallback(ThreadExecution));
             gameThreadTimer.Change(delay, period);
             gameTickTime = new Stopwatch();
             gameTickTime.Start();
@@ -65,7 +64,6 @@ namespace MassiveGame.Engine
                 EngineStatics.Mist.Update();
                 EngineStatics.DayCycle.UpdateTimeFlow();
 
-                // Do smth better (PlayerController)
                 EngineStatics.playerController.InvokeBindings();
 
                 if (EngineStatics.SunReplica != null)

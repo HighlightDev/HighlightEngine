@@ -1,13 +1,8 @@
-﻿using MassiveGame.Core;
+﻿using MassiveGame.Core.GameCore;
 using OpenTK;
-using OpenTK.Graphics;
-using OpenTK.Graphics.OpenGL;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
-namespace MassiveGame
+namespace MassiveGame.API.MouseObjectDetector
 {
     public class MousePicker
     {

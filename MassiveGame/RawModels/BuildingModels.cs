@@ -1,5 +1,6 @@
 ﻿using GpuGraphics;
 using CParser;
+using MassiveGame.Settings;
 
 namespace MassiveGame
 {

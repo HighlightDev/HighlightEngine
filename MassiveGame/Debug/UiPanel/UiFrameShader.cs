@@ -1,13 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using ShaderPattern;
 using OpenTK;
-using OpenTK.Graphics;
-using OpenTK.Graphics.OpenGL;
-using MassiveGame.RenderCore;
+using MassiveGame.Core.RenderCore;
 
 namespace MassiveGame.Debug.UiPanel
 {

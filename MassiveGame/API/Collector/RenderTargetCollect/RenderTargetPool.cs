@@ -1,12 +1,7 @@
-﻿using FramebufferAPI;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System;
 using TextureLoader;
 
-namespace MassiveGame.API.Collector.TextureBufferCollect
+namespace MassiveGame.API.Collector.RenderTargetCollect
 {
     public class RenderTargetPool
     {

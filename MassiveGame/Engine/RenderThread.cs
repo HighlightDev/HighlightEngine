@@ -3,12 +3,13 @@
 using OpenTK;
 using OpenTK.Graphics.OpenGL;
 using System.Drawing;
-using MassiveGame.RenderCore;
-using MassiveGame.Optimization;
-using MassiveGame.RenderCore.Visibility;
-using MassiveGame.PostFX;
 using TextureLoader;
-using MassiveGame.Core;
+using MassiveGame.Core.RenderCore;
+using MassiveGame.Core.RenderCore.PostFX;
+using MassiveGame.Core.RenderCore.Visibility;
+using MassiveGame.Core.GameCore;
+using MassiveGame.Core.GameCore.Entities.StaticEntities;
+using MassiveGame.Core.GameCore.Water;
 
 namespace MassiveGame.Engine
 {
@@ -133,27 +134,27 @@ namespace MassiveGame.Engine
 
             if (EngineStatics.Water != null && EngineStatics.Water.IsInCameraView)
             {
-                EngineStatics.Water.renderWater(EngineStatics.Camera, ref EngineStatics.ProjectionMatrix, (float)EngineStatics.RENDER_TIME,
+                EngineStatics.Water.renderWater(EngineStatics.Camera, ref EngineStatics.ProjectionMatrix, EngineStatics.RENDER_TIME,
                         EngineStatics.NEAR_CLIPPING_PLANE, EngineStatics.FAR_CLIPPING_PLANE, EngineStatics.Sun, EngineStatics.PointLight);
             }
 
             GL.Disable(EnableCap.CullFace);
 
-            if (EngineStatics.Grass != null) EngineStatics.Grass.renderEntities(EngineStatics.Sun, camera, EngineStatics.ProjectionMatrix, (float)EngineStatics.RENDER_TIME, EngineStatics.terrain);
-            if (EngineStatics.Plant1 != null) EngineStatics.Plant1.renderEntities(EngineStatics.Sun, camera, EngineStatics.ProjectionMatrix, (float)EngineStatics.RENDER_TIME, EngineStatics.terrain);
+            if (EngineStatics.Grass != null) EngineStatics.Grass.renderEntities(EngineStatics.Sun, camera, EngineStatics.ProjectionMatrix, EngineStatics.RENDER_TIME, EngineStatics.terrain);
+            if (EngineStatics.Plant1 != null) EngineStatics.Plant1.renderEntities(EngineStatics.Sun, camera, EngineStatics.ProjectionMatrix, EngineStatics.RENDER_TIME, EngineStatics.terrain);
 
             if (EngineStatics.City != null)
             {
                 foreach (Building house in EngineStatics.City)
                 {
-                    if (!house.IsInCameraView) continue;
+                    if (!house.IsVisibleByCamera) continue;
                     house.renderObject(EngineStatics.Mode, EngineStatics.NormalMapTrigger, EngineStatics.Sun, EngineStatics.PointLight, camera, ref EngineStatics.ProjectionMatrix);
                 }
             }
 
             if (EngineStatics.Player != null)
             {
-                if (EngineStatics.Player.IsInCameraView)
+                if (EngineStatics.Player.IsVisibleByCamera)
                 {
                     EngineStatics.Player.renderObject(EngineStatics.Mode, EngineStatics.NormalMapTrigger, EngineStatics.Sun, EngineStatics.PointLight, camera, ref EngineStatics.ProjectionMatrix);
                 }
@@ -161,7 +162,7 @@ namespace MassiveGame.Engine
 
             if (EngineStatics.Enemy != null)
             {
-                if (EngineStatics.Enemy.IsInCameraView)
+                if (EngineStatics.Enemy.IsVisibleByCamera)
                 {
                     EngineStatics.Enemy.renderObject(EngineStatics.Mode, EngineStatics.NormalMapTrigger, EngineStatics.Sun, EngineStatics.PointLight, camera, ref EngineStatics.ProjectionMatrix);
                 }
@@ -275,7 +276,7 @@ namespace MassiveGame.Engine
             {
                 if (EngineStatics.Player != null)
                 {
-                    if (EngineStatics.Player.IsInCameraView)
+                    if (EngineStatics.Player.IsVisibleByCamera)
                     {
                         EngineStatics.Player.RenderWaterRefraction(EngineStatics.Sun, camera, ref EngineStatics.ProjectionMatrix, clipPlane);
                     }

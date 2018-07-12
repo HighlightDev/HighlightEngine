@@ -4,14 +4,10 @@ using MassiveGame.API.Collector.ModelCollect;
 using MassiveGame.API.Collector.ShaderCollect;
 using MassiveGame.API.Collector.TextureCollect;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 using TextureLoader;
-using MassiveGame.API.Collector.TextureBufferCollect;
-using FramebufferAPI;
+using MassiveGame.API.Collector.RenderTargetCollect;
 
 namespace MassiveGame.API.Collector
 {

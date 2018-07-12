@@ -5,25 +5,32 @@ using System.Windows.Forms;
 
 using OpenTK;
 using OpenTK.Graphics.OpenGL;
-using MassiveGame.RenderCore;
 using MassiveGame.Engine;
 using System.Collections.Generic;
-using MassiveGame.Physics;
 using MassiveGame.Settings;
-using MassiveGame.Optimization;
-using MassiveGame.RenderCore.Visibility;
-using FramebufferAPI;
-using MassiveGame.RenderCore.Lights;
-using MassiveGame.Sun.DayCycle;
-using MassiveGame.API;
-using MassiveGame.API.Factory.ObjectArguments;
+using MassiveGame.API.ObjectFactory.ObjectArguments;
 using PhysicsBox.ComponentCore;
 using MassiveGame.Debug.UiPanel;
-using MassiveGame.ComponentCore;
 using System.IO;
 using TextureLoader;
 using MassiveGame.API.Collector;
-using MassiveGame.Core;
+using MassiveGame.Core.PhysicsCore;
+using MassiveGame.Core.GameCore;
+using MassiveGame.API.ObjectFactory;
+using MassiveGame.Core.GameCore.Entities.MoveEntities;
+using MassiveGame.Core.GameCore.Entities.StaticEntities;
+using MassiveGame.Core.RenderCore.Visibility;
+using MassiveGame.Core.RenderCore.Lights;
+using MassiveGame.Core.GameCore.Sun.DayCycle;
+using static MassiveGame.Core.GameCore.Sun.DayCycle.DayPhases;
+using MassiveGame.Core.GameCore.EntityComponents;
+using MassiveGame.Core.GameCore.Skybox;
+using MassiveGame.Core.GameCore.Water;
+using MassiveGame.Core.GameCore.Sun;
+using MassiveGame.API.MouseObjectDetector;
+using MassiveGame.Core.RenderCore.Light_visualization;
+using MassiveGame.Core.RenderCore;
+using MassiveGame.Core.ComponentCore;
 
 namespace MassiveGame.UI
 {
@@ -110,10 +117,10 @@ namespace MassiveGame.UI
                 new Vector4(0.7f, 0.7f, 0.7f, 1.0f), new Vector4(1, 1, 1, 1));
             EngineStatics.Sun.GetShadow().CreateShadowMapCache();
 
-            var dayPhases = new MassiveGame.Sun.DayCycle.DayPhases(new Sun.DayCycle.DayPhases.Morning(new Vector3(0.3f, 0.3f, 0.3f), new Vector3(0.7f, 0.7f, 0.7f), new Vector3(.7f)),
-                    new Sun.DayCycle.DayPhases.Day(new Vector3(0.4f, 0.4f, 0.4f), new Vector3(0.9f, 0.79f, 0.79f), new Vector3(1.0f)),
-                new Sun.DayCycle.DayPhases.Evening(new Vector3(0.3f, 0.3f, 0.3f), new Vector3(0.7f, 0.30f, 0.30f), new Vector3(0.9f)),
-                new Sun.DayCycle.DayPhases.Night(new Vector3(0.09f, 0.09f, 0.09f), new Vector3(0.1f, 0.1f, 0.1f), new Vector3(0.0f)));
+            var dayPhases = new DayPhases(new Morning(new Vector3(0.3f, 0.3f, 0.3f), new Vector3(0.7f, 0.7f, 0.7f), new Vector3(.7f)),
+                    new DayPhases.Day(new Vector3(0.4f, 0.4f, 0.4f), new Vector3(0.9f, 0.79f, 0.79f), new Vector3(1.0f)),
+                new Evening(new Vector3(0.3f, 0.3f, 0.3f), new Vector3(0.7f, 0.30f, 0.30f), new Vector3(0.9f)),
+                new Night(new Vector3(0.09f, 0.09f, 0.09f), new Vector3(0.1f, 0.1f, 0.1f), new Vector3(0.0f)));
 
             EngineStatics.DayCycle = new DayLightCycle(EngineStatics.Sun,
                 EngineStatics.MAP_SIZE, dayPhases);
@@ -260,7 +267,7 @@ namespace MassiveGame.UI
             //EngineSingleton.EnvObj = new EnvironmentEntities(PlayerModels.getPlayerModel1(true), TextureSet.PlayerTextureSet2,
             //    TextureSet.SkyboxDayCubemapTexture, new Vector3(180, 0, 220), new Vector3(0, 0, 0), new Vector3(10));
 
-            EngineStatics.pointLightDebugRenderer = new Light_visualization.PointLightsDebugRenderer(ProjectFolders.TexturesPath + "/LightTextures/" + "light-bulb-icon (1).png"
+            EngineStatics.pointLightDebugRenderer = new PointLightsDebugRenderer(ProjectFolders.TexturesPath + "/LightTextures/" + "light-bulb-icon (1).png"
                 , EngineStatics.PointLight);
 
             //gras = new Grass(new Vector3(1, 0, 1), new Vector3(1), new Vector3(0), new Vector3(0.2f, 0.8f, 0.3f));

@@ -1,15 +1,13 @@
 ﻿using GpuGraphics;
 using MassiveGame.API.Collector;
-using MassiveGame.RenderCore;
+using MassiveGame.Core.RenderCore;
+using MassiveGame.Settings;
 using OpenTK;
-using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using TextureLoader;
 
 namespace MassiveGame.Debug.UiPanel

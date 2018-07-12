@@ -2,17 +2,26 @@
 using System.Collections.Generic;
 using OpenTK;
 using OpenTK.Graphics.OpenGL;
-using MassiveGame.RenderCore.Lights;
-using MassiveGame.Optimization;
-using MassiveGame.Sun.DayCycle;
 using System.Drawing;
-using MassiveGame.RenderCore.Visibility;
-using MassiveGame.Light_visualization;
+
+using MassiveGame.Core.RenderCore.Lights;
+using MassiveGame.Core.GameCore.Sun.DayCycle;
+using MassiveGame.Core.GameCore.Terrain;
+using MassiveGame.Core.GameCore.Entities.MoveEntities;
+using MassiveGame.Core.GameCore.Entities.StaticEntities;
+using MassiveGame.Core.GameCore;
+using MassiveGame.Core.GameCore.Skybox;
+using MassiveGame.Core.GameCore.Water;
+using MassiveGame.Core.GameCore.Sun;
+using MassiveGame.Core.GameCore.EntityComponents;
+using MassiveGame.Core.RenderCore.Light_visualization;
+using MassiveGame.Core.RenderCore.Visibility;
+using MassiveGame.Core.RenderCore;
+
+using MassiveGame.API.MouseObjectDetector;
 using MassiveGame.Debug.UiPanel;
-using MassiveGame.API.EventHandlers;
 using MassiveGame.Settings;
-using MassiveGame.RenderCore;
-using MassiveGame.Core;
+
 
 namespace MassiveGame
 {
@@ -50,7 +59,7 @@ namespace MassiveGame
         public static List<PointLight> PointLight;
         public static DirectionalLight Sun;
         public static DayLightCycle DayCycle;
-        public static  Terrain terrain;
+        public static  Landscape terrain;
         public static  Player Player;
         public static  Player Enemy;
         public static  List<Building> City;

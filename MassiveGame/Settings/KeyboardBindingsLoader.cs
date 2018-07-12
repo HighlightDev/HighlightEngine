@@ -1,10 +1,8 @@
-﻿using MassiveGame.Core;
+﻿using MassiveGame.Core.GameCore;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace MassiveGame.Settings
@@ -35,17 +33,29 @@ namespace MassiveGame.Settings
         private List<KeyValuePair<Keys, ActionTypeBinding>> GetBindings()
         {
             string[] bindingCodeLines = KeyboardBindingsContent.Split(';');
-            Dictionary<Keys, ActionTypeBinding> resultBindings = new Dictionary<Keys, Core.ActionTypeBinding>();
+            Dictionary<Keys, ActionTypeBinding> resultBindings = new Dictionary<Keys, ActionTypeBinding>();
 
-            for (Int32 i = 0; i < bindingCodeLines.Length; i++)
+            try
             {
-                if (bindingCodeLines[i] != string.Empty)
+                for (Int32 i = 0; i < bindingCodeLines.Length; i++)
                 {
-                    string[] keyValue = bindingCodeLines[i].Split(':');
-                    ActionTypeBinding actionType = (ActionTypeBinding)Enum.Parse(typeof(ActionTypeBinding), keyValue[0]);
-                    Keys key = (Keys)char.ToUpper(keyValue[1].ToCharArray()[1]);
-                    resultBindings.Add(key, actionType);
+                    if (bindingCodeLines[i] != string.Empty)
+                    {
+                        string[] keyValue = bindingCodeLines[i].Split(':');
+                        ActionTypeBinding actionType = (ActionTypeBinding)Enum.Parse(typeof(ActionTypeBinding), keyValue[0]);
+                        Keys key = (Keys)char.ToUpper(keyValue[1].ToCharArray()[1]);
+                        resultBindings.Add(key, actionType);
+                    }
                 }
+            }
+            catch (ArgumentException ex)
+            {
+                // wrong argument in keybinding.ini
+                throw ex;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
             }
 
             return resultBindings.ToList();
