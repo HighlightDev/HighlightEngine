@@ -139,9 +139,9 @@
       <Project>{2fafbe7a-4393-46c9-9463-04d211f3eab1}</Project>
       <Name>VectorMath</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\MassiveGame\MassiveGame.csproj">
+    <ProjectReference Include="..\..\MassiveGame\HighlightEngine.csproj">
       <Project>{043B5CD0-86B5-412E-9368-763BBAB92248}</Project>
-      <Name>MassiveGame</Name>
+      <Name>HighlightEngine</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

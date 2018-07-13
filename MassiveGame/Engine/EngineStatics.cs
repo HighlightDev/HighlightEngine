@@ -60,8 +60,8 @@ namespace MassiveGame
         public static DirectionalLight Sun;
         public static DayLightCycle DayCycle;
         public static  Landscape terrain;
-        public static  Player Player;
-        public static  Player Enemy;
+        public static  MovableMeshEntity Player;
+        public static  MovableMeshEntity Enemy;
         public static  List<Building> City;
         public static  BaseCamera Camera;
         public static  PlantBuilderMaster builder;

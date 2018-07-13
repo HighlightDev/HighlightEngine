@@ -10,6 +10,16 @@ namespace GpuGraphics
 {
     public static class VAOManager
     {
+        // this has to be redone 
+        // maybe something using generics...
+        
+
+        /*
+         Buffer* GenBuffer<T>(T* bufferData)
+        */
+
+
+
         #region Create_buffer
 
         public static void genVAO(VAO buffers)

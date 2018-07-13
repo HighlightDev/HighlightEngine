@@ -144,12 +144,12 @@ namespace MassiveGame.Core.RenderCore.PostFX.LightShafts
 
             if (EngineStatics.Player != null && EngineStatics.Player.IsVisibleByCamera)
             {
-                EngineStatics.Player.renderObject(EngineStatics.Mode, EngineStatics.NormalMapTrigger, EngineStatics.Sun, EngineStatics.PointLight, camera, ref EngineStatics.ProjectionMatrix);
+                EngineStatics.Player.RenderEntity(EngineStatics.Mode, EngineStatics.NormalMapTrigger, EngineStatics.Sun, EngineStatics.PointLight, camera, ref EngineStatics.ProjectionMatrix);
             }
 
             if (EngineStatics.Enemy != null && EngineStatics.Enemy.IsVisibleByCamera)
             {
-                EngineStatics.Enemy.renderObject(EngineStatics.Mode, EngineStatics.NormalMapTrigger, EngineStatics.Sun, EngineStatics.PointLight, camera, ref EngineStatics.ProjectionMatrix);
+                EngineStatics.Enemy.RenderEntity(EngineStatics.Mode, EngineStatics.NormalMapTrigger, EngineStatics.Sun, EngineStatics.PointLight, camera, ref EngineStatics.ProjectionMatrix);
             }
 
             if (EngineStatics.Water != null && EngineStatics.Water.IsInCameraView)

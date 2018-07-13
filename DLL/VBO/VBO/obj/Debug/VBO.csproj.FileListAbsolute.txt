@@ -31,7 +31,6 @@ C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\DLL\VBO\VBO
 C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\DLL\VBO\VBO\bin\Debug\VBO.pdb
 C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\DLL\VBO\VBO\bin\Debug\VectorMath.dll
 C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\DLL\VBO\VBO\bin\Debug\VectorMath.pdb
-C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\DLL\VBO\VBO\obj\Debug\VBO.csprojResolveAssemblyReference.cache
 C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\DLL\VBO\VBO\obj\Debug\VBO.dll
 C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\DLL\VBO\VBO\obj\Debug\VBO.pdb
 D:\HighlightEngine\HighlightEngine\DLL\VBO\VBO\bin\Debug\VBO.dll

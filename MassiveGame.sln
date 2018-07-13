@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MassiveGame", "MassiveGame\MassiveGame.csproj", "{043B5CD0-86B5-412E-9368-763BBAB92248}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HighlightEngine", "MassiveGame\HighlightEngine.csproj", "{043B5CD0-86B5-412E-9368-763BBAB92248}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UIControls", "WFUIControls\UIControls.csproj", "{CBFDA7AF-C46F-4273-8FF5-C7D335E2B7B1}"
 EndProject

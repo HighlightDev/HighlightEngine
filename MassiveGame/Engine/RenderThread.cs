@@ -156,7 +156,7 @@ namespace MassiveGame.Engine
             {
                 if (EngineStatics.Player.IsVisibleByCamera)
                 {
-                    EngineStatics.Player.renderObject(EngineStatics.Mode, EngineStatics.NormalMapTrigger, EngineStatics.Sun, EngineStatics.PointLight, camera, ref EngineStatics.ProjectionMatrix);
+                    EngineStatics.Player.RenderEntity(EngineStatics.Mode, EngineStatics.NormalMapTrigger, EngineStatics.Sun, EngineStatics.PointLight, camera, ref EngineStatics.ProjectionMatrix);
                 }
             }
 
@@ -164,7 +164,7 @@ namespace MassiveGame.Engine
             {
                 if (EngineStatics.Enemy.IsVisibleByCamera)
                 {
-                    EngineStatics.Enemy.renderObject(EngineStatics.Mode, EngineStatics.NormalMapTrigger, EngineStatics.Sun, EngineStatics.PointLight, camera, ref EngineStatics.ProjectionMatrix);
+                    EngineStatics.Enemy.RenderEntity(EngineStatics.Mode, EngineStatics.NormalMapTrigger, EngineStatics.Sun, EngineStatics.PointLight, camera, ref EngineStatics.ProjectionMatrix);
                 }
             }
 
