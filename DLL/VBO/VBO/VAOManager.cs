@@ -5,6 +5,7 @@ using System.Text;
 using OpenTK;
 using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL;
+using System.Runtime.InteropServices;
 
 namespace GpuGraphics
 {
@@ -12,13 +13,11 @@ namespace GpuGraphics
     {
         // this has to be redone 
         // maybe something using generics...
-        
+
 
         /*
          Buffer* GenBuffer<T>(T* bufferData)
         */
-
-
 
         #region Create_buffer
 

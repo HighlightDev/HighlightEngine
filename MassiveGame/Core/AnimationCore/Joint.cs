@@ -39,7 +39,7 @@ namespace MassiveGame.Core.AnimationCore
             childrenJoints.Remove(childJoint);
         }
 
-        public void RemoveRagneChildJoints(Int32 index, Int32 count)
+        public void RemoveRangeChildJoints(Int32 index, Int32 count)
         {
             childrenJoints.RemoveRange(index, count);
         }

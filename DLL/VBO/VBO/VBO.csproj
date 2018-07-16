@@ -55,6 +55,9 @@
     <Compile Include="VAO.cs" />
     <Compile Include="VBOArrayF.cs" />
     <Compile Include="VAOManager.cs" />
+    <Compile Include="VertexArrayObject.cs" />
+    <Compile Include="VertexBufferObject.cs" />
+    <Compile Include="VertexBufferObjectBase.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
