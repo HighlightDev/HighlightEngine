@@ -38,5 +38,10 @@ namespace VBO
         {
             return Marshal.SizeOf(m_data[0, 0]);
         }
+
+        protected override VertexAttribPointerType GetAttribPointerType()
+        {
+            return ParseType<T>();
+        }
     }
 }
