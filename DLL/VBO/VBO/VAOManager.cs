@@ -21,6 +21,7 @@ namespace GpuGraphics
 
         #region Create_buffer
 
+        [Obsolete("Use vertex array object instead.")]
         public static void genVAO(VAO buffers)
         {
             if (buffers.isMapped()) return;    //Проверка ,что генерируем буфферы 1 раз 
@@ -37,6 +38,7 @@ namespace GpuGraphics
 
         #region Put_data_into_buffer
 
+        [Obsolete("Use vertex array object instead.")]
         public static void setBufferData(BufferTarget bufferType, VAO buffer)
         {
             if (buffer.isDataInserted()) return;    //Проверка что заносим информацию в буфферы 1 раз 
@@ -252,6 +254,7 @@ namespace GpuGraphics
 
         #region Render_function
 
+        [Obsolete("Use vertex array object instead.")]
         public static void renderBuffers(VAO buffer, PrimitiveType privitiveMode)
         {
             GL.BindVertexArray(buffer.Vao[0]);

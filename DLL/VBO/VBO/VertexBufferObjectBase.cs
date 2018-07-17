@@ -16,12 +16,14 @@ namespace VBO
         protected Int32 m_descriptor;
         protected BufferTarget m_bufferTarget;
         protected DataCarryFlag m_dataCarryFlag;
-        protected Int32 m_vertexAttribArray;
+        protected Int32 m_vertexAttribIndex;
+        protected Int32 m_dataVectorSize;
 
-        public VertexBufferObjectBase(BufferTarget bufferTarget, Int32 vertexAttribArray, DataCarryFlag flag)
+        public VertexBufferObjectBase(BufferTarget bufferTarget, Int32 vertexAttribIndex, Int32 dataVectorSize, DataCarryFlag flag)
         {
             GenVBO();
-            m_vertexAttribArray = vertexAttribArray;
+            m_dataVectorSize = dataVectorSize;
+            m_vertexAttribIndex = vertexAttribIndex;
             m_bufferTarget = bufferTarget;
             m_dataCarryFlag = flag;
         }
@@ -48,8 +50,8 @@ namespace VBO
         {
             GL.BindBuffer(m_bufferTarget, m_descriptor);
             BufferData();
-            GL.EnableVertexAttribArray(m_vertexAttribArray);
-            GL.VertexAttribPointer(m_vertexAttribArray, 3, GetAttribPointerType(), false, 0, 0);
+            GL.EnableVertexAttribArray(m_vertexAttribIndex);
+            GL.VertexAttribPointer(m_vertexAttribIndex, m_dataVectorSize, GetAttribPointerType(), false, 0, 0);
         }
 
         public void CleanUp()

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using OpenTK.Graphics.OpenGL;
 
 namespace VBO
@@ -20,12 +21,18 @@ namespace VBO
             m_descriptor = GL.GenVertexArray();
         }
 
+        public void RenderVAO(PrimitiveType privitiveMode)
+        {
+            GL.BindVertexArray(m_descriptor);
+            GL.DrawArrays(privitiveMode, 0, m_vboList.First<VertexBufferObjectBase>().GetBufferElementsCount());
+        }
+
         public void AddVBO(VertexBufferObjectBase vbo)
         {
             m_vboList.Add(vbo);
         }
 
-        public void BindVboWithVao()
+        public void BindVbosToVao()
         {
             GL.BindVertexArray(m_descriptor);
             m_vboList.ForEach(vbo => vbo.BindVBO());
@@ -41,8 +48,10 @@ namespace VBO
         public VertexArrayObject CreateVAO()
         {
             VertexArrayObject vao = new VertexArrayObject();
-            VertexBufferObject<float> positionVBO = new VertexBufferObject<float>(new float[1, 1], BufferTarget.ArrayBuffer, 0, VertexBufferObjectBase.DataCarryFlag.Invalidate);
+            VertexBufferObject<float> positionVBO = new VertexBufferObject<float>(new float[1, 1], BufferTarget.ArrayBuffer, 0, 3, VertexBufferObjectBase.DataCarryFlag.Invalidate);
+            positionVBO.SendDataToGPU();
             vao.AddVBO(positionVBO);
+            vao.BindVbosToVao();
 
             return vao;
         }

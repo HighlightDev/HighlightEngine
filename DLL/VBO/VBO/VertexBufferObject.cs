@@ -8,8 +8,8 @@ namespace VBO
     {
         private T[,] m_data;
 
-        public VertexBufferObject(T[,] data, BufferTarget bufferTarget, Int32 vertexAttribIndex, DataCarryFlag flag)
-            : base(bufferTarget, vertexAttribIndex, flag)
+        public VertexBufferObject(T[,] data, BufferTarget bufferTarget, Int32 vertexAttribIndex, Int32 dataVectorSize, DataCarryFlag flag)
+            : base(bufferTarget, vertexAttribIndex, dataVectorSize, flag)
         {
             m_data = data;
         }
@@ -19,9 +19,14 @@ namespace VBO
             GL.BufferData(m_bufferTarget, GetBufferSize(),
                m_data, BufferUsageHint.StaticDraw);
 
-            // If data on CPU in unnecessary - throw it to GC
+            // If data on CPU is unnecessary - throw it to GC
             if (m_dataCarryFlag == DataCarryFlag.Invalidate)
                 m_data = null;
+        }
+
+        protected override VertexAttribPointerType GetAttribPointerType()
+        {
+            return ParseType<T>();
         }
 
         public override Array GetBufferData()
@@ -37,11 +42,6 @@ namespace VBO
         public override Int32 GetElementByteCount()
         {
             return Marshal.SizeOf(m_data[0, 0]);
-        }
-
-        protected override VertexAttribPointerType GetAttribPointerType()
-        {
-            return ParseType<T>();
         }
     }
 }

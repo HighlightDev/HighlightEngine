@@ -8,6 +8,7 @@ using OpenTK.Graphics.OpenGL;
 
 namespace GpuGraphics
 {
+    [Obsolete("Use vertex array object instead.")]
     public class VAO
     {
         private uint[] _vboID;

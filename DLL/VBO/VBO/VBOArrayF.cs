@@ -10,6 +10,7 @@ using OpenTK.Graphics.OpenGL;
 
 namespace GpuGraphics
 {
+    [Obsolete("Use vertex buffer object instead.")]
     public class VBOArrayF
     {
         #region Iterator
