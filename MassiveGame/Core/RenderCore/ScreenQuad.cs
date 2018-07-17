@@ -1,13 +1,12 @@
-﻿using GpuGraphics;
+﻿using VBO;
 
 namespace MassiveGame.Core.RenderCore
 {
     public static class ScreenQuad
     {
-        private static VBOArrayF quadVertices;
-        private static VAO quadBuffer;
+        private static VertexArrayObject quadBuffer;
 
-        public static VAO GetScreenQuadBuffer()
+        public static VertexArrayObject GetScreenQuadBuffer()
         {
             return quadBuffer;
         }
@@ -15,25 +14,25 @@ namespace MassiveGame.Core.RenderCore
         static ScreenQuad()
         {
             /*Screen fill quad*/
-            quadVertices = new VBOArrayF(
-                new float[6, 3] { { -1.0f, -1.0f, 0.0f },
+            float[,] vertices = new float[6, 3] { { -1.0f, -1.0f, 0.0f },
                 { 1.0f, -1.0f, 0.0f },
                 { 1.0f, 1.0f, 0.0f },
                 { 1.0f, 1.0f, 0.0f },
                 { -1.0f, 1.0f, 0.0f },
-                { -1.0f, -1.0f, 0.0f} },
-                new float[6, 2] { { 0, 1 },
+                { -1.0f, -1.0f, 0.0f} };
+            float[,] texCoords = new float[6, 2] { { 0, 1 },
                 { 1, 1 },
                 { 1, 0 },
                 { 1, 0 },
                 { 0, 0 },
-                { 0, 1 } },
-                null
-                );
+                { 0, 1 } };
 
-            quadBuffer = new VAO(quadVertices);
-            VAOManager.genVAO(quadBuffer);
-            VAOManager.setBufferData(OpenTK.Graphics.OpenGL.BufferTarget.ArrayBuffer, quadBuffer);
+            VertexBufferObject<float> verticesVBO = new VertexBufferObject<float>(vertices, OpenTK.Graphics.OpenGL.BufferTarget.ArrayBuffer, 0, 3, VertexBufferObjectBase.DataCarryFlag.Invalidate);
+            VertexBufferObject<float> texCoordsVBO = new VertexBufferObject<float>(texCoords, OpenTK.Graphics.OpenGL.BufferTarget.ArrayBuffer, 1, 2, VertexBufferObjectBase.DataCarryFlag.Invalidate);
+            quadBuffer = new VertexArrayObject();
+
+            quadBuffer.AddVBO(verticesVBO, texCoordsVBO);
+            quadBuffer.BindVbosToVao();
         }
         
     }

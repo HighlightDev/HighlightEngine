@@ -1,7 +1,7 @@
 #version 400
 
 #define LIGHT_COUNT 5 
-#define MAX_MIST_VISIBLE_AREA 1.0 
+#define MAX_MIST_VISIBLE_AREA 1 
 #define SHADOWMAP_BIAS 0.005 
 #define PCF_SAMPLES 2
 layout (location = 0) out vec4 FragColor;

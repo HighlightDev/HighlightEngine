@@ -7,7 +7,7 @@ namespace VBO
     {
         public enum DataCarryFlag
         {
-            //buffer data becomes unavailable after it is send on a gpu
+            //buffer data becomes unavailable after it is sent on a gpu
             Invalidate,
             //buffer data is available
             Store
@@ -19,6 +19,8 @@ namespace VBO
         protected Int32 m_vertexAttribIndex;
         protected Int32 m_dataVectorSize;
 
+        protected Int32 m_elementsCount;
+
         public VertexBufferObjectBase(BufferTarget bufferTarget, Int32 vertexAttribIndex, Int32 dataVectorSize, DataCarryFlag flag)
         {
             GenVBO();
@@ -27,15 +29,25 @@ namespace VBO
             m_bufferTarget = bufferTarget;
             m_dataCarryFlag = flag;
         }
-
-        public abstract Int32 GetBufferElementsCount();
-        public abstract Int32 GetElementByteCount();
-        public abstract Array GetBufferData();
+    
         protected abstract void BufferData();
 
         public void BindVBO()
         {
             GL.BindBuffer(m_bufferTarget, m_descriptor);
+        }
+
+        public abstract Int32 GetElementByteCount();
+        public abstract Array GetBufferData();
+
+        public Int32 GetVertexAttribIndex()
+        {
+            return m_vertexAttribIndex;
+        }
+
+        public Int32 GetBufferElementsCount()
+        {
+            return m_elementsCount;
         }
 
         public BufferTarget GetBufferTarget() { return m_bufferTarget; }
@@ -69,13 +81,18 @@ namespace VBO
             VertexAttribPointerType resultType = VertexAttribPointerType.Float;
             var type = typeof(T);
             if (type == typeof(byte)) resultType = VertexAttribPointerType.Byte;
-            else if(type == typeof(Int16)) resultType = VertexAttribPointerType.Short;
-            else if(type == typeof(Int32)) resultType = VertexAttribPointerType.Int;
+            else if (type == typeof(Int16)) resultType = VertexAttribPointerType.Short;
+            else if (type == typeof(Int32)) resultType = VertexAttribPointerType.Int;
             else if (type == typeof(float)) resultType = VertexAttribPointerType.Float;
             else if (type == typeof(double)) resultType = VertexAttribPointerType.Double;
             else if (type == typeof(UInt16)) resultType = VertexAttribPointerType.UnsignedShort;
             else if (type == typeof(UInt32)) resultType = VertexAttribPointerType.UnsignedInt;
             return resultType;
+        }
+
+        public void UnbindVBO()
+        {
+            GL.BindBuffer(m_bufferTarget, 0);
         }
     }
 }

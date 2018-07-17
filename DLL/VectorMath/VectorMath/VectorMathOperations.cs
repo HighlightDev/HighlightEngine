@@ -1,13 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using OpenTK;
 
-namespace VMath
+namespace VectorMath
 {
-    public static class VectorMath
+    public static class VectorMathOperations
     {
         #region Vector Operations
 
@@ -16,7 +12,7 @@ namespace VMath
         /// </summary>
         /// <param name="vTriangle">Массив из трех вершин треугольников в виде вектора</param>
         /// <returns>Вектор нормали</returns>
-        public static Vector3 Normal(Vector3[] vTriangle)
+        public static Vector3 GetNormalToPlane(Vector3[] vTriangle)
         {
             Vector3 vVector1 = vTriangle[1] - vTriangle[2];
             Vector3 vVector2 = vTriangle[1] - vTriangle[0];

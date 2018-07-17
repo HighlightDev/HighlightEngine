@@ -1,12 +1,12 @@
-﻿using GpuGraphics;
-using OpenTK;
+﻿using OpenTK;
 using TextureLoader;
+using VBO;
 
 namespace MassiveGame.Core.RenderCore
 {
     public interface IDrawable
     {
-        VAO GetMesh();
+        VertexArrayObject GetMeshVao();
         ITexture GetDiffuseMap();
         ITexture GetNormalMap();
         ITexture GetSpecularMap();

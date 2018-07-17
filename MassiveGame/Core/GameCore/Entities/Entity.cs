@@ -4,7 +4,7 @@ using GpuGraphics;
 using OpenTK;
 using PhysicsBox;
 using TextureLoader;
-using VMath;
+using VectorMath;
 using MassiveGame.API.Collector;
 using PhysicsBox.ComponentCore;
 using PhysicsBox.MathTypes;
@@ -13,6 +13,7 @@ using MassiveGame.Core.RenderCore.Lights;
 using MassiveGame.Core.RenderCore;
 using MassiveGame.Core.PhysicsCore;
 using MassiveGame.Core.GameCore.EntityComponents;
+using VBO;
 
 namespace MassiveGame.Core.GameCore.Entities
 {
@@ -135,7 +136,7 @@ namespace MassiveGame.Core.GameCore.Entities
             return IsVisibleByCamera;
         }
 
-        public VAO GetMesh()
+        public VertexArrayObject GetMeshVao()
         {
             return _model.Buffer;
         }
@@ -227,7 +228,7 @@ namespace MassiveGame.Core.GameCore.Entities
             for (Int32 i = 0; i < vertices.Length / 3; i++)
             {
                 Vector4 vertex = new Vector4(vertices[i, 0], vertices[i, 1], vertices[i, 2], 1.0f);
-                vertex = VectorMath.multMatrix(modelMatrix, vertex);
+                vertex = VectorMathOperations.multMatrix(modelMatrix, vertex);
                 vertices[i, 0] = vertex.X;
                 vertices[i, 1] = vertex.Y;
                 vertices[i, 2] = vertex.Z;

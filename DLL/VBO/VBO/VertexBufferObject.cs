@@ -12,12 +12,13 @@ namespace VBO
             : base(bufferTarget, vertexAttribIndex, dataVectorSize, flag)
         {
             m_data = data;
+            m_elementsCount = m_data.GetLength(0);
         }
 
         protected override void BufferData()
         {
-            GL.BufferData(m_bufferTarget, GetBufferSize(),
-               m_data, BufferUsageHint.StaticDraw);
+            IntPtr size = GetBufferSize();
+            GL.BufferData(m_bufferTarget, size, m_data, BufferUsageHint.StaticDraw);
 
             // If data on CPU is unnecessary - throw it to GC
             if (m_dataCarryFlag == DataCarryFlag.Invalidate)
@@ -34,14 +35,9 @@ namespace VBO
             return m_data;
         }
 
-        public override Int32 GetBufferElementsCount()
-        {
-            return m_data.GetLength(0);
-        }
-
         public override Int32 GetElementByteCount()
         {
-            return Marshal.SizeOf(m_data[0, 0]);
+            return Marshal.SizeOf(m_data[0, 0]) * 3;
         }
     }
 }

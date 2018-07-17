@@ -1,9 +1,5 @@
-﻿using GpuGraphics;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System;
+using VBO;
 
 namespace MassiveGame.API.Collector.ModelCollect
 {
@@ -16,7 +12,7 @@ namespace MassiveGame.API.Collector.ModelCollect
             modelCollection = new ModelCollection();
         }
         
-        public VAO GetModel(string key)
+        public VertexArrayObject GetModel(string key)
         {
             return modelCollection.RetrieveModel(key);
         }
@@ -26,7 +22,7 @@ namespace MassiveGame.API.Collector.ModelCollect
             this.modelCollection.ReleaseModel(key);
         }
 
-        public void AddModelToRoot(VAO modelBuffer, string key)
+        public void AddModelToRoot(VertexArrayObject modelBuffer, string key)
         {
             modelCollection.AddModelToRoot(modelBuffer, key);
         }

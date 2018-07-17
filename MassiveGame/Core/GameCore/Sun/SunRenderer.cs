@@ -1,5 +1,4 @@
-﻿using GpuGraphics;
-using OpenTK;
+﻿using OpenTK;
 using OpenTK.Graphics.OpenGL;
 using System;
 using TextureLoader;
@@ -9,6 +8,7 @@ using MassiveGame.Core.RenderCore.Visibility;
 using MassiveGame.Core.RenderCore.Lights;
 using MassiveGame.Settings;
 using MassiveGame.Core.GameCore.Water;
+using VBO;
 
 namespace MassiveGame.Core.GameCore.Sun
 {
@@ -20,8 +20,7 @@ namespace MassiveGame.Core.GameCore.Sun
         public readonly float SUN_SIZE = 150f;
 
         private DirectionalLight _sun;
-        private VBOArrayF _attribs;
-        private VAO _buffer;
+        private VertexArrayObject _buffer;
         private bool _postConstructor;
         private SunShader _shader;
         private ITexture _texture1;
@@ -85,7 +84,7 @@ namespace MassiveGame.Core.GameCore.Sun
             _shader.SetClipPlane(ref clipPlane);
             GL.Enable(EnableCap.Blend);
             GL.BlendFunc(BlendingFactorSrc.SrcAlpha, BlendingFactorDest.OneMinusSrcAlpha);
-            VAOManager.renderBuffers(_buffer, PrimitiveType.Triangles);
+            _buffer.RenderVAO(PrimitiveType.Triangles);
             GL.Disable(EnableCap.Blend);
             _shader.stopProgram();
 
@@ -107,7 +106,7 @@ namespace MassiveGame.Core.GameCore.Sun
             _shader.setUniformValues(ref modelMatrix, camera.GetViewMatrix(), ref projectionMatrix, _sun, 0, 1);
             GL.Enable(EnableCap.Blend);
             GL.BlendFunc(BlendingFactorSrc.SrcAlpha, BlendingFactorDest.OneMinusSrcAlpha);
-            VAOManager.renderBuffers(_buffer, PrimitiveType.Triangles);
+            _buffer.RenderVAO(PrimitiveType.Triangles);
             GL.Disable(EnableCap.Blend);
             _shader.stopProgram();
         }
@@ -120,8 +119,18 @@ namespace MassiveGame.Core.GameCore.Sun
         {
             if (_postConstructor)
             {
-                VAOManager.genVAO(_buffer);
-                VAOManager.setBufferData(BufferTarget.ArrayBuffer, _buffer);
+                float[,] vertices = new float[6, 3] { { -(SUN_SIZE / 2), SUN_SIZE / 2, 0.0f }, { -(SUN_SIZE / 2), -(SUN_SIZE / 2), 0.0f }, { SUN_SIZE / 2, -(SUN_SIZE / 2), 0.0f }, { SUN_SIZE / 2, -(SUN_SIZE / 2), 0.0f }, { SUN_SIZE / 2, SUN_SIZE / 2, 0.0f }, { -(SUN_SIZE / 2), SUN_SIZE / 2, 0.0f } };
+                float[,] normals = new float[6, 3] { { 0, 0, 1 }, { 0, 0, 1 }, { 0, 0, 1 }, { 0, 0, 1 }, { 0, 0, 1 }, { 0, 0, 1 } };
+                float[,] texCoords = new float[6, 2] { { 0, 0 }, { 1, 0 }, { 1, 1 }, { 1, 1 }, { 0, 1 }, { 0, 0 } };
+
+                VertexBufferObject<float> verticesVBO = new VertexBufferObject<float>(vertices, BufferTarget.ArrayBuffer, 0, 3, VertexBufferObjectBase.DataCarryFlag.Invalidate);
+                VertexBufferObject<float> normalsVBO = new VertexBufferObject<float>(normals, BufferTarget.ArrayBuffer, 1, 3, VertexBufferObjectBase.DataCarryFlag.Invalidate);
+                VertexBufferObject<float> texCoordsVBO = new VertexBufferObject<float>(texCoords, BufferTarget.ArrayBuffer, 2, 2, VertexBufferObjectBase.DataCarryFlag.Invalidate);
+
+                _buffer = new VertexArrayObject();
+                _buffer.AddVBO(verticesVBO, normalsVBO, texCoordsVBO);
+                _buffer.BindVbosToVao();
+
                 _shader = (SunShader)ResourcePool.GetShaderProgram(ProjectFolders.ShadersPath + "sunVS.glsl",
                     ProjectFolders.ShadersPath + "sunFS.glsl", "", typeof(SunShader));
                 _postConstructor = !_postConstructor;
@@ -132,11 +141,6 @@ namespace MassiveGame.Core.GameCore.Sun
         {
             this._sun = sun;
             this._postConstructor = true;
-            this._attribs = new VBOArrayF(new float[6, 3] { { -(SUN_SIZE / 2), SUN_SIZE / 2, 0.0f}, { -(SUN_SIZE / 2), -(SUN_SIZE / 2), 0.0f},
-            { SUN_SIZE / 2, -(SUN_SIZE / 2), 0.0f}, { SUN_SIZE / 2, -(SUN_SIZE / 2), 0.0f}, { SUN_SIZE / 2, SUN_SIZE / 2, 0.0f}, { -(SUN_SIZE / 2), SUN_SIZE / 2, 0.0f} },
-            new float[6, 3] { { 0, 0, 1 }, { 0, 0, 1 }, { 0, 0, 1 }, { 0, 0, 1 }, { 0, 0, 1 }, { 0, 0, 1 } },
-            new float[6, 2] { { 0, 0 }, { 1, 0 }, { 1, 1 }, { 1, 1 }, { 0, 1 }, { 0, 0 } }, false);
-            this._buffer = new VAO(_attribs);
             this._texture1 = ResourcePool.GetTexture(sunTexture1);
             this._texture2 = ResourcePool.GetTexture(sunTexture2);
             _quadLBZ = new Vector4((-SUN_SIZE / 2), (-SUN_SIZE / 2), 0.0f, 1.0f);
@@ -147,15 +151,10 @@ namespace MassiveGame.Core.GameCore.Sun
         {
             this._sun = sun;
             this._postConstructor = true;
-            this._buffer = new VAO(_attribs);
             this._texture1 = ResourcePool.GetTexture(sunTexture1);
             this._texture2 = ResourcePool.GetTexture(sunTexture2);
             this.SUN_SIZE = SunSize;
             this.LENS_FLARE_SUN_SIZE = LensFlareSunSize;
-            this._attribs = new VBOArrayF(new float[6, 3] { { -(SUN_SIZE / 2), SUN_SIZE / 2, 0.0f}, { -(SUN_SIZE / 2), -(SUN_SIZE / 2), 0.0f},
-            { SUN_SIZE / 2, -(SUN_SIZE / 2), 0.0f}, { SUN_SIZE / 2, -(SUN_SIZE / 2), 0.0f}, { SUN_SIZE / 2, SUN_SIZE / 2, 0.0f}, { -(SUN_SIZE / 2), SUN_SIZE / 2, 0.0f} },
-            new float[6, 3] { { 0, 0, 1 }, { 0, 0, 1 }, { 0, 0, 1 }, { 0, 0, 1 }, { 0, 0, 1 }, { 0, 0, 1 } },
-            new float[6, 2] { { 0, 0 }, { 1, 0 }, { 1, 1 }, { 1, 1 }, { 0, 1 }, { 0, 0 } }, false);
             _quadLBZ = new Vector4((-SUN_SIZE / 2), (-SUN_SIZE / 2), 0.0f, 1.0f);
             _quadRTZ = new Vector4((SUN_SIZE / 2), (SUN_SIZE / 2), 0.0f, 1.0f);
            
@@ -170,7 +169,7 @@ namespace MassiveGame.Core.GameCore.Sun
             ResourcePool.ReleaseTexture(_texture1);
             ResourcePool.ReleaseTexture(_texture2);
             ResourcePool.ReleaseShaderProgram(this._shader);
-            VAOManager.cleanUp(_buffer);
+            _buffer.CleanUp();
         }
 
         #endregion

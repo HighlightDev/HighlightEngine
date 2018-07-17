@@ -16,6 +16,11 @@ namespace VBO
             GenVAO();
         }
 
+        public List<VertexBufferObjectBase> GetVertexBufferArray()
+        {
+            return m_vboList;
+        }
+
         private void GenVAO()
         {
             m_descriptor = GL.GenVertexArray();
@@ -25,6 +30,12 @@ namespace VBO
         {
             GL.BindVertexArray(m_descriptor);
             GL.DrawArrays(privitiveMode, 0, m_vboList.First<VertexBufferObjectBase>().GetBufferElementsCount());
+            GL.BindVertexArray(0);
+        }
+
+        public void AddVBO(params VertexBufferObjectBase[] vbos)
+        {
+            m_vboList.AddRange(vbos);
         }
 
         public void AddVBO(VertexBufferObjectBase vbo)
@@ -35,25 +46,25 @@ namespace VBO
         public void BindVbosToVao()
         {
             GL.BindVertexArray(m_descriptor);
-            m_vboList.ForEach(vbo => vbo.BindVBO());
+            m_vboList.ForEach(vbo => vbo.SendDataToGPU());
             GL.BindVertexArray(0);
+            DisableVertexAttribArrays();
+        }
+
+        private void DisableVertexAttribArrays()
+        {
+            m_vboList.ForEach(vbo =>
+           {
+               vbo.UnbindVBO();
+               GL.BindVertexArray(0);
+               GL.DisableVertexAttribArray(vbo.GetVertexAttribIndex());
+           });
         }
 
         public void CleanUp()
         {
             m_vboList.ForEach(vbo => vbo.CleanUp());
             GL.DeleteVertexArray(m_descriptor);
-        }
-
-        public VertexArrayObject CreateVAO()
-        {
-            VertexArrayObject vao = new VertexArrayObject();
-            VertexBufferObject<float> positionVBO = new VertexBufferObject<float>(new float[1, 1], BufferTarget.ArrayBuffer, 0, 3, VertexBufferObjectBase.DataCarryFlag.Invalidate);
-            positionVBO.SendDataToGPU();
-            vao.AddVBO(positionVBO);
-            vao.BindVbosToVao();
-
-            return vao;
         }
     }
 }

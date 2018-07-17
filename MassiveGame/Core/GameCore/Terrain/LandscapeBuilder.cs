@@ -3,7 +3,8 @@ using Grid;
 using OpenTK;
 using System;
 using System.Drawing;
-using VMath;
+using VBO;
+using VectorMath;
 
 namespace MassiveGame.Core.GameCore.Terrain
 {
@@ -89,7 +90,7 @@ namespace MassiveGame.Core.GameCore.Terrain
             return normal;
         }
 
-        static public VBOArrayF getTerrainAttributes(TableGrid LandscapeMap, Int32 normalSmoothLvl)
+        static public VertexArrayObject getTerrainAttributes(TableGrid LandscapeMap, Int32 normalSmoothLvl)
         {
             Int32 VERTEX_COUNT = LandscapeMap.TableSize - 1;
             float x, z;
@@ -110,7 +111,7 @@ namespace MassiveGame.Core.GameCore.Terrain
                     vertices[vertexPointer, 0] = x;
                     vertices[vertexPointer, 1] = LandscapeMap.Table[i, j];
                     vertices[vertexPointer, 2] = z;
-                    tempNormal = VectorMath.Normal(new Vector3[3] { new Vector3(x, LandscapeMap.Table[i, j], z),
+                    tempNormal = VectorMathOperations.GetNormalToPlane(new Vector3[3] { new Vector3(x, LandscapeMap.Table[i, j], z),
                         new Vector3(x, LandscapeMap.Table[i, j + 1], z + (float)LandscapeMap.GridStep),
                         new Vector3(x + (float)LandscapeMap.GridStep, LandscapeMap.Table[i + 1, j], z)});
                     normalMatrix[i, j] = tempNormal;
@@ -124,7 +125,7 @@ namespace MassiveGame.Core.GameCore.Terrain
                     vertices[vertexPointer + 1, 0] = x;
                     vertices[vertexPointer + 1, 1] = LandscapeMap.Table[i, j + 1];
                     vertices[vertexPointer + 1, 2] = z + (float)LandscapeMap.GridStep;
-                    tempNormal = VectorMath.Normal(new Vector3[3] { new Vector3(x, LandscapeMap.Table[i, j + 1], z + (float)LandscapeMap.GridStep),
+                    tempNormal = VectorMathOperations.GetNormalToPlane(new Vector3[3] { new Vector3(x, LandscapeMap.Table[i, j + 1], z + (float)LandscapeMap.GridStep),
                         new Vector3(x + (float)LandscapeMap.GridStep, LandscapeMap.Table[i + 1, j], z),
                         new Vector3(x, LandscapeMap.Table[i, j], z)});
                     normalMatrix[i, j + 1] = tempNormal;
@@ -138,7 +139,7 @@ namespace MassiveGame.Core.GameCore.Terrain
                     vertices[vertexPointer + 2, 0] = x + (float)LandscapeMap.GridStep;
                     vertices[vertexPointer + 2, 1] = LandscapeMap.Table[i + 1, j];
                     vertices[vertexPointer + 2, 2] = z;
-                    tempNormal = VectorMath.Normal(new Vector3[3] { new Vector3(x + (float)LandscapeMap.GridStep, LandscapeMap.Table[i + 1, j], z),
+                    tempNormal = VectorMathOperations.GetNormalToPlane(new Vector3[3] { new Vector3(x + (float)LandscapeMap.GridStep, LandscapeMap.Table[i + 1, j], z),
                         new Vector3(x, LandscapeMap.Table[i, j], z),
                         new Vector3(x, LandscapeMap.Table[i, j + 1], z + (float)LandscapeMap.GridStep)});
                     normalMatrix[i + 1, j] = tempNormal;
@@ -170,7 +171,7 @@ namespace MassiveGame.Core.GameCore.Terrain
                     vertices[vertexPointer + 5, 0] = x + (float)LandscapeMap.GridStep;
                     vertices[vertexPointer + 5, 1] = LandscapeMap.Table[i + 1, j + 1];
                     vertices[vertexPointer + 5, 2] = z + (float)LandscapeMap.GridStep;
-                    tempNormal = VectorMath.Normal(new Vector3[3] { new Vector3(x + (float)LandscapeMap.GridStep, LandscapeMap.Table[i + 1, j + 1], z + (float)LandscapeMap.GridStep),
+                    tempNormal = VectorMathOperations.GetNormalToPlane(new Vector3[3] { new Vector3(x + (float)LandscapeMap.GridStep, LandscapeMap.Table[i + 1, j + 1], z + (float)LandscapeMap.GridStep),
                         new Vector3(x + (float)LandscapeMap.GridStep, LandscapeMap.Table[i + 1, j], z),
                         new Vector3(x, LandscapeMap.Table[i, j + 1], z + (float)LandscapeMap.GridStep)});
                     normalMatrix[i + 1, j + 1] = tempNormal;
@@ -215,7 +216,18 @@ namespace MassiveGame.Core.GameCore.Terrain
                     vertexPointer += 6;
                 }
             }
-            return new VBOArrayF(vertices, normals, texCoords, true);
+
+            VertexBufferObject<float> verticesVBO = new VertexBufferObject<float>(vertices, OpenTK.Graphics.OpenGL.BufferTarget.ArrayBuffer, 0, 3, VertexBufferObjectBase.DataCarryFlag.Invalidate);
+            VertexBufferObject<float> normalsVBO = new VertexBufferObject<float>(normals, OpenTK.Graphics.OpenGL.BufferTarget.ArrayBuffer, 1, 3, VertexBufferObjectBase.DataCarryFlag.Invalidate);
+            VertexBufferObject<float> texCoordsVBO = new VertexBufferObject<float>(texCoords, OpenTK.Graphics.OpenGL.BufferTarget.ArrayBuffer, 2, 2, VertexBufferObjectBase.DataCarryFlag.Invalidate);
+            VertexBufferObject<float> tangentsVBO = new VertexBufferObject<float>(AdditionalVertexInfoCreator.CreateTangentVertices(vertices, texCoords), OpenTK.Graphics.OpenGL.BufferTarget.ArrayBuffer, 4, 3, VertexBufferObjectBase.DataCarryFlag.Invalidate);
+            VertexBufferObject<float> bitangentsVBO = new VertexBufferObject<float>(AdditionalVertexInfoCreator.CreateBitangentVertices(vertices, texCoords), OpenTK.Graphics.OpenGL.BufferTarget.ArrayBuffer, 5, 3, VertexBufferObjectBase.DataCarryFlag.Invalidate);
+
+            VertexArrayObject vao = new VertexArrayObject();
+            vao.AddVBO(verticesVBO, normalsVBO, texCoordsVBO, tangentsVBO, bitangentsVBO);
+            vao.BindVbosToVao();
+
+            return vao;
         }
 
         #endregion

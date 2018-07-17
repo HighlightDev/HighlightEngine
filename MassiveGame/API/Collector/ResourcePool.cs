@@ -1,5 +1,4 @@
-﻿using GpuGraphics;
-using ShaderPattern;
+﻿using ShaderPattern;
 using MassiveGame.API.Collector.ModelCollect;
 using MassiveGame.API.Collector.ShaderCollect;
 using MassiveGame.API.Collector.TextureCollect;
@@ -8,6 +7,7 @@ using System.Linq;
 using System.Reflection;
 using TextureLoader;
 using MassiveGame.API.Collector.RenderTargetCollect;
+using VBO;
 
 namespace MassiveGame.API.Collector
 {
@@ -90,12 +90,12 @@ namespace MassiveGame.API.Collector
             return modelCollector.GetModelReferenceCount(key);
         }
 
-        public static VAO GetModel(string key)
+        public static VertexArrayObject GetModel(string key)
         {
             return modelCollector.GetModel(key);
         }
 
-        public static void AddModelToRoot(VAO modelBuffer, string key)
+        public static void AddModelToRoot(VertexArrayObject modelBuffer, string key)
         {
             modelCollector.AddModelToRoot(modelBuffer, key);
         }

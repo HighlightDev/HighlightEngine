@@ -8,6 +8,7 @@ using MassiveGame.API.Collector;
 using MassiveGame.Core.GameCore;
 using MassiveGame.Core.RenderCore.Lights;
 using MassiveGame.Settings;
+using VBO;
 
 namespace MassiveGame.Core.RenderCore.Light_visualization
 {
@@ -16,8 +17,7 @@ namespace MassiveGame.Core.RenderCore.Light_visualization
         private ITexture _texture;
         private PointLightDebugShader _shader;
         private bool _postConstructor;
-        private VBOArrayF _attributes;
-        private VAO _buffer;
+        private VertexArrayObject _buffer;
         private List<PointLight> _lamps;
 
         public void Render(BaseCamera camera, Matrix4 projectionMatrix)
@@ -30,7 +30,7 @@ namespace MassiveGame.Core.RenderCore.Light_visualization
                 _shader.startProgram();
                 _texture.BindTexture(TextureUnit.Texture0);
                 _shader.setUniformValues(modelMatrix, camera.GetViewMatrix(), projectionMatrix, 0);
-                VAOManager.renderBuffers(_buffer, PrimitiveType.Points);
+                _buffer.RenderVAO(PrimitiveType.Points);
                 _shader.stopProgram();
             }
         }
@@ -41,9 +41,13 @@ namespace MassiveGame.Core.RenderCore.Light_visualization
             {
                 this._shader = (PointLightDebugShader)ResourcePool.GetShaderProgram(ProjectFolders.ShadersPath + "lampVS.glsl",
                     ProjectFolders.ShadersPath + "lampFS.glsl", ProjectFolders.ShadersPath + "lampGS.glsl", typeof(PointLightDebugShader));
-                this._buffer = new VAO(_attributes);
-                VAOManager.genVAO(_buffer);
-                VAOManager.setBufferData(BufferTarget.ArrayBuffer, _buffer);
+
+                float[,] vertices = new float[1, 3];
+
+                VertexBufferObject<float> verticesVBO = new VertexBufferObject<float>(vertices, BufferTarget.ArrayBuffer, 0, 3, VertexBufferObjectBase.DataCarryFlag.Invalidate);
+                _buffer = new VertexArrayObject();
+                _buffer.AddVBO(verticesVBO);
+                _buffer.BindVbosToVao();
                 _postConstructor = false;
             }
         }
@@ -52,7 +56,6 @@ namespace MassiveGame.Core.RenderCore.Light_visualization
         {
             this._texture = ResourcePool.GetTexture(LampTexture);
             this._lamps = lamps;
-            this._attributes = new VBOArrayF(new float[1, 3]);
             this._postConstructor = true;
         }
 
@@ -60,7 +63,7 @@ namespace MassiveGame.Core.RenderCore.Light_visualization
         {
             this._shader.cleanUp();
             ResourcePool.ReleaseTexture(_texture);
-            VAOManager.cleanUp(_buffer);
+            _buffer.CleanUp();
         }
     }
 }

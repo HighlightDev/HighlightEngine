@@ -3,6 +3,7 @@ using MassiveGame.Core.GameCore;
 using System;
 using System.Drawing;
 using TextureLoader;
+using VBO;
 
 namespace MassiveGame.Core.RenderCore.PostFX
 {
@@ -36,7 +37,7 @@ namespace MassiveGame.Core.RenderCore.PostFX
             get { return blurPassCount; }
         }
 
-        protected VAO quadBuffer;
+        protected VertexArrayObject quadBuffer;
         protected bool bPostConstructor;
 
         public PostProcessBase()

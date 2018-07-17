@@ -74,7 +74,7 @@ namespace MassiveGame.Core.RenderCore.PostFX.DepthOfField
             dofShader.startProgram();
             frameColorTexture.BindTexture(TextureUnit.Texture0);
             dofShader.setDownsamplerUniforms(0);
-            VAOManager.renderBuffers(quadBuffer, PrimitiveType.Triangles);
+            quadBuffer.RenderVAO(PrimitiveType.Triangles);
             dofShader.stopProgram();
           
             /*Gauss blur*/
@@ -85,7 +85,7 @@ namespace MassiveGame.Core.RenderCore.PostFX.DepthOfField
                 dofShader.startProgram();
                 renderTarget.VerticalBlurTexture.BindTexture(TextureUnit.Texture0);
                 dofShader.setHorizontalBlurUniforms(0, blurWeights, getPixOffset(BlurWidth), renderTarget.HorizontalBlurTexture.GetTextureRezolution());
-                VAOManager.renderBuffers(quadBuffer, PrimitiveType.Triangles);
+                quadBuffer.RenderVAO(PrimitiveType.Triangles);
                 dofShader.stopProgram();
 
                 /*Vertical blur of image*/
@@ -93,7 +93,7 @@ namespace MassiveGame.Core.RenderCore.PostFX.DepthOfField
                 dofShader.startProgram();
                 renderTarget.HorizontalBlurTexture.BindTexture(TextureUnit.Texture0);
                 dofShader.setVerticalBlurUniforms(0, blurWeights, getPixOffset(BlurWidth), renderTarget.VerticalBlurTexture.GetTextureRezolution());
-                VAOManager.renderBuffers(quadBuffer, PrimitiveType.Triangles);
+                quadBuffer.RenderVAO(PrimitiveType.Triangles);
                 dofShader.stopProgram();
             }
 
@@ -115,7 +115,7 @@ namespace MassiveGame.Core.RenderCore.PostFX.DepthOfField
             renderTarget.VerticalBlurTexture.BindTexture(TextureUnit.Texture0);
             frameDepthTexture.BindTexture(TextureUnit.Texture1);
             dofShader.setDoFUniforms(0, 1, BlurStartEdge, BlurEndEdge);
-            VAOManager.renderBuffers(quadBuffer, PrimitiveType.Triangles);
+            quadBuffer.RenderVAO(PrimitiveType.Triangles);
             dofShader.stopProgram();
 
             renderTarget.unbindFramebuffer();

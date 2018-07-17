@@ -1,6 +1,5 @@
-﻿using GpuGraphics;
-using MassiveGame.API.Collector;
-
+﻿using MassiveGame.API.Collector;
+using System.Linq;
 using OpenTK;
 using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL;
@@ -8,12 +7,13 @@ using OpenTK.Graphics.OpenGL;
 using PhysicsBox.ComponentCore;
 using PhysicsBox.MathTypes;
 using System.Collections.Generic;
+using VBO;
 
 namespace MassiveGame.Core.ComponentCore
 {
     public class SceneComponent : Component
     {
-        private VAO buffer = null;
+        private VertexArrayObject buffer = null;
         private bool bPostConstructor = true;
 
         public override void Tick(ref Matrix4 projectionMatrix, ref Matrix4 viewMatrix)
@@ -31,9 +31,7 @@ namespace MassiveGame.Core.ComponentCore
 
         public override void RenderBound(ref Matrix4 projectionMatrix, ref Matrix4 viewMatrix, Color4 color)
         {
-            float[,] vertices;
             Matrix4 worldMatrix = Matrix4.Identity;
-            vertices = buffer.getBufferData().Vertices;
             if ((Bound.GetBoundType() & BoundBase.BoundType.AABB) == BoundBase.BoundType.AABB)
                 worldMatrix = (Bound as AABB).ScalePlusTranslation;
             else
@@ -47,10 +45,9 @@ namespace MassiveGame.Core.ComponentCore
             GL.LoadMatrix(ref modelViewMatrix);
             GL.Color4(color);
             GL.EnableClientState(ArrayCap.VertexArray);
-            GL.VertexPointer(3, VertexPointerType.Float, 0, vertices);
-            GL.DrawArrays(PrimitiveType.LineStrip, 0, (vertices.Length / 3));
+            GL.VertexPointer(3, VertexPointerType.Float, 0, (float[,])buffer.GetVertexBufferArray().First().GetBufferData());
+            GL.DrawArrays(PrimitiveType.LineStrip, 0, buffer.GetVertexBufferArray().First().GetBufferElementsCount());
             GL.DisableClientState(ArrayCap.VertexArray);
-
 
             base.RenderBound(ref projectionMatrix, ref viewMatrix, color);
         }
@@ -92,9 +89,12 @@ namespace MassiveGame.Core.ComponentCore
             renderCoordinates[22, 0] = RTFCoordinates.X; renderCoordinates[22, 1] = RTFCoordinates.Y; renderCoordinates[22, 2] = RTFCoordinates.Z;
             renderCoordinates[23, 0] = LBNCoordinates.X; renderCoordinates[23, 1] = RTFCoordinates.Y; renderCoordinates[23, 2] = RTFCoordinates.Z;
 
-            buffer = new VAO(new VBOArrayF(renderCoordinates));
-            VAOManager.genVAO(buffer);
-            VAOManager.setBufferData(OpenTK.Graphics.OpenGL.BufferTarget.ArrayBuffer, buffer);
+            buffer = new VertexArrayObject();
+
+            var verticesVBO = new VertexBufferObject<float>(renderCoordinates, BufferTarget.ArrayBuffer, 0, 3, VertexBufferObjectBase.DataCarryFlag.Store);
+            buffer.AddVBO(verticesVBO);
+            buffer.BindVbosToVao();
+           
             ResourcePool.AddModelToRoot(buffer, "CollisionBound");
         }
 

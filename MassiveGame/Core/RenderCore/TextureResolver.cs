@@ -34,7 +34,7 @@ namespace MassiveGame.Core.RenderCore
             postProcessResultTexture.BindTexture(TextureUnit.Texture1);
             resolvePostProcessShader.setPostProcessResultSampler(1);
             var quadBuffer = ScreenQuad.GetScreenQuadBuffer();
-            VAOManager.renderBuffers(quadBuffer, PrimitiveType.Triangles);
+            quadBuffer.RenderVAO(PrimitiveType.Triangles);
             resolvePostProcessShader.stopProgram();
             GL.Enable(EnableCap.DepthTest);
         }
@@ -56,7 +56,7 @@ namespace MassiveGame.Core.RenderCore
             src.BindTexture(TextureUnit.Texture0);
             copyShader.SetUniformValues(0);
             var quadBuffer = ScreenQuad.GetScreenQuadBuffer();
-            VAOManager.renderBuffers(quadBuffer, PrimitiveType.Triangles);
+            quadBuffer.RenderVAO(PrimitiveType.Triangles);
             copyShader.stopProgram();
             GL.Enable(EnableCap.DepthTest);
             GL.BindFramebuffer(FramebufferTarget.Framebuffer, 0);

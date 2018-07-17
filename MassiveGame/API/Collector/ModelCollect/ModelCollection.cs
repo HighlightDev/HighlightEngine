@@ -1,24 +1,22 @@
-﻿using GpuGraphics;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using VBO;
 
 namespace MassiveGame.API.Collector.ModelCollect
 {
     public class ModelCollection
     {
-        private Dictionary<string, VAO> modelDictionary;
+        private Dictionary<string, VertexArrayObject> modelDictionary;
         private Dictionary<string, Int32> referenceCount;
 
         public ModelCollection()
         {
-            modelDictionary = new Dictionary<string, VAO>();
+            modelDictionary = new Dictionary<string, VertexArrayObject>();
             referenceCount = new Dictionary<string, Int32>();
         }
 
-        public void AddModelToRoot(VAO modelBuffer, string key)
+        public void AddModelToRoot(VertexArrayObject modelBuffer, string key)
         {
             bool bModelIsInRoot = modelDictionary.Any((keyValue) => { return keyValue.Key == key; });
             if (bModelIsInRoot)
@@ -40,14 +38,14 @@ namespace MassiveGame.API.Collector.ModelCollect
             return references;
         }
 
-        public VAO RetrieveModel(string key)
+        public VertexArrayObject RetrieveModel(string key)
         {
             return TryGetModel(key);
         }
 
-        private VAO TryGetModel(string key)
+        private VertexArrayObject TryGetModel(string key)
         {
-            VAO result = null;
+            VertexArrayObject result = null;
             bool exist = modelDictionary.TryGetValue(key, out result);
             if (!exist)
             {

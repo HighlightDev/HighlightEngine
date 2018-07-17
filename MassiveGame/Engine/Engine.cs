@@ -31,6 +31,7 @@ using MassiveGame.API.MouseObjectDetector;
 using MassiveGame.Core.RenderCore.Light_visualization;
 using MassiveGame.Core.RenderCore;
 using MassiveGame.Core.ComponentCore;
+using MassiveGame.Core.GameCore.Terrain;
 
 namespace MassiveGame.UI
 {
@@ -134,43 +135,43 @@ namespace MassiveGame.UI
 
             // temporary
 
-            //DOUEngine.terrain = new Terrain(DOUEngine.MAP_SIZE, DOUEngine.MAP_HEIGHT, 3, 
-            //       ProjectFolders.HeightMapsTexturesPath + "heightmap2.png",
-            //       ProjectFolders.MultitexturesPath + "NewLandscape/volcanictundrarocks01.jpg",
-            //       ProjectFolders.MultitexturesPath + "NewLandscape/tundra02.jpg",
-            //       ProjectFolders.MultitexturesPath + "b.png",
-            //       ProjectFolders.MultitexturesPath + "NewLandscape/snow01.jpg",
-            //       ProjectFolders.MultitexturesPath + "blendMap.png");
+            EngineStatics.terrain = new Landscape(EngineStatics.MAP_SIZE, EngineStatics.MAP_HEIGHT, 3,
+                   ProjectFolders.HeightMapsTexturesPath + "heightmap2.png",
+                   ProjectFolders.MultitexturesPath + "NewLandscape/volcanictundrarocks01.jpg",
+                   ProjectFolders.MultitexturesPath + "NewLandscape/tundra02.jpg",
+                   ProjectFolders.MultitexturesPath + "b.png",
+                   ProjectFolders.MultitexturesPath + "NewLandscape/snow01.jpg",
+                   ProjectFolders.MultitexturesPath + "blendMap.png");
 
-            //DOUEngine.terrain.SetNormalMapR(ProjectFolders.MultitexturesPath + "NewLandscape/volcanictundrarocks01_n.png");
-            //DOUEngine.terrain.SetNormalMapG(ProjectFolders.MultitexturesPath + "NewLandscape/tundra02_n.png");
-            ////DOUEngine.Map.SetNormalMapBlack(ProjectFolders.MultitexturesPath + "NewLandscape/snow01_n.png");
-            //DOUEngine.terrain.SetNormalMapB(ProjectFolders.NormalMapsPath + "brick_nm_high.png");
+            EngineStatics.terrain.SetNormalMapR(ProjectFolders.MultitexturesPath + "NewLandscape/volcanictundrarocks01_n.png");
+            EngineStatics.terrain.SetNormalMapG(ProjectFolders.MultitexturesPath + "NewLandscape/tundra02_n.png");
+            //EngineStatics.Map.SetNormalMapBlack(ProjectFolders.MultitexturesPath + "NewLandscape/snow01_n.png");
+            EngineStatics.terrain.SetNormalMapB(ProjectFolders.NormalMapsPath + "brick_nm_high.png");
 
-            //DOUEngine.terrain.SetMist(DOUEngine.Mist);
+            EngineStatics.terrain.SetMist(EngineStatics.Mist);
 
             string modelPath = ProjectFolders.ModelsPath + "playerCube.obj";
             string texturePath = ProjectFolders.MultitexturesPath + "b.png";
             string normalMapPath = ProjectFolders.NormalMapsPath + "brick_nm_high.png";
             string specularMapPath = ProjectFolders.SpecularMapsPath + "brick_sm.png";
 
-            //DOUEngine.City.Add((Building)EngineObjectCreator.CreateInstance(new StaticEntityArguments(modelPath, texturePath, normalMapPath, specularMapPath,
-            //    new Vector3(230, 0 + DOUEngine.MAP_HEIGHT, 310), new Vector3(20, 0, 0), new Vector3(30, 30, 30))));
-            //DOUEngine.City.Add((Building)EngineObjectCreator.CreateInstance(new StaticEntityArguments(modelPath, texturePath, normalMapPath, specularMapPath,
-            //   new Vector3(230, 2.5f + DOUEngine.MAP_HEIGHT, 248), new Vector3(0, 180, 0), new Vector3(30, 30, 30))));
-            //DOUEngine.City.Add((Building)EngineObjectCreator.CreateInstance(new StaticEntityArguments(modelPath, texturePath, normalMapPath, specularMapPath,
-            //   new Vector3(230, 5f + DOUEngine.MAP_HEIGHT, 180), new Vector3(0, 180, 0), new Vector3(30, 30, 30))));
-            //DOUEngine.City.Add((Building)EngineObjectCreator.CreateInstance(new StaticEntityArguments(modelPath, texturePath, normalMapPath, specularMapPath,
-            //  new Vector3(230, 7.5f + DOUEngine.MAP_HEIGHT, 115), new Vector3(0, 180, 0), new Vector3(30, 30, 30))));
-            //DOUEngine.City.Add((Building)EngineObjectCreator.CreateInstance(new StaticEntityArguments(modelPath, texturePath, normalMapPath, specularMapPath,
-            //   new Vector3(230, 10 + DOUEngine.MAP_HEIGHT, 48), new Vector3(0, 180, 0), new Vector3(30, 30, 30))));
+            //EngineStatics.City.Add((Building)EngineObjectCreator.CreateInstance(new StaticEntityArguments(modelPath, texturePath, normalMapPath, specularMapPath,
+            //    new Vector3(230, 0 + EngineStatics.MAP_HEIGHT, 310), new Vector3(20, 0, 0), new Vector3(30, 30, 30))));
+            //EngineStatics.City.Add((Building)EngineObjectCreator.CreateInstance(new StaticEntityArguments(modelPath, texturePath, normalMapPath, specularMapPath,
+            //   new Vector3(230, 2.5f + EngineStatics.MAP_HEIGHT, 248), new Vector3(0, 180, 0), new Vector3(30, 30, 30))));
+            //EngineStatics.City.Add((Building)EngineObjectCreator.CreateInstance(new StaticEntityArguments(modelPath, texturePath, normalMapPath, specularMapPath,
+            //   new Vector3(230, 5f + EngineStatics.MAP_HEIGHT, 180), new Vector3(0, 180, 0), new Vector3(30, 30, 30))));
+            //EngineStatics.City.Add((Building)EngineObjectCreator.CreateInstance(new StaticEntityArguments(modelPath, texturePath, normalMapPath, specularMapPath,
+            //  new Vector3(230, 7.5f + EngineStatics.MAP_HEIGHT, 115), new Vector3(0, 180, 0), new Vector3(30, 30, 30))));
+            //EngineStatics.City.Add((Building)EngineObjectCreator.CreateInstance(new StaticEntityArguments(modelPath, texturePath, normalMapPath, specularMapPath,
+            //   new Vector3(230, 10 + EngineStatics.MAP_HEIGHT, 48), new Vector3(0, 180, 0), new Vector3(30, 30, 30))));
             EngineStatics.City.Add((Building)EngineObjectCreator.CreateInstance(new StaticEntityArguments(modelPath, texturePath, normalMapPath, specularMapPath,
               new Vector3(170, 13f + EngineStatics.MAP_HEIGHT, 170), new Vector3(0, 180, 0), new Vector3(10, 10, 10))));
-            //DOUEngine.City.Add((Building)EngineObjectCreator.CreateInstance(new StaticEntityArguments(modelPath, texturePath, normalMapPath, specularMapPath,
+            //EngineStatics.City.Add((Building)EngineObjectCreator.CreateInstance(new StaticEntityArguments(modelPath, texturePath, normalMapPath, specularMapPath,
             //   new Vector3(280, 10, 350), new Vector3(0, 180, 0), new Vector3(10))));
-            //DOUEngine.City.Add((Building)EngineObjectCreator.CreateInstance(new StaticEntityArguments(modelPath, texturePath, normalMapPath, specularMapPath,
+            //EngineStatics.City.Add((Building)EngineObjectCreator.CreateInstance(new StaticEntityArguments(modelPath, texturePath, normalMapPath, specularMapPath,
             //    new Vector3(230, 10, 410), new Vector3(0, 180, 0), new Vector3(10))));
-            //DOUEngine.City.Add((Building)EngineObjectCreator.CreateInstance(new StaticEntityArguments(modelPath, texturePath, normalMapPath, specularMapPath,
+            //EngineStatics.City.Add((Building)EngineObjectCreator.CreateInstance(new StaticEntityArguments(modelPath, texturePath, normalMapPath, specularMapPath,
             //   new Vector3(260, 10, 400), new Vector3(0, 180, 0), new Vector3(10))));
 
             // TEST components
@@ -257,7 +258,7 @@ namespace MassiveGame.UI
 
             EngineStatics.Water = new WaterPlane(ProjectFolders.WaterTexturePath + "DUDV.png", ProjectFolders.WaterTexturePath + "normal.png",
                 new Vector3(160, 29, 200), new Vector3(0, 0, 0), new Vector3(200, 1, 200), new WaterQuality(true, true, true), 10);
-            //DOUEngine.Water.setMist(DOUEngine.Mist);
+            //EngineStatics.Water.setMist(EngineStatics.Mist);
 
             EngineStatics.SunReplica = new SunRenderer(EngineStatics.Sun, ProjectFolders.SunTexturePath + "sunC.png",
                     ProjectFolders.SunTexturePath + "sunB.png");
@@ -279,7 +280,7 @@ namespace MassiveGame.UI
                 (EngineStatics.Camera as ThirdPersonCamera).SetThirdPersonTarget(EngineStatics.Player);
             }
             EngineStatics.Camera.SetCollisionHeadUnit(collisionHeadUnit);
-            //DOUEngine.Camera.SetFirstPerson();
+            //EngineStatics.Camera.SetFirstPerson();
 
             EngineStatics.shadowList = new List<IDrawable>();
             EngineStatics.City.ForEach(new Action<Building>((house) => { EngineStatics.shadowList.Add(house); }));

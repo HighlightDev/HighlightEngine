@@ -4,7 +4,7 @@ using PhysicsBox.MathTypes;
 using System;
 using System.Drawing;
 using System.Windows.Forms;
-using VMath;
+using VectorMath;
 
 namespace MassiveGame.Core.GameCore
 {
@@ -122,7 +122,7 @@ namespace MassiveGame.Core.GameCore
 
         private void UpdateRotationMatrix(Int32 deltaX, Int32 deltaY)
         {
-            eyeSpaceForwardVector = VectorMath.multMatrix(rotationMatrix, localSpaceForwardVector).Normalized();
+            eyeSpaceForwardVector = VectorMathOperations.multMatrix(rotationMatrix, localSpaceForwardVector).Normalized();
             eyeSpaceRightVector = Vector3.Cross(eyeSpaceForwardVector, localSpaceUpVector).Normalized();
 
             float anglePitch = deltaY * rotateSensetivity;

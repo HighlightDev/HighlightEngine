@@ -7,7 +7,6 @@ D:\Мультимедиа\Visual Studio Projects\OpenTK Applications\Application
 D:\Мультимедиа\Visual Studio Projects\OpenTK Applications\Applications\MassiveGame\MassiveGame\DLL\VectorMath\VectorMath\obj\Debug\VectorMath.pdb
 C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\DLL\VectorMath\VectorMath\bin\Debug\VectorMath.dll
 C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\DLL\VectorMath\VectorMath\bin\Debug\VectorMath.pdb
-C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\DLL\VectorMath\VectorMath\obj\Debug\VectorMath.csprojResolveAssemblyReference.cache
 C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\DLL\VectorMath\VectorMath\obj\Debug\VectorMath.dll
 C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\DLL\VectorMath\VectorMath\obj\Debug\VectorMath.pdb
 D:\HighlightEngine\HighlightEngine\DLL\VectorMath\VectorMath\bin\Debug\VectorMath.dll
@@ -17,3 +16,4 @@ D:\HighlightEngine\HighlightEngine\DLL\VectorMath\VectorMath\obj\Debug\VectorMat
 D:\HighlightEngine\HighlightEngine\DLL\VectorMath\VectorMath\obj\Debug\VectorMath.dll
 D:\HighlightEngine\HighlightEngine\DLL\VectorMath\VectorMath\obj\Debug\VectorMath.pdb
 D:\HighlightEngine\HighlightEngine\DLL\VectorMath\VectorMath\obj\Debug\VectorMath.csprojAssemblyReference.cache
+C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\DLL\VectorMath\VectorMath\obj\Debug\VectorMath.csprojResolveAssemblyReference.cache

@@ -86,7 +86,7 @@ namespace MassiveGame.Core.RenderCore.PostFX.LensFlare
             lensShader.startProgram();
             renderTarget.frameTextureLowRezolution.BindTexture(TextureUnit.Texture0);
             lensShader.setUniformValuesThreshold(0, this.threshold);
-            VAOManager.renderBuffers(quadBuffer, PrimitiveType.Triangles);
+            quadBuffer.RenderVAO(PrimitiveType.Triangles);
             lensShader.stopProgram();
 
             /*Lens effect*/
@@ -96,7 +96,7 @@ namespace MassiveGame.Core.RenderCore.PostFX.LensFlare
             renderTarget.horizontalBlurTexture.BindTexture(TextureUnit.Texture0);
             lensColor.bindTexture1D(TextureUnit.Texture1, lensColor.TextureID[0]);
             lensShader.setUniformValuesLens(0, 1, this.Ghosts, this.HaloWidth, this.Distortion, this.GhostDispersal);
-            VAOManager.renderBuffers(quadBuffer, PrimitiveType.Triangles);
+            quadBuffer.RenderVAO(PrimitiveType.Triangles);
             lensShader.stopProgram();
 
             /*Extra passes for blur*/
@@ -108,7 +108,7 @@ namespace MassiveGame.Core.RenderCore.PostFX.LensFlare
                 lensShader.startProgram();
                 renderTarget.verticalBlurTexture.BindTexture(TextureUnit.Texture0);
                 lensShader.setUniformValuesHorizontalBlur(0, normalizedWeights(BlurWidth), getPixOffset(BlurWidth), actualScreenRezolution);
-                VAOManager.renderBuffers(quadBuffer, PrimitiveType.Triangles);
+                quadBuffer.RenderVAO(PrimitiveType.Triangles);
                 lensShader.stopProgram();
 
                 /*Vertical Blur effect*/
@@ -117,7 +117,7 @@ namespace MassiveGame.Core.RenderCore.PostFX.LensFlare
                 lensShader.startProgram();
                 renderTarget.horizontalBlurTexture.BindTexture(TextureUnit.Texture0);
                 lensShader.setUniformValuesHorizontalBlur(0, normalizedWeights(BlurWidth), getPixOffset(BlurWidth), actualScreenRezolution);
-                VAOManager.renderBuffers(quadBuffer, PrimitiveType.Triangles);
+                quadBuffer.RenderVAO(PrimitiveType.Triangles);
                 lensShader.stopProgram();
             }
 
@@ -134,7 +134,7 @@ namespace MassiveGame.Core.RenderCore.PostFX.LensFlare
 
             renderTarget.verticalBlurTexture.BindTexture(TextureUnit.Texture0);
             lensShader.setUniformValuesMod(0);
-            VAOManager.renderBuffers(quadBuffer, PrimitiveType.Triangles);
+            quadBuffer.RenderVAO(PrimitiveType.Triangles);
             lensShader.stopProgram();
 
             renderTarget.unbindFramebuffer();

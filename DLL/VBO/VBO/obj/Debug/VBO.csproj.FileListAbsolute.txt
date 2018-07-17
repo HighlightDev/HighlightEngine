@@ -42,4 +42,3 @@ D:\HighlightEngine\HighlightEngine\DLL\VBO\VBO\obj\Debug\VBO.csproj.CopyComplete
 D:\HighlightEngine\HighlightEngine\DLL\VBO\VBO\obj\Debug\VBO.dll
 D:\HighlightEngine\HighlightEngine\DLL\VBO\VBO\obj\Debug\VBO.pdb
 D:\HighlightEngine\HighlightEngine\DLL\VBO\VBO\obj\Debug\VBO.csprojAssemblyReference.cache
-C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\DLL\VBO\VBO\obj\Debug\VBO.csprojResolveAssemblyReference.cache

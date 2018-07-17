@@ -12,6 +12,7 @@ using MassiveGame.Core.RenderCore.Lights;
 using MassiveGame.Core.RenderCore;
 using MassiveGame.Core.GameCore.Water;
 using MassiveGame.Settings;
+using VBO;
 
 namespace MassiveGame.Core.GameCore.Terrain
 {
@@ -23,8 +24,7 @@ namespace MassiveGame.Core.GameCore.Terrain
         public const float MAX_PIXEL_COLOUR = 256 * 3;
         public readonly float MapSize;
         public readonly float MaximumHeight;
-        private VAO _buffer;
-        private VBOArrayF _attribs;
+        private VertexArrayObject _buffer;
         private bool _postConstructor;
         private LandscapeShader _shader;
         private Material _terrainMaterial;
@@ -161,14 +161,9 @@ namespace MassiveGame.Core.GameCore.Terrain
             liteReflectionShader.SetTransformationMatrices(ref mirrorMatrix, ref modelMatrix, camera.GetViewMatrix(), ref ProjectionMatrix);
             liteReflectionShader.SetDirectionalLight(Sun);
             liteReflectionShader.SetClippingPlane(ref clipPlane);
-            VAOManager.renderBuffers(_buffer, PrimitiveType.Triangles);   //Отправляем рендеринг на GPU
+            _buffer.RenderVAO(PrimitiveType.Triangles);
             liteReflectionShader.stopProgram();
             GL.Disable(EnableCap.ClipDistance0);
-        }
-
-        internal void renderTerrain(PrimitiveType mode, DirectionalLight sun, List<PointLight> pointLight, BaseCamera camera, Matrix4 projectionMatrix)
-        {
-            throw new NotImplementedException();
         }
 
         public void RenderWaterRefraction(DirectionalLight Sun, BaseCamera camera, ref Matrix4 ProjectionMatrix, Vector4 clipPlane)
@@ -197,7 +192,7 @@ namespace MassiveGame.Core.GameCore.Terrain
             liteRefractionShader.SetTransformationMatrices(ref modelMatrix, camera.GetViewMatrix(), ref ProjectionMatrix);
             liteRefractionShader.SetDirectionalLight(Sun);
             liteRefractionShader.SetClippingPlane(ref clipPlane);
-            VAOManager.renderBuffers(_buffer, PrimitiveType.Triangles);
+            _buffer.RenderVAO(PrimitiveType.Triangles);
             liteRefractionShader.stopProgram();
             GL.Disable(EnableCap.ClipDistance0);
         }
@@ -252,7 +247,7 @@ namespace MassiveGame.Core.GameCore.Terrain
             _shader.SetClippingPlane(ref clipPlane);
             _shader.SetDirectionalLightShadowMap(9);
 
-            VAOManager.renderBuffers(_buffer, mode);
+            _buffer.RenderVAO(mode);
             _shader.stopProgram();
         }
 
@@ -271,10 +266,7 @@ namespace MassiveGame.Core.GameCore.Terrain
                 liteRefractionShader = (WaterRefractionTerrainShader)ResourcePool.GetShaderProgram(ProjectFolders.ShadersPath + "waterRefractionTerrainVS.glsl",
                 ProjectFolders.ShadersPath + "waterRefractionTerrainFS.glsl", "", typeof(WaterRefractionTerrainShader));
 
-                this._attribs = LandscapeBuilder.getTerrainAttributes(this.LandscapeMap, this._normalsSmoothLvl);
-                _buffer = new VAO(_attribs);
-                VAOManager.genVAO(_buffer); 
-                VAOManager.setBufferData(BufferTarget.ArrayBuffer, _buffer); 
+                _buffer = LandscapeBuilder.getTerrainAttributes(this.LandscapeMap, this._normalsSmoothLvl);
                 this._postConstructor = !this._postConstructor;
             }
         }
@@ -317,7 +309,7 @@ namespace MassiveGame.Core.GameCore.Terrain
             ResourcePool.ReleaseShaderProgram(_shader);
             ResourcePool.ReleaseShaderProgram(liteReflectionShader);
             ResourcePool.ReleaseShaderProgram(liteRefractionShader);
-            VAOManager.cleanUp(_buffer);
+            _buffer.CleanUp();
             if (_normalMapR != null) ResourcePool.ReleaseTexture(_normalMapR);
             if (_normalMapG != null) ResourcePool.ReleaseTexture(_normalMapG);
             if (_normalMapB != null) ResourcePool.ReleaseTexture(_normalMapB);
@@ -349,7 +341,7 @@ namespace MassiveGame.Core.GameCore.Terrain
             return Matrix4.Identity;
         }
 
-        public VAO GetMesh()
+        public VertexArrayObject GetMeshVao()
         {
             return _buffer;
         }

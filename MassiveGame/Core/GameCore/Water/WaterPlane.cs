@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using OpenTK;
 using OpenTK.Graphics.OpenGL;
-using GpuGraphics;
 using TextureLoader;
 using PhysicsBox;
 using MassiveGame.API.Collector;
@@ -11,6 +11,7 @@ using MassiveGame.Core.RenderCore.Lights;
 using MassiveGame.Core.RenderCore.Visibility;
 using MassiveGame.Core.RenderCore;
 using MassiveGame.Settings;
+using VBO;
 
 namespace MassiveGame.Core.GameCore.Water
 {
@@ -45,8 +46,7 @@ namespace MassiveGame.Core.GameCore.Water
         private float _moveFactor;
         private ITexture _waterDistortionMap;
         private ITexture _waterNormalMap;
-        private VBOArrayF _attribs;
-        private VAO _buffer;
+        private VertexArrayObject _buffer;
         private WaterShader _shader;
         public WaterFBO _fbo;
         private bool _postConstructor;
@@ -73,11 +73,11 @@ namespace MassiveGame.Core.GameCore.Water
             {
                 /*TODO - calculate average value of water height*/
                 var retValue = 0.0f;
-                for (Int32 i = 0; i < _attribs.Vertices.Length / 3; i++)
+                for (Int32 i = 0; i < _buffer.GetVertexBufferArray().First().GetBufferElementsCount(); i++)
                 {
-                    retValue += _attribs.Vertices[i, 1];
+                    retValue += ((float[,])(_buffer.GetVertexBufferArray().First().GetBufferData()))[i, 1];
                 }
-                return ((retValue / (_attribs.Vertices.Length / 3)) + _translation.Y);
+                return ((retValue / _buffer.GetVertexBufferArray().First().GetBufferElementsCount()) + _translation.Y);
             }
         }
 
@@ -155,7 +155,7 @@ namespace MassiveGame.Core.GameCore.Water
             postConstructor();
             stencilPassShader.startProgram();
             stencilPassShader.SetUniformVariables(ref projectionMatrix, camera.GetViewMatrix(), ref modelMatrix);
-            VAOManager.renderBuffers(this._buffer, PrimitiveType.Triangles);
+            _buffer.RenderVAO(PrimitiveType.Triangles);
             stencilPassShader.stopProgram();
         }
 
@@ -190,7 +190,7 @@ namespace MassiveGame.Core.GameCore.Water
 
             GL.Enable(EnableCap.Blend);
             GL.BlendFunc(BlendingFactorSrc.SrcAlpha, BlendingFactorDest.OneMinusSrcAlpha);
-            VAOManager.renderBuffers(this._buffer, PrimitiveType.Triangles);
+            _buffer.RenderVAO(PrimitiveType.Triangles);
             GL.Disable(EnableCap.Blend);
             this._shader.stopProgram();
         }
@@ -212,8 +212,19 @@ namespace MassiveGame.Core.GameCore.Water
         {
             if (this._postConstructor)
             {
-                VAOManager.genVAO(this._buffer);
-                VAOManager.setBufferData(BufferTarget.ArrayBuffer, this._buffer);
+                float[,] vertices = new float[6, 3] { { -1.0f, 0.0f, 1.0f }, { 1.0f, 0.0f, 1.0f }, { 1.0f, 0.0f, -1.0f }, { 1.0f, 0.0f, -1.0f }, { -1.0f, 0.0f, -1.0f }, { -1.0f, 0.0f, 1.0f } };
+                float[,] normals = new float[6, 3] { { 0.0f, 1.0f, 0.0f }, { 0.0f, 1.0f, 0.0f }, { 0.0f, 1.0f, 0.0f }, { 0.0f, 1.0f, 0.0f }, { 0.0f, 1.0f, 0.0f }, { 0.0f, 1.0f, 0.0f } };
+                float[,] texCoords = new float[6, 2] { { 0, 1 }, { 1, 1 }, { 1, 0 }, { 1, 0 }, { 0, 0 }, { 0, 1 } };
+
+                VertexBufferObject<float> verticesVBO = new VertexBufferObject<float>(vertices, BufferTarget.ArrayBuffer, 0, 3, VertexBufferObjectBase.DataCarryFlag.Store);
+                VertexBufferObject<float> normalsVBO = new VertexBufferObject<float>(normals, BufferTarget.ArrayBuffer, 1, 3, VertexBufferObjectBase.DataCarryFlag.Invalidate);
+                VertexBufferObject<float> texCoordsVBO = new VertexBufferObject<float>(texCoords, BufferTarget.ArrayBuffer, 2, 2, VertexBufferObjectBase.DataCarryFlag.Invalidate);
+                VertexBufferObject<float> tangentsVBO = new VertexBufferObject<float>(VectorMath.AdditionalVertexInfoCreator.CreateTangentVertices(vertices, texCoords), BufferTarget.ArrayBuffer, 3, 3, VertexBufferObjectBase.DataCarryFlag.Invalidate);
+                VertexBufferObject<float> bitangentsVBO = new VertexBufferObject<float>(VectorMath.AdditionalVertexInfoCreator.CreateBitangentVertices(vertices, texCoords), BufferTarget.ArrayBuffer, 4, 3, VertexBufferObjectBase.DataCarryFlag.Invalidate);
+
+                _buffer = new VertexArrayObject();
+                _buffer.AddVBO(verticesVBO, normalsVBO, texCoordsVBO, tangentsVBO, bitangentsVBO);
+                _buffer.BindVbosToVao();
 
                 this._shader = (WaterShader)ResourcePool.GetShaderProgram(ProjectFolders.ShadersPath + "waterVS.glsl",
                     ProjectFolders.ShadersPath + "waterFS.glsl", "", typeof(WaterShader));
@@ -236,15 +247,11 @@ namespace MassiveGame.Core.GameCore.Water
             this._rotation = rotation;
             this._scaling = scaling;
             /*Nominal water coords*/
-            this._attribs = new VBOArrayF(new float[6, 3] { { -1.0f, 0.0f, 1.0f }, { 1.0f, 0.0f, 1.0f }, { 1.0f, 0.0f, -1.0f }, { 1.0f, 0.0f, -1.0f }, { -1.0f, 0.0f, -1.0f }, { -1.0f, 0.0f, 1.0f } },
-                new float[6, 3] { { 0.0f, 1.0f, 0.0f }, { 0.0f, 1.0f, 0.0f }, { 0.0f, 1.0f, 0.0f }, { 0.0f, 1.0f, 0.0f }, { 0.0f, 1.0f, 0.0f }, { 0.0f, 1.0f, 0.0f } },
-                new float[6, 2] { { 0, 1 }, { 1, 1 }, { 1, 0 }, { 1, 0 }, { 0, 0 }, { 0, 1 } }, true);
             this.quad = new CollisionQuad(-1.0f, 1.0f, 0.0f, 0.0f, -1.0f, 1.0f);
             _moveFactor = 0.0f;
             _waveSpeed = 0.3f;
             _waveStrength = 0.04f;
             _transparencyDepth = 10000f;
-            this._buffer = new VAO(this._attribs);
             /*First pass postconstructor*/
             this._postConstructor = true;
             this.Quality = quality;
@@ -270,7 +277,7 @@ namespace MassiveGame.Core.GameCore.Water
 
         public void cleanUp()
         {
-            VAOManager.cleanUp(this._buffer);
+            _buffer.CleanUp();
             ResourcePool.ReleaseTexture(this._waterDistortionMap);
             ResourcePool.ReleaseTexture(this._waterNormalMap);
             ResourcePool.ReleaseShaderProgram(this._shader);

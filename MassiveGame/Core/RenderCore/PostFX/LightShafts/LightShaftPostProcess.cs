@@ -99,7 +99,7 @@ namespace MassiveGame.Core.RenderCore.PostFX.LightShafts
             shader.SetRadialBlurDensity(Density);
             shader.SetRadialBlurNumberOfSamples(NumSamples);
             shader.SetRadialBlurWeight(Weight);
-            VAOManager.renderBuffers(quadBuffer, PrimitiveType.Triangles);
+            quadBuffer.RenderVAO(PrimitiveType.Triangles);
             shader.stopProgram();
 
             renderTarget.unbindFramebuffer();

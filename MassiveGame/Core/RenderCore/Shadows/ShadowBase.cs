@@ -1,5 +1,4 @@
-﻿using GpuGraphics;
-using MassiveGame.API.Collector;
+﻿using MassiveGame.API.Collector;
 using OpenTK;
 using System;
 using System.Collections.Generic;
@@ -66,7 +65,7 @@ namespace MassiveGame.Core.RenderCore.Shadows
                 if (actor != null)
                 {
                     shadowShader.SetUniformValues(actor.GetWorldMatrix(), shadowViewMatrix, shadowProjectionMatrix);
-                    VAOManager.renderBuffers(actor.GetMesh(), OpenTK.Graphics.OpenGL.PrimitiveType.Triangles);
+                    actor.GetMeshVao().RenderVAO(PrimitiveType.Triangles);
                 }
             }
             shadowShader.stopProgram();

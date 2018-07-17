@@ -29,7 +29,7 @@ namespace MassiveGame.Core.GameCore.Entities.EnvironmentEntities
             _texture.BindTexture(TextureUnit.Texture0);
             _envMap.BindTexture(TextureUnit.Texture1);
             _shader.setUniformValues(ref modelMatrix, camera.GetViewMatrix(), ref projectionMatrix, camera.GetEyeVector(), 0, 1);
-            VAOManager.renderBuffers(this._model.Buffer, PrimitiveType.Triangles);
+            _model.Buffer.RenderVAO(PrimitiveType.Triangles);
             _shader.stopProgram();
         }
 

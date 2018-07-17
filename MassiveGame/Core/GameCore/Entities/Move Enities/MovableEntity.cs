@@ -7,7 +7,6 @@ using PhysicsBox.MathTypes;
 using MassiveGame.Core.PhysicsCore;
 using MassiveGame.Core.RenderCore.Lights;
 using MassiveGame.Core.GameCore.Water;
-using GpuGraphics;
 using TextureLoader;
 using MassiveGame.Settings;
 using MassiveGame.API.Collector;
@@ -134,7 +133,7 @@ namespace MassiveGame.Core.GameCore.Entities.MoveEntities
             liteRefractionShader.SetDirectionalLight(Sun);
             liteRefractionShader.SetClipPlane(ref clipPlane);
 
-            VAOManager.renderBuffers(_model.Buffer, PrimitiveType.Triangles);
+            _model.Buffer.RenderVAO(PrimitiveType.Triangles);
             liteRefractionShader.stopProgram();
         }
 
@@ -165,7 +164,7 @@ namespace MassiveGame.Core.GameCore.Entities.MoveEntities
             liteReflectionShader.SetDirectionalLight(Sun);
             liteReflectionShader.SetClipPlane(ref clipPlane);
 
-            VAOManager.renderBuffers(_model.Buffer, PrimitiveType.Triangles);
+            _model.Buffer.RenderVAO(PrimitiveType.Triangles);
             liteReflectionShader.stopProgram();
         }
 
@@ -207,7 +206,7 @@ namespace MassiveGame.Core.GameCore.Entities.MoveEntities
             shader.SetDirectionalLightShadowMap(1);
 
 
-            VAOManager.renderBuffers(_model.Buffer, mode);
+            _model.Buffer.RenderVAO(mode);
             shader.stopProgram();
         }
 

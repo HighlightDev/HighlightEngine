@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using GpuGraphics;
 using TextureLoader;
 
 using OpenTK;
@@ -84,7 +83,7 @@ namespace MassiveGame.Core.GameCore.Entities.StaticEntities
             liteReflectionShader.SetDirectionalLight(Sun);
             liteReflectionShader.SetClipPlane(ref clipPlane);
 
-            VAOManager.renderBuffers(_model.Buffer, PrimitiveType.Triangles);
+            _model.Buffer.RenderVAO(PrimitiveType.Triangles);
             liteReflectionShader.stopProgram();
         }
 
@@ -117,7 +116,7 @@ namespace MassiveGame.Core.GameCore.Entities.StaticEntities
             liteRefractionShader.SetDirectionalLight(Sun);
             liteRefractionShader.SetClipPlane(ref clipPlane);
 
-            VAOManager.renderBuffers(_model.Buffer, PrimitiveType.Triangles);
+            _model.Buffer.RenderVAO(PrimitiveType.Triangles);
             liteRefractionShader.stopProgram();
         }
 
@@ -173,7 +172,7 @@ namespace MassiveGame.Core.GameCore.Entities.StaticEntities
             }
             _shader.SetDirectionalLightShadowMap(4);
 
-            VAOManager.renderBuffers(_model.Buffer, mode);
+            _model.Buffer.RenderVAO(mode);
             _shader.stopProgram();
 
             /*Show normal for every vertex*/
@@ -182,7 +181,7 @@ namespace MassiveGame.Core.GameCore.Entities.StaticEntities
                 _specialShader.startProgram();
                 _specialShader.setUniformValues(ref modelMatrix, camera.GetViewMatrix(),
                     ref ProjectionMatrix);
-                VAOManager.renderBuffers(_model.Buffer, PrimitiveType.Triangles);
+                _model.Buffer.RenderVAO(PrimitiveType.Triangles);
                 _specialShader.stopProgram();
             }
         }

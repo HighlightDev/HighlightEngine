@@ -1,5 +1,4 @@
-﻿using GpuGraphics;
-using MassiveGame.API.Collector;
+﻿using MassiveGame.API.Collector;
 using MassiveGame.Core.RenderCore;
 using MassiveGame.Settings;
 using OpenTK;
@@ -9,12 +8,13 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using TextureLoader;
+using VBO;
 
 namespace MassiveGame.Debug.UiPanel
 {
     public class UiFrameMaster
     {
-        private VAO _buffer;
+        private VertexArrayObject _buffer;
         private UiFrameShader _shader;
         private bool _postConstructor;
 
@@ -79,7 +79,7 @@ namespace MassiveGame.Debug.UiPanel
             _shader.SetIsDepthTexture(bDepthTexture);
             _shader.SetUiTextureSampler(0);
             _shader.SetScreenSpaceMatrix(screenSpaceMatrix);
-            VAOManager.renderBuffers(_buffer, PrimitiveType.Triangles);
+            _buffer.RenderVAO(PrimitiveType.Triangles);
             _shader.stopProgram();
         }
 
@@ -93,7 +93,7 @@ namespace MassiveGame.Debug.UiPanel
             _shader.SetUiTextureSampler(0);
             _shader.SetScreenSpaceMatrix(Matrix4.Identity);
             _shader.SetIsDepthTexture(false);
-            VAOManager.renderBuffers(_buffer, PrimitiveType.Triangles);
+            _buffer.RenderVAO(PrimitiveType.Triangles);
             _shader.stopProgram();
         }
 

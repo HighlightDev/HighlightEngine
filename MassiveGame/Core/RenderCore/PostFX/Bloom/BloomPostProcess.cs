@@ -55,7 +55,7 @@ namespace MassiveGame.Core.RenderCore.PostFX.Bloom
             bloomShader.startProgram();
             frameColorTexture.BindTexture(TextureUnit.Texture0);
             bloomShader.setExtractingBrightPixelsUniforms(0, BloomThreshold);
-            VAOManager.renderBuffers(quadBuffer, PrimitiveType.Triangles);
+            quadBuffer.RenderVAO(PrimitiveType.Triangles);
             bloomShader.stopProgram();
 
             /*Gauss blur*/
@@ -66,7 +66,7 @@ namespace MassiveGame.Core.RenderCore.PostFX.Bloom
                 bloomShader.startProgram();
                 renderTarget.verticalBlurTexture.BindTexture(TextureUnit.Texture0);
                 bloomShader.setHorizontalBlurUniforms(0, blurWeights, getPixOffset(BlurWidth), renderTarget.verticalBlurTexture.GetTextureRezolution());
-                VAOManager.renderBuffers(quadBuffer, PrimitiveType.Triangles);
+                quadBuffer.RenderVAO(PrimitiveType.Triangles);
                 bloomShader.stopProgram();
 
                 /*Vertical blur of bright parts of image*/
@@ -74,7 +74,7 @@ namespace MassiveGame.Core.RenderCore.PostFX.Bloom
                 bloomShader.startProgram();
                 renderTarget.horizontalBlurTexture.BindTexture(TextureUnit.Texture0);
                 bloomShader.setVerticalBlurUniforms(0, blurWeights, getPixOffset(BlurWidth), renderTarget.horizontalBlurTexture.GetTextureRezolution());
-                VAOManager.renderBuffers(quadBuffer, PrimitiveType.Triangles);
+                quadBuffer.RenderVAO(PrimitiveType.Triangles);
                 bloomShader.stopProgram();
             }
 
@@ -90,7 +90,7 @@ namespace MassiveGame.Core.RenderCore.PostFX.Bloom
            
             renderTarget.verticalBlurTexture.BindTexture(TextureUnit.Texture0);
             bloomShader.setEndBloomUniforms(0);
-            VAOManager.renderBuffers(quadBuffer, PrimitiveType.Triangles);
+            quadBuffer.RenderVAO(PrimitiveType.Triangles);
             bloomShader.stopProgram();
 
             renderTarget.unbindFramebuffer();
