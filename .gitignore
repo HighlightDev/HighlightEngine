@@ -2,11 +2,9 @@ MassiveGame/Debug/ProjectLogs.txt
 *.cache
 *.exe
 *.pdb
-*.csproj
 *.suo
 *.cd
 *.config
-*.sln
 *.md
 *.ide
 *.ide-shm
