@@ -4,7 +4,6 @@ using MassiveGame.API.Collector.ShaderCollect;
 using MassiveGame.API.Collector.TextureCollect;
 using System;
 using System.Linq;
-using System.Reflection;
 using TextureLoader;
 using MassiveGame.API.Collector.RenderTargetCollect;
 using VBO;
@@ -111,19 +110,10 @@ namespace MassiveGame.API.Collector
             return result;
         }
 
-        public static Shader GetShaderProgram(string vsKey, string fsKey, string gsKey, Type type)
+        public static T GetShaderProgram<T>(string vsKey, string fsKey, string gsKey) where T : new()
         {
-            var ctor = GetCtor(type, vsKey, fsKey, gsKey);
             var key = GetShaderCompositeKey(vsKey, fsKey, gsKey);
-            return shaderCollector.GetShader(key, ctor);
-        }
-
-        private static ConstructorInfo GetCtor(Type ownerType, string vsKey, string fsKey, string gsKey)
-        {
-            Type[] argsType = new Type[gsKey == String.Empty ? 2 : 3];
-            for (Int32 i = 0; i < argsType.Length; i++)
-                argsType[i] = typeof(string);
-            return ownerType.GetConstructor(argsType);
+            return shaderCollector.GetShader<T>(key);
         }
 
         private static string GetShaderCompositeKey(string vsKey, string fsKey, string gsKey)

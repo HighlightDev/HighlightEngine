@@ -22,6 +22,8 @@ namespace MassiveGame.Core.RenderCore
         {
         }
 
+        public CopyTextureShader() : base() { }
+
         public CopyTextureShader(string VertexShaderFile, string FragmentShaderFile) 
             : base(SHADER_NAME, VertexShaderFile, FragmentShaderFile)
         {

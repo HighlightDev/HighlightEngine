@@ -51,6 +51,8 @@ namespace MassiveGame.Debug.UiPanel
 
         #region Constructor
 
+        public UiFrameShader() : base() { }
+
         public UiFrameShader(string vsPath, string fsPath)
             : base(SHADER_NAME, vsPath, fsPath)
         {

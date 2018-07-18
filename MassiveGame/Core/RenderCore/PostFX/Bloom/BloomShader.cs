@@ -5,13 +5,14 @@ using OpenTK;
 
 namespace MassiveGame.Core.RenderCore.PostFX.Bloom
 {
-    public class BloomShader<T> : PostProcessShaderBase<T> where T : PostProcessSubsequenceType
+    public class BloomShader<SubsequenceType> : PostProcessShaderBase<SubsequenceType>
+        where SubsequenceType : PostProcessSubsequenceType
     {
         #region Definations
 
         private const string SHADER_NAME = "Bloom shader";
 
-        private const Int32 BLUR_WIDTH = BloomPostProcess<T>.MAX_BLUR_WIDTH;
+        private const Int32 BLUR_WIDTH = BloomPostProcess<SubsequenceType>.MAX_BLUR_WIDTH;
         Int32 frameTexture, blurTexture, screenWidth, screenHeight, blurWidth,
             bloomThreshold, subroutineVerticalBlur, subroutineHorizontalBlur, subroutineExtractBrightParts, subroutineEndBloom;
 
@@ -96,6 +97,8 @@ namespace MassiveGame.Core.RenderCore.PostFX.Bloom
         }
 
         #region Constructor
+        
+        public BloomShader() : base() { }
 
         public BloomShader(string vsPath, string fsPath)
             : base(SHADER_NAME, vsPath, fsPath)

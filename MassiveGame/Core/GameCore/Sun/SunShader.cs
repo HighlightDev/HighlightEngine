@@ -62,6 +62,8 @@ namespace MassiveGame.Core.GameCore.Sun
 
         #region Constructor
 
+        public SunShader() : base() { }
+
         public SunShader(string VSPath, string FSPath)
             : base(SHADER_NAME, VSPath, FSPath)
         {

@@ -14,6 +14,8 @@ namespace MassiveGame.Core.GameCore.Water
               ModelMatrix, ViewMatrix, ProjectionMatrix, sunDirection,
               sunAmbientColour, sunDiffuseColour, sunEnable, clipPlane;
               
+        public WaterRefractionTerrainShader() : base() { }
+
         public WaterRefractionTerrainShader(string VertexShaderFile, string FragmentShaderFile) 
             : base(SHADER_NAME, VertexShaderFile, FragmentShaderFile)
         {

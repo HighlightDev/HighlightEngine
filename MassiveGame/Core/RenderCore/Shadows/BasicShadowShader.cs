@@ -26,6 +26,8 @@ namespace MassiveGame.Core.RenderCore.Shadows
             loadMatrix(this.shadowProjectionMatrix, false, shadowProjectionMatrix);
         }
 
+        public BasicShadowShader() : base() { }
+
         public BasicShadowShader(string VertexShaderFile, string FragmentShaderFile) 
             : base(SHADER_NAME, VertexShaderFile, FragmentShaderFile)
         {

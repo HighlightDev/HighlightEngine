@@ -28,6 +28,8 @@ namespace MassiveGame.Core.GameCore.Water
             specularMap,
             bSpecularMapEnable;
 
+        public WaterRefractionEntityShader() : base() { }
+
         public WaterRefractionEntityShader(string VertexShaderFile, string FragmentShaderFile) 
             : base(SHADER_NAME, VertexShaderFile, FragmentShaderFile)
         {

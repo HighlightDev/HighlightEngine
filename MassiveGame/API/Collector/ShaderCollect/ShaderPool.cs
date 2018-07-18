@@ -1,5 +1,4 @@
 ﻿using ShaderPattern;
-using System.Reflection;
 
 namespace MassiveGame.API.Collector.ShaderCollect
 {
@@ -12,9 +11,9 @@ namespace MassiveGame.API.Collector.ShaderCollect
             shaderCollection = new ShaderCollection();
         }
 
-        public Shader GetShader(string key, ConstructorInfo ctor)
+        public ShaderType GetShader<ShaderType>(string key) where ShaderType : new()
         {
-            return shaderCollection.RetrieveShader(key, ctor);
+            return shaderCollection.RetrieveShader<ShaderType>(key);
         }
 
         public void ReleaseShader(string key)

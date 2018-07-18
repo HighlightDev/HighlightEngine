@@ -169,6 +169,8 @@ namespace MassiveGame.Core.GameCore.Water
 
         #region Constructor
 
+        public WaterShader() : base() { }
+
         public WaterShader(string vsPath, string fsPath)
             : base(SHADER_NAME, vsPath, fsPath)
         {

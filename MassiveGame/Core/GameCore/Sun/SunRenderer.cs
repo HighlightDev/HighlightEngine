@@ -131,8 +131,8 @@ namespace MassiveGame.Core.GameCore.Sun
                 _buffer.AddVBO(verticesVBO, normalsVBO, texCoordsVBO);
                 _buffer.BindVbosToVao();
 
-                _shader = (SunShader)ResourcePool.GetShaderProgram(ProjectFolders.ShadersPath + "sunVS.glsl",
-                    ProjectFolders.ShadersPath + "sunFS.glsl", "", typeof(SunShader));
+                _shader = ResourcePool.GetShaderProgram<SunShader>(ProjectFolders.ShadersPath + "sunVS.glsl",
+                    ProjectFolders.ShadersPath + "sunFS.glsl", "");
                 _postConstructor = !_postConstructor;
             }
         }

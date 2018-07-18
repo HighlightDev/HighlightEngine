@@ -192,8 +192,8 @@ namespace MassiveGame.Core.GameCore.Entities.StaticEntities
                 VAOManager.genVAO(_buffer);
                 VAOManager.setBufferData(BufferTarget.ArrayBuffer, _buffer);
 
-                _shader = (PlantShader)ResourcePool.GetShaderProgram(ProjectFolders.ShadersPath + "plantVertexShader.glsl",
-                  ProjectFolders.ShadersPath + "plantFragmentShader.glsl", "", typeof(PlantShader));
+                _shader = ResourcePool.GetShaderProgram<PlantShader>(ProjectFolders.ShadersPath + "plantVertexShader.glsl",
+                  ProjectFolders.ShadersPath + "plantFragmentShader.glsl", "");
                 this._postConstructor = !this._postConstructor;
             }
         }

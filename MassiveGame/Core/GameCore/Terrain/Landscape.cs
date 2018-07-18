@@ -259,12 +259,12 @@ namespace MassiveGame.Core.GameCore.Terrain
         {
             if (this._postConstructor)
             {
-                _shader = (LandscapeShader)ResourcePool.GetShaderProgram(ProjectFolders.ShadersPath + "terrainVertexShader.glsl",
-                ProjectFolders.ShadersPath + "terrainFragmentShader.glsl", "", typeof(LandscapeShader));
-                liteReflectionShader = (WaterReflectionTerrainShader)ResourcePool.GetShaderProgram(ProjectFolders.ShadersPath + "waterReflectionTerrainVS.glsl",
-                ProjectFolders.ShadersPath + "waterReflectionTerrainFS.glsl", "", typeof(WaterReflectionTerrainShader));
-                liteRefractionShader = (WaterRefractionTerrainShader)ResourcePool.GetShaderProgram(ProjectFolders.ShadersPath + "waterRefractionTerrainVS.glsl",
-                ProjectFolders.ShadersPath + "waterRefractionTerrainFS.glsl", "", typeof(WaterRefractionTerrainShader));
+                _shader = ResourcePool.GetShaderProgram<LandscapeShader>(ProjectFolders.ShadersPath + "terrainVertexShader.glsl",
+                ProjectFolders.ShadersPath + "terrainFragmentShader.glsl", "");
+                liteReflectionShader = ResourcePool.GetShaderProgram<WaterReflectionTerrainShader>(ProjectFolders.ShadersPath + "waterReflectionTerrainVS.glsl",
+                ProjectFolders.ShadersPath + "waterReflectionTerrainFS.glsl", "");
+                liteRefractionShader = ResourcePool.GetShaderProgram<WaterRefractionTerrainShader>(ProjectFolders.ShadersPath + "waterRefractionTerrainVS.glsl",
+                ProjectFolders.ShadersPath + "waterRefractionTerrainFS.glsl", "");
 
                 _buffer = LandscapeBuilder.getTerrainAttributes(this.LandscapeMap, this._normalsSmoothLvl);
                 this._postConstructor = !this._postConstructor;

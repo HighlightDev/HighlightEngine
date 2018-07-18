@@ -6,12 +6,15 @@ namespace MassiveGame.Core.RenderCore.PostFX
     public interface ApplySubsequentPostProcessResult : PostProcessSubsequenceType { };
     public interface DiscardSubsequentPostProcessResult : PostProcessSubsequenceType { };
 
-    public class PostProcessShaderBase<T> : ShaderBase where T : PostProcessSubsequenceType
+    public class PostProcessShaderBase<SubsequenceType> : ShaderBase
+        where SubsequenceType : PostProcessSubsequenceType
     {
-        protected readonly PostProcessSubsequenceType_Inner PreviousPostProcessResult = typeof(T) == typeof(ApplySubsequentPostProcessResult) ?
+        protected readonly PostProcessSubsequenceType_Inner PreviousPostProcessResult = typeof(SubsequenceType) == typeof(ApplySubsequentPostProcessResult) ?
             PostProcessSubsequenceType_Inner.ApplyPreviousPostProcess : PostProcessSubsequenceType_Inner.DiscardPreviousPostProcess;
 
         Int32 previousPostProcessResultSampler = -1;
+
+        public PostProcessShaderBase() : base() { }
 
         public PostProcessShaderBase(string shaderName, string VertexShaderFile, string FragmentShaderFile)
             : base(shaderName, VertexShaderFile, FragmentShaderFile)

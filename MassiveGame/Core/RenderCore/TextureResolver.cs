@@ -14,11 +14,10 @@ namespace MassiveGame.Core.RenderCore
 
         static TextureResolver()
         {
-            copyShader = (CopyTextureShader)ResourcePool.GetShaderProgram(ProjectFolders.ShadersPath + "copyTextureVS.glsl", ProjectFolders.ShadersPath + "copyTextureFS.glsl", "",
-                    typeof(CopyTextureShader));
+            copyShader = ResourcePool.GetShaderProgram<CopyTextureShader>(ProjectFolders.ShadersPath + "copyTextureVS.glsl", ProjectFolders.ShadersPath + "copyTextureFS.glsl", "");
 
-            resolvePostProcessShader = (ResolvePostProcessResultToDefaultFramebufferShader)ResourcePool.GetShaderProgram(ProjectFolders.ShadersPath + "resolvePostProcessResultToDefaultFramebufferVS.glsl",
-                ProjectFolders.ShadersPath + "resolvePostProcessResultToDefaultFramebufferFS.glsl", "", typeof(ResolvePostProcessResultToDefaultFramebufferShader));
+            resolvePostProcessShader = ResourcePool.GetShaderProgram<ResolvePostProcessResultToDefaultFramebufferShader>(ProjectFolders.ShadersPath + "resolvePostProcessResultToDefaultFramebufferVS.glsl",
+                ProjectFolders.ShadersPath + "resolvePostProcessResultToDefaultFramebufferFS.glsl", "");
         }
 
         public static void ResolvePostProcessResultToDefaultFramebuffer(ITexture frameTexture, ITexture postProcessResultTexture, Point actualScreenRezolution)

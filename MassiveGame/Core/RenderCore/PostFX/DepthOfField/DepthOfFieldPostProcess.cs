@@ -9,7 +9,8 @@ using MassiveGame.Settings;
 
 namespace MassiveGame.Core.RenderCore.PostFX.DepthOfField
 {
-    public class DepthOfFieldPostProcess<T> : PostProcessBase where T : PostProcessSubsequenceType
+    public class DepthOfFieldPostProcess<SubsequenceType> : PostProcessBase
+        where SubsequenceType : PostProcessSubsequenceType
     {
         #region Definitions
        
@@ -34,7 +35,7 @@ namespace MassiveGame.Core.RenderCore.PostFX.DepthOfField
         }
 
         private DepthOfFieldFramebufferObject renderTarget;
-        private DepthOfFieldShader<T> dofShader;
+        private DepthOfFieldShader<SubsequenceType> dofShader;
 
         #endregion
 
@@ -52,8 +53,8 @@ namespace MassiveGame.Core.RenderCore.PostFX.DepthOfField
             if (bPostConstructor)
             {
                 renderTarget = new DepthOfFieldFramebufferObject();
-                dofShader = (DepthOfFieldShader<T>)ResourcePool.GetShaderProgram(ProjectFolders.ShadersPath + "depthOfFieldVS.glsl",
-                    ProjectFolders.ShadersPath + "depthOfFieldFS.glsl", "", typeof(DepthOfFieldShader<T>));
+                dofShader = ResourcePool.GetShaderProgram<DepthOfFieldShader<SubsequenceType>>(ProjectFolders.ShadersPath + "depthOfFieldVS.glsl",
+                    ProjectFolders.ShadersPath + "depthOfFieldFS.glsl", "");
 
                 bPostConstructor = false;
             }

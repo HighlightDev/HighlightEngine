@@ -8,31 +8,30 @@ namespace MassiveGame.API.Collector.ShaderCollect
 {
     public class ShaderCollection
     {
-        private Dictionary<string, Shader> shaderDictionary;
+        private Dictionary<string, object> shaderDictionary;
         private Dictionary<string, Int32> referenceCount;
 
         public ShaderCollection()
         {
-            shaderDictionary = new Dictionary<string, Shader>();
+            shaderDictionary = new Dictionary<string, object>();
             referenceCount = new Dictionary<string, Int32>();
         }
 
-        public Shader RetrieveShader(string key, ConstructorInfo ctor)
+        public ShaderType RetrieveShader<ShaderType>(string key) where ShaderType : new()
         {
-            return TryGetShader(key, ctor);
+            return TryGetShader<ShaderType>(key);
         }
 
-        private Shader TryGetShader(string compositeKey, ConstructorInfo ctor)
+        private ShaderType TryGetShader<ShaderType>(string compositeKey) where ShaderType:new()
         {
-            Shader result = null;
-            bool exist = shaderDictionary.TryGetValue(compositeKey, out result);
+            bool exist = shaderDictionary.TryGetValue(compositeKey, out object result);
             if (!exist)
             {
-                result = ShaderAllocator.LoadShaderFromFile(compositeKey, ctor);
+                result = ShaderAllocator.LoadShaderFromFile<ShaderType>(compositeKey);
                 shaderDictionary.Add(compositeKey, result);
             }
             IncreaseRefCounter(compositeKey, exist);
-            return result;
+            return (ShaderType)result;
         }
 
         private void IncreaseRefCounter(string key, bool exist)
@@ -59,7 +58,6 @@ namespace MassiveGame.API.Collector.ShaderCollect
 
         public void ReleaseShader(Shader shader)
         {
-
             bool exist = false;
             string key = null;
             exist = shaderDictionary.Any(value =>
@@ -87,7 +85,7 @@ namespace MassiveGame.API.Collector.ShaderCollect
             referenceCount[key]--;
             if (referenceCount[key] == 0)
             {
-                ShaderAllocator.ReleaseShader(shaderDictionary[key]);
+                ShaderAllocator.ReleaseShader((Shader)shaderDictionary[key]);
                 shaderDictionary.Remove(key);
                 referenceCount.Remove(key);
             }

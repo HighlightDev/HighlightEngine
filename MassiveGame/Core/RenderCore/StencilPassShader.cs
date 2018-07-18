@@ -8,6 +8,8 @@ namespace MassiveGame.Core.RenderCore
         private const string SHADER_NAME = "STENCIL PASS";
         private Int32 projectionMatrix, viewMatrix, worldMatrix;
 
+        public StencilPassShader() : base() { }
+
         public StencilPassShader(string VertexShaderFile, string FragmentShaderFile) 
             : base(SHADER_NAME, VertexShaderFile, FragmentShaderFile)
         {

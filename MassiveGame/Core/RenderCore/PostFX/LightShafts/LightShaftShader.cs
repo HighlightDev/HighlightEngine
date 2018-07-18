@@ -3,7 +3,8 @@ using OpenTK;
 
 namespace MassiveGame.Core.RenderCore.PostFX.LightShafts
 {
-    public class LightShaftShader<T> : PostProcessShaderBase<T> where T : PostProcessSubsequenceType
+    public class LightShaftShader<SubsequenceType> : PostProcessShaderBase<SubsequenceType>
+        where SubsequenceType : PostProcessSubsequenceType
     {
         #region Definitions
 
@@ -85,6 +86,8 @@ namespace MassiveGame.Core.RenderCore.PostFX.LightShafts
         }
 
         #region Constructor
+
+        public LightShaftShader() : base() { }
 
         public LightShaftShader(string VSPath, string FSPath)
             : base(SHADER_NAME, VSPath, FSPath)

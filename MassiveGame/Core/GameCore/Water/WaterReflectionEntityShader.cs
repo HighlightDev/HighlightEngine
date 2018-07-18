@@ -29,6 +29,8 @@ namespace MassiveGame.Core.GameCore.Water
             bSpecularMapEnable,
             lightWorldMatrix;
 
+        public WaterReflectionEntityShader() : base() { }
+
         public WaterReflectionEntityShader(string VertexShaderFile, string FragmentShaderFile) 
             : base(SHADER_NAME, VertexShaderFile, FragmentShaderFile)
         {

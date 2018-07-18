@@ -226,11 +226,10 @@ namespace MassiveGame.Core.GameCore.Water
                 _buffer.AddVBO(verticesVBO, normalsVBO, texCoordsVBO, tangentsVBO, bitangentsVBO);
                 _buffer.BindVbosToVao();
 
-                this._shader = (WaterShader)ResourcePool.GetShaderProgram(ProjectFolders.ShadersPath + "waterVS.glsl",
-                    ProjectFolders.ShadersPath + "waterFS.glsl", "", typeof(WaterShader));
+                _shader = ResourcePool.GetShaderProgram<WaterShader>(ProjectFolders.ShadersPath + "waterVS.glsl", ProjectFolders.ShadersPath + "waterFS.glsl", "");
 
-                stencilPassShader = (StencilPassShader)ResourcePool.GetShaderProgram(ProjectFolders.ShadersPath + "stencilPassVS.glsl",
-                    ProjectFolders.ShadersPath + "stencilPassFS.glsl", "", typeof(StencilPassShader));
+                stencilPassShader = ResourcePool.GetShaderProgram<StencilPassShader>(ProjectFolders.ShadersPath + "stencilPassVS.glsl",
+                    ProjectFolders.ShadersPath + "stencilPassFS.glsl", "");
 
                 this._fbo = new WaterFBO();
                 this._postConstructor = !this._postConstructor;

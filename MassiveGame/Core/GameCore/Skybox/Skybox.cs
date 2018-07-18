@@ -98,8 +98,8 @@ namespace MassiveGame.Core.GameCore.Skybox
         {
             if (this._postConstructor)
             {
-                shader = (SkyboxShader)ResourcePool.GetShaderProgram(ProjectFolders.ShadersPath + "skyboxVertexShader.glsl",
-                    ProjectFolders.ShadersPath + "skyboxFragmentShader.glsl", "", typeof(SkyboxShader));
+                shader = ResourcePool.GetShaderProgram<SkyboxShader>(ProjectFolders.ShadersPath + "skyboxVertexShader.glsl",
+                    ProjectFolders.ShadersPath + "skyboxFragmentShader.glsl", "");
 
                 float[,] vertices = new float[6 * 6, 3] { { -SKYBOX_SIZE, SKYBOX_SIZE, -SKYBOX_SIZE }, { -SKYBOX_SIZE, -SKYBOX_SIZE, -SKYBOX_SIZE }, { SKYBOX_SIZE, -SKYBOX_SIZE, -SKYBOX_SIZE },
             { SKYBOX_SIZE, -SKYBOX_SIZE, -SKYBOX_SIZE },{ SKYBOX_SIZE, SKYBOX_SIZE, -SKYBOX_SIZE },{ -SKYBOX_SIZE, SKYBOX_SIZE, -SKYBOX_SIZE },{ -SKYBOX_SIZE, -SKYBOX_SIZE, SKYBOX_SIZE },

@@ -103,8 +103,8 @@ namespace MassiveGame.Debug.UiPanel
             {
                 _buffer = ScreenQuad.GetScreenQuadBuffer();
 
-                _shader = (UiFrameShader)ResourcePool.GetShaderProgram(ProjectFolders.ShadersPath + "uiVS.glsl",
-                    ProjectFolders.ShadersPath + "uiFS.glsl", "", typeof(UiFrameShader));
+                _shader = ResourcePool.GetShaderProgram<UiFrameShader>(ProjectFolders.ShadersPath + "uiVS.glsl",
+                    ProjectFolders.ShadersPath + "uiFS.glsl", "");
                 _postConstructor = false;
 
             }

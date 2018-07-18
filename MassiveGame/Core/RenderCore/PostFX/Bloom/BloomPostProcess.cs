@@ -8,7 +8,8 @@ using MassiveGame.Settings;
 
 namespace MassiveGame.Core.RenderCore.PostFX.Bloom
 {
-    public class BloomPostProcess<T> : PostProcessBase where T : PostProcessSubsequenceType
+    public class BloomPostProcess<SubsequenceType> : PostProcessBase
+        where SubsequenceType : PostProcessSubsequenceType
     {
         private float bloomThreshold;
         public float BloomThreshold
@@ -18,7 +19,7 @@ namespace MassiveGame.Core.RenderCore.PostFX.Bloom
         }
 
         private BloomFramebufferObject renderTarget;
-        private BloomShader<T> bloomShader;
+        private BloomShader<SubsequenceType> bloomShader;
 
         public BloomPostProcess() : base()
         {
@@ -33,8 +34,8 @@ namespace MassiveGame.Core.RenderCore.PostFX.Bloom
             if (bPostConstructor)
             {
                 renderTarget = new BloomFramebufferObject();
-                bloomShader = (BloomShader<T>)ResourcePool.GetShaderProgram(ProjectFolders.ShadersPath + "bloomVS.glsl",
-                    ProjectFolders.ShadersPath + "bloomFS.glsl", "", typeof(BloomShader<T>));
+                bloomShader = ResourcePool.GetShaderProgram<BloomShader<SubsequenceType>>(ProjectFolders.ShadersPath + "bloomVS.glsl",
+                    ProjectFolders.ShadersPath + "bloomFS.glsl", "");
                 bPostConstructor = false;
             }
         }

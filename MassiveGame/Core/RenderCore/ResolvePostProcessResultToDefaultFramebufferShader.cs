@@ -23,6 +23,8 @@ namespace MassiveGame.Core.RenderCore
             loadInteger(this.postProcessResultSampler, postProcessResultSampler);
         }
 
+        public ResolvePostProcessResultToDefaultFramebufferShader() : base() { }
+
         public ResolvePostProcessResultToDefaultFramebufferShader(string VertexShaderFile, string FragmentShaderFile) 
             : base(SHADER_NAME, VertexShaderFile, FragmentShaderFile)
         {

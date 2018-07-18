@@ -39,8 +39,8 @@ namespace MassiveGame.Core.RenderCore.Light_visualization
         {
             if (_postConstructor)
             {
-                this._shader = (PointLightDebugShader)ResourcePool.GetShaderProgram(ProjectFolders.ShadersPath + "lampVS.glsl",
-                    ProjectFolders.ShadersPath + "lampFS.glsl", ProjectFolders.ShadersPath + "lampGS.glsl", typeof(PointLightDebugShader));
+                this._shader = ResourcePool.GetShaderProgram<PointLightDebugShader>(ProjectFolders.ShadersPath + "lampVS.glsl",
+                    ProjectFolders.ShadersPath + "lampFS.glsl", ProjectFolders.ShadersPath + "lampGS.glsl");
 
                 float[,] vertices = new float[1, 3];
 

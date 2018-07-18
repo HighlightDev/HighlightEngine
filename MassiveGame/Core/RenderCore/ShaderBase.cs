@@ -5,6 +5,8 @@ namespace MassiveGame.Core.RenderCore
 {
     public class ShaderBase : Shader
     {
+        public ShaderBase() : base("", "", "") { }
+
         public ShaderBase(string shaderName, string VertexShaderFile, string FragmentShaderFile, string GeometryShaderFile = "") : base(VertexShaderFile, FragmentShaderFile, GeometryShaderFile)
         {
             if (base.ShaderLoaded)

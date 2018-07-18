@@ -336,6 +336,8 @@ namespace MassiveGame.Core.GameCore.Entities.StaticEntities
 
         #region Constructor
 
+        public StaticEntityShader() : base() { }
+
         public StaticEntityShader(string VertexShaderFile, string FragmentShaderFile)
             : base(SHADER_NAME, VertexShaderFile, FragmentShaderFile)
         {
@@ -353,7 +355,7 @@ namespace MassiveGame.Core.GameCore.Entities.StaticEntities
         private Int32 ModelMatrix,
             ViewMatrix,
             ProjectionMatrix;
-            
+
         #endregion
 
         #region Getter
@@ -368,11 +370,11 @@ namespace MassiveGame.Core.GameCore.Entities.StaticEntities
         #endregion
 
         #region Setter
-        
+
         public void setUniformValues(ref Matrix4 ModelMatrix, Matrix4 ViewMatrix,
            ref Matrix4 ProjectionMatrix)
         {
-           
+
             base.loadMatrix(this.ModelMatrix, false, ModelMatrix);
             base.loadMatrix(this.ViewMatrix, false, ViewMatrix);
             base.loadMatrix(this.ProjectionMatrix, false, ProjectionMatrix);
@@ -384,7 +386,9 @@ namespace MassiveGame.Core.GameCore.Entities.StaticEntities
         {
         }
 
-        #region Constructor
+        #region Constructor 
+
+        public SpecialStaticEntityShader() : base() { }
 
         public SpecialStaticEntityShader(string VertexShaderFile, string FragmentShaderFile, string GeometryShaderFile)
             : base(SHADER_NAME, VertexShaderFile, FragmentShaderFile, GeometryShaderFile)

@@ -11,11 +11,12 @@ using MassiveGame.Settings;
 
 namespace MassiveGame.Core.RenderCore.PostFX.LightShafts
 {
-    public class LightShaftPostProcess<T> : PostProcessBase where T: PostProcessSubsequenceType
+    public class LightShaftPostProcess<SubsequenceType> : PostProcessBase
+        where SubsequenceType: PostProcessSubsequenceType
     {
         public LightShaftFramebufferObject renderTarget;
 
-        private LightShaftShader<T> shader;
+        private LightShaftShader<SubsequenceType> shader;
 
         private Matrix4 viewportMatrix;
 
@@ -39,8 +40,8 @@ namespace MassiveGame.Core.RenderCore.PostFX.LightShafts
             if (bPostConstructor)
             {
                 renderTarget = new LightShaftFramebufferObject();
-                shader = (LightShaftShader<T>)ResourcePool.GetShaderProgram(ProjectFolders.ShadersPath + "lightShaftsVS.glsl",
-                    ProjectFolders.ShadersPath + "lightShaftsFS.glsl", "", typeof(LightShaftShader<T>));
+                shader = ResourcePool.GetShaderProgram<LightShaftShader<SubsequenceType>>(ProjectFolders.ShadersPath + "lightShaftsVS.glsl",
+                    ProjectFolders.ShadersPath + "lightShaftsFS.glsl", "");
                 bPostConstructor = false;
             }
         }

@@ -53,6 +53,8 @@ namespace MassiveGame.Core.RenderCore.Light_visualization
 
         #region Constructor
 
+        public PointLightDebugShader() : base() { }
+
         public PointLightDebugShader(string vsPath, string fsPath, string gsPath)
             : base(SHADER_NAME, vsPath, fsPath, gsPath)
         {

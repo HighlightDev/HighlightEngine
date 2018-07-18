@@ -212,17 +212,16 @@ namespace MassiveGame.Core.GameCore.Entities.StaticEntities
             , Vector3 translation = new Vector3(), Vector3 rotation = new Vector3(), Vector3 scale = new Vector3())
             : base( modelPath,  texturePath,  normalMapPath,  specularMapPath, translation, rotation, scale)
         {
-            _shader = (StaticEntityShader)ResourcePool.GetShaderProgram(ProjectFolders.ShadersPath + "buildingVShader.glsl",
-                   ProjectFolders.ShadersPath + "buildingFShader.glsl", "", typeof(StaticEntityShader));
-            _specialShader = (SpecialStaticEntityShader)ResourcePool.GetShaderProgram(ProjectFolders.ShadersPath + "buildingSpecialVShader.glsl",
-                ProjectFolders.ShadersPath + "buildingSpecialFShader.glsl", ProjectFolders.ShadersPath + "buildingSpecialGShader.glsl",
-                typeof(SpecialStaticEntityShader));
+            _shader = ResourcePool.GetShaderProgram<StaticEntityShader>(ProjectFolders.ShadersPath + "buildingVShader.glsl",
+                   ProjectFolders.ShadersPath + "buildingFShader.glsl", "");
+            _specialShader = ResourcePool.GetShaderProgram<SpecialStaticEntityShader>(ProjectFolders.ShadersPath + "buildingSpecialVShader.glsl",
+                ProjectFolders.ShadersPath + "buildingSpecialFShader.glsl", ProjectFolders.ShadersPath + "buildingSpecialGShader.glsl");
 
-            liteReflectionShader = (WaterReflectionEntityShader)ResourcePool.GetShaderProgram(ProjectFolders.ShadersPath + "waterReflectionEntityVS.glsl",
-                    ProjectFolders.ShadersPath + "waterReflectionEntityFS.glsl", "", typeof(WaterReflectionEntityShader));
+            liteReflectionShader = ResourcePool.GetShaderProgram<WaterReflectionEntityShader>(ProjectFolders.ShadersPath + "waterReflectionEntityVS.glsl",
+                    ProjectFolders.ShadersPath + "waterReflectionEntityFS.glsl", "");
 
-            liteRefractionShader = (WaterRefractionEntityShader)ResourcePool.GetShaderProgram(ProjectFolders.ShadersPath + "waterRefractionEntityVS.glsl",
-                  ProjectFolders.ShadersPath + "waterRefractionEntityFS.glsl", "", typeof(WaterRefractionEntityShader));
+            liteRefractionShader = ResourcePool.GetShaderProgram<WaterRefractionEntityShader>(ProjectFolders.ShadersPath + "waterRefractionEntityVS.glsl",
+                  ProjectFolders.ShadersPath + "waterRefractionEntityFS.glsl", "");
 
             _material = new Material(new Vector3(1, 1, 1), new Vector3(1, 1, 1), new Vector3(1, 1, 1), new Vector3(0, 0, 0),
                 10.0f, 10.0f);

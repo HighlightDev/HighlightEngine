@@ -5,11 +5,11 @@ using OpenTK;
 
 namespace MassiveGame.Core.RenderCore.PostFX.LensFlare
 {
-    public class LensFlareShader<T> : PostProcessShaderBase<T> where T: PostProcessSubsequenceType
+    public class LensFlareShader<SubsequenceType> : PostProcessShaderBase<SubsequenceType> where SubsequenceType: PostProcessSubsequenceType
     {
         #region Difinitions
 
-        private const Int32 BLUR_WIDTH = LensFlarePostProcess<T>.MAX_BLUR_WIDTH;
+        private const Int32 BLUR_WIDTH = LensFlarePostProcess<SubsequenceType>.MAX_BLUR_WIDTH;
         private const string SHADER_NAME = "Lens flare shader";
 
         private Int32 frameTexture, threshold, lensColor, screenWidth, screenHeight, blurWidth, bluredTexture, GhostDispersal, HaloWidth, Distortion, Ghosts,
@@ -124,6 +124,8 @@ namespace MassiveGame.Core.RenderCore.PostFX.LensFlare
         #endregion
 
         #region Constructor
+
+        public LensFlareShader() : base() { }
 
         public LensFlareShader(string VSPath, string FSPath)
             : base(SHADER_NAME, VSPath, FSPath)

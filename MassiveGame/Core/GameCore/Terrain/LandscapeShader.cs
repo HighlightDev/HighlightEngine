@@ -211,6 +211,8 @@ namespace MassiveGame.Core.GameCore.Terrain
 
         #region Constructor
 
+        public LandscapeShader() : base() { }
+
         public LandscapeShader(string VertexShaderFile, string FragmentShaderFile)
             : base(SHADER_NAME, VertexShaderFile, FragmentShaderFile)
         {

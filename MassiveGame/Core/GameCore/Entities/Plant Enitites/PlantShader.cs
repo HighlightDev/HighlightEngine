@@ -38,7 +38,7 @@ namespace MassiveGame.Core.GameCore.Entities.StaticEntities
             SetDefine<float>(ShaderTypeFlag.FragmentShader, "MAX_MIST_VISIBLE_AREA", 1.0f);
         }
 
-        #region Getter
+         #region Getter
 
         protected override void getAllUniformLocations()
         {
@@ -132,9 +132,11 @@ namespace MassiveGame.Core.GameCore.Entities.StaticEntities
             }
         }
 
-         #endregion
+        #endregion
 
-         #region Constructor
+        #region Constructor
+
+        public PlantShader() : base() { }
 
          public PlantShader(string VertexShaderFile, string FragmentShaderFile)
              : base(SHADER_NAME, VertexShaderFile, FragmentShaderFile)

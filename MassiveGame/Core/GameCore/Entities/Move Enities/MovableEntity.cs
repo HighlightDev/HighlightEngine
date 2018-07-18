@@ -56,14 +56,9 @@ namespace MassiveGame.Core.GameCore.Entities.MoveEntities
         {
             if (bPostConstructor)
             {
-                shader = (MovableEntityShader)ResourcePool.GetShaderProgram(ProjectFolders.ShadersPath + "movableEntityVS.glsl",
-                    ProjectFolders.ShadersPath + "movableEntityFS.glsl", "", typeof(MovableEntityShader));
-
-                liteReflectionShader = (WaterReflectionEntityShader)ResourcePool.GetShaderProgram(ProjectFolders.ShadersPath + "waterReflectionEntityVS.glsl",
-                    ProjectFolders.ShadersPath + "waterReflectionEntityFS.glsl", "", typeof(WaterReflectionEntityShader));
-
-                liteRefractionShader = (WaterRefractionEntityShader)ResourcePool.GetShaderProgram(ProjectFolders.ShadersPath + "waterRefractionEntityVS.glsl",
-                    ProjectFolders.ShadersPath + "waterRefractionEntityFS.glsl", "", typeof(WaterRefractionEntityShader));
+                shader = ResourcePool.GetShaderProgram<MovableEntityShader>(ProjectFolders.ShadersPath + "movableEntityVS.glsl", ProjectFolders.ShadersPath + "movableEntityFS.glsl", "");
+                liteReflectionShader = ResourcePool.GetShaderProgram<WaterReflectionEntityShader>(ProjectFolders.ShadersPath + "waterReflectionEntityVS.glsl", ProjectFolders.ShadersPath + "waterReflectionEntityFS.glsl", "");
+                liteRefractionShader = ResourcePool.GetShaderProgram<WaterRefractionEntityShader>(ProjectFolders.ShadersPath + "waterRefractionEntityVS.glsl", ProjectFolders.ShadersPath + "waterRefractionEntityFS.glsl", "");
 
                 this.bPostConstructor = !this.bPostConstructor;
             }

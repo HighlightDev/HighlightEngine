@@ -4,11 +4,11 @@ using System.Drawing;
 
 namespace MassiveGame.Core.RenderCore.PostFX.DepthOfField
 {
-    public class DepthOfFieldShader<T> : PostProcessShaderBase<T> where T : PostProcessSubsequenceType
+    public class DepthOfFieldShader<SubsequenceType> : PostProcessShaderBase<SubsequenceType> where SubsequenceType : PostProcessSubsequenceType
     {
         const string SHADER_NAME = "DepthOfField Shader";
 
-        private const Int32 BLUR_WIDTH = DepthOfFieldPostProcess<T>.MAX_BLUR_WIDTH;
+        private const Int32 BLUR_WIDTH = DepthOfFieldPostProcess<SubsequenceType>.MAX_BLUR_WIDTH;
         Int32 blurTexture, depthTexture, frameTexture, screenWidth, screenHeight, blurWidth,
             blurStartEdge, blurEndEdge, subroutineVerticalBlur, subroutineHorizontalBlur, subroutineDepthOfField, subroutineDownsampling;
 
@@ -20,7 +20,7 @@ namespace MassiveGame.Core.RenderCore.PostFX.DepthOfField
         {
             base.getAllUniformLocations();
 
-            if (PreviousPostProcessResult == PostProcessShaderBase<T>.PostProcessSubsequenceType_Inner.DiscardPreviousPostProcess)
+            if (PreviousPostProcessResult == PostProcessShaderBase<SubsequenceType>.PostProcessSubsequenceType_Inner.DiscardPreviousPostProcess)
                 frameTexture = getUniformLocation("frameTexture");
             
             blurTexture = getUniformLocation("blurTexture");
@@ -86,7 +86,7 @@ namespace MassiveGame.Core.RenderCore.PostFX.DepthOfField
 
         public void SetFrameTextureSampler(Int32 frameTexSampler)
         {
-            if (PreviousPostProcessResult == PostProcessShaderBase<T>.PostProcessSubsequenceType_Inner.DiscardPreviousPostProcess)
+            if (PreviousPostProcessResult == PostProcessShaderBase<SubsequenceType>.PostProcessSubsequenceType_Inner.DiscardPreviousPostProcess)
                 loadInteger(this.frameTexture, frameTexSampler);
         }
 
@@ -114,6 +114,8 @@ namespace MassiveGame.Core.RenderCore.PostFX.DepthOfField
             SetDefine<float>(ShaderTypeFlag.FragmentShader, "zFarPlane", EngineStatics.FAR_CLIPPING_PLANE);
             SetDefine<Int32>(ShaderTypeFlag.FragmentShader, "MAX_BLUR_WIDTH", BLUR_WIDTH);
         }
+
+        public DepthOfFieldShader() : base() { }
 
         public DepthOfFieldShader(string VertexShaderFile, string FragmentShaderFile) 
             : base(SHADER_NAME, VertexShaderFile, FragmentShaderFile)

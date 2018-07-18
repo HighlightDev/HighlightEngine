@@ -118,8 +118,6 @@ namespace MassiveGame.Core.GameCore
             UpdateRotationMatrix(-deltaX, -deltaY);
         }
 
-        float pitch = 0.0f;
-
         private void UpdateRotationMatrix(Int32 deltaX, Int32 deltaY)
         {
             eyeSpaceForwardVector = VectorMathOperations.multMatrix(rotationMatrix, localSpaceForwardVector).Normalized();

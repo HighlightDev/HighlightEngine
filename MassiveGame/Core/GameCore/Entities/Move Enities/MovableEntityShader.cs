@@ -194,6 +194,8 @@ namespace MassiveGame.Core.GameCore.Entities.MoveEntities
 
         #region Constructor
 
+        public MovableEntityShader() : base() { }
+
         public MovableEntityShader(string VertexShaderFile, string FragmentShaderFile)
             : base(SHADER_NAME, VertexShaderFile, FragmentShaderFile)
         {

@@ -10,10 +10,11 @@ using MassiveGame.Core.GameCore.Entities.StaticEntities;
 
 namespace MassiveGame.Core.RenderCore.PostFX.LensFlare
 {
-    public class LensFlarePostProcess<T> : PostProcessBase where T : PostProcessSubsequenceType
+    public class LensFlarePostProcess<SubsequenceType> : PostProcessBase
+        where SubsequenceType : PostProcessSubsequenceType
     {
         private LensFlareFramebufferObject renderTarget;
-        private LensFlareShader<T> lensShader;
+        private LensFlareShader<SubsequenceType> lensShader;
         private Texture1D lensColor;
       
         private float ghostDispersal;
@@ -67,8 +68,8 @@ namespace MassiveGame.Core.RenderCore.PostFX.LensFlare
             if (bPostConstructor)
             {
                 renderTarget = new LensFlareFramebufferObject();
-                lensShader = (LensFlareShader<T>)ResourcePool.GetShaderProgram(ProjectFolders.ShadersPath + "lensFlareVS.glsl",
-                    ProjectFolders.ShadersPath + "lensFlareFS.glsl", "", typeof(LensFlareShader<T>));
+                lensShader = ResourcePool.GetShaderProgram<LensFlareShader<SubsequenceType>>(ProjectFolders.ShadersPath + "lensFlareVS.glsl",
+                    ProjectFolders.ShadersPath + "lensFlareFS.glsl", "");
                 bPostConstructor = false;
             }
         }

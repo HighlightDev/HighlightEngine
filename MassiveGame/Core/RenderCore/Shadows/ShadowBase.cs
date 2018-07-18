@@ -77,7 +77,7 @@ namespace MassiveGame.Core.RenderCore.Shadows
 
         public ShadowBase(TextureParameters ShadowMapSettings)
         {
-            shadowShader = (BasicShadowShader)ResourcePool.GetShaderProgram(ProjectFolders.ShadersPath + "basicShadowVS.glsl", ProjectFolders.ShadersPath + "basicShadowFS.glsl", "", typeof(BasicShadowShader));
+            shadowShader = ResourcePool.GetShaderProgram<BasicShadowShader>(ProjectFolders.ShadersPath + "basicShadowVS.glsl", ProjectFolders.ShadersPath + "basicShadowFS.glsl", "");
             AllocateRenderTarget(ShadowMapSettings);
             PrepareRenderTarget();
         }

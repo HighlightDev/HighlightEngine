@@ -78,6 +78,8 @@ namespace MassiveGame.Core.GameCore.Skybox
 
         #region Constructor
 
+        public SkyboxShader() : base() { }
+
         public SkyboxShader(string VertexShaderFile, string FragmentShaderFile)
             : base(SHADER_NAME, VertexShaderFile, FragmentShaderFile)
         {

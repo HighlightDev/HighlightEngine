@@ -51,6 +51,8 @@ namespace MassiveGame.Core.GameCore.Entities.EnvironmentEntities
 
         #region Constructor
 
+        public EnvironmentEntitiesShader() : base() { }
+
         public EnvironmentEntitiesShader(string vsPath, string fsPath)
             : base(SHADER_NAME, vsPath, fsPath)
         {

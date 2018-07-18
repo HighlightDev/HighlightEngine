@@ -1,14 +1,14 @@
 ﻿using ShaderPattern;
-using System.Reflection;
+using System;
 
 namespace MassiveGame.API.Collector.ShaderCollect
 {
     public static class ShaderAllocator
     {
-        public static Shader LoadShaderFromFile(string compositeKey, ConstructorInfo ctor)
+        public static ShaderType LoadShaderFromFile<ShaderType>(string compositeKey) where ShaderType : new()
         {
             string[] shaderFiles = GetKeys(compositeKey);
-            return (Shader)ctor.Invoke(shaderFiles);
+            return (ShaderType)Activator.CreateInstance(typeof(ShaderType), shaderFiles);
         }
 
         private static string[] GetKeys(string compositeKey)

@@ -13,7 +13,9 @@ namespace MassiveGame.Core.GameCore.Water
               bTexture, blendMap, materialAmbient, materialDiffuse,
               MirrorMatrix, ModelMatrix, ViewMatrix, ProjectionMatrix, sunDirection,
               sunAmbientColour, sunDiffuseColour, sunEnable, clipPlane;
-              
+
+        public WaterReflectionTerrainShader() : base() { }
+
         public WaterReflectionTerrainShader(string VertexShaderFile, string FragmentShaderFile) 
             : base(SHADER_NAME, VertexShaderFile, FragmentShaderFile)
         {

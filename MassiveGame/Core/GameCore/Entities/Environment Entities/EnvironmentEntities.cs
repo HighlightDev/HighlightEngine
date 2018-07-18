@@ -1,7 +1,5 @@
 ﻿using OpenTK;
 using OpenTK.Graphics.OpenGL;
-
-using GpuGraphics;
 using TextureLoader;
 using MassiveGame.API.Collector;
 using MassiveGame.Settings;
@@ -49,8 +47,8 @@ namespace MassiveGame.Core.GameCore.Entities.EnvironmentEntities
             Vector3 translation = new Vector3(), Vector3 rotation = new Vector3(), Vector3 scale = new Vector3())
             : base(modelPath, texturePath, normalMapPath, specularMapPath, translation, rotation, scale)
         {
-            _shader = (EnvironmentEntitiesShader)ResourcePool.GetShaderProgram(ProjectFolders.ShadersPath + "envVS.glsl", ProjectFolders.ShadersPath + "envFS.glsl", "",
-                    typeof(EnvironmentEntitiesShader));
+            _shader = ResourcePool.GetShaderProgram<EnvironmentEntitiesShader>(ProjectFolders.ShadersPath + "envVS.glsl",
+                ProjectFolders.ShadersPath + "envFS.glsl", "");
             this._envMap = ResourcePool.GetTexture(cubemapEnvMap);
             this.bPostConstructor = true;
         }
