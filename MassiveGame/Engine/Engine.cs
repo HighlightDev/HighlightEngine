@@ -135,20 +135,19 @@ namespace MassiveGame.UI
 
             // temporary
 
-            EngineStatics.terrain = new Landscape(EngineStatics.MAP_SIZE, EngineStatics.MAP_HEIGHT, 3,
-                   ProjectFolders.HeightMapsTexturesPath + "heightmap2.png",
-                   ProjectFolders.MultitexturesPath + "NewLandscape/volcanictundrarocks01.jpg",
-                   ProjectFolders.MultitexturesPath + "NewLandscape/tundra02.jpg",
-                   ProjectFolders.MultitexturesPath + "b.png",
-                   ProjectFolders.MultitexturesPath + "NewLandscape/snow01.jpg",
-                   ProjectFolders.MultitexturesPath + "blendMap.png");
+            //EngineStatics.terrain = new Landscape(EngineStatics.MAP_SIZE, EngineStatics.MAP_HEIGHT, 3,
+            //       ProjectFolders.HeightMapsTexturesPath + "heightmap2.png",
+            //       ProjectFolders.MultitexturesPath + "NewLandscape/volcanictundrarocks01.jpg",
+            //       ProjectFolders.MultitexturesPath + "NewLandscape/tundra02.jpg",
+            //       ProjectFolders.MultitexturesPath + "b.png",
+            //       ProjectFolders.MultitexturesPath + "NewLandscape/snow01.jpg",
+            //       ProjectFolders.MultitexturesPath + "blendMap.png");
 
-            EngineStatics.terrain.SetNormalMapR(ProjectFolders.MultitexturesPath + "NewLandscape/volcanictundrarocks01_n.png");
-            EngineStatics.terrain.SetNormalMapG(ProjectFolders.MultitexturesPath + "NewLandscape/tundra02_n.png");
-            //EngineStatics.Map.SetNormalMapBlack(ProjectFolders.MultitexturesPath + "NewLandscape/snow01_n.png");
-            EngineStatics.terrain.SetNormalMapB(ProjectFolders.NormalMapsPath + "brick_nm_high.png");
-
-            EngineStatics.terrain.SetMist(EngineStatics.Mist);
+            //EngineStatics.terrain.SetNormalMapR(ProjectFolders.MultitexturesPath + "NewLandscape/volcanictundrarocks01_n.png");
+            //EngineStatics.terrain.SetNormalMapG(ProjectFolders.MultitexturesPath + "NewLandscape/tundra02_n.png");
+            ////EngineStatics.Map.SetNormalMapBlack(ProjectFolders.MultitexturesPath + "NewLandscape/snow01_n.png");
+            //EngineStatics.terrain.SetNormalMapB(ProjectFolders.NormalMapsPath + "brick_nm_high.png");
+            //EngineStatics.terrain.SetMist(EngineStatics.Mist);
 
             string modelPath = ProjectFolders.ModelsPath + "playerCube.obj";
             string texturePath = ProjectFolders.MultitexturesPath + "b.png";
@@ -229,17 +228,17 @@ namespace MassiveGame.UI
             EngineStatics.Enemy.SetCollisionHeadUnit(collisionHeadUnit);
             arg = null;
 
-            EngineStatics.Grass = new PlantReadyMaster(
-                4000, EngineStatics.MAP_SIZE, PlantModels.getBillboardModel1(), new Vector3(1),
-                new string[] { ProjectFolders.GrassTexturesPath + "grass1.png",
-                    ProjectFolders.GrassTexturesPath + "grass2.png",
-                    ProjectFolders.GrassTexturesPath + "grass3.png"}, new WindComponent(2.35f, 1.1f, 0.6f, new Vector3(0.6f, 0, 0.3f)), EngineStatics.Mist);    //Добавление травы
+            //EngineStatics.Grass = new PlantReadyMaster(
+            //    4000, EngineStatics.MAP_SIZE, PlantModels.getBillboardModel1(), new Vector3(1),
+            //    new string[] { ProjectFolders.GrassTexturesPath + "grass1.png",
+            //        ProjectFolders.GrassTexturesPath + "grass2.png",
+            //        ProjectFolders.GrassTexturesPath + "grass3.png"}, new WindComponent(2.35f, 1.1f, 0.6f, new Vector3(0.6f, 0, 0.3f)), EngineStatics.Mist);    //Добавление травы
 
             //EngineSingleton.Grass = new PlantBuilderMaster(100, PlantModels.getBillboardModel1(), TextureSet.PlantTextureSet, new WindComponent(2.35f, 1.1f, 0.6f, new Vector3(0.6f, 0, 0.3f)));    //Добавление травы
 
-            EngineStatics.Plant1 = new PlantReadyMaster(13, EngineStatics.MAP_SIZE, PlantModels.getPlantModel2(), new Vector3(1),
-                new string[] { ProjectFolders.GrassTexturesPath + "fern.png" },
-              new WindComponent(0.95f, 0.35f, 0.5f, new Vector3(0.5f, 0, 0.5f)), EngineStatics.Mist);
+            //EngineStatics.Plant1 = new PlantReadyMaster(13, EngineStatics.MAP_SIZE, PlantModels.getPlantModel2(), new Vector3(1),
+            //    new string[] { ProjectFolders.GrassTexturesPath + "fern.png" },
+            //  new WindComponent(0.95f, 0.35f, 0.5f, new Vector3(0.5f, 0, 0.5f)), EngineStatics.Mist);
 
             EngineStatics.Skybox = new Skybox(
                     new string[] { ProjectFolders.SkyboxTexturesPath + "/Day/" + "right.bmp",

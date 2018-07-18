@@ -8,11 +8,13 @@ using System.Reflection;
 using TextureLoader;
 using MassiveGame.API.Collector.RenderTargetCollect;
 using VBO;
+using MassiveGame.API.Collector.AnimationCollect;
 
 namespace MassiveGame.API.Collector
 {
     public static class ResourcePool
     {
+        private static AnimationPool animationCollector;
         private static ModelPool modelCollector;
         private static ShaderPool shaderCollector;
         private static TexturePool textureCollector;

@@ -97,11 +97,16 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="API\Collector\AnimationCollect\AnimationCollection.cs" />
+    <Compile Include="API\Collector\AnimationCollect\AnimationPool.cs" />
+    <Compile Include="API\Collector\AnimationCollect\AnimationAllocator.cs" />
+    <Compile Include="API\Collector\CollectPolicy.cs" />
     <Compile Include="API\Collector\ResourcePool.cs" />
     <Compile Include="API\Collector\ModelCollect\ModelCollection.cs" />
     <Compile Include="API\Collector\ModelCollect\ModelPool.cs" />
     <Compile Include="API\Collector\ModelCollect\VaoAllocator.cs" />
-    <Compile Include="API\Collector\RawModel.cs" />
+    <Compile Include="Core\GameCore\Mesh\MeshSkeleton.cs" />
+    <Compile Include="Core\GameCore\Mesh\MeshSkin.cs" />
     <Compile Include="API\Collector\ShaderCollect\ShaderAllocator.cs" />
     <Compile Include="API\Collector\ShaderCollect\ShaderCollection.cs" />
     <Compile Include="API\Collector\ShaderCollect\ShaderPool.cs" />

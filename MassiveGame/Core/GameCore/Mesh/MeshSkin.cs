@@ -1,14 +1,15 @@
-﻿using System;
+﻿using MassiveGame.API.Collector;
+using System;
 using VBO;
 
-namespace MassiveGame.API.Collector
+namespace MassiveGame.Core.GameCore.Mesh
 {
-    public class RawModel : IDisposable
+    public class MeshSkin : IDisposable
     {
         private string Key { set; get; }
         public VertexArrayObject Buffer { private set; get; }
 
-        public RawModel(string key)
+        public MeshSkin(string key)
         {
             Key = key;
             LoadBuffer();

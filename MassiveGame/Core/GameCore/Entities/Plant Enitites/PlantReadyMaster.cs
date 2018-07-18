@@ -202,7 +202,7 @@ namespace MassiveGame.Core.GameCore.Entities.StaticEntities
              string[] textureSets, WindComponent component, MistComponent mist = null)
         {
             _postConstructor = true;
-            _attribs = AlignMeshYAxis(ModelAttribs);
+            _attribs = ModelAttribs;
             _texture = new List<ITexture>();
             foreach (var item in textureSets)
             {
@@ -233,7 +233,7 @@ namespace MassiveGame.Core.GameCore.Entities.StaticEntities
             {
                 _texture.Add(ResourcePool.GetTexture(item));
             }
-            this._attribs = AlignMeshYAxis(modelAttribs);
+            this._attribs = modelAttribs;
             this._wind = component;
             this._grassMaterial = new Material(new Vector3(1.0f, 1.0f, 1.0f), new Vector3(1.0f, 1.0f, 1.0f),
               new Vector3(1.0f, 1.0f, 1.0f), new Vector3(1.0f, 1.0f, 1.0f), 10.0f, 1.0f);

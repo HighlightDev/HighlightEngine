@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using GpuGraphics;
 using OpenTK;
 using PhysicsBox;
 using TextureLoader;
@@ -13,6 +12,7 @@ using MassiveGame.Core.RenderCore.Lights;
 using MassiveGame.Core.RenderCore;
 using MassiveGame.Core.PhysicsCore;
 using MassiveGame.Core.GameCore.EntityComponents;
+using MassiveGame.Core.GameCore.Mesh;
 using VBO;
 
 namespace MassiveGame.Core.GameCore.Entities
@@ -27,7 +27,7 @@ namespace MassiveGame.Core.GameCore.Entities
 
         protected MistComponent _mist;
 
-        protected RawModel _model;
+        protected MeshSkin _model;
 
         protected ITexture _texture;
 
@@ -215,7 +215,7 @@ namespace MassiveGame.Core.GameCore.Entities
             _texture = ResourcePool.GetTexture(texturePath);
             _normalMap = ResourcePool.GetTexture(normalMapPath);
             _specularMap = ResourcePool.GetTexture(specularMapPath);
-            _model = new RawModel(modelPath);
+            _model = new MeshSkin(modelPath);
 
             this.bVisibleByCamera = true;
             this._mist = null;
