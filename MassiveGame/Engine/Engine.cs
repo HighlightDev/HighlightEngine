@@ -32,6 +32,7 @@ using MassiveGame.Core.RenderCore.Light_visualization;
 using MassiveGame.Core.RenderCore;
 using MassiveGame.Core.ComponentCore;
 using MassiveGame.Core.GameCore.Terrain;
+using MassiveGame.API.Collector.Policies;
 
 namespace MassiveGame.UI
 {
@@ -227,6 +228,9 @@ namespace MassiveGame.UI
             EngineStatics.Enemy.SetComponents(component.ChildrenComponents);
             EngineStatics.Enemy.SetCollisionHeadUnit(collisionHeadUnit);
             arg = null;
+
+            var pool = TestClass.GetPool();
+            pool.ToString();
 
             //EngineStatics.Grass = new PlantReadyMaster(
             //    4000, EngineStatics.MAP_SIZE, PlantModels.getBillboardModel1(), new Vector3(1),
@@ -492,8 +496,8 @@ namespace MassiveGame.UI
                     }
                 case Keys.Insert:
                     {
-                        EngineStatics.uiFrameCreator.PushFrame(ResourcePool.GetRenderTargetAt(renderTargetIndex));
-                        Int32 count = ResourcePool.GetRenderTargetCount();
+                        EngineStatics.uiFrameCreator.PushFrame(API.Collector.ResourcePool.GetRenderTargetAt(renderTargetIndex));
+                        Int32 count = API.Collector.ResourcePool.GetRenderTargetCount();
                         if (renderTargetIndex + 1 >= count)
                         {
                             renderTargetIndex = 0;

@@ -65,6 +65,8 @@ namespace VBO
         {
             m_vboList.ForEach(vbo => vbo.CleanUp());
             GL.DeleteVertexArray(m_descriptor);
+            m_vboList.Clear();
+            m_vboList = null;
         }
     }
 }

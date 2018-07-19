@@ -100,7 +100,7 @@
     <Compile Include="API\Collector\AnimationCollect\AnimationCollection.cs" />
     <Compile Include="API\Collector\AnimationCollect\AnimationPool.cs" />
     <Compile Include="API\Collector\AnimationCollect\AnimationAllocator.cs" />
-    <Compile Include="API\Collector\CollectPolicy.cs" />
+    <Compile Include="API\Collector\AllocationPolicy.cs" />
     <Compile Include="API\Collector\ResourcePool.cs" />
     <Compile Include="API\Collector\ModelCollect\ModelCollection.cs" />
     <Compile Include="API\Collector\ModelCollect\ModelPool.cs" />

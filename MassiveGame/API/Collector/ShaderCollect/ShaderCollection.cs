@@ -24,7 +24,8 @@ namespace MassiveGame.API.Collector.ShaderCollect
 
         private ShaderType TryGetShader<ShaderType>(string compositeKey) where ShaderType:new()
         {
-            bool exist = shaderDictionary.TryGetValue(compositeKey, out object result);
+            object result = null;
+            bool exist = shaderDictionary.TryGetValue(compositeKey, out result);
             if (!exist)
             {
                 result = ShaderAllocator.LoadShaderFromFile<ShaderType>(compositeKey);
