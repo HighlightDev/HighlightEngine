@@ -8,6 +8,7 @@ using PhysicsBox.ComponentCore;
 using PhysicsBox.MathTypes;
 using System.Collections.Generic;
 using VBO;
+using MassiveGame.API.Collector.Policies;
 
 namespace MassiveGame.Core.ComponentCore
 {
@@ -20,10 +21,10 @@ namespace MassiveGame.Core.ComponentCore
         {
             if (bPostConstructor)
             {
-                if (ResourcePool.GetModelReferenceCount("CollisionBound") == 0)
+                if (PoolCollector.GetInstance().ModelPool.GetModelReferenceCount("CollisionBound") == 0)
                     AddBoundModelToRoot();
                 else
-                    buffer = ResourcePool.GetModel("CollisionBound");
+                    buffer = PoolProxy.GetResource<GetModelPool, ModelAllocationPolicy, string, VertexArrayObject>("CollisionBound");
                 bPostConstructor = false;
             }
             base.Tick(ref projectionMatrix, ref viewMatrix);
@@ -94,8 +95,8 @@ namespace MassiveGame.Core.ComponentCore
             var verticesVBO = new VertexBufferObject<float>(renderCoordinates, BufferTarget.ArrayBuffer, 0, 3, VertexBufferObjectBase.DataCarryFlag.Store);
             buffer.AddVBO(verticesVBO);
             buffer.BindVbosToVao();
-           
-            ResourcePool.AddModelToRoot(buffer, "CollisionBound");
+
+            PoolCollector.GetInstance().ModelPool.AddModelToRoot(buffer, "CollisionBound");
         }
 
         public SceneComponent() : base()

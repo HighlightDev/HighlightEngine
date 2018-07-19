@@ -9,6 +9,7 @@ using MassiveGame.Core.RenderCore.Lights;
 using MassiveGame.Settings;
 using MassiveGame.Core.GameCore.Water;
 using VBO;
+using MassiveGame.API.Collector.Policies;
 
 namespace MassiveGame.Core.GameCore.Sun
 {
@@ -131,8 +132,7 @@ namespace MassiveGame.Core.GameCore.Sun
                 _buffer.AddVBO(verticesVBO, normalsVBO, texCoordsVBO);
                 _buffer.BindVbosToVao();
 
-                _shader = ResourcePool.GetShaderProgram<SunShader>(ProjectFolders.ShadersPath + "sunVS.glsl",
-                    ProjectFolders.ShadersPath + "sunFS.glsl", "");
+                _shader = PoolProxy.GetResource<GetShaderPool, ShaderAllocationPolicy<SunShader>, string, SunShader>(ProjectFolders.ShadersPath + "sunVS.glsl" + "," + ProjectFolders.ShadersPath + "sunFS.glsl");
                 _postConstructor = !_postConstructor;
             }
         }
@@ -141,8 +141,8 @@ namespace MassiveGame.Core.GameCore.Sun
         {
             this._sun = sun;
             this._postConstructor = true;
-            this._texture1 = ResourcePool.GetTexture(sunTexture1);
-            this._texture2 = ResourcePool.GetTexture(sunTexture2);
+            this._texture1 = PoolProxy.GetResource<GetTexturePool, TextureAllocationPolicy, string, ITexture>(sunTexture1);
+            this._texture2 = PoolProxy.GetResource<GetTexturePool, TextureAllocationPolicy, string, ITexture>(sunTexture2);
             _quadLBZ = new Vector4((-SUN_SIZE / 2), (-SUN_SIZE / 2), 0.0f, 1.0f);
             _quadRTZ = new Vector4((SUN_SIZE / 2), (SUN_SIZE / 2), 0.0f, 1.0f);
         }
@@ -151,8 +151,8 @@ namespace MassiveGame.Core.GameCore.Sun
         {
             this._sun = sun;
             this._postConstructor = true;
-            this._texture1 = ResourcePool.GetTexture(sunTexture1);
-            this._texture2 = ResourcePool.GetTexture(sunTexture2);
+            this._texture1 = PoolProxy.GetResource<GetTexturePool, TextureAllocationPolicy, string, ITexture>(sunTexture1);
+            this._texture2 = PoolProxy.GetResource<GetTexturePool, TextureAllocationPolicy, string, ITexture>(sunTexture2);
             this.SUN_SIZE = SunSize;
             this.LENS_FLARE_SUN_SIZE = LensFlareSunSize;
             _quadLBZ = new Vector4((-SUN_SIZE / 2), (-SUN_SIZE / 2), 0.0f, 1.0f);
@@ -166,9 +166,9 @@ namespace MassiveGame.Core.GameCore.Sun
 
         public void cleanUp()
         {
-            ResourcePool.ReleaseTexture(_texture1);
-            ResourcePool.ReleaseTexture(_texture2);
-            ResourcePool.ReleaseShaderProgram(this._shader);
+            PoolProxy.FreeResourceMemoryByValue<GetTexturePool, TextureAllocationPolicy, string, ITexture>(_texture1);
+            PoolProxy.FreeResourceMemoryByValue<GetTexturePool, TextureAllocationPolicy, string, ITexture>(_texture2);
+            PoolProxy.FreeResourceMemoryByValue<GetShaderPool, ShaderAllocationPolicy<SunShader>, string, SunShader>(this._shader);
             _buffer.CleanUp();
         }
 

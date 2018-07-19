@@ -14,6 +14,7 @@ using MassiveGame.Core.PhysicsCore;
 using MassiveGame.Core.GameCore.EntityComponents;
 using MassiveGame.Core.GameCore.Mesh;
 using VBO;
+using MassiveGame.API.Collector.Policies;
 
 namespace MassiveGame.Core.GameCore.Entities
 {
@@ -212,9 +213,9 @@ namespace MassiveGame.Core.GameCore.Entities
             ComponentTranslation = translation; 
             ComponentRotation = rotation;
             ComponentScale = scale;
-            _texture = ResourcePool.GetTexture(texturePath);
-            _normalMap = ResourcePool.GetTexture(normalMapPath);
-            _specularMap = ResourcePool.GetTexture(specularMapPath);
+            _texture = PoolProxy.GetResource<GetTexturePool, TextureAllocationPolicy, string, ITexture>(texturePath);
+            _normalMap = PoolProxy.GetResource<GetTexturePool, TextureAllocationPolicy, string, ITexture>(normalMapPath);
+            _specularMap = PoolProxy.GetResource<GetTexturePool, TextureAllocationPolicy, string, ITexture>(specularMapPath);
             _model = new MeshSkin(modelPath);
 
             this.bVisibleByCamera = true;

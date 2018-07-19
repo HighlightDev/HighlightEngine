@@ -11,6 +11,7 @@ using MassiveGame.API.Collector.AnimationCollect;
 
 namespace MassiveGame.API.Collector
 {
+    [Obsolete("Use memory allocation policies instead")]
     public static class ResourcePool
     {
         private static AnimationPool animationCollector;

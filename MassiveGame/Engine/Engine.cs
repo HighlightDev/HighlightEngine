@@ -229,8 +229,7 @@ namespace MassiveGame.UI
             EngineStatics.Enemy.SetCollisionHeadUnit(collisionHeadUnit);
             arg = null;
 
-            var pool = TestClass.GetPool();
-            pool.ToString();
+            TestClass.GetPool();
 
             //EngineStatics.Grass = new PlantReadyMaster(
             //    4000, EngineStatics.MAP_SIZE, PlantModels.getBillboardModel1(), new Vector3(1),

@@ -1,5 +1,4 @@
 ﻿using CParser;
-using MassiveGame.Core.GameCore.Entities.MoveEntities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,10 +6,12 @@ using TextureLoader;
 using VBO;
 using OpenTK.Graphics.OpenGL;
 using ShaderPattern;
+using MassiveGame.Core.RenderCore;
 
 namespace MassiveGame.API.Collector.Policies
 {
     #region POLICY
+
     public abstract class Policy { }
 
     public abstract class AllocationPolicy<ArgType, ReturnType> : Policy
@@ -20,7 +21,7 @@ namespace MassiveGame.API.Collector.Policies
 
         public abstract ReturnType AllocateMemory(ArgType arg);
 
-        public abstract void CleanUp(ReturnType arg);
+        public abstract void FreeMemory(ReturnType arg);
     }
 
     public class ModelAllocationPolicy : AllocationPolicy<string, VertexArrayObject>
@@ -56,7 +57,7 @@ namespace MassiveGame.API.Collector.Policies
             return vao;
         }
 
-        public override void CleanUp(VertexArrayObject arg)
+        public override void FreeMemory(VertexArrayObject arg)
         {
             arg.CleanUp();
         }
@@ -66,10 +67,12 @@ namespace MassiveGame.API.Collector.Policies
     {
         public override ITexture AllocateMemory(TextureParameters arg)
         {
-            throw new NotImplementedException();
+            ITexture result = null;
+            result = new Texture2D(arg);
+            return result;
         }
 
-        public override void CleanUp(ITexture arg)
+        public override void FreeMemory(ITexture arg)
         {
             arg.CleanUp();
         }
@@ -83,44 +86,78 @@ namespace MassiveGame.API.Collector.Policies
             return LoadShaderFromFile(arg);
         }
 
-        public override void CleanUp(ShaderType arg)
+        public override void FreeMemory(ShaderType arg)
         {
             arg.cleanUp();
         }
 
-        public ShaderType LoadShaderFromFile(string compositeKey)
+        private ShaderType LoadShaderFromFile(string compositeKey)
         {
-            string[] shaderFiles = GetKeys(compositeKey);
+            string[] shaderFiles = compositeKey.Split(',');
             return (ShaderType)Activator.CreateInstance(typeof(ShaderType), shaderFiles);
-        }
-
-        private string[] GetKeys(string compositeKey)
-        {
-            var result = compositeKey.Split(',');
-            return result;
         }
     }
 
+    public class TextureAllocationPolicy : AllocationPolicy<string, ITexture>
+    {
+        public override ITexture AllocateMemory(string arg)
+        {
+            var pathToTexture = arg.Split(',');
+            ITexture resultTexture = null;
+            switch (pathToTexture.Length)
+            {
+                case 1:
+                    resultTexture = LoadTexture2dFromFile(pathToTexture.First());
+                    break;
+                case 6:
+                    resultTexture = LoadTextureCubeFromFile(pathToTexture);
+                    break;
+                default: throw new ArgumentException("Undefined count of files.");
+            }
+            return resultTexture;
+        }
+
+        public override void FreeMemory(ITexture arg)
+        {
+            arg.CleanUp();
+        }
+
+        private ITexture LoadTexture2dFromFile(string pathToFile)
+        {
+            return new Texture2D(pathToFile, EngineStatics.globalSettings.bSupported_MipMap, EngineStatics.globalSettings.AnisotropicFilterValue);
+        }
+
+        private ITexture LoadTextureCubeFromFile(string[] pathToFiles)
+        {
+            return new CubemapTexture(pathToFiles);
+        }
+
+        public void ReleaseTexture(ITexture texture)
+        {
+
+        }
+    }
 
     #endregion
 
     #region POOL
 
-    public abstract class Pool
+    public abstract class BasePool
     {
         protected Dictionary<object, object> resourceMap;
         protected Dictionary<object, Int32> referenceMap;
 
-        public Pool()
+        public BasePool()
         {
             resourceMap = new Dictionary<object, object>();
             referenceMap = new Dictionary<object, int>();
         }
 
-        private bool AlreadyIsInPool<ArgType>(ArgType key)
+        private bool AlreadyIsInPool<ArgType, ReturnType>(ArgType key, ref ReturnType resource)
         {
-            object result = null;
+            object result;
             bool exist = resourceMap.TryGetValue(key, out result);
+            resource = (ReturnType)result;
             return exist;
         }
 
@@ -136,22 +173,56 @@ namespace MassiveGame.API.Collector.Policies
             }
         }
 
+        private void FreeResource<AllocationPolicy, ArgType, ReturnType>(ArgType key)
+            where AllocationPolicy : AllocationPolicy<ArgType, ReturnType>, new()
+        {
+            referenceMap[key]--;
+            if (referenceMap[key] == 0)
+            {
+                new AllocationPolicy().FreeMemory((ReturnType)resourceMap[key]);
+                resourceMap.Remove(key);
+                referenceMap.Remove(key);
+            }
+        }
+
         private bool TryToFreeMemory<AllocationPolicy, ArgType, ReturnType>(ArgType key) 
             where AllocationPolicy : AllocationPolicy<ArgType, ReturnType>, new()
         {
             bool bMemoryFreed = false;
             object resource;
             bool bExist = resourceMap.TryGetValue(key, out resource);
+
             if (bExist)
             {
-                referenceMap[key]--;
-                if (referenceMap[key] == 0)
+                bMemoryFreed = true;
+                FreeResource<AllocationPolicy, ArgType, ReturnType>((ArgType)key);
+            }
+
+            return bMemoryFreed;
+        }
+
+        private bool TryToFreeMemory<AllocationPolicy, ArgType, ReturnType>(ReturnType value)
+            where AllocationPolicy : AllocationPolicy<ArgType, ReturnType>, new()
+        {
+            object key = null;
+            bool bMemoryFreed = false;
+            bool bExist = resourceMap.Any(item =>
+            {
+                if (item.Value == (object)value)
                 {
-                    new AllocationPolicy().CleanUp((ReturnType)resourceMap[key]);
-                    bMemoryFreed = true;
-                    resourceMap.Remove(key);
-                    referenceMap.Remove(key);
+                    key = item.Key;
+                    return true;
                 }
+                else
+                {
+                    return false;
+                }
+            });
+
+            if (bExist)
+            {
+                bMemoryFreed = true;
+                FreeResource<AllocationPolicy, ArgType, ReturnType>((ArgType)key);
             }
 
             return bMemoryFreed;
@@ -160,8 +231,8 @@ namespace MassiveGame.API.Collector.Policies
         public ReturnType GetResourceFromPool<AllocationPolicy, ArgType, ReturnType>(ArgType arg)
           where AllocationPolicy : AllocationPolicy<ArgType, ReturnType>, new()
         {
-            bool bHasInPool = AlreadyIsInPool(arg);
             ReturnType resource = default(ReturnType);
+            bool bHasInPool = AlreadyIsInPool(arg, ref resource);
             if (!bHasInPool)
             {
                 resource = new AllocationPolicy().AllocateMemory(arg);
@@ -171,14 +242,20 @@ namespace MassiveGame.API.Collector.Policies
             return resource;
         }
 
-        public void CleanUp<AllocationPolicy, ArgType, ReturnType>(ArgType arg) 
+        public void CleanUpByKey<AllocationPolicy, ArgType, ReturnType>(ArgType arg) 
+            where AllocationPolicy : AllocationPolicy<ArgType, ReturnType>, new()
+        {
+            TryToFreeMemory<AllocationPolicy, ArgType, ReturnType>(arg);
+        }
+
+        public void CleanUpByValue<AllocationPolicy, ArgType, ReturnType>(ReturnType arg)
             where AllocationPolicy : AllocationPolicy<ArgType, ReturnType>, new()
         {
             TryToFreeMemory<AllocationPolicy, ArgType, ReturnType>(arg);
         }
     }
 
-    public class ModelPool : Pool
+    public class ModelPool : BasePool
     {
         public ModelPool() { }
 
@@ -206,20 +283,25 @@ namespace MassiveGame.API.Collector.Policies
         }
     }
 
-    public class RenderTargetPool : Pool
+    public class RenderTargetPool : BasePool
     {
         public RenderTargetPool() { }
     }
 
-    public class ShaderPool : Pool
+    public class ShaderPool : BasePool
     {
         public ShaderPool() { }
     }
 
-    public class ResourcePool
+    public class TexturePool : BasePool
     {
-        public ReturnType GetResource<Pool, AllocationPolicy, ArgType, ReturnType>(ArgType arg)
-              where Pool : IPool, new()
+        public TexturePool() { }
+    }
+
+    public static class PoolProxy
+    {
+        public static ReturnType GetResource<Pool, AllocationPolicy, ArgType, ReturnType>(ArgType arg)
+              where Pool : IPool<BasePool>, new()
               where AllocationPolicy : AllocationPolicy<ArgType, ReturnType>, new()
 
         {
@@ -227,70 +309,96 @@ namespace MassiveGame.API.Collector.Policies
             return pool.GetPool().GetResourceFromPool<AllocationPolicy, ArgType, ReturnType>(arg);
         }
 
-        public void FreeResourceMemory<Pool, AllocationPolicy, ArgType, ReturnType>(ArgType arg)
-             where Pool : IPool, new()
+        public static void FreeResourceMemoryByKey<Pool, AllocationPolicy, ArgType, ReturnType>(ArgType arg)
+             where Pool : IPool<BasePool>, new()
               where AllocationPolicy : AllocationPolicy<ArgType, ReturnType>, new()
         {
             Pool pool = new Pool();
-            pool.GetPool().CleanUp<AllocationPolicy, ArgType, ReturnType>(arg);
+            pool.GetPool().CleanUpByKey<AllocationPolicy, ArgType, ReturnType>(arg);
+        }
+
+        public static void FreeResourceMemoryByValue<Pool, AllocationPolicy, ArgType, ReturnType>(ReturnType arg)
+             where Pool : IPool<BasePool>, new()
+              where AllocationPolicy : AllocationPolicy<ArgType, ReturnType>, new()
+        {
+            Pool pool = new Pool();
+            pool.GetPool().CleanUpByValue<AllocationPolicy, ArgType, ReturnType>(arg);
         }
     }
 
-    public static class StaticPools
+    public class PoolCollector
     {
-        public static ModelPool modelPool = new ModelPool();
-        public static RenderTargetPool renderTargetPool = new RenderTargetPool();
-        public static ShaderPool shaderPool = new ShaderPool();
+        public ModelPool ModelPool { private set; get; }
+        public ShaderPool ShaderPool { private set; get; }
+        public RenderTargetPool RenderTargetPool { private set; get; }
+        public TexturePool TexturePool { private set; get; }
+
+        private static PoolCollector m_collector;
+
+        private PoolCollector()
+        {
+            ModelPool = new ModelPool();
+            ShaderPool = new ShaderPool();
+            RenderTargetPool = new RenderTargetPool();
+            TexturePool = new TexturePool();
+        }
+
+        public static PoolCollector GetInstance()
+        {
+            if (m_collector == null)
+                m_collector = new PoolCollector();
+            return m_collector;
+        }
     }
 
-    public interface IPool
+    public interface IPool<PoolType>
     {
-        Pool GetPool();
+        PoolType GetPool();
     }
 
-    public class GetModelPool : IPool
+    public class GetModelPool : IPool<BasePool>
     {
-        public Pool GetPool() { return StaticPools.modelPool; }
+        public BasePool GetPool() { return PoolCollector.GetInstance().ModelPool; }
     }
 
-    public class GetRenderTargetPool : IPool
+    public class GetRenderTargetPool : IPool<BasePool>
     {
-        public Pool GetPool() { return StaticPools.renderTargetPool; }
+        public BasePool GetPool() { return PoolCollector.GetInstance().RenderTargetPool; }
     }
 
-    public class GetShaderPool : IPool
+    public class GetShaderPool : IPool<BasePool>
     {
-        public Pool GetPool() { return StaticPools.shaderPool; }
+        public BasePool GetPool() { return PoolCollector.GetInstance().ShaderPool; }
+    }
+
+    public class GetTexturePool : IPool<BasePool>
+    {
+        public BasePool GetPool() { return PoolCollector.GetInstance().TexturePool; }
     }
 
     #endregion
 
     public static class TestClass
     {
-        static ResourcePool pool;
-
         static void TryGetModel()
         {
-            string key = MassiveGame.Settings.ProjectFolders.ModelsPath + "playerCube.obj";
+            string key = Settings.ProjectFolders.ModelsPath + "playerCube.obj";
 
-            var model = pool.GetResource<GetModelPool, ModelAllocationPolicy, string, VertexArrayObject>(key);
-            model = pool.GetResource<GetModelPool, ModelAllocationPolicy, string, VertexArrayObject>(key);
-            pool.FreeResourceMemory<GetModelPool, ModelAllocationPolicy, string, VertexArrayObject>(key);
-            pool.FreeResourceMemory<GetModelPool, ModelAllocationPolicy, string, VertexArrayObject>(key);
-            //var renderTarget = pool.GetResource<GetRenderTargetPool, RenderTargetAllocationPolicy, TextureParameters, ITexture>(new TextureParameters());
-            //var playerShader = pool.GetResource<GetShaderPool, ShaderAllocationPolicy<MovableEntityShader>, string, MovableEntityShader>("playerVS.glsl, playerFS.glsl");
+            var model = PoolProxy.GetResource<GetModelPool, ModelAllocationPolicy, string, VertexArrayObject>(key);
+            PoolProxy.FreeResourceMemoryByKey<GetModelPool, ModelAllocationPolicy, string, VertexArrayObject>(key);
+
+            var shader = PoolProxy.GetResource<GetShaderPool, ShaderAllocationPolicy<CopyTextureShader>, string, CopyTextureShader>
+                (Settings.ProjectFolders.ShadersPath + "copyTextureVS.glsl," + Settings.ProjectFolders.ShadersPath + "copyTextureFS.glsl");
+            PoolProxy.FreeResourceMemoryByValue<GetShaderPool, ShaderAllocationPolicy<CopyTextureShader>, string, CopyTextureShader>(shader);
+            //var renderTarget = PoolProxy.GetResource<GetRenderTargetPool, RenderTargetAllocationPolicy, TextureParameters, ITexture>(new TextureParameters());
+            //var playerShader = PoolProxy.GetResource<GetShaderPool, ShaderAllocationPolicy<MovableEntityShader>, string, MovableEntityShader>("playerVS.glsl, playerFS.glsl");
         }
 
-        public static ResourcePool GetPool()
+        public static void GetPool()
 
         {
             TryGetModel();
-            return pool;
         }
 
-        static TestClass()
-        {
-            pool = new ResourcePool();
-        }
     }
 }
