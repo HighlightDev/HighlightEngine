@@ -9,7 +9,9 @@ using MassiveGame.Core.RenderCore.Lights;
 using MassiveGame.Core.GameCore.Water;
 using TextureLoader;
 using MassiveGame.Settings;
-using MassiveGame.API.Collector;
+using MassiveGame.API.ResourcePool.PoolHandling;
+using MassiveGame.API.ResourcePool.Policies;
+using MassiveGame.API.ResourcePool;
 
 namespace MassiveGame.Core.GameCore.Entities.MoveEntities
 {
@@ -56,9 +58,9 @@ namespace MassiveGame.Core.GameCore.Entities.MoveEntities
         {
             if (bPostConstructor)
             {
-                shader = ResourcePool.GetShaderProgram<MovableEntityShader>(ProjectFolders.ShadersPath + "movableEntityVS.glsl", ProjectFolders.ShadersPath + "movableEntityFS.glsl", "");
-                liteReflectionShader = ResourcePool.GetShaderProgram<WaterReflectionEntityShader>(ProjectFolders.ShadersPath + "waterReflectionEntityVS.glsl", ProjectFolders.ShadersPath + "waterReflectionEntityFS.glsl", "");
-                liteRefractionShader = ResourcePool.GetShaderProgram<WaterRefractionEntityShader>(ProjectFolders.ShadersPath + "waterRefractionEntityVS.glsl", ProjectFolders.ShadersPath + "waterRefractionEntityFS.glsl", "");
+                shader = PoolProxy.GetResource<ObtainShaderPool, ShaderAllocationPolicy<MovableEntityShader>, string, MovableEntityShader>(ProjectFolders.ShadersPath + "movableEntityVS.glsl" + "," + ProjectFolders.ShadersPath + "movableEntityFS.glsl");
+                liteReflectionShader = PoolProxy.GetResource<ObtainShaderPool, ShaderAllocationPolicy<WaterReflectionEntityShader>, string, WaterReflectionEntityShader>(ProjectFolders.ShadersPath + "waterReflectionEntityVS.glsl" + "," + ProjectFolders.ShadersPath + "waterReflectionEntityFS.glsl");
+                liteRefractionShader = PoolProxy.GetResource<ObtainShaderPool, ShaderAllocationPolicy<WaterRefractionEntityShader>, string, WaterRefractionEntityShader>(ProjectFolders.ShadersPath + "waterRefractionEntityVS.glsl" + "," + ProjectFolders.ShadersPath + "waterRefractionEntityFS.glsl");
 
                 this.bPostConstructor = !this.bPostConstructor;
             }
@@ -212,9 +214,9 @@ namespace MassiveGame.Core.GameCore.Entities.MoveEntities
         public override void cleanUp()
         {
             //source.Delete();
-            ResourcePool.ReleaseShaderProgram(shader);
-            ResourcePool.ReleaseShaderProgram(liteReflectionShader);
-            ResourcePool.ReleaseShaderProgram(liteRefractionShader);
+            PoolProxy.FreeResourceMemoryByValue<ObtainShaderPool, ShaderAllocationPolicy<MovableEntityShader>, string, MovableEntityShader>(shader);
+            PoolProxy.FreeResourceMemoryByValue<ObtainShaderPool, ShaderAllocationPolicy<WaterReflectionEntityShader>, string, WaterReflectionEntityShader>(liteReflectionShader);
+            PoolProxy.FreeResourceMemoryByValue<ObtainShaderPool, ShaderAllocationPolicy<WaterRefractionEntityShader>, string, WaterRefractionEntityShader>(liteRefractionShader);
             _model.Dispose();
             if (_texture != null)
                 _texture.CleanUp();

@@ -2,7 +2,9 @@
 using TextureLoader;
 using FramebufferAPI;
 using OpenTK.Graphics.OpenGL;
-using MassiveGame.API.Collector;
+using MassiveGame.API.ResourcePool;
+using MassiveGame.API.ResourcePool.PoolHandling;
+using MassiveGame.API.ResourcePool.Policies;
 
 namespace MassiveGame.Core.GameCore.Water
 {
@@ -25,9 +27,9 @@ namespace MassiveGame.Core.GameCore.Water
              2 - for refraction
              3 - for depth*/
 
-            ReflectionTexture = ResourcePool.GetRenderTarget(new TextureParameters(TextureTarget.Texture2D, TextureMagFilter.Nearest, TextureMinFilter.Nearest, 0, PixelInternalFormat.Rgb, (Int32)(EngineStatics.globalSettings.DomainFramebufferRezolution.X / 1.5), (Int32)(EngineStatics.globalSettings.DomainFramebufferRezolution.Y / 1.5), PixelFormat.Rgb, PixelType.UnsignedByte, TextureWrapMode.Repeat));
-            RefractionTexture = ResourcePool.GetRenderTarget(new TextureParameters(TextureTarget.Texture2D, TextureMagFilter.Nearest, TextureMinFilter.Nearest, 0, PixelInternalFormat.Rgb, (Int32)(EngineStatics.globalSettings.DomainFramebufferRezolution.X / 1.5), (Int32)(EngineStatics.globalSettings.DomainFramebufferRezolution.Y / 1.5), PixelFormat.Rgb, PixelType.UnsignedByte, TextureWrapMode.Repeat));
-            DepthTexture = ResourcePool.GetRenderTarget(new TextureParameters(TextureTarget.Texture2D, TextureMagFilter.Nearest, TextureMinFilter.Nearest, 0, PixelInternalFormat.Depth24Stencil8,
+            ReflectionTexture = PoolProxy.GetResource<ObtainRenderTargetPool, RenderTargetAllocationPolicy, TextureParameters, ITexture>(new TextureParameters(TextureTarget.Texture2D, TextureMagFilter.Nearest, TextureMinFilter.Nearest, 0, PixelInternalFormat.Rgb, (Int32)(EngineStatics.globalSettings.DomainFramebufferRezolution.X / 1.5), (Int32)(EngineStatics.globalSettings.DomainFramebufferRezolution.Y / 1.5), PixelFormat.Rgb, PixelType.UnsignedByte, TextureWrapMode.Repeat));
+            RefractionTexture = PoolProxy.GetResource<ObtainRenderTargetPool, RenderTargetAllocationPolicy, TextureParameters, ITexture>(new TextureParameters(TextureTarget.Texture2D, TextureMagFilter.Nearest, TextureMinFilter.Nearest, 0, PixelInternalFormat.Rgb, (Int32)(EngineStatics.globalSettings.DomainFramebufferRezolution.X / 1.5), (Int32)(EngineStatics.globalSettings.DomainFramebufferRezolution.Y / 1.5), PixelFormat.Rgb, PixelType.UnsignedByte, TextureWrapMode.Repeat));
+            DepthTexture = PoolProxy.GetResource<ObtainRenderTargetPool, RenderTargetAllocationPolicy, TextureParameters, ITexture>(new TextureParameters(TextureTarget.Texture2D, TextureMagFilter.Nearest, TextureMinFilter.Nearest, 0, PixelInternalFormat.Depth24Stencil8,
                 (Int32)(EngineStatics.globalSettings.DomainFramebufferRezolution.X / 1.5f), (Int32)(EngineStatics.globalSettings.DomainFramebufferRezolution.Y / 1.5f), PixelFormat.DepthComponent, PixelType.Float, TextureWrapMode.Repeat));
         }
 
@@ -59,9 +61,9 @@ namespace MassiveGame.Core.GameCore.Water
 
         public override void cleanUp()
         {
-            ResourcePool.ReleaseRenderTarget(ReflectionTexture);
-            ResourcePool.ReleaseRenderTarget(RefractionTexture);
-            ResourcePool.ReleaseRenderTarget(DepthTexture);
+            PoolProxy.FreeResourceMemoryByValue<ObtainRenderTargetPool, RenderTargetAllocationPolicy, TextureParameters, ITexture>(ReflectionTexture);
+            PoolProxy.FreeResourceMemoryByValue<ObtainRenderTargetPool, RenderTargetAllocationPolicy, TextureParameters, ITexture>(RefractionTexture);
+            PoolProxy.FreeResourceMemoryByValue<ObtainRenderTargetPool, RenderTargetAllocationPolicy, TextureParameters, ITexture>(DepthTexture);
             base.cleanUp();
         }
 

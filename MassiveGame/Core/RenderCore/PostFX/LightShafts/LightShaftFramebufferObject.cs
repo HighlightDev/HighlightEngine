@@ -1,7 +1,9 @@
 ﻿using OpenTK.Graphics.OpenGL;
 using FramebufferAPI;
 using TextureLoader;
-using MassiveGame.API.Collector;
+using MassiveGame.API.ResourcePool.PoolHandling;
+using MassiveGame.API.ResourcePool.Policies;
+using MassiveGame.API.ResourcePool;
 
 namespace MassiveGame.Core.RenderCore.PostFX.LightShafts
 {
@@ -18,11 +20,11 @@ namespace MassiveGame.Core.RenderCore.PostFX.LightShafts
 
         protected override void setTextures()
         {
-            RadialBlurAppliedTexture = ResourcePool.GetRenderTarget(new TextureParameters(TextureTarget.Texture2D, TextureMagFilter.Linear, TextureMinFilter.Linear,
+            RadialBlurAppliedTexture = PoolProxy.GetResource<ObtainRenderTargetPool, RenderTargetAllocationPolicy, TextureParameters, ITexture>(new TextureParameters(TextureTarget.Texture2D, TextureMagFilter.Linear, TextureMinFilter.Linear,
              0, PixelInternalFormat.Rgb, EngineStatics.globalSettings.DomainFramebufferRezolution.X / 10,
              EngineStatics.globalSettings.DomainFramebufferRezolution.Y / 10, PixelFormat.Rgb, PixelType.UnsignedByte, TextureWrapMode.Repeat));
 
-            LightShaftsResultTexture = ResourcePool.GetRenderTarget(new TextureParameters(TextureTarget.Texture2D, TextureMagFilter.Nearest, TextureMinFilter.Nearest, 0, PixelInternalFormat.Rgb,
+            LightShaftsResultTexture = PoolProxy.GetResource<ObtainRenderTargetPool, RenderTargetAllocationPolicy, TextureParameters, ITexture>(new TextureParameters(TextureTarget.Texture2D, TextureMagFilter.Nearest, TextureMinFilter.Nearest, 0, PixelInternalFormat.Rgb,
                EngineStatics.globalSettings.DomainFramebufferRezolution.X, EngineStatics.globalSettings.DomainFramebufferRezolution.Y, PixelFormat.Rgb, PixelType.UnsignedByte, TextureWrapMode.Repeat));
         }
 
@@ -52,8 +54,8 @@ namespace MassiveGame.Core.RenderCore.PostFX.LightShafts
 
         public override void cleanUp()
         {
-            ResourcePool.ReleaseRenderTarget(RadialBlurAppliedTexture);
-            ResourcePool.ReleaseRenderTarget(LightShaftsResultTexture);
+            PoolProxy.FreeResourceMemoryByValue<ObtainRenderTargetPool, RenderTargetAllocationPolicy, TextureParameters, ITexture>(RadialBlurAppliedTexture);
+            PoolProxy.FreeResourceMemoryByValue<ObtainRenderTargetPool, RenderTargetAllocationPolicy, TextureParameters, ITexture>(LightShaftsResultTexture);
             base.cleanUp();
         }
 

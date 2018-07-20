@@ -1,8 +1,10 @@
 ﻿using System;
 using OpenTK.Graphics.OpenGL;
-using MassiveGame.API.Collector;
 using TextureLoader;
 using System.Drawing;
+using MassiveGame.API.ResourcePool.PoolHandling;
+using MassiveGame.API.ResourcePool.Policies;
+using MassiveGame.API.ResourcePool;
 
 namespace MassiveGame.Core.RenderCore
 {
@@ -43,8 +45,8 @@ namespace MassiveGame.Core.RenderCore
         {
             var ColorTextureParams = new TextureParameters(TextureTarget.Texture2D, TextureMagFilter.Nearest, TextureMinFilter.Nearest, 0, PixelInternalFormat.Rgb, WidthRezolution, HeightRezolution, PixelFormat.Rgb, PixelType.UnsignedByte, TextureWrapMode.Repeat);
             var DepthStencilTextureParams = new TextureParameters(TextureTarget.Texture2D, TextureMagFilter.Nearest, TextureMinFilter.Nearest, 0, PixelInternalFormat.Depth24Stencil8, WidthRezolution, HeightRezolution, PixelFormat.DepthComponent, PixelType.Float, TextureWrapMode.Repeat);
-            ColorTexture = ResourcePool.GetRenderTarget(ColorTextureParams);
-            DepthStencilTexture = ResourcePool.GetRenderTarget(DepthStencilTextureParams);
+            ColorTexture = PoolProxy.GetResource<ObtainRenderTargetPool, RenderTargetAllocationPolicy, TextureParameters, ITexture>(ColorTextureParams);
+            DepthStencilTexture = PoolProxy.GetResource<ObtainRenderTargetPool, RenderTargetAllocationPolicy, TextureParameters, ITexture>(DepthStencilTextureParams);
 
             FramebufferDescriptor = GL.GenFramebuffer();
             GL.BindFramebuffer(FramebufferTarget.Framebuffer, FramebufferDescriptor);
@@ -67,8 +69,8 @@ namespace MassiveGame.Core.RenderCore
 
         public void CleanUp()
         {
-            ResourcePool.ReleaseRenderTarget(ColorTexture);
-            ResourcePool.ReleaseRenderTarget(DepthStencilTexture);
+             PoolProxy.FreeResourceMemoryByValue<ObtainRenderTargetPool, RenderTargetAllocationPolicy, TextureParameters, ITexture>(ColorTexture);
+            PoolProxy.FreeResourceMemoryByValue<ObtainRenderTargetPool, RenderTargetAllocationPolicy, TextureParameters, ITexture>(DepthStencilTexture);
             GL.DeleteFramebuffer(FramebufferDescriptor);
         }
     }

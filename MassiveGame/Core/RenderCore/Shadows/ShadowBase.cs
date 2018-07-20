@@ -1,10 +1,12 @@
-﻿using MassiveGame.API.Collector;
-using OpenTK;
+﻿using OpenTK;
 using System;
 using System.Collections.Generic;
 using TextureLoader;
 using OpenTK.Graphics.OpenGL;
 using MassiveGame.Settings;
+using MassiveGame.API.ResourcePool.PoolHandling;
+using MassiveGame.API.ResourcePool.Policies;
+using MassiveGame.API.ResourcePool;
 
 namespace MassiveGame.Core.RenderCore.Shadows
 {
@@ -38,13 +40,13 @@ namespace MassiveGame.Core.RenderCore.Shadows
 
         public void AllocateRenderTarget(TextureParameters shadowMapSettings)
         {
-            ShadowMapTexture = ResourcePool.GetRenderTarget(shadowMapSettings);
+            ShadowMapTexture = PoolProxy.GetResource<ObtainRenderTargetPool, RenderTargetAllocationPolicy, TextureParameters, ITexture>(shadowMapSettings);
             FramebufferHandler = GL.GenFramebuffer();
         }
 
         public void DeallocateRenderTarget()
         {
-            ResourcePool.ReleaseRenderTarget(ShadowMapTexture);
+            PoolProxy.FreeResourceMemoryByValue<ObtainRenderTargetPool, RenderTargetAllocationPolicy, TextureParameters, ITexture>(ShadowMapTexture);
             GL.DeleteFramebuffer(FramebufferHandler);
         }
 
@@ -77,7 +79,7 @@ namespace MassiveGame.Core.RenderCore.Shadows
 
         public ShadowBase(TextureParameters ShadowMapSettings)
         {
-            shadowShader = ResourcePool.GetShaderProgram<BasicShadowShader>(ProjectFolders.ShadersPath + "basicShadowVS.glsl", ProjectFolders.ShadersPath + "basicShadowFS.glsl", "");
+            shadowShader = PoolProxy.GetResource<ObtainShaderPool, ShaderAllocationPolicy<BasicShadowShader>, string, BasicShadowShader>(ProjectFolders.ShadersPath + "basicShadowVS.glsl" + "," + ProjectFolders.ShadersPath + "basicShadowFS.glsl");
             AllocateRenderTarget(ShadowMapSettings);
             PrepareRenderTarget();
         }

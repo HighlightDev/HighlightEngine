@@ -2,12 +2,13 @@
 using OpenTK;
 using OpenTK.Graphics.OpenGL;
 using TextureLoader;
-using MassiveGame.API.Collector;
-using GpuGraphics;
 using System.Drawing;
 using MassiveGame.Core.GameCore;
 using MassiveGame.Core.GameCore.Entities.StaticEntities;
 using MassiveGame.Settings;
+using MassiveGame.API.ResourcePool.PoolHandling;
+using MassiveGame.API.ResourcePool.Policies;
+using MassiveGame.API.ResourcePool;
 
 namespace MassiveGame.Core.RenderCore.PostFX.LightShafts
 {
@@ -40,8 +41,7 @@ namespace MassiveGame.Core.RenderCore.PostFX.LightShafts
             if (bPostConstructor)
             {
                 renderTarget = new LightShaftFramebufferObject();
-                shader = ResourcePool.GetShaderProgram<LightShaftShader<SubsequenceType>>(ProjectFolders.ShadersPath + "lightShaftsVS.glsl",
-                    ProjectFolders.ShadersPath + "lightShaftsFS.glsl", "");
+                shader = PoolProxy.GetResource<ObtainShaderPool, ShaderAllocationPolicy<LightShaftShader<SubsequenceType>>, string, LightShaftShader<SubsequenceType>>(ProjectFolders.ShadersPath + "lightShaftsVS.glsl" + "," + ProjectFolders.ShadersPath + "lightShaftsFS.glsl");
                 bPostConstructor = false;
             }
         }
@@ -172,7 +172,7 @@ namespace MassiveGame.Core.RenderCore.PostFX.LightShafts
         public override void CleanUp()
         {
             renderTarget.cleanUp();
-            ResourcePool.ReleaseShaderProgram(shader);
+            PoolProxy.FreeResourceMemoryByValue<ObtainShaderPool, ShaderAllocationPolicy<LightShaftShader<SubsequenceType>>, string, LightShaftShader<SubsequenceType>>(shader);
         }
     }
 }

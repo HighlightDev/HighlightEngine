@@ -1,8 +1,10 @@
 ﻿using OpenTK;
 using OpenTK.Graphics.OpenGL;
 using TextureLoader;
-using MassiveGame.API.Collector;
 using MassiveGame.Settings;
+using MassiveGame.API.ResourcePool.PoolHandling;
+using MassiveGame.API.ResourcePool.Policies;
+using MassiveGame.API.ResourcePool;
 
 namespace MassiveGame.Core.GameCore.Entities.EnvironmentEntities
 {
@@ -47,9 +49,9 @@ namespace MassiveGame.Core.GameCore.Entities.EnvironmentEntities
             Vector3 translation = new Vector3(), Vector3 rotation = new Vector3(), Vector3 scale = new Vector3())
             : base(modelPath, texturePath, normalMapPath, specularMapPath, translation, rotation, scale)
         {
-            _shader = ResourcePool.GetShaderProgram<EnvironmentEntitiesShader>(ProjectFolders.ShadersPath + "envVS.glsl",
-                ProjectFolders.ShadersPath + "envFS.glsl", "");
-            this._envMap = ResourcePool.GetTexture(cubemapEnvMap);
+            _shader = PoolProxy.GetResource<ObtainShaderPool, ShaderAllocationPolicy<EnvironmentEntitiesShader>, string, EnvironmentEntitiesShader>(ProjectFolders.ShadersPath + "envVS.glsl" + "," + ProjectFolders.ShadersPath + "envFS.glsl");
+            this._envMap = PoolProxy.GetResource<ObtainTexturePool, TextureAllocationPolicy, string, ITexture>(cubemapEnvMap[0] + "," + cubemapEnvMap[1] + "," + cubemapEnvMap[2] + "," +
+                cubemapEnvMap[3] + "," + cubemapEnvMap[4] + "," + cubemapEnvMap[5]);
             this.bPostConstructor = true;
         }
 
@@ -60,8 +62,8 @@ namespace MassiveGame.Core.GameCore.Entities.EnvironmentEntities
         public override void cleanUp()
         {
             base.cleanUp();
-            ResourcePool.ReleaseTexture(_texture);
-            ResourcePool.ReleaseShaderProgram(_shader);
+            PoolProxy.FreeResourceMemoryByValue<ObtainTexturePool, TextureAllocationPolicy, string, ITexture>(_texture);
+            PoolProxy.FreeResourceMemoryByValue<ObtainShaderPool, ShaderAllocationPolicy<EnvironmentEntitiesShader>, string, EnvironmentEntitiesShader>(_shader);
         }
 
         #endregion

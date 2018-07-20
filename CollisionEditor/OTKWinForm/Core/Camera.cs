@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using VMath;
 
 namespace OTKWinForm.Core
 {
@@ -67,7 +66,7 @@ namespace OTKWinForm.Core
             rotationMatrix *= rotateYaw;
             rotationMatrix *= rotatePitch;
 
-            this.Position = new Vector3(VectorMath.multMatrix(rotationMatrix, new Vector4(this.Position, 1.0f)));
+            Position = new Vector3(VectorMath.VectorMathOperations.multMatrix(rotationMatrix, new Vector4(this.Position, 1.0f)));
         }
 
         public FirstPersonCamera(float posX, float posY, float posZ,

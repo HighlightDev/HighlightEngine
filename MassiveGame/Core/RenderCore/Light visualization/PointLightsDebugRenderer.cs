@@ -3,12 +3,13 @@
 using OpenTK;
 using OpenTK.Graphics.OpenGL;
 using TextureLoader;
-using GpuGraphics;
-using MassiveGame.API.Collector;
 using MassiveGame.Core.GameCore;
 using MassiveGame.Core.RenderCore.Lights;
 using MassiveGame.Settings;
 using VBO;
+using MassiveGame.API.ResourcePool.PoolHandling;
+using MassiveGame.API.ResourcePool.Policies;
+using MassiveGame.API.ResourcePool;
 
 namespace MassiveGame.Core.RenderCore.Light_visualization
 {
@@ -39,12 +40,11 @@ namespace MassiveGame.Core.RenderCore.Light_visualization
         {
             if (_postConstructor)
             {
-                this._shader = ResourcePool.GetShaderProgram<PointLightDebugShader>(ProjectFolders.ShadersPath + "lampVS.glsl",
-                    ProjectFolders.ShadersPath + "lampFS.glsl", ProjectFolders.ShadersPath + "lampGS.glsl");
+                this._shader = PoolProxy.GetResource<ObtainShaderPool, ShaderAllocationPolicy<PointLightDebugShader>, string, PointLightDebugShader>(ProjectFolders.ShadersPath + "lampVS.glsl" + "," + ProjectFolders.ShadersPath + "lampFS.glsl" + "," + ProjectFolders.ShadersPath + "lampGS.glsl");
 
                 float[,] vertices = new float[1, 3];
 
-                VertexBufferObject<float> verticesVBO = new VertexBufferObject<float>(vertices, BufferTarget.ArrayBuffer, 0, 3, VertexBufferObjectBase.DataCarryFlag.Invalidate);
+                VertexBufferObjectTwoDimension<float> verticesVBO = new VertexBufferObjectTwoDimension<float>(vertices, BufferTarget.ArrayBuffer, 0, 3, VertexBufferObjectBase.DataCarryFlag.Invalidate);
                 _buffer = new VertexArrayObject();
                 _buffer.AddVBO(verticesVBO);
                 _buffer.BindVbosToVao();
@@ -54,15 +54,15 @@ namespace MassiveGame.Core.RenderCore.Light_visualization
 
         public PointLightsDebugRenderer(string LampTexture, List<PointLight> lamps)
         {
-            this._texture = ResourcePool.GetTexture(LampTexture);
+            this._texture = PoolProxy.GetResource<ObtainTexturePool, TextureAllocationPolicy, string, ITexture>(LampTexture);
             this._lamps = lamps;
             this._postConstructor = true;
         }
 
         public void cleanUp()
         {
-            this._shader.cleanUp();
-            ResourcePool.ReleaseTexture(_texture);
+            PoolProxy.FreeResourceMemoryByValue<ObtainShaderPool, ShaderAllocationPolicy<PointLightDebugShader>, string, PointLightDebugShader>(_shader);
+            PoolProxy.FreeResourceMemoryByValue<ObtainTexturePool, TextureAllocationPolicy, string, ITexture>(_texture);
             _buffer.CleanUp();
         }
     }

@@ -3,9 +3,10 @@ using OpenTK.Graphics.OpenGL;
 using OpenTK;
 using System.Drawing;
 using TextureLoader;
-using MassiveGame.API.Collector;
-using GpuGraphics;
 using MassiveGame.Settings;
+using MassiveGame.API.ResourcePool.PoolHandling;
+using MassiveGame.API.ResourcePool.Policies;
+using MassiveGame.API.ResourcePool;
 
 namespace MassiveGame.Core.RenderCore.PostFX.DepthOfField
 {
@@ -53,8 +54,7 @@ namespace MassiveGame.Core.RenderCore.PostFX.DepthOfField
             if (bPostConstructor)
             {
                 renderTarget = new DepthOfFieldFramebufferObject();
-                dofShader = ResourcePool.GetShaderProgram<DepthOfFieldShader<SubsequenceType>>(ProjectFolders.ShadersPath + "depthOfFieldVS.glsl",
-                    ProjectFolders.ShadersPath + "depthOfFieldFS.glsl", "");
+                dofShader = PoolProxy.GetResource<ObtainShaderPool, ShaderAllocationPolicy<DepthOfFieldShader<SubsequenceType>>, string, DepthOfFieldShader<SubsequenceType>>(ProjectFolders.ShadersPath + "depthOfFieldVS.glsl" + "," + ProjectFolders.ShadersPath + "depthOfFieldFS.glsl");
 
                 bPostConstructor = false;
             }
@@ -127,7 +127,7 @@ namespace MassiveGame.Core.RenderCore.PostFX.DepthOfField
 
         public override void CleanUp()
         {
-            ResourcePool.ReleaseShaderProgram(dofShader);
+            PoolProxy.FreeResourceMemoryByValue<ObtainShaderPool, ShaderAllocationPolicy<DepthOfFieldShader<SubsequenceType>>, string, DepthOfFieldShader<SubsequenceType>>(dofShader);
             renderTarget.cleanUp();
         }
     }

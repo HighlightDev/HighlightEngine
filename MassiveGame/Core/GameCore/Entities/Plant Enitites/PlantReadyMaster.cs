@@ -1,5 +1,4 @@
 ﻿using GpuGraphics;
-using MassiveGame.API.Collector;
 using OpenTK;
 using OpenTK.Graphics.OpenGL;
 using System.Collections.Generic;
@@ -10,6 +9,9 @@ using MassiveGame.Core.RenderCore.Lights;
 using MassiveGame.Core.GameCore.EntityComponents;
 using MassiveGame.Core.GameCore.Terrain;
 using MassiveGame.Settings;
+using MassiveGame.API.ResourcePool.PoolHandling;
+using MassiveGame.API.ResourcePool.Policies;
+using MassiveGame.API.ResourcePool;
 
 namespace MassiveGame.Core.GameCore.Entities.StaticEntities
 {
@@ -192,8 +194,7 @@ namespace MassiveGame.Core.GameCore.Entities.StaticEntities
                 VAOManager.genVAO(_buffer);
                 VAOManager.setBufferData(BufferTarget.ArrayBuffer, _buffer);
 
-                _shader = ResourcePool.GetShaderProgram<PlantShader>(ProjectFolders.ShadersPath + "plantVertexShader.glsl",
-                  ProjectFolders.ShadersPath + "plantFragmentShader.glsl", "");
+                _shader = PoolProxy.GetResource<ObtainShaderPool, ShaderAllocationPolicy<PlantShader>, string, PlantShader>(ProjectFolders.ShadersPath + "plantVertexShader.glsl" + "," + ProjectFolders.ShadersPath + "plantFragmentShader.glsl");
                 this._postConstructor = !this._postConstructor;
             }
         }
@@ -206,7 +207,7 @@ namespace MassiveGame.Core.GameCore.Entities.StaticEntities
             _texture = new List<ITexture>();
             foreach (var item in textureSets)
             {
-                _texture.Add(ResourcePool.GetTexture(item));
+                _texture.Add(PoolProxy.GetResource<ObtainTexturePool, TextureAllocationPolicy, string, ITexture>(item));
             }
             this.MAP_SIZE = MAP_SIZE;
             entityCount = entityCount > MAX_ENTITIES_COUNT ? MAX_ENTITIES_COUNT : entityCount;
@@ -231,7 +232,7 @@ namespace MassiveGame.Core.GameCore.Entities.StaticEntities
             this._texture = new List<ITexture>();
             foreach (var item in textureSets)
             {
-                _texture.Add(ResourcePool.GetTexture(item));
+                _texture.Add(PoolProxy.GetResource<ObtainTexturePool, TextureAllocationPolicy, string, ITexture>(item));
             }
             this._attribs = modelAttribs;
             this._wind = component;
@@ -248,10 +249,10 @@ namespace MassiveGame.Core.GameCore.Entities.StaticEntities
         {
             _plants.Clear();
             VAOManager.cleanUp(_buffer);
-            ResourcePool.ReleaseShaderProgram(_shader);
+            PoolProxy.FreeResourceMemoryByValue<ObtainShaderPool, ShaderAllocationPolicy<PlantShader>, string, PlantShader>(_shader);
             foreach (var item in _texture)
             {
-                ResourcePool.ReleaseTexture(item);
+                PoolProxy.FreeResourceMemoryByValue<ObtainTexturePool, TextureAllocationPolicy, string, ITexture>(item);
             }
         }
 

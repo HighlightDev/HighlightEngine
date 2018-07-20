@@ -1,10 +1,11 @@
-﻿using GpuGraphics;
-using MassiveGame.API.Collector;
-using System;
+﻿using System;
 using System.Drawing;
 using TextureLoader;
 using OpenTK.Graphics.OpenGL;
 using MassiveGame.Settings;
+using MassiveGame.API.ResourcePool.PoolHandling;
+using MassiveGame.API.ResourcePool.Policies;
+using MassiveGame.API.ResourcePool;
 
 namespace MassiveGame.Core.RenderCore.PostFX.Bloom
 {
@@ -34,8 +35,7 @@ namespace MassiveGame.Core.RenderCore.PostFX.Bloom
             if (bPostConstructor)
             {
                 renderTarget = new BloomFramebufferObject();
-                bloomShader = ResourcePool.GetShaderProgram<BloomShader<SubsequenceType>>(ProjectFolders.ShadersPath + "bloomVS.glsl",
-                    ProjectFolders.ShadersPath + "bloomFS.glsl", "");
+                bloomShader = PoolProxy.GetResource<ObtainShaderPool, ShaderAllocationPolicy<BloomShader<SubsequenceType>>, string, BloomShader<SubsequenceType>>(ProjectFolders.ShadersPath + "bloomVS.glsl" + "," + ProjectFolders.ShadersPath + "bloomFS.glsl");
                 bPostConstructor = false;
             }
         }
@@ -103,7 +103,7 @@ namespace MassiveGame.Core.RenderCore.PostFX.Bloom
         public override void CleanUp()
         {
             renderTarget.cleanUp();
-            ResourcePool.ReleaseShaderProgram(bloomShader);
+            PoolProxy.FreeResourceMemoryByValue<ObtainShaderPool, ShaderAllocationPolicy<BloomShader<SubsequenceType>>, string, BloomShader<SubsequenceType>>(bloomShader);
         }
     }
 }

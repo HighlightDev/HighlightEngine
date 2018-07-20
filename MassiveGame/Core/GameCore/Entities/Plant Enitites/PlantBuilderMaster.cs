@@ -1,5 +1,4 @@
 ﻿using GpuGraphics;
-using MassiveGame.API.Collector;
 using MassiveGame.Core.GameCore.EntityComponents;
 using MassiveGame.Core.RenderCore.Lights;
 using MassiveGame.Core.GameCore.Terrain;
@@ -10,6 +9,11 @@ using System.Collections.Generic;
 using System.Linq;
 using TextureLoader;
 using MassiveGame.Settings;
+using MassiveGame.API.ResourcePool.PoolHandling;
+using MassiveGame.API.ResourcePool.Policies;
+using MassiveGame.API.ResourcePool;
+using VBO;
+using CParser;
 
 namespace MassiveGame.Core.GameCore.Entities.StaticEntities
 {
@@ -21,8 +25,6 @@ namespace MassiveGame.Core.GameCore.Entities.StaticEntities
 
         private readonly Int32 INIT_BUFFER_SIZE;
         private const Int32 MAX_ENTITIES_COUNT = 8000;
-        private VBOArrayF _attribs;
-        private VAO _buffer;
         private PlantShader _shader;
         private Material _grassMaterial;
         private Vector3 _meshCenter;
@@ -35,6 +37,7 @@ namespace MassiveGame.Core.GameCore.Entities.StaticEntities
         private float windSpeed = 55.5f;
 
         private bool _bufferAssembled;
+        private VertexArrayObject _buffer;
 
         #endregion
 
@@ -72,7 +75,7 @@ namespace MassiveGame.Core.GameCore.Entities.StaticEntities
             // TODO : assemble buffer first or if it's already assembled just add new values to buffer
             if (_bufferAssembled)
             {
-                PlantUserAttributeBuilder.AddBuilderUserAttribute(plant, _buffer, _plants.Count);
+                //PlantUserAttributeBuilder.AddBuilderUserAttribute(plant, _buffer, _plants.Count);
             }
             else
             {
@@ -102,48 +105,29 @@ namespace MassiveGame.Core.GameCore.Entities.StaticEntities
 
         private Vector3 GetCenter()
         {
-            Vector3 center;
+            Vector3 center = Vector3.Zero;
             float tempX = 0.0f;
             float tempY = 0.0f;
             float tempZ = 0.0f;
 
-            Int32 iterationCount = _attribs.Vertices.Length / 3;
-            for (Int32 i = 0; i < iterationCount; i++)
-            {
-                tempX += _attribs.Vertices[i, 0];
-                tempY += _attribs.Vertices[i, 1];
-                tempZ += _attribs.Vertices[i, 2];
-            }
-            center = new Vector3(
-                tempX / iterationCount,
-                tempY / iterationCount,
-                tempZ / iterationCount
-                );
+            //Int32 iterationCount = _attribs.Vertices.Length / 3;
+            //for (Int32 i = 0; i < iterationCount; i++)
+            //{
+            //    tempX += _attribs.Vertices[i, 0];
+            //    tempY += _attribs.Vertices[i, 1];
+            //    tempZ += _attribs.Vertices[i, 2];
+            //}
+            //center = new Vector3(
+            //    tempX / iterationCount,
+            //    tempY / iterationCount,
+            //    tempZ / iterationCount
+            //    );
             return center;
         }
 
         #endregion
 
         #region Align_layout
-
-        private VBOArrayF AlignMeshYAxis(VBOArrayF attribs)
-        {
-            //Выравнивает координаты травы до их обработки
-            float tempBottom = attribs.Vertices[0, 1];
-            Int32 iterationCount = attribs.Vertices.Length / 3;
-
-            for (Int32 i = 0; i < iterationCount; i++)
-            {
-                if (tempBottom > attribs.Vertices[i, 1])   //Находим минимум по Y
-                {
-                    tempBottom = attribs.Vertices[i, 1];
-                }
-            }
-
-            attribs.verticesShift(0, -tempBottom, 0);
-            return attribs;
-        }
-
 
         private void AlignPlantsToTerrain(Landscape terrain)
         {
@@ -200,7 +184,7 @@ namespace MassiveGame.Core.GameCore.Entities.StaticEntities
                 _shader.setClipPlane(ref clipPlane);
                 _shader.setMist(_mist);
 
-                VAOManager.renderInstanced(_buffer, PrimitiveType.Triangles, _plants.Count);
+                //VAOManager.renderInstanced(_buffer, PrimitiveType.Triangles, _plants.Count);
                 _shader.stopProgram();
             }
         }
@@ -213,22 +197,37 @@ namespace MassiveGame.Core.GameCore.Entities.StaticEntities
         {
             if (this._postConstructor)
             {
-                this._attribs = PlantUserAttributeBuilder.BuildBuilderUserAttributeBuffer(_plants, _attribs, INIT_BUFFER_SIZE);
-                _buffer = new VAO(_attribs);
-
-                VAOManager.genVAO(_buffer);
-                VAOManager.setBufferData(BufferTarget.ArrayBuffer, _buffer);
-
                 if (_shader == null)
                 {
-                    _shader = ResourcePool.GetShaderProgram<PlantShader>(ProjectFolders.ShadersPath + "plantVertexShader.glsl",
-                 ProjectFolders.ShadersPath + "plantFragmentShader.glsl", "");
+                    _shader = PoolProxy.GetResource<ObtainShaderPool, ShaderAllocationPolicy<PlantShader>, string, PlantShader>(ProjectFolders.ShadersPath + "plantVertexShader.glsl" + "," + ProjectFolders.ShadersPath + "plantFragmentShader.glsl");
                 }
                 this._postConstructor = false;
             }
         }
 
-        public PlantBuilderMaster(Int32 init_buffer_size, VBOArrayF modelAttribs, string[] textureSets, WindComponent component)
+        private VertexArrayObject AllocateVaoMemory(string path)
+        {
+            ModelLoader loader = new ModelLoader(path);
+
+            VertexBufferObjectTwoDimension<float> verticesVBO = new VertexBufferObjectTwoDimension<float>(loader.Verts, BufferTarget.ArrayBuffer, 0, 3, VertexBufferObjectBase.DataCarryFlag.Invalidate);
+            VertexBufferObjectTwoDimension<float> normalsVBO = new VertexBufferObjectTwoDimension<float>(loader.N_Verts, BufferTarget.ArrayBuffer, 1, 3, VertexBufferObjectBase.DataCarryFlag.Invalidate);
+            VertexBufferObjectTwoDimension<float> texCoordsVBO = new VertexBufferObjectTwoDimension<float>(loader.T_Verts, BufferTarget.ArrayBuffer, 2, 2, VertexBufferObjectBase.DataCarryFlag.Invalidate);
+
+            var transformationVboTuples = PlantUserAttributeBuilder.GetInstacedTransformationBuffer(_plants, INIT_BUFFER_SIZE);
+            var windVBO = PlantUserAttributeBuilder.GetInstancedWindBuffer(_plants, INIT_BUFFER_SIZE);
+            var samplerVBO = PlantUserAttributeBuilder.GetInstanceSamplerBuffer(_plants, INIT_BUFFER_SIZE);
+
+            VertexArrayObject vao = new VertexArrayObject();
+            vao.AddVBO(verticesVBO, normalsVBO, texCoordsVBO,
+                transformationVboTuples.Item1.Item1, transformationVboTuples.Item1.Item2, transformationVboTuples.Item2.Item1, transformationVboTuples.Item2.Item2,
+                windVBO, samplerVBO);
+
+            vao.BindVbosToVao();
+
+            return vao;
+        }
+
+        public PlantBuilderMaster(Int32 init_buffer_size, string pathToModel, string[] textureSets, WindComponent component)
         {
             this.INIT_BUFFER_SIZE = init_buffer_size;
             this._plants = new List<PlantUnit>();
@@ -237,9 +236,9 @@ namespace MassiveGame.Core.GameCore.Entities.StaticEntities
             _texture = new List<ITexture>();
             foreach (var item in textureSets)
             {
-                _texture.Add(ResourcePool.GetTexture(item));
+                _texture.Add(PoolProxy.GetResource<ObtainTexturePool, TextureAllocationPolicy, string, ITexture>(item));
             }
-            this._attribs = AlignMeshYAxis(modelAttribs);
+            this._buffer = AllocateVaoMemory(pathToModel);
             this._wind = component;
             this._grassMaterial = new Material(new Vector3(1.0f, 1.0f, 1.0f), new Vector3(1.0f, 1.0f, 1.0f),
               new Vector3(1.0f, 1.0f, 1.0f), new Vector3(1.0f, 1.0f, 1.0f), 10.0f, 1.0f);
@@ -253,11 +252,11 @@ namespace MassiveGame.Core.GameCore.Entities.StaticEntities
         public void cleanUp()
         {
             _plants.Clear();
-            VAOManager.cleanUp(_buffer);
-            ResourcePool.ReleaseShaderProgram(_shader);
+            //VAOManager.cleanUp(_buffer);
+            PoolProxy.FreeResourceMemoryByValue<ObtainShaderPool, ShaderAllocationPolicy<PlantShader>, string, PlantShader>(_shader);
             foreach (var item in _texture)
             {
-                ResourcePool.ReleaseTexture(item);
+                PoolProxy.FreeResourceMemoryByValue<ObtainTexturePool, TextureAllocationPolicy, string, ITexture>(item);
             }
         }
 

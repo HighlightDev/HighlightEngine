@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using TextureLoader;
-
 using OpenTK;
 using OpenTK.Graphics.OpenGL;
-using MassiveGame.API.Collector;
 using MassiveGame.Core.GameCore.Water;
 using MassiveGame.Core.RenderCore.Lights;
 using MassiveGame.Settings;
+using MassiveGame.API.ResourcePool.PoolHandling;
+using MassiveGame.API.ResourcePool.Policies;
+using MassiveGame.API.ResourcePool;
 
 namespace MassiveGame.Core.GameCore.Entities.StaticEntities
 {
@@ -192,7 +193,7 @@ namespace MassiveGame.Core.GameCore.Entities.StaticEntities
 
         public void setGlowingMap(string glowingMapPath)
         {
-            _glowingMap = ResourcePool.GetTexture(glowingMapPath);
+            _glowingMap = PoolProxy.GetResource<ObtainTexturePool, TextureAllocationPolicy, string, ITexture>(glowingMapPath);
         }
 
         #endregion
@@ -212,16 +213,15 @@ namespace MassiveGame.Core.GameCore.Entities.StaticEntities
             , Vector3 translation = new Vector3(), Vector3 rotation = new Vector3(), Vector3 scale = new Vector3())
             : base( modelPath,  texturePath,  normalMapPath,  specularMapPath, translation, rotation, scale)
         {
-            _shader = ResourcePool.GetShaderProgram<StaticEntityShader>(ProjectFolders.ShadersPath + "buildingVShader.glsl",
-                   ProjectFolders.ShadersPath + "buildingFShader.glsl", "");
-            _specialShader = ResourcePool.GetShaderProgram<SpecialStaticEntityShader>(ProjectFolders.ShadersPath + "buildingSpecialVShader.glsl",
-                ProjectFolders.ShadersPath + "buildingSpecialFShader.glsl", ProjectFolders.ShadersPath + "buildingSpecialGShader.glsl");
+            _shader = PoolProxy.GetResource<ObtainShaderPool, ShaderAllocationPolicy<StaticEntityShader>, string, StaticEntityShader>(ProjectFolders.ShadersPath + "buildingVShader.glsl" + "," + ProjectFolders.ShadersPath + "buildingFShader.glsl");
+            _specialShader = PoolProxy.GetResource<ObtainShaderPool, ShaderAllocationPolicy< SpecialStaticEntityShader >, string, SpecialStaticEntityShader>(ProjectFolders.ShadersPath + "buildingSpecialVShader.glsl" + "," +
+                ProjectFolders.ShadersPath + "buildingSpecialFShader.glsl" + "," + ProjectFolders.ShadersPath + "buildingSpecialGShader.glsl");
 
-            liteReflectionShader = ResourcePool.GetShaderProgram<WaterReflectionEntityShader>(ProjectFolders.ShadersPath + "waterReflectionEntityVS.glsl",
-                    ProjectFolders.ShadersPath + "waterReflectionEntityFS.glsl", "");
+            liteReflectionShader = PoolProxy.GetResource<ObtainShaderPool, ShaderAllocationPolicy<WaterReflectionEntityShader>, string, WaterReflectionEntityShader>(ProjectFolders.ShadersPath + "waterReflectionEntityVS.glsl" + "," +
+                    ProjectFolders.ShadersPath + "waterReflectionEntityFS.glsl");
 
-            liteRefractionShader = ResourcePool.GetShaderProgram<WaterRefractionEntityShader>(ProjectFolders.ShadersPath + "waterRefractionEntityVS.glsl",
-                  ProjectFolders.ShadersPath + "waterRefractionEntityFS.glsl", "");
+            liteRefractionShader = PoolProxy.GetResource<ObtainShaderPool, ShaderAllocationPolicy<WaterRefractionEntityShader>, string, WaterRefractionEntityShader>(ProjectFolders.ShadersPath + "waterRefractionEntityVS.glsl" + "," +
+                  ProjectFolders.ShadersPath + "waterRefractionEntityFS.glsl");
 
             _material = new Material(new Vector3(1, 1, 1), new Vector3(1, 1, 1), new Vector3(1, 1, 1), new Vector3(0, 0, 0),
                 10.0f, 10.0f);
@@ -233,10 +233,10 @@ namespace MassiveGame.Core.GameCore.Entities.StaticEntities
 
         public override void cleanUp()
         {
-            ResourcePool.ReleaseShaderProgram(_shader);
-            ResourcePool.ReleaseShaderProgram(_specialShader);
-            ResourcePool.ReleaseShaderProgram(liteReflectionShader);
-            ResourcePool.ReleaseShaderProgram(liteRefractionShader);
+            PoolProxy.FreeResourceMemoryByValue<ObtainShaderPool, ShaderAllocationPolicy<StaticEntityShader>, string, StaticEntityShader>(_shader);
+            PoolProxy.FreeResourceMemoryByValue<ObtainShaderPool, ShaderAllocationPolicy<SpecialStaticEntityShader>, string, SpecialStaticEntityShader>(_specialShader);
+            PoolProxy.FreeResourceMemoryByValue<ObtainShaderPool, ShaderAllocationPolicy<WaterReflectionEntityShader>, string, WaterReflectionEntityShader>(liteReflectionShader);
+            PoolProxy.FreeResourceMemoryByValue<ObtainShaderPool, ShaderAllocationPolicy<WaterRefractionEntityShader>, string, WaterRefractionEntityShader>(liteRefractionShader);
             _model.Dispose();
             if (_texture != null)
                 _texture.CleanUp();

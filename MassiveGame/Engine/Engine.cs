@@ -13,7 +13,6 @@ using PhysicsBox.ComponentCore;
 using MassiveGame.Debug.UiPanel;
 using System.IO;
 using TextureLoader;
-using MassiveGame.API.Collector;
 using MassiveGame.Core.PhysicsCore;
 using MassiveGame.Core.GameCore;
 using MassiveGame.API.ObjectFactory;
@@ -31,8 +30,9 @@ using MassiveGame.API.MouseObjectDetector;
 using MassiveGame.Core.RenderCore.Light_visualization;
 using MassiveGame.Core.RenderCore;
 using MassiveGame.Core.ComponentCore;
-using MassiveGame.Core.GameCore.Terrain;
-using MassiveGame.API.Collector.Policies;
+using MassiveGame.API.ResourcePool.PoolHandling;
+using MassiveGame.API.ResourcePool.Pools;
+using MassiveGame.API.ResourcePool;
 
 namespace MassiveGame.UI
 {
@@ -229,16 +229,12 @@ namespace MassiveGame.UI
             EngineStatics.Enemy.SetCollisionHeadUnit(collisionHeadUnit);
             arg = null;
 
-            TestClass.GetPool();
-
             //EngineStatics.Grass = new PlantReadyMaster(
             //    4000, EngineStatics.MAP_SIZE, PlantModels.getBillboardModel1(), new Vector3(1),
             //    new string[] { ProjectFolders.GrassTexturesPath + "grass1.png",
             //        ProjectFolders.GrassTexturesPath + "grass2.png",
             //        ProjectFolders.GrassTexturesPath + "grass3.png"}, new WindComponent(2.35f, 1.1f, 0.6f, new Vector3(0.6f, 0, 0.3f)), EngineStatics.Mist);    //Добавление травы
-
-            //EngineSingleton.Grass = new PlantBuilderMaster(100, PlantModels.getBillboardModel1(), TextureSet.PlantTextureSet, new WindComponent(2.35f, 1.1f, 0.6f, new Vector3(0.6f, 0, 0.3f)));    //Добавление травы
-
+          
             //EngineStatics.Plant1 = new PlantReadyMaster(13, EngineStatics.MAP_SIZE, PlantModels.getPlantModel2(), new Vector3(1),
             //    new string[] { ProjectFolders.GrassTexturesPath + "fern.png" },
             //  new WindComponent(0.95f, 0.35f, 0.5f, new Vector3(0.5f, 0, 0.5f)), EngineStatics.Mist);
@@ -495,8 +491,8 @@ namespace MassiveGame.UI
                     }
                 case Keys.Insert:
                     {
-                        EngineStatics.uiFrameCreator.PushFrame(API.Collector.ResourcePool.GetRenderTargetAt(renderTargetIndex));
-                        Int32 count = API.Collector.ResourcePool.GetRenderTargetCount();
+                        EngineStatics.uiFrameCreator.PushFrame((new ObtainRenderTargetPool().GetPool() as RenderTargetPool).GetRenderTargetAt(renderTargetIndex));
+                        Int32 count = PoolProxy.GetResourceCountInPool<ObtainRenderTargetPool>();
                         if (renderTargetIndex + 1 >= count)
                         {
                             renderTargetIndex = 0;

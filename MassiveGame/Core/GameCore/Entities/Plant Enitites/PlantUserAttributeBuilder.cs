@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using GpuGraphics;
 using OpenTK;
+using VBO;
 
 namespace MassiveGame.Core.GameCore.Entities.StaticEntities
 {
@@ -73,23 +74,22 @@ namespace MassiveGame.Core.GameCore.Entities.StaticEntities
                 windS, tSampler, matrixColumn1, matrixColumn2, matrixColumn3, matrixColumn4);
         }
 
-        public static VBOArrayF BuildBuilderUserAttributeBuffer(IEnumerable<PlantUnit> plants, VBOArrayF attribs, Int32 buffer_size)
+        public static Tuple<Tuple<VertexBufferObjectBase, VertexBufferObjectBase>, Tuple<VertexBufferObjectBase, VertexBufferObjectBase>>
+            GetInstacedTransformationBuffer(IEnumerable<PlantUnit> plants, Int32 bufferSize)
         {
-            if (plants.Count() == 0) { return attribs; }
+            if (plants.Count() == 0) { return null; }
 
-            if (plants.Count() > buffer_size)
+            if (plants.Count() > bufferSize)
             {
                 throw new ArgumentException();
             }
 
             Int32 size = plants.Count();
-            float[] windS = new float[buffer_size];
-            float[] tSampler = new float[buffer_size];
 
-            float[,] matrixColumn1 = new float[buffer_size, 4];
-            float[,] matrixColumn2 = new float[buffer_size, 4];
-            float[,] matrixColumn3 = new float[buffer_size, 4];
-            float[,] matrixColumn4 = new float[buffer_size, 4];
+            float[,] matrixColumn1 = new float[bufferSize, 4];
+            float[,] matrixColumn2 = new float[bufferSize, 4];
+            float[,] matrixColumn3 = new float[bufferSize, 4];
+            float[,] matrixColumn4 = new float[bufferSize, 4];
             // magic
             unsafe
             {
@@ -128,17 +128,68 @@ namespace MassiveGame.Core.GameCore.Entities.StaticEntities
                                     matrix4[baseDim + 1] = modelMatrix[3, 1];
                                     matrix4[baseDim + 2] = modelMatrix[3, 2];
                                     matrix4[baseDim + 3] = modelMatrix[3, 3];
-
-                                    windS[i] = item.WindLoop;
-                                    tSampler[i] = item.textureID;
                                 }
                             }
                         }
                     }
                 }
             }
-            return new VBOArrayF(attribs.Vertices, attribs.Normals, attribs.TextureCoordinates,
-                windS, tSampler, matrixColumn1, matrixColumn2, matrixColumn3, matrixColumn4);
+            VertexBufferObjectTwoDimension<float> vector_1 = new VertexBufferObjectTwoDimension<float>(matrixColumn1, OpenTK.Graphics.OpenGL.BufferTarget.ArrayBuffer, 3, 4, VertexBufferObjectBase.DataCarryFlag.Invalidate);
+            VertexBufferObjectTwoDimension<float> vector_2 = new VertexBufferObjectTwoDimension<float>(matrixColumn2, OpenTK.Graphics.OpenGL.BufferTarget.ArrayBuffer, 4, 4, VertexBufferObjectBase.DataCarryFlag.Invalidate);
+            VertexBufferObjectTwoDimension<float> vector_3 = new VertexBufferObjectTwoDimension<float>(matrixColumn3, OpenTK.Graphics.OpenGL.BufferTarget.ArrayBuffer, 5, 4, VertexBufferObjectBase.DataCarryFlag.Invalidate);
+            VertexBufferObjectTwoDimension<float> vector_4 = new VertexBufferObjectTwoDimension<float>(matrixColumn4, OpenTK.Graphics.OpenGL.BufferTarget.ArrayBuffer, 6, 4, VertexBufferObjectBase.DataCarryFlag.Invalidate);
+
+            return new Tuple<Tuple<VertexBufferObjectBase, VertexBufferObjectBase>, Tuple<VertexBufferObjectBase, VertexBufferObjectBase>>(
+                new Tuple<VertexBufferObjectBase, VertexBufferObjectBase>(vector_1, vector_2),
+                new Tuple<VertexBufferObjectBase, VertexBufferObjectBase>(vector_3, vector_4));
+        }
+
+        public static VertexBufferObjectBase GetInstancedWindBuffer(IEnumerable<PlantUnit> plants, Int32 bufferSize)
+        {
+            if (plants.Count() == 0) { return null; }
+
+            if (plants.Count() > bufferSize)
+            {
+                throw new ArgumentException();
+            }
+
+            Int32 size = plants.Count();
+            float[] windS = new float[bufferSize];
+            
+            unsafe
+            {
+                for (Int32 i = 0, baseDim = 0; i < size; i++, baseDim += 4)
+                {
+                    var item = plants.ElementAt(i);
+                    windS[i] = item.WindLoop;
+                }
+            }
+
+            return new VertexBufferObjectOneDimension<float>(windS, OpenTK.Graphics.OpenGL.BufferTarget.ArrayBuffer, 7, 1, VertexBufferObjectBase.DataCarryFlag.Invalidate);
+        }
+
+        public static VertexBufferObjectBase GetInstanceSamplerBuffer(IEnumerable<PlantUnit> plants, Int32 bufferSize)
+        {
+            if (plants.Count() == 0) { return null; }
+
+            if (plants.Count() > bufferSize)
+            {
+                throw new ArgumentException();
+            }
+
+            Int32 size = plants.Count();
+            float[] tSampler = new float[bufferSize];
+
+            unsafe
+            {
+                for (Int32 i = 0, baseDim = 0; i < size; i++, baseDim += 4)
+                {
+                    var item = plants.ElementAt(i);
+                    tSampler[i] = item.textureID;
+                }
+            }
+
+            return new VertexBufferObjectOneDimension<float>(tSampler, OpenTK.Graphics.OpenGL.BufferTarget.ArrayBuffer, 8, 1, VertexBufferObjectBase.DataCarryFlag.Invalidate);
         }
 
         public static void AddBuilderUserAttribute(PlantUnit plant, VAO buffer, Int32 plantsCountBeforeAddition)

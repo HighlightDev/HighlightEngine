@@ -1,4 +1,6 @@
-﻿using MassiveGame.API.Collector;
+﻿using MassiveGame.API.ResourcePool.PoolHandling;
+using MassiveGame.API.ResourcePool.Policies;
+using MassiveGame.API.ResourcePool;
 using MassiveGame.Core.RenderCore;
 using MassiveGame.Settings;
 using OpenTK;
@@ -103,8 +105,7 @@ namespace MassiveGame.Debug.UiPanel
             {
                 _buffer = ScreenQuad.GetScreenQuadBuffer();
 
-                _shader = ResourcePool.GetShaderProgram<UiFrameShader>(ProjectFolders.ShadersPath + "uiVS.glsl",
-                    ProjectFolders.ShadersPath + "uiFS.glsl", "");
+                _shader = PoolProxy.GetResource<ObtainShaderPool, ShaderAllocationPolicy<UiFrameShader>, string, UiFrameShader>(ProjectFolders.ShadersPath + "uiVS.glsl," + ProjectFolders.ShadersPath + "uiFS.glsl");
                 _postConstructor = false;
 
             }
@@ -114,7 +115,7 @@ namespace MassiveGame.Debug.UiPanel
 
         public void CleanUp()
         {
-            ResourcePool.ReleaseShaderProgram(_shader);
+            PoolProxy.FreeResourceMemoryByValue<ObtainShaderPool, ShaderAllocationPolicy<UiFrameShader>, string, UiFrameShader>(_shader);
         }
 
         #endregion

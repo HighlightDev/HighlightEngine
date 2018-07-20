@@ -56,7 +56,8 @@
     <Compile Include="VBOArrayF.cs" />
     <Compile Include="VAOManager.cs" />
     <Compile Include="VertexArrayObject.cs" />
-    <Compile Include="VertexBufferObject.cs" />
+    <Compile Include="VertexBufferObjectOneDimension.cs" />
+    <Compile Include="VertexBufferObjectTwoDimension.cs" />
     <Compile Include="VertexBufferObjectBase.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

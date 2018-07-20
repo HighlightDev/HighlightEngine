@@ -1,5 +1,4 @@
-﻿using MassiveGame.API.Collector;
-using System.Linq;
+﻿using System.Linq;
 using OpenTK;
 using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL;
@@ -8,7 +7,10 @@ using PhysicsBox.ComponentCore;
 using PhysicsBox.MathTypes;
 using System.Collections.Generic;
 using VBO;
-using MassiveGame.API.Collector.Policies;
+using MassiveGame.API.ResourcePool.PoolHandling;
+using MassiveGame.API.ResourcePool.Pools;
+using MassiveGame.API.ResourcePool;
+using MassiveGame.API.ResourcePool.Policies;
 
 namespace MassiveGame.Core.ComponentCore
 {
@@ -21,10 +23,10 @@ namespace MassiveGame.Core.ComponentCore
         {
             if (bPostConstructor)
             {
-                if (PoolCollector.GetInstance().ModelPool.GetModelReferenceCount("CollisionBound") == 0)
+                if ((new ObtainModelPool().GetPool() as ModelPool).GetModelReferenceCount("CollisionBound") == 0)
                     AddBoundModelToRoot();
                 else
-                    buffer = PoolProxy.GetResource<GetModelPool, ModelAllocationPolicy, string, VertexArrayObject>("CollisionBound");
+                    buffer = PoolProxy.GetResource<ObtainModelPool, ModelAllocationPolicy, string, VertexArrayObject>("CollisionBound");
                 bPostConstructor = false;
             }
             base.Tick(ref projectionMatrix, ref viewMatrix);
@@ -92,7 +94,7 @@ namespace MassiveGame.Core.ComponentCore
 
             buffer = new VertexArrayObject();
 
-            var verticesVBO = new VertexBufferObject<float>(renderCoordinates, BufferTarget.ArrayBuffer, 0, 3, VertexBufferObjectBase.DataCarryFlag.Store);
+            var verticesVBO = new VertexBufferObjectTwoDimension<float>(renderCoordinates, BufferTarget.ArrayBuffer, 0, 3, VertexBufferObjectBase.DataCarryFlag.Store);
             buffer.AddVBO(verticesVBO);
             buffer.BindVbosToVao();
 

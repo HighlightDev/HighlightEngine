@@ -21,7 +21,6 @@ using MassiveGame.Core.RenderCore;
 using MassiveGame.API.MouseObjectDetector;
 using MassiveGame.Debug.UiPanel;
 using MassiveGame.Settings;
-using MassiveGame.API.Collector.Policies;
 
 namespace MassiveGame
 {

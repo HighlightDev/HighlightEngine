@@ -4,7 +4,6 @@ using OpenTK;
 using PhysicsBox;
 using TextureLoader;
 using VectorMath;
-using MassiveGame.API.Collector;
 using PhysicsBox.ComponentCore;
 using PhysicsBox.MathTypes;
 using MassiveGame.Core.RenderCore.Visibility;
@@ -14,7 +13,9 @@ using MassiveGame.Core.PhysicsCore;
 using MassiveGame.Core.GameCore.EntityComponents;
 using MassiveGame.Core.GameCore.Mesh;
 using VBO;
-using MassiveGame.API.Collector.Policies;
+using MassiveGame.API.ResourcePool;
+using MassiveGame.API.ResourcePool.PoolHandling;
+using MassiveGame.API.ResourcePool.Policies;
 
 namespace MassiveGame.Core.GameCore.Entities
 {
@@ -213,9 +214,9 @@ namespace MassiveGame.Core.GameCore.Entities
             ComponentTranslation = translation; 
             ComponentRotation = rotation;
             ComponentScale = scale;
-            _texture = PoolProxy.GetResource<GetTexturePool, TextureAllocationPolicy, string, ITexture>(texturePath);
-            _normalMap = PoolProxy.GetResource<GetTexturePool, TextureAllocationPolicy, string, ITexture>(normalMapPath);
-            _specularMap = PoolProxy.GetResource<GetTexturePool, TextureAllocationPolicy, string, ITexture>(specularMapPath);
+            _texture = PoolProxy.GetResource<ObtainTexturePool, TextureAllocationPolicy, string, ITexture>(texturePath);
+            _normalMap = PoolProxy.GetResource<ObtainTexturePool, TextureAllocationPolicy, string, ITexture>(normalMapPath);
+            _specularMap = PoolProxy.GetResource<ObtainTexturePool, TextureAllocationPolicy, string, ITexture>(specularMapPath);
             _model = new MeshSkin(modelPath);
 
             this.bVisibleByCamera = true;

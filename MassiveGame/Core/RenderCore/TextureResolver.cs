@@ -1,9 +1,10 @@
 ﻿using TextureLoader;
 using OpenTK.Graphics.OpenGL;
-using MassiveGame.API.Collector;
-using GpuGraphics;
 using System.Drawing;
 using MassiveGame.Settings;
+using MassiveGame.API.ResourcePool.PoolHandling;
+using MassiveGame.API.ResourcePool.Policies;
+using MassiveGame.API.ResourcePool;
 
 namespace MassiveGame.Core.RenderCore
 {
@@ -14,10 +15,9 @@ namespace MassiveGame.Core.RenderCore
 
         static TextureResolver()
         {
-            copyShader = ResourcePool.GetShaderProgram<CopyTextureShader>(ProjectFolders.ShadersPath + "copyTextureVS.glsl", ProjectFolders.ShadersPath + "copyTextureFS.glsl", "");
+            copyShader = PoolProxy.GetResource<ObtainShaderPool, ShaderAllocationPolicy<CopyTextureShader>, string, CopyTextureShader>(ProjectFolders.ShadersPath + "copyTextureVS.glsl" + "," + ProjectFolders.ShadersPath + "copyTextureFS.glsl");
 
-            resolvePostProcessShader = ResourcePool.GetShaderProgram<ResolvePostProcessResultToDefaultFramebufferShader>(ProjectFolders.ShadersPath + "resolvePostProcessResultToDefaultFramebufferVS.glsl",
-                ProjectFolders.ShadersPath + "resolvePostProcessResultToDefaultFramebufferFS.glsl", "");
+            resolvePostProcessShader = PoolProxy.GetResource<ObtainShaderPool, ShaderAllocationPolicy<ResolvePostProcessResultToDefaultFramebufferShader>, string, ResolvePostProcessResultToDefaultFramebufferShader>(ProjectFolders.ShadersPath + "resolvePostProcessResultToDefaultFramebufferVS.glsl" + "," + ProjectFolders.ShadersPath + "resolvePostProcessResultToDefaultFramebufferFS.glsl");
         }
 
         public static void ResolvePostProcessResultToDefaultFramebuffer(ITexture frameTexture, ITexture postProcessResultTexture, Point actualScreenRezolution)
@@ -40,7 +40,7 @@ namespace MassiveGame.Core.RenderCore
 
         public static ITexture CopyTexture(ITexture src)
         {
-            ITexture dst = ResourcePool.GetRenderTarget(src.GetTextureParameters());
+            ITexture dst = PoolProxy.GetResource<ObtainRenderTargetPool, RenderTargetAllocationPolicy, TextureParameters, ITexture>(src.GetTextureParameters());
 
             var renderTarget = GL.GenFramebuffer();
 
@@ -62,6 +62,12 @@ namespace MassiveGame.Core.RenderCore
             GL.DeleteFramebuffer(renderTarget);
 
             return dst;
+        }
+
+        public static void CleanUp()
+        {
+            PoolProxy.FreeResourceMemoryByValue<ObtainShaderPool, ShaderAllocationPolicy<CopyTextureShader>, string, CopyTextureShader>(copyShader);
+            PoolProxy.FreeResourceMemoryByValue<ObtainShaderPool, ShaderAllocationPolicy<ResolvePostProcessResultToDefaultFramebufferShader>, string, ResolvePostProcessResultToDefaultFramebufferShader>(resolvePostProcessShader);
         }
     }
 }

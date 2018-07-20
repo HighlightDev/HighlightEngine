@@ -217,11 +217,11 @@ namespace MassiveGame.Core.GameCore.Terrain
                 }
             }
 
-            VertexBufferObject<float> verticesVBO = new VertexBufferObject<float>(vertices, OpenTK.Graphics.OpenGL.BufferTarget.ArrayBuffer, 0, 3, VertexBufferObjectBase.DataCarryFlag.Invalidate);
-            VertexBufferObject<float> normalsVBO = new VertexBufferObject<float>(normals, OpenTK.Graphics.OpenGL.BufferTarget.ArrayBuffer, 1, 3, VertexBufferObjectBase.DataCarryFlag.Invalidate);
-            VertexBufferObject<float> texCoordsVBO = new VertexBufferObject<float>(texCoords, OpenTK.Graphics.OpenGL.BufferTarget.ArrayBuffer, 2, 2, VertexBufferObjectBase.DataCarryFlag.Invalidate);
-            VertexBufferObject<float> tangentsVBO = new VertexBufferObject<float>(AdditionalVertexInfoCreator.CreateTangentVertices(vertices, texCoords), OpenTK.Graphics.OpenGL.BufferTarget.ArrayBuffer, 4, 3, VertexBufferObjectBase.DataCarryFlag.Invalidate);
-            VertexBufferObject<float> bitangentsVBO = new VertexBufferObject<float>(AdditionalVertexInfoCreator.CreateBitangentVertices(vertices, texCoords), OpenTK.Graphics.OpenGL.BufferTarget.ArrayBuffer, 5, 3, VertexBufferObjectBase.DataCarryFlag.Invalidate);
+            VertexBufferObjectTwoDimension<float> verticesVBO = new VertexBufferObjectTwoDimension<float>(vertices, OpenTK.Graphics.OpenGL.BufferTarget.ArrayBuffer, 0, 3, VertexBufferObjectBase.DataCarryFlag.Invalidate);
+            VertexBufferObjectTwoDimension<float> normalsVBO = new VertexBufferObjectTwoDimension<float>(normals, OpenTK.Graphics.OpenGL.BufferTarget.ArrayBuffer, 1, 3, VertexBufferObjectBase.DataCarryFlag.Invalidate);
+            VertexBufferObjectTwoDimension<float> texCoordsVBO = new VertexBufferObjectTwoDimension<float>(texCoords, OpenTK.Graphics.OpenGL.BufferTarget.ArrayBuffer, 2, 2, VertexBufferObjectBase.DataCarryFlag.Invalidate);
+            VertexBufferObjectTwoDimension<float> tangentsVBO = new VertexBufferObjectTwoDimension<float>(AdditionalVertexInfoCreator.CreateTangentVertices(vertices, texCoords), OpenTK.Graphics.OpenGL.BufferTarget.ArrayBuffer, 4, 3, VertexBufferObjectBase.DataCarryFlag.Invalidate);
+            VertexBufferObjectTwoDimension<float> bitangentsVBO = new VertexBufferObjectTwoDimension<float>(AdditionalVertexInfoCreator.CreateBitangentVertices(vertices, texCoords), OpenTK.Graphics.OpenGL.BufferTarget.ArrayBuffer, 5, 3, VertexBufferObjectBase.DataCarryFlag.Invalidate);
 
             VertexArrayObject vao = new VertexArrayObject();
             vao.AddVBO(verticesVBO, normalsVBO, texCoordsVBO, tangentsVBO, bitangentsVBO);

@@ -5,13 +5,15 @@ using OpenTK;
 using OpenTK.Graphics.OpenGL;
 using TextureLoader;
 using PhysicsBox;
-using MassiveGame.API.Collector;
 using MassiveGame.Core.GameCore.EntityComponents;
 using MassiveGame.Core.RenderCore.Lights;
 using MassiveGame.Core.RenderCore.Visibility;
 using MassiveGame.Core.RenderCore;
 using MassiveGame.Settings;
 using VBO;
+using MassiveGame.API.ResourcePool.PoolHandling;
+using MassiveGame.API.ResourcePool.Policies;
+using MassiveGame.API.ResourcePool;
 
 namespace MassiveGame.Core.GameCore.Water
 {
@@ -216,20 +218,18 @@ namespace MassiveGame.Core.GameCore.Water
                 float[,] normals = new float[6, 3] { { 0.0f, 1.0f, 0.0f }, { 0.0f, 1.0f, 0.0f }, { 0.0f, 1.0f, 0.0f }, { 0.0f, 1.0f, 0.0f }, { 0.0f, 1.0f, 0.0f }, { 0.0f, 1.0f, 0.0f } };
                 float[,] texCoords = new float[6, 2] { { 0, 1 }, { 1, 1 }, { 1, 0 }, { 1, 0 }, { 0, 0 }, { 0, 1 } };
 
-                VertexBufferObject<float> verticesVBO = new VertexBufferObject<float>(vertices, BufferTarget.ArrayBuffer, 0, 3, VertexBufferObjectBase.DataCarryFlag.Store);
-                VertexBufferObject<float> normalsVBO = new VertexBufferObject<float>(normals, BufferTarget.ArrayBuffer, 1, 3, VertexBufferObjectBase.DataCarryFlag.Invalidate);
-                VertexBufferObject<float> texCoordsVBO = new VertexBufferObject<float>(texCoords, BufferTarget.ArrayBuffer, 2, 2, VertexBufferObjectBase.DataCarryFlag.Invalidate);
-                VertexBufferObject<float> tangentsVBO = new VertexBufferObject<float>(VectorMath.AdditionalVertexInfoCreator.CreateTangentVertices(vertices, texCoords), BufferTarget.ArrayBuffer, 3, 3, VertexBufferObjectBase.DataCarryFlag.Invalidate);
-                VertexBufferObject<float> bitangentsVBO = new VertexBufferObject<float>(VectorMath.AdditionalVertexInfoCreator.CreateBitangentVertices(vertices, texCoords), BufferTarget.ArrayBuffer, 4, 3, VertexBufferObjectBase.DataCarryFlag.Invalidate);
+                VertexBufferObjectTwoDimension<float> verticesVBO = new VertexBufferObjectTwoDimension<float>(vertices, BufferTarget.ArrayBuffer, 0, 3, VertexBufferObjectBase.DataCarryFlag.Store);
+                VertexBufferObjectTwoDimension<float> normalsVBO = new VertexBufferObjectTwoDimension<float>(normals, BufferTarget.ArrayBuffer, 1, 3, VertexBufferObjectBase.DataCarryFlag.Invalidate);
+                VertexBufferObjectTwoDimension<float> texCoordsVBO = new VertexBufferObjectTwoDimension<float>(texCoords, BufferTarget.ArrayBuffer, 2, 2, VertexBufferObjectBase.DataCarryFlag.Invalidate);
+                VertexBufferObjectTwoDimension<float> tangentsVBO = new VertexBufferObjectTwoDimension<float>(VectorMath.AdditionalVertexInfoCreator.CreateTangentVertices(vertices, texCoords), BufferTarget.ArrayBuffer, 3, 3, VertexBufferObjectBase.DataCarryFlag.Invalidate);
+                VertexBufferObjectTwoDimension<float> bitangentsVBO = new VertexBufferObjectTwoDimension<float>(VectorMath.AdditionalVertexInfoCreator.CreateBitangentVertices(vertices, texCoords), BufferTarget.ArrayBuffer, 4, 3, VertexBufferObjectBase.DataCarryFlag.Invalidate);
 
                 _buffer = new VertexArrayObject();
                 _buffer.AddVBO(verticesVBO, normalsVBO, texCoordsVBO, tangentsVBO, bitangentsVBO);
                 _buffer.BindVbosToVao();
 
-                _shader = ResourcePool.GetShaderProgram<WaterShader>(ProjectFolders.ShadersPath + "waterVS.glsl", ProjectFolders.ShadersPath + "waterFS.glsl", "");
-
-                stencilPassShader = ResourcePool.GetShaderProgram<StencilPassShader>(ProjectFolders.ShadersPath + "stencilPassVS.glsl",
-                    ProjectFolders.ShadersPath + "stencilPassFS.glsl", "");
+                _shader = PoolProxy.GetResource<ObtainShaderPool, ShaderAllocationPolicy<WaterShader>, string, WaterShader>(ProjectFolders.ShadersPath + "waterVS.glsl" + "," + ProjectFolders.ShadersPath + "waterFS.glsl");
+                stencilPassShader = PoolProxy.GetResource<ObtainShaderPool, ShaderAllocationPolicy<StencilPassShader>, string, StencilPassShader>(ProjectFolders.ShadersPath + "stencilPassVS.glsl" + "," + ProjectFolders.ShadersPath + "stencilPassFS.glsl");
 
                 this._fbo = new WaterFBO();
                 this._postConstructor = !this._postConstructor;
@@ -239,8 +239,8 @@ namespace MassiveGame.Core.GameCore.Water
         public WaterPlane(string distortionMap, string normalMap, Vector3 translation, Vector3 rotation, Vector3 scaling,
             WaterQuality quality, Int32 frustumSquares = 0)
         {
-            this._waterDistortionMap = ResourcePool.GetTexture(distortionMap);
-            this._waterNormalMap = ResourcePool.GetTexture(normalMap);
+            this._waterDistortionMap = PoolProxy.GetResource<ObtainTexturePool, TextureAllocationPolicy, string, ITexture>(distortionMap);
+            this._waterNormalMap = PoolProxy.GetResource<ObtainTexturePool, TextureAllocationPolicy, string, ITexture>(normalMap);
 
             this._translation = translation;
             this._rotation = rotation;
@@ -277,9 +277,10 @@ namespace MassiveGame.Core.GameCore.Water
         public void cleanUp()
         {
             _buffer.CleanUp();
-            ResourcePool.ReleaseTexture(this._waterDistortionMap);
-            ResourcePool.ReleaseTexture(this._waterNormalMap);
-            ResourcePool.ReleaseShaderProgram(this._shader);
+            PoolProxy.FreeResourceMemoryByValue<ObtainTexturePool, TextureAllocationPolicy, string, ITexture>(this._waterDistortionMap);
+            PoolProxy.FreeResourceMemoryByValue<ObtainTexturePool, TextureAllocationPolicy, string, ITexture>(this._waterNormalMap);
+            PoolProxy.FreeResourceMemoryByValue<ObtainShaderPool, ShaderAllocationPolicy<WaterShader>, string, WaterShader>(this._shader);
+            PoolProxy.FreeResourceMemoryByValue<ObtainShaderPool, ShaderAllocationPolicy<StencilPassShader>, string, StencilPassShader>(stencilPassShader);
         }
 
         #endregion 

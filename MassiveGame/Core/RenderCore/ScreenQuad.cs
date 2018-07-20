@@ -27,8 +27,8 @@ namespace MassiveGame.Core.RenderCore
                 { 0, 0 },
                 { 0, 1 } };
 
-            VertexBufferObject<float> verticesVBO = new VertexBufferObject<float>(vertices, OpenTK.Graphics.OpenGL.BufferTarget.ArrayBuffer, 0, 3, VertexBufferObjectBase.DataCarryFlag.Invalidate);
-            VertexBufferObject<float> texCoordsVBO = new VertexBufferObject<float>(texCoords, OpenTK.Graphics.OpenGL.BufferTarget.ArrayBuffer, 1, 2, VertexBufferObjectBase.DataCarryFlag.Invalidate);
+            VertexBufferObjectTwoDimension<float> verticesVBO = new VertexBufferObjectTwoDimension<float>(vertices, OpenTK.Graphics.OpenGL.BufferTarget.ArrayBuffer, 0, 3, VertexBufferObjectBase.DataCarryFlag.Invalidate);
+            VertexBufferObjectTwoDimension<float> texCoordsVBO = new VertexBufferObjectTwoDimension<float>(texCoords, OpenTK.Graphics.OpenGL.BufferTarget.ArrayBuffer, 1, 2, VertexBufferObjectBase.DataCarryFlag.Invalidate);
             quadBuffer = new VertexArrayObject();
 
             quadBuffer.AddVBO(verticesVBO, texCoordsVBO);

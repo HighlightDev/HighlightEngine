@@ -1,8 +1,10 @@
 ﻿using FramebufferAPI;
-using MassiveGame.API.Collector;
 using TextureLoader;
 
 using OpenTK.Graphics.OpenGL;
+using MassiveGame.API.ResourcePool.PoolHandling;
+using MassiveGame.API.ResourcePool.Policies;
+using MassiveGame.API.ResourcePool;
 
 namespace MassiveGame.Core.RenderCore.PostFX.DepthOfField
 {
@@ -31,9 +33,9 @@ namespace MassiveGame.Core.RenderCore.PostFX.DepthOfField
             var depthOfFieldRenderTargetPrams = new TextureParameters(TextureTarget.Texture2D, TextureMagFilter.Nearest, TextureMinFilter.Nearest, 0, PixelInternalFormat.Rgb,
                EngineStatics.globalSettings.DomainFramebufferRezolution.X, EngineStatics.globalSettings.DomainFramebufferRezolution.Y, PixelFormat.Rgb, PixelType.UnsignedByte, TextureWrapMode.Repeat);
 
-            VerticalBlurTexture = ResourcePool.GetRenderTarget(verticalBlurRederTargetParams);
-            HorizontalBlurTexture = ResourcePool.GetRenderTarget(horizontalBlurRenderTargetParams);
-            DepthOfFieldResultTexture = ResourcePool.GetRenderTarget(depthOfFieldRenderTargetPrams);
+            VerticalBlurTexture = PoolProxy.GetResource<ObtainRenderTargetPool, RenderTargetAllocationPolicy, TextureParameters, ITexture>(verticalBlurRederTargetParams);
+            HorizontalBlurTexture = PoolProxy.GetResource<ObtainRenderTargetPool, RenderTargetAllocationPolicy, TextureParameters, ITexture>(horizontalBlurRenderTargetParams);
+            DepthOfFieldResultTexture = PoolProxy.GetResource<ObtainRenderTargetPool, RenderTargetAllocationPolicy, TextureParameters, ITexture>(depthOfFieldRenderTargetPrams);
         }
 
         protected override void setFramebuffers()
@@ -57,9 +59,9 @@ namespace MassiveGame.Core.RenderCore.PostFX.DepthOfField
 
         public override void cleanUp()
         {
-            VerticalBlurTexture.CleanUp();
-            HorizontalBlurTexture.CleanUp();
-            DepthOfFieldResultTexture.CleanUp();
+            PoolProxy.FreeResourceMemoryByValue<ObtainRenderTargetPool, RenderTargetAllocationPolicy, TextureParameters, ITexture>(VerticalBlurTexture);
+            PoolProxy.FreeResourceMemoryByValue<ObtainRenderTargetPool, RenderTargetAllocationPolicy, TextureParameters, ITexture>(HorizontalBlurTexture);
+            PoolProxy.FreeResourceMemoryByValue<ObtainRenderTargetPool, RenderTargetAllocationPolicy, TextureParameters, ITexture>(DepthOfFieldResultTexture);
             base.cleanUp();
         }
 

@@ -1,12 +1,14 @@
 ﻿using OpenTK;
 using OpenTK.Graphics.OpenGL;
 using TextureLoader;
-using MassiveGame.API.Collector;
 using MassiveGame.Core.RenderCore.Lights;
 using MassiveGame.Core.GameCore.EntityComponents;
 using MassiveGame.Core.GameCore.Water;
 using MassiveGame.Settings;
 using VBO;
+using MassiveGame.API.ResourcePool.PoolHandling;
+using MassiveGame.API.ResourcePool.Policies;
+using MassiveGame.API.ResourcePool;
 
 namespace MassiveGame.Core.GameCore.Skybox
 {
@@ -98,8 +100,8 @@ namespace MassiveGame.Core.GameCore.Skybox
         {
             if (this._postConstructor)
             {
-                shader = ResourcePool.GetShaderProgram<SkyboxShader>(ProjectFolders.ShadersPath + "skyboxVertexShader.glsl",
-                    ProjectFolders.ShadersPath + "skyboxFragmentShader.glsl", "");
+                shader = PoolProxy.GetResource<ObtainShaderPool, ShaderAllocationPolicy<SkyboxShader>, string, SkyboxShader>(ProjectFolders.ShadersPath + "skyboxVertexShader.glsl" + "," +
+                    ProjectFolders.ShadersPath + "skyboxFragmentShader.glsl");
 
                 float[,] vertices = new float[6 * 6, 3] { { -SKYBOX_SIZE, SKYBOX_SIZE, -SKYBOX_SIZE }, { -SKYBOX_SIZE, -SKYBOX_SIZE, -SKYBOX_SIZE }, { SKYBOX_SIZE, -SKYBOX_SIZE, -SKYBOX_SIZE },
             { SKYBOX_SIZE, -SKYBOX_SIZE, -SKYBOX_SIZE },{ SKYBOX_SIZE, SKYBOX_SIZE, -SKYBOX_SIZE },{ -SKYBOX_SIZE, SKYBOX_SIZE, -SKYBOX_SIZE },{ -SKYBOX_SIZE, -SKYBOX_SIZE, SKYBOX_SIZE },
@@ -112,7 +114,7 @@ namespace MassiveGame.Core.GameCore.Skybox
             { -SKYBOX_SIZE, -SKYBOX_SIZE, SKYBOX_SIZE },{ SKYBOX_SIZE, -SKYBOX_SIZE, -SKYBOX_SIZE },{ SKYBOX_SIZE, -SKYBOX_SIZE, -SKYBOX_SIZE },{ -SKYBOX_SIZE, -SKYBOX_SIZE, SKYBOX_SIZE },
             { SKYBOX_SIZE, -SKYBOX_SIZE, SKYBOX_SIZE } };
 
-                VertexBufferObject<float> verticesVBO = new VertexBufferObject<float>(vertices, BufferTarget.ArrayBuffer, 0, 3, VertexBufferObjectBase.DataCarryFlag.Invalidate);
+                VertexBufferObjectTwoDimension<float> verticesVBO = new VertexBufferObjectTwoDimension<float>(vertices, BufferTarget.ArrayBuffer, 0, 3, VertexBufferObjectBase.DataCarryFlag.Invalidate);
                 buffer = new VertexArrayObject();
                 buffer.AddVBO(verticesVBO);
                 buffer.BindVbosToVao();
@@ -125,8 +127,10 @@ namespace MassiveGame.Core.GameCore.Skybox
         {
             _moveFactor = 0.0f;
             FloatSpeed = 0.3f;
-            this.skyboxDayTexture = ResourcePool.GetTexture(dayTextures);
-            this.skyboxNightTexture = ResourcePool.GetTexture(nightTextures);
+            skyboxDayTexture = PoolProxy.GetResource<ObtainTexturePool, TextureAllocationPolicy, string, ITexture>(dayTextures[0] + "," + dayTextures[1] + "," + dayTextures[2] + "," +
+                dayTextures[3] + "," + dayTextures[4] + "," + dayTextures[5]);
+            skyboxNightTexture = PoolProxy.GetResource<ObtainTexturePool, TextureAllocationPolicy, string, ITexture>(nightTextures[0] + "," + nightTextures[1] + "," + nightTextures[2] + "," +
+                nightTextures[3] + "," + nightTextures[4] + "," + nightTextures[5]);
             _postConstructor = true;
         }
 
@@ -136,10 +140,10 @@ namespace MassiveGame.Core.GameCore.Skybox
 
         public void cleanUp()
         {
-            ResourcePool.ReleaseShaderProgram(shader);
+            PoolProxy.FreeResourceMemoryByValue<ObtainShaderPool, ShaderAllocationPolicy<SkyboxShader>, string, SkyboxShader>(shader);
             buffer.CleanUp();
-            ResourcePool.ReleaseTexture(skyboxDayTexture);
-            ResourcePool.ReleaseTexture(skyboxNightTexture);
+            PoolProxy.FreeResourceMemoryByValue<ObtainTexturePool, TextureAllocationPolicy, string, ITexture>(skyboxDayTexture);
+            PoolProxy.FreeResourceMemoryByValue<ObtainTexturePool, TextureAllocationPolicy, string, ITexture>(skyboxNightTexture);
         }
 
         #endregion

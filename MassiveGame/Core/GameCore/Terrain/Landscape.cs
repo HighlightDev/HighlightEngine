@@ -1,6 +1,4 @@
-﻿using GpuGraphics;
-using Grid;
-using MassiveGame.API.Collector;
+﻿using Grid;
 using OpenTK;
 using OpenTK.Graphics.OpenGL;
 using System;
@@ -13,6 +11,9 @@ using MassiveGame.Core.RenderCore;
 using MassiveGame.Core.GameCore.Water;
 using MassiveGame.Settings;
 using VBO;
+using MassiveGame.API.ResourcePool.PoolHandling;
+using MassiveGame.API.ResourcePool.Policies;
+using MassiveGame.API.ResourcePool;
 
 namespace MassiveGame.Core.GameCore.Terrain
 {
@@ -55,22 +56,22 @@ namespace MassiveGame.Core.GameCore.Terrain
 
         public void SetNormalMapR(string nm)
         {
-            this._normalMapR = ResourcePool.GetTexture(nm);
+            this._normalMapR = PoolProxy.GetResource<ObtainTexturePool, TextureAllocationPolicy, string, ITexture>(nm);
         }
 
         public void SetNormalMapG(string nm)
         {
-            this._normalMapG = ResourcePool.GetTexture(nm);
+            this._normalMapG = PoolProxy.GetResource<ObtainTexturePool, TextureAllocationPolicy, string, ITexture>(nm);
         }
 
         public void SetNormalMapB(string nm)
         {
-            this._normalMapB = ResourcePool.GetTexture(nm);
+            this._normalMapB = PoolProxy.GetResource<ObtainTexturePool, TextureAllocationPolicy, string, ITexture>(nm);
         }
 
         public void SetNormalMapBlack(string nm)
         {
-            this._normalMapBlack = ResourcePool.GetTexture(nm);
+            this._normalMapBlack = PoolProxy.GetResource<ObtainTexturePool, TextureAllocationPolicy, string, ITexture>(nm);
         }
 
         #endregion
@@ -259,12 +260,9 @@ namespace MassiveGame.Core.GameCore.Terrain
         {
             if (this._postConstructor)
             {
-                _shader = ResourcePool.GetShaderProgram<LandscapeShader>(ProjectFolders.ShadersPath + "terrainVertexShader.glsl",
-                ProjectFolders.ShadersPath + "terrainFragmentShader.glsl", "");
-                liteReflectionShader = ResourcePool.GetShaderProgram<WaterReflectionTerrainShader>(ProjectFolders.ShadersPath + "waterReflectionTerrainVS.glsl",
-                ProjectFolders.ShadersPath + "waterReflectionTerrainFS.glsl", "");
-                liteRefractionShader = ResourcePool.GetShaderProgram<WaterRefractionTerrainShader>(ProjectFolders.ShadersPath + "waterRefractionTerrainVS.glsl",
-                ProjectFolders.ShadersPath + "waterRefractionTerrainFS.glsl", "");
+                _shader = PoolProxy.GetResource<ObtainShaderPool, ShaderAllocationPolicy<LandscapeShader>, string, LandscapeShader>(ProjectFolders.ShadersPath + "terrainVertexShader.glsl" + "," + ProjectFolders.ShadersPath + "terrainFragmentShader.glsl");
+                liteReflectionShader = PoolProxy.GetResource<ObtainShaderPool, ShaderAllocationPolicy<WaterReflectionTerrainShader>, string, WaterReflectionTerrainShader>(ProjectFolders.ShadersPath + "waterReflectionTerrainVS.glsl" + "," + ProjectFolders.ShadersPath + "waterReflectionTerrainFS.glsl");
+                liteRefractionShader = PoolProxy.GetResource<ObtainShaderPool, ShaderAllocationPolicy<WaterRefractionTerrainShader>, string, WaterRefractionTerrainShader>(ProjectFolders.ShadersPath + "waterRefractionTerrainVS.glsl" + "," + ProjectFolders.ShadersPath + "waterRefractionTerrainFS.glsl");
 
                 _buffer = LandscapeBuilder.getTerrainAttributes(this.LandscapeMap, this._normalsSmoothLvl);
                 this._postConstructor = !this._postConstructor;
@@ -277,11 +275,11 @@ namespace MassiveGame.Core.GameCore.Terrain
             this._postConstructor = true;
             this._terrainMaterial = new Material(new Vector3(1.0f, 1.0f, 1.0f), new Vector3(1.0f, 1.0f, 1.0f),
                new Vector3(1.0f, 1.0f, 1.0f), new Vector3(1.0f, 1.0f, 1.0f), 10.0f, 1.0f);
-            this._textureR = ResourcePool.GetTexture(textureR);
-            this._textureG = ResourcePool.GetTexture(textureG);
-            this._textureB = ResourcePool.GetTexture(textureB);
-            this._textureBlack = ResourcePool.GetTexture(textureBlack);
-            this._blendMap = ResourcePool.GetTexture(blendMap);
+            this._textureR = PoolProxy.GetResource<ObtainTexturePool, TextureAllocationPolicy, string, ITexture>(textureR);
+            this._textureG = PoolProxy.GetResource<ObtainTexturePool, TextureAllocationPolicy, string, ITexture>(textureG);
+            this._textureB = PoolProxy.GetResource<ObtainTexturePool, TextureAllocationPolicy, string, ITexture>(textureB);
+            this._textureBlack = PoolProxy.GetResource<ObtainTexturePool, TextureAllocationPolicy, string, ITexture>(textureBlack);
+            this._blendMap = PoolProxy.GetResource<ObtainTexturePool, TextureAllocationPolicy, string, ITexture>(blendMap);
             this.MapSize = MapSize;
             this.MaximumHeight = MaximumHeight;
             this._normalsSmoothLvl = normalSmoothLvl;
@@ -306,19 +304,19 @@ namespace MassiveGame.Core.GameCore.Terrain
 
         public void cleanUp()
         {
-            ResourcePool.ReleaseShaderProgram(_shader);
-            ResourcePool.ReleaseShaderProgram(liteReflectionShader);
-            ResourcePool.ReleaseShaderProgram(liteRefractionShader);
+            PoolProxy.FreeResourceMemoryByValue<ObtainShaderPool, ShaderAllocationPolicy<LandscapeShader>, string, LandscapeShader>(_shader);
+            PoolProxy.FreeResourceMemoryByValue<ObtainShaderPool, ShaderAllocationPolicy<WaterReflectionTerrainShader>, string, WaterReflectionTerrainShader>(liteReflectionShader);
+            PoolProxy.FreeResourceMemoryByValue<ObtainShaderPool, ShaderAllocationPolicy<WaterRefractionTerrainShader>, string, WaterRefractionTerrainShader>(liteRefractionShader);
             _buffer.CleanUp();
-            if (_normalMapR != null) ResourcePool.ReleaseTexture(_normalMapR);
-            if (_normalMapG != null) ResourcePool.ReleaseTexture(_normalMapG);
-            if (_normalMapB != null) ResourcePool.ReleaseTexture(_normalMapB);
-            if (_normalMapBlack != null) ResourcePool.ReleaseTexture(_normalMapBlack);
-            ResourcePool.ReleaseTexture(_textureBlack);
-            ResourcePool.ReleaseTexture(_textureR);
-            ResourcePool.ReleaseTexture(_textureG);
-            ResourcePool.ReleaseTexture(_textureB);
-            ResourcePool.ReleaseTexture(_blendMap);
+            if (_normalMapR != null) PoolProxy.FreeResourceMemoryByValue<ObtainTexturePool, TextureAllocationPolicy, string, ITexture>(_normalMapR);
+            if (_normalMapG != null) PoolProxy.FreeResourceMemoryByValue<ObtainTexturePool, TextureAllocationPolicy, string, ITexture>(_normalMapG);
+            if (_normalMapB != null) PoolProxy.FreeResourceMemoryByValue<ObtainTexturePool, TextureAllocationPolicy, string, ITexture>(_normalMapB);
+            if (_normalMapBlack != null) PoolProxy.FreeResourceMemoryByValue<ObtainTexturePool, TextureAllocationPolicy, string, ITexture>(_normalMapBlack);
+            PoolProxy.FreeResourceMemoryByValue<ObtainTexturePool, TextureAllocationPolicy, string, ITexture>(_textureBlack);
+            PoolProxy.FreeResourceMemoryByValue<ObtainTexturePool, TextureAllocationPolicy, string, ITexture>(_textureR);
+            PoolProxy.FreeResourceMemoryByValue<ObtainTexturePool, TextureAllocationPolicy, string, ITexture>(_textureG);
+            PoolProxy.FreeResourceMemoryByValue<ObtainTexturePool, TextureAllocationPolicy, string, ITexture>(_textureB);
+            PoolProxy.FreeResourceMemoryByValue<ObtainTexturePool, TextureAllocationPolicy, string, ITexture>(_blendMap);
         }
 
         public ITexture GetDiffuseMap()

@@ -4,11 +4,11 @@ using System.Runtime.InteropServices;
 
 namespace VBO
 {
-    public class VertexBufferObject<T> : VertexBufferObjectBase where T : struct
+    public class VertexBufferObjectTwoDimension<T> : VertexBufferObjectBase where T : struct
     {
         private T[,] m_data;
 
-        public VertexBufferObject(T[,] data, BufferTarget bufferTarget, Int32 vertexAttribIndex, Int32 dataVectorSize, DataCarryFlag flag)
+        public VertexBufferObjectTwoDimension(T[,] data, BufferTarget bufferTarget, Int32 vertexAttribIndex, Int32 dataVectorSize, DataCarryFlag flag)
             : base(bufferTarget, vertexAttribIndex, dataVectorSize, flag)
         {
             m_data = data;
