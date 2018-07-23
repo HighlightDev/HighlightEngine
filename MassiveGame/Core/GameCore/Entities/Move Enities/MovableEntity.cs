@@ -12,6 +12,7 @@ using MassiveGame.Settings;
 using MassiveGame.API.ResourcePool.PoolHandling;
 using MassiveGame.API.ResourcePool.Policies;
 using MassiveGame.API.ResourcePool;
+using VBO;
 
 namespace MassiveGame.Core.GameCore.Entities.MoveEntities
 {
@@ -35,14 +36,30 @@ namespace MassiveGame.Core.GameCore.Entities.MoveEntities
         private WaterReflectionEntityShader liteReflectionShader;
         private WaterRefractionEntityShader liteRefractionShader;
 
+        public BehaviorState ActorState
+        {
+            set
+            {
+                // Set velocity to default 
+                if (value == BehaviorState.IDLE)
+                    Velocity = new Vector3(0);
+
+                actorState = value;
+            }
+            get { return actorState; }
+        }
+
+        public Vector3 Velocity { set; get; }
+        public float Speed { set; get; }
+        public event EventHandler TransformationDirtyEvent;
+
         #endregion
 
         #region Constructors
 
         public MovableEntity() { }
 
-        public MovableEntity(string modelPath, string texturePath, string normalMapPath, string specularMapPath
-            , float Speed, Vector3 translation, Vector3 rotation, Vector3 scale) :
+        public MovableEntity(string modelPath, string texturePath, string normalMapPath, string specularMapPath, Vector3 translation, Vector3 rotation, Vector3 scale) :
             base(modelPath, texturePath, normalMapPath, specularMapPath, translation, rotation, scale)
         {
             material = new Material(new Vector3(1.0f, 1.0f, 1.0f), new Vector3(1.0f, 1.0f, 1.0f),
@@ -51,7 +68,7 @@ namespace MassiveGame.Core.GameCore.Entities.MoveEntities
             ActorState = BehaviorState.FREE_FALLING;
             this.positionMemento = new ActorPositionMemento();
             pushPosition();
-            this.Speed = Speed;
+            this.Speed = 0.3f;
         }
 
         private void postConstructor()
@@ -117,11 +134,10 @@ namespace MassiveGame.Core.GameCore.Entities.MoveEntities
             if (clipPlane.X == 0 && clipPlane.Y == 0 && clipPlane.Z == 0 && clipPlane.W == 0) { GL.Disable(EnableCap.ClipDistance0); }
             else { GL.Enable(EnableCap.ClipDistance0); }
 
-            liteRefractionShader.startProgram();      //Бинд шейдера
+            liteRefractionShader.startProgram();   
 
-            _texture.BindTexture(TextureUnit.Texture0); // diffusemap texture
-            if (_normalMap != null)
-                _normalMap.BindTexture(TextureUnit.Texture1);  // normalmap
+            _texture.BindTexture(TextureUnit.Texture0);
+            _normalMap?.BindTexture(TextureUnit.Texture1); 
 
             liteRefractionShader.SetTexture(0);
             liteRefractionShader.SetNormalMap(1);
@@ -150,9 +166,8 @@ namespace MassiveGame.Core.GameCore.Entities.MoveEntities
 
             liteReflectionShader.startProgram();
 
-            _texture.BindTexture(TextureUnit.Texture0); // diffusemap
-            if (_normalMap != null)
-                _normalMap.BindTexture(TextureUnit.Texture1);  // normalmap
+            _texture.BindTexture(TextureUnit.Texture0);
+            _normalMap?.BindTexture(TextureUnit.Texture1); 
 
             liteReflectionShader.SetTexture(0);
             liteReflectionShader.SetNormalMap(1);
@@ -185,12 +200,12 @@ namespace MassiveGame.Core.GameCore.Entities.MoveEntities
             {
                 // Get shadow handler
                 ITexture shadowMap = Sun.GetShadow().GetShadowMapTexture();
-                shadowMap.BindTexture(TextureUnit.Texture1); // shadowmap
+                shadowMap.BindTexture(TextureUnit.Texture1); 
                 shader.SetDirectionalLightShadowMatrix(Sun.GetShadow().GetShadowMatrix(ref modelMatrix, ref ProjectionMatrix));
             }
-            _texture.BindTexture(TextureUnit.Texture0); // diffusemap
+            _texture.BindTexture(TextureUnit.Texture0); 
             if (bEnableNormalMapping && _normalMap != null)
-                _normalMap.BindTexture(TextureUnit.Texture2);  // normalmap
+                _normalMap.BindTexture(TextureUnit.Texture2);
 
             shader.SetDiffuseMap(0);
             shader.SetNormalMap(2, bEnableNormalMapping);
@@ -213,36 +228,25 @@ namespace MassiveGame.Core.GameCore.Entities.MoveEntities
 
         public override void cleanUp()
         {
-            //source.Delete();
             PoolProxy.FreeResourceMemoryByValue<ObtainShaderPool, ShaderAllocationPolicy<MovableEntityShader>, string, MovableEntityShader>(shader);
             PoolProxy.FreeResourceMemoryByValue<ObtainShaderPool, ShaderAllocationPolicy<WaterReflectionEntityShader>, string, WaterReflectionEntityShader>(liteReflectionShader);
             PoolProxy.FreeResourceMemoryByValue<ObtainShaderPool, ShaderAllocationPolicy<WaterRefractionEntityShader>, string, WaterRefractionEntityShader>(liteRefractionShader);
             _model.Dispose();
             if (_texture != null)
-                _texture.CleanUp();
+            {
+                PoolProxy.FreeResourceMemoryByValue<ObtainTexturePool, TextureAllocationPolicy, string, ITexture>(_texture);
+            }
             if (_normalMap != null)
-                _normalMap.CleanUp();
+            {
+                PoolProxy.FreeResourceMemoryByValue<ObtainTexturePool, TextureAllocationPolicy, string, ITexture>(_normalMap);
+            }
             if (_specularMap != null)
-                _specularMap.CleanUp();
+            {
+                PoolProxy.FreeResourceMemoryByValue<ObtainTexturePool, TextureAllocationPolicy, string, ITexture>(_specularMap);
+            }
         }
 
         #endregion
-
-        public BehaviorState ActorState
-        {
-            set
-            {
-                // Set velocity to default 
-                if (value == BehaviorState.IDLE)
-                    Velocity = new Vector3(0);
-
-                actorState = value;
-            }
-            get { return actorState; }
-        }
-        public Vector3 Velocity { set; get; }
-        public float Speed { protected set; get; }
-        public event EventHandler TransformationDirtyEvent;
 
         public BoundBase GetCharacterCollisionBound()
         {

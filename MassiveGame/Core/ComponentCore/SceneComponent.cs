@@ -49,7 +49,7 @@ namespace MassiveGame.Core.ComponentCore
             GL.Color4(color);
             GL.EnableClientState(ArrayCap.VertexArray);
             GL.VertexPointer(3, VertexPointerType.Float, 0, (float[,])buffer.GetVertexBufferArray().First().GetBufferData());
-            GL.DrawArrays(PrimitiveType.LineStrip, 0, buffer.GetVertexBufferArray().First().GetBufferElementsCount());
+            GL.DrawArrays(PrimitiveType.LineStrip, 0, buffer.GetVertexBufferArray().First().GetBufferVerticesCount());
             GL.DisableClientState(ArrayCap.VertexArray);
 
             base.RenderBound(ref projectionMatrix, ref viewMatrix, color);

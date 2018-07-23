@@ -10,6 +10,8 @@ namespace MassiveGame.Core.PhysicsCore
 {
     public class CollisionHeadUnit
     {
+        // ENTITY
+
         List<CollisionUnit> CollisionUnits;
 
         List<CollisionOutputData> CollisionOutput;
@@ -128,6 +130,8 @@ namespace MassiveGame.Core.PhysicsCore
             CollisionOutput.Clear();
         }
 
+        // CAMERA 
+
         private List<BoundBase> GetBoundingBoxesForCameraCollisionTest(ref FSphere cameraCollisionSphere, Component characterRootComponent)
         {
             List<BoundBase> resultCollidedRootBounds = new List<BoundBase>();
@@ -170,23 +174,7 @@ namespace MassiveGame.Core.PhysicsCore
 
             return bSphereAndRegularBoundingBoxCollision;
         }
-
-        private List<Component> ExtractNonCollidableRootComponents(FSphere cameraCollisionSphere)
-        {
-            List<Component> resultRootComponents = new List<Component>();
-
-            foreach (var unit in CollisionUnits)
-            {
-                FSphere aabbCollisionSphere = (FSphere)(unit.GetAndTryUpdateFramingBoundingBox());
-                if (GeometricMath.IsSphereVsSphereIntersection(ref cameraCollisionSphere, ref aabbCollisionSphere))
-                {
-                    resultRootComponents.Add(unit.RootComponent);
-                }
-            }
-
-            return resultRootComponents;
-        }
-
+       
         public void TryCameraCollision(BaseCamera camera)
         {
             ThirdPersonCamera thirdPersonCamera = camera as ThirdPersonCamera;

@@ -9,8 +9,8 @@ namespace MassiveGame.API.ObjectFactory
         public IVisible CreateInstance(Arguments a)
         {
             MovableEntityArguments arg = a as MovableEntityArguments;
-            return new MovableMeshEntity(arg.ModelPath, arg.TexturePath, arg.NormalMapPath, arg.SpecularMapPath
-                , arg.Speed, arg.Translation, arg.Rotation, arg.Scale);
+            return new MovableMeshEntity(arg.ModelPath, arg.TexturePath, arg.NormalMapPath, arg.SpecularMapPath,
+                arg.Translation, arg.Rotation, arg.Scale);
         }
     }
 }

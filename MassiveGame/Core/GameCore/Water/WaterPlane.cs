@@ -75,11 +75,11 @@ namespace MassiveGame.Core.GameCore.Water
             {
                 /*TODO - calculate average value of water height*/
                 var retValue = 0.0f;
-                for (Int32 i = 0; i < _buffer.GetVertexBufferArray().First().GetBufferElementsCount(); i++)
+                for (Int32 i = 0; i < _buffer.GetVertexBufferArray().First().GetBufferVerticesCount(); i++)
                 {
                     retValue += ((float[,])(_buffer.GetVertexBufferArray().First().GetBufferData()))[i, 1];
                 }
-                return ((retValue / _buffer.GetVertexBufferArray().First().GetBufferElementsCount()) + _translation.Y);
+                return ((retValue / _buffer.GetVertexBufferArray().First().GetBufferVerticesCount()) + _translation.Y);
             }
         }
 

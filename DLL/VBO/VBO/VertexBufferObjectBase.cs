@@ -19,6 +19,7 @@ namespace VBO
         protected Int32 m_vertexAttribIndex;
         protected Int32 m_dataVectorSize;
 
+        protected Int32 m_verticesCount;
         protected Int32 m_elementsCount;
 
         public VertexBufferObjectBase(BufferTarget bufferTarget, Int32 vertexAttribIndex, Int32 dataVectorSize, DataCarryFlag flag)
@@ -29,9 +30,27 @@ namespace VBO
             m_bufferTarget = bufferTarget;
             m_dataCarryFlag = flag;
         }
-    
-        protected abstract void BufferData();
 
+        protected void BindVertexAttribPointer(Int32 index, Int32 size, bool normalized, Int32 stride, Int32 offset)
+        {
+            var pointerType = GetAttribPointerType();
+            if (pointerType == VertexAttribPointerType.Int ||
+                pointerType == VertexAttribPointerType.UnsignedByte ||
+                pointerType == VertexAttribPointerType.UnsignedInt ||
+                pointerType == VertexAttribPointerType.UnsignedByte)
+            {
+                GL.VertexAttribIPointer(index, size, VertexAttribIntegerType.Int, stride, new IntPtr(0));
+            }
+            else if (pointerType == VertexAttribPointerType.Double)
+            {
+                GL.VertexAttribLPointer(index, size, VertexAttribDoubleType.Double, stride, new IntPtr(0));
+            }
+            else
+            {
+                GL.VertexAttribPointer(index, size, pointerType, normalized, stride, offset);
+            }
+        }
+    
         public void BindVBO()
         {
             GL.BindBuffer(m_bufferTarget, m_descriptor);
@@ -45,26 +64,25 @@ namespace VBO
             return m_vertexAttribIndex;
         }
 
-        public Int32 GetBufferElementsCount()
+        public Int32 GetBufferVerticesCount()
+        {
+            return m_verticesCount;
+        }
+
+        public Int32 GetBufferTotalElementsCount()
         {
             return m_elementsCount;
         }
 
         public BufferTarget GetBufferTarget() { return m_bufferTarget; }
 
-        public IntPtr GetBufferSize() { return new IntPtr(GetBufferElementsCount() * GetElementByteCount()); }
+        public IntPtr GetBufferSize() { return new IntPtr(GetBufferTotalElementsCount() * GetElementByteCount()); }
 
         public DataCarryFlag GetDataCarryFlag() { return m_dataCarryFlag; }
 
         protected abstract VertexAttribPointerType GetAttribPointerType();
 
-        public void SendDataToGPU()
-        {
-            GL.BindBuffer(m_bufferTarget, m_descriptor);
-            BufferData();
-            GL.EnableVertexAttribArray(m_vertexAttribIndex);
-            GL.VertexAttribPointer(m_vertexAttribIndex, m_dataVectorSize, GetAttribPointerType(), false, 0, 0);
-        }
+        public abstract void SendDataToGPU();
 
         public void CleanUp()
         {

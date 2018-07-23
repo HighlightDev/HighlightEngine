@@ -184,7 +184,7 @@ namespace ShaderPattern
             unsafe { GL.GetShader(vertexShaderID, ShaderParameter.InfoLogLength, &capacity); }
             StringBuilder info = new StringBuilder(capacity);
             unsafe { GL.GetShaderInfoLog(vertexShaderID, Int32.MaxValue, null, info); }
-            
+
             /*Fragment shader log info*/
             unsafe { GL.GetShader(fragmentShaderID, ShaderParameter.InfoLogLength, &capacity); }
             StringBuilder info1 = new StringBuilder(capacity);
@@ -225,7 +225,7 @@ namespace ShaderPattern
         {
             GL.UseProgram(shaderProgramID);
         }
-        
+
         public void stopProgram()
         {
             GL.UseProgram(0);
@@ -243,7 +243,7 @@ namespace ShaderPattern
             if (geometryShaderID != -1) { GL.DetachShader(shaderProgramID, geometryShaderID); GL.DeleteShader(geometryShaderID); }
             GL.DeleteShader(vertexShaderID);
             GL.DeleteShader(fragmentShaderID);
-            
+
             GL.DeleteProgram(shaderProgramID);
         }
 
@@ -269,6 +269,73 @@ namespace ShaderPattern
         #endregion
 
         #region Load_uniforms
+
+        public class BaseUniform
+        {
+            public Int32 uniform { set; get; }
+
+            public BaseUniform(Int32 program, string uniformName)
+            {
+                uniform = GL.GetUniformLocation(program, uniformName);
+            }
+        }
+
+        public class Uniform<T> : BaseUniform 
+        {
+            private void FactoryLoad(ref T value)
+            {
+                var type = typeof(T);
+                object val = ((object)value);
+                if (type == typeof(float))
+                {
+                    GL.Uniform1(uniform, (float)val);
+                }
+                else if (type == typeof(Int32))
+                {
+                    GL.Uniform1(uniform, (Int32)val);
+                }
+                else if (type == typeof(Vector2))
+                {
+                    GL.Uniform2(uniform, (Vector2)val);
+                }
+                else if (type == typeof(Vector3))
+                {
+                    GL.Uniform3(uniform, (Vector3)val);
+                }
+                else if (type == typeof(Vector4))
+                {
+                    GL.Uniform4(uniform, (Vector4)val);
+                }
+                else if (type == typeof(Matrix2))
+                {
+                    var mat = (Matrix2)val;
+                    GL.UniformMatrix2(uniform, false, ref mat);
+                }
+                else if (type == typeof(Matrix3))
+                {
+                    var mat = (Matrix3)val;
+                    GL.UniformMatrix3(uniform, false, ref mat);
+                }
+                else if (type == typeof(Matrix4))
+                {
+                    var mat = (Matrix4)val;
+                    GL.UniformMatrix4(uniform, false, ref mat);
+                }
+            }
+
+            public void LoadUniform(ref T value)
+            {
+                FactoryLoad(ref value);
+            }
+
+            public Uniform(Int32 program, string uniformName) : base(program, uniformName) { }
+        }
+
+        protected Uniform<T> GetUniform<T>(string uniformName)
+        {
+           return new Uniform<T>(shaderProgramID, uniformName);
+        }
+
 
         protected void loadFloat(Int32 location, float value)
         {

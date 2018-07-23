@@ -1,4 +1,5 @@
-﻿using TextureLoader;
+﻿using System;
+using TextureLoader;
 
 namespace MassiveGame.API.ResourcePool.Policies
 {
@@ -6,8 +7,21 @@ namespace MassiveGame.API.ResourcePool.Policies
     {
         public override ITexture AllocateMemory(TextureParameters arg)
         {
+            return RenderTargetAllocator(arg);
+        }
+
+        private ITexture RenderTargetAllocator(TextureParameters arg)
+        {
             ITexture result = null;
-            result = new Texture2D(arg);
+            if (arg.TexTarget == OpenTK.Graphics.OpenGL.TextureTarget.Texture2D)
+            {
+                result = new Texture2D(arg);
+            }
+            else if (arg.TexTarget == OpenTK.Graphics.OpenGL.TextureTarget.Texture3D)
+            {
+                throw new NotImplementedException("Texture 3d not implemented.");
+                //result = new Texture3D(arg);
+            }
             return result;
         }
 

@@ -32,9 +32,7 @@ namespace MassiveGame.Core.PhysicsCore
             }
         }
 
-        public CollisionBehaviorManager()
-        {
-        }
+        public CollisionBehaviorManager() { }
 
         public void ProcessCollision(List<CollisionOutputData> data)
         {
@@ -587,8 +585,6 @@ namespace MassiveGame.Core.PhysicsCore
                     }
             }
         }
-
-  
 
         private void Process_NoCollision(CollisionOutputNoCollided collisionOutputNoCollided)
         {

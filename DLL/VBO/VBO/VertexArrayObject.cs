@@ -29,7 +29,7 @@ namespace VBO
         public void RenderVAO(PrimitiveType privitiveMode)
         {
             GL.BindVertexArray(m_descriptor);
-            GL.DrawArrays(privitiveMode, 0, m_vboList.First<VertexBufferObjectBase>().GetBufferElementsCount());
+            GL.DrawArrays(privitiveMode, 0, m_vboList.First<VertexBufferObjectBase>().GetBufferVerticesCount());
             GL.BindVertexArray(0);
         }
 

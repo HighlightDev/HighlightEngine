@@ -196,8 +196,7 @@ namespace MassiveGame.UI
             normalMapPath = ProjectFolders.NormalMapsPath + "brick_nm_high.png";
             specularMapPath = ProjectFolders.SpecularMapsPath + "brick_sm.png";
 
-            MovableEntityArguments arg = new MovableEntityArguments(modelPath, texturePath, normalMapPath, specularMapPath,
-                0.6f, new Vector3(170, 1200, 170), new Vector3(0), new Vector3(5));
+            MovableEntityArguments arg = new MovableEntityArguments(modelPath, texturePath, normalMapPath, specularMapPath, new Vector3(170, 1200, 170), new Vector3(0), new Vector3(5));
 
             EngineStatics.Player = (MovableMeshEntity)EngineObjectCreator.CreateInstance(arg);
             EngineStatics.Player.SetMistComponent(EngineStatics.Mist);
@@ -211,12 +210,12 @@ namespace MassiveGame.UI
             EngineStatics.Player.SetComponents(component.ChildrenComponents);
 
             EngineStatics.Player.SetCollisionHeadUnit(collisionHeadUnit);
+            EngineStatics.Player.Speed = 0.6f;
 
             modelPath = ProjectFolders.ModelsPath + "playerCube.obj";
             texturePath = ProjectFolders.MultitexturesPath + "b.png";
 
-            arg = new MovableEntityArguments(modelPath, texturePath, normalMapPath, specularMapPath,
-                0.3f, new Vector3(180, 200, 220), new Vector3(0, 0, 0), new Vector3(10));
+            arg = new MovableEntityArguments(modelPath, texturePath, normalMapPath, specularMapPath, new Vector3(180, 200, 220), new Vector3(0, 0, 0), new Vector3(10));
 
             EngineStatics.Enemy = (MovableMeshEntity)EngineObjectCreator.CreateInstance(arg);
             EngineStatics.Enemy.SetMistComponent(EngineStatics.Mist);
