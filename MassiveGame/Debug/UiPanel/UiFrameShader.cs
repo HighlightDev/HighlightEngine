@@ -1,6 +1,7 @@
 ﻿using System;
 using OpenTK;
 using MassiveGame.Core.RenderCore;
+using ShaderPattern;
 
 namespace MassiveGame.Debug.UiPanel
 {
@@ -9,7 +10,7 @@ namespace MassiveGame.Debug.UiPanel
         #region Definitions
 
         private const string SHADER_NAME = "UiFrame Shader";
-        private Int32 uiTexture, screenSpaceMatrix, bPerspectiveDepthTexture;
+        private Uniform u_uiTexture, u_screenSpaceMatrix, u_bPerspectiveDepthTexture;
 
         #endregion
 
@@ -17,17 +18,17 @@ namespace MassiveGame.Debug.UiPanel
 
         public void SetUiTextureSampler(Int32 uiTextureSampler)
         {
-            base.loadInteger(uiTexture, uiTextureSampler);
+            u_uiTexture.LoadUniform(uiTextureSampler);
         }
 
         public void SetScreenSpaceMatrix(Matrix4 screenSpaceMatrix)
         {
-            loadMatrix(this.screenSpaceMatrix, false, screenSpaceMatrix);
+            u_screenSpaceMatrix.LoadUniform(ref screenSpaceMatrix);
         }
 
         public void SetIsDepthTexture(bool bPerspectiveDepthTexture)
         {
-            loadBool(this.bPerspectiveDepthTexture, bPerspectiveDepthTexture);
+            u_bPerspectiveDepthTexture.LoadUniform(bPerspectiveDepthTexture);
         }
 
         #endregion
@@ -36,9 +37,9 @@ namespace MassiveGame.Debug.UiPanel
 
         protected override void getAllUniformLocations()
         {
-            uiTexture = base.getUniformLocation("uiTexture");
-            screenSpaceMatrix = getUniformLocation("screenSpaceMatrix");
-            bPerspectiveDepthTexture = getUniformLocation("bPerspectiveDepthTexture");
+            u_uiTexture = GetUniform("uiTexture");
+            u_screenSpaceMatrix = GetUniform("screenSpaceMatrix");
+            u_bPerspectiveDepthTexture = GetUniform("bPerspectiveDepthTexture");
         }
 
         #endregion

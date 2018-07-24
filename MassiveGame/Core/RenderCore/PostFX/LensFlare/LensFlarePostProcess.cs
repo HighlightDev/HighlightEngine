@@ -16,7 +16,6 @@ namespace MassiveGame.Core.RenderCore.PostFX.LensFlare
     {
         private LensFlareFramebufferObject renderTarget;
         private LensFlareShader<SubsequenceType> lensShader;
-        private Texture1D lensColor;
       
         private float ghostDispersal;
         public float GhostDispersal
@@ -61,7 +60,6 @@ namespace MassiveGame.Core.RenderCore.PostFX.LensFlare
             this.haloWidth = 0.55f;
             this.distortion = 3.50f;
             this.threshold = 0.5f;
-            this.lensColor = new Texture1D(new string[] { ProjectFolders.LensFlareTexturePath + "lenscolor.png" }, false, 0);
         }
 
         private void postConstructor()
@@ -95,8 +93,7 @@ namespace MassiveGame.Core.RenderCore.PostFX.LensFlare
 
             lensShader.startProgram();
             renderTarget.horizontalBlurTexture.BindTexture(TextureUnit.Texture0);
-            lensColor.bindTexture1D(TextureUnit.Texture1, lensColor.TextureID[0]);
-            lensShader.setUniformValuesLens(0, 1, this.Ghosts, this.HaloWidth, this.Distortion, this.GhostDispersal);
+            lensShader.setUniformValuesLens(0, this.Ghosts, this.HaloWidth, this.Distortion, this.GhostDispersal);
             quadBuffer.RenderVAO(PrimitiveType.Triangles);
             lensShader.stopProgram();
 

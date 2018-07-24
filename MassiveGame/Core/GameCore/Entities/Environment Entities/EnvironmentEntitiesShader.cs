@@ -1,6 +1,7 @@
 ﻿using System;
 using OpenTK;
 using MassiveGame.Core.RenderCore;
+using ShaderPattern;
 
 namespace MassiveGame.Core.GameCore.Entities.EnvironmentEntities
 {
@@ -10,8 +11,7 @@ namespace MassiveGame.Core.GameCore.Entities.EnvironmentEntities
 
         private const string SHADER_NAME = "Env. entity shader";
 
-        private Int32 modelMatrix, viewMatrix, projectionMatrix, modelTexSampler, envMapSampler,
-            cameraPosition, iorValues;
+        Uniform u_modelMatrix, u_viewMatrix, u_projectionMatrix, u_modelTexSampler, u_envMapSampler, u_cameraPosition;
 
         #endregion
 
@@ -19,13 +19,12 @@ namespace MassiveGame.Core.GameCore.Entities.EnvironmentEntities
 
         protected override void getAllUniformLocations()
         {
-            modelMatrix = base.getUniformLocation("modelMatrix");
-            viewMatrix = base.getUniformLocation("viewMatrix");
-            projectionMatrix = base.getUniformLocation("projectionMatrix");
-            modelTexSampler = base.getUniformLocation("modelTexture");
-            envMapSampler = base.getUniformLocation("environmentMap");
-            cameraPosition = base.getUniformLocation("cameraPosition");
-            iorValues = base.getUniformLocation("IOR");
+            u_modelMatrix = GetUniform("modelMatrix");
+            u_viewMatrix = GetUniform("viewMatrix");
+            u_projectionMatrix = GetUniform("projectionMatrix");
+            u_modelTexSampler = GetUniform("modelTexture");
+            u_envMapSampler = GetUniform("environmentMap");
+            u_cameraPosition = GetUniform("cameraPosition");
         }
 
         #endregion
@@ -35,12 +34,13 @@ namespace MassiveGame.Core.GameCore.Entities.EnvironmentEntities
         public void setUniformValues(ref Matrix4 modelMatrix, Matrix4 viewMatrix, ref Matrix4 projectionMatrix,
             Vector3 cameraPosition, Int32 modelTexSampler, Int32 envMapSampler)
         {
-            base.loadMatrix(this.modelMatrix, false, modelMatrix);
-            base.loadMatrix(this.viewMatrix, false, viewMatrix);
-            base.loadMatrix(this.projectionMatrix, false, projectionMatrix);
-            base.loadVector(this.cameraPosition, cameraPosition);
-            base.loadInteger(this.modelTexSampler, modelTexSampler);
-            base.loadInteger(this.envMapSampler, envMapSampler);
+            u_modelMatrix.LoadUniform(ref modelMatrix);
+
+            u_viewMatrix.LoadUniform(ref viewMatrix);
+            u_projectionMatrix.LoadUniform(ref projectionMatrix);
+            u_cameraPosition.LoadUniform(ref cameraPosition);
+            u_modelTexSampler.LoadUniform(modelTexSampler);
+            u_envMapSampler.LoadUniform(envMapSampler);
         }
 
         #endregion

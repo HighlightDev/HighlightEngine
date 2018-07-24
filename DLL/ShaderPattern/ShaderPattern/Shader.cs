@@ -261,123 +261,18 @@ namespace ShaderPattern
             return GL.GetSubroutineIndex(this.shaderProgramID, type, indexName);
         }
 
-        protected virtual void getAllUniformLocations()
-        {
-
-        }
+        protected virtual void getAllUniformLocations() { }
 
         #endregion
 
         #region Load_uniforms
 
-        public class BaseUniform
+        protected Uniform GetUniform(string uniformName)
         {
-            public Int32 uniform { set; get; }
-
-            public BaseUniform(Int32 program, string uniformName)
-            {
-                uniform = GL.GetUniformLocation(program, uniformName);
-            }
+           return new Uniform(shaderProgramID, uniformName);
         }
 
-        public class Uniform<T> : BaseUniform 
-        {
-            private void FactoryLoad(ref T value)
-            {
-                var type = typeof(T);
-                object val = ((object)value);
-                if (type == typeof(float))
-                {
-                    GL.Uniform1(uniform, (float)val);
-                }
-                else if (type == typeof(Int32))
-                {
-                    GL.Uniform1(uniform, (Int32)val);
-                }
-                else if (type == typeof(Vector2))
-                {
-                    GL.Uniform2(uniform, (Vector2)val);
-                }
-                else if (type == typeof(Vector3))
-                {
-                    GL.Uniform3(uniform, (Vector3)val);
-                }
-                else if (type == typeof(Vector4))
-                {
-                    GL.Uniform4(uniform, (Vector4)val);
-                }
-                else if (type == typeof(Matrix2))
-                {
-                    var mat = (Matrix2)val;
-                    GL.UniformMatrix2(uniform, false, ref mat);
-                }
-                else if (type == typeof(Matrix3))
-                {
-                    var mat = (Matrix3)val;
-                    GL.UniformMatrix3(uniform, false, ref mat);
-                }
-                else if (type == typeof(Matrix4))
-                {
-                    var mat = (Matrix4)val;
-                    GL.UniformMatrix4(uniform, false, ref mat);
-                }
-            }
-
-            public void LoadUniform(ref T value)
-            {
-                FactoryLoad(ref value);
-            }
-
-            public Uniform(Int32 program, string uniformName) : base(program, uniformName) { }
-        }
-
-        protected Uniform<T> GetUniform<T>(string uniformName)
-        {
-           return new Uniform<T>(shaderProgramID, uniformName);
-        }
-
-
-        protected void loadFloat(Int32 location, float value)
-        {
-            GL.Uniform1(location, value);
-        }
-
-        protected void loadVector(Int32 location, Vector3 vector)
-        {
-            GL.Uniform3(location, vector);
-        }
-
-        protected void loadVector(Int32 location, Vector4 vector)
-        {
-            GL.Uniform4(location, vector);
-        }
-
-        protected void loadVector(Int32 location ,Vector2 vector)
-        {
-            GL.Uniform2(location, vector);
-        }
-
-        protected void loadBool(Int32 location, bool value)
-        {
-            GL.Uniform1(location, value ? 1.0f : 0.0f);
-        }
-
-        protected void loadMatrix(Int32 location, bool transpose, Matrix4 matrix)
-        {
-            GL.UniformMatrix4(location, transpose, ref matrix);
-        }
-
-        protected void loadNormalMatrix(Int32 location, bool transpose, Matrix3 matrix)
-        {
-            GL.UniformMatrix3(location, transpose, ref matrix);
-        }
-
-        protected void loadInteger(Int32 location, Int32 value)
-        {
-            GL.Uniform1(location, value);
-        }
-
-        protected void loadSubroutineIndex(ShaderType type, Int32 countIndices , Int32 subroutineIndex)
+        protected void loadSubroutineIndex(ShaderType type, Int32 countIndices, Int32 subroutineIndex)
         {
             GL.UniformSubroutines(type, countIndices, ref subroutineIndex);
         }
@@ -395,11 +290,9 @@ namespace ShaderPattern
 
             geometryShaderID = -1;
             ShaderLoaded = false;
-            // start precompilation shader customization
-            SetShaderMacros();
+
+            SetShaderMacros(); // start precompilation shader customization
             PrecompileEdit();
-            ClearAfterPrecompilationEditStage();
-            // end
             ShaderLoaded = loadShaders();
             shaderProgramID = GL.CreateProgram();
             if (ShaderLoaded)
@@ -512,18 +405,14 @@ namespace ShaderPattern
         public virtual void PrecompileEdit()
         {
             AddPrecompiledEditToShader();
+            DefineParameters.Clear();
         }
 
         public void SetDefine<T>(ShaderTypeFlag shaderType, string name, T value) where T : struct
         {
             string formatedValue = ShaderMacrosConverter<T>.ConvertToString(value);
             DefineParameters.Add(new DefineParams(name, formatedValue, shaderType));
-        }
-
-        private void ClearAfterPrecompilationEditStage()
-        {
-            DefineParameters.Clear();
-        }
+       } 
 
         #endregion
     }

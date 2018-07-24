@@ -2,6 +2,7 @@
 using OpenTK.Graphics.OpenGL;
 using System.Drawing;
 using OpenTK;
+using ShaderPattern;
 
 namespace MassiveGame.Core.RenderCore.PostFX.Bloom
 {
@@ -12,11 +13,24 @@ namespace MassiveGame.Core.RenderCore.PostFX.Bloom
 
         private const string SHADER_NAME = "Bloom shader";
 
-        private const Int32 BLUR_WIDTH = BloomPostProcess<SubsequenceType>.MAX_BLUR_WIDTH;
-        Int32 frameTexture, blurTexture, screenWidth, screenHeight, blurWidth,
-            bloomThreshold, subroutineVerticalBlur, subroutineHorizontalBlur, subroutineExtractBrightParts, subroutineEndBloom;
+        private const Int32 BLUR_WIDTH = PostProcessBase.MAX_BLUR_WIDTH;
 
-        Int32[] weights = new Int32[BLUR_WIDTH], pixOffset = new Int32[BLUR_WIDTH];
+        private Int32 s_VerticalBlur, s_HorizontalBlur, s_ExtractBrightParts, s_EndBloom;
+
+        Uniform u_frameTexture, u_blurTexture, u_screenWidth, u_screenHeight, u_blurWidth, u_bloomThreshold;
+
+        Uniform[] u_weights = new Uniform[BLUR_WIDTH], u_pixOffset = new Uniform[BLUR_WIDTH];
+
+        #endregion
+
+        #region Constructor
+
+        public BloomShader() : base() { }
+
+        public BloomShader(string vsPath, string fsPath)
+            : base(SHADER_NAME, vsPath, fsPath)
+        {
+        }
 
         #endregion
 
@@ -25,21 +39,21 @@ namespace MassiveGame.Core.RenderCore.PostFX.Bloom
         protected override void getAllUniformLocations()
         {
             base.getAllUniformLocations();
-            frameTexture = base.getUniformLocation("frameTexture");
-            blurTexture = base.getUniformLocation("blurTexture");
-            screenWidth = base.getUniformLocation("screenWidth");
-            screenHeight = base.getUniformLocation("screenHeight");
-            blurWidth = base.getUniformLocation("blurWidth");
-            bloomThreshold = base.getUniformLocation("bloomThreshold");
+            u_frameTexture = GetUniform("frameTexture");
+            u_blurTexture = GetUniform("blurTexture");
+            u_screenWidth = GetUniform("screenWidth");
+            u_screenHeight = GetUniform("screenHeight");
+            u_blurWidth = GetUniform("blurWidth");
+            u_bloomThreshold = GetUniform("bloomThreshold");
             for (Int32 i = 0; i < BLUR_WIDTH; i++)
             {
-                this.weights[i] = base.getUniformLocation("Weight[" + i + "]");
-                this.pixOffset[i] = base.getUniformLocation("PixOffset[" + i + "]");
+                this.u_weights[i] = GetUniform("Weight[" + i + "]");
+                this.u_pixOffset[i] = GetUniform("PixOffset[" + i + "]");
             }
-            subroutineVerticalBlur = base.getSubroutineIndex(ShaderType.FragmentShader, "verticalBlur");
-            subroutineHorizontalBlur = base.getSubroutineIndex(ShaderType.FragmentShader, "horizontalBlur");
-            subroutineExtractBrightParts = base.getSubroutineIndex(ShaderType.FragmentShader, "extractBrightParts");
-            subroutineEndBloom = base.getSubroutineIndex(ShaderType.FragmentShader, "endBloom");
+            s_VerticalBlur = base.getSubroutineIndex(ShaderType.FragmentShader, "verticalBlur");
+            s_HorizontalBlur = base.getSubroutineIndex(ShaderType.FragmentShader, "horizontalBlur");
+            s_ExtractBrightParts = base.getSubroutineIndex(ShaderType.FragmentShader, "extractBrightParts");
+            s_EndBloom = base.getSubroutineIndex(ShaderType.FragmentShader, "endBloom");
         }
 
         #endregion
@@ -48,43 +62,43 @@ namespace MassiveGame.Core.RenderCore.PostFX.Bloom
 
         public void setVerticalBlurUniforms(Int32 frameTexture, float[] weights, Int32[] pixOffset, Point screenRezolution)
         {
-            base.loadInteger(this.frameTexture, frameTexture);
-            base.loadInteger(this.screenWidth, screenRezolution.X);
-            base.loadInteger(this.screenHeight, screenRezolution.Y);
+            u_frameTexture.LoadUniform(frameTexture);
+            u_screenWidth.LoadUniform(screenRezolution.X);
+            u_screenHeight.LoadUniform(screenRezolution.Y);
             for (Int32 i = 0; i < (weights.Length > BLUR_WIDTH ? BLUR_WIDTH : weights.Length); i++)
             {
-                base.loadFloat(this.weights[i], weights[i]);
-                base.loadInteger(this.pixOffset[i], pixOffset[i]);
+                u_weights[i].LoadUniform(weights[i]);
+                u_pixOffset[i].LoadUniform(pixOffset[i]);
             }
-            base.loadInteger(this.blurWidth, weights.Length);
-            base.loadSubroutineIndex(ShaderType.FragmentShader, 1, this.subroutineVerticalBlur);
+            u_blurWidth.LoadUniform(weights.Length);
+            loadSubroutineIndex(ShaderType.FragmentShader, 1, this.s_VerticalBlur);
         }
 
         public void setHorizontalBlurUniforms(Int32 frameTexture, float[] weights, Int32[] pixOffset, Point screenRezolution)
         {
-            base.loadInteger(this.frameTexture, frameTexture);
-            base.loadInteger(this.screenWidth, screenRezolution.X);
-            base.loadInteger(this.screenHeight, screenRezolution.Y);
+            u_frameTexture.LoadUniform(frameTexture);
+            u_screenWidth.LoadUniform(screenRezolution.X);
+            u_screenHeight.LoadUniform(screenRezolution.Y);
             for (Int32 i = 0; i < (weights.Length > BLUR_WIDTH ? BLUR_WIDTH : weights.Length); i++)
             {
-                base.loadFloat(this.weights[i], weights[i]);
-                base.loadInteger(this.pixOffset[i], pixOffset[i]);
+                u_weights[i].LoadUniform(weights[i]);
+                u_pixOffset[i].LoadUniform(pixOffset[i]);
             }
-            base.loadInteger(this.blurWidth, weights.Length);
-            base.loadSubroutineIndex(ShaderType.FragmentShader, 1, this.subroutineHorizontalBlur);
+            u_blurWidth.LoadUniform(weights.Length);
+            base.loadSubroutineIndex(ShaderType.FragmentShader, 1, s_HorizontalBlur);
         }
   
         public void setExtractingBrightPixelsUniforms(Int32 frameTexture, float bloomThreshold)
         {
-            base.loadInteger(this.frameTexture, frameTexture);
-            base.loadFloat(this.bloomThreshold, bloomThreshold);
-            base.loadSubroutineIndex(ShaderType.FragmentShader, 1, this.subroutineExtractBrightParts);
+            u_frameTexture.LoadUniform(frameTexture);
+            u_bloomThreshold.LoadUniform(bloomThreshold);
+            base.loadSubroutineIndex(ShaderType.FragmentShader, 1, s_ExtractBrightParts);
         }
 
         public void setEndBloomUniforms(Int32 bluredTexture)
         {
-            base.loadInteger(this.blurTexture, bluredTexture);
-            base.loadSubroutineIndex(ShaderType.FragmentShader, 1, this.subroutineEndBloom);
+            u_blurTexture.LoadUniform(bluredTexture);
+            base.loadSubroutineIndex(ShaderType.FragmentShader, 1, s_EndBloom);
         }
 
         #endregion
@@ -95,16 +109,5 @@ namespace MassiveGame.Core.RenderCore.PostFX.Bloom
             SetDefine<Vector3>(ShaderTypeFlag.FragmentShader, "lum", new Vector3(0.2126f, 0.7152f, 0.0722f));
             SetDefine<Int32>(ShaderTypeFlag.FragmentShader, "MAX_BLUR_WIDTH", BLUR_WIDTH);
         }
-
-        #region Constructor
-        
-        public BloomShader() : base() { }
-
-        public BloomShader(string vsPath, string fsPath)
-            : base(SHADER_NAME, vsPath, fsPath)
-        {
-        }
-
-        #endregion
     }
 }

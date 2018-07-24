@@ -6,7 +6,6 @@
 layout (location = 0) out vec4 FragColor;
 
 uniform sampler2D frameTexture;
-uniform sampler1D lensColor;
 uniform sampler2D bluredTexture;
 
 #if HAS_PREVIOUS_STAGE
@@ -67,9 +66,6 @@ vec4 lensEffect(vec2 TC)
 {
     float precalculatedLength = 0.707106;
     vec2 deltaTexCoord = vec2(0.5) - TC;
-
-	//Get lens color
-	//vec4 lensColour = texture(lensColor, length(deltaTexCoord) / precalculatedLength);
 
 	//Get size of one texel
 	vec2 texelSize = 1.0 / vec2(textureSize(frameTexture, 0));

@@ -57,8 +57,11 @@ namespace MassiveGame.Core.GameCore.Skybox
             shader.startProgram();
             skyboxDayTexture.BindTexture(TextureUnit.Texture0);
             skyboxNightTexture.BindTexture(TextureUnit.Texture1);
-            shader.setAllUniforms(mirrorMatrix, camera.GetViewMatrix(), projectionMatrix, 0, 1, sun, _mist == null ? false : _mist.EnableMist,
-                _mist == null ? new Vector3() : _mist.MistColour);
+            shader.SetTransformationMatrices(ref projectionMatrix, camera.GetViewMatrix(), ref mirrorMatrix);
+            shader.SetDayCubeTexture(0);
+            shader.SetNightCubeTexture(1);
+            shader.SetDirectionalLight(sun);
+            shader.SetMist(_mist);
             shader.SetClipPlane(ref clipPlane);
             buffer.RenderVAO(PrimitiveType.Triangles);
             shader.stopProgram();
@@ -77,8 +80,11 @@ namespace MassiveGame.Core.GameCore.Skybox
             shader.startProgram();
             skyboxDayTexture.BindTexture(TextureUnit.Texture0);
             skyboxNightTexture.BindTexture(TextureUnit.Texture1);
-            shader.setAllUniforms(modelMatrix, camera.GetViewMatrix(), projectionMatrix, 0, 1, sun, _mist == null ? false : _mist.EnableMist,
-                _mist == null ? new Vector3() : _mist.MistColour);
+            shader.SetTransformationMatrices(ref projectionMatrix, camera.GetViewMatrix(), ref modelMatrix);
+            shader.SetDayCubeTexture(0);
+            shader.SetNightCubeTexture(1);
+            shader.SetDirectionalLight(sun);
+            shader.SetMist(_mist);
             buffer.RenderVAO(PrimitiveType.Triangles);
             shader.stopProgram();
         }

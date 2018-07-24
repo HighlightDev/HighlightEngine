@@ -1,5 +1,6 @@
 ﻿using System;
 using OpenTK;
+using ShaderPattern;
 
 namespace MassiveGame.Core.RenderCore.Light_visualization
 {
@@ -8,48 +9,9 @@ namespace MassiveGame.Core.RenderCore.Light_visualization
         #region Definitions 
 
         private const string SHADER_NAME = "Light Visualization";
-        Int32 modelMatrix, viewMatrix, projectionMatrix, lampTexture;
-
-        public PointLightDebugShader(string shaderName, string VertexShaderFile, string FragmentShaderFile, string GeometryShaderFile = "") : base(shaderName, VertexShaderFile, FragmentShaderFile, GeometryShaderFile)
-        {
-        }
+        private Uniform u_modelMatrix, u_viewMatrix, u_projectionMatrix, u_lampTexture;
 
         #endregion
-
-        #region Getters uniform
-
-        protected override void getAllUniformLocations()
-        {
-            this.modelMatrix = base.getUniformLocation("modelMatrix");
-            this.viewMatrix = base.getUniformLocation("viewMatrix");
-            this.projectionMatrix = base.getUniformLocation("projectionMatrix");
-            this.lampTexture = base.getUniformLocation("lampTexture");
-        }
-
-        #endregion
-
-        #region Setters uniform
-
-        public void setUniformValues(Matrix4 modelMatrix, Matrix4 viewMatrix,
-            Matrix4 projectionMatrix, Int32 lampTextureSamplerID)
-        {
-            base.loadMatrix(this.modelMatrix, false, modelMatrix);
-            base.loadMatrix(this.viewMatrix, false, viewMatrix);
-            base.loadMatrix(this.projectionMatrix, false, projectionMatrix);
-            base.loadInteger(this.lampTexture, lampTextureSamplerID);
-        }
-
-        public void setLampTexture(Int32 lampTextureSamplerID)
-        {
-            base.loadInteger(this.lampTexture, lampTextureSamplerID);
-        }
-
-        #endregion
-
-        protected override void SetShaderMacros()
-        {
-            SetDefine<float>(ShaderTypeFlag.GeometryShader, "SIZE", 1.4f);
-        }
 
         #region Constructor
 
@@ -61,5 +23,41 @@ namespace MassiveGame.Core.RenderCore.Light_visualization
         }
 
         #endregion
+
+        #region Getters uniform
+
+        protected override void getAllUniformLocations()
+        {
+            u_modelMatrix = GetUniform("modelMatrix");
+            u_viewMatrix = GetUniform("viewMatrix");
+            u_projectionMatrix = GetUniform("projectionMatrix");
+            u_lampTexture = GetUniform("lampTexture");
+        }
+
+        #endregion
+
+        #region Setters uniform
+
+        public void setUniformValues(Matrix4 modelMatrix, Matrix4 viewMatrix,
+            Matrix4 projectionMatrix, Int32 lampTextureSamplerID)
+        {
+            u_modelMatrix.LoadUniform(ref modelMatrix);
+            u_viewMatrix.LoadUniform(ref viewMatrix);
+            u_projectionMatrix.LoadUniform(ref projectionMatrix);
+            u_lampTexture.LoadUniform(lampTextureSamplerID);
+        }
+
+        public void setLampTexture(Int32 lampTextureSamplerID)
+        {
+            u_lampTexture.LoadUniform(lampTextureSamplerID);
+        }
+
+        #endregion
+
+        protected override void SetShaderMacros()
+        {
+            SetDefine<float>(ShaderTypeFlag.GeometryShader, "SIZE", 1.4f);
+        }
+
     }
 }

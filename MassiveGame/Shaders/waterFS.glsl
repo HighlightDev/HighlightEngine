@@ -14,6 +14,7 @@ uniform sampler2D depthTexture;
 uniform float moveFactor;
 uniform float waveStrength;
 uniform vec3 sunSpecularColour;
+uniform bool bEnableSun;
 uniform vec3 specularColour[MAX_LIGHT_COUNT];
 uniform vec3 attenuation[MAX_LIGHT_COUNT];
 uniform bool enableLight[MAX_LIGHT_COUNT];
@@ -116,7 +117,11 @@ void main(void)
 	SpecularNormal = normalize(normalMapUnit.rgb);
 
 	vec4 waterColor = mix(reflectionColor, refractionColor, clamp(reflFactor - (waterDepth / transparencyDepth), 0.0, 1.0));
-	vec4 lightColor = specularDirectLight(SpecularNormal, normSunDirection, clamp(waterDepth / 5.0, 0.0, 1.0));
+	vec4 lightColor = vec4(0);
+    if (bEnableSun)
+    {
+        lightColor = specularDirectLight(SpecularNormal, normSunDirection, clamp(waterDepth / 5.0, 0.0, 1.0));
+    }
 
 	vec4 pointLightColor = vec4(0);
 

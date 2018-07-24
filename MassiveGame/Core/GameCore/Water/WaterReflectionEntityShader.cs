@@ -1,6 +1,7 @@
 ﻿using MassiveGame.Core.RenderCore;
 using MassiveGame.Core.RenderCore.Lights;
 using OpenTK;
+using ShaderPattern;
 using System;
 
 namespace MassiveGame.Core.GameCore.Water
@@ -9,25 +10,25 @@ namespace MassiveGame.Core.GameCore.Water
     {
         private const string SHADER_NAME = "WaterReflecitonEntityShader";
 
-        private Int32 Texture,
-            NormalMap,
-            materialAmbient,
-            materialDiffuse,
-            materialSpecular,
-            materialReflectivity,
-            materialShineDamper,
-            worldMatrix,
-            viewMatrix,
-            projectionMatrix,
-            sunEnable,
-            sunDirection,
-            sunAmbientColour,
-            sunDiffuseColour,
-            sunSpecularColour,
-            clipPlane,
-            specularMap,
-            bSpecularMapEnable,
-            lightWorldMatrix;
+        private Uniform u_texture,
+            u_normalMap,
+            u_materialAmbient,
+            u_materialDiffuse,
+            u_materialSpecular,
+            u_materialReflectivity,
+            u_materialShineDamper,
+            u_worldMatrix,
+            u_viewMatrix,
+            u_projectionMatrix,
+            u_sunEnable,
+            u_sunDirection,
+            u_sunAmbientColour,
+            u_sunDiffuseColour,
+            u_sunSpecularColour,
+            u_clipPlane,
+            u_specularMap,
+            u_bSpecularMapEnable,
+            u_lightWorldMatrix;
 
         public WaterReflectionEntityShader() : base() { }
 
@@ -38,80 +39,80 @@ namespace MassiveGame.Core.GameCore.Water
 
         public void SetTexture(Int32 textureSampler)
         {
-            loadInteger(Texture, textureSampler);
+            u_texture.LoadUniform(textureSampler);
         }
 
         public void SetNormalMap(Int32 normalMapSampler)
         {
-            loadInteger(NormalMap, normalMapSampler);
+            u_normalMap.LoadUniform(normalMapSampler);
         }
 
         public void SetSpecularMap(Int32 specularMapSampler)
         {
-            loadInteger(this.specularMap, specularMap);
-            loadBool(this.bSpecularMapEnable, true);
+            u_specularMap.LoadUniform(specularMapSampler);
+            u_bSpecularMapEnable.LoadUniform(true);
         }
 
         public void SetMaterial(Material material)
         {
-            loadVector(materialAmbient, material.Ambient.Xyz);
-            loadVector(materialDiffuse, material.Diffuse.Xyz);
-            loadVector(materialSpecular, material.Specular.Xyz);
-            loadFloat(materialReflectivity, material.Reflectivity);
-            loadFloat(materialShineDamper, material.ShineDamper);
+            u_materialAmbient.LoadUniform(material.Ambient.Xyz);
+            u_materialDiffuse.LoadUniform(material.Diffuse.Xyz);
+            u_materialSpecular.LoadUniform(material.Specular.Xyz);
+            u_materialReflectivity.LoadUniform(material.Reflectivity);
+            u_materialShineDamper.LoadUniform(material.ShineDamper);
         }
 
         public void SetTransformationMatrices(ref Matrix4 worldMatrix, ref Matrix4 lightWorldMatrix, Matrix4 viewMatrix, ref Matrix4 projectionMatrix)
         {
-            loadMatrix(this.worldMatrix, false, worldMatrix);
-            loadMatrix(this.viewMatrix, false, viewMatrix);
-            loadMatrix(this.projectionMatrix, false, projectionMatrix);
-            loadMatrix(this.lightWorldMatrix, false, lightWorldMatrix);
+            u_worldMatrix.LoadUniform(ref worldMatrix);
+            u_viewMatrix.LoadUniform(ref viewMatrix);
+            u_projectionMatrix.LoadUniform(ref projectionMatrix);
+            u_lightWorldMatrix.LoadUniform(ref lightWorldMatrix);
         }
 
         public void SetDirectionalLight(DirectionalLight directionalLight)
         {
+            bool bEnableSun = false;
             if (directionalLight != null)
             {
-                base.loadBool(this.sunEnable, true);
-                base.loadVector(this.sunDirection, directionalLight.Direction);
-                base.loadVector(this.sunAmbientColour, directionalLight.Ambient.Xyz);
-                base.loadVector(this.sunDiffuseColour, directionalLight.Diffuse.Xyz);
-                base.loadVector(this.sunSpecularColour, directionalLight.Specular.Xyz);
+                u_sunDirection.LoadUniform(directionalLight.Direction);
+                u_sunAmbientColour.LoadUniform(directionalLight.Ambient.Xyz);
+                u_sunDiffuseColour.LoadUniform(directionalLight.Diffuse.Xyz);
+                u_sunSpecularColour.LoadUniform(directionalLight.Specular.Xyz);
+                bEnableSun = true;
             }
-            else { base.loadBool(this.sunEnable, false); }
+
+            u_sunEnable.LoadUniform(bEnableSun);
         }
 
         public void SetClipPlane(ref Vector4 clipPlane)
         {
-            loadVector(this.clipPlane, clipPlane);
+            u_clipPlane.LoadUniform(ref clipPlane);
         }
 
         protected override void getAllUniformLocations()
         {
-            Texture = getUniformLocation("texture");
-            NormalMap = getUniformLocation("normalMap");
-            materialAmbient = getUniformLocation("matAmbient");
-            materialDiffuse = getUniformLocation("matDiffuse");
-            materialSpecular = getUniformLocation("matSpecular");
-            materialReflectivity = getUniformLocation("matReflectivity");
-            materialShineDamper = getUniformLocation("matShineDamper");
-            worldMatrix = getUniformLocation("worldMatrix");
-            viewMatrix = getUniformLocation("viewMatrix");
-            projectionMatrix = getUniformLocation("projectionMatrix");
-            sunEnable = getUniformLocation("bSunEnable");
-            sunDirection = getUniformLocation("sunDirection");
-            sunAmbientColour = getUniformLocation("sunAmbientColour");
-            sunDiffuseColour = getUniformLocation("sunDiffuseColour");
-            sunSpecularColour = getUniformLocation("sunSpecularColour");
-            clipPlane = getUniformLocation("clipPlane");
-            specularMap = getUniformLocation("specularMap");
-            lightWorldMatrix = getUniformLocation("lightWorldMatrix");
-            bSpecularMapEnable = getUniformLocation("bSpecularMapEnable");
+            u_texture = GetUniform("texture");
+            u_normalMap = GetUniform("normalMap");
+            u_materialAmbient = GetUniform("matAmbient");
+            u_materialDiffuse = GetUniform("matDiffuse");
+            u_materialSpecular = GetUniform("matSpecular");
+            u_materialReflectivity = GetUniform("matReflectivity");
+            u_materialShineDamper = GetUniform("matShineDamper");
+            u_worldMatrix = GetUniform("worldMatrix");
+            u_viewMatrix = GetUniform("viewMatrix");
+            u_projectionMatrix = GetUniform("projectionMatrix");
+            u_sunEnable = GetUniform("bSunEnable");
+            u_sunDirection = GetUniform("sunDirection");
+            u_sunAmbientColour = GetUniform("sunAmbientColour");
+            u_sunDiffuseColour = GetUniform("sunDiffuseColour");
+            u_sunSpecularColour = GetUniform("sunSpecularColour");
+            u_clipPlane = GetUniform("clipPlane");
+            u_specularMap = GetUniform("specularMap");
+            u_lightWorldMatrix = GetUniform("lightWorldMatrix");
+            u_bSpecularMapEnable = GetUniform("bSpecularMapEnable");
         }
 
-        protected override void SetShaderMacros()
-        {
-        }
+        protected override void SetShaderMacros() { }
     }
 }

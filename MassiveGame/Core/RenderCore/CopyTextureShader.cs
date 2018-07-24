@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ShaderPattern;
+using System;
 
 namespace MassiveGame.Core.RenderCore
 {
@@ -6,27 +7,28 @@ namespace MassiveGame.Core.RenderCore
     {
         const string SHADER_NAME = "CopyTexture Shader";
 
-        private Int32 srcSampler;
+        private Uniform srcSampler;
+
+        public CopyTextureShader() : base() { }
+
+        public CopyTextureShader(string VertexShaderFile, string FragmentShaderFile)
+            : base(SHADER_NAME, VertexShaderFile, FragmentShaderFile)
+        {
+        }
 
         protected override void getAllUniformLocations()
         {
-            srcSampler = getUniformLocation("SrcColor");
+            srcSampler = GetUniform("SrcColor");
         }
 
         public void SetUniformValues(Int32 textureHandler)
         {
-            loadInteger(srcSampler, textureHandler);
+            srcSampler.LoadUniform(textureHandler);
         }
 
         protected override void SetShaderMacros()
         {
         }
-
-        public CopyTextureShader() : base() { }
-
-        public CopyTextureShader(string VertexShaderFile, string FragmentShaderFile) 
-            : base(SHADER_NAME, VertexShaderFile, FragmentShaderFile)
-        {
-        }
+     
     }
 }

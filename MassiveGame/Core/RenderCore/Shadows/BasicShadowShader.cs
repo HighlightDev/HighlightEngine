@@ -1,36 +1,36 @@
 ﻿using OpenTK;
+using ShaderPattern;
 using System;
 
 namespace MassiveGame.Core.RenderCore.Shadows
 {
     public class BasicShadowShader : ShaderBase
     {
-        private Int32 worldMatrix, shadowViewMatrix, shadowProjectionMatrix;
+        private Uniform u_worldMatrix, u_shadowViewMatrix, u_shadowProjectionMatrix;
         private const string SHADER_NAME = "BasicShadowShader";
 
-        protected override void SetShaderMacros()
+        public BasicShadowShader() : base() { }
+
+        public BasicShadowShader(string VertexShaderFile, string FragmentShaderFile)
+            : base(SHADER_NAME, VertexShaderFile, FragmentShaderFile)
         {
         }
 
+        protected override void SetShaderMacros() { }
+
         protected override void getAllUniformLocations()
         {
-            worldMatrix = getUniformLocation("worldMatrix");
-            shadowViewMatrix = getUniformLocation("shadowViewMatrix");
-            shadowProjectionMatrix = getUniformLocation("shadowProjectionMatrix");
+            u_worldMatrix = GetUniform("worldMatrix");
+            u_shadowViewMatrix = GetUniform("shadowViewMatrix");
+            u_shadowProjectionMatrix = GetUniform("shadowProjectionMatrix");
         }
 
         public void SetUniformValues(Matrix4 worldMatrix, Matrix4 shadowViewMatrix, Matrix4 shadowProjectionMatrix)
         {
-            loadMatrix(this.worldMatrix, false, worldMatrix);
-            loadMatrix(this.shadowViewMatrix, false, shadowViewMatrix);
-            loadMatrix(this.shadowProjectionMatrix, false, shadowProjectionMatrix);
+            u_worldMatrix.LoadUniform(ref worldMatrix);
+            u_shadowViewMatrix.LoadUniform(ref shadowViewMatrix);
+            u_shadowProjectionMatrix.LoadUniform(ref shadowProjectionMatrix);
         }
-
-        public BasicShadowShader() : base() { }
-
-        public BasicShadowShader(string VertexShaderFile, string FragmentShaderFile) 
-            : base(SHADER_NAME, VertexShaderFile, FragmentShaderFile)
-        {
-        }
+        
     }
 }

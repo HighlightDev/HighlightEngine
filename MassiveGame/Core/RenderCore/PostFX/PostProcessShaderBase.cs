@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ShaderPattern;
+using System;
 
 namespace MassiveGame.Core.RenderCore.PostFX
 {
@@ -12,7 +13,7 @@ namespace MassiveGame.Core.RenderCore.PostFX
         protected readonly PostProcessSubsequenceType_Inner PreviousPostProcessResult = typeof(SubsequenceType) == typeof(ApplySubsequentPostProcessResult) ?
             PostProcessSubsequenceType_Inner.ApplyPreviousPostProcess : PostProcessSubsequenceType_Inner.DiscardPreviousPostProcess;
 
-        Int32 previousPostProcessResultSampler = -1;
+        private Uniform u_previousPostProcessResultSampler;
 
         public PostProcessShaderBase() : base() { }
 
@@ -26,14 +27,14 @@ namespace MassiveGame.Core.RenderCore.PostFX
             base.getAllUniformLocations();
             if (PreviousPostProcessResult == PostProcessSubsequenceType_Inner.ApplyPreviousPostProcess)
             {
-                previousPostProcessResultSampler = getUniformLocation("previousPostProcessResultSampler");
+                u_previousPostProcessResultSampler = GetUniform("previousPostProcessResultSampler");
             }
         }
 
         public void SetPreviousPostProcessResultSampler(Int32 prevPostProcessResultSampler)
         {
             if (PreviousPostProcessResult == PostProcessSubsequenceType_Inner.ApplyPreviousPostProcess)
-                loadInteger(previousPostProcessResultSampler, prevPostProcessResultSampler);
+                u_previousPostProcessResultSampler.LoadUniform(prevPostProcessResultSampler);
         }
 
         protected override void SetShaderMacros()

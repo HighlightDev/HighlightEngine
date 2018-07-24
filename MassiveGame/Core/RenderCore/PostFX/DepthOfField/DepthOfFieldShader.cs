@@ -1,6 +1,7 @@
 ﻿using System;
 using OpenTK.Graphics.OpenGL;
 using System.Drawing;
+using ShaderPattern;
 
 namespace MassiveGame.Core.RenderCore.PostFX.DepthOfField
 {
@@ -8,11 +9,12 @@ namespace MassiveGame.Core.RenderCore.PostFX.DepthOfField
     {
         const string SHADER_NAME = "DepthOfField Shader";
 
-        private const Int32 BLUR_WIDTH = DepthOfFieldPostProcess<SubsequenceType>.MAX_BLUR_WIDTH;
-        Int32 blurTexture, depthTexture, frameTexture, screenWidth, screenHeight, blurWidth,
-            blurStartEdge, blurEndEdge, subroutineVerticalBlur, subroutineHorizontalBlur, subroutineDepthOfField, subroutineDownsampling;
+        private const Int32 BLUR_WIDTH = PostProcessBase.MAX_BLUR_WIDTH;
+        Uniform u_blurTexture, u_depthTexture, u_frameTexture, u_screenWidth, u_screenHeight, u_blurWidth,
+            u_blurStartEdge, u_blurEndEdge;
+        Int32 subroutineVerticalBlur, subroutineHorizontalBlur, subroutineDepthOfField, subroutineDownsampling;
 
-        Int32[] weights = new Int32[BLUR_WIDTH], pixOffset = new Int32[BLUR_WIDTH];
+        Uniform[] u_weights = new Uniform[BLUR_WIDTH], u_pixOffset = new Uniform[BLUR_WIDTH];
 
         #region Getters uniform
 
@@ -21,19 +23,19 @@ namespace MassiveGame.Core.RenderCore.PostFX.DepthOfField
             base.getAllUniformLocations();
 
             if (PreviousPostProcessResult == PostProcessShaderBase<SubsequenceType>.PostProcessSubsequenceType_Inner.DiscardPreviousPostProcess)
-                frameTexture = getUniformLocation("frameTexture");
+                u_frameTexture = GetUniform("frameTexture");
             
-            blurTexture = getUniformLocation("blurTexture");
-            depthTexture = getUniformLocation("depthTexture");
-            screenWidth = getUniformLocation("screenWidth");
-            screenHeight = getUniformLocation("screenHeight");
-            blurWidth = getUniformLocation("blurWidth");
-            blurStartEdge = getUniformLocation("blurStartEdge");
-            blurEndEdge = getUniformLocation("blurEndEdge");
+            u_blurTexture = GetUniform("blurTexture");
+            u_depthTexture = GetUniform("depthTexture");
+            u_screenWidth = GetUniform("screenWidth");
+            u_screenHeight = GetUniform("screenHeight");
+            u_blurWidth = GetUniform("blurWidth");
+            u_blurStartEdge = GetUniform("blurStartEdge");
+            u_blurEndEdge = GetUniform("blurEndEdge");
             for (Int32 i = 0; i < BLUR_WIDTH; i++)
             {
-                this.weights[i] = getUniformLocation("Weight[" + i + "]");
-                this.pixOffset[i] = getUniformLocation("PixOffset[" + i + "]");
+                this.u_weights[i] = GetUniform("Weight[" + i + "]");
+                this.u_pixOffset[i] = GetUniform("PixOffset[" + i + "]");
             }
             subroutineVerticalBlur = getSubroutineIndex(ShaderType.FragmentShader, "verticalBlur");
             subroutineHorizontalBlur = getSubroutineIndex(ShaderType.FragmentShader, "horizontalBlur");
@@ -47,37 +49,37 @@ namespace MassiveGame.Core.RenderCore.PostFX.DepthOfField
 
         public void setDownsamplerUniforms(Int32 frameTexSampler)
         {
-            loadInteger(blurTexture, frameTexSampler);
+            u_blurTexture.LoadUniform(frameTexSampler);
             loadSubroutineIndex(ShaderType.FragmentShader, 1, subroutineDownsampling);
         }
 
         /*Blur first pass uniforms*/
         public void setVerticalBlurUniforms(Int32 blurTexSampler, float[] weights, Int32[] pixOffset, Point screenRezolution)
         {
-            loadInteger(this.blurTexture, blurTexSampler);
-            loadInteger(this.screenWidth, screenRezolution.X);
-            loadInteger(this.screenHeight, screenRezolution.Y);
+            u_blurTexture.LoadUniform(blurTexSampler);
+            u_screenWidth.LoadUniform(screenRezolution.X);
+            u_screenHeight.LoadUniform(screenRezolution.Y);
             for (Int32 i = 0; i < (weights.Length > BLUR_WIDTH ? BLUR_WIDTH : weights.Length); i++)
             {
-                loadFloat(this.weights[i], weights[i]);
-                loadInteger(this.pixOffset[i], pixOffset[i]);
+                u_weights[i].LoadUniform(weights[i]);
+                u_pixOffset[i].LoadUniform(pixOffset[i]);
             }
-            loadInteger(this.blurWidth, weights.Length);
+            u_blurWidth.LoadUniform(weights.Length);
             loadSubroutineIndex(ShaderType.FragmentShader, 1, this.subroutineVerticalBlur);
         }
 
         /*Blur second pass uniforms*/
         public void setHorizontalBlurUniforms(Int32 blurTexSampler, float[] weights, Int32[] pixOffset, Point screenRezolution)
         {
-            loadInteger(this.blurTexture, blurTexSampler);
-            loadInteger(this.screenWidth, screenRezolution.X);
-            loadInteger(this.screenHeight, screenRezolution.Y);
+            u_blurTexture.LoadUniform(blurTexSampler);
+            u_screenWidth.LoadUniform(screenRezolution.X);
+            u_screenHeight.LoadUniform(screenRezolution.Y);
             for (Int32 i = 0; i < (weights.Length > BLUR_WIDTH ? BLUR_WIDTH : weights.Length); i++)
             {
-                loadFloat(this.weights[i], weights[i]);
-                loadInteger(this.pixOffset[i], pixOffset[i]);
+                u_weights[i].LoadUniform(weights[i]);
+                u_pixOffset[i].LoadUniform(pixOffset[i]);
             }
-            loadInteger(this.blurWidth, weights.Length);
+            u_blurWidth.LoadUniform(weights.Length);
             loadSubroutineIndex(ShaderType.FragmentShader, 1, this.subroutineHorizontalBlur);
         }
 
@@ -87,21 +89,15 @@ namespace MassiveGame.Core.RenderCore.PostFX.DepthOfField
         public void SetFrameTextureSampler(Int32 frameTexSampler)
         {
             if (PreviousPostProcessResult == PostProcessShaderBase<SubsequenceType>.PostProcessSubsequenceType_Inner.DiscardPreviousPostProcess)
-                loadInteger(this.frameTexture, frameTexSampler);
+                u_frameTexture.LoadUniform(frameTexSampler);
         }
 
         public void setDoFUniforms(Int32 blurTexSampler, Int32 depthTexSampler, float blurStartEdge, float blurEndEdge)
         {
-            loadInteger(this.blurTexture, blurTexSampler);
-            loadInteger(this.depthTexture, depthTexSampler);
-            loadFloat(this.blurStartEdge, blurStartEdge);
-            loadFloat(this.blurEndEdge, blurEndEdge);
-            for (Int32 i = 0; i < (weights.Length > BLUR_WIDTH ? BLUR_WIDTH : weights.Length); i++)
-            {
-                loadFloat(this.weights[i], weights[i]);
-                loadInteger(this.pixOffset[i], pixOffset[i]);
-            }
-            loadInteger(this.blurWidth, weights.Length);
+            u_blurTexture.LoadUniform(blurTexSampler);
+            u_depthTexture.LoadUniform(depthTexSampler);
+            u_blurStartEdge.LoadUniform(blurStartEdge);
+            u_blurEndEdge.LoadUniform(blurEndEdge);
             loadSubroutineIndex(ShaderType.FragmentShader, 1, this.subroutineDepthOfField);
         }
 

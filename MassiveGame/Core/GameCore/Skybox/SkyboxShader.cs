@@ -1,6 +1,8 @@
-﻿using MassiveGame.Core.RenderCore;
+﻿using MassiveGame.Core.GameCore.EntityComponents;
+using MassiveGame.Core.RenderCore;
 using MassiveGame.Core.RenderCore.Lights;
 using OpenTK;
+using ShaderPattern;
 using System;
 
 namespace MassiveGame.Core.GameCore.Skybox
@@ -10,14 +12,10 @@ namespace MassiveGame.Core.GameCore.Skybox
         #region Definitions
 
         private const string SHADER_NAME = "Skybox Shader";
-        private Int32 modelMatrix, viewMatrix, projectionMatrix,
-            skyboxDayTexture,
-            skyboxNightTexture,
-            sunPosition,
-            sunEnable,
-            mistEnable,
-            mistColour,
-            clipPlane;
+        private Uniform u_modelMatrix, u_viewMatrix, u_projectionMatrix,
+            u_skyboxDayTexture, u_skyboxNightTexture, u_sunPosition,
+            u_sunEnable, u_mistEnable, u_mistColour,
+            u_clipPlane;
 
         #endregion
 
@@ -25,16 +23,16 @@ namespace MassiveGame.Core.GameCore.Skybox
 
         protected override void getAllUniformLocations()
         {
-            modelMatrix = base.getUniformLocation("modelMatrix");
-            viewMatrix = base.getUniformLocation("ViewMatrix");
-            projectionMatrix = base.getUniformLocation("ProjectionMatrix");
-            skyboxDayTexture = base.getUniformLocation("skyboxSampler");
-            skyboxNightTexture = base.getUniformLocation("skyboxSampler2");
-            sunPosition = base.getUniformLocation("sunPosition");
-            sunEnable = base.getUniformLocation("sunEnable");
-            mistEnable = base.getUniformLocation("mistEnable");
-            mistColour = base.getUniformLocation("mistColour");
-            clipPlane = getUniformLocation("clipPlane");
+            u_modelMatrix = GetUniform("modelMatrix");
+            u_viewMatrix = GetUniform("ViewMatrix");
+            u_projectionMatrix = GetUniform("ProjectionMatrix");
+            u_skyboxDayTexture = GetUniform("skyboxSampler");
+            u_skyboxNightTexture = GetUniform("skyboxSampler2");
+            u_sunPosition = GetUniform("sunPosition");
+            u_sunEnable = GetUniform("sunEnable");
+            u_mistEnable = GetUniform("mistEnable");
+            u_mistColour = GetUniform("mistColour");
+            u_clipPlane = GetUniform("clipPlane");
         }
 
         #endregion
@@ -43,28 +41,51 @@ namespace MassiveGame.Core.GameCore.Skybox
 
         public void SetClipPlane(ref Vector4 clipPlane)
         {
-            loadVector(this.clipPlane, clipPlane);
+            u_clipPlane.LoadUniform(ref clipPlane);
         }
 
-        public void setAllUniforms(Matrix4 modelMatrix, Matrix4 viewMatrix,
-            Matrix4 projectionMatrix, Int32 skyboxDayTexture, Int32 skyboxNightTexture, DirectionalLight sun, bool mistEnable, Vector3 mistColour)
+        public void SetTransformationMatrices(ref Matrix4 projectionMatrix, Matrix4 viewMatrix, ref Matrix4 modelMatrix)
         {
             viewMatrix[3, 0] = 0.0f;    //restrict x-translation
             viewMatrix[3, 1] = 0.0f;    //restrict y-translation
             viewMatrix[3, 2] = 0.0f;    //restrict z-translation
-            base.loadMatrix(this.modelMatrix, false, modelMatrix);
-            base.loadMatrix(this.viewMatrix, false, viewMatrix);
-            base.loadMatrix(this.projectionMatrix, false, projectionMatrix);
-            base.loadInteger(this.skyboxDayTexture, skyboxDayTexture);
-            base.loadInteger(this.skyboxNightTexture, skyboxNightTexture);
+            u_modelMatrix.LoadUniform(ref modelMatrix);
+            u_viewMatrix.LoadUniform(ref viewMatrix);
+            u_projectionMatrix.LoadUniform(ref projectionMatrix);
+        }
+
+        public void SetDayCubeTexture(Int32 skyboxDayTexture)
+        {
+            u_skyboxDayTexture.LoadUniform(skyboxDayTexture);
+        }
+
+        public void SetNightCubeTexture(Int32 skyboxNightTexture)
+        {
+            u_skyboxNightTexture.LoadUniform(skyboxNightTexture);
+        }
+
+        public void SetDirectionalLight(DirectionalLight sun)
+        {
+            bool bSunEnable = false;
             if (sun != null)
             {
-                base.loadVector(this.sunPosition, sun.Direction);
-                base.loadBool(this.sunEnable, true);
+                u_sunPosition.LoadUniform(sun.Direction);
+                bSunEnable = true;
             }
-            else { base.loadBool(this.sunEnable, false); }
-            base.loadBool(this.mistEnable, mistEnable);
-            base.loadVector(this.mistColour, mistColour);
+
+            u_sunEnable.LoadUniform(bSunEnable);
+        }
+
+        public void SetMist(MistComponent mist)
+        {
+            bool bMistEnable = false;
+            if (mist != null)
+            {
+                u_mistColour.LoadUniform(mist.MistColour);
+                bMistEnable = true;
+            }
+
+            u_mistEnable.LoadUniform(bMistEnable);
         }
 
         #endregion

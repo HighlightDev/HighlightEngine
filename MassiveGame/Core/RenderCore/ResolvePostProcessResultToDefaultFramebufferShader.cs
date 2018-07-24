@@ -1,26 +1,27 @@
-﻿using System;
+﻿using ShaderPattern;
+using System;
 
 namespace MassiveGame.Core.RenderCore
 {
     public class ResolvePostProcessResultToDefaultFramebufferShader : ShaderBase
     {
         private const string SHADER_NAME = "ResolvePostProcessResultToDefaultFramebuffer Shader";
-        private Int32 frameSampler, postProcessResultSampler;
+        private Uniform u_frameSampler, u_postProcessResultSampler;
 
         protected override void getAllUniformLocations()
         {
-            frameSampler = getUniformLocation("frameSampler");
-            postProcessResultSampler = getUniformLocation("postProcessResultSampler");
+            u_frameSampler = GetUniform("frameSampler");
+            u_postProcessResultSampler = GetUniform("postProcessResultSampler");
         }
 
         public void setFrameSampler(Int32 frameSampler)
         {
-            loadInteger(this.frameSampler, frameSampler);
+            u_frameSampler.LoadUniform(frameSampler);
         }
 
         public void setPostProcessResultSampler(Int32 postProcessResultSampler)
         {
-            loadInteger(this.postProcessResultSampler, postProcessResultSampler);
+            u_postProcessResultSampler.LoadUniform(postProcessResultSampler);
         }
 
         public ResolvePostProcessResultToDefaultFramebufferShader() : base() { }
@@ -30,8 +31,6 @@ namespace MassiveGame.Core.RenderCore
         {
         }
 
-        protected override void SetShaderMacros()
-        {
-        }
+        protected override void SetShaderMacros() { }
     }
 }

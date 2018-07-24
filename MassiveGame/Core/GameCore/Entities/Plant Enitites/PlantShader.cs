@@ -2,6 +2,7 @@
 using MassiveGame.Core.RenderCore;
 using MassiveGame.Core.RenderCore.Lights;
 using OpenTK;
+using ShaderPattern;
 using System;
 
 namespace MassiveGame.Core.GameCore.Entities.StaticEntities
@@ -11,25 +12,25 @@ namespace MassiveGame.Core.GameCore.Entities.StaticEntities
         #region Definitions 
 
         private const string SHADER_NAME = "Plant Shader";
-        private Int32 plantTexture,
-            materialAmbient,
-            materialDiffuse,
-            ModelMatrix,
-            ViewMatrix,
-            ProjectionMatrix,
-            sunDirection,
-            sunAmbientColour,
-            sunDiffuseColour,
-            sunEnable,
-            windDirection,
-            windPower,
-            windLoop,
-            clipPlane,
-            mistEnable,
-            mistDensity,
-            mistGradient,
-            mistColour,
-            time;
+        private Uniform u_plantTexture,
+            u_materialAmbient,
+            u_materialDiffuse,
+            u_modelMatrix,
+            u_viewMatrix,
+            u_projectionMatrix,
+            u_sunDirection,
+            u_sunAmbientColour,
+            u_sunDiffuseColour,
+            u_sunEnable,
+            u_windDirection,
+            u_windPower,
+            u_windLoop,
+            u_clipPlane,
+            u_mistEnable,
+            u_mistDensity,
+            u_mistGradient,
+            u_mistColour,
+            u_time;
 
         #endregion
 
@@ -42,25 +43,25 @@ namespace MassiveGame.Core.GameCore.Entities.StaticEntities
 
         protected override void getAllUniformLocations()
         {
-            plantTexture = base.getUniformLocation("backgroundTexture");
-            materialAmbient = base.getUniformLocation("materialAmbient");
-            materialDiffuse = base.getUniformLocation("materialDiffuse");
-            ModelMatrix = base.getUniformLocation("ModelMatrix");
-            ViewMatrix = base.getUniformLocation("ViewMatrix");
-            ProjectionMatrix = base.getUniformLocation("ProjectionMatrix");
-            sunDirection = base.getUniformLocation("sunDirection");
-            sunAmbientColour = base.getUniformLocation("sunAmbientColour");
-            sunDiffuseColour = base.getUniformLocation("sunDiffuseColour");
-            sunEnable = base.getUniformLocation("sunEnable");
-            windDirection = base.getUniformLocation("windDirection");
-            windPower = base.getUniformLocation("windPower");
-            windLoop = base.getUniformLocation("windLoop");
-            clipPlane = base.getUniformLocation("clipPlane");
-            mistEnable = base.getUniformLocation("mistEnable");
-            mistDensity = base.getUniformLocation("mistDensity");
-            mistGradient = base.getUniformLocation("mistGradient");
-            mistColour = base.getUniformLocation("mistColour");
-            time = base.getUniformLocation("time");
+            u_plantTexture = GetUniform("backgroundTexture");
+            u_materialAmbient = GetUniform("materialAmbient");
+            u_materialDiffuse = GetUniform("materialDiffuse");
+            u_modelMatrix = GetUniform("ModelMatrix");
+            u_viewMatrix = GetUniform("ViewMatrix");
+            u_projectionMatrix = GetUniform("ProjectionMatrix");
+            u_sunDirection = GetUniform("sunDirection");
+            u_sunAmbientColour = GetUniform("sunAmbientColour");
+            u_sunDiffuseColour = GetUniform("sunDiffuseColour");
+            u_sunEnable = GetUniform("sunEnable");
+            u_windDirection = GetUniform("windDirection");
+            u_windPower = GetUniform("windPower");
+            u_windLoop = GetUniform("windLoop");
+            u_clipPlane = GetUniform("clipPlane");
+            u_mistEnable = GetUniform("mistEnable");
+            u_mistDensity = GetUniform("mistDensity");
+            u_mistGradient = GetUniform("mistGradient");
+            u_mistColour = GetUniform("mistColour");
+            u_time = GetUniform("time");
         }
 
          #endregion
@@ -69,23 +70,23 @@ namespace MassiveGame.Core.GameCore.Entities.StaticEntities
 
          public void setTextureSampler(Int32 sampler)
          {
-             base.loadInteger(this.plantTexture, sampler);
+            u_plantTexture.LoadUniform(sampler);
          }
 
          public void setMaterial(Material material)
          {
-             base.loadVector(this.materialAmbient, material.Ambient.Xyz);
-             base.loadVector(this.materialDiffuse, material.Diffuse.Xyz);
+            u_materialAmbient.LoadUniform(material.Ambient.Xyz);
+            u_materialDiffuse.LoadUniform(material.Diffuse.Xyz);
          }
 
         public void setViewMatrix(Matrix4 viewMatrix)
          {
-             base.loadMatrix(this.ViewMatrix, false, viewMatrix);
+             u_viewMatrix.LoadUniform(ref viewMatrix);
          }
 
         public void setProjectionMatrix(ref Matrix4 projectionMatrix)
         {
-            base.loadMatrix(this.ProjectionMatrix, false, projectionMatrix);
+            u_projectionMatrix.LoadUniform(ref projectionMatrix);
         }
 
         public void setSun(DirectionalLight sun)
@@ -93,42 +94,45 @@ namespace MassiveGame.Core.GameCore.Entities.StaticEntities
             /*If sun is enabled*/
             if (sun != null)
             {
-                base.loadBool(this.sunEnable, true);
-                base.loadVector(this.sunDirection, sun.Direction);
-                base.loadVector(this.sunAmbientColour, sun.Ambient.Xyz);
-                base.loadVector(this.sunDiffuseColour, sun.Diffuse.Xyz);
+                u_sunEnable.LoadUniform(true);
+                u_sunDirection.LoadUniform(sun.Direction);
+                u_sunAmbientColour.LoadUniform(sun.Ambient.Xyz);
+                u_sunDiffuseColour.LoadUniform(sun.Diffuse.Xyz);
             }
-            else { base.loadBool(this.sunEnable, false); }
+            else
+            {
+                u_sunEnable.LoadUniform(false);
+            }
         }
 
         public void setWind(WindComponent wind)
         {
-            base.loadVector(this.windDirection, wind.WindDirection);
-            base.loadFloat(this.windPower, wind.WindPower);
+            u_windDirection.LoadUniform(wind.WindDirection);
+            u_windPower.LoadUniform(wind.WindPower);
         }
 
         public void setTime(float time)
         {
-            base.loadFloat(this.time, time);
+            u_time.LoadUniform(time);
         }
 
         public void setClipPlane(ref Vector4 clipPlane)
         {
-            base.loadVector(this.clipPlane, clipPlane);
+            u_clipPlane.LoadUniform(ref clipPlane);
         }
 
         public void setMist(MistComponent mist)
         {
             if (mist != null)
             {
-                base.loadBool(this.mistEnable, true);
-                base.loadFloat(this.mistDensity, mist.MistDensity);
-                base.loadFloat(this.mistGradient, mist.MistGradient);
-                base.loadVector(this.mistColour, mist.MistColour);
+                u_mistEnable.LoadUniform(true);
+                u_mistDensity.LoadUniform(mist.MistDensity);
+                u_mistGradient.LoadUniform(mist.MistGradient);
+                u_mistColour.LoadUniform(mist.MistColour);
             }
             else
             {
-                base.loadBool(this.mistEnable, false);
+                u_mistEnable.LoadUniform(false);
             }
         }
 

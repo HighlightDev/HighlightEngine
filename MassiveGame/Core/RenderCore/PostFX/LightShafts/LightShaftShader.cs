@@ -1,5 +1,6 @@
 ﻿using System;
 using OpenTK;
+using ShaderPattern;
 
 namespace MassiveGame.Core.RenderCore.PostFX.LightShafts
 {
@@ -9,7 +10,19 @@ namespace MassiveGame.Core.RenderCore.PostFX.LightShafts
         #region Definitions
 
         private const string SHADER_NAME = "GodRays Shader";
-        private Int32 brightPartsTexture, exposure, decay, weight, radialPosition, density, numSamples;
+        private Uniform u_brightPartsTexture, u_exposure, u_decay, u_weight, u_radialPosition, u_density, u_numSamples;
+
+        #endregion
+
+        #region Constructor
+
+        public LightShaftShader() : base() { }
+
+        public LightShaftShader(string VSPath, string FSPath)
+            : base(SHADER_NAME, VSPath, FSPath)
+        {
+
+        }
 
         #endregion
 
@@ -18,13 +31,13 @@ namespace MassiveGame.Core.RenderCore.PostFX.LightShafts
         protected override void getAllUniformLocations()
         {
             base.getAllUniformLocations();
-            brightPartsTexture = base.getUniformLocation("bluredTexture");
-            exposure = base.getUniformLocation("exposure");
-            decay = base.getUniformLocation("decay");
-            weight = base.getUniformLocation("weight");
-            radialPosition = base.getUniformLocation("radialPosition");
-            density = base.getUniformLocation("density");
-            numSamples = base.getUniformLocation("numSamples");
+            u_brightPartsTexture = GetUniform("bluredTexture");
+            u_exposure = GetUniform("exposure");
+            u_decay = GetUniform("decay");
+            u_weight = GetUniform("weight");
+            u_radialPosition = GetUniform("radialPosition");
+            u_density = GetUniform("density");
+            u_numSamples = GetUniform("numSamples");
         }
 
         #endregion
@@ -32,50 +45,50 @@ namespace MassiveGame.Core.RenderCore.PostFX.LightShafts
         #region Setter
 
         public void setUniformValuesRadialBlur(Int32 frameTexture, Int32 bluredTexture, float exposure,
-            float decay, float weigth, float density, Int32 numSamples, Vector2 radialPosition)
+            float decay, float weight, float density, Int32 numSamples, Vector2 radialPosition)
         {
-            base.loadInteger(this.brightPartsTexture, bluredTexture);
-            base.loadFloat(this.exposure, exposure);
-            base.loadFloat(this.decay, decay);
-            base.loadFloat(this.weight, weight);
-            base.loadFloat(this.density, density);
-            base.loadInteger(this.numSamples, numSamples);
-            base.loadVector(this.radialPosition, radialPosition);
+            u_brightPartsTexture.LoadUniform(bluredTexture);
+            u_exposure.LoadUniform(exposure);
+            u_decay.LoadUniform(decay);
+            u_weight.LoadUniform(weight);
+            u_density.LoadUniform(density);
+            u_numSamples.LoadUniform(numSamples);
+            u_radialPosition.LoadUniform(radialPosition);
         }
 
         public void SetBrightPartsTextureSampler(Int32 brightPartsTextureSampler)
         {
-            base.loadInteger(this.brightPartsTexture, brightPartsTextureSampler);
+            u_brightPartsTexture.LoadUniform(brightPartsTextureSampler);
         }
 
         public void SetRadialBlurExposure(float exposure)
         {
-            base.loadFloat(this.exposure, exposure);
+            u_exposure.LoadUniform(exposure);
         }
 
         public void SetRadialBlurDecay(float decay)
         {
-            base.loadFloat(this.decay, decay);
+            u_decay.LoadUniform(decay);
         }
 
         public void SetRadialBlurNumberOfSamples(Int32 numberOfSamples)
         {
-            base.loadInteger(this.numSamples, numberOfSamples);
+            u_numSamples.LoadUniform(numberOfSamples);
         }
 
         public void SetRadialBlurWeight(float weight)
         {
-            base.loadFloat(this.weight, weight);
+            u_weight.LoadUniform(weight);
         }
 
         public void SetRadialBlurDensity(float density)
         {
-            base.loadFloat(this.density, density);
+            u_density.LoadUniform(density);
         }
 
         public void SetRadialBlurCenterPositionInScreenSpace(Vector2 radialPosition)
         {
-            base.loadVector(this.radialPosition, radialPosition);
+            u_radialPosition.LoadUniform(radialPosition);
         }
 
         #endregion
@@ -85,16 +98,5 @@ namespace MassiveGame.Core.RenderCore.PostFX.LightShafts
             base.SetShaderMacros();
         }
 
-        #region Constructor
-
-        public LightShaftShader() : base() { }
-
-        public LightShaftShader(string VSPath, string FSPath)
-            : base(SHADER_NAME, VSPath, FSPath)
-        {
-           
-        }
-
-        #endregion
     }
 }

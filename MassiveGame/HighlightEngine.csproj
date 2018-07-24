@@ -284,7 +284,6 @@
     <None Include="Audio\material\actor\step\new_wood2.ogg" />
     <None Include="Audio\material\actor\step\new_wood3.ogg" />
     <None Include="Audio\material\actor\step\new_wood4.ogg" />
-    <None Include="ClassDiagram1.cd" />
     <None Include="ModelFiles\ASCIIExport\bmw.ASE" />
     <None Include="ModelFiles\ASCIIExport\building.ASE" />
     <None Include="ModelFiles\ASCIIExport\teapot_model.ASE" />
