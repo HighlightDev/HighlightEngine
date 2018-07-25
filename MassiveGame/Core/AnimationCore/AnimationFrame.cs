@@ -4,13 +4,13 @@ namespace MassiveGame.Core.AnimationCore
 {
     public class AnimationFrame
     {
-        private List<BoneTransformation> frameBoneTransformations;
+        private Dictionary<string, BoneTransformation> boneTransformationsMap;
 
         private float animationTime;
 
-        public AnimationFrame(List<BoneTransformation> boneTransformations, float animTime)
+        public AnimationFrame(Dictionary<string, BoneTransformation> boneTransformations, float animTime)
         {
-            frameBoneTransformations = boneTransformations;
+            boneTransformationsMap = boneTransformations;
             animationTime = animTime;
         }
     }
