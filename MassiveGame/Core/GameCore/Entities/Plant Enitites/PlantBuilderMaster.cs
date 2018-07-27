@@ -222,7 +222,7 @@ namespace MassiveGame.Core.GameCore.Entities.StaticEntities
                 transformationVboTuples.Item1.Item1, transformationVboTuples.Item1.Item2, transformationVboTuples.Item2.Item1, transformationVboTuples.Item2.Item2,
                 windVBO, samplerVBO);
 
-            vao.BindVbosToVao();
+            vao.BindBuffersToVao();
 
             return vao;
         }

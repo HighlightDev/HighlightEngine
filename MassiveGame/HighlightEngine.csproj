@@ -266,6 +266,7 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Aircraft.obj" />
     <None Include="app.config" />
     <None Include="Audio\ambient\howling_wind_u1.ogg" />
     <None Include="Audio\ambient\wind_city_1.ogg" />

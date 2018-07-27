@@ -51,6 +51,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IndexBufferObject.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="VAO.cs" />
     <Compile Include="VBOArrayF.cs" />

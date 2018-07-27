@@ -27,9 +27,12 @@ namespace CParser
         private AssimpImporter imorter;
         private Scene scene;
         private Mesh[] meshes;
+
+        public bool bHasIndices;
         public float[,] Verts { get; private set; }
         public float[,] T_Verts { get; private set; }
         public float[,] N_Verts { get; private set; }
+        public List<UInt32> Indices { get; private set; }
 
 
         public void LoadModel(string modelFilePath)
@@ -39,9 +42,44 @@ namespace CParser
                           n_vert = new List<float[]>();
             scene = imorter.ImportFile(modelFilePath, PostProcessSteps.FlipUVs);
             meshes = scene.Meshes;
+            Indices = new List<UInt32>();
 
+
+            UInt32 indexCount = 0;
             foreach (Mesh mesh in meshes)
             {
+                foreach (var face in mesh.Faces)
+                {
+                    if (face.Indices.Any( index => index == 0))
+                    {
+                        indexCount = (uint)Indices.Count;
+                    }
+
+                    if (face.IndexCount == 4)
+                    {
+                        var p1 = face.Indices[0] + indexCount;
+                        var p2 = face.Indices[1] + indexCount;
+                        var p3 = face.Indices[2] + indexCount;
+                        var p4 = face.Indices[2] + indexCount;
+                        var p5 = face.Indices[3] + indexCount;
+                        var p6 = face.Indices[1] + indexCount;
+
+                        Indices.AddRange(new UInt32[] { p1, p2, p3, p4, p5, p6 });
+                    }
+                    else if (face.IndexCount == 3)
+                    {
+                        Indices.Add(face.Indices[0] + indexCount);
+                        Indices.Add(face.Indices[1] + indexCount);
+                        Indices.Add(face.Indices[2] + indexCount);
+                    }
+                    else
+                    {
+                        throw new Exception("Unusual staff!");
+                    }
+                }
+
+                bHasIndices = Indices.Count != 0;
+                
                 for (Int32 i = 0; i < mesh.VertexCount; ++i)
                 {
                     float[] temp = new float[3];
@@ -69,6 +107,14 @@ namespace CParser
                 }
 
             }
+
+            //for (Int32 i = 0; i < Indices.Count; i++)
+            //{
+            //    if (Indices[i] != i)
+            //    {
+            //        throw new Exception();
+            //    }
+            //}
 
             ConvertListToArray(vert, t_vert, n_vert);
         }

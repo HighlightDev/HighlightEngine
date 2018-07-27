@@ -96,7 +96,7 @@ namespace MassiveGame.Core.ComponentCore
 
             var verticesVBO = new VertexBufferObjectTwoDimension<float>(renderCoordinates, BufferTarget.ArrayBuffer, 0, 3, VertexBufferObjectBase.DataCarryFlag.Store);
             buffer.AddVBO(verticesVBO);
-            buffer.BindVbosToVao();
+            buffer.BindBuffersToVao();
 
             PoolCollector.GetInstance().ModelPool.AddModelToRoot(buffer, "CollisionBound");
         }

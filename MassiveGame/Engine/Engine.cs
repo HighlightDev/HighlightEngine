@@ -191,12 +191,14 @@ namespace MassiveGame.UI
                 item.SetMistComponent(EngineStatics.Mist);
             }
 
-            modelPath = ProjectFolders.ModelsPath + "playerCube.obj";
+            //PlantModels.LoadCollada();
+
+            modelPath = ProjectFolders.ModelsPath + "model.dae";
             texturePath = ProjectFolders.MultitexturesPath + "path.png";
             normalMapPath = ProjectFolders.NormalMapsPath + "brick_nm_high.png";
             specularMapPath = ProjectFolders.SpecularMapsPath + "brick_sm.png";
 
-            MovableEntityArguments arg = new MovableEntityArguments(modelPath, texturePath, normalMapPath, specularMapPath, new Vector3(170, 1200, 170), new Vector3(0), new Vector3(5));
+            MovableEntityArguments arg = new MovableEntityArguments(modelPath, texturePath, normalMapPath, specularMapPath, new Vector3(175, 1200, 170), new Vector3(0), new Vector3(5f));
 
             EngineStatics.Player = (MovableMeshEntity)EngineObjectCreator.CreateInstance(arg);
             EngineStatics.Player.SetMistComponent(EngineStatics.Mist);
@@ -414,21 +416,30 @@ namespace MassiveGame.UI
 
         private void OnMouseWheel(object sender, MouseEventArgs e)
         {
-            if (EngineStatics.DayCycle != null)
+            //if (EngineStatics.DayCycle != null)
+            //{
+            //    if (e.Delta > 0)
+            //    {
+            //        EngineStatics.DayCycle.TimeFlow += 0.01f;
+            //    }
+            //    else if (e.Delta < 0 && EngineStatics.DayCycle.TimeFlow > 0)
+            //    {
+            //        EngineStatics.DayCycle.TimeFlow -= 0.01f;
+            //    }
+            //    else if (EngineStatics.DayCycle.TimeFlow < 0)
+            //    {
+            //        EngineStatics.DayCycle.TimeFlow = 0.0f;
+            //    }
+            //}
+            if (e.Delta > 0)
             {
-                if (e.Delta > 0)
-                {
-                    EngineStatics.DayCycle.TimeFlow += 0.01f;
-                }
-                else if (e.Delta < 0 && EngineStatics.DayCycle.TimeFlow > 0)
-                {
-                    EngineStatics.DayCycle.TimeFlow -= 0.01f;
-                }
-                else if (EngineStatics.DayCycle.TimeFlow < 0)
-                {
-                    EngineStatics.DayCycle.TimeFlow = 0.0f;
-                }
+                (EngineStatics.Camera as ThirdPersonCamera).SeekDistanceFromTargetToCamera += 5;
             }
+            else if (e.Delta < 0)
+            {
+                (EngineStatics.Camera as ThirdPersonCamera).SeekDistanceFromTargetToCamera -= 5;
+            }
+                
         }
         #endregion
 

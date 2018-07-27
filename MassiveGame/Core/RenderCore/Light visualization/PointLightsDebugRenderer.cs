@@ -47,7 +47,7 @@ namespace MassiveGame.Core.RenderCore.Light_visualization
                 VertexBufferObjectTwoDimension<float> verticesVBO = new VertexBufferObjectTwoDimension<float>(vertices, BufferTarget.ArrayBuffer, 0, 3, VertexBufferObjectBase.DataCarryFlag.Invalidate);
                 _buffer = new VertexArrayObject();
                 _buffer.AddVBO(verticesVBO);
-                _buffer.BindVbosToVao();
+                _buffer.BindBuffersToVao();
                 _postConstructor = false;
             }
         }

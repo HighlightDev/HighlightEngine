@@ -123,7 +123,7 @@ namespace MassiveGame.Core.GameCore.Skybox
                 VertexBufferObjectTwoDimension<float> verticesVBO = new VertexBufferObjectTwoDimension<float>(vertices, BufferTarget.ArrayBuffer, 0, 3, VertexBufferObjectBase.DataCarryFlag.Invalidate);
                 buffer = new VertexArrayObject();
                 buffer.AddVBO(verticesVBO);
-                buffer.BindVbosToVao();
+                buffer.BindBuffersToVao();
 
                 this._postConstructor = !this._postConstructor;
             }

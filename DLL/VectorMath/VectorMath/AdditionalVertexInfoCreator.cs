@@ -10,7 +10,7 @@ namespace VectorMath
             Int32 vertexCount = vertices.Length / 3;
             float[,] resultTangent = new float[vertexCount, 3];
 
-            for (Int32 i = 0; i < vertexCount; i += 3)
+            for (Int32 i = 0; (i + 3) <= vertexCount; i += 3)
             {
                 Vector3 v0 = new Vector3(vertices[i, 0], vertices[i, 1], vertices[i, 2]);
                 Vector3 v1 = new Vector3(vertices[i + 1, 0], vertices[i + 1, 1], vertices[i + 1, 2]);
@@ -47,7 +47,7 @@ namespace VectorMath
             Int32 vertexCount = vertices.Length / 3;
             float[,] resultBitangent = new float[vertexCount, 3];
 
-            for (Int32 i = 0; i < vertexCount; i += 3)
+            for (Int32 i = 0; (i + 3) <= vertexCount; i += 3)
             {
                 Vector3 v0 = new Vector3(vertices[i, 0], vertices[i, 1], vertices[i, 2]);
                 Vector3 v1 = new Vector3(vertices[i + 1, 0], vertices[i + 1, 1], vertices[i + 1, 2]);

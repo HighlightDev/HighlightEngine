@@ -8,6 +8,11 @@ namespace MassiveGame
     {
         #region Getter
 
+        public static void LoadCollada()
+        {
+            ModelLoader model = new ModelLoader(ProjectFolders.ModelsPath + "SpaceBoy_Walk.dae");
+        }
+
         public static VBOArrayF getPlantModel2()
         {
             ModelLoader model = new ModelLoader(ProjectFolders.ModelsPath + "Plant1.obj");

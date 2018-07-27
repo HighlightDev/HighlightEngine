@@ -108,9 +108,9 @@ namespace VBO
             return resultType;
         }
 
-        public void UnbindVBO()
+        public static void UnbindVBO()
         {
-            GL.BindBuffer(m_bufferTarget, 0);
+            GL.BindBuffer(BufferTarget.ArrayBuffer, 0);
         }
     }
 }

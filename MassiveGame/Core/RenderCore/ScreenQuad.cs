@@ -32,7 +32,7 @@ namespace MassiveGame.Core.RenderCore
             quadBuffer = new VertexArrayObject();
 
             quadBuffer.AddVBO(verticesVBO, texCoordsVBO);
-            quadBuffer.BindVbosToVao();
+            quadBuffer.BindBuffersToVao();
         }
         
     }

@@ -225,7 +225,7 @@ namespace MassiveGame.Core.GameCore.Terrain
 
             VertexArrayObject vao = new VertexArrayObject();
             vao.AddVBO(verticesVBO, normalsVBO, texCoordsVBO, tangentsVBO, bitangentsVBO);
-            vao.BindVbosToVao();
+            vao.BindBuffersToVao();
 
             return vao;
         }

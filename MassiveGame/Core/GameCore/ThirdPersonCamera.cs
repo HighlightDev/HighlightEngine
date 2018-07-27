@@ -14,7 +14,7 @@ namespace MassiveGame.Core.GameCore
         private float lerpTimeElapsed = 0.0f;
         private float timeForInterpolation = 0.15f;
 
-        public readonly float SeekDistanceFromTargetToCamera;
+        public float SeekDistanceFromTargetToCamera { set; get; }
 
         public ThirdPersonCamera() : base()
         {
