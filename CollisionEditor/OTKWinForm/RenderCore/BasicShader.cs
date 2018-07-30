@@ -10,33 +10,33 @@ namespace OTKWinForm.RenderCore
 {
     public class BasicShader : Shader
     {
-        private Int32 worldMatrix, viewMatrix, projectionMatrix,
-            diffuseTexture, opacity;
+        private Uniform u_worldMatrix, u_viewMatrix, u_projectionMatrix,
+            u_diffuseTexture, u_opacity;
 
         public void SetTransformatrionMatrices(Matrix4 worldMatrix, Matrix4 viewMatrix, Matrix4 projectionMatrix)
         {
-            loadMatrix(this.worldMatrix, false, worldMatrix);
-            loadMatrix(this.viewMatrix, false, viewMatrix);
-            loadMatrix(this.projectionMatrix, false, projectionMatrix);
+            u_worldMatrix.LoadUniform(ref worldMatrix);
+            u_viewMatrix.LoadUniform(ref viewMatrix);
+            u_projectionMatrix.LoadUniform(ref projectionMatrix);
         }
 
         public void SetDiffuseTexture(Int32 diffuseTexture)
         {
-            loadInteger(this.diffuseTexture, diffuseTexture);
+            u_diffuseTexture.LoadUniform(diffuseTexture);
         }
 
         public void SetOpacity(float opacity)
         {
-            loadFloat(this.opacity, opacity);
+            u_opacity.LoadUniform(opacity);
         }
 
         protected override void getAllUniformLocations()
         {
-            worldMatrix = getUniformLocation("worldMatrix");
-            viewMatrix = getUniformLocation("viewMatrix");
-            projectionMatrix = getUniformLocation("projectionMatrix");
-            diffuseTexture = getUniformLocation("diffuseTexture");
-            opacity = getUniformLocation("opacity");
+            u_worldMatrix = GetUniform("worldMatrix");
+            u_viewMatrix = GetUniform("viewMatrix");
+            u_projectionMatrix = GetUniform("projectionMatrix");
+            u_diffuseTexture = GetUniform("diffuseTexture");
+            u_opacity = GetUniform("opacity");
         }
 
         protected override void SetShaderMacros()

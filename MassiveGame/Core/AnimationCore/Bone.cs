@@ -20,7 +20,7 @@ namespace MassiveGame.Core.AnimationCore
             childrenBones = new List<Bone>();
             this.parentBone = parentBone;
             localSpaceBoneTransformation = new BoneTransformation();
-             id = boneId;
+            id = boneId;
         }
 
         public void SetSkinningMatrix(Matrix4 skinMatrix)

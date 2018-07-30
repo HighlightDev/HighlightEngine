@@ -207,7 +207,7 @@ namespace MassiveGame.Core.GameCore.Entities.StaticEntities
 
         private VertexArrayObject AllocateVaoMemory(string path)
         {
-            ModelLoader loader = new ModelLoader(path);
+            AssimpModelLoader loader = new AssimpModelLoader(path);
 
             VertexBufferObjectTwoDimension<float> verticesVBO = new VertexBufferObjectTwoDimension<float>(loader.Verts, BufferTarget.ArrayBuffer, 0, 3, VertexBufferObjectBase.DataCarryFlag.Invalidate);
             VertexBufferObjectTwoDimension<float> normalsVBO = new VertexBufferObjectTwoDimension<float>(loader.N_Verts, BufferTarget.ArrayBuffer, 1, 3, VertexBufferObjectBase.DataCarryFlag.Invalidate);

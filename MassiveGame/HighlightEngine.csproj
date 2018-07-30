@@ -420,6 +420,7 @@
     <Content Include="Textures\Multitextures\b.png" />
     <Content Include="Textures\Multitextures\blendMap.png" />
     <Content Include="Textures\Multitextures\blendMap2.png" />
+    <Content Include="Textures\Multitextures\diffuse.png" />
     <Content Include="Textures\Multitextures\grass.png" />
     <Content Include="Textures\Multitextures\grassFlowers.png" />
     <Content Include="Textures\Multitextures\heightmap.png" />

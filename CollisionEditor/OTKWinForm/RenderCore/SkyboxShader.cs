@@ -10,28 +10,28 @@ namespace OTKWinForm.RenderCore
 {
     public class SkyboxShader : Shader
     {
-        private Int32 viewMatrix, projectionMatrix, cubemap;
+        private Uniform u_viewMatrix, u_projectionMatrix, u_cubemap;
 
         public void SetTransformationMatrices(Matrix4 viewMatrix, Matrix4 projectionMatrix)
         {
             viewMatrix[3, 0] = 0.0f; 
             viewMatrix[3, 1] = 0.0f; 
-            viewMatrix[3, 2] = 0.0f; 
+            viewMatrix[3, 2] = 0.0f;
 
-            loadMatrix(this.viewMatrix, false, viewMatrix);
-            loadMatrix(this.projectionMatrix, false, projectionMatrix);
+            u_viewMatrix.LoadUniform(ref viewMatrix);
+            u_projectionMatrix.LoadUniform(ref projectionMatrix);
         }
 
         public void SetCubemap(Int32 cubemapSampler)
         {
-            loadInteger(this.cubemap, cubemapSampler);
+            u_cubemap.LoadUniform(cubemapSampler);
         }
 
         protected override void getAllUniformLocations()
         {
-            viewMatrix = getUniformLocation("viewMatrix");
-            projectionMatrix = getUniformLocation("projectionMatrix");
-            cubemap = getUniformLocation("cubemap");
+            u_viewMatrix = GetUniform("viewMatrix");
+            u_projectionMatrix = GetUniform("projectionMatrix");
+            u_cubemap = GetUniform("cubemap");
         }
 
         protected override void SetShaderMacros()

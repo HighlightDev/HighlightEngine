@@ -12,7 +12,7 @@ namespace OTKWinForm.IOCore
     {
         public static VBOArrayF LoadModel(string modelPath)
         {
-            ModelLoader loader = new ModelLoader(modelPath);
+            AssimpModelLoader loader = new AssimpModelLoader(modelPath);
             return new VBOArrayF(loader.Verts, loader.N_Verts, loader.T_Verts, false);
         }
     }

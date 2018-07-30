@@ -194,11 +194,11 @@ namespace MassiveGame.UI
             //PlantModels.LoadCollada();
 
             modelPath = ProjectFolders.ModelsPath + "model.dae";
-            texturePath = ProjectFolders.MultitexturesPath + "path.png";
+            texturePath = ProjectFolders.MultitexturesPath + "diffuse.png";
             normalMapPath = ProjectFolders.NormalMapsPath + "brick_nm_high.png";
             specularMapPath = ProjectFolders.SpecularMapsPath + "brick_sm.png";
 
-            MovableEntityArguments arg = new MovableEntityArguments(modelPath, texturePath, normalMapPath, specularMapPath, new Vector3(175, 1200, 170), new Vector3(0), new Vector3(5f));
+            MovableEntityArguments arg = new MovableEntityArguments(modelPath, texturePath, normalMapPath, specularMapPath, new Vector3(175, 1200, 170), new Vector3(0, 0, 0), new Vector3(5f));
 
             EngineStatics.Player = (MovableMeshEntity)EngineObjectCreator.CreateInstance(arg);
             EngineStatics.Player.SetMistComponent(EngineStatics.Mist);

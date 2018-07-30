@@ -17,14 +17,14 @@ namespace MassiveGame.API.ResourcePool.Policies
         private VertexArrayObject SendDataToGpu(string modelPath)
         {
             // Get mesh data 
-            ModelLoader model = new ModelLoader(modelPath);
+            AssimpModelLoader model = new AssimpModelLoader(modelPath);
             var vertices = model.Verts;
             var normals = model.N_Verts;
             var texCoords = model.T_Verts;
-            var tangents = VectorMath.AdditionalVertexInfoCreator.CreateTangentVertices(vertices, texCoords);
-            var bitangents = VectorMath.AdditionalVertexInfoCreator.CreateBitangentVertices(vertices, texCoords);
+            var tangents = model.bHasTangentVertices ? model.Tangent_Verts : VectorMath.AdditionalVertexInfoCreator.CreateTangentVertices(vertices, texCoords);
+            var bitangents = model.bHasTangentVertices ? model.Bitanget_Verts : VectorMath.AdditionalVertexInfoCreator.CreateBitangentVertices(vertices, texCoords);
 
-            UInt32[] indices = model.Indices;
+            UInt32[] indices = model.bHasIndices ? model.Indices.ToArray() : null;
 
             VertexArrayObject vao = new VertexArrayObject();
 

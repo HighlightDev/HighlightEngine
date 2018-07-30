@@ -68,9 +68,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assimp\SkeletonBone.cs" />
+    <Compile Include="Assimp\Vertex.cs" />
     <Compile Include="Parsers\ASE Parser\ASE_ModelLoader.cs" />
     <Compile Include="Parsers\ASE Parser\ASE_Limb.cs" />
-    <Compile Include="Parsers\AssimpModelLoader.cs" />
+    <Compile Include="Assimp\AssimpModelLoader.cs" />
     <Compile Include="Parsers\DAE Parser\DAE_Geometries.cs" />
     <Compile Include="Parsers\DAE Parser\DAE_Limb.cs" />
     <Compile Include="Parsers\Abstract\DataLoaderAbstract.cs" />

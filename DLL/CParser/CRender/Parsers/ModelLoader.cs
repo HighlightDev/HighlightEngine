@@ -56,7 +56,7 @@ namespace CParser
                     Verts = mesh.Verts;
                     T_Verts = mesh.T_Verts;
                     N_Verts = mesh.N_Verts;
-                    Indices = mesh.Indices.ToArray<UInt32>();
+                    Indices = mesh.Indices?.ToArray<UInt32>();
                     bHasIndices = mesh.bHasIndices;
                     mesh = null;
                     break;
