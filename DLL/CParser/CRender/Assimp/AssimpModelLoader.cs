@@ -17,21 +17,25 @@ namespace CParser
             this.skeletonType = skeletonType;
             importer = new AssimpImporter();
             var scene = importer.ImportFile(modelFilePath, PostProcessSteps.FlipUVs | PostProcessSteps.CalculateTangentSpace);
-            MeshData = new MeshVertexData(scene, GetBoneInfluenceStrategy());
+            MeshData = new MeshVertexData(scene, GetBoneInfluenceStrategy(scene));
             importer = null;
         }
 
-        private SkeletonPerVertexBoneInfluenceStrategy GetBoneInfluenceStrategy()
+        private SkeletonPerVertexBoneInfluenceStrategy GetBoneInfluenceStrategy(Scene scene)
         {
             SkeletonPerVertexBoneInfluenceStrategy strategy = null;
 
-            switch (skeletonType)
+            if (scene.HasAnimations)
             {
-                case SkeletonPerVertexBoneInfluenceType.ThreeBones: { strategy = new SkeletonThreeBonesInfluenceStrategy(); break; }
-                case SkeletonPerVertexBoneInfluenceType.FourBones: { strategy = new SkeletonFourBonesInfluenceStrategy(); break; }
-                case SkeletonPerVertexBoneInfluenceType.FiveBones: { strategy = new SkeletonFiveBonesInfluenceStrategy(); break; }
-                case SkeletonPerVertexBoneInfluenceType.SixBones: { strategy = new SkeletonSixBonesInfluenceStrategy(); break; }
+                switch (skeletonType)
+                {
+                    case SkeletonPerVertexBoneInfluenceType.ThreeBones: { strategy = new SkeletonThreeBonesInfluenceStrategy(); break; }
+                    case SkeletonPerVertexBoneInfluenceType.FourBones: { strategy = new SkeletonFourBonesInfluenceStrategy(); break; }
+                    case SkeletonPerVertexBoneInfluenceType.FiveBones: { strategy = new SkeletonFiveBonesInfluenceStrategy(); break; }
+                    case SkeletonPerVertexBoneInfluenceType.SixBones: { strategy = new SkeletonSixBonesInfluenceStrategy(); break; }
+                }
             }
+
             return strategy;
         }
 
