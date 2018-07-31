@@ -53,12 +53,16 @@ namespace VBO
 
         public void AddVBO(params VertexBufferObjectBase[] vbos)
         {
-            m_vboList.AddRange(vbos);
+            foreach (var vbo in vbos)
+            {
+                AddVBO(vbo);
+            }
         }
 
         public void AddVBO(VertexBufferObjectBase vbo)
         {
-            m_vboList.Add(vbo);
+            if (vbo != null)
+                m_vboList.Add(vbo);
         }
 
         public void AddIndexBuffer(IndexBufferObject ibo)

@@ -4,48 +4,50 @@ namespace MassiveGame.Core.AnimationCore
 {
     public class AnimationSequence
     {
-        private List<AnimationFrame> animationFrames;
-        private float animSeqDuration_sec;
+        private string m_name;
+        private List<AnimationFrame> m_frames;
+        private float m_sequenceDurationInSec;
 
-        public AnimationSequence()
+        public AnimationSequence(string animationName)
         {
-            animationFrames = new List<AnimationFrame>();
-            animSeqDuration_sec = 0.0f;
+            m_name = animationName;
+            m_frames = new List<AnimationFrame>();
+            m_sequenceDurationInSec = 0.0f;
         }
 
         public AnimationSequence(List<AnimationFrame> frames)
         {
-            animationFrames = frames;
+            m_frames = frames;
         }
 
         public List<AnimationFrame> GetAnimationFrames()
         {
-            return animationFrames;
+            return m_frames;
         }
 
         public float GetAnimationDurationInSec()
         {
-            return animSeqDuration_sec;
+            return m_sequenceDurationInSec;
         }
 
         public void SetAnimationFrames(List<AnimationFrame> frames)
         {
-            animationFrames = frames;
+            m_frames = frames;
         }
 
         public void AddAnimationFrame(AnimationFrame frame)
         {
-            animationFrames.Add(frame);
+            m_frames.Add(frame);
         }
 
         public void AddAnimationFrames(params AnimationFrame[] frames)
         {
-            animationFrames.AddRange(frames);
+            m_frames.AddRange(frames);
         }
 
         public void ClearAnimationFrameCollection()
         {
-            animationFrames.Clear();
+            m_frames.Clear();
         }
     }
 }

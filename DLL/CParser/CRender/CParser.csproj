@@ -68,7 +68,17 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assimp\SkeletonBone.cs" />
+    <Compile Include="Assimp\LoaderAnimation.cs" />
+    <Compile Include="Assimp\LoaderAnimationFrame.cs" />
+    <Compile Include="Assimp\LoaderBoneFrameCollection.cs" />
+    <Compile Include="Assimp\MeshVertexData.cs" />
+    <Compile Include="Assimp\LoaderSkeletonBone.cs" />
+    <Compile Include="Assimp\Strategy\SkeletonFiveBonesInfluenceStrategy.cs" />
+    <Compile Include="Assimp\Strategy\SkeletonFourBonesInfluenceStrategy.cs" />
+    <Compile Include="Assimp\Strategy\SkeletonPerVertexBoneInfluenceStrategy.cs" />
+    <Compile Include="Assimp\Strategy\SkeletonPerVertexBoneInfluenceType.cs" />
+    <Compile Include="Assimp\Strategy\SkeletonSixBonesInfluenceStrategy.cs" />
+    <Compile Include="Assimp\Strategy\SkeletonThreeBonesInfluenceStrategy.cs" />
     <Compile Include="Assimp\Vertex.cs" />
     <Compile Include="Parsers\ASE Parser\ASE_ModelLoader.cs" />
     <Compile Include="Parsers\ASE Parser\ASE_Limb.cs" />

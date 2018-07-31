@@ -209,9 +209,9 @@ namespace MassiveGame.Core.GameCore.Entities.StaticEntities
         {
             AssimpModelLoader loader = new AssimpModelLoader(path);
 
-            VertexBufferObjectTwoDimension<float> verticesVBO = new VertexBufferObjectTwoDimension<float>(loader.Verts, BufferTarget.ArrayBuffer, 0, 3, VertexBufferObjectBase.DataCarryFlag.Invalidate);
-            VertexBufferObjectTwoDimension<float> normalsVBO = new VertexBufferObjectTwoDimension<float>(loader.N_Verts, BufferTarget.ArrayBuffer, 1, 3, VertexBufferObjectBase.DataCarryFlag.Invalidate);
-            VertexBufferObjectTwoDimension<float> texCoordsVBO = new VertexBufferObjectTwoDimension<float>(loader.T_Verts, BufferTarget.ArrayBuffer, 2, 2, VertexBufferObjectBase.DataCarryFlag.Invalidate);
+            VertexBufferObjectTwoDimension<float> verticesVBO = new VertexBufferObjectTwoDimension<float>(loader.MeshData.Verts, BufferTarget.ArrayBuffer, 0, 3, VertexBufferObjectBase.DataCarryFlag.Invalidate);
+            VertexBufferObjectTwoDimension<float> normalsVBO = new VertexBufferObjectTwoDimension<float>(loader.MeshData.N_Verts, BufferTarget.ArrayBuffer, 1, 3, VertexBufferObjectBase.DataCarryFlag.Invalidate);
+            VertexBufferObjectTwoDimension<float> texCoordsVBO = new VertexBufferObjectTwoDimension<float>(loader.MeshData.T_Verts, BufferTarget.ArrayBuffer, 2, 2, VertexBufferObjectBase.DataCarryFlag.Invalidate);
 
             var transformationVboTuples = PlantUserAttributeBuilder.GetInstacedTransformationBuffer(_plants, INIT_BUFFER_SIZE);
             var windVBO = PlantUserAttributeBuilder.GetInstancedWindBuffer(_plants, INIT_BUFFER_SIZE);

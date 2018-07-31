@@ -7,17 +7,17 @@ namespace CParser.Assimp
     public class Vertex
     {
         public Int32 m_index;
-        public Dictionary<Tuple<Bone, Int32>, float> BoneWeightMap { set; get; }
+        public List<KeyValuePair<Tuple<Bone, Int32>, float>> BoneWeightMap { set; get; }
 
         public Vertex(Int32 index)
         {
             m_index = index;
-            BoneWeightMap = new Dictionary<Tuple<Bone, Int32>, float>();
+            BoneWeightMap = new List<KeyValuePair<Tuple<Bone, int>, float>>();
         }
 
-        public void AddBoneWeight(Tuple<Bone, Int32> bone, float weight)
+        public void AddBoneWeight(KeyValuePair<Tuple<Bone, int>, float> boneInfo)
         {
-            BoneWeightMap.Add(bone, weight);
+            BoneWeightMap.Add(boneInfo);
         }
     }
 }

@@ -276,7 +276,7 @@ namespace MassiveGame.Core.GameCore.Water
 
         public void cleanUp()
         {
-            _buffer.CleanUp();
+            _buffer?.CleanUp();
             PoolProxy.FreeResourceMemoryByValue<ObtainTexturePool, TextureAllocationPolicy, string, ITexture>(this._waterDistortionMap);
             PoolProxy.FreeResourceMemoryByValue<ObtainTexturePool, TextureAllocationPolicy, string, ITexture>(this._waterNormalMap);
             PoolProxy.FreeResourceMemoryByValue<ObtainShaderPool, ShaderAllocationPolicy<WaterShader>, string, WaterShader>(this._shader);

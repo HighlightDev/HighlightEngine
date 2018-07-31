@@ -12,7 +12,6 @@ using MassiveGame.Settings;
 using MassiveGame.API.ResourcePool.PoolHandling;
 using MassiveGame.API.ResourcePool.Policies;
 using MassiveGame.API.ResourcePool;
-using VBO;
 
 namespace MassiveGame.Core.GameCore.Entities.MoveEntities
 {
@@ -130,7 +129,7 @@ namespace MassiveGame.Core.GameCore.Entities.MoveEntities
             Matrix4 modelMatrix;
             modelMatrix = GetWorldMatrix();
 
-            /*If clip plane is setted - enable clipping plane*/
+            /*If clip plane is set - enable clipping plane*/
             if (clipPlane.X == 0 && clipPlane.Y == 0 && clipPlane.Z == 0 && clipPlane.W == 0) { GL.Disable(EnableCap.ClipDistance0); }
             else { GL.Enable(EnableCap.ClipDistance0); }
 
@@ -189,13 +188,13 @@ namespace MassiveGame.Core.GameCore.Entities.MoveEntities
             Matrix4 modelMatrix;
             modelMatrix = GetWorldMatrix();
 
-            /*If clip plane is setted - enable clipping plane*/
+            /*If clip plane is set - enable clipping plane*/
             if (clipPlane.X == 0 && clipPlane.Y == 0 && clipPlane.Z == 0 && clipPlane.W == 0) { GL.Disable(EnableCap.ClipDistance0); }
             else { GL.Enable(EnableCap.ClipDistance0); }
 
             shader.startProgram();
 
-            // pass uniform varibles to shader
+            // pass uniform variables to shader
             if (Sun != null)
             {
                 // Get shadow handler
@@ -306,7 +305,7 @@ namespace MassiveGame.Core.GameCore.Entities.MoveEntities
                 return;
 
             ActorState = BehaviorState.MOVE;
-            Velocity = EngineStatics.Camera.GetEyeSpaceForwardVector() * new Vector3(1, 0, 1);
+            Velocity = EngineStatics.Camera.GetEyeSpaceForwardVector() * new Vector3(1, 0, 1)/*truncate y-velocity*/;
 
             var newPosition = ComponentTranslation + Velocity * Speed;
             SetPosition(newPosition);

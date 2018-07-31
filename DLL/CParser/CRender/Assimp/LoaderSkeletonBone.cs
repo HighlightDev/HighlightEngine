@@ -4,17 +4,17 @@ using System.Collections.Generic;
 
 namespace CParser.Assimp
 {
-    public class SkeletonBone
+    public class LoaderSkeletonBone
     {
-        private SkeletonBone parent;
+        private LoaderSkeletonBone parent;
         private Bone boneInfo;
         private Int32 boneId;
-        private List<SkeletonBone> children;
+        private List<LoaderSkeletonBone> children;
 
-        public SkeletonBone(SkeletonBone parent)
+        public LoaderSkeletonBone(LoaderSkeletonBone parent)
         {
             this.parent = parent;
-            children = new List<SkeletonBone>();
+            children = new List<LoaderSkeletonBone>();
         }
 
         public void SetBoneInfo(Bone info)
@@ -27,7 +27,7 @@ namespace CParser.Assimp
             boneId = id;
         }
 
-        public void AddChildBone(SkeletonBone child)
+        public void AddChildBone(LoaderSkeletonBone child)
         {
             children.Add(child);
         }
@@ -42,12 +42,12 @@ namespace CParser.Assimp
             return boneId;
         }
 
-        public SkeletonBone GetParent()
+        public LoaderSkeletonBone GetParent()
         {
             return parent;
         }
 
-        public List<SkeletonBone> GetChildren()
+        public List<LoaderSkeletonBone> GetChildren()
         {
             return children;
         }
@@ -72,6 +72,16 @@ namespace CParser.Assimp
             }
 
             return id;
+        }
+
+        public void CleanUp()
+        {
+            foreach (var child in children)
+            {
+                boneInfo = null;
+                child.CleanUp();
+            }
+            children = null;
         }
     }
 }

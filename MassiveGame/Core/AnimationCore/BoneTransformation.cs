@@ -8,70 +8,73 @@ namespace MassiveGame.Core.AnimationCore
         // Transformation is relative to parent bone
 
         // skin matrix in local space
-        private Matrix4 localSkinningMatrix;
-
+        private Matrix4 m_localSpaceMatrix;
         // inverse skin matrix in local space
-        private Matrix4 localInverseSkinningMatrix;
+        private Matrix4 m_localSpaceInverseMatrix;
 
-        private Quaternion localSkinningRotation;
-        private Vector3 localSkinningTranslation;
+        private Quaternion m_localSpaceRotation;
+        private Vector3 m_localSpaceTranslation;
+        private Vector3 m_localSpaceScale;
 
-        public BoneTransformation(Matrix4 skinMatrix)
+        public BoneTransformation(Matrix4 transformationMatrix)
         {
-            localSkinningMatrix = skinMatrix;
-            localInverseSkinningMatrix = Matrix4.Identity;
-            UpdateTransformationInfo();
+            m_localSpaceMatrix = transformationMatrix;
+            m_localSpaceInverseMatrix = Matrix4.Identity;
+            ExtractRotationTranslationScale();
         }
 
-        public BoneTransformation(Quaternion quaternion, Vector3 translation)
+        public BoneTransformation(Quaternion rotation, Vector3 translation, Vector3 scale)
         {
-            localSkinningRotation = quaternion;
-            localSkinningTranslation = translation;
-            Matrix4 transformMat = Matrix4.CreateFromQuaternion(quaternion);
+            m_localSpaceRotation = rotation;
+            m_localSpaceTranslation = translation;
+            m_localSpaceScale = scale;
+            Matrix4 transformMat = Matrix4.CreateFromQuaternion(rotation);
             transformMat *= Matrix4.CreateTranslation(translation);
-            localSkinningMatrix = transformMat;
+            m_localSpaceMatrix = transformMat;
         }
 
         public BoneTransformation()
         {
-            localSkinningMatrix = Matrix4.Identity;
-            localInverseSkinningMatrix = Matrix4.Identity;
-            localSkinningRotation = Quaternion.Identity;
-            localSkinningTranslation = Vector3.Zero;
+            m_localSpaceMatrix = Matrix4.Identity;
+            m_localSpaceInverseMatrix = Matrix4.Identity;
+            m_localSpaceRotation = Quaternion.Identity;
+            m_localSpaceTranslation = Vector3.Zero;
         }
 
         public static BoneTransformation Lerp(BoneTransformation lhv, BoneTransformation rhv, float blend)
         {
-            Vector3 lerpPosition = VectorMathOperations.LerpVector(blend, 0, 1, lhv.localSkinningTranslation, rhv.localSkinningTranslation);
-            Quaternion lerpRotation = Quaternion.Slerp(lhv.localSkinningRotation, rhv.localSkinningRotation, blend);
-            return new BoneTransformation(lerpRotation, lerpPosition);
+            Vector3 lerpPosition = VectorMathOperations.LerpVector(blend, 0, 1, lhv.m_localSpaceTranslation, rhv.m_localSpaceTranslation);
+            Vector3 lerpScale = VectorMathOperations.LerpVector(blend, 0, 1, lhv.m_localSpaceScale, rhv.m_localSpaceScale);
+            Quaternion lerpRotation = Quaternion.Slerp(lhv.m_localSpaceRotation, rhv.m_localSpaceRotation, blend);
+            return new BoneTransformation(lerpRotation, lerpPosition, lerpScale);
         }
 
         public void SetLocalSkinningMatrix(Matrix4 skinningMatrix)
         {
-            localSkinningMatrix = skinningMatrix;
-            UpdateTransformationInfo();
+            m_localSpaceMatrix = skinningMatrix;
+            ExtractRotationTranslationScale();
         }
 
         public void SetLocalInverseSkinningMatrix(Matrix4 inverseSkinningMatrix)
         {
-            localInverseSkinningMatrix = inverseSkinningMatrix;
+            m_localSpaceInverseMatrix = inverseSkinningMatrix;
         }
 
         public Matrix4 GetLocalSkinningMatrix()
         {
-            return localSkinningMatrix;
+            return m_localSpaceMatrix;
         }
 
         public Matrix4 GetLocalInverseSkinningMatrix()
         {
-            return localInverseSkinningMatrix;
+            return m_localSpaceInverseMatrix;
         }
 
-        private void UpdateTransformationInfo()
+        private void ExtractRotationTranslationScale()
         {
-            localSkinningRotation = localSkinningMatrix.ExtractRotation();
-            localSkinningTranslation = localSkinningMatrix.ExtractTranslation();
+            m_localSpaceRotation = m_localSpaceMatrix.ExtractRotation();
+            m_localSpaceTranslation = m_localSpaceMatrix.ExtractTranslation();
+            m_localSpaceScale = m_localSpaceMatrix.ExtractScale();
         }
     }
 }
