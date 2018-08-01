@@ -13,6 +13,8 @@ namespace MassiveGame.Core.AnimationCore
 
         public SkeletalMeshComponent() : base()
         {
+
+
         }
 
     }

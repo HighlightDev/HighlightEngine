@@ -71,6 +71,7 @@
     <Compile Include="Assimp\LoaderAnimation.cs" />
     <Compile Include="Assimp\LoaderAnimationFrame.cs" />
     <Compile Include="Assimp\LoaderBoneFrameCollection.cs" />
+    <Compile Include="Assimp\MeshAnimationData.cs" />
     <Compile Include="Assimp\MeshVertexData.cs" />
     <Compile Include="Assimp\LoaderSkeletonBone.cs" />
     <Compile Include="Assimp\Strategy\SkeletonFiveBonesInfluenceStrategy.cs" />

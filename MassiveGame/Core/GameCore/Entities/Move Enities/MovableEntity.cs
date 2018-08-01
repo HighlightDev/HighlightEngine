@@ -135,8 +135,8 @@ namespace MassiveGame.Core.GameCore.Entities.MoveEntities
 
             liteRefractionShader.startProgram();   
 
-            _texture.BindTexture(TextureUnit.Texture0);
-            _normalMap?.BindTexture(TextureUnit.Texture1); 
+            m_texture.BindTexture(TextureUnit.Texture0);
+            m_normalMap?.BindTexture(TextureUnit.Texture1); 
 
             liteRefractionShader.SetTexture(0);
             liteRefractionShader.SetNormalMap(1);
@@ -145,7 +145,7 @@ namespace MassiveGame.Core.GameCore.Entities.MoveEntities
             liteRefractionShader.SetDirectionalLight(Sun);
             liteRefractionShader.SetClipPlane(ref clipPlane);
 
-            _model.Buffer.RenderVAO(PrimitiveType.Triangles);
+            m_skin.Buffer.RenderVAO(PrimitiveType.Triangles);
             liteRefractionShader.stopProgram();
         }
 
@@ -165,8 +165,8 @@ namespace MassiveGame.Core.GameCore.Entities.MoveEntities
 
             liteReflectionShader.startProgram();
 
-            _texture.BindTexture(TextureUnit.Texture0);
-            _normalMap?.BindTexture(TextureUnit.Texture1); 
+            m_texture.BindTexture(TextureUnit.Texture0);
+            m_normalMap?.BindTexture(TextureUnit.Texture1); 
 
             liteReflectionShader.SetTexture(0);
             liteReflectionShader.SetNormalMap(1);
@@ -175,7 +175,7 @@ namespace MassiveGame.Core.GameCore.Entities.MoveEntities
             liteReflectionShader.SetDirectionalLight(Sun);
             liteReflectionShader.SetClipPlane(ref clipPlane);
 
-            _model.Buffer.RenderVAO(PrimitiveType.Triangles);
+            m_skin.Buffer.RenderVAO(PrimitiveType.Triangles);
             liteReflectionShader.stopProgram();
         }
 
@@ -202,9 +202,9 @@ namespace MassiveGame.Core.GameCore.Entities.MoveEntities
                 shadowMap.BindTexture(TextureUnit.Texture1); 
                 shader.SetDirectionalLightShadowMatrix(Sun.GetShadow().GetShadowMatrix(ref modelMatrix, ref ProjectionMatrix));
             }
-            _texture.BindTexture(TextureUnit.Texture0); 
-            if (bEnableNormalMapping && _normalMap != null)
-                _normalMap.BindTexture(TextureUnit.Texture2);
+            m_texture.BindTexture(TextureUnit.Texture0); 
+            if (bEnableNormalMapping && m_normalMap != null)
+                m_normalMap.BindTexture(TextureUnit.Texture2);
 
             shader.SetDiffuseMap(0);
             shader.SetNormalMap(2, bEnableNormalMapping);
@@ -213,11 +213,11 @@ namespace MassiveGame.Core.GameCore.Entities.MoveEntities
             shader.SetPointLights(lights);
             shader.SetDirectionalLight(Sun);
             shader.SetClippingPlane(ref clipPlane);
-            shader.SetMist(_mist);
+            shader.SetMist(m_mist);
             shader.SetDirectionalLightShadowMap(1);
 
 
-            _model.Buffer.RenderVAO(mode);
+            m_skin.Buffer.RenderVAO(mode);
             shader.stopProgram();
         }
 
@@ -225,24 +225,12 @@ namespace MassiveGame.Core.GameCore.Entities.MoveEntities
 
         #region Cleaning
 
-        public override void cleanUp()
+        public override void CleanUp()
         {
+            base.CleanUp();
             PoolProxy.FreeResourceMemoryByValue<ObtainShaderPool, ShaderAllocationPolicy<MovableEntityShader>, string, MovableEntityShader>(shader);
             PoolProxy.FreeResourceMemoryByValue<ObtainShaderPool, ShaderAllocationPolicy<WaterReflectionEntityShader>, string, WaterReflectionEntityShader>(liteReflectionShader);
             PoolProxy.FreeResourceMemoryByValue<ObtainShaderPool, ShaderAllocationPolicy<WaterRefractionEntityShader>, string, WaterRefractionEntityShader>(liteRefractionShader);
-            _model.Dispose();
-            if (_texture != null)
-            {
-                PoolProxy.FreeResourceMemoryByValue<ObtainTexturePool, TextureAllocationPolicy, string, ITexture>(_texture);
-            }
-            if (_normalMap != null)
-            {
-                PoolProxy.FreeResourceMemoryByValue<ObtainTexturePool, TextureAllocationPolicy, string, ITexture>(_normalMap);
-            }
-            if (_specularMap != null)
-            {
-                PoolProxy.FreeResourceMemoryByValue<ObtainTexturePool, TextureAllocationPolicy, string, ITexture>(_specularMap);
-            }
         }
 
         #endregion
@@ -254,8 +242,8 @@ namespace MassiveGame.Core.GameCore.Entities.MoveEntities
 
         public override void UpdateTransformation()
         {
-            if (collisionHeadUnit != null)
-                collisionHeadUnit.NotifyCollisionObserver(this);
+            if (m_collisionHeadUnit != null)
+                m_collisionHeadUnit.NotifyCollisionObserver(this);
             base.UpdateTransformation();
         }
 
@@ -266,14 +254,14 @@ namespace MassiveGame.Core.GameCore.Entities.MoveEntities
             if (ActorState == BehaviorState.FREE_FALLING)
             {
                 // Character is in free fall, must be calculated new height regarding to body free falling mechanics
-                if (collisionHeadUnit != null)
-                    collisionHeadUnit.TryEntityCollision(this);
+                if (m_collisionHeadUnit != null)
+                    m_collisionHeadUnit.TryEntityCollision(this);
                 Velocity = BodyMechanics.UpdateFreeFallVelocity(Velocity);
             }
             else if (ActorState == BehaviorState.MOVE)
             {
-                if (collisionHeadUnit != null)
-                    collisionHeadUnit.TryEntityCollision(this);
+                if (m_collisionHeadUnit != null)
+                    m_collisionHeadUnit.TryEntityCollision(this);
             }
             else if (ActorState == BehaviorState.IDLE)
             {

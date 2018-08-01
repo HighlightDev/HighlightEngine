@@ -49,23 +49,23 @@ namespace MassiveGame.Core.AnimationCore
             return new BoneTransformation(lerpRotation, lerpPosition, lerpScale);
         }
 
-        public void SetLocalSkinningMatrix(Matrix4 skinningMatrix)
+        public void SetLocalOffsetMatrix(Matrix4 offsetMatrix)
         {
-            m_localSpaceMatrix = skinningMatrix;
+            m_localSpaceMatrix = offsetMatrix;
             ExtractRotationTranslationScale();
         }
 
-        public void SetLocalInverseSkinningMatrix(Matrix4 inverseSkinningMatrix)
+        public void SetLocalInverseOffsetMatrix(Matrix4 inverseSkinningMatrix)
         {
             m_localSpaceInverseMatrix = inverseSkinningMatrix;
         }
 
-        public Matrix4 GetLocalSkinningMatrix()
+        public Matrix4 GetLocalOffsetMatrix()
         {
             return m_localSpaceMatrix;
         }
 
-        public Matrix4 GetLocalInverseSkinningMatrix()
+        public Matrix4 GetLocalInverseOffsetMatrix()
         {
             return m_localSpaceInverseMatrix;
         }

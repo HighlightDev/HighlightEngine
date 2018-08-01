@@ -11,11 +11,11 @@ using MassiveGame.Core.RenderCore.Lights;
 using MassiveGame.Core.RenderCore;
 using MassiveGame.Core.PhysicsCore;
 using MassiveGame.Core.GameCore.EntityComponents;
-using MassiveGame.Core.GameCore.Mesh;
 using VBO;
 using MassiveGame.API.ResourcePool;
 using MassiveGame.API.ResourcePool.PoolHandling;
 using MassiveGame.API.ResourcePool.Policies;
+using MassiveGame.API.Mesh;
 
 namespace MassiveGame.Core.GameCore.Entities
 {
@@ -25,19 +25,19 @@ namespace MassiveGame.Core.GameCore.Entities
 
         protected bool bVisibleByCamera, bPostConstructor;
 
-        protected CollisionHeadUnit collisionHeadUnit;
+        protected CollisionHeadUnit m_collisionHeadUnit;
 
-        protected MistComponent _mist;
+        protected MistComponent m_mist;
 
-        protected MeshSkin _model;
+        protected Skin m_skin;
 
-        protected ITexture _texture;
+        protected ITexture m_texture;
 
-        protected ITexture _normalMap;
+        protected ITexture m_normalMap;
 
-        protected ITexture _specularMap;
+        protected ITexture m_specularMap;
 
-        protected BoolMap LightVisibilityMap;
+        protected BoolMap m_lightVisibilityMap;
 
         public void SetComponents(List<Component> components)
         {
@@ -61,7 +61,7 @@ namespace MassiveGame.Core.GameCore.Entities
 
         public virtual void SetCollisionHeadUnit(CollisionHeadUnit collisionHeadUnit)
         {
-            this.collisionHeadUnit = collisionHeadUnit;
+            this.m_collisionHeadUnit = collisionHeadUnit;
         }
 
         public override void Tick(ref Matrix4 projectionMatrix, ref Matrix4 viewMatrix)
@@ -76,7 +76,7 @@ namespace MassiveGame.Core.GameCore.Entities
             List<PointLight> AffectedPointLights = new List<PointLight>();
             for (Int32 i = 0; i < PotentialyAffectedPointLights.Count; i++)
             {
-                if (LightVisibilityMap[i])
+                if (m_lightVisibilityMap[i])
                 {
                     AffectedPointLights.Add(PotentialyAffectedPointLights[i]);
                 }
@@ -86,13 +86,13 @@ namespace MassiveGame.Core.GameCore.Entities
 
         public virtual void IsLitByLightSource(List<PointLight> LightList)
         {
-            LightVisibilityMap.Init(LightList.Count, false);
+            m_lightVisibilityMap.Init(LightList.Count, false);
             for (Int32 i = 0; i < LightList.Count; i++)
             {
                 BoundBase bound = GetAABBFromAllChildComponents();
                 FSphere boundSphere = (FSphere)bound;
                 FSphere lightSphere = new FSphere(LightList[i].Position.Xyz, LightList[i].AttenuationRadius);
-                LightVisibilityMap[i] = GeometricMath.IsSphereVsSphereIntersection(ref boundSphere, ref lightSphere);
+                m_lightVisibilityMap[i] = GeometricMath.IsSphereVsSphereIntersection(ref boundSphere, ref lightSphere);
             }
         }
 
@@ -140,22 +140,22 @@ namespace MassiveGame.Core.GameCore.Entities
 
         public VertexArrayObject GetMeshVao()
         {
-            return _model.Buffer;
+            return m_skin.Buffer;
         }
 
         public ITexture GetDiffuseMap()
         {
-            return _texture;
+            return m_texture;
         }
 
         public ITexture GetNormalMap()
         {
-            return _normalMap;
+            return m_normalMap;
         }
 
         public ITexture GetSpecularMap()
         {
-            return _specularMap;
+            return m_specularMap;
         }
 
         #endregion
@@ -164,7 +164,7 @@ namespace MassiveGame.Core.GameCore.Entities
 
         public void SetMistComponent(MistComponent mist)
         {
-            this._mist = mist;
+            this.m_mist = mist;
         }
 
         #endregion
@@ -214,15 +214,15 @@ namespace MassiveGame.Core.GameCore.Entities
             ComponentTranslation = translation; 
             ComponentRotation = rotation;
             ComponentScale = scale;
-            _texture = PoolProxy.GetResource<ObtainTexturePool, TextureAllocationPolicy, string, ITexture>(texturePath);
-            _normalMap = PoolProxy.GetResource<ObtainTexturePool, TextureAllocationPolicy, string, ITexture>(normalMapPath);
-            _specularMap = PoolProxy.GetResource<ObtainTexturePool, TextureAllocationPolicy, string, ITexture>(specularMapPath);
-            _model = new MeshSkin(modelPath);
+            m_texture = PoolProxy.GetResource<ObtainTexturePool, TextureAllocationPolicy, string, ITexture>(texturePath);
+            m_normalMap = PoolProxy.GetResource<ObtainTexturePool, TextureAllocationPolicy, string, ITexture>(normalMapPath);
+            m_specularMap = PoolProxy.GetResource<ObtainTexturePool, TextureAllocationPolicy, string, ITexture>(specularMapPath);
+            m_skin = PoolProxy.GetResource<ObtainModelPool, ModelAllocationPolicy, string, Skin>(modelPath);
 
             this.bVisibleByCamera = true;
-            this._mist = null;
+            this.m_mist = null;
             this.bPostConstructor = true;
-            LightVisibilityMap = new BoolMap();
+            m_lightVisibilityMap = new BoolMap();
         }
 
         private float[,] GetTransformedVertices(ref Matrix4 modelMatrix, float[,] vertices)
@@ -252,15 +252,12 @@ namespace MassiveGame.Core.GameCore.Entities
 
         #region Cleaning
 
-        public virtual void cleanUp()
+        public virtual void CleanUp()
         {
-            _model.Dispose();
-            if (_texture != null)
-                _texture.CleanUp();
-            if (_normalMap != null)
-                _normalMap.CleanUp();
-            if (_specularMap != null)
-                _specularMap.CleanUp();
+            PoolProxy.FreeResourceMemoryByValue<ObtainTexturePool, TextureAllocationPolicy, string, ITexture>(m_texture);
+            PoolProxy.FreeResourceMemoryByValue<ObtainTexturePool, TextureAllocationPolicy, string, ITexture>(m_normalMap);
+            PoolProxy.FreeResourceMemoryByValue<ObtainTexturePool, TextureAllocationPolicy, string, ITexture>(m_specularMap);
+            PoolProxy.FreeResourceMemoryByValue<ObtainModelPool, ModelAllocationPolicy, string, Skin>(m_skin);
         }
 
         #endregion

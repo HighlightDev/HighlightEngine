@@ -8,6 +8,7 @@ namespace MassiveGame.API.ResourcePool
         public ShaderPool ShaderPool { private set; get; }
         public RenderTargetPool RenderTargetPool { private set; get; }
         public TexturePool TexturePool { private set; get; }
+        public AnimationPool AnimationPool { private set; get; }
 
         private static PoolCollector m_collector;
 
@@ -17,6 +18,7 @@ namespace MassiveGame.API.ResourcePool
             ShaderPool = new ShaderPool();
             RenderTargetPool = new RenderTargetPool();
             TexturePool = new TexturePool();
+            AnimationPool = new AnimationPool();
         }
 
         public static PoolCollector GetInstance()

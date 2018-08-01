@@ -14,6 +14,7 @@ using MassiveGame.API.ResourcePool.Policies;
 using MassiveGame.API.ResourcePool;
 using VBO;
 using CParser;
+using CParser.Assimp;
 
 namespace MassiveGame.Core.GameCore.Entities.StaticEntities
 {
@@ -207,22 +208,25 @@ namespace MassiveGame.Core.GameCore.Entities.StaticEntities
 
         private VertexArrayObject AllocateVaoMemory(string path)
         {
-            AssimpModelLoader loader = new AssimpModelLoader(path);
+            VertexArrayObject vao = null;
+            using (AssimpModelLoader loader = new AssimpModelLoader(path))
+            {
+                MeshVertexData meshData = loader.GetMeshData();
+                VertexBufferObjectTwoDimension<float> verticesVBO = new VertexBufferObjectTwoDimension<float>(meshData.Verts, BufferTarget.ArrayBuffer, 0, 3, VertexBufferObjectBase.DataCarryFlag.Invalidate);
+                VertexBufferObjectTwoDimension<float> normalsVBO = new VertexBufferObjectTwoDimension<float>(meshData.N_Verts, BufferTarget.ArrayBuffer, 1, 3, VertexBufferObjectBase.DataCarryFlag.Invalidate);
+                VertexBufferObjectTwoDimension<float> texCoordsVBO = new VertexBufferObjectTwoDimension<float>(meshData.T_Verts, BufferTarget.ArrayBuffer, 2, 2, VertexBufferObjectBase.DataCarryFlag.Invalidate);
 
-            VertexBufferObjectTwoDimension<float> verticesVBO = new VertexBufferObjectTwoDimension<float>(loader.MeshData.Verts, BufferTarget.ArrayBuffer, 0, 3, VertexBufferObjectBase.DataCarryFlag.Invalidate);
-            VertexBufferObjectTwoDimension<float> normalsVBO = new VertexBufferObjectTwoDimension<float>(loader.MeshData.N_Verts, BufferTarget.ArrayBuffer, 1, 3, VertexBufferObjectBase.DataCarryFlag.Invalidate);
-            VertexBufferObjectTwoDimension<float> texCoordsVBO = new VertexBufferObjectTwoDimension<float>(loader.MeshData.T_Verts, BufferTarget.ArrayBuffer, 2, 2, VertexBufferObjectBase.DataCarryFlag.Invalidate);
+                var transformationVboTuples = PlantUserAttributeBuilder.GetInstacedTransformationBuffer(_plants, INIT_BUFFER_SIZE);
+                var windVBO = PlantUserAttributeBuilder.GetInstancedWindBuffer(_plants, INIT_BUFFER_SIZE);
+                var samplerVBO = PlantUserAttributeBuilder.GetInstanceSamplerBuffer(_plants, INIT_BUFFER_SIZE);
 
-            var transformationVboTuples = PlantUserAttributeBuilder.GetInstacedTransformationBuffer(_plants, INIT_BUFFER_SIZE);
-            var windVBO = PlantUserAttributeBuilder.GetInstancedWindBuffer(_plants, INIT_BUFFER_SIZE);
-            var samplerVBO = PlantUserAttributeBuilder.GetInstanceSamplerBuffer(_plants, INIT_BUFFER_SIZE);
+                vao = new VertexArrayObject();
+                vao.AddVBO(verticesVBO, normalsVBO, texCoordsVBO,
+                    transformationVboTuples.Item1.Item1, transformationVboTuples.Item1.Item2, transformationVboTuples.Item2.Item1, transformationVboTuples.Item2.Item2,
+                    windVBO, samplerVBO);
 
-            VertexArrayObject vao = new VertexArrayObject();
-            vao.AddVBO(verticesVBO, normalsVBO, texCoordsVBO,
-                transformationVboTuples.Item1.Item1, transformationVboTuples.Item1.Item2, transformationVboTuples.Item2.Item1, transformationVboTuples.Item2.Item2,
-                windVBO, samplerVBO);
-
-            vao.BindBuffersToVao();
+                vao.BindBuffersToVao();
+            }
 
             return vao;
         }

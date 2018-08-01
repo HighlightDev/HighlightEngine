@@ -26,10 +26,10 @@ namespace MassiveGame.Core.GameCore.Entities.EnvironmentEntities
             Matrix4 modelMatrix = Matrix4.Identity;
 
             _shader.startProgram();
-            _texture.BindTexture(TextureUnit.Texture0);
+            m_texture.BindTexture(TextureUnit.Texture0);
             _envMap.BindTexture(TextureUnit.Texture1);
             _shader.setUniformValues(ref modelMatrix, camera.GetViewMatrix(), ref projectionMatrix, camera.GetEyeVector(), 0, 1);
-            _model.Buffer.RenderVAO(PrimitiveType.Triangles);
+            m_skin.Buffer.RenderVAO(PrimitiveType.Triangles);
             _shader.stopProgram();
         }
 
@@ -59,10 +59,10 @@ namespace MassiveGame.Core.GameCore.Entities.EnvironmentEntities
 
         #region Cleaning
 
-        public override void cleanUp()
+        public override void CleanUp()
         {
-            base.cleanUp();
-            PoolProxy.FreeResourceMemoryByValue<ObtainTexturePool, TextureAllocationPolicy, string, ITexture>(_texture);
+            base.CleanUp();
+            PoolProxy.FreeResourceMemoryByValue<ObtainTexturePool, TextureAllocationPolicy, string, ITexture>(m_texture);
             PoolProxy.FreeResourceMemoryByValue<ObtainShaderPool, ShaderAllocationPolicy<EnvironmentEntitiesShader>, string, EnvironmentEntitiesShader>(_shader);
         }
 

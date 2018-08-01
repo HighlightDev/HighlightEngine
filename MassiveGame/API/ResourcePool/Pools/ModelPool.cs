@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MassiveGame.API.Mesh;
+using System;
 using System.Linq;
 using VBO;
 
@@ -8,7 +9,7 @@ namespace MassiveGame.API.ResourcePool.Pools
     {
         public ModelPool() { }
 
-        public void AddModelToRoot(VertexArrayObject meshVAO, string key)
+        public void AddModelToRoot(Skin skin, string key)
         {
             bool bModelIsInRoot = resourceMap.Any((keyValue) => { return (string)keyValue.Key == key; });
             if (bModelIsInRoot)
@@ -17,7 +18,7 @@ namespace MassiveGame.API.ResourcePool.Pools
             }
             else
             {
-                resourceMap.Add(key, meshVAO);
+                resourceMap.Add(key, skin);
                 referenceMap.Add(key, 1);
             }
         }

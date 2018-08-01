@@ -1,29 +1,43 @@
-﻿using MassiveGame.Core.AnimationCore;
-using MassiveGame.Core.GameCore.Entities.MoveEntities;
+﻿using MassiveGame.Core.GameCore.Entities.MoveEntities;
 using System.Collections.Generic;
 using OpenTK;
 using MassiveGame.Core.RenderCore.Lights;
 using OpenTK.Graphics.OpenGL;
+using MassiveGame.API.Mesh;
+using System;
+using MassiveGame.Core.AnimationCore;
+using MassiveGame.API.ResourcePool;
+using MassiveGame.API.ResourcePool.Pools;
+using MassiveGame.API.ResourcePool.Policies;
+using MassiveGame.API.ResourcePool.PoolHandling;
 
 namespace MassiveGame.Core.GameCore.Entities.Skeletal_Entities
 {
     public class MovableSkeletalMeshEntity : MovableEntity
     {
-        // skeleton
-        // this is the root bone, it is the parent of all child bones
-        private Bone rootBone;
+        private List<AnimationSequence> m_animations;
 
         public MovableSkeletalMeshEntity(string modelPath, string texturePath, string normalMapPath, string specularMapPath, float Speed, Vector3 translation, Vector3 rotation, Vector3 scale) :
           base(modelPath, texturePath, normalMapPath, specularMapPath, translation, rotation, scale)
         {
-            rootBone = new Bone(1, "root");
+            m_animations = PoolProxy.GetResource<ObtainAnimationPool, AnimationAllocationPolicy, string, List<AnimationSequence>>(modelPath);
+            GetSkin();
         }
 
-        void postConstructor()
+        private AnimatedSkin GetSkin()
+        {
+            var skin = m_skin as AnimatedSkin;
+            if (skin == null)
+                throw new ArgumentException("Model you have loaded doesn't support animation.");
+
+            return skin;
+        }
+
+        private void postConstructor()
         {
             if (bPostConstructor)
             {
-
+                
                 bPostConstructor = false;
             }
         }
@@ -34,15 +48,9 @@ namespace MassiveGame.Core.GameCore.Entities.Skeletal_Entities
 
             var worldMatrix = GetWorldMatrix();
             var viewMatrix = camera.GetViewMatrix();
-            var skeletonSkinningMatrices = GetSkeletonSkinningMatrices();
             
             // send to shader
             // render 
-        }
-
-        private List<Matrix4> GetSkeletonSkinningMatrices()
-        {
-            return rootBone.GetAlignedWithIdSkinningMatrices();
         }
     }
 }

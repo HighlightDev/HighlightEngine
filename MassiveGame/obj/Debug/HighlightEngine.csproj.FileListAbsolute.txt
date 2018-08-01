@@ -9,7 +9,6 @@ C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\MassiveGame
 C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\MassiveGame\bin\Debug\TextureLoader.dll
 C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\MassiveGame\bin\Debug\VBO.dll
 C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\MassiveGame\bin\Debug\VectorMath.dll
-C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\MassiveGame\bin\Debug\AssimpNet.dll
 C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\MassiveGame\bin\Debug\2DGameTable.pdb
 C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\MassiveGame\bin\Debug\CParser.pdb
 C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\MassiveGame\bin\Debug\FramebufferAPI.pdb

@@ -7,18 +7,35 @@ namespace CParser
 {
     public class AssimpModelLoader : IDisposable
     {
-        public SkeletonPerVertexBoneInfluenceType skeletonType { private set; get; }
-        public MeshVertexData MeshData { private set; get; }
-
-        private AssimpImporter importer;
+        public SkeletonPerVertexBoneInfluenceType m_skeletonType { private set; get; }
+        
+        private Scene m_scene;
+        private MeshVertexData m_meshData;
+        private MeshAnimationData m_animationData;
 
         public AssimpModelLoader(string modelFilePath, SkeletonPerVertexBoneInfluenceType skeletonType = SkeletonPerVertexBoneInfluenceType.ThreeBones)
         {
-            this.skeletonType = skeletonType;
-            importer = new AssimpImporter();
-            var scene = importer.ImportFile(modelFilePath, PostProcessSteps.FlipUVs | PostProcessSteps.CalculateTangentSpace);
-            MeshData = new MeshVertexData(scene, GetBoneInfluenceStrategy(scene));
-            importer = null;
+            m_skeletonType = skeletonType;
+            var importer = new AssimpImporter();
+            m_scene = importer.ImportFile(modelFilePath, PostProcessSteps.FlipUVs | PostProcessSteps.CalculateTangentSpace);
+        }
+
+        public MeshVertexData GetMeshData()
+        {
+            if (m_meshData == null)
+            {
+                var strategy = GetBoneInfluenceStrategy(m_scene);
+                m_meshData = new MeshVertexData(m_scene, strategy);
+            }
+            return m_meshData;
+        }
+
+        public MeshAnimationData GetAnimationData()
+        {
+            if (m_animationData == null)
+                m_animationData = new MeshAnimationData(m_scene);
+
+            return m_animationData;
         }
 
         private SkeletonPerVertexBoneInfluenceStrategy GetBoneInfluenceStrategy(Scene scene)
@@ -27,7 +44,7 @@ namespace CParser
 
             if (scene.HasAnimations)
             {
-                switch (skeletonType)
+                switch (m_skeletonType)
                 {
                     case SkeletonPerVertexBoneInfluenceType.ThreeBones: { strategy = new SkeletonThreeBonesInfluenceStrategy(); break; }
                     case SkeletonPerVertexBoneInfluenceType.FourBones: { strategy = new SkeletonFourBonesInfluenceStrategy(); break; }
@@ -41,7 +58,7 @@ namespace CParser
 
         public void Dispose()
         {
-            MeshData.CleanUp();
+            m_meshData.CleanUp();
         }
     }
 }

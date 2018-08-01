@@ -10,7 +10,6 @@ namespace CParser.Assimp
     {
         private Scene m_scene;
         private Mesh[] m_meshes;
-        private Animation[] m_animations;
         private SkeletonPerVertexBoneInfluenceStrategy m_strategy;
 
         public bool bHasIndices = false;
@@ -30,12 +29,10 @@ namespace CParser.Assimp
         public Int32[,] BlendIndices { get; private set; }
 
         public LoaderSkeletonBone SkeletonRoot { get; private set; }
-        public List<LoaderAnimation> Animations { get; private set; }
 
         public void CleanUp()
         {
             m_scene = null;
-            m_animations = null;
             m_meshes = null;
             Indices = null;
             Verts = null;
@@ -53,8 +50,6 @@ namespace CParser.Assimp
             m_strategy = strategy;
             m_scene = scene;
             m_meshes = scene.Meshes;
-            m_animations = scene.Animations;
-
             GetMeshVertexData();
         }
 
@@ -70,7 +65,6 @@ namespace CParser.Assimp
 
             GetSkeleton();
             GetSkin();
-            GetAnimations();
         }
 
         private void GetSkin()
@@ -146,17 +140,7 @@ namespace CParser.Assimp
             }
         }
 
-        private void GetAnimations()
-        {
-            if (bHasAnimation)
-            {
-                Animations = new List<LoaderAnimation>();
-                foreach (var animation in m_animations)
-                {
-                    Animations.Add(new LoaderAnimation(animation));
-                }
-            }
-        }
+        
 
         private Bone GetBoneByName(string name)
         {

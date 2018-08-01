@@ -11,12 +11,13 @@ using MassiveGame.API.ResourcePool.PoolHandling;
 using MassiveGame.API.ResourcePool.Pools;
 using MassiveGame.API.ResourcePool;
 using MassiveGame.API.ResourcePool.Policies;
+using MassiveGame.API.Mesh;
 
 namespace MassiveGame.Core.ComponentCore
 {
     public class SceneComponent : Component
     {
-        private VertexArrayObject buffer = null;
+        private Skin skin = null;
         private bool bPostConstructor = true;
 
         public override void Tick(ref Matrix4 projectionMatrix, ref Matrix4 viewMatrix)
@@ -26,7 +27,7 @@ namespace MassiveGame.Core.ComponentCore
                 if ((new ObtainModelPool().GetPool() as ModelPool).GetModelReferenceCount("CollisionBound") == 0)
                     AddBoundModelToRoot();
                 else
-                    buffer = PoolProxy.GetResource<ObtainModelPool, ModelAllocationPolicy, string, VertexArrayObject>("CollisionBound");
+                    skin = PoolProxy.GetResource<ObtainModelPool, ModelAllocationPolicy, string, Skin>("CollisionBound");
                 bPostConstructor = false;
             }
             base.Tick(ref projectionMatrix, ref viewMatrix);
@@ -48,8 +49,8 @@ namespace MassiveGame.Core.ComponentCore
             GL.LoadMatrix(ref modelViewMatrix);
             GL.Color4(color);
             GL.EnableClientState(ArrayCap.VertexArray);
-            GL.VertexPointer(3, VertexPointerType.Float, 0, (float[,])buffer.GetVertexBufferArray().First().GetBufferData());
-            GL.DrawArrays(PrimitiveType.LineStrip, 0, buffer.GetVertexBufferArray().First().GetBufferVerticesCount());
+            GL.VertexPointer(3, VertexPointerType.Float, 0, (float[,])skin.Buffer.GetVertexBufferArray().First().GetBufferData());
+            GL.DrawArrays(PrimitiveType.LineStrip, 0, skin.Buffer.GetVertexBufferArray().First().GetBufferVerticesCount());
             GL.DisableClientState(ArrayCap.VertexArray);
 
             base.RenderBound(ref projectionMatrix, ref viewMatrix, color);
@@ -92,13 +93,14 @@ namespace MassiveGame.Core.ComponentCore
             renderCoordinates[22, 0] = RTFCoordinates.X; renderCoordinates[22, 1] = RTFCoordinates.Y; renderCoordinates[22, 2] = RTFCoordinates.Z;
             renderCoordinates[23, 0] = LBNCoordinates.X; renderCoordinates[23, 1] = RTFCoordinates.Y; renderCoordinates[23, 2] = RTFCoordinates.Z;
 
-            buffer = new VertexArrayObject();
+            var vao = new VertexArrayObject();
 
             var verticesVBO = new VertexBufferObjectTwoDimension<float>(renderCoordinates, BufferTarget.ArrayBuffer, 0, 3, VertexBufferObjectBase.DataCarryFlag.Store);
-            buffer.AddVBO(verticesVBO);
-            buffer.BindBuffersToVao();
+            vao.AddVBO(verticesVBO);
+            vao.BindBuffersToVao();
 
-            PoolCollector.GetInstance().ModelPool.AddModelToRoot(buffer, "CollisionBound");
+            skin = new Skin(vao);
+            PoolCollector.GetInstance().ModelPool.AddModelToRoot(skin, "CollisionBound");
         }
 
         public SceneComponent() : base()

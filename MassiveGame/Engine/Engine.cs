@@ -33,6 +33,7 @@ using MassiveGame.Core.ComponentCore;
 using MassiveGame.API.ResourcePool.PoolHandling;
 using MassiveGame.API.ResourcePool.Pools;
 using MassiveGame.API.ResourcePool;
+using MassiveGame.Core.GameCore.Entities.Skeletal_Entities;
 
 namespace MassiveGame.UI
 {
@@ -199,6 +200,8 @@ namespace MassiveGame.UI
             specularMapPath = ProjectFolders.SpecularMapsPath + "brick_sm.png";
 
             MovableEntityArguments arg = new MovableEntityArguments(modelPath, texturePath, normalMapPath, specularMapPath, new Vector3(175, 1200, 170), new Vector3(0, 0, 0), new Vector3(5f));
+
+            var skeletalMesh = new MovableSkeletalMeshEntity(modelPath, texturePath, normalMapPath, specularMapPath, 0.5f, default(Vector3), default(Vector3), default(Vector3));
 
             EngineStatics.Player = (MovableMeshEntity)EngineObjectCreator.CreateInstance(arg);
             EngineStatics.Player.SetMistComponent(EngineStatics.Mist);
@@ -564,11 +567,11 @@ namespace MassiveGame.UI
             if (EngineStatics.Water != null) EngineStatics.Water.cleanUp();
             if (EngineStatics.SunReplica != null) EngineStatics.SunReplica.cleanUp();
             if (EngineStatics.terrain != null) EngineStatics.terrain.cleanUp();
-            if (EngineStatics.Player != null) EngineStatics.Player.cleanUp();
-            if (EngineStatics.Enemy != null) EngineStatics.Enemy.cleanUp();
+            if (EngineStatics.Player != null) EngineStatics.Player.CleanUp();
+            if (EngineStatics.Enemy != null) EngineStatics.Enemy.CleanUp();
             if (EngineStatics.Grass != null) EngineStatics.Grass.cleanUp();
             if (EngineStatics.Plant1 != null) EngineStatics.Plant1.cleanUp();
-            if (EngineStatics.City != null) foreach (Building house in EngineStatics.City) { house.cleanUp(); }
+            if (EngineStatics.City != null) foreach (Building house in EngineStatics.City) { house.CleanUp(); }
             if (EngineStatics.Skybox != null) EngineStatics.Skybox.cleanUp();
         }
 
