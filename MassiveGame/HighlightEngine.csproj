@@ -120,7 +120,7 @@
     <Compile Include="API\ResourcePool\Pools\RenderTargetPool.cs" />
     <Compile Include="API\ResourcePool\Pools\ShaderPool.cs" />
     <Compile Include="API\ResourcePool\Pools\TexturePool.cs" />
-    <Compile Include="Core\AnimationCore\AnimationFrame.cs" />
+    <Compile Include="Core\AnimationCore\BoneFrames.cs" />
     <Compile Include="Core\AnimationCore\AnimationSequence.cs" />
     <Compile Include="Core\AnimationCore\BoneTransformation.cs" />
     <Compile Include="API\Mesh\AnimatedSkin.cs" />

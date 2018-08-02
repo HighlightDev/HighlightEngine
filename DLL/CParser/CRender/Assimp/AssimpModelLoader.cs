@@ -58,7 +58,8 @@ namespace CParser
 
         public void Dispose()
         {
-            m_meshData.CleanUp();
+            m_meshData?.CleanUp();
+            m_animationData?.CleanUp();
         }
     }
 }

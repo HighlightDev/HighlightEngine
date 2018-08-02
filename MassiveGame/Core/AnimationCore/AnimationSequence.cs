@@ -5,48 +5,49 @@ namespace MassiveGame.Core.AnimationCore
     public class AnimationSequence
     {
         private string m_name;
-        private List<AnimationFrame> m_frames;
-        private float m_sequenceDurationInSec;
+        private List<BoneFrames> m_frames;
+        private double m_sequenceDurationInSec;
 
-        public AnimationSequence(string animationName)
-        {
-            m_name = animationName;
-            m_frames = new List<AnimationFrame>();
-            m_sequenceDurationInSec = 0.0f;
-        }
-
-        public AnimationSequence(List<AnimationFrame> frames)
+        public AnimationSequence(string animationName, List<BoneFrames> frames, double sequenceDurationInSec)
         {
             m_frames = frames;
+            m_name = animationName;
+            m_sequenceDurationInSec = sequenceDurationInSec;
         }
 
-        public List<AnimationFrame> GetAnimationFrames()
+        public List<BoneFrames> GetAnimationFrames()
         {
             return m_frames;
         }
 
-        public float GetAnimationDurationInSec()
+        public double GetAnimationDurationInSec()
         {
             return m_sequenceDurationInSec;
         }
 
-        public void SetAnimationFrames(List<AnimationFrame> frames)
+        public void SetAnimationDurationInSec(double sequenceDurationInSec)
+        {
+            m_sequenceDurationInSec = sequenceDurationInSec;
+        }
+
+        public void SetAnimationFrames(List<BoneFrames> frames)
         {
             m_frames = frames;
         }
 
-        public void AddAnimationFrame(AnimationFrame frame)
+        public void AddAnimationFrame(BoneFrames frame)
         {
             m_frames.Add(frame);
         }
 
-        public void AddAnimationFrames(params AnimationFrame[] frames)
+        public void AddAnimationFrames(params BoneFrames[] frames)
         {
             m_frames.AddRange(frames);
         }
 
         public void ClearAnimationFrameCollection()
         {
+            m_frames.ForEach(frame => { frame.CleanUp(); frame = null; });
             m_frames.Clear();
         }
     }

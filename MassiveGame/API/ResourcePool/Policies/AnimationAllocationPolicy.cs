@@ -1,4 +1,6 @@
-﻿using MassiveGame.Core.AnimationCore;
+﻿using CParser;
+using CParser.Assimp;
+using MassiveGame.Core.AnimationCore;
 using System;
 using System.Collections.Generic;
 
@@ -8,12 +10,23 @@ namespace MassiveGame.API.ResourcePool.Policies
     {
         public override List<AnimationSequence> AllocateMemory(string arg)
         {
-            throw new NotImplementedException();
+            List<AnimationSequence> resultAnimationCollection = null;
+
+            using (AssimpModelLoader loader = new AssimpModelLoader(arg, CParser.Assimp.Strategy.SkeletonPerVertexBoneInfluenceType.ThreeBones))
+            {
+                MeshAnimationData animationData = loader.GetAnimationData();
+                resultAnimationCollection = AssimpConverter.Converter.ConvertAssimpAnimationToEngineAnimation(animationData.Animations);
+            }
+
+            return resultAnimationCollection;
         }
 
         public override void FreeMemory(List<AnimationSequence> arg)
         {
-            throw new NotImplementedException();
+            foreach (var sequence in arg)
+            {
+                sequence.ClearAnimationFrameCollection();
+            }
         }
     }
 }

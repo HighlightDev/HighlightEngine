@@ -29,6 +29,7 @@ namespace MassiveGame.Core.AnimationCore
             m_localSpaceTranslation = translation;
             m_localSpaceScale = scale;
             Matrix4 transformMat = Matrix4.CreateFromQuaternion(rotation);
+            transformMat *= Matrix4.CreateScale(scale);
             transformMat *= Matrix4.CreateTranslation(translation);
             m_localSpaceMatrix = transformMat;
         }
