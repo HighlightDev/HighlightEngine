@@ -167,9 +167,9 @@ namespace MassiveGame.Core.GameCore.Sun
 
         public void cleanUp()
         {
-            PoolProxy.FreeResourceMemoryByValue<ObtainTexturePool, TextureAllocationPolicy, string, ITexture>(_texture1);
-            PoolProxy.FreeResourceMemoryByValue<ObtainTexturePool, TextureAllocationPolicy, string, ITexture>(_texture2);
-            PoolProxy.FreeResourceMemoryByValue<ObtainShaderPool, ShaderAllocationPolicy<SunShader>, string, SunShader>(this._shader);
+            PoolProxy.FreeResourceMemory<ObtainTexturePool, TextureAllocationPolicy, string, ITexture>(_texture1);
+            PoolProxy.FreeResourceMemory<ObtainTexturePool, TextureAllocationPolicy, string, ITexture>(_texture2);
+            PoolProxy.FreeResourceMemory<ObtainShaderPool, ShaderAllocationPolicy<SunShader>, string, SunShader>(this._shader);
             _buffer.CleanUp();
         }
 

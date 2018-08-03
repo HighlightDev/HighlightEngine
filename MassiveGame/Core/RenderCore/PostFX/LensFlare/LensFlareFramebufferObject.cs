@@ -83,10 +83,10 @@ namespace MassiveGame.Core.RenderCore.PostFX.LensFlare
 
         public override void cleanUp()
         {
-            PoolProxy.FreeResourceMemoryByValue<ObtainRenderTargetPool, RenderTargetAllocationPolicy, TextureParameters, ITexture>(verticalBlurTexture);
-            PoolProxy.FreeResourceMemoryByValue<ObtainRenderTargetPool, RenderTargetAllocationPolicy, TextureParameters, ITexture>(horizontalBlurTexture);
-            PoolProxy.FreeResourceMemoryByValue<ObtainRenderTargetPool, RenderTargetAllocationPolicy, TextureParameters, ITexture>(frameTextureLowRezolution);
-            PoolProxy.FreeResourceMemoryByValue<ObtainRenderTargetPool, RenderTargetAllocationPolicy, TextureParameters, ITexture>(lensFlareResultTexture);
+            PoolProxy.FreeResourceMemory<ObtainRenderTargetPool, RenderTargetAllocationPolicy, TextureParameters, ITexture>(verticalBlurTexture);
+            PoolProxy.FreeResourceMemory<ObtainRenderTargetPool, RenderTargetAllocationPolicy, TextureParameters, ITexture>(horizontalBlurTexture);
+            PoolProxy.FreeResourceMemory<ObtainRenderTargetPool, RenderTargetAllocationPolicy, TextureParameters, ITexture>(frameTextureLowRezolution);
+            PoolProxy.FreeResourceMemory<ObtainRenderTargetPool, RenderTargetAllocationPolicy, TextureParameters, ITexture>(lensFlareResultTexture);
             base.cleanUp();
         }
 

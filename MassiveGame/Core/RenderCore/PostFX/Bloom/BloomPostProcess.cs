@@ -103,7 +103,7 @@ namespace MassiveGame.Core.RenderCore.PostFX.Bloom
         public override void CleanUp()
         {
             renderTarget.cleanUp();
-            PoolProxy.FreeResourceMemoryByValue<ObtainShaderPool, ShaderAllocationPolicy<BloomShader<SubsequenceType>>, string, BloomShader<SubsequenceType>>(bloomShader);
+            PoolProxy.FreeResourceMemory<ObtainShaderPool, ShaderAllocationPolicy<BloomShader<SubsequenceType>>, string, BloomShader<SubsequenceType>>(bloomShader);
         }
     }
 }

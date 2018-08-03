@@ -31,6 +31,8 @@ namespace MassiveGame.Core.GameCore.Entities
 
         protected Skin m_skin;
 
+        protected ShaderBase m_shader;
+
         protected ITexture m_texture;
 
         protected ITexture m_normalMap;
@@ -38,6 +40,35 @@ namespace MassiveGame.Core.GameCore.Entities
         protected ITexture m_specularMap;
 
         protected BoolMap m_lightVisibilityMap;
+
+        #region Constructor
+
+        public Entity() : base() { }
+
+        public Entity(string modelPath, string texturePath, string normalMapPath, string specularMapPath,
+            Vector3 translation, Vector3 rotation, Vector3 scale) : base()
+        {
+            ComponentTranslation = translation;
+            ComponentRotation = rotation;
+            ComponentScale = scale;
+            m_texture = PoolProxy.GetResource<ObtainTexturePool, TextureAllocationPolicy, string, ITexture>(texturePath);
+            m_normalMap = PoolProxy.GetResource<ObtainTexturePool, TextureAllocationPolicy, string, ITexture>(normalMapPath);
+            m_specularMap = PoolProxy.GetResource<ObtainTexturePool, TextureAllocationPolicy, string, ITexture>(specularMapPath);
+            m_skin = PoolProxy.GetResource<ObtainModelPool, ModelAllocationPolicy, string, Skin>(modelPath);
+
+            this.bVisibleByCamera = true;
+            this.m_mist = null;
+            this.bPostConstructor = true;
+            m_lightVisibilityMap = new BoolMap();
+
+            InitShader();
+        }
+
+        #endregion
+
+        protected abstract void InitShader();
+
+        protected abstract void FreeShader();
 
         public void SetComponents(List<Component> components)
         {
@@ -199,53 +230,6 @@ namespace MassiveGame.Core.GameCore.Entities
                 ModelMatrix *= Matrix4.CreateTranslation(ComponentTranslation);
             }
             return ModelMatrix;
-        } 
-
-        #endregion
-
-        #region Constructor
-
-        public Entity() : base()
-        {
-        }
-        public Entity(string modelPath, string texturePath, string normalMapPath, string specularMapPath,
-            Vector3 translation, Vector3 rotation, Vector3 scale) : base()
-        {
-            ComponentTranslation = translation; 
-            ComponentRotation = rotation;
-            ComponentScale = scale;
-            m_texture = PoolProxy.GetResource<ObtainTexturePool, TextureAllocationPolicy, string, ITexture>(texturePath);
-            m_normalMap = PoolProxy.GetResource<ObtainTexturePool, TextureAllocationPolicy, string, ITexture>(normalMapPath);
-            m_specularMap = PoolProxy.GetResource<ObtainTexturePool, TextureAllocationPolicy, string, ITexture>(specularMapPath);
-            m_skin = PoolProxy.GetResource<ObtainModelPool, ModelAllocationPolicy, string, Skin>(modelPath);
-
-            this.bVisibleByCamera = true;
-            this.m_mist = null;
-            this.bPostConstructor = true;
-            m_lightVisibilityMap = new BoolMap();
-        }
-
-        private float[,] GetTransformedVertices(ref Matrix4 modelMatrix, float[,] vertices)
-        {
-            for (Int32 i = 0; i < vertices.Length / 3; i++)
-            {
-                Vector4 vertex = new Vector4(vertices[i, 0], vertices[i, 1], vertices[i, 2], 1.0f);
-                vertex = VectorMathOperations.multMatrix(modelMatrix, vertex);
-                vertices[i, 0] = vertex.X;
-                vertices[i, 1] = vertex.Y;
-                vertices[i, 2] = vertex.Z;
-            }
-            return vertices;
-        }
-
-        private Vector3[] GetVerticesVectors(float[,] vertices)
-        {
-            Vector3[] vectors = new Vector3[vertices.Length / 3];
-            for (Int32 i = 0; i < vectors.Length; i++)
-            {
-                vectors[i] = new Vector3(vertices[i, 0], vertices[i, 1], vertices[i, 2]);
-            }
-            return vectors;
         }
 
         #endregion
@@ -254,10 +238,11 @@ namespace MassiveGame.Core.GameCore.Entities
 
         public virtual void CleanUp()
         {
-            PoolProxy.FreeResourceMemoryByValue<ObtainTexturePool, TextureAllocationPolicy, string, ITexture>(m_texture);
-            PoolProxy.FreeResourceMemoryByValue<ObtainTexturePool, TextureAllocationPolicy, string, ITexture>(m_normalMap);
-            PoolProxy.FreeResourceMemoryByValue<ObtainTexturePool, TextureAllocationPolicy, string, ITexture>(m_specularMap);
-            PoolProxy.FreeResourceMemoryByValue<ObtainModelPool, ModelAllocationPolicy, string, Skin>(m_skin);
+            PoolProxy.FreeResourceMemory<ObtainTexturePool, TextureAllocationPolicy, string, ITexture>(m_texture);
+            PoolProxy.FreeResourceMemory<ObtainTexturePool, TextureAllocationPolicy, string, ITexture>(m_normalMap);
+            PoolProxy.FreeResourceMemory<ObtainTexturePool, TextureAllocationPolicy, string, ITexture>(m_specularMap);
+            PoolProxy.FreeResourceMemory<ObtainModelPool, ModelAllocationPolicy, string, Skin>(m_skin);
+            FreeShader();
         }
 
         #endregion

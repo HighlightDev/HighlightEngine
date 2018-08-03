@@ -46,7 +46,7 @@ namespace MassiveGame.Core.RenderCore.Shadows
 
         public void DeallocateRenderTarget()
         {
-            PoolProxy.FreeResourceMemoryByValue<ObtainRenderTargetPool, RenderTargetAllocationPolicy, TextureParameters, ITexture>(ShadowMapTexture);
+            PoolProxy.FreeResourceMemory<ObtainRenderTargetPool, RenderTargetAllocationPolicy, TextureParameters, ITexture>(ShadowMapTexture);
             GL.DeleteFramebuffer(FramebufferHandler);
         }
 

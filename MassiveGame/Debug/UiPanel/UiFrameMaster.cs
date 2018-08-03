@@ -115,7 +115,7 @@ namespace MassiveGame.Debug.UiPanel
 
         public void CleanUp()
         {
-            PoolProxy.FreeResourceMemoryByValue<ObtainShaderPool, ShaderAllocationPolicy<UiFrameShader>, string, UiFrameShader>(_shader);
+            PoolProxy.FreeResourceMemory<ObtainShaderPool, ShaderAllocationPolicy<UiFrameShader>, string, UiFrameShader>(_shader);
         }
 
         #endregion

@@ -30,20 +30,23 @@ namespace MassiveGame.API.ResourcePool
             return pool.GetPool().GetResourceFromPool<Policy, ArgType, ReturnType>(arg);
         }
 
-        public static void FreeResourceMemoryByKey<PoolType, Policy, ArgType, ReturnType>(ArgType arg)
+        public static void FreeResourceMemory<PoolType, Policy, ArgType, ReturnType>(object arg)
              where PoolType : IPoolObtainable<Pool>, new()
-              where Policy : AllocationPolicy<ArgType, ReturnType>, new()
+             where Policy : AllocationPolicy<ArgType, ReturnType>, new()
         {
             PoolType pool = new PoolType();
-            pool.GetPool().CleanUpByKey<Policy, ArgType, ReturnType>(arg);
+            try
+            {
+                if (arg is ReturnType)
+                    pool.GetPool().TryToFreeMemory<Policy, ArgType, ReturnType>((ReturnType)arg);
+                else
+                    pool.GetPool().TryToFreeMemory<Policy, ArgType, ReturnType>((ArgType)arg);
+            }
+            catch (InvalidCastException ex)
+            {
+                throw new Exception("Wrong argument type.", ex);
+            }
         }
-
-        public static void FreeResourceMemoryByValue<PoolType, Policy, ArgType, ReturnType>(ReturnType arg)
-             where PoolType : IPoolObtainable<Pool>, new()
-              where Policy : AllocationPolicy<ArgType, ReturnType>, new()
-        {
-            PoolType pool = new PoolType();
-            pool.GetPool().CleanUpByValue<Policy, ArgType, ReturnType>(arg);
-        }
+     
     }
 }

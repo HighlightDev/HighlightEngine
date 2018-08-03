@@ -4,6 +4,6 @@ namespace MassiveGame.API.ResourcePool.PoolHandling
 {
     public class ObtainShaderPool : IPoolObtainable<Pool>
     {
-        public Pool GetPool() { return PoolCollector.GetInstance().TexturePool; }
+        public Pool GetPool() { return PoolCollector.GetInstance().s_ShaderPool; }
     }
 }

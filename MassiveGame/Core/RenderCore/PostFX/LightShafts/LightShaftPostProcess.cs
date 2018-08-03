@@ -172,7 +172,7 @@ namespace MassiveGame.Core.RenderCore.PostFX.LightShafts
         public override void CleanUp()
         {
             renderTarget.cleanUp();
-            PoolProxy.FreeResourceMemoryByValue<ObtainShaderPool, ShaderAllocationPolicy<LightShaftShader<SubsequenceType>>, string, LightShaftShader<SubsequenceType>>(shader);
+            PoolProxy.FreeResourceMemory<ObtainShaderPool, ShaderAllocationPolicy<LightShaftShader<SubsequenceType>>, string, LightShaftShader<SubsequenceType>>(shader);
         }
     }
 }

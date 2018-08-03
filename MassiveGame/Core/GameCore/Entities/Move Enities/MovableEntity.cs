@@ -26,30 +26,36 @@ namespace MassiveGame.Core.GameCore.Entities.MoveEntities
     {
         #region Definitions
 
-        protected BehaviorState actorState;
-        protected ActorPositionMemento positionMemento;
+        protected BehaviorState m_actorState;
 
-        protected MovableEntityShader shader;
-        protected Material material;
+        protected ActorPositionMemento m_positionMemento;
 
-        private WaterReflectionEntityShader liteReflectionShader;
-        private WaterRefractionEntityShader liteRefractionShader;
+        protected Material m_material;
+
+        private WaterReflectionEntityShader m_liteReflectionShader;
+
+        private WaterRefractionEntityShader m_liteRefractionShader;
 
         public BehaviorState ActorState
         {
             set
             {
-                // Set velocity to default 
-                if (value == BehaviorState.IDLE)
-                    Velocity = new Vector3(0);
+                m_actorState = value;
 
-                actorState = value;
+                // Set velocity to zero 
+                if (value == BehaviorState.IDLE)
+                    Velocity = Vector3.Zero;
             }
-            get { return actorState; }
+            get
+            {
+                return m_actorState;
+            }
         }
 
         public Vector3 Velocity { set; get; }
+
         public float Speed { set; get; }
+
         public event EventHandler TransformationDirtyEvent;
 
         #endregion
@@ -61,11 +67,11 @@ namespace MassiveGame.Core.GameCore.Entities.MoveEntities
         public MovableEntity(string modelPath, string texturePath, string normalMapPath, string specularMapPath, Vector3 translation, Vector3 rotation, Vector3 scale) :
             base(modelPath, texturePath, normalMapPath, specularMapPath, translation, rotation, scale)
         {
-            material = new Material(new Vector3(1.0f, 1.0f, 1.0f), new Vector3(1.0f, 1.0f, 1.0f),
+            m_material = new Material(new Vector3(1.0f, 1.0f, 1.0f), new Vector3(1.0f, 1.0f, 1.0f),
                new Vector3(1.0f, 1.0f, 1.0f), new Vector3(1.0f, 1.0f, 1.0f), 20.0f, 1.0f);
 
             ActorState = BehaviorState.FREE_FALLING;
-            this.positionMemento = new ActorPositionMemento();
+            m_positionMemento = new ActorPositionMemento();
             pushPosition();
             this.Speed = 0.3f;
         }
@@ -73,16 +79,29 @@ namespace MassiveGame.Core.GameCore.Entities.MoveEntities
         private void postConstructor()
         {
             if (bPostConstructor)
-            {
-                shader = PoolProxy.GetResource<ObtainShaderPool, ShaderAllocationPolicy<MovableEntityShader>, string, MovableEntityShader>(ProjectFolders.ShadersPath + "movableEntityVS.glsl" + "," + ProjectFolders.ShadersPath + "movableEntityFS.glsl");
-                liteReflectionShader = PoolProxy.GetResource<ObtainShaderPool, ShaderAllocationPolicy<WaterReflectionEntityShader>, string, WaterReflectionEntityShader>(ProjectFolders.ShadersPath + "waterReflectionEntityVS.glsl" + "," + ProjectFolders.ShadersPath + "waterReflectionEntityFS.glsl");
-                liteRefractionShader = PoolProxy.GetResource<ObtainShaderPool, ShaderAllocationPolicy<WaterRefractionEntityShader>, string, WaterRefractionEntityShader>(ProjectFolders.ShadersPath + "waterRefractionEntityVS.glsl" + "," + ProjectFolders.ShadersPath + "waterRefractionEntityFS.glsl");
-
-                this.bPostConstructor = !this.bPostConstructor;
-            }
+                bPostConstructor = false;
         }
 
         #endregion
+
+        private MovableEntityShader GetShader()
+        {
+            return m_shader as MovableEntityShader;
+        }
+
+        protected override void InitShader()
+        {
+            m_shader = PoolProxy.GetResource<ObtainShaderPool, ShaderAllocationPolicy<MovableEntityShader>, string, MovableEntityShader>(ProjectFolders.ShadersPath + "movableEntityVS.glsl" + "," + ProjectFolders.ShadersPath + "movableEntityFS.glsl");
+            m_liteReflectionShader = PoolProxy.GetResource<ObtainShaderPool, ShaderAllocationPolicy<WaterReflectionEntityShader>, string, WaterReflectionEntityShader>(ProjectFolders.ShadersPath + "waterReflectionEntityVS.glsl" + "," + ProjectFolders.ShadersPath + "waterReflectionEntityFS.glsl");
+            m_liteRefractionShader = PoolProxy.GetResource<ObtainShaderPool, ShaderAllocationPolicy<WaterRefractionEntityShader>, string, WaterRefractionEntityShader>(ProjectFolders.ShadersPath + "waterRefractionEntityVS.glsl" + "," + ProjectFolders.ShadersPath + "waterRefractionEntityFS.glsl");
+        }
+
+        protected override void FreeShader()
+        {
+            PoolProxy.FreeResourceMemory<ObtainShaderPool, ShaderAllocationPolicy<MovableEntityShader>, string, MovableEntityShader>(GetShader());
+            PoolProxy.FreeResourceMemory<ObtainShaderPool, ShaderAllocationPolicy<WaterReflectionEntityShader>, string, WaterReflectionEntityShader>(m_liteReflectionShader);
+            PoolProxy.FreeResourceMemory<ObtainShaderPool, ShaderAllocationPolicy<WaterRefractionEntityShader>, string, WaterRefractionEntityShader>(m_liteRefractionShader);
+        }
 
         #region Renderer
 
@@ -121,7 +140,7 @@ namespace MassiveGame.Core.GameCore.Entities.MoveEntities
         }
 
         public void RenderWaterRefraction(DirectionalLight Sun, BaseCamera camera, ref Matrix4 ProjectionMatrix,
-            Vector4 clipPlane = new Vector4())
+            Vector4 clipPlane = default(Vector4))
         {
             if (bPostConstructor)
                 return;
@@ -130,23 +149,25 @@ namespace MassiveGame.Core.GameCore.Entities.MoveEntities
             modelMatrix = GetWorldMatrix();
 
             /*If clip plane is set - enable clipping plane*/
-            if (clipPlane.X == 0 && clipPlane.Y == 0 && clipPlane.Z == 0 && clipPlane.W == 0) { GL.Disable(EnableCap.ClipDistance0); }
-            else { GL.Enable(EnableCap.ClipDistance0); }
+            if (GeometricMath.CMP(clipPlane.LengthSquared, 0.0f) > 0)
+                GL.Disable(EnableCap.ClipDistance0); 
+            else
+                GL.Enable(EnableCap.ClipDistance0); 
 
-            liteRefractionShader.startProgram();   
+            m_liteRefractionShader.startProgram();   
 
             m_texture.BindTexture(TextureUnit.Texture0);
             m_normalMap?.BindTexture(TextureUnit.Texture1); 
 
-            liteRefractionShader.SetTexture(0);
-            liteRefractionShader.SetNormalMap(1);
-            liteRefractionShader.SetMaterial(material);
-            liteRefractionShader.SetTransformationMatrices(ref modelMatrix, camera.GetViewMatrix(), ref ProjectionMatrix);
-            liteRefractionShader.SetDirectionalLight(Sun);
-            liteRefractionShader.SetClipPlane(ref clipPlane);
+            m_liteRefractionShader.SetTexture(0);
+            m_liteRefractionShader.SetNormalMap(1);
+            m_liteRefractionShader.SetMaterial(m_material);
+            m_liteRefractionShader.SetTransformationMatrices(ref modelMatrix, camera.GetViewMatrix(), ref ProjectionMatrix);
+            m_liteRefractionShader.SetDirectionalLight(Sun);
+            m_liteRefractionShader.SetClipPlane(ref clipPlane);
 
             m_skin.Buffer.RenderVAO(PrimitiveType.Triangles);
-            liteRefractionShader.stopProgram();
+            m_liteRefractionShader.stopProgram();
         }
 
         public void RenderWaterReflection(WaterPlane water, DirectionalLight Sun, BaseCamera camera, ref Matrix4 ProjectionMatrix,
@@ -163,20 +184,20 @@ namespace MassiveGame.Core.GameCore.Entities.MoveEntities
             if (clipPlane.X == 0 && clipPlane.Y == 0 && clipPlane.Z == 0 && clipPlane.W == 0) { GL.Disable(EnableCap.ClipDistance0); }
             else { GL.Enable(EnableCap.ClipDistance0); }
 
-            liteReflectionShader.startProgram();
+            m_liteReflectionShader.startProgram();
 
             m_texture.BindTexture(TextureUnit.Texture0);
             m_normalMap?.BindTexture(TextureUnit.Texture1); 
 
-            liteReflectionShader.SetTexture(0);
-            liteReflectionShader.SetNormalMap(1);
-            liteReflectionShader.SetMaterial(material);
-            liteReflectionShader.SetTransformationMatrices(ref mirrorMatrix, ref modelMatrix, camera.GetViewMatrix(), ref ProjectionMatrix);
-            liteReflectionShader.SetDirectionalLight(Sun);
-            liteReflectionShader.SetClipPlane(ref clipPlane);
+            m_liteReflectionShader.SetTexture(0);
+            m_liteReflectionShader.SetNormalMap(1);
+            m_liteReflectionShader.SetMaterial(m_material);
+            m_liteReflectionShader.SetTransformationMatrices(ref mirrorMatrix, ref modelMatrix, camera.GetViewMatrix(), ref ProjectionMatrix);
+            m_liteReflectionShader.SetDirectionalLight(Sun);
+            m_liteReflectionShader.SetClipPlane(ref clipPlane);
 
             m_skin.Buffer.RenderVAO(PrimitiveType.Triangles);
-            liteReflectionShader.stopProgram();
+            m_liteReflectionShader.stopProgram();
         }
 
         public virtual void RenderEntity(PrimitiveType mode, bool bEnableNormalMapping,
@@ -192,33 +213,32 @@ namespace MassiveGame.Core.GameCore.Entities.MoveEntities
             if (clipPlane.X == 0 && clipPlane.Y == 0 && clipPlane.Z == 0 && clipPlane.W == 0) { GL.Disable(EnableCap.ClipDistance0); }
             else { GL.Enable(EnableCap.ClipDistance0); }
 
-            shader.startProgram();
+            GetShader().startProgram();
 
             // pass uniform variables to shader
             if (Sun != null)
             {
                 // Get shadow handler
                 ITexture shadowMap = Sun.GetShadow().GetShadowMapTexture();
-                shadowMap.BindTexture(TextureUnit.Texture1); 
-                shader.SetDirectionalLightShadowMatrix(Sun.GetShadow().GetShadowMatrix(ref modelMatrix, ref ProjectionMatrix));
+                shadowMap.BindTexture(TextureUnit.Texture1);
+                GetShader().SetDirectionalLightShadowMatrix(Sun.GetShadow().GetShadowMatrix(ref modelMatrix, ref ProjectionMatrix));
             }
             m_texture.BindTexture(TextureUnit.Texture0); 
             if (bEnableNormalMapping && m_normalMap != null)
                 m_normalMap.BindTexture(TextureUnit.Texture2);
 
-            shader.SetDiffuseMap(0);
-            shader.SetNormalMap(2, bEnableNormalMapping);
-            shader.SetMaterial(material);
-            shader.SetTransformationMatrices(ref modelMatrix, camera.GetViewMatrix(), ref ProjectionMatrix);
-            shader.SetPointLights(lights);
-            shader.SetDirectionalLight(Sun);
-            shader.SetClippingPlane(ref clipPlane);
-            shader.SetMist(m_mist);
-            shader.SetDirectionalLightShadowMap(1);
-
+            GetShader().SetDiffuseMap(0);
+            GetShader().SetNormalMap(2, bEnableNormalMapping);
+            GetShader().SetMaterial(m_material);
+            GetShader().SetTransformationMatrices(ref modelMatrix, camera.GetViewMatrix(), ref ProjectionMatrix);
+            GetShader().SetPointLights(lights);
+            GetShader().SetDirectionalLight(Sun);
+            GetShader().SetClippingPlane(ref clipPlane);
+            GetShader().SetMist(m_mist);
+            GetShader().SetDirectionalLightShadowMap(1);
 
             m_skin.Buffer.RenderVAO(mode);
-            shader.stopProgram();
+            GetShader().stopProgram();
         }
 
         #endregion
@@ -228,9 +248,6 @@ namespace MassiveGame.Core.GameCore.Entities.MoveEntities
         public override void CleanUp()
         {
             base.CleanUp();
-            PoolProxy.FreeResourceMemoryByValue<ObtainShaderPool, ShaderAllocationPolicy<MovableEntityShader>, string, MovableEntityShader>(shader);
-            PoolProxy.FreeResourceMemoryByValue<ObtainShaderPool, ShaderAllocationPolicy<WaterReflectionEntityShader>, string, WaterReflectionEntityShader>(liteReflectionShader);
-            PoolProxy.FreeResourceMemoryByValue<ObtainShaderPool, ShaderAllocationPolicy<WaterRefractionEntityShader>, string, WaterRefractionEntityShader>(liteRefractionShader);
         }
 
         #endregion
@@ -301,12 +318,12 @@ namespace MassiveGame.Core.GameCore.Entities.MoveEntities
 
         public virtual void pushPosition()
         {
-            positionMemento.SetSavedOffset(ComponentTranslation);
+            m_positionMemento.SetSavedOffset(ComponentTranslation);
         }
 
         public virtual void popPosition()
         {
-            ComponentTranslation = positionMemento.GetSavedOffset();
+            ComponentTranslation = m_positionMemento.GetSavedOffset();
             TransformationDirtyEvent?.Invoke(this, null);
         }
 
@@ -315,6 +332,5 @@ namespace MassiveGame.Core.GameCore.Entities.MoveEntities
         public void MoveActorLeft() { }
         public void MoveActorRight() { }
 
-      
     }
 }

@@ -16,6 +16,8 @@ namespace MassiveGame.API.ResourcePool.Pools
             referenceMap = new Dictionary<object, int>();
         }
 
+        protected abstract bool IsValidResourceType(object arg);
+
         public Int32 GetResourceCount()
         {
             return resourceMap.Count;
@@ -60,7 +62,7 @@ namespace MassiveGame.API.ResourcePool.Pools
             }
         }
 
-        private bool TryToFreeMemory<Policy, ArgType, ReturnType>(ArgType key)
+        public bool TryToFreeMemory<Policy, ArgType, ReturnType>(ArgType key)
             where Policy : AllocationPolicy<ArgType, ReturnType>, new()
         {
             bool bMemoryFreed = false;
@@ -76,7 +78,7 @@ namespace MassiveGame.API.ResourcePool.Pools
             return bMemoryFreed;
         }
 
-        private bool TryToFreeMemory<Policy, ArgType, ReturnType>(ReturnType value)
+        public bool TryToFreeMemory<Policy, ArgType, ReturnType>(ReturnType value)
             where Policy : AllocationPolicy<ArgType, ReturnType>, new()
         {
             object key = null;
@@ -111,22 +113,14 @@ namespace MassiveGame.API.ResourcePool.Pools
             if (!bHasInPool)
             {
                 resource = new Policy().AllocateMemory(arg);
+
+                if (!IsValidResourceType(resource))
+                    throw new Exception("WRONG ALLOCATED TYPE FOR CURRENT POOL");
+
                 resourceMap.Add(arg, resource);
             }
             IncreaseRefCounter(arg, bHasInPool);
             return resource;
-        }
-
-        public void CleanUpByKey<Policy, ArgType, ReturnType>(ArgType arg)
-            where Policy : AllocationPolicy<ArgType, ReturnType>, new()
-        {
-            TryToFreeMemory<Policy, ArgType, ReturnType>(arg);
-        }
-
-        public void CleanUpByValue<Policy, ArgType, ReturnType>(ReturnType arg)
-            where Policy : AllocationPolicy<ArgType, ReturnType>, new()
-        {
-            TryToFreeMemory<Policy, ArgType, ReturnType>(arg);
         }
     }
 }

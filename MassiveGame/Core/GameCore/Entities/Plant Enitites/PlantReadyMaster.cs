@@ -249,10 +249,10 @@ namespace MassiveGame.Core.GameCore.Entities.StaticEntities
         {
             _plants.Clear();
             VAOManager.cleanUp(_buffer);
-            PoolProxy.FreeResourceMemoryByValue<ObtainShaderPool, ShaderAllocationPolicy<PlantShader>, string, PlantShader>(_shader);
+            PoolProxy.FreeResourceMemory<ObtainShaderPool, ShaderAllocationPolicy<PlantShader>, string, PlantShader>(_shader);
             foreach (var item in _texture)
             {
-                PoolProxy.FreeResourceMemoryByValue<ObtainTexturePool, TextureAllocationPolicy, string, ITexture>(item);
+                PoolProxy.FreeResourceMemory<ObtainTexturePool, TextureAllocationPolicy, string, ITexture>(item);
             }
         }
 

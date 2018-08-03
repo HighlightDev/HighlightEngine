@@ -59,9 +59,9 @@ namespace MassiveGame.Core.RenderCore.PostFX.DepthOfField
 
         public override void cleanUp()
         {
-            PoolProxy.FreeResourceMemoryByValue<ObtainRenderTargetPool, RenderTargetAllocationPolicy, TextureParameters, ITexture>(VerticalBlurTexture);
-            PoolProxy.FreeResourceMemoryByValue<ObtainRenderTargetPool, RenderTargetAllocationPolicy, TextureParameters, ITexture>(HorizontalBlurTexture);
-            PoolProxy.FreeResourceMemoryByValue<ObtainRenderTargetPool, RenderTargetAllocationPolicy, TextureParameters, ITexture>(DepthOfFieldResultTexture);
+            PoolProxy.FreeResourceMemory<ObtainRenderTargetPool, RenderTargetAllocationPolicy, TextureParameters, ITexture>(VerticalBlurTexture);
+            PoolProxy.FreeResourceMemory<ObtainRenderTargetPool, RenderTargetAllocationPolicy, TextureParameters, ITexture>(HorizontalBlurTexture);
+            PoolProxy.FreeResourceMemory<ObtainRenderTargetPool, RenderTargetAllocationPolicy, TextureParameters, ITexture>(DepthOfFieldResultTexture);
             base.cleanUp();
         }
 

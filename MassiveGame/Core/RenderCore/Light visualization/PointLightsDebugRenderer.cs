@@ -61,8 +61,8 @@ namespace MassiveGame.Core.RenderCore.Light_visualization
 
         public void cleanUp()
         {
-            PoolProxy.FreeResourceMemoryByValue<ObtainShaderPool, ShaderAllocationPolicy<PointLightDebugShader>, string, PointLightDebugShader>(_shader);
-            PoolProxy.FreeResourceMemoryByValue<ObtainTexturePool, TextureAllocationPolicy, string, ITexture>(_texture);
+            PoolProxy.FreeResourceMemory<ObtainShaderPool, ShaderAllocationPolicy<PointLightDebugShader>, string, PointLightDebugShader>(_shader);
+            PoolProxy.FreeResourceMemory<ObtainTexturePool, TextureAllocationPolicy, string, ITexture>(_texture);
             _buffer.CleanUp();
         }
     }

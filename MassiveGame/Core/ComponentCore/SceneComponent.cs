@@ -100,7 +100,7 @@ namespace MassiveGame.Core.ComponentCore
             vao.BindBuffersToVao();
 
             skin = new Skin(vao);
-            PoolCollector.GetInstance().ModelPool.AddModelToRoot(skin, "CollisionBound");
+            PoolCollector.GetInstance().s_ModelPool.AddModelToRoot(skin, "CollisionBound");
         }
 
         public SceneComponent() : base()

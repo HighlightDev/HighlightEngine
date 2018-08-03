@@ -54,8 +54,8 @@ namespace MassiveGame.Core.RenderCore.PostFX.LightShafts
 
         public override void cleanUp()
         {
-            PoolProxy.FreeResourceMemoryByValue<ObtainRenderTargetPool, RenderTargetAllocationPolicy, TextureParameters, ITexture>(RadialBlurAppliedTexture);
-            PoolProxy.FreeResourceMemoryByValue<ObtainRenderTargetPool, RenderTargetAllocationPolicy, TextureParameters, ITexture>(LightShaftsResultTexture);
+            PoolProxy.FreeResourceMemory<ObtainRenderTargetPool, RenderTargetAllocationPolicy, TextureParameters, ITexture>(RadialBlurAppliedTexture);
+            PoolProxy.FreeResourceMemory<ObtainRenderTargetPool, RenderTargetAllocationPolicy, TextureParameters, ITexture>(LightShaftsResultTexture);
             base.cleanUp();
         }
 

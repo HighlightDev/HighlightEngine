@@ -66,8 +66,8 @@ namespace MassiveGame.Core.RenderCore
 
         public static void CleanUp()
         {
-            PoolProxy.FreeResourceMemoryByValue<ObtainShaderPool, ShaderAllocationPolicy<CopyTextureShader>, string, CopyTextureShader>(copyShader);
-            PoolProxy.FreeResourceMemoryByValue<ObtainShaderPool, ShaderAllocationPolicy<ResolvePostProcessResultToDefaultFramebufferShader>, string, ResolvePostProcessResultToDefaultFramebufferShader>(resolvePostProcessShader);
+            PoolProxy.FreeResourceMemory<ObtainShaderPool, ShaderAllocationPolicy<CopyTextureShader>, string, CopyTextureShader>(copyShader);
+            PoolProxy.FreeResourceMemory<ObtainShaderPool, ShaderAllocationPolicy<ResolvePostProcessResultToDefaultFramebufferShader>, string, ResolvePostProcessResultToDefaultFramebufferShader>(resolvePostProcessShader);
         }
     }
 }

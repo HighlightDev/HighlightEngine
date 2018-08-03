@@ -146,10 +146,10 @@ namespace MassiveGame.Core.GameCore.Skybox
 
         public void cleanUp()
         {
-            PoolProxy.FreeResourceMemoryByValue<ObtainShaderPool, ShaderAllocationPolicy<SkyboxShader>, string, SkyboxShader>(shader);
+            PoolProxy.FreeResourceMemory<ObtainShaderPool, ShaderAllocationPolicy<SkyboxShader>, string, SkyboxShader>(shader);
             buffer.CleanUp();
-            PoolProxy.FreeResourceMemoryByValue<ObtainTexturePool, TextureAllocationPolicy, string, ITexture>(skyboxDayTexture);
-            PoolProxy.FreeResourceMemoryByValue<ObtainTexturePool, TextureAllocationPolicy, string, ITexture>(skyboxNightTexture);
+            PoolProxy.FreeResourceMemory<ObtainTexturePool, TextureAllocationPolicy, string, ITexture>(skyboxDayTexture);
+            PoolProxy.FreeResourceMemory<ObtainTexturePool, TextureAllocationPolicy, string, ITexture>(skyboxNightTexture);
         }
 
         #endregion

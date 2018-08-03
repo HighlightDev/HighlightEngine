@@ -5,9 +5,6 @@ namespace MassiveGame.API.ResourcePool.PoolHandling
 {
     public class ObtainAnimationPool : IPoolObtainable<Pool>
     {
-        Pool IPoolObtainable<Pool>.GetPool()
-        {
-            return PoolCollector.GetInstance().AnimationPool;
-        }
+        public Pool GetPool() { return PoolCollector.GetInstance().s_AnimationPool; }
     }
 }

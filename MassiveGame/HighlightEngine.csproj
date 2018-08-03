@@ -129,6 +129,7 @@
     <Compile Include="Core\AnimationCore\SkeletalMeshComponent.cs" />
     <Compile Include="Core\GameCore\BaseCamera.cs" />
     <Compile Include="Core\GameCore\Entities\Skeletal Entities\MovableSkeletalMeshEntity.cs" />
+    <Compile Include="Core\GameCore\Entities\Skeletal Entities\SkeletalMeshEntityShader.cs" />
     <Compile Include="Core\GameCore\PlayerController.cs" />
     <Compile Include="Debug\UiPanel\UiFrameMaster.cs" />
     <Compile Include="Engine\GameThread.cs" />
@@ -333,6 +334,8 @@
     <None Include="Shaders\particleFS.glsl" />
     <None Include="Shaders\particleVS.glsl" />
     <None Include="Settings\settings.ini" />
+    <None Include="Shaders\skeletalMeshFS.glsl" />
+    <None Include="Shaders\skeletalMeshVS.glsl" />
     <None Include="Shaders\waterRefractionEntityFS.glsl" />
     <None Include="Shaders\waterReflectionEntityFS.glsl" />
     <None Include="Shaders\waterRefractionEntityVS.glsl" />

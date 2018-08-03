@@ -1,7 +1,6 @@
 ﻿using MassiveGame.API.Mesh;
 using System;
 using System.Linq;
-using VBO;
 
 namespace MassiveGame.API.ResourcePool.Pools
 {
@@ -30,6 +29,11 @@ namespace MassiveGame.API.ResourcePool.Pools
                 return referenceMap[key];
 
             return 0;
+        }
+
+        protected override bool IsValidResourceType(object arg)
+        {
+            return arg is Skin;
         }
     }
 }

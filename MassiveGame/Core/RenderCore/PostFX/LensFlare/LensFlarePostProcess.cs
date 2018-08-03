@@ -200,7 +200,7 @@ namespace MassiveGame.Core.RenderCore.PostFX.LensFlare
         public override void CleanUp()
         {
             renderTarget.cleanUp();
-            PoolProxy.FreeResourceMemoryByValue<ObtainShaderPool, ShaderAllocationPolicy<LensFlareShader<SubsequenceType>>, string, LensFlareShader<SubsequenceType>>(lensShader);
+            PoolProxy.FreeResourceMemory<ObtainShaderPool, ShaderAllocationPolicy<LensFlareShader<SubsequenceType>>, string, LensFlareShader<SubsequenceType>>(lensShader);
         }
     }
 }

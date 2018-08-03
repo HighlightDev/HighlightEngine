@@ -127,7 +127,7 @@ namespace MassiveGame.Core.RenderCore.PostFX.DepthOfField
 
         public override void CleanUp()
         {
-            PoolProxy.FreeResourceMemoryByValue<ObtainShaderPool, ShaderAllocationPolicy<DepthOfFieldShader<SubsequenceType>>, string, DepthOfFieldShader<SubsequenceType>>(dofShader);
+            PoolProxy.FreeResourceMemory<ObtainShaderPool, ShaderAllocationPolicy<DepthOfFieldShader<SubsequenceType>>, string, DepthOfFieldShader<SubsequenceType>>(dofShader);
             renderTarget.cleanUp();
         }
     }

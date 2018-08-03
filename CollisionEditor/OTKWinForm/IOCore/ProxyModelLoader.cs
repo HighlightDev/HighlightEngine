@@ -1,10 +1,6 @@
 ﻿using CParser;
+using CParser.Assimp;
 using GpuGraphics;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace OTKWinForm.IOCore
 {
@@ -13,7 +9,8 @@ namespace OTKWinForm.IOCore
         public static VBOArrayF LoadModel(string modelPath)
         {
             AssimpModelLoader loader = new AssimpModelLoader(modelPath);
-            return new VBOArrayF(loader.Verts, loader.N_Verts, loader.T_Verts, false);
+            MeshVertexData meshData = loader.GetMeshData();
+            return new VBOArrayF(meshData.Verts, meshData.N_Verts, meshData.T_Verts, false);
         }
     }
 }

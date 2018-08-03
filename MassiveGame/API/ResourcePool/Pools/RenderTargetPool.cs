@@ -16,6 +16,11 @@ namespace MassiveGame.API.ResourcePool.Pools
 
             return result;
         }
+
+        protected override bool IsValidResourceType(object arg)
+        {
+            return arg is ITexture;
+        }
     }
 
 }

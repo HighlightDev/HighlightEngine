@@ -12,8 +12,7 @@ namespace MassiveGame.Core.GameCore.Entities.EnvironmentEntities
     {
         #region Definitions
 
-        private ITexture _envMap;
-        private EnvironmentEntitiesShader _shader;
+        private ITexture m_envMap;
 
         #endregion
 
@@ -25,12 +24,12 @@ namespace MassiveGame.Core.GameCore.Entities.EnvironmentEntities
 
             Matrix4 modelMatrix = Matrix4.Identity;
 
-            _shader.startProgram();
+            GetShader().startProgram();
             m_texture.BindTexture(TextureUnit.Texture0);
-            _envMap.BindTexture(TextureUnit.Texture1);
-            _shader.setUniformValues(ref modelMatrix, camera.GetViewMatrix(), ref projectionMatrix, camera.GetEyeVector(), 0, 1);
+            m_envMap.BindTexture(TextureUnit.Texture1);
+            GetShader().setUniformValues(ref modelMatrix, camera.GetViewMatrix(), ref projectionMatrix, camera.GetEyeVector(), 0, 1);
             m_skin.Buffer.RenderVAO(PrimitiveType.Triangles);
-            _shader.stopProgram();
+            GetShader().stopProgram();
         }
 
         #endregion
@@ -40,30 +39,40 @@ namespace MassiveGame.Core.GameCore.Entities.EnvironmentEntities
         private void postConstructor()
         {
             if (bPostConstructor)
-            {
-                
-                bPostConstructor = !bPostConstructor;
-            }
+                bPostConstructor = false;
         }
         public EnvironmentEntities(string modelPath, string texturePath, string normalMapPath, string specularMapPath, string[] cubemapEnvMap,
             Vector3 translation = new Vector3(), Vector3 rotation = new Vector3(), Vector3 scale = new Vector3())
             : base(modelPath, texturePath, normalMapPath, specularMapPath, translation, rotation, scale)
-        {
-            _shader = PoolProxy.GetResource<ObtainShaderPool, ShaderAllocationPolicy<EnvironmentEntitiesShader>, string, EnvironmentEntitiesShader>(ProjectFolders.ShadersPath + "envVS.glsl" + "," + ProjectFolders.ShadersPath + "envFS.glsl");
-            this._envMap = PoolProxy.GetResource<ObtainTexturePool, TextureAllocationPolicy, string, ITexture>(cubemapEnvMap[0] + "," + cubemapEnvMap[1] + "," + cubemapEnvMap[2] + "," +
+        { 
+            this.m_envMap = PoolProxy.GetResource<ObtainTexturePool, TextureAllocationPolicy, string, ITexture>(cubemapEnvMap[0] + "," + cubemapEnvMap[1] + "," + cubemapEnvMap[2] + "," +
                 cubemapEnvMap[3] + "," + cubemapEnvMap[4] + "," + cubemapEnvMap[5]);
-            this.bPostConstructor = true;
         }
 
         #endregion
+        
+        private EnvironmentEntitiesShader GetShader()
+        {
+            return m_shader as EnvironmentEntitiesShader;
+        }
 
         #region Cleaning
 
         public override void CleanUp()
         {
             base.CleanUp();
-            PoolProxy.FreeResourceMemoryByValue<ObtainTexturePool, TextureAllocationPolicy, string, ITexture>(m_texture);
-            PoolProxy.FreeResourceMemoryByValue<ObtainShaderPool, ShaderAllocationPolicy<EnvironmentEntitiesShader>, string, EnvironmentEntitiesShader>(_shader);
+            PoolProxy.FreeResourceMemory<ObtainTexturePool, TextureAllocationPolicy, string, ITexture>(m_texture);
+            PoolProxy.FreeResourceMemory<ObtainTexturePool, TextureAllocationPolicy, string, ITexture>(m_envMap);
+        }
+
+        protected override void InitShader()
+        {
+            m_shader = PoolProxy.GetResource<ObtainShaderPool, ShaderAllocationPolicy<EnvironmentEntitiesShader>, string, EnvironmentEntitiesShader>(ProjectFolders.ShadersPath + "envVS.glsl" + "," + ProjectFolders.ShadersPath + "envFS.glsl");
+        }
+
+        protected override void FreeShader()
+        {
+            PoolProxy.FreeResourceMemory<ObtainShaderPool, ShaderAllocationPolicy<EnvironmentEntitiesShader>, string, EnvironmentEntitiesShader>(GetShader());
         }
 
         #endregion

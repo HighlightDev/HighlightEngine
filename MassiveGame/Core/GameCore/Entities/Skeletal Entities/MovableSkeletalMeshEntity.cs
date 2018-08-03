@@ -7,9 +7,9 @@ using MassiveGame.API.Mesh;
 using System;
 using MassiveGame.Core.AnimationCore;
 using MassiveGame.API.ResourcePool;
-using MassiveGame.API.ResourcePool.Pools;
 using MassiveGame.API.ResourcePool.Policies;
 using MassiveGame.API.ResourcePool.PoolHandling;
+using MassiveGame.Settings;
 
 namespace MassiveGame.Core.GameCore.Entities.Skeletal_Entities
 {
@@ -24,13 +24,28 @@ namespace MassiveGame.Core.GameCore.Entities.Skeletal_Entities
             GetSkin();
         }
 
+        private SkeletalMeshEntityShader GetShader()
+        {
+            return m_shader as SkeletalMeshEntityShader;
+        }
+
         private AnimatedSkin GetSkin()
         {
             var skin = m_skin as AnimatedSkin;
             if (skin == null)
-                throw new ArgumentException("Model you have loaded doesn't support animation.");
+                throw new ArgumentException("Model that is loaded doesn't support animation.");
 
             return skin;
+        }
+
+        protected override void FreeShader()
+        {
+            PoolProxy.FreeResourceMemory<ObtainShaderPool, ShaderAllocationPolicy<SkeletalMeshEntityShader>, string, SkeletalMeshEntityShader>(GetShader());
+        }
+
+        protected override void InitShader()
+        {
+            m_shader = PoolProxy.GetResource<ObtainShaderPool, ShaderAllocationPolicy<SkeletalMeshEntityShader>, string, SkeletalMeshEntityShader>(ProjectFolders.ShadersPath + "skeletalMeshVS.glsl" + "," + ProjectFolders.ShadersPath + "skeletalMeshFS.glsl");
         }
 
         private void postConstructor()

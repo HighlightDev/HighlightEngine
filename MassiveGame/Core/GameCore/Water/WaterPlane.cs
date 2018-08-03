@@ -277,10 +277,10 @@ namespace MassiveGame.Core.GameCore.Water
         public void cleanUp()
         {
             _buffer?.CleanUp();
-            PoolProxy.FreeResourceMemoryByValue<ObtainTexturePool, TextureAllocationPolicy, string, ITexture>(this._waterDistortionMap);
-            PoolProxy.FreeResourceMemoryByValue<ObtainTexturePool, TextureAllocationPolicy, string, ITexture>(this._waterNormalMap);
-            PoolProxy.FreeResourceMemoryByValue<ObtainShaderPool, ShaderAllocationPolicy<WaterShader>, string, WaterShader>(this._shader);
-            PoolProxy.FreeResourceMemoryByValue<ObtainShaderPool, ShaderAllocationPolicy<StencilPassShader>, string, StencilPassShader>(stencilPassShader);
+            PoolProxy.FreeResourceMemory<ObtainTexturePool, TextureAllocationPolicy, string, ITexture>(this._waterDistortionMap);
+            PoolProxy.FreeResourceMemory<ObtainTexturePool, TextureAllocationPolicy, string, ITexture>(this._waterNormalMap);
+            PoolProxy.FreeResourceMemory<ObtainShaderPool, ShaderAllocationPolicy<WaterShader>, string, WaterShader>(this._shader);
+            PoolProxy.FreeResourceMemory<ObtainShaderPool, ShaderAllocationPolicy<StencilPassShader>, string, StencilPassShader>(stencilPassShader);
         }
 
         #endregion 
