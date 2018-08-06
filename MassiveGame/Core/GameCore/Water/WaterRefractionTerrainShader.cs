@@ -24,21 +24,29 @@ namespace MassiveGame.Core.GameCore.Water
 
         protected override void getAllUniformLocations()
         {
-            u_backTexture = GetUniform("backgroundTexture");
-            u_rTexture = GetUniform("rTexture");
-            u_gTexture = GetUniform("gTexture");
-            u_bTexture = GetUniform("bTexture");
-            u_blendMap = GetUniform("blendMap");
-            u_materialAmbient = GetUniform("materialAmbient");
-            u_materialDiffuse = GetUniform("materialDiffuse");
-            u_modelMatrix = GetUniform("ModelMatrix");
-            u_viewMatrix = GetUniform("ViewMatrix");
-            u_projectionMatrix = GetUniform("ProjectionMatrix");
-            u_sunDirection = GetUniform("sunDirection");
-            u_sunAmbientColour = GetUniform("sunAmbientColour");
-            u_sunDiffuseColour = GetUniform("sunDiffuseColour");
-            u_sunEnable = GetUniform("sunEnable");
-            u_clipPlane = GetUniform("clipPlane");
+            try
+            {
+                u_backTexture = GetUniform("backgroundTexture");
+                u_rTexture = GetUniform("rTexture");
+                u_gTexture = GetUniform("gTexture");
+                u_bTexture = GetUniform("bTexture");
+                u_blendMap = GetUniform("blendMap");
+                u_materialAmbient = GetUniform("materialAmbient");
+                u_materialDiffuse = GetUniform("materialDiffuse");
+                u_modelMatrix = GetUniform("ModelMatrix");
+                u_viewMatrix = GetUniform("ViewMatrix");
+                u_projectionMatrix = GetUniform("ProjectionMatrix");
+                u_sunDirection = GetUniform("sunDirection");
+                u_sunAmbientColour = GetUniform("sunAmbientColour");
+                u_sunDiffuseColour = GetUniform("sunDiffuseColour");
+                u_sunEnable = GetUniform("sunEnable");
+                u_clipPlane = GetUniform("clipPlane");
+            }
+            catch (ArgumentNullException innerException)
+            {
+                Debug.Log.AddToFileStreamLog(innerException.Message);
+                Debug.Log.AddToConsoleStreamLog(innerException.Message);
+            }
         }
 
         public void SetBlendMap(Int32 blendMapSampler)

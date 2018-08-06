@@ -20,9 +20,17 @@ namespace MassiveGame.Core.RenderCore.Shadows
 
         protected override void getAllUniformLocations()
         {
-            u_worldMatrix = GetUniform("worldMatrix");
-            u_shadowViewMatrix = GetUniform("shadowViewMatrix");
-            u_shadowProjectionMatrix = GetUniform("shadowProjectionMatrix");
+            try
+            {
+                u_worldMatrix = GetUniform("worldMatrix");
+                u_shadowViewMatrix = GetUniform("shadowViewMatrix");
+                u_shadowProjectionMatrix = GetUniform("shadowProjectionMatrix");
+            }
+            catch (ArgumentNullException innerException)
+            {
+                Debug.Log.AddToFileStreamLog(innerException.Message);
+                Debug.Log.AddToConsoleStreamLog(innerException.Message);
+            }
         }
 
         public void SetUniformValues(Matrix4 worldMatrix, Matrix4 shadowViewMatrix, Matrix4 shadowProjectionMatrix)

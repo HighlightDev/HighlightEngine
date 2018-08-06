@@ -46,7 +46,6 @@ C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\CollisionEd
 C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\CollisionEditor\OTKWinForm\bin\Debug\TextureLoader.pdb
 C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\CollisionEditor\OTKWinForm\bin\Debug\VBO.pdb
 C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\CollisionEditor\OTKWinForm\bin\Debug\VectorMath.pdb
-C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\CollisionEditor\OTKWinForm\obj\Debug\CollisionEditor.csprojResolveAssemblyReference.cache
 C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\CollisionEditor\OTKWinForm\obj\Debug\OTKWinForm.OTKWinForm.resources
 C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\CollisionEditor\OTKWinForm\obj\Debug\OTKWinForm.Properties.Resources.resources
 C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\CollisionEditor\OTKWinForm\obj\Debug\CollisionEditor.csproj.GenerateResource.Cache
@@ -87,3 +86,7 @@ D:\HighlightEngine\HighlightEngine\CollisionEditor\OTKWinForm\obj\Debug\Collisio
 D:\HighlightEngine\HighlightEngine\CollisionEditor\OTKWinForm\obj\Debug\CollisionEditor.csproj.CopyComplete
 D:\HighlightEngine\HighlightEngine\CollisionEditor\OTKWinForm\obj\Debug\OTKWinForm.exe
 D:\HighlightEngine\HighlightEngine\CollisionEditor\OTKWinForm\obj\Debug\OTKWinForm.pdb
+C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\CollisionEditor\OTKWinForm\bin\Debug\MassiveGame.exe.config
+C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\CollisionEditor\OTKWinForm\obj\Debug\CollisionEditor.csprojAssemblyReference.cache
+C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\CollisionEditor\OTKWinForm\obj\Debug\CollisionEditor.csproj.CoreCompileInputs.cache
+C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\CollisionEditor\OTKWinForm\obj\Debug\CollisionEditor.csproj.CopyComplete

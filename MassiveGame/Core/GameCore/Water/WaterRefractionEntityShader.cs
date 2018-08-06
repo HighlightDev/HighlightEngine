@@ -92,24 +92,32 @@ namespace MassiveGame.Core.GameCore.Water
 
         protected override void getAllUniformLocations()
         {
-            u_texture = GetUniform("texture");
-            u_normalMap = GetUniform("normalMap");
-            u_materialAmbient = GetUniform("matAmbient");
-            u_materialDiffuse = GetUniform("matDiffuse");
-            u_materialSpecular = GetUniform("matSpecular");
-            u_materialReflectivity = GetUniform("matReflectivity");
-            u_materialShineDamper = GetUniform("matShineDamper");
-            u_worldMatrix = GetUniform("worldMatrix");
-            u_viewMatrix = GetUniform("viewMatrix");
-            u_projectionMatrix = GetUniform("projectionMatrix");
-            u_sunEnable = GetUniform("bSunEnable");
-            u_sunDirection = GetUniform("sunDirection");
-            u_sunAmbientColour = GetUniform("sunAmbientColour");
-            u_sunDiffuseColour = GetUniform("sunDiffuseColour");
-            u_sunSpecularColour = GetUniform("sunSpecularColour");
-            u_clipPlane = GetUniform("clipPlane");
-            u_specularMap = GetUniform("specularMap");
-            u_bSpecularMapEnable = GetUniform("bSpecularMapEnable");
+            try
+            {
+                u_texture = GetUniform("texture");
+                u_normalMap = GetUniform("normalMap");
+                u_materialAmbient = GetUniform("matAmbient");
+                u_materialDiffuse = GetUniform("matDiffuse");
+                u_materialSpecular = GetUniform("matSpecular");
+                u_materialReflectivity = GetUniform("matReflectivity");
+                u_materialShineDamper = GetUniform("matShineDamper");
+                u_worldMatrix = GetUniform("worldMatrix");
+                u_viewMatrix = GetUniform("viewMatrix");
+                u_projectionMatrix = GetUniform("projectionMatrix");
+                u_sunEnable = GetUniform("bSunEnable");
+                u_sunDirection = GetUniform("sunDirection");
+                u_sunAmbientColour = GetUniform("sunAmbientColour");
+                u_sunDiffuseColour = GetUniform("sunDiffuseColour");
+                u_sunSpecularColour = GetUniform("sunSpecularColour");
+                u_clipPlane = GetUniform("clipPlane");
+                u_specularMap = GetUniform("specularMap");
+                u_bSpecularMapEnable = GetUniform("bSpecularMapEnable");
+            }
+            catch (ArgumentNullException innerException)
+            {
+                Debug.Log.AddToFileStreamLog(innerException.Message);
+                Debug.Log.AddToConsoleStreamLog(innerException.Message);
+            }
         }
 
         protected override void SetShaderMacros() { }

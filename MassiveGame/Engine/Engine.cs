@@ -112,7 +112,7 @@ namespace MassiveGame.UI
             }
         }
         #endregion
- 
+
         private void setTestValues()
         {
             var rtParams = new TextureParameters(TextureTarget.Texture2D, TextureMagFilter.Nearest, TextureMinFilter.Nearest, 0, PixelInternalFormat.DepthComponent16, EngineStatics.globalSettings.ShadowMapRezolution.X, EngineStatics.globalSettings.ShadowMapRezolution.Y, PixelFormat.DepthComponent, PixelType.Float, TextureWrapMode.Repeat);
@@ -201,7 +201,7 @@ namespace MassiveGame.UI
 
             MovableEntityArguments arg = new MovableEntityArguments(modelPath, texturePath, normalMapPath, specularMapPath, new Vector3(175, 1200, 170), new Vector3(0, 0, 0), new Vector3(5f));
 
-            var skeletalMesh = new MovableSkeletalMeshEntity(modelPath, texturePath, normalMapPath, specularMapPath, 0.5f, default(Vector3), default(Vector3), default(Vector3));
+            EngineStatics.skeletalMesh = new MovableSkeletalMeshEntity(modelPath, texturePath, normalMapPath, specularMapPath, 0.5f, new Vector3(175, 150, 170), default(Vector3), new Vector3(2));
 
             EngineStatics.Player = (MovableMeshEntity)EngineObjectCreator.CreateInstance(arg);
             EngineStatics.Player.SetMistComponent(EngineStatics.Mist);
@@ -538,7 +538,7 @@ namespace MassiveGame.UI
         {
             base.OnClosing(e);
             cleanEverythingUp();
-            Debug.Log.addToLog(String.Format("\nTime elapsed : {0}", DateTime.Now - EngineStatics.ElapsedTime));
+            Debug.Log.AddToFileStreamLog(String.Format("\nTime elapsed : {0}", DateTime.Now - EngineStatics.ElapsedTime));
             Environment.Exit(0);
         }
         #endregion

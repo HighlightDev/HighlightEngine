@@ -21,6 +21,7 @@ using MassiveGame.Core.RenderCore;
 using MassiveGame.API.MouseObjectDetector;
 using MassiveGame.Debug.UiPanel;
 using MassiveGame.Settings;
+using MassiveGame.Core.GameCore.Entities.Skeletal_Entities;
 
 namespace MassiveGame
 {
@@ -82,5 +83,7 @@ namespace MassiveGame
         public static List<IDrawable> shadowList;
 
         public static GlobalSettings globalSettings = new GlobalSettings();
+
+        public static MovableSkeletalMeshEntity skeletalMesh = null;
     }
 }

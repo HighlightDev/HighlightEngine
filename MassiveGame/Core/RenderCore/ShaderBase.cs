@@ -5,18 +5,18 @@ namespace MassiveGame.Core.RenderCore
 {
     public class ShaderBase : Shader
     {
-        public ShaderBase() : base("", "", "") { }
+        public ShaderBase() : base("", "", "", "") { }
 
-        public ShaderBase(string shaderName, string VertexShaderFile, string FragmentShaderFile, string GeometryShaderFile = "") : base(VertexShaderFile, FragmentShaderFile, GeometryShaderFile)
+        public ShaderBase(string shaderName, string VertexShaderFile, string FragmentShaderFile, string GeometryShaderFile = "") : base(shaderName, VertexShaderFile, FragmentShaderFile, GeometryShaderFile)
         {
-            if (base.ShaderLoaded)
+            if (base.m_shaderLoaded)
             {
                 base.showCompileLogInfo(shaderName);
                 base.showLinkLogInfo(shaderName);
-                Debug.Log.addToLog(getCompileLogInfo(shaderName));
-                Debug.Log.addToLog(getLinkLogInfo(shaderName));
+                Debug.Log.AddToFileStreamLog(getCompileLogInfo(shaderName));
+                Debug.Log.AddToFileStreamLog(getLinkLogInfo(shaderName));
             }
-            else Debug.Log.addToLog(DateTime.Now.ToString() + "  " + shaderName + " : shader file(s) not found!");
+            else Debug.Log.AddToFileStreamLog(DateTime.Now.ToString() + "  " + shaderName + " : shader file(s) not found!");
         }
 
         protected override void SetShaderMacros()

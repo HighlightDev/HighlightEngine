@@ -10,9 +10,6 @@ namespace MassiveGame.Debug
         #region Definitions
 
         private const string LOG_NAME = "ProjectLogs.txt";
-
-        private static string LOG_MESSAGE = String.Empty;
-
         #endregion
 
         static Log()
@@ -26,7 +23,7 @@ namespace MassiveGame.Debug
 
         #region Writer
 
-        private static void writeLogs(string message)
+        private static void writeLogsToFile(string message)
         {
             using (StreamWriter writer = new StreamWriter(ProjectFolders.getFolderPath() + "Debug/"
             + LOG_NAME, false, Encoding.Default))
@@ -39,14 +36,26 @@ namespace MassiveGame.Debug
 
         #region AddLog
 
-        public static void addToLog(params string[] logMessages)
+        public static void AddToConsoleStreamLog(params string[] logMessages)
         {
+            string resultMessage = String.Empty;
             foreach (string messageLine in logMessages)
             {
                 if (messageLine != null)
-                    LOG_MESSAGE += messageLine + System.Environment.NewLine;
+                    resultMessage += messageLine + System.Environment.NewLine;
             }
-            writeLogs(LOG_MESSAGE);
+            Console.WriteLine(resultMessage);
+        }
+
+        public static void AddToFileStreamLog(params string[] logMessages)
+        {
+            string resultMessage = String.Empty;
+            foreach (string messageLine in logMessages)
+            {
+                if (messageLine != null)
+                    resultMessage += messageLine + System.Environment.NewLine;
+            }
+            writeLogsToFile(resultMessage);
         }
         #endregion
     }

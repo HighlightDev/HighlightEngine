@@ -51,39 +51,47 @@ namespace MassiveGame.Core.GameCore.Entities.StaticEntities
 
         protected override void getAllUniformLocations()
         {
-            u_entityTexture = GetUniform("entitieTexture");
-            u_entityNormalMap = GetUniform("normalMap");
-            u_normalMapEnDis = GetUniform("normalMapEnableDisable");
-            u_materialAmbient = GetUniform("materialAmbient");
-            u_materialDiffuse = GetUniform("materialDiffuse");
-            u_materialSpecular = GetUniform("materialSpecular");
-            u_materialReflectivity = GetUniform("materialReflectivity");
-            u_materialShineDamper = GetUniform("materialShineDamper");
-            u_modelMatrix = GetUniform("ModelMatrix");
-            u_viewMatrix = GetUniform("ViewMatrix");
-            u_projectionMatrix = GetUniform("ProjectionMatrix");
-            u_sunDirection = GetUniform("sunDirection");
-            u_sunAmbientColour = GetUniform("sunAmbientColour");
-            u_sunDiffuseColour = GetUniform("sunDiffuseColour");
-            u_sunSpecularColour = GetUniform("sunSpecularColour");
-            u_sunEnable = GetUniform("sunEnable");
-            u_mistEnable = GetUniform("mistEnable");
-            u_mistDensity = GetUniform("mistDensity");
-            u_mistGradient = GetUniform("mistGradient");
-            u_mistColour = GetUniform("mistColour");
-            for (Int32 i = 0; i < EngineStatics.MAX_LIGHT_COUNT; i++)
+            try
             {
-                u_lightPosition[i] = GetUniform("lightPosition[" + i + "]");
-                u_attenuation[i] = GetUniform("attenuation[" + i + "]");
-                u_diffuseColour[i] = GetUniform("diffuseColour[" + i + "]");
-                u_specularColour[i] = GetUniform("specularColour[" + i + "]");
-                u_enableLight[i] = GetUniform("enableLight[" + i + "]");
+                u_entityTexture = GetUniform("entitieTexture");
+                u_entityNormalMap = GetUniform("normalMap");
+                u_normalMapEnDis = GetUniform("normalMapEnableDisable");
+                u_materialAmbient = GetUniform("materialAmbient");
+                u_materialDiffuse = GetUniform("materialDiffuse");
+                u_materialSpecular = GetUniform("materialSpecular");
+                u_materialReflectivity = GetUniform("materialReflectivity");
+                u_materialShineDamper = GetUniform("materialShineDamper");
+                u_modelMatrix = GetUniform("ModelMatrix");
+                u_viewMatrix = GetUniform("ViewMatrix");
+                u_projectionMatrix = GetUniform("ProjectionMatrix");
+                u_sunDirection = GetUniform("sunDirection");
+                u_sunAmbientColour = GetUniform("sunAmbientColour");
+                u_sunDiffuseColour = GetUniform("sunDiffuseColour");
+                u_sunSpecularColour = GetUniform("sunSpecularColour");
+                u_sunEnable = GetUniform("sunEnable");
+                u_mistEnable = GetUniform("mistEnable");
+                u_mistDensity = GetUniform("mistDensity");
+                u_mistGradient = GetUniform("mistGradient");
+                u_mistColour = GetUniform("mistColour");
+                for (Int32 i = 0; i < EngineStatics.MAX_LIGHT_COUNT; i++)
+                {
+                    u_lightPosition[i] = GetUniform("lightPosition[" + i + "]");
+                    u_attenuation[i] = GetUniform("attenuation[" + i + "]");
+                    u_diffuseColour[i] = GetUniform("diffuseColour[" + i + "]");
+                    u_specularColour[i] = GetUniform("specularColour[" + i + "]");
+                    u_enableLight[i] = GetUniform("enableLight[" + i + "]");
+                }
+                u_clipPlane = GetUniform("clipPlane");
+                u_directionalLightShadowMap = GetUniform("dirLightShadowMap");
+                u_directionalLightShadowMatrix = GetUniform("dirLightShadowMatrix");
+                u_glowingMap = GetUniform("glowingMap");
+                u_entitySpecularMap = GetUniform("specularMap");
             }
-            u_clipPlane = GetUniform("clipPlane");
-            u_directionalLightShadowMap = GetUniform("dirLightShadowMap");
-            u_directionalLightShadowMatrix = GetUniform("dirLightShadowMatrix");
-            u_glowingMap = GetUniform("glowingMap");
-            u_entitySpecularMap = GetUniform("specularMap");
+            catch (ArgumentNullException innerException)
+            {
+                Debug.Log.AddToFileStreamLog(innerException.Message);
+                Debug.Log.AddToConsoleStreamLog(innerException.Message);
+            }
         }
 
         #endregion
@@ -239,9 +247,17 @@ namespace MassiveGame.Core.GameCore.Entities.StaticEntities
 
         protected override void getAllUniformLocations()
         {
-            u_modelMatrix = GetUniform("ModelMatrix");
-            u_viewMatrix = GetUniform("ViewMatrix");
-            u_projectionMatrix = GetUniform("ProjectionMatrix");
+            try
+            {
+                u_modelMatrix = GetUniform("ModelMatrix");
+                u_viewMatrix = GetUniform("ViewMatrix");
+                u_projectionMatrix = GetUniform("ProjectionMatrix");
+            }
+            catch (ArgumentNullException innerException)
+            {
+                Debug.Log.AddToFileStreamLog(innerException.Message);
+                Debug.Log.AddToConsoleStreamLog(innerException.Message);
+            }
         }
 
         #endregion

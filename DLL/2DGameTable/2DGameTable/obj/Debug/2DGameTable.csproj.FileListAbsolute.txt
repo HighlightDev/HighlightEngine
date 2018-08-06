@@ -25,7 +25,6 @@ C:\Users\dzinovev\Desktop\Универчик\project\MassiveGame\MassiveGame\Mas
 C:\Users\dzinovev\Desktop\Универчик\project\MassiveGame\MassiveGame\MassiveGame\DLL\2DGameTable\2DGameTable\obj\Debug\2DGameTable.pdb
 C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\DLL\2DGameTable\2DGameTable\bin\Debug\2DGameTable.dll
 C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\DLL\2DGameTable\2DGameTable\bin\Debug\2DGameTable.pdb
-C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\DLL\2DGameTable\2DGameTable\obj\Debug\2DGameTable.csprojResolveAssemblyReference.cache
 C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\DLL\2DGameTable\2DGameTable\obj\Debug\2DGameTable.dll
 C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\DLL\2DGameTable\2DGameTable\obj\Debug\2DGameTable.pdb
 D:\HighlightEngine\HighlightEngine\DLL\2DGameTable\2DGameTable\bin\Debug\2DGameTable.dll
@@ -35,3 +34,6 @@ D:\HighlightEngine\HighlightEngine\DLL\2DGameTable\2DGameTable\obj\Debug\2DGameT
 D:\HighlightEngine\HighlightEngine\DLL\2DGameTable\2DGameTable\obj\Debug\2DGameTable.dll
 D:\HighlightEngine\HighlightEngine\DLL\2DGameTable\2DGameTable\obj\Debug\2DGameTable.pdb
 D:\HighlightEngine\HighlightEngine\DLL\2DGameTable\2DGameTable\obj\Debug\2DGameTable.csprojAssemblyReference.cache
+C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\DLL\2DGameTable\2DGameTable\obj\Debug\2DGameTable.csprojAssemblyReference.cache
+C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\DLL\2DGameTable\2DGameTable\obj\Debug\2DGameTable.csproj.CoreCompileInputs.cache
+C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\DLL\2DGameTable\2DGameTable\obj\Debug\2DGameTable.csproj.CopyComplete

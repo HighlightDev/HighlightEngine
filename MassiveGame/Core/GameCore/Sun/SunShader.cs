@@ -29,13 +29,21 @@ namespace MassiveGame.Core.GameCore.Sun
 
         protected override void getAllUniformLocations()
         {
-            u_modelMatrix = GetUniform("modelMatrix");
-            u_viewMatrix = GetUniform("viewMatrix");
-            u_projectionMatrix = GetUniform("projectionMatrix");
-            u_sunTexture1 = GetUniform("sunTexture1");
-            u_sunTexture2 = GetUniform("sunTexture2");
-            u_sunDirection = GetUniform("sunDirection");
-            u_clipPlane = GetUniform("clipPlane");
+            try
+            {
+                u_modelMatrix = GetUniform("modelMatrix");
+                u_viewMatrix = GetUniform("viewMatrix");
+                u_projectionMatrix = GetUniform("projectionMatrix");
+                u_sunTexture1 = GetUniform("sunTexture1");
+                u_sunTexture2 = GetUniform("sunTexture2");
+                u_sunDirection = GetUniform("sunDirection");
+                u_clipPlane = GetUniform("clipPlane");
+            }
+            catch (ArgumentNullException innerException)
+            {
+                Debug.Log.AddToFileStreamLog(innerException.Message);
+                Debug.Log.AddToConsoleStreamLog(innerException.Message);
+            }
         }
 
         #endregion

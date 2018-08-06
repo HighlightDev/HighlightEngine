@@ -24,10 +24,18 @@ namespace MassiveGame.Core.RenderCore.PostFX
 
         protected override void getAllUniformLocations()
         {
-            base.getAllUniformLocations();
-            if (PreviousPostProcessResult == PostProcessSubsequenceType_Inner.ApplyPreviousPostProcess)
+            try
             {
-                u_previousPostProcessResultSampler = GetUniform("previousPostProcessResultSampler");
+                base.getAllUniformLocations();
+                if (PreviousPostProcessResult == PostProcessSubsequenceType_Inner.ApplyPreviousPostProcess)
+                {
+                    u_previousPostProcessResultSampler = GetUniform("previousPostProcessResultSampler");
+                }
+            }
+            catch (ArgumentNullException innerException)
+            {
+                Debug.Log.AddToFileStreamLog(innerException.Message);
+                Debug.Log.AddToConsoleStreamLog(innerException.Message);
             }
         }
 

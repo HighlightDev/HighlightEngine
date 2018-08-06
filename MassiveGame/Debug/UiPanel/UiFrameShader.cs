@@ -37,9 +37,17 @@ namespace MassiveGame.Debug.UiPanel
 
         protected override void getAllUniformLocations()
         {
-            u_uiTexture = GetUniform("uiTexture");
-            u_screenSpaceMatrix = GetUniform("screenSpaceMatrix");
-            u_bPerspectiveDepthTexture = GetUniform("bPerspectiveDepthTexture");
+            try
+            {
+                u_uiTexture = GetUniform("uiTexture");
+                u_screenSpaceMatrix = GetUniform("screenSpaceMatrix");
+                u_bPerspectiveDepthTexture = GetUniform("bPerspectiveDepthTexture");
+            }
+            catch (ArgumentNullException innerException)
+            {
+                Debug.Log.AddToFileStreamLog(innerException.Message);
+                Debug.Log.AddToConsoleStreamLog(innerException.Message);
+            }
         }
 
         #endregion

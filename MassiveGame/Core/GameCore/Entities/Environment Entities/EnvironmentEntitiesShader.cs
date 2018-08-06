@@ -19,12 +19,20 @@ namespace MassiveGame.Core.GameCore.Entities.EnvironmentEntities
 
         protected override void getAllUniformLocations()
         {
-            u_modelMatrix = GetUniform("modelMatrix");
-            u_viewMatrix = GetUniform("viewMatrix");
-            u_projectionMatrix = GetUniform("projectionMatrix");
-            u_modelTexSampler = GetUniform("modelTexture");
-            u_envMapSampler = GetUniform("environmentMap");
-            u_cameraPosition = GetUniform("cameraPosition");
+            try
+            {
+                u_modelMatrix = GetUniform("modelMatrix");
+                u_viewMatrix = GetUniform("viewMatrix");
+                u_projectionMatrix = GetUniform("projectionMatrix");
+                u_modelTexSampler = GetUniform("modelTexture");
+                u_envMapSampler = GetUniform("environmentMap");
+                u_cameraPosition = GetUniform("cameraPosition");
+            }
+            catch (ArgumentNullException innerException)
+            {
+                Debug.Log.AddToFileStreamLog(innerException.Message);
+                Debug.Log.AddToConsoleStreamLog(innerException.Message);
+            }
         }
 
         #endregion

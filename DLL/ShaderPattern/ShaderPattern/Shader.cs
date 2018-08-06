@@ -47,17 +47,18 @@ namespace ShaderPattern
 
         #region Definitions
 
-        private string vsPath;
-        private string fsPath;
-        private string gsPath;
+        private string m_vsPath;
+        private string m_fsPath;
+        private string m_gsPath;
+        private string m_shaderName;
 
-        private Int32 vertexShaderID;
-        private Int32 fragmentShaderID;
-        private Int32 geometryShaderID;
-        private Int32 shaderProgramID;
-        protected bool ShaderLoaded { set; get; }
+        private Int32 m_vertexShaderID;
+        private Int32 m_fragmentShaderID;
+        private Int32 m_geometryShaderID;
+        private Int32 m_shaderProgramID;
+        protected bool m_shaderLoaded { set; get; }
 
-        private List<DefineParams> DefineParameters;
+        private List<DefineParams> m_defineParameters;
 
         #endregion
 
@@ -69,61 +70,61 @@ namespace ShaderPattern
             StreamReader streamer = null;
             try
             {
-                streamer = new StreamReader(vsPath);
+                streamer = new StreamReader(m_vsPath);
             }
             catch (IOException)
             {
                 return false;
             }
-            vertexShaderID = GL.CreateShader(ShaderType.VertexShader);
-            GL.ShaderSource(vertexShaderID, streamer.ReadToEnd());
+            m_vertexShaderID = GL.CreateShader(ShaderType.VertexShader);
+            GL.ShaderSource(m_vertexShaderID, streamer.ReadToEnd());
             streamer.Close();
 
             /*Fragment shader load*/
             try
             {
-                streamer = new StreamReader(fsPath);
+                streamer = new StreamReader(m_fsPath);
             }
             catch (IOException)
             {
                 return false;
             }
-            fragmentShaderID = GL.CreateShader(ShaderType.FragmentShader);
-            GL.ShaderSource(fragmentShaderID, streamer.ReadToEnd());
+            m_fragmentShaderID = GL.CreateShader(ShaderType.FragmentShader);
+            GL.ShaderSource(m_fragmentShaderID, streamer.ReadToEnd());
             streamer.Close();
 
             /*Geometry shader load*/
-            if (gsPath != "")
+            if (m_gsPath != "")
             {
                 try
                 {
-                    streamer = new StreamReader(gsPath);
+                    streamer = new StreamReader(m_gsPath);
                 }
                 catch (IOException)
                 {
                     return false;
                 }
-                geometryShaderID = GL.CreateShader(ShaderType.GeometryShader);
-                GL.ShaderSource(geometryShaderID, streamer.ReadToEnd());
+                m_geometryShaderID = GL.CreateShader(ShaderType.GeometryShader);
+                GL.ShaderSource(m_geometryShaderID, streamer.ReadToEnd());
                 streamer.Close();
 
-                GL.CompileShader(geometryShaderID);
+                GL.CompileShader(m_geometryShaderID);
             }
-            GL.CompileShader(vertexShaderID);
-            GL.CompileShader(fragmentShaderID);
+            GL.CompileShader(m_vertexShaderID);
+            GL.CompileShader(m_fragmentShaderID);
 
             return true;
         }
 
         private void linkShaders()
         {
-            GL.AttachShader(shaderProgramID, vertexShaderID);
-            GL.AttachShader(shaderProgramID, fragmentShaderID);
-            if (geometryShaderID != -1) { GL.AttachShader(shaderProgramID, geometryShaderID); }
-            GL.LinkProgram(shaderProgramID);
-            GL.DetachShader(shaderProgramID, vertexShaderID);
-            GL.DetachShader(shaderProgramID, fragmentShaderID);
-            if (geometryShaderID != -1) { GL.DetachShader(shaderProgramID, geometryShaderID); }
+            GL.AttachShader(m_shaderProgramID, m_vertexShaderID);
+            GL.AttachShader(m_shaderProgramID, m_fragmentShaderID);
+            if (m_geometryShaderID != -1) { GL.AttachShader(m_shaderProgramID, m_geometryShaderID); }
+            GL.LinkProgram(m_shaderProgramID);
+            GL.DetachShader(m_shaderProgramID, m_vertexShaderID);
+            GL.DetachShader(m_shaderProgramID, m_fragmentShaderID);
+            if (m_geometryShaderID != -1) { GL.DetachShader(m_shaderProgramID, m_geometryShaderID); }
         }
 
         #endregion
@@ -134,29 +135,29 @@ namespace ShaderPattern
         {
             Int32 capacity = 0;
             /*Vertex shader log info*/
-            unsafe { GL.GetShader(vertexShaderID, ShaderParameter.InfoLogLength, &capacity); }
+            unsafe { GL.GetShader(m_vertexShaderID, ShaderParameter.InfoLogLength, &capacity); }
             StringBuilder info = new StringBuilder(capacity);
-            unsafe { GL.GetShaderInfoLog(vertexShaderID, Int32.MaxValue, null, info); }
+            unsafe { GL.GetShaderInfoLog(m_vertexShaderID, Int32.MaxValue, null, info); }
             if (info.Length != 0)
             {
                 Console.WriteLine("Unsolved mistakes at :" + ShaderName + "\n" + info);
             }
 
             /*Fragment shader log info*/
-            unsafe { GL.GetShader(fragmentShaderID, ShaderParameter.InfoLogLength, &capacity); }
+            unsafe { GL.GetShader(m_fragmentShaderID, ShaderParameter.InfoLogLength, &capacity); }
             info = new StringBuilder(capacity);
-            unsafe { GL.GetShaderInfoLog(fragmentShaderID, Int32.MaxValue, null, info); }
+            unsafe { GL.GetShaderInfoLog(m_fragmentShaderID, Int32.MaxValue, null, info); }
             if (info.Length != 0)
             {
                 Console.WriteLine("Unsolved mistakes at :" + ShaderName + "\n" + info);
             }
 
             /*Geometry shader log info*/
-            if (geometryShaderID != -1)
+            if (m_geometryShaderID != -1)
             {
-                unsafe { GL.GetShader(geometryShaderID, ShaderParameter.InfoLogLength, &capacity); }
+                unsafe { GL.GetShader(m_geometryShaderID, ShaderParameter.InfoLogLength, &capacity); }
                 info = new StringBuilder(capacity);
-                unsafe { GL.GetShaderInfoLog(geometryShaderID, Int32.MaxValue, null, info); }
+                unsafe { GL.GetShaderInfoLog(m_geometryShaderID, Int32.MaxValue, null, info); }
                 if (info.Length != 0)
                 {
                     Console.WriteLine("Unsolved mistakes at  :" + ShaderName + "\n" + info);
@@ -168,9 +169,9 @@ namespace ShaderPattern
         {
             Int32 capacity = 0;
             /*Shader program link log info*/
-            unsafe { GL.GetProgram(shaderProgramID, GetProgramParameterName.InfoLogLength, &capacity); }
+            unsafe { GL.GetProgram(m_shaderProgramID, GetProgramParameterName.InfoLogLength, &capacity); }
             StringBuilder info = new StringBuilder(capacity);
-            unsafe { GL.GetProgramInfoLog(shaderProgramID, Int32.MaxValue, null, info); }
+            unsafe { GL.GetProgramInfoLog(m_shaderProgramID, Int32.MaxValue, null, info); }
             if (info.Length != 0)
             {
                 Console.WriteLine("Unsolved mistakes at :" + ShaderName + "\n" + info);
@@ -181,22 +182,22 @@ namespace ShaderPattern
         {
             Int32 capacity = 0;
             /*Vertex shader log info*/
-            unsafe { GL.GetShader(vertexShaderID, ShaderParameter.InfoLogLength, &capacity); }
+            unsafe { GL.GetShader(m_vertexShaderID, ShaderParameter.InfoLogLength, &capacity); }
             StringBuilder info = new StringBuilder(capacity);
-            unsafe { GL.GetShaderInfoLog(vertexShaderID, Int32.MaxValue, null, info); }
+            unsafe { GL.GetShaderInfoLog(m_vertexShaderID, Int32.MaxValue, null, info); }
 
             /*Fragment shader log info*/
-            unsafe { GL.GetShader(fragmentShaderID, ShaderParameter.InfoLogLength, &capacity); }
+            unsafe { GL.GetShader(m_fragmentShaderID, ShaderParameter.InfoLogLength, &capacity); }
             StringBuilder info1 = new StringBuilder(capacity);
-            unsafe { GL.GetShaderInfoLog(fragmentShaderID, Int32.MaxValue, null, info1); }
+            unsafe { GL.GetShaderInfoLog(m_fragmentShaderID, Int32.MaxValue, null, info1); }
 
             /*Geometry shader log info*/
             StringBuilder info2 = new StringBuilder();
-            if (geometryShaderID != -1)
+            if (m_geometryShaderID != -1)
             {
-                unsafe { GL.GetShader(geometryShaderID, ShaderParameter.InfoLogLength, &capacity); }
+                unsafe { GL.GetShader(m_geometryShaderID, ShaderParameter.InfoLogLength, &capacity); }
                 info2 = new StringBuilder(capacity);
-                unsafe { GL.GetShaderInfoLog(geometryShaderID, Int32.MaxValue, null, info); }
+                unsafe { GL.GetShaderInfoLog(m_geometryShaderID, Int32.MaxValue, null, info); }
             }
 
             if (info.Length > 0 || info1.Length > 0 || info2.Length > 0)
@@ -209,9 +210,9 @@ namespace ShaderPattern
         {
             Int32 capacity = 0;
             /*Shader program link log info*/
-            unsafe { GL.GetProgram(this.shaderProgramID, GetProgramParameterName.InfoLogLength, &capacity); }
+            unsafe { GL.GetProgram(this.m_shaderProgramID, GetProgramParameterName.InfoLogLength, &capacity); }
             StringBuilder info = new StringBuilder(capacity);
-            unsafe { GL.GetProgramInfoLog(this.shaderProgramID, Int32.MaxValue, null, info); }
+            unsafe { GL.GetProgramInfoLog(this.m_shaderProgramID, Int32.MaxValue, null, info); }
             if (info.Length > 0)
                 return ("Unsolved mistakes at :" + ShaderName + "\n" + Convert.ToString(info));
             else return null;
@@ -223,7 +224,7 @@ namespace ShaderPattern
 
         public void startProgram()
         {
-            GL.UseProgram(shaderProgramID);
+            GL.UseProgram(m_shaderProgramID);
         }
 
         public void stopProgram()
@@ -238,13 +239,13 @@ namespace ShaderPattern
         public void cleanUp()
         {
             stopProgram();
-            GL.DetachShader(shaderProgramID, vertexShaderID);
-            GL.DetachShader(shaderProgramID, fragmentShaderID);
-            if (geometryShaderID != -1) { GL.DetachShader(shaderProgramID, geometryShaderID); GL.DeleteShader(geometryShaderID); }
-            GL.DeleteShader(vertexShaderID);
-            GL.DeleteShader(fragmentShaderID);
+            GL.DetachShader(m_shaderProgramID, m_vertexShaderID);
+            GL.DetachShader(m_shaderProgramID, m_fragmentShaderID);
+            if (m_geometryShaderID != -1) { GL.DetachShader(m_shaderProgramID, m_geometryShaderID); GL.DeleteShader(m_geometryShaderID); }
+            GL.DeleteShader(m_vertexShaderID);
+            GL.DeleteShader(m_fragmentShaderID);
 
-            GL.DeleteProgram(shaderProgramID);
+            GL.DeleteProgram(m_shaderProgramID);
         }
 
         #endregion
@@ -253,12 +254,12 @@ namespace ShaderPattern
 
         protected Int32 getUniformLocation(string uniformName)
         {
-            return GL.GetUniformLocation(shaderProgramID, uniformName);
+            return GL.GetUniformLocation(m_shaderProgramID, uniformName);
         }
 
         protected Int32 getSubroutineIndex(ShaderType type, string indexName)
         {
-            return GL.GetSubroutineIndex(this.shaderProgramID, type, indexName);
+            return GL.GetSubroutineIndex(this.m_shaderProgramID, type, indexName);
         }
 
         protected virtual void getAllUniformLocations() { }
@@ -269,7 +270,15 @@ namespace ShaderPattern
 
         protected Uniform GetUniform(string uniformName)
         {
-           return new Uniform(shaderProgramID, uniformName);
+            try
+            {
+                return new Uniform(m_shaderProgramID, uniformName);
+            }
+            catch (ArgumentNullException innerEx)
+            {
+                String message = String.Format("Shader with name {0} could not bind uniform(s); {1}Inner exception message : {2}{1}", m_shaderName, Environment.NewLine, innerEx.Message);
+                throw new ArgumentNullException(message, innerEx);
+            }
         }
 
         protected void loadSubroutineIndex(ShaderType type, Int32 countIndices, Int32 subroutineIndex)
@@ -281,21 +290,22 @@ namespace ShaderPattern
 
         #region Constructor
 
-        public Shader(string VertexShaderFile, string FragmentShaderFile, string GeometryShaderFile = "")
+        public Shader(string shaderName, string VertexShaderFile, string FragmentShaderFile, string GeometryShaderFile = "")
         {
-            DefineParameters = new List<DefineParams>();
-            vsPath = VertexShaderFile;
-            fsPath = FragmentShaderFile;
-            gsPath = GeometryShaderFile;
+            m_shaderName = shaderName;
+            m_defineParameters = new List<DefineParams>();
+            m_vsPath = VertexShaderFile;
+            m_fsPath = FragmentShaderFile;
+            m_gsPath = GeometryShaderFile;
 
-            geometryShaderID = -1;
-            ShaderLoaded = false;
+            m_geometryShaderID = -1;
+            m_shaderLoaded = false;
 
             SetShaderMacros(); // start precompilation shader customization
             PrecompileEdit();
-            ShaderLoaded = loadShaders();
-            shaderProgramID = GL.CreateProgram();
-            if (ShaderLoaded)
+            m_shaderLoaded = loadShaders();
+            m_shaderProgramID = GL.CreateProgram();
+            if (m_shaderLoaded)
             {
                 linkShaders();
                 getAllUniformLocations();
@@ -338,7 +348,7 @@ namespace ShaderPattern
 
             // get macros only for current shader
             List<DefineParams> input = new List<DefineParams>();
-            foreach (var def in DefineParameters)
+            foreach (var def in m_defineParameters)
             {
                 if ((def.shaderType & ShaderTypeFlag.VertexShader) == type ||
                     (def.shaderType & ShaderTypeFlag.FragmentShader) == type ||
@@ -388,15 +398,15 @@ namespace ShaderPattern
 
         private void AddPrecompiledEditToShader()
         {
-            if (DefineParameters.Count > 0)
+            if (m_defineParameters.Count > 0)
             {
-                if (DefineParameters.Any(def => (def.shaderType & ShaderTypeFlag.VertexShader) == ShaderTypeFlag.VertexShader))
-                    EditShader(ShaderTypeFlag.VertexShader, vsPath);
-                if (DefineParameters.Any(def => (def.shaderType & ShaderTypeFlag.FragmentShader) == ShaderTypeFlag.FragmentShader))
-                    EditShader(ShaderTypeFlag.FragmentShader, fsPath);
-                if (gsPath != string.Empty)
-                    if (DefineParameters.Any(def => (def.shaderType & ShaderTypeFlag.GeometryShader) == ShaderTypeFlag.GeometryShader))
-                        EditShader(ShaderTypeFlag.GeometryShader, gsPath);
+                if (m_defineParameters.Any(def => (def.shaderType & ShaderTypeFlag.VertexShader) == ShaderTypeFlag.VertexShader))
+                    EditShader(ShaderTypeFlag.VertexShader, m_vsPath);
+                if (m_defineParameters.Any(def => (def.shaderType & ShaderTypeFlag.FragmentShader) == ShaderTypeFlag.FragmentShader))
+                    EditShader(ShaderTypeFlag.FragmentShader, m_fsPath);
+                if (m_gsPath != string.Empty)
+                    if (m_defineParameters.Any(def => (def.shaderType & ShaderTypeFlag.GeometryShader) == ShaderTypeFlag.GeometryShader))
+                        EditShader(ShaderTypeFlag.GeometryShader, m_gsPath);
             }
         }
 
@@ -405,13 +415,13 @@ namespace ShaderPattern
         public virtual void PrecompileEdit()
         {
             AddPrecompiledEditToShader();
-            DefineParameters.Clear();
+            m_defineParameters.Clear();
         }
 
         public void SetDefine<T>(ShaderTypeFlag shaderType, string name, T value) where T : struct
         {
             string formatedValue = ShaderMacrosConverter<T>.ConvertToString(value);
-            DefineParameters.Add(new DefineParams(name, formatedValue, shaderType));
+            m_defineParameters.Add(new DefineParams(name, formatedValue, shaderType));
        } 
 
         #endregion

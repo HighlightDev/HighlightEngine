@@ -22,7 +22,7 @@ namespace MassiveGame.Settings
             }
             catch (FileLoadException ex)
             {
-                Debug.Log.addToLog(ex.Message);
+                Debug.Log.AddToFileStreamLog(ex.Message);
                 Console.WriteLine(ex.Message);
                 throw;
             }

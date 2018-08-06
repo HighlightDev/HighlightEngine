@@ -18,7 +18,15 @@ namespace MassiveGame.Core.RenderCore
 
         protected override void getAllUniformLocations()
         {
-            srcSampler = GetUniform("SrcColor");
+            try
+            {
+                srcSampler = GetUniform("SrcColor");
+            }
+            catch (ArgumentNullException innerException)
+            {
+                Debug.Log.AddToFileStreamLog(innerException.Message);
+                Debug.Log.AddToConsoleStreamLog(innerException.Message);
+            }
         }
 
         public void SetUniformValues(Int32 textureHandler)

@@ -10,8 +10,16 @@ namespace MassiveGame.Core.RenderCore
 
         protected override void getAllUniformLocations()
         {
-            u_frameSampler = GetUniform("frameSampler");
-            u_postProcessResultSampler = GetUniform("postProcessResultSampler");
+            try
+            {
+                u_frameSampler = GetUniform("frameSampler");
+                u_postProcessResultSampler = GetUniform("postProcessResultSampler");
+            }
+            catch (ArgumentNullException innerException)
+            {
+                Debug.Log.AddToFileStreamLog(innerException.Message);
+                Debug.Log.AddToConsoleStreamLog(innerException.Message);
+            }
         }
 
         public void setFrameSampler(Int32 frameSampler)

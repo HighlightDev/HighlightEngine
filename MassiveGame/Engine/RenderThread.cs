@@ -168,6 +168,8 @@ namespace MassiveGame.Engine
                 }
             }
 
+            EngineStatics.skeletalMesh.RenderEntity(EngineStatics.Mode, EngineStatics.NormalMapTrigger, EngineStatics.Sun, EngineStatics.PointLight, camera, ref EngineStatics.ProjectionMatrix);
+
             // ITS for TEST! COMPUTE SHADERS!
             //Matrix4 worldMatrix = Matrix4.CreateScale(1);
             //worldMatrix *= Matrix4.CreateTranslation(new Vector3(0, 60, 0));

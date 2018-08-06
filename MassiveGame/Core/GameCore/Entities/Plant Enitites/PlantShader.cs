@@ -43,25 +43,33 @@ namespace MassiveGame.Core.GameCore.Entities.StaticEntities
 
         protected override void getAllUniformLocations()
         {
-            u_plantTexture = GetUniform("backgroundTexture");
-            u_materialAmbient = GetUniform("materialAmbient");
-            u_materialDiffuse = GetUniform("materialDiffuse");
-            u_modelMatrix = GetUniform("ModelMatrix");
-            u_viewMatrix = GetUniform("ViewMatrix");
-            u_projectionMatrix = GetUniform("ProjectionMatrix");
-            u_sunDirection = GetUniform("sunDirection");
-            u_sunAmbientColour = GetUniform("sunAmbientColour");
-            u_sunDiffuseColour = GetUniform("sunDiffuseColour");
-            u_sunEnable = GetUniform("sunEnable");
-            u_windDirection = GetUniform("windDirection");
-            u_windPower = GetUniform("windPower");
-            u_windLoop = GetUniform("windLoop");
-            u_clipPlane = GetUniform("clipPlane");
-            u_mistEnable = GetUniform("mistEnable");
-            u_mistDensity = GetUniform("mistDensity");
-            u_mistGradient = GetUniform("mistGradient");
-            u_mistColour = GetUniform("mistColour");
-            u_time = GetUniform("time");
+            try
+            {
+                u_plantTexture = GetUniform("backgroundTexture");
+                u_materialAmbient = GetUniform("materialAmbient");
+                u_materialDiffuse = GetUniform("materialDiffuse");
+                u_modelMatrix = GetUniform("ModelMatrix");
+                u_viewMatrix = GetUniform("ViewMatrix");
+                u_projectionMatrix = GetUniform("ProjectionMatrix");
+                u_sunDirection = GetUniform("sunDirection");
+                u_sunAmbientColour = GetUniform("sunAmbientColour");
+                u_sunDiffuseColour = GetUniform("sunDiffuseColour");
+                u_sunEnable = GetUniform("sunEnable");
+                u_windDirection = GetUniform("windDirection");
+                u_windPower = GetUniform("windPower");
+                u_windLoop = GetUniform("windLoop");
+                u_clipPlane = GetUniform("clipPlane");
+                u_mistEnable = GetUniform("mistEnable");
+                u_mistDensity = GetUniform("mistDensity");
+                u_mistGradient = GetUniform("mistGradient");
+                u_mistColour = GetUniform("mistColour");
+                u_time = GetUniform("time");
+            }
+            catch (ArgumentNullException innerException)
+            {
+                Debug.Log.AddToFileStreamLog(innerException.Message);
+                Debug.Log.AddToConsoleStreamLog(innerException.Message);
+            }
         }
 
          #endregion

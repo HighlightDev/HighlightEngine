@@ -136,35 +136,43 @@ namespace MassiveGame.Core.GameCore.Water
 
         protected override void getAllUniformLocations()
         {
-            u_bEnableSun = GetUniform("bEnableSun");
-            this.u_modelMatrix = GetUniform("modelMatrix");
-            this.u_viewMatrix = GetUniform("viewMatrix");
-            this.u_projectionMatrix = GetUniform("projectionMatrix");
-            this.u_reflectionTexture = GetUniform("reflectionTexture");
-            this.u_refractionTexture = GetUniform("refractionTexture");
-            this.u_cameraPosition = GetUniform("cameraPosition");
-            this.u_dudvTexture = GetUniform("dudvTexture");
-            this.u_normalMap = GetUniform("normalMap");
-            this.u_depthTexture = GetUniform("depthTexture");
-            this.u_moveFactor = GetUniform("moveFactor");
-            this.u_sunPos = GetUniform("sunPos");
-            this.u_sunSpecularColour = GetUniform("sunSpecularColour");
-            this.u_waveStrength = GetUniform("waveStrength");
-            this.u_farClipPlane = GetUniform("farClipPlane");
-            this.u_nearClipPlane = GetUniform("nearClipPlane");
-            this.u_transparencyDepth = GetUniform("transparencyDepth");
-
-            this.u_mistEnable = GetUniform("mistEnable");
-            this.u_mistDensity = GetUniform("mistDensity");
-            this.u_mistGradient = GetUniform("mistGradient");
-            this.u_mistColour = GetUniform("mistColour");
-
-            for (Int32 i = 0; i < EngineStatics.MAX_LIGHT_COUNT; i++)
+            try
             {
-                u_lightPosition[i] = GetUniform("lightPosition[" + i + "]");
-                u_attenuation[i] = GetUniform("attenuation[" + i + "]");
-                u_specularColour[i] = GetUniform("specularColour[" + i + "]");
-                u_enableLight[i] = GetUniform("enableLight[" + i + "]");
+                u_bEnableSun = GetUniform("bEnableSun");
+                u_modelMatrix = GetUniform("modelMatrix");
+                u_viewMatrix = GetUniform("viewMatrix");
+                u_projectionMatrix = GetUniform("projectionMatrix");
+                u_reflectionTexture = GetUniform("reflectionTexture");
+                u_refractionTexture = GetUniform("refractionTexture");
+                u_cameraPosition = GetUniform("cameraPosition");
+                u_dudvTexture = GetUniform("dudvTexture");
+                u_normalMap = GetUniform("normalMap");
+                u_depthTexture = GetUniform("depthTexture");
+                u_moveFactor = GetUniform("moveFactor");
+                u_sunPos = GetUniform("sunPos");
+                u_sunSpecularColour = GetUniform("sunSpecularColour");
+                u_waveStrength = GetUniform("waveStrength");
+                u_farClipPlane = GetUniform("farClipPlane");
+                u_nearClipPlane = GetUniform("nearClipPlane");
+                u_transparencyDepth = GetUniform("transparencyDepth");
+
+                u_mistEnable = GetUniform("mistEnable");
+                u_mistDensity = GetUniform("mistDensity");
+                u_mistGradient = GetUniform("mistGradient");
+                u_mistColour = GetUniform("mistColour");
+
+                for (Int32 i = 0; i < EngineStatics.MAX_LIGHT_COUNT; i++)
+                {
+                    u_lightPosition[i] = GetUniform("lightPosition[" + i + "]");
+                    u_attenuation[i] = GetUniform("attenuation[" + i + "]");
+                    u_specularColour[i] = GetUniform("specularColour[" + i + "]");
+                    u_enableLight[i] = GetUniform("enableLight[" + i + "]");
+                }
+            }
+            catch (ArgumentNullException innerException)
+            {
+                Debug.Log.AddToFileStreamLog(innerException.Message);
+                Debug.Log.AddToConsoleStreamLog(innerException.Message);
             }
         }
 

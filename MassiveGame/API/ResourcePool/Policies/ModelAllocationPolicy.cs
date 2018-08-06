@@ -30,13 +30,16 @@ namespace MassiveGame.API.ResourcePool.Policies
                 var vertices = meshData.Verts;
                 var normals = meshData.bHasNormals ? meshData.N_Verts : null;
                 var texCoords = meshData.T_Verts;
-                var tangents = meshData.bHasTangentVertices ? meshData.Tangent_Verts : VectorMath.AdditionalVertexInfoCreator.CreateTangentVertices(vertices, texCoords);
-                var bitangents = meshData.bHasTangentVertices ? meshData.Bitanget_Verts : VectorMath.AdditionalVertexInfoCreator.CreateBitangentVertices(vertices, texCoords);
+                var tangents = meshData.bHasTangentVertices ? meshData.Tangent_Verts : meshData.bHasTextureCoordinates ? VectorMath.AdditionalVertexInfoCreator.CreateTangentVertices(vertices, texCoords) : null;
+                var bitangents = meshData.bHasTangentVertices ? meshData.Bitanget_Verts : meshData.bHasTextureCoordinates ? VectorMath.AdditionalVertexInfoCreator.CreateBitangentVertices(vertices, texCoords) : null;
+                var blendWeights = meshData.bHasAnimation ? meshData.BlendWeights : null;
+                var blendIndices = meshData.bHasAnimation ? meshData.BlendIndices : null;
 
                 UInt32[] indices = meshData.bHasIndices ? meshData.Indices.ToArray() : null;
 
                 IndexBufferObject ibo = null;
-                VertexBufferObjectTwoDimension<float> normalsVBO = null, texCoordsVBO = null, tangentsVBO = null, bitangentsVBO = null;
+                VertexBufferObjectTwoDimension<float> normalsVBO = null, texCoordsVBO = null, tangentsVBO = null, bitangentsVBO = null, blendWeightsVBO = null;
+                VertexBufferObjectTwoDimension<Int32> blendIndicesVBO = null;
 
                 if (meshData.bHasIndices)
                     ibo = new IndexBufferObject(indices);
@@ -51,8 +54,18 @@ namespace MassiveGame.API.ResourcePool.Policies
                     tangentsVBO = new VertexBufferObjectTwoDimension<float>(tangents, BufferTarget.ArrayBuffer, 4, 3, VertexBufferObjectBase.DataCarryFlag.Invalidate);
                 if (meshData.bHasNormals)
                     bitangentsVBO = new VertexBufferObjectTwoDimension<float>(bitangents, BufferTarget.ArrayBuffer, 5, 3, VertexBufferObjectBase.DataCarryFlag.Invalidate);
+                if (meshData.bHasAnimation)
+                {
+                    Int32 skeletonWeightsPerVertexCount = (Int32)loader.m_skeletonType;
+                    if (skeletonWeightsPerVertexCount > 4)
+                        throw new NotImplementedException("There is no implementation for cases when there are more than four weights influencing on vertex.");
 
-                vao.AddVBO(vertexVBO, normalsVBO, texCoordsVBO, tangentsVBO, bitangentsVBO);
+                    Int32 vectorSize = skeletonWeightsPerVertexCount;
+                    blendWeightsVBO = new VertexBufferObjectTwoDimension<float>(blendWeights, BufferTarget.ArrayBuffer, 6, vectorSize, VertexBufferObjectBase.DataCarryFlag.Invalidate);
+                    blendIndicesVBO = new VertexBufferObjectTwoDimension<int>(blendIndices, BufferTarget.ArrayBuffer, 7, vectorSize, VertexBufferObjectBase.DataCarryFlag.Invalidate);
+                }
+
+                vao.AddVBO(vertexVBO, normalsVBO, texCoordsVBO, tangentsVBO, bitangentsVBO, blendWeightsVBO, blendIndicesVBO);
                 vao.AddIndexBuffer(ibo);
                 vao.BindBuffersToVao();
 

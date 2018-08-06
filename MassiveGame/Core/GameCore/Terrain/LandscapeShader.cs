@@ -38,42 +38,50 @@ namespace MassiveGame.Core.GameCore.Terrain
 
         protected override void getAllUniformLocations()
         {
-            u_backTexture = GetUniform("backgroundTexture");
-            u_rTexture = GetUniform("rTexture");
-            u_gTexture = GetUniform("gTexture");
-            u_bTexture = GetUniform("bTexture");
-            u_blendMap = GetUniform("blendMap");
-            u_materialAmbient = GetUniform("materialAmbient");
-            u_materialDiffuse = GetUniform("materialDiffuse");
-            u_modelMatrix = GetUniform("ModelMatrix");
-            u_viewMatrix = GetUniform("ViewMatrix");
-            u_projectionMatrix = GetUniform("ProjectionMatrix");
-            u_sunDirection = GetUniform("sunDirection");
-            u_sunAmbientColour = GetUniform("sunAmbientColour");
-            u_sunDiffuseColour = GetUniform("sunDiffuseColour");
-            u_sunEnable = GetUniform("sunEnable");
-            for (Int32 i = 0; i <  EngineStatics.MAX_LIGHT_COUNT; i++)
+            try
             {
-                u_lightPosition[i] = GetUniform("lightPosition[" + i + "]");
-                u_attenuation[i] = GetUniform("attenuation[" + i + "]");
-                u_diffuseColour[i] = GetUniform("diffuseColour[" + i + "]");
-                u_enableLight[i] = GetUniform("enableLight[" + i + "]");
+                u_backTexture = GetUniform("backgroundTexture");
+                u_rTexture = GetUniform("rTexture");
+                u_gTexture = GetUniform("gTexture");
+                u_bTexture = GetUniform("bTexture");
+                u_blendMap = GetUniform("blendMap");
+                u_materialAmbient = GetUniform("materialAmbient");
+                u_materialDiffuse = GetUniform("materialDiffuse");
+                u_modelMatrix = GetUniform("ModelMatrix");
+                u_viewMatrix = GetUniform("ViewMatrix");
+                u_projectionMatrix = GetUniform("ProjectionMatrix");
+                u_sunDirection = GetUniform("sunDirection");
+                u_sunAmbientColour = GetUniform("sunAmbientColour");
+                u_sunDiffuseColour = GetUniform("sunDiffuseColour");
+                u_sunEnable = GetUniform("sunEnable");
+                for (Int32 i = 0; i < EngineStatics.MAX_LIGHT_COUNT; i++)
+                {
+                    u_lightPosition[i] = GetUniform("lightPosition[" + i + "]");
+                    u_attenuation[i] = GetUniform("attenuation[" + i + "]");
+                    u_diffuseColour[i] = GetUniform("diffuseColour[" + i + "]");
+                    u_enableLight[i] = GetUniform("enableLight[" + i + "]");
+                }
+                u_clipPlane = GetUniform("clipPlane");
+                u_enableNMr = GetUniform("enableNMr");
+                u_enableNMg = GetUniform("enableNMg");
+                u_enableNMb = GetUniform("enableNMb");
+                u_enableNMblack = GetUniform("enableNMblack");
+                u_normalMapR = GetUniform("normalMapR");
+                u_normalMapG = GetUniform("normalMapG");
+                u_normalMapB = GetUniform("normalMapB");
+                u_normalMapBlack = GetUniform("normalMapBlack");
+                u_mistEnable = GetUniform("mistEnable");
+                u_mistDensity = GetUniform("mistDensity");
+                u_mistGradient = GetUniform("mistGradient");
+                u_mistColour = GetUniform("mistColour");
+                u_directionalLightShadowMap = GetUniform("dirLightShadowMap");
+                u_directionalLightShadowMatrix = GetUniform("dirLightShadowMatrix");
             }
-            u_clipPlane = GetUniform("clipPlane");
-            u_enableNMr = GetUniform("enableNMr");
-            u_enableNMg = GetUniform("enableNMg");
-            u_enableNMb = GetUniform("enableNMb");
-            u_enableNMblack = GetUniform("enableNMblack");
-            u_normalMapR = GetUniform("normalMapR");
-            u_normalMapG = GetUniform("normalMapG");
-            u_normalMapB = GetUniform("normalMapB");
-            u_normalMapBlack = GetUniform("normalMapBlack");
-            u_mistEnable = GetUniform("mistEnable");
-            u_mistDensity = GetUniform("mistDensity");
-            u_mistGradient = GetUniform("mistGradient");
-            u_mistColour = GetUniform("mistColour");
-            u_directionalLightShadowMap = GetUniform("dirLightShadowMap");
-            u_directionalLightShadowMatrix = GetUniform("dirLightShadowMatrix");
+            catch (ArgumentNullException innerException)
+            {
+                Debug.Log.AddToFileStreamLog(innerException.Message);
+                Debug.Log.AddToConsoleStreamLog(innerException.Message);
+            }
         }
 
         #endregion
@@ -200,7 +208,6 @@ namespace MassiveGame.Core.GameCore.Terrain
         }
 
         #endregion
-
 
         protected override void SetShaderMacros()
         {

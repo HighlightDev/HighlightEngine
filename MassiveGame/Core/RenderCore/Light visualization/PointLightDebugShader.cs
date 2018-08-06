@@ -28,10 +28,18 @@ namespace MassiveGame.Core.RenderCore.Light_visualization
 
         protected override void getAllUniformLocations()
         {
-            u_modelMatrix = GetUniform("modelMatrix");
-            u_viewMatrix = GetUniform("viewMatrix");
-            u_projectionMatrix = GetUniform("projectionMatrix");
-            u_lampTexture = GetUniform("lampTexture");
+            try
+            {
+                u_modelMatrix = GetUniform("modelMatrix");
+                u_viewMatrix = GetUniform("viewMatrix");
+                u_projectionMatrix = GetUniform("projectionMatrix");
+                u_lampTexture = GetUniform("lampTexture");
+            }
+            catch (ArgumentNullException innerException)
+            {
+                Debug.Log.AddToFileStreamLog(innerException.Message);
+                Debug.Log.AddToConsoleStreamLog(innerException.Message);
+            }
         }
 
         #endregion

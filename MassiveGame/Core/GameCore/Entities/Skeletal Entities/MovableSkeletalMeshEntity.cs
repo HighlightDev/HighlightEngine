@@ -57,15 +57,18 @@ namespace MassiveGame.Core.GameCore.Entities.Skeletal_Entities
             }
         }
 
-        public override void RenderEntity(PrimitiveType mode, bool bEnableNormalMapping, DirectionalLight Sun, List<PointLight> lights, BaseCamera camera, ref Matrix4 ProjectionMatrix, Vector4 clipPlane = default(Vector4))
+        public override void RenderEntity(PrimitiveType mode, bool bEnableNormalMapping, DirectionalLight Sun, List<PointLight> lights, BaseCamera camera, ref Matrix4 projectionMatrix, Vector4 clipPlane = default(Vector4))
         {
-            // say hello to my little friend!
-
             var worldMatrix = GetWorldMatrix();
             var viewMatrix = camera.GetViewMatrix();
-            
-            // send to shader
-            // render 
+
+            GetShader().startProgram();
+            m_texture.BindTexture(TextureUnit.Texture0);
+            GetShader().SetAlbedoTexture(0);
+            GetShader().SetTransformationMatrices(ref worldMatrix, ref viewMatrix, ref projectionMatrix);
+            GetShader().SetSkinningMatrices(GetSkin().GetRootBone().GetAlignedWithIdListOfOffsetMatrices().ToArray());
+            GetSkin().Buffer.RenderVAO(PrimitiveType.Triangles);
+            GetShader().stopProgram();
         }
     }
 }

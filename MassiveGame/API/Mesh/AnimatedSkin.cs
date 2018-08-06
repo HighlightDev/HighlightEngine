@@ -13,6 +13,11 @@ namespace MassiveGame.API.Mesh
             m_rootBone = rootBone;
         }
 
+        public Bone GetRootBone()
+        {
+            return m_rootBone;
+        }
+
         public override void CleanUp()
         {
             base.CleanUp();

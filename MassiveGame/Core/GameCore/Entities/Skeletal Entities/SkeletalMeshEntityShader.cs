@@ -9,9 +9,10 @@ namespace MassiveGame.Core.GameCore.Entities.Skeletal_Entities
     {
         private const string ShaderName = "SkeletalMesh Shader";
         private const Int32 MaxWeigths = 3;
+        private const Int32 MaxBones = 40;
 
         private Uniform u_worldMatrix, u_viewMatrix, u_projectionMatrix, u_albedoTexture;
-        private Uniform[] u_bonesMatrices = new Uniform[MaxWeigths];
+        private Uniform[] u_bonesMatrices = new Uniform[MaxBones];
 
         public SkeletalMeshEntityShader() : base() { }
 
@@ -19,12 +20,20 @@ namespace MassiveGame.Core.GameCore.Entities.Skeletal_Entities
 
         protected override void getAllUniformLocations()
         {
-            u_worldMatrix = GetUniform("worldMatrix");
-            u_viewMatrix = GetUniform("viewMatrix");
-            u_projectionMatrix = GetUniform("projectionMatrix");
-            u_albedoTexture = GetUniform("albedoTexture");
-            //for (Int32 i = 0; i < MaxWeigths; i++)
-            //    u_bonesMatrices[i] = GetUniform("bonesMatrices[" + i + "]");
+            try
+            {
+                u_worldMatrix = GetUniform("worldMatrix");
+                u_viewMatrix = GetUniform("viewMatrix");
+                u_projectionMatrix = GetUniform("projectionMatrix");
+                u_albedoTexture = GetUniform("albedoTexture");
+                for (Int32 i = 0; i < MaxBones; i++)
+                    u_bonesMatrices[i] = GetUniform("bonesMatrices[" + i + "]");
+            }
+            catch (ArgumentNullException innerException)
+            {
+                Debug.Log.AddToFileStreamLog(innerException.Message);
+                Debug.Log.AddToConsoleStreamLog(innerException.Message);
+            }
         }
 
         public void SetTransformationMatrices(ref Matrix4 modelMatrix, ref Matrix4 viewMatrix, ref Matrix4 projectionMatrix)
@@ -36,7 +45,7 @@ namespace MassiveGame.Core.GameCore.Entities.Skeletal_Entities
 
         public void SetSkinningMatrices(Matrix4[] matrices)
         {
-            for (Int32 i = 0; i < MaxWeigths; i++)
+            for (Int32 i = 0; i < matrices.Length; i++)
             {
                 u_bonesMatrices[i].LoadUniform(ref matrices[i]);
             }
@@ -50,6 +59,7 @@ namespace MassiveGame.Core.GameCore.Entities.Skeletal_Entities
         protected override void SetShaderMacros()
         {
             SetDefine<Int32>(ShaderTypeFlag.VertexShader, "MaxWeigths", MaxWeigths);
+            SetDefine<Int32>(ShaderTypeFlag.VertexShader, "MaxBones", MaxBones);
         }
     }
 }

@@ -12,7 +12,7 @@ namespace ShaderPattern
         {
             uniformLocation = GL.GetUniformLocation(program, uniformName);
             if (uniformLocation < 0)
-                throw new ArgumentNullException("Could not bind this uniform name with shader uniform.");
+                throw new ArgumentNullException(String.Format("Could not bind uniform {0}.", uniformName));
         }
 
         public void LoadUniform(bool arg)

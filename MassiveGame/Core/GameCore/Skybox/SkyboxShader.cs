@@ -23,16 +23,24 @@ namespace MassiveGame.Core.GameCore.Skybox
 
         protected override void getAllUniformLocations()
         {
-            u_modelMatrix = GetUniform("modelMatrix");
-            u_viewMatrix = GetUniform("ViewMatrix");
-            u_projectionMatrix = GetUniform("ProjectionMatrix");
-            u_skyboxDayTexture = GetUniform("skyboxSampler");
-            u_skyboxNightTexture = GetUniform("skyboxSampler2");
-            u_sunPosition = GetUniform("sunPosition");
-            u_sunEnable = GetUniform("sunEnable");
-            u_mistEnable = GetUniform("mistEnable");
-            u_mistColour = GetUniform("mistColour");
-            u_clipPlane = GetUniform("clipPlane");
+            try
+            {
+                u_modelMatrix = GetUniform("modelMatrix");
+                u_viewMatrix = GetUniform("ViewMatrix");
+                u_projectionMatrix = GetUniform("ProjectionMatrix");
+                u_skyboxDayTexture = GetUniform("skyboxSampler");
+                u_skyboxNightTexture = GetUniform("skyboxSampler2");
+                u_sunPosition = GetUniform("sunPosition");
+                u_sunEnable = GetUniform("sunEnable");
+                u_mistEnable = GetUniform("mistEnable");
+                u_mistColour = GetUniform("mistColour");
+                u_clipPlane = GetUniform("clipPlane");
+            }
+            catch (ArgumentNullException innerException)
+            {
+                Debug.Log.AddToFileStreamLog(innerException.Message);
+                Debug.Log.AddToConsoleStreamLog(innerException.Message);
+            }
         }
 
         #endregion

@@ -18,9 +18,17 @@ namespace MassiveGame.Core.RenderCore
 
         protected override void getAllUniformLocations()
         {
-            u_projectionMatrix = GetUniform("projectionMatrix");
-            u_viewMatrix = GetUniform("viewMatrix");
-            u_worldMatrix = GetUniform("worldMatrix");
+            try
+            {
+                u_projectionMatrix = GetUniform("projectionMatrix");
+                u_viewMatrix = GetUniform("viewMatrix");
+                u_worldMatrix = GetUniform("worldMatrix");
+            }
+            catch (ArgumentNullException innerException)
+            {
+                Debug.Log.AddToFileStreamLog(innerException.Message);
+                Debug.Log.AddToConsoleStreamLog(innerException.Message);
+            }
         }
 
         public void SetUniformVariables(ref Matrix4 projectionMatrix, Matrix4 viewMatrix, ref Matrix4 worldMatrix)

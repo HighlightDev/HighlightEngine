@@ -291,7 +291,7 @@ namespace MassiveGame.Core.GameCore.Terrain
             }
             catch (ArgumentException ef)
             {
-                Debug.Log.addToLog("Terrain height map file load error : " + ef.Message);
+                Debug.Log.AddToFileStreamLog("Terrain height map file load error : " + ef.Message);
                 System.Environment.Exit(0);
             }
             LandscapeBuilder.loadHeightMap(map, this);
