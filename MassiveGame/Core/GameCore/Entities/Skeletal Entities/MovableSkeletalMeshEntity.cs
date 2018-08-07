@@ -66,7 +66,7 @@ namespace MassiveGame.Core.GameCore.Entities.Skeletal_Entities
             m_texture.BindTexture(TextureUnit.Texture0);
             GetShader().SetAlbedoTexture(0);
             GetShader().SetTransformationMatrices(ref worldMatrix, ref viewMatrix, ref projectionMatrix);
-            GetShader().SetSkinningMatrices(GetSkin().GetRootBone().GetAlignedWithIdListOfOffsetMatrices().ToArray());
+            GetShader().SetSkinningMatrices(GetSkin().GetRootBone().GetAlignedWithIdListOffsetMatrices().ToArray());
             GetSkin().Buffer.RenderVAO(PrimitiveType.Triangles);
             GetShader().stopProgram();
         }

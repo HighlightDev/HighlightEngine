@@ -17,50 +17,74 @@ namespace ShaderPattern
 
         public void LoadUniform(bool arg)
         {
+            if (uniformLocation == -1)
+                return;
             GL.Uniform1(uniformLocation, arg ? 1.0f : 0.0f);
         }
         public void LoadUniform(float arg)
         {
+            if (uniformLocation == -1)
+                return;
             GL.Uniform1(uniformLocation, arg);
         }
         public void LoadUniform(Int32 arg)
         {
+            if (uniformLocation == -1)
+                return;
             GL.Uniform1(uniformLocation, arg);
         }
         public void LoadUniform(ref Vector2 arg)
         {
+            if (uniformLocation == -1)
+                return;
             GL.Uniform2(uniformLocation, arg);
         }
         public void LoadUniform(Vector2 arg)
         {
+            if (uniformLocation == -1)
+                return;
             GL.Uniform2(uniformLocation, arg);
         }
         public void LoadUniform(ref Vector3 arg)
         {
+            if (uniformLocation == -1)
+                return;
             GL.Uniform3(uniformLocation, arg);
         }
         public void LoadUniform(Vector3 arg)
         {
+            if (uniformLocation == -1)
+                return;
             GL.Uniform3(uniformLocation, arg);
         }
         public void LoadUniform(ref Vector4 arg)
         {
+            if (uniformLocation == -1)
+                return;
             GL.Uniform4(uniformLocation, arg);
         }
         public void LoadUniform(Vector4 arg)
         {
+            if (uniformLocation == -1)
+                return;
             GL.Uniform4(uniformLocation, arg);
         }
         public void LoadUniform(ref Matrix2 arg)
         {
+            if (uniformLocation == -1)
+                return;
             GL.UniformMatrix2(uniformLocation, false, ref arg);
         }
         public void LoadUniform(ref Matrix3 arg)
         {
+            if (uniformLocation == -1)
+                return;
             GL.UniformMatrix3(uniformLocation, false, ref arg);
         }
         public void LoadUniform(ref Matrix4 arg)
         {
+            if (uniformLocation == -1)
+                return;
             GL.UniformMatrix4(uniformLocation, false, ref arg);
         }
     }

@@ -17,6 +17,8 @@ uniform mat4 bonesMatrices[MaxBones];
 
 out vec2 texCoords;
 
+out vec3 colorWeights;
+
 void main()
 {
     highp float;
@@ -29,7 +31,9 @@ void main()
     for (int i = 0; i < MaxWeigths; i++)
     {
         int blendIndex = blendIndices[i];
-        localSpaceSkinnedVertex += (bonesMatrices[blendIndex] * localSpaceVertex) * blendWeights[i];
+        float blendWeight = blendWeights[i];
+
+        localSpaceSkinnedVertex += ((bonesMatrices[blendIndex]  * localSpaceVertex) * blendWeight);
     }
 
     vec4 worldSkinnedVertex = worldMatrix * localSpaceSkinnedVertex;

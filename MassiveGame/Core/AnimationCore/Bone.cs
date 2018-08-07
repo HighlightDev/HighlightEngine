@@ -102,7 +102,7 @@ namespace MassiveGame.Core.AnimationCore
             }
         }
 
-        public List<Matrix4> GetAlignedWithIdListOfOffsetMatrices()
+        public List<Matrix4> GetAlignedWithIdListOffsetMatrices()
         {
             Bone rootBone = null;
             if (!IsRootBone())
@@ -111,18 +111,20 @@ namespace MassiveGame.Core.AnimationCore
                 rootBone = this;
 
             List<Matrix4> collectionOfOffsetMatrices = new List<Matrix4>();
-            CollectOffsetMatricesRecursive(ref collectionOfOffsetMatrices, rootBone);
+            CollectOffsetMatricesRecursive(Matrix4.CreateRotationX(MathHelper.DegreesToRadians(270)), ref collectionOfOffsetMatrices, rootBone);
             return collectionOfOffsetMatrices;
         }
 
-        private void CollectOffsetMatricesRecursive(ref List<Matrix4> collectionOfOffsetMatrices, Bone parentBone)
+        private void CollectOffsetMatricesRecursive(Matrix4 toParentSpaceMatrix, ref List<Matrix4> collectionOfOffsetMatrices, Bone parentBone)
         {
             if (parentBone != null)
             {
-                collectionOfOffsetMatrices.Add(parentBone.localSpaceBoneTransformation.GetLocalOffsetMatrix());
+                Matrix4 ToLocalBoneSpace = parentBone.localSpaceBoneTransformation.GetLocalOffsetMatrix() * toParentSpaceMatrix;
+
+                collectionOfOffsetMatrices.Add(ToLocalBoneSpace);
                 foreach (var childBone in parentBone.m_children)
                 {
-                    CollectOffsetMatricesRecursive(ref collectionOfOffsetMatrices, childBone);
+                    CollectOffsetMatricesRecursive(ToLocalBoneSpace, ref collectionOfOffsetMatrices, childBone);
                 }
             }
         }

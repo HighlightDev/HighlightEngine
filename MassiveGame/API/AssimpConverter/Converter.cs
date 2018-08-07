@@ -20,10 +20,10 @@ namespace MassiveGame.API.AssimpConverter
         private static Matrix4 ConvertAssimpMatrix4x4ToOpenTKMatrix4(Assimp.Matrix4x4 srcMatrix)
         {
             Matrix4 dstMatrix = new Matrix4(
-                srcMatrix.A1, srcMatrix.A2, srcMatrix.A3, srcMatrix.A4,
-                srcMatrix.B1, srcMatrix.B2, srcMatrix.B3, srcMatrix.B4,
-                srcMatrix.C1, srcMatrix.C2, srcMatrix.C3, srcMatrix.C4,
-                srcMatrix.D1, srcMatrix.D2, srcMatrix.D3, srcMatrix.D4);
+                srcMatrix.A1, srcMatrix.B1, srcMatrix.C1, srcMatrix.D1,
+                srcMatrix.A2, srcMatrix.B2, srcMatrix.C2, srcMatrix.D2,
+                srcMatrix.A3, srcMatrix.B3, srcMatrix.C3, srcMatrix.D3,
+                srcMatrix.A4, srcMatrix.B4, srcMatrix.C4, srcMatrix.D4);
 
             return dstMatrix;
         }
