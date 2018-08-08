@@ -15,6 +15,11 @@ namespace MassiveGame.Core.AnimationCore
             m_sequenceDurationInSec = sequenceDurationInSec;
         }
 
+        public string GetName()
+        {
+            return m_name;
+        }
+
         public List<BoneFrames> GetAnimationFrames()
         {
             return m_frames;

@@ -252,11 +252,6 @@ namespace ShaderPattern
 
         #region Getters
 
-        protected Int32 getUniformLocation(string uniformName)
-        {
-            return GL.GetUniformLocation(m_shaderProgramID, uniformName);
-        }
-
         protected Int32 getSubroutineIndex(ShaderType type, string indexName)
         {
             return GL.GetSubroutineIndex(this.m_shaderProgramID, type, indexName);
@@ -412,7 +407,7 @@ namespace ShaderPattern
 
         protected abstract void SetShaderMacros();
 
-        public virtual void PrecompileEdit()
+        public void PrecompileEdit()
         {
             AddPrecompiledEditToShader();
             m_defineParameters.Clear();

@@ -10,6 +10,9 @@ using MassiveGame.API.ResourcePool;
 using MassiveGame.API.ResourcePool.Policies;
 using MassiveGame.API.ResourcePool.PoolHandling;
 using MassiveGame.Settings;
+using MassiveGame.Core.RenderCore;
+using ShaderPattern;
+using VBO;
 
 namespace MassiveGame.Core.GameCore.Entities.Skeletal_Entities
 {
@@ -17,11 +20,68 @@ namespace MassiveGame.Core.GameCore.Entities.Skeletal_Entities
     {
         private List<AnimationSequence> m_animations;
 
+        class TestAnimationNodeShader : ShaderBase
+        {
+            private Uniform u_worldMatrix, u_viewMatrix, u_projectionMatrix;
+            private Uniform[] u_skeletonMatrices;
+
+            public TestAnimationNodeShader() : base() { }
+
+            public TestAnimationNodeShader(string vsPath, string fsPath, string gsPath) : base("Test Skeleton Node Shader", vsPath, fsPath, gsPath) { }
+
+            protected override void getAllUniformLocations()
+            {
+                try
+                {
+                    u_worldMatrix = GetUniform("worldMatrix");
+                    u_viewMatrix = GetUniform("viewMatrix");
+                    u_projectionMatrix = GetUniform("projectionMatrix");
+                    u_skeletonMatrices = new Uniform[16];
+                    for (Int32 i = 0; i < u_skeletonMatrices.Length; i++)
+                    {
+                        u_skeletonMatrices[i] = GetUniform(String.Format("skeletonMatrices[{0}]", i));
+                    }
+                }
+                catch (ArgumentNullException ex)
+                {
+
+                }
+            }
+
+            protected override void SetShaderMacros() { }
+
+            public void SetTransformationMatrices(ref Matrix4 worldMatrix, ref Matrix4 viewMatrix, ref Matrix4 projectionMatrix)
+            {
+                u_worldMatrix.LoadUniform(ref worldMatrix);
+                u_viewMatrix.LoadUniform(ref viewMatrix);
+                u_projectionMatrix.LoadUniform(ref projectionMatrix);
+            }
+
+            public void SetSkeletonMatrices(Matrix4[] skeletonMatrices)
+            {
+                for (Int32 i = 0; i < skeletonMatrices.Length; ++i)
+                {
+                    u_skeletonMatrices[i].LoadUniform(ref skeletonMatrices[i]);
+                }
+            }
+        }
+
+        private VertexArrayObject m_skeletonVAO;
+
+        private TestAnimationNodeShader m_skeletonShader;
+
         public MovableSkeletalMeshEntity(string modelPath, string texturePath, string normalMapPath, string specularMapPath, float Speed, Vector3 translation, Vector3 rotation, Vector3 scale) :
           base(modelPath, texturePath, normalMapPath, specularMapPath, translation, rotation, scale)
         {
             m_animations = PoolProxy.GetResource<ObtainAnimationPool, AnimationAllocationPolicy, string, List<AnimationSequence>>(modelPath);
-            GetSkin();
+
+            m_skeletonShader = PoolProxy.GetResource<ObtainShaderPool, ShaderAllocationPolicy<TestAnimationNodeShader>, string, TestAnimationNodeShader>
+                (String.Format("{0}{1},{0}{2},{0}{3}", ProjectFolders.ShadersPath, "skeletonVS.glsl", "skeletonFS.glsl", "skeletonGS.glsl"));
+
+            m_skeletonVAO = new VertexArrayObject();
+            VertexBufferObjectTwoDimension<float> verticesVBO = new VertexBufferObjectTwoDimension<float>(new float[1, 3] { { 0, 0, 0 } }, BufferTarget.ArrayBuffer, 0, 3, VertexBufferObjectBase.DataCarryFlag.Invalidate);
+            m_skeletonVAO.AddVBO(verticesVBO);
+            m_skeletonVAO.BindBuffersToVao();
         }
 
         private SkeletalMeshEntityShader GetShader()
@@ -62,13 +122,20 @@ namespace MassiveGame.Core.GameCore.Entities.Skeletal_Entities
             var worldMatrix = GetWorldMatrix();
             var viewMatrix = camera.GetViewMatrix();
 
-            GetShader().startProgram();
-            m_texture.BindTexture(TextureUnit.Texture0);
-            GetShader().SetAlbedoTexture(0);
-            GetShader().SetTransformationMatrices(ref worldMatrix, ref viewMatrix, ref projectionMatrix);
-            GetShader().SetSkinningMatrices(GetSkin().GetRootBone().GetAlignedWithIdListOffsetMatrices().ToArray());
-            GetSkin().Buffer.RenderVAO(PrimitiveType.Triangles);
-            GetShader().stopProgram();
+            //GetShader().startProgram();
+            //m_texture.BindTexture(TextureUnit.Texture0);
+            //GetShader().SetAlbedoTexture(0);
+            //GetShader().SetTransformationMatrices(ref worldMatrix, ref viewMatrix, ref projectionMatrix);
+            //GetShader().SetSkinningMatrices(GetSkin().GetRootBone().GetAlignedWithIdListOffsetMatrices().ToArray());
+            //GetSkin().Buffer.RenderVAO(PrimitiveType.Triangles);
+            //GetShader().stopProgram();
+
+            m_skeletonShader.startProgram();
+            m_skeletonShader.SetTransformationMatrices(ref worldMatrix, ref viewMatrix, ref projectionMatrix);
+            m_skeletonShader.SetSkeletonMatrices(GetSkin().GetRootBone().GetAlignedWithIdListOffsetMatrices().ToArray());
+            GL.PointSize(5);
+            m_skeletonVAO.RenderVAO(PrimitiveType.Points);
+            m_skeletonShader.stopProgram();
         }
     }
 }

@@ -31,6 +31,9 @@ void main()
     for (int i = 0; i < MaxWeigths; i++)
     {
         int blendIndex = blendIndices[i];
+        if (blendIndex < 0)
+            continue;
+
         float blendWeight = blendWeights[i];
 
         localSpaceSkinnedVertex += ((bonesMatrices[blendIndex]  * localSpaceVertex) * blendWeight);
