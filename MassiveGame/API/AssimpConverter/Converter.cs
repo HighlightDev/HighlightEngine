@@ -45,10 +45,10 @@ namespace MassiveGame.API.AssimpConverter
 
             foreach (var srcAnimation in srcAnimations)
             {
-                List<BoneFrames> dstFrames = new List<BoneFrames>();
+                List<AnimationFrame> dstFrames = new List<AnimationFrame>();
                 foreach (var srcFrameCollection in srcAnimation.FramesBoneCollection)
                 {
-                    var dstFrame = new BoneFrames(srcFrameCollection.BoneName, srcFrameCollection.Frames.Count);
+                    var dstFrame = new AnimationFrame(srcFrameCollection.BoneName, srcFrameCollection.Frames.Count);
                     foreach (var srcFrame in srcFrameCollection.Frames)
                     {
                         var dstRotation = new Quaternion(srcFrame.Rotation.Value.X, srcFrame.Rotation.Value.Y, srcFrame.Rotation.Value.Z, srcFrame.Rotation.Value.W);

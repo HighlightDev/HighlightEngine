@@ -42,7 +42,7 @@ namespace MassiveGame.Core.AnimationCore
             m_localSpaceTranslation = Vector3.Zero;
         }
 
-        public static BoneTransformation Lerp(BoneTransformation lhv, BoneTransformation rhv, float blend)
+        public static BoneTransformation SLerp(BoneTransformation lhv, BoneTransformation rhv, float blend)
         {
             Vector3 lerpPosition = VectorMathOperations.LerpVector(blend, 0, 1, lhv.m_localSpaceTranslation, rhv.m_localSpaceTranslation);
             Vector3 lerpScale = VectorMathOperations.LerpVector(blend, 0, 1, lhv.m_localSpaceScale, rhv.m_localSpaceScale);

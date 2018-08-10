@@ -1,14 +1,15 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace MassiveGame.Core.AnimationCore
 {
     public class AnimationSequence
     {
         private string m_name;
-        private List<BoneFrames> m_frames;
+        private List<AnimationFrame> m_frames;
         private double m_sequenceDurationInSec;
 
-        public AnimationSequence(string animationName, List<BoneFrames> frames, double sequenceDurationInSec)
+        public AnimationSequence(string animationName, List<AnimationFrame> frames, double sequenceDurationInSec)
         {
             m_frames = frames;
             m_name = animationName;
@@ -20,7 +21,25 @@ namespace MassiveGame.Core.AnimationCore
             return m_name;
         }
 
-        public List<BoneFrames> GetAnimationFrames()
+        public Tuple<List<Tuple<double, BoneTransformation>>, List<Tuple<double, BoneTransformation>>> GetNextAndPrevFrames(double animationLoopTime)
+        {
+            Tuple<List<Tuple<double, BoneTransformation>>, List<Tuple<double, BoneTransformation>>> result = null;
+            var nextFrames = new List<Tuple<double, BoneTransformation>>();
+            var prevFrames = new List<Tuple<double, BoneTransformation>>();
+            foreach (var animationFrame in m_frames)
+            {
+                Tuple<double, double> interval_max_min = animationFrame.GetIntervalsOnTimeBoundaries(animationLoopTime);
+                var nextFrame = animationFrame.GetFrameByTime(interval_max_min.Item1);
+                var prevFrame = animationFrame.GetFrameByTime(interval_max_min.Item2);
+                nextFrames.Add(nextFrame);
+                prevFrames.Add(prevFrame);
+            }
+
+            result = new Tuple<List<Tuple<double, BoneTransformation>>, List<Tuple<double, BoneTransformation>>>(nextFrames, prevFrames);
+            return result;
+        }
+        
+        public List<AnimationFrame> GetAnimationFrames()
         {
             return m_frames;
         }
@@ -35,17 +54,17 @@ namespace MassiveGame.Core.AnimationCore
             m_sequenceDurationInSec = sequenceDurationInSec;
         }
 
-        public void SetAnimationFrames(List<BoneFrames> frames)
+        public void SetAnimationFrames(List<AnimationFrame> frames)
         {
             m_frames = frames;
         }
 
-        public void AddAnimationFrame(BoneFrames frame)
+        public void AddAnimationFrame(AnimationFrame frame)
         {
             m_frames.Add(frame);
         }
 
-        public void AddAnimationFrames(params BoneFrames[] frames)
+        public void AddAnimationFrames(params AnimationFrame[] frames)
         {
             m_frames.AddRange(frames);
         }

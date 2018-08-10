@@ -19,6 +19,7 @@ namespace MassiveGame.Core.GameCore.Entities.Skeletal_Entities
     public class MovableSkeletalMeshEntity : MovableEntity
     {
         private List<AnimationSequence> m_animations;
+        private AnimationHolder m_animationHolder;
 
         class TestAnimationNodeShader : ShaderBase
         {
@@ -74,6 +75,8 @@ namespace MassiveGame.Core.GameCore.Entities.Skeletal_Entities
           base(modelPath, texturePath, normalMapPath, specularMapPath, translation, rotation, scale)
         {
             m_animations = PoolProxy.GetResource<ObtainAnimationPool, AnimationAllocationPolicy, string, List<AnimationSequence>>(modelPath);
+            m_animationHolder = new AnimationHolder(m_animations);
+            m_animationHolder.SetAnimationByNameNoBlend(m_animations[0].GetName());
 
             m_skeletonShader = PoolProxy.GetResource<ObtainShaderPool, ShaderAllocationPolicy<TestAnimationNodeShader>, string, TestAnimationNodeShader>
                 (String.Format("{0}{1},{0}{2},{0}{3}", ProjectFolders.ShadersPath, "skeletonVS.glsl", "skeletonFS.glsl", "skeletonGS.glsl"));
@@ -121,6 +124,11 @@ namespace MassiveGame.Core.GameCore.Entities.Skeletal_Entities
         {
             var worldMatrix = GetWorldMatrix();
             var viewMatrix = camera.GetViewMatrix();
+            
+            List<BoneTransformation> relevantBoneTransformations = m_animationHolder.GetAnimationSkinningTransformations();
+            bool bResult = GetSkin().GetRootBone().SetSkeletonUpdatedTransforms(relevantBoneTransformations);
+            if (!bResult)
+                throw new ArgumentOutOfRangeException("Too much matrices for bones");
 
             //GetShader().startProgram();
             //m_texture.BindTexture(TextureUnit.Texture0);
@@ -133,9 +141,11 @@ namespace MassiveGame.Core.GameCore.Entities.Skeletal_Entities
             m_skeletonShader.startProgram();
             m_skeletonShader.SetTransformationMatrices(ref worldMatrix, ref viewMatrix, ref projectionMatrix);
             m_skeletonShader.SetSkeletonMatrices(GetSkin().GetRootBone().GetAlignedWithIdListOffsetMatrices().ToArray());
-            GL.PointSize(5);
+            GL.PointSize(10);
             m_skeletonVAO.RenderVAO(PrimitiveType.Points);
             m_skeletonShader.stopProgram();
+
+            m_animationHolder.UpdateAnimationLoopTime(0.005f);
         }
     }
 }

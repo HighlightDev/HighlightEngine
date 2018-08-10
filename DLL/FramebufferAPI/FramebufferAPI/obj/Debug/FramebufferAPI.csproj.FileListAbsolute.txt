@@ -42,3 +42,4 @@ D:\HighlightEngine\HighlightEngine\DLL\FramebufferAPI\FramebufferAPI\bin\Debug\T
 D:\HighlightEngine\HighlightEngine\DLL\FramebufferAPI\FramebufferAPI\obj\Debug\FramebufferAPI.csprojAssemblyReference.cache
 C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\DLL\FramebufferAPI\FramebufferAPI\obj\Debug\FramebufferAPI.csproj.CoreCompileInputs.cache
 C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\DLL\FramebufferAPI\FramebufferAPI\obj\Debug\FramebufferAPI.csproj.CopyComplete
+C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\DLL\FramebufferAPI\FramebufferAPI\obj\Debug\FramebufferAPI.csprojAssemblyReference.cache

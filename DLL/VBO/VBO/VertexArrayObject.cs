@@ -46,7 +46,7 @@ namespace VBO
             }
             else
             {
-                GL.DrawArrays(privitiveMode, 0, m_vboList.First<VertexBufferObjectBase>().GetBufferVerticesCount());
+                GL.DrawArrays(privitiveMode, 0, m_vboList.First().GetBufferVerticesCount());
             }
             GL.BindVertexArray(0);
         }

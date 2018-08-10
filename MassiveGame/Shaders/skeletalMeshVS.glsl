@@ -1,6 +1,7 @@
 #version 400
 
-#define MaxWeigths 3 
+#define MaxWeigths 3                         
+#define MaxWeights 3 
 #define MaxBones 40
 layout(location = 0) in vec3 vertex;
 layout(location = 1) in vec3 normal;
@@ -16,8 +17,6 @@ uniform mat4 projectionMatrix;
 uniform mat4 bonesMatrices[MaxBones];
 
 out vec2 texCoords;
-
-out vec3 colorWeights;
 
 void main()
 {

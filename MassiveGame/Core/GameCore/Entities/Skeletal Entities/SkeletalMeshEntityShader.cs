@@ -8,7 +8,7 @@ namespace MassiveGame.Core.GameCore.Entities.Skeletal_Entities
     public class SkeletalMeshEntityShader : ShaderBase
     {
         private const string ShaderName = "SkeletalMesh Shader";
-        private const Int32 MaxWeigths = 3;
+        private const Int32 MaxWeights = 3;
         private const Int32 MaxBones = 40;
 
         private Uniform u_worldMatrix, u_viewMatrix, u_projectionMatrix, u_albedoTexture;
@@ -36,9 +36,9 @@ namespace MassiveGame.Core.GameCore.Entities.Skeletal_Entities
             }
         }
 
-        public void SetTransformationMatrices(ref Matrix4 modelMatrix, ref Matrix4 viewMatrix, ref Matrix4 projectionMatrix)
+        public void SetTransformationMatrices(ref Matrix4 worldMatrix, ref Matrix4 viewMatrix, ref Matrix4 projectionMatrix)
         {
-            u_worldMatrix.LoadUniform(ref modelMatrix);
+            u_worldMatrix.LoadUniform(ref worldMatrix);
             u_viewMatrix.LoadUniform(ref viewMatrix);
             u_projectionMatrix.LoadUniform(ref projectionMatrix);
         }
@@ -58,7 +58,7 @@ namespace MassiveGame.Core.GameCore.Entities.Skeletal_Entities
 
         protected override void SetShaderMacros()
         {
-            SetDefine<Int32>(ShaderTypeFlag.VertexShader, "MaxWeigths", MaxWeigths);
+            SetDefine<Int32>(ShaderTypeFlag.VertexShader, "MaxWeights", MaxWeights);
             SetDefine<Int32>(ShaderTypeFlag.VertexShader, "MaxBones", MaxBones);
         }
     }
