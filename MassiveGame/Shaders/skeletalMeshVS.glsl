@@ -1,6 +1,6 @@
 #version 400
 
-#define MaxWeigths 3                         
+#define MaxWeigths 3                                              
 #define MaxWeights 3 
 #define MaxBones 40
 layout(location = 0) in vec3 vertex;
@@ -20,8 +20,6 @@ out vec2 texCoords;
 
 void main()
 {
-    highp float;
-
     texCoords = uv;
 
     vec4 localSpaceSkinnedVertex = vec4(0);

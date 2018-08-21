@@ -43,3 +43,9 @@ D:\HighlightEngine\HighlightEngine\DLL\FramebufferAPI\FramebufferAPI\obj\Debug\F
 C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\DLL\FramebufferAPI\FramebufferAPI\obj\Debug\FramebufferAPI.csproj.CoreCompileInputs.cache
 C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\DLL\FramebufferAPI\FramebufferAPI\obj\Debug\FramebufferAPI.csproj.CopyComplete
 C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\DLL\FramebufferAPI\FramebufferAPI\obj\Debug\FramebufferAPI.csprojAssemblyReference.cache
+D:\VisualStudioProjects\HighlightEngine\DLL\FramebufferAPI\FramebufferAPI\bin\Debug\FramebufferAPI.dll
+D:\VisualStudioProjects\HighlightEngine\DLL\FramebufferAPI\FramebufferAPI\bin\Debug\FramebufferAPI.pdb
+D:\VisualStudioProjects\HighlightEngine\DLL\FramebufferAPI\FramebufferAPI\obj\Debug\FramebufferAPI.csproj.CoreCompileInputs.cache
+D:\VisualStudioProjects\HighlightEngine\DLL\FramebufferAPI\FramebufferAPI\obj\Debug\FramebufferAPI.csproj.CopyComplete
+D:\VisualStudioProjects\HighlightEngine\DLL\FramebufferAPI\FramebufferAPI\obj\Debug\FramebufferAPI.dll
+D:\VisualStudioProjects\HighlightEngine\DLL\FramebufferAPI\FramebufferAPI\obj\Debug\FramebufferAPI.pdb

@@ -90,3 +90,10 @@ C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\CollisionEd
 C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\CollisionEditor\OTKWinForm\obj\Debug\CollisionEditor.csprojAssemblyReference.cache
 C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\CollisionEditor\OTKWinForm\obj\Debug\CollisionEditor.csproj.CoreCompileInputs.cache
 C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\CollisionEditor\OTKWinForm\obj\Debug\CollisionEditor.csproj.CopyComplete
+D:\VisualStudioProjects\HighlightEngine\CollisionEditor\OTKWinForm\obj\Debug\CollisionEditor.csprojAssemblyReference.cache
+D:\VisualStudioProjects\HighlightEngine\CollisionEditor\OTKWinForm\obj\Debug\OTKWinForm.OTKWinForm.resources
+D:\VisualStudioProjects\HighlightEngine\CollisionEditor\OTKWinForm\obj\Debug\OTKWinForm.Properties.Resources.resources
+D:\VisualStudioProjects\HighlightEngine\CollisionEditor\OTKWinForm\obj\Debug\CollisionEditor.csproj.GenerateResource.cache
+D:\VisualStudioProjects\HighlightEngine\CollisionEditor\OTKWinForm\obj\Debug\CollisionEditor.csproj.CoreCompileInputs.cache
+D:\VisualStudioProjects\HighlightEngine\CollisionEditor\OTKWinForm\obj\Debug\OTKWinForm.exe
+D:\VisualStudioProjects\HighlightEngine\CollisionEditor\OTKWinForm\obj\Debug\OTKWinForm.pdb

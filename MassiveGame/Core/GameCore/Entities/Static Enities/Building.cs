@@ -16,8 +16,6 @@ namespace MassiveGame.Core.GameCore.Entities.StaticEntities
     {
         private SpecialStaticEntityShader m_specialShader;
 
-        private ITexture m_glowingMap;
-
         private Material m_material;
 
         private WaterReflectionEntityShader m_liteReflectionShader;
@@ -150,7 +148,7 @@ namespace MassiveGame.Core.GameCore.Entities.StaticEntities
             if (m_specularMap != null)
                 m_specularMap.BindTexture(TextureUnit.Texture2);  //Bind specular map
 
-            m_liteRefractionShader.SetTexture(0);
+            m_liteRefractionShader.SetAlbedoTexture(0);
             m_liteRefractionShader.SetNormalMap(1);
             m_liteRefractionShader.SetSpecularMap(2);
             m_liteRefractionShader.SetMaterial(m_material);
@@ -165,12 +163,6 @@ namespace MassiveGame.Core.GameCore.Entities.StaticEntities
         #endregion
 
         #region Renderer
-
-        private void SafeBindGlowingMap(TextureUnit activeTexture)
-        {
-            if (!Object.Equals(m_glowingMap, null))
-                m_glowingMap.BindTexture(activeTexture); // Bind glowing map
-        }
 
         public override void renderObject(PrimitiveType mode, bool enableNormalMapping, DirectionalLight Sun,
            List<PointLight> lights, BaseCamera camera, ref Matrix4 ProjectionMatrix, Vector4 clipPlane = new Vector4())
@@ -187,8 +179,6 @@ namespace MassiveGame.Core.GameCore.Entities.StaticEntities
             GetShader().startProgram();
             m_texture.BindTexture(TextureUnit.Texture0);  //Bind texture
 
-            SafeBindGlowingMap(TextureUnit.Texture3);
-
             if (enableNormalMapping && m_normalMap != null)
                 m_normalMap.BindTexture(TextureUnit.Texture1);  //Bind normal map
 
@@ -198,7 +188,6 @@ namespace MassiveGame.Core.GameCore.Entities.StaticEntities
             GetShader().SetDiffuseMap(0);
             GetShader().SetNormalMap(1, enableNormalMapping);
             GetShader().SetSpecularMap(2);
-            GetShader().SetGlowingMap(3);
             GetShader().SetMaterial(m_material);
             GetShader().SetTransformationMatrices(ref modelMatrix, camera.GetViewMatrix(), ref ProjectionMatrix);
             GetShader().SetPointLights(GetRelevantPointLights(lights));
@@ -230,24 +219,11 @@ namespace MassiveGame.Core.GameCore.Entities.StaticEntities
 
         #endregion
 
-        #region Seter
-
-        public void setGlowingMap(string glowingMapPath)
-        {
-            m_glowingMap = PoolProxy.GetResource<ObtainTexturePool, TextureAllocationPolicy, string, ITexture>(glowingMapPath);
-        }
-
-        #endregion
-
         #region Cleaning
 
         public override void CleanUp()
         {
             base.CleanUp();
-            if (m_glowingMap != null)
-            {
-                PoolProxy.FreeResourceMemory<ObtainTexturePool, TextureAllocationPolicy, string, ITexture>(m_glowingMap);
-            }
         }
 
         #endregion

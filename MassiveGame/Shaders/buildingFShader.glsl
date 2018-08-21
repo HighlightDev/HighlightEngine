@@ -10,7 +10,6 @@ layout (location = 0) out vec4 FragColor;
 uniform sampler2D entitieTexture;
 uniform sampler2D normalMap;
 uniform sampler2D specularMap;
-uniform sampler2D glowingMap;
 uniform sampler2D dirLightShadowMap;
 
 uniform vec3 materialAmbient;
@@ -129,8 +128,6 @@ void main()
     {
     	vec3 normSunDirection = normalize(SunDirection);
         normSunDirection = -normSunDirection;
-    	// check if glowing is enabled
-    	bool isGlowing = texture(glowingMap, pass_textureCoordinates).r > 0.5 ? true : false;
 
     	vec3 MaterialSpecular = materialSpecular;
 
@@ -142,8 +139,9 @@ void main()
     		DiffuseNormal = normalize(normalMapUnit.rgb);
     		SpecularNormal = normalize(normalMapUnit.rgb);
 
-    		MaterialSpecular = (texture2D(specularMap, pass_textureCoordinates)).rgb;
-    	} else
+    		MaterialSpecular = texture(specularMap, pass_textureCoordinates).rgb;
+    	}
+		else
     	{
     		DiffuseNormal = normalize(surfaceDiffuseNormal);
     		SpecularNormal = normalize(surfaceSpecularNormal);
@@ -173,11 +171,6 @@ void main()
         }
 
     	vec3 totalLight = totalDirectLight + MultiLightColour;
-    	/*if (isGlowing)
-    	{
-    		totalLight = vec3(1.0);
-    	}
-        */
 
     	vec4 textureColour = texture2D(entitieTexture, pass_textureCoordinates);
     	resultColour = textureColour * vec4(totalLight, 1.0);

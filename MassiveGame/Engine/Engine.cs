@@ -199,7 +199,7 @@ namespace MassiveGame.UI
             normalMapPath = ProjectFolders.NormalMapsPath + "brick_nm_high.png";
             specularMapPath = ProjectFolders.SpecularMapsPath + "brick_sm.png";
 
-            MovableEntityArguments arg = new MovableEntityArguments(modelPath, texturePath, normalMapPath, specularMapPath, new Vector3(175, 1200, 170), new Vector3(0, 0, 0), new Vector3(5f));
+            MovableEntityArguments arg = new MovableEntityArguments(modelPath, texturePath, normalMapPath, specularMapPath, new Vector3(175, 1200, 170), new Vector3(270, 0, 0), new Vector3(5f));
 
             EngineStatics.skeletalMesh = new MovableSkeletalMeshEntity(modelPath, texturePath, normalMapPath, specularMapPath, 0.5f, new Vector3(175, 60, 170), default(Vector3), new Vector3(5));
 

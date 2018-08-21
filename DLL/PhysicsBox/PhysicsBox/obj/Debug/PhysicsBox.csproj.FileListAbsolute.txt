@@ -52,3 +52,14 @@ D:\HighlightEngine\HighlightEngine\DLL\PhysicsBox\PhysicsBox\obj\Debug\PhysicsBo
 C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\DLL\PhysicsBox\PhysicsBox\obj\Debug\PhysicsBox.csproj.CoreCompileInputs.cache
 C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\DLL\PhysicsBox\PhysicsBox\obj\Debug\PhysicsBox.csproj.CopyComplete
 C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\DLL\PhysicsBox\PhysicsBox\obj\Debug\PhysicsBox.csprojAssemblyReference.cache
+D:\VisualStudioProjects\HighlightEngine\DLL\PhysicsBox\PhysicsBox\bin\Debug\PhysicsBox.dll
+D:\VisualStudioProjects\HighlightEngine\DLL\PhysicsBox\PhysicsBox\bin\Debug\PhysicsBox.pdb
+D:\VisualStudioProjects\HighlightEngine\DLL\PhysicsBox\PhysicsBox\bin\Debug\OpenTK.dll
+D:\VisualStudioProjects\HighlightEngine\DLL\PhysicsBox\PhysicsBox\bin\Debug\VectorMath.dll
+D:\VisualStudioProjects\HighlightEngine\DLL\PhysicsBox\PhysicsBox\bin\Debug\OpenTK.pdb
+D:\VisualStudioProjects\HighlightEngine\DLL\PhysicsBox\PhysicsBox\bin\Debug\OpenTK.xml
+D:\VisualStudioProjects\HighlightEngine\DLL\PhysicsBox\PhysicsBox\bin\Debug\VectorMath.pdb
+D:\VisualStudioProjects\HighlightEngine\DLL\PhysicsBox\PhysicsBox\obj\Debug\PhysicsBox.csproj.CoreCompileInputs.cache
+D:\VisualStudioProjects\HighlightEngine\DLL\PhysicsBox\PhysicsBox\obj\Debug\PhysicsBox.csproj.CopyComplete
+D:\VisualStudioProjects\HighlightEngine\DLL\PhysicsBox\PhysicsBox\obj\Debug\PhysicsBox.dll
+D:\VisualStudioProjects\HighlightEngine\DLL\PhysicsBox\PhysicsBox\obj\Debug\PhysicsBox.pdb

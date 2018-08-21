@@ -45,3 +45,11 @@ D:\HighlightEngine\HighlightEngine\DLL\VBO\VBO\obj\Debug\VBO.csprojAssemblyRefer
 C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\DLL\VBO\VBO\obj\Debug\VBO.csproj.CoreCompileInputs.cache
 C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\DLL\VBO\VBO\obj\Debug\VBO.csproj.CopyComplete
 C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\DLL\VBO\VBO\obj\Debug\VBO.csprojAssemblyReference.cache
+D:\VisualStudioProjects\HighlightEngine\DLL\VBO\VBO\bin\Debug\VBO.dll
+D:\VisualStudioProjects\HighlightEngine\DLL\VBO\VBO\bin\Debug\VBO.pdb
+D:\VisualStudioProjects\HighlightEngine\DLL\VBO\VBO\bin\Debug\VectorMath.dll
+D:\VisualStudioProjects\HighlightEngine\DLL\VBO\VBO\bin\Debug\VectorMath.pdb
+D:\VisualStudioProjects\HighlightEngine\DLL\VBO\VBO\obj\Debug\VBO.csproj.CoreCompileInputs.cache
+D:\VisualStudioProjects\HighlightEngine\DLL\VBO\VBO\obj\Debug\VBO.csproj.CopyComplete
+D:\VisualStudioProjects\HighlightEngine\DLL\VBO\VBO\obj\Debug\VBO.dll
+D:\VisualStudioProjects\HighlightEngine\DLL\VBO\VBO\obj\Debug\VBO.pdb

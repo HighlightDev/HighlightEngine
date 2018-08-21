@@ -35,6 +35,10 @@ namespace MassiveGame.Core.ComponentCore
 
         public override void RenderBound(ref Matrix4 projectionMatrix, ref Matrix4 viewMatrix, Color4 color)
         {
+            if (bPostConstructor)
+                return;
+
+
             Matrix4 worldMatrix = Matrix4.Identity;
             if ((Bound.GetBoundType() & BoundBase.BoundType.AABB) == BoundBase.BoundType.AABB)
                 worldMatrix = (Bound as AABB).ScalePlusTranslation;

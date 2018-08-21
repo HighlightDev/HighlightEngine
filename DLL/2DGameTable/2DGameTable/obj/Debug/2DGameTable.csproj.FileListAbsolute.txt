@@ -37,3 +37,9 @@ D:\HighlightEngine\HighlightEngine\DLL\2DGameTable\2DGameTable\obj\Debug\2DGameT
 C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\DLL\2DGameTable\2DGameTable\obj\Debug\2DGameTable.csproj.CoreCompileInputs.cache
 C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\DLL\2DGameTable\2DGameTable\obj\Debug\2DGameTable.csproj.CopyComplete
 C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\DLL\2DGameTable\2DGameTable\obj\Debug\2DGameTable.csprojAssemblyReference.cache
+D:\VisualStudioProjects\HighlightEngine\DLL\2DGameTable\2DGameTable\bin\Debug\2DGameTable.dll
+D:\VisualStudioProjects\HighlightEngine\DLL\2DGameTable\2DGameTable\bin\Debug\2DGameTable.pdb
+D:\VisualStudioProjects\HighlightEngine\DLL\2DGameTable\2DGameTable\obj\Debug\2DGameTable.csproj.CoreCompileInputs.cache
+D:\VisualStudioProjects\HighlightEngine\DLL\2DGameTable\2DGameTable\obj\Debug\2DGameTable.csproj.CopyComplete
+D:\VisualStudioProjects\HighlightEngine\DLL\2DGameTable\2DGameTable\obj\Debug\2DGameTable.dll
+D:\VisualStudioProjects\HighlightEngine\DLL\2DGameTable\2DGameTable\obj\Debug\2DGameTable.pdb

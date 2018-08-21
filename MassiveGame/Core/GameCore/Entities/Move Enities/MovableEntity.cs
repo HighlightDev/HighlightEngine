@@ -159,7 +159,7 @@ namespace MassiveGame.Core.GameCore.Entities.MoveEntities
             m_texture.BindTexture(TextureUnit.Texture0);
             m_normalMap?.BindTexture(TextureUnit.Texture1); 
 
-            m_liteRefractionShader.SetTexture(0);
+            m_liteRefractionShader.SetAlbedoTexture(0);
             m_liteRefractionShader.SetNormalMap(1);
             m_liteRefractionShader.SetMaterial(m_material);
             m_liteRefractionShader.SetTransformationMatrices(ref modelMatrix, camera.GetViewMatrix(), ref ProjectionMatrix);

@@ -94,7 +94,7 @@ namespace MassiveGame.Core.GameCore.Water
         {
             try
             {
-                u_texture = GetUniform("texture");
+                u_texture = GetUniform("albedo");
                 u_normalMap = GetUniform("normalMap");
                 u_materialAmbient = GetUniform("matAmbient");
                 u_materialDiffuse = GetUniform("matDiffuse");

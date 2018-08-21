@@ -2,7 +2,7 @@
 
 layout (location = 0) out vec4 FragColor;
 
-uniform sampler2D texture;
+uniform sampler2D albedo;
 uniform sampler2D normalMap;
 uniform sampler2D specularMap;
 
@@ -46,7 +46,7 @@ vec3 phongModelDirectLight(vec3 diffuseNormal, vec3 specularNormal, vec3 toLight
 
 void main()
 {
-    vec4 textureColour = texture2D(texture, pass_textureCoordinates);    
+    vec4 textureColour = texture2D(albedo, pass_textureCoordinates);    
 
     vec3 DiffuseNormal = vec3(0);
 	vec3 SpecularNormal = vec3(0);

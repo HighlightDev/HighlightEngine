@@ -19,3 +19,10 @@ D:\HighlightEngine\HighlightEngine\DLL\VectorMath\VectorMath\obj\Debug\VectorMat
 C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\DLL\VectorMath\VectorMath\obj\Debug\VectorMath.csprojAssemblyReference.cache
 C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\DLL\VectorMath\VectorMath\obj\Debug\VectorMath.csproj.CoreCompileInputs.cache
 C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\DLL\VectorMath\VectorMath\obj\Debug\VectorMath.csproj.CopyComplete
+D:\VisualStudioProjects\HighlightEngine\DLL\VectorMath\VectorMath\bin\Debug\VectorMath.dll
+D:\VisualStudioProjects\HighlightEngine\DLL\VectorMath\VectorMath\bin\Debug\VectorMath.pdb
+D:\VisualStudioProjects\HighlightEngine\DLL\VectorMath\VectorMath\obj\Debug\VectorMath.csprojAssemblyReference.cache
+D:\VisualStudioProjects\HighlightEngine\DLL\VectorMath\VectorMath\obj\Debug\VectorMath.csproj.CoreCompileInputs.cache
+D:\VisualStudioProjects\HighlightEngine\DLL\VectorMath\VectorMath\obj\Debug\VectorMath.csproj.CopyComplete
+D:\VisualStudioProjects\HighlightEngine\DLL\VectorMath\VectorMath\obj\Debug\VectorMath.dll
+D:\VisualStudioProjects\HighlightEngine\DLL\VectorMath\VectorMath\obj\Debug\VectorMath.pdb

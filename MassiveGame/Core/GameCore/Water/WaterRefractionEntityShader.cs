@@ -17,7 +17,7 @@ namespace MassiveGame.Core.GameCore.Water
         {
         }
 
-        private Uniform u_texture,
+        private Uniform u_albedo,
             u_normalMap,
             u_materialAmbient,
             u_materialDiffuse,
@@ -36,9 +36,9 @@ namespace MassiveGame.Core.GameCore.Water
             u_specularMap,
             u_bSpecularMapEnable;
 
-        public void SetTexture(Int32 textureSampler)
+        public void SetAlbedoTexture(Int32 textureSampler)
         {
-            u_texture.LoadUniform(textureSampler);
+            u_albedo.LoadUniform(textureSampler);
         }
 
         public void SetNormalMap(Int32 normalMapSampler)
@@ -94,7 +94,7 @@ namespace MassiveGame.Core.GameCore.Water
         {
             try
             {
-                u_texture = GetUniform("texture");
+                u_albedo = GetUniform("albedo");
                 u_normalMap = GetUniform("normalMap");
                 u_materialAmbient = GetUniform("matAmbient");
                 u_materialDiffuse = GetUniform("matDiffuse");

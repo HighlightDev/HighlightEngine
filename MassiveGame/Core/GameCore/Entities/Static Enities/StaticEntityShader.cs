@@ -36,8 +36,7 @@ namespace MassiveGame.Core.GameCore.Entities.StaticEntities
             u_mistGradient,
             u_mistColour,
             u_directionalLightShadowMap,
-            u_directionalLightShadowMatrix,
-            u_glowingMap;
+            u_directionalLightShadowMatrix;
 
         private Uniform[] u_lightPosition = new Uniform[EngineStatics.MAX_LIGHT_COUNT],
         u_attenuation = new Uniform[EngineStatics.MAX_LIGHT_COUNT],
@@ -84,7 +83,6 @@ namespace MassiveGame.Core.GameCore.Entities.StaticEntities
                 u_clipPlane = GetUniform("clipPlane");
                 u_directionalLightShadowMap = GetUniform("dirLightShadowMap");
                 u_directionalLightShadowMatrix = GetUniform("dirLightShadowMatrix");
-                u_glowingMap = GetUniform("glowingMap");
                 u_entitySpecularMap = GetUniform("specularMap");
             }
             catch (ArgumentNullException innerException)
@@ -101,11 +99,6 @@ namespace MassiveGame.Core.GameCore.Entities.StaticEntities
         public void SetDiffuseMap(Int32 diffuseMapSampler)
         {
             u_entityTexture.LoadUniform(diffuseMapSampler);
-        }
-
-        public void SetGlowingMap(Int32 glowingMapSampler)
-        {
-           u_glowingMap.LoadUniform(glowingMapSampler);
         }
 
         public void SetNormalMap(Int32 normalMapSampler, bool bEnableNormalMap)
