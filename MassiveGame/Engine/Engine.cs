@@ -194,7 +194,7 @@ namespace MassiveGame.UI
 
             //PlantModels.LoadCollada();
 
-            modelPath = ProjectFolders.ModelsPath + "model.dae";
+            modelPath = ProjectFolders.ModelsPath + "simple_animation.dae";
             texturePath = ProjectFolders.MultitexturesPath + "diffuse.png";
             normalMapPath = ProjectFolders.NormalMapsPath + "brick_nm_high.png";
             specularMapPath = ProjectFolders.SpecularMapsPath + "brick_sm.png";

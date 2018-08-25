@@ -46,7 +46,7 @@ namespace MassiveGame.Core.AnimationCore
             if (time <= 0.000005)
                 return new Tuple<double, double>(timeIntervals[1], timeIntervals[0]);
 
-            double next = 0, prev = 0;
+            double next = 0, prev = timeIntervals[0];
             for (Int32 i = 0; i < timeIntervals.Length; i++)
             {
                 double reverseTimeInterval = timeIntervals[timeIntervals.Length - i - 1];

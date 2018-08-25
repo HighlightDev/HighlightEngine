@@ -130,20 +130,20 @@ namespace MassiveGame.Core.GameCore.Entities.Skeletal_Entities
             if (!bResult)
                 throw new ArgumentOutOfRangeException("Too much matrices for bones");
 
-            //GetShader().startProgram();
-            //m_texture.BindTexture(TextureUnit.Texture0);
-            //GetShader().SetAlbedoTexture(0);
-            //GetShader().SetTransformationMatrices(ref worldMatrix, ref viewMatrix, ref projectionMatrix);
-            //GetShader().SetSkinningMatrices(GetSkin().GetRootBone().GetAlignedWithIdListOffsetMatrices().ToArray());
-            //GetSkin().Buffer.RenderVAO(PrimitiveType.Triangles);
-            //GetShader().stopProgram();
+            GetShader().startProgram();
+            m_texture.BindTexture(TextureUnit.Texture0);
+            GetShader().SetAlbedoTexture(0);
+            GetShader().SetTransformationMatrices(ref worldMatrix, ref viewMatrix, ref projectionMatrix);
+            GetShader().SetSkinningMatrices(GetSkin().GetRootBone().GetAlignedWithIdListOffsetMatrices().ToArray());
+            GetSkin().Buffer.RenderVAO(PrimitiveType.Triangles);
+            GetShader().stopProgram();
 
-            m_skeletonShader.startProgram();
-            m_skeletonShader.SetTransformationMatrices(ref worldMatrix, ref viewMatrix, ref projectionMatrix);
-            m_skeletonShader.SetSkeletonMatrices(GetSkin().GetRootBone().GetAlignedWithIdListOffsetMatrices().ToArray());
-            GL.PointSize(10);
-            m_skeletonVAO.RenderVAO(PrimitiveType.Points);
-            m_skeletonShader.stopProgram();
+            //m_skeletonShader.startProgram();
+            //m_skeletonShader.SetTransformationMatrices(ref worldMatrix, ref viewMatrix, ref projectionMatrix);
+            //m_skeletonShader.SetSkeletonMatrices(GetSkin().GetRootBone().GetAlignedWithIdListOffsetMatrices().ToArray());
+            //GL.PointSize(10);
+            //m_skeletonVAO.RenderVAO(PrimitiveType.Points);
+            //m_skeletonShader.stopProgram();
 
             m_animationHolder.UpdateAnimationLoopTime(0.005f);
         }

@@ -138,7 +138,7 @@ namespace MassiveGame.Core.AnimationCore
             Bone rootBone = GetRootBone();
 
             List<Matrix4> collectionOfOffsetMatrices = new List<Matrix4>();
-            CollectOffsetMatricesRecursive(Matrix4.CreateRotationX(MathHelper.DegreesToRadians(270)), ref collectionOfOffsetMatrices, rootBone);
+            CollectOffsetMatricesRecursive(Matrix4.CreateRotationX(MathHelper.DegreesToRadians(180)), ref collectionOfOffsetMatrices, rootBone);
             return collectionOfOffsetMatrices;
         }
 

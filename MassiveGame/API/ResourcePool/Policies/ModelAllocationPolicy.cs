@@ -48,11 +48,11 @@ namespace MassiveGame.API.ResourcePool.Policies
 
                 if (meshData.bHasNormals)
                     normalsVBO = new VertexBufferObjectTwoDimension<float>(normals, BufferTarget.ArrayBuffer, 1, 3, VertexBufferObjectBase.DataCarryFlag.Invalidate);
-                if (meshData.bHasNormals)
+                if (meshData.bHasTextureCoordinates)
                     texCoordsVBO = new VertexBufferObjectTwoDimension<float>(texCoords, BufferTarget.ArrayBuffer, 2, 2, VertexBufferObjectBase.DataCarryFlag.Invalidate);
-                if (meshData.bHasNormals)
+                if (meshData.bHasTangentVertices)
                     tangentsVBO = new VertexBufferObjectTwoDimension<float>(tangents, BufferTarget.ArrayBuffer, 4, 3, VertexBufferObjectBase.DataCarryFlag.Invalidate);
-                if (meshData.bHasNormals)
+                if (meshData.bHasTangentVertices)
                     bitangentsVBO = new VertexBufferObjectTwoDimension<float>(bitangents, BufferTarget.ArrayBuffer, 5, 3, VertexBufferObjectBase.DataCarryFlag.Invalidate);
                 if (meshData.bHasAnimation)
                 {
