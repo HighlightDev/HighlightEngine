@@ -6,7 +6,7 @@ layout (points, max_vertices = 3) out;
 uniform mat4 worldMatrix;
 uniform mat4 viewMatrix;
 uniform mat4 projectionMatrix;
-uniform mat4 skeletonMatrices[3];
+uniform mat4 skeletonMatrices[40];
 
 out vec4 color;
 

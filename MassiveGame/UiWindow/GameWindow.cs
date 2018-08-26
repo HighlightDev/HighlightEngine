@@ -37,7 +37,7 @@ using MassiveGame.Core.GameCore.Entities.Skeletal_Entities;
 
 namespace MassiveGame.UI
 {
-    public partial class Engine : Form
+    public partial class GameWindow : Form
     {
         private Stopwatch renderTickTime;
         private RenderThread renderThread;
@@ -49,14 +49,14 @@ namespace MassiveGame.UI
         private bool bPostConstructor = true;
 
         #region Constructors
-        public Engine()
+        public GameWindow()
         {
             Application.EnableVisualStyles();
             InitializeComponent();
             preConstructor();
         }
 
-        public Engine(Int32 width, Int32 height) 
+        public GameWindow(Int32 width, Int32 height) 
             : this()
         {
             this.Width = width;
@@ -297,7 +297,7 @@ namespace MassiveGame.UI
             //ch.Init();
         }
 
-        #region TEST
+#region TEST
 
         private void convertToSceneComponentRecursive(Component existing, Component duplicate)
         {
@@ -318,9 +318,9 @@ namespace MassiveGame.UI
             return duplicate;
         }
 
-        #endregion
+#endregion
 
-        #region FormLoad & GLControlPaint events
+#region FormLoad & GLControlPaint events
 
         private void OnLoad(object sender, EventArgs e)
         {
@@ -344,7 +344,7 @@ namespace MassiveGame.UI
             bPostConstructor = false;
         }
 
-        #endregion
+#endregion
 
 
         private void defaultMatrixSettings()
@@ -354,7 +354,7 @@ namespace MassiveGame.UI
                 EngineStatics.NEAR_CLIPPING_PLANE, EngineStatics.FAR_CLIPPING_PLANE);
         }
 
-        #region Form Move&Resize events
+#region Form Move&Resize events
 
         private void OnResize(object sender, EventArgs e)
         {
@@ -368,9 +368,9 @@ namespace MassiveGame.UI
             EngineStatics.SCREEN_POSITION_X = this.Left;
             EngineStatics.SCREEN_POSITION_Y = this.Top;
         }
-        #endregion
+#endregion
 
-        #region Mouse events
+#region Mouse events
         private void OnMouseMove(object sender, MouseEventArgs e)
         {
             if (EngineStatics.Camera.SwitchCamera)
@@ -444,9 +444,9 @@ namespace MassiveGame.UI
             }
                 
         }
-        #endregion
+#endregion
 
-        #region Key events
+#region Key events
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData) // arrow keys event
         {
             FirstPersonCamera firstPersonCamera = EngineStatics.Camera as FirstPersonCamera;
@@ -470,7 +470,7 @@ namespace MassiveGame.UI
         {
             switch (e.KeyCode)
             {
-                #region In-game settings
+#region In-game settings
                 case Keys.R:
                     {
 
@@ -516,7 +516,7 @@ namespace MassiveGame.UI
                         }
                         break;
                     }
-                    #endregion
+#endregion
             }
         }
 
@@ -531,9 +531,9 @@ namespace MassiveGame.UI
             EngineStatics.playerController.GetKeyboardHandler().KeyRelease(args.KeyData);
         }
 
-        #endregion
+#endregion
 
-        #region Closing events
+#region Closing events
         private void OnClosing(object sender, FormClosingEventArgs e)
         {
             base.OnClosing(e);
@@ -541,9 +541,9 @@ namespace MassiveGame.UI
             Debug.Log.AddToFileStreamLog(String.Format("\nTime elapsed : {0}", DateTime.Now - EngineStatics.ElapsedTime));
             Environment.Exit(0);
         }
-        #endregion
+#endregion
 
-        #region System functions
+#region System functions
 
         private void AdjustMouseCursor()
         {
@@ -558,9 +558,9 @@ namespace MassiveGame.UI
         }
 
        
-        #endregion
+#endregion
 
-        #region Cleaning
+#region Cleaning
       
         private void cleanEverythingUp()
         {
@@ -575,6 +575,6 @@ namespace MassiveGame.UI
             if (EngineStatics.Skybox != null) EngineStatics.Skybox.cleanUp();
         }
 
-        #endregion
+#endregion
     }
 }

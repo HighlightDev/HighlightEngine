@@ -1,6 +1,6 @@
 ﻿namespace MassiveGame.UI
 {
-    partial class Engine
+    partial class EditorWindow
     {
         /// <summary>
         /// Required designer variable.
@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Engine));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(EditorWindow));
             this.GLControl = new OpenTK.GLControl(new OpenTK.Graphics.GraphicsMode(32, 24, 8));
             this.SuspendLayout();
             // 

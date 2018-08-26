@@ -39,7 +39,7 @@ namespace OTKWinForm.RenderCore
             
         }
 
-        public SkyboxShader(string VertexShaderFile, string FragmentShaderFile) : base(VertexShaderFile, FragmentShaderFile)
+        public SkyboxShader(string VertexShaderFile, string FragmentShaderFile) : base("SkyboxShader", VertexShaderFile, FragmentShaderFile)
         {
             if (m_shaderLoaded)
             {

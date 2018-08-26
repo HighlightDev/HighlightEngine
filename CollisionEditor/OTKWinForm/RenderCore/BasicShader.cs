@@ -44,7 +44,7 @@ namespace OTKWinForm.RenderCore
            
         }
 
-        public BasicShader(string VertexShaderFile, string FragmentShaderFile) : base(VertexShaderFile, FragmentShaderFile)
+        public BasicShader(string VertexShaderFile, string FragmentShaderFile) : base("Basic Shader", VertexShaderFile, FragmentShaderFile)
         {
             if (m_shaderLoaded)
             {

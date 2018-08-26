@@ -74,6 +74,18 @@
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'DesignEditor|x86'">
+    <OutputPath>bin\x86\DesignEditor\</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'DesignEditor|AnyCPU'">
+    <OutputPath>bin\DesignEditor\</OutputPath>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <DefineConstants>TRACE;type DESIGN_EDITOR</DefineConstants>
+    <Prefer32Bit>true</Prefer32Bit>
+    <ErrorReport>prompt</ErrorReport>
+    <DebugType>full</DebugType>
+    <DebugSymbols>true</DebugSymbols>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="AssimpNet, Version=3.2.0.0, Culture=neutral, PublicKeyToken=0d51b391f59f42a6" />
     <Reference Include="OpenTK, Version=1.1.0.0, Culture=neutral, PublicKeyToken=bad199fe84eb3df4, processorArchitecture=MSIL">
@@ -133,6 +145,7 @@
     <Compile Include="Core\GameCore\Entities\Skeletal Entities\SkeletalMeshEntityShader.cs" />
     <Compile Include="Core\GameCore\PlayerController.cs" />
     <Compile Include="Debug\UiPanel\UiFrameMaster.cs" />
+    <Compile Include="Engine\EngineCore.cs" />
     <Compile Include="Engine\GameThread.cs" />
     <Compile Include="Engine\RenderThread.cs" />
     <Compile Include="Core\PhysicsCore\BodyMechanics.cs" />
@@ -238,11 +251,17 @@
     <Compile Include="Core\GameCore\Terrain\Landscape.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Core\GameCore\Terrain\LandscapeShader.cs" />
-    <Compile Include="Engine\Engine.cs">
+    <Compile Include="UiWindow\EditorWindow.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Engine\Engine.Designer.cs">
-      <DependentUpon>Engine.cs</DependentUpon>
+    <Compile Include="UiWindow\EditorWindow.Designer.cs">
+      <DependentUpon>EditorWindow.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UiWindow\GameWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UiWindow\GameWindow.Designer.cs">
+      <DependentUpon>GameWindow.cs</DependentUpon>
     </Compile>
     <Compile Include="Core\GameCore\Water\WaterFBO.cs" />
     <Compile Include="Core\GameCore\Water\WaterPlane.cs" />
@@ -390,8 +409,11 @@
     <None Include="Textures\SpecularMaps\specular1.dds" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Engine\Engine.resx">
-      <DependentUpon>Engine.cs</DependentUpon>
+    <EmbeddedResource Include="UiWindow\EditorWindow.resx">
+      <DependentUpon>EditorWindow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UiWindow\GameWindow.resx">
+      <DependentUpon>GameWindow.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
