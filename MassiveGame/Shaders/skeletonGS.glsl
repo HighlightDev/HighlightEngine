@@ -1,7 +1,7 @@
 ﻿#version 400
 
 layout (points ) in;
-layout (points, max_vertices = 3) out;
+layout (points, max_vertices = 2) out;
 
 uniform mat4 worldMatrix;
 uniform mat4 viewMatrix;
@@ -14,7 +14,7 @@ void main()
 {
     mat4 worldViewProjectionMatrix = projectionMatrix * viewMatrix * worldMatrix;
 
-   for (int i = 0; i < 3; i++)
+   for (int i = 0; i < 2; i++)
    {
         color = vec4(1, 0, 0, 1);
         switch (i)

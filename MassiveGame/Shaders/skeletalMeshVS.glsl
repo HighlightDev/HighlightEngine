@@ -1,6 +1,6 @@
 #version 400
 
-#define MaxWeigths 3                                                                        
+#define MaxWeigths 3                                                                                                                     
 #define MaxWeights 3 
 #define MaxBones 40
 layout(location = 0) in vec3 vertex;

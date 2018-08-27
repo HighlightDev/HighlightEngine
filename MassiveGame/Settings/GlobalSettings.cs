@@ -4,6 +4,8 @@ namespace MassiveGame.Settings
 {
     public class GlobalSettings
     {
+        public Point ActualScreenRezolution { set; get; }
+
         //Resolution
         public Point DomainFramebufferRezolution { set; get; } = new Point(800, 600);
 

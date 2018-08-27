@@ -11,6 +11,16 @@ namespace MassiveGame.Core.AnimationCore
         private Int32 m_id;
         private string m_name;
 
+        public List<Bone> GetChildren()
+        {
+            return m_children;
+        }
+
+        public Int32 GetId()
+        {
+            return m_id;
+        }
+
         // here are all necessary info regarding bone transformation and it's slerp
         private BoneTransformation localSpaceBoneTransformation;
 
@@ -138,7 +148,7 @@ namespace MassiveGame.Core.AnimationCore
             Bone rootBone = GetRootBone();
 
             List<Matrix4> collectionOfOffsetMatrices = new List<Matrix4>();
-            CollectOffsetMatricesRecursive(Matrix4.CreateRotationX(MathHelper.DegreesToRadians(180)), ref collectionOfOffsetMatrices, rootBone);
+            CollectOffsetMatricesRecursive(Matrix4.Identity, ref collectionOfOffsetMatrices, rootBone);
             return collectionOfOffsetMatrices;
         }
 
@@ -146,8 +156,8 @@ namespace MassiveGame.Core.AnimationCore
         {
             if (parentBone != null)
             {
-               
-                Matrix4 ToLocalBoneSpace = parentBone.localSpaceBoneTransformation.GetLocalOffsetMatrix() * toParentSpaceMatrix;
+
+                Matrix4 ToLocalBoneSpace = parentBone.localSpaceBoneTransformation.GetLocalOffsetMatrix();// * toParentSpaceMatrix;
 
                 collectionOfOffsetMatrices.Add(ToLocalBoneSpace);
                 foreach (var childBone in parentBone.m_children)

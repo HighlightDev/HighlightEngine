@@ -41,7 +41,6 @@
             this.GLControl.Size = new System.Drawing.Size(1350, 729);
             this.GLControl.TabIndex = 0;
             this.GLControl.VSync = false;
-            this.GLControl.Load += new System.EventHandler(this.OnLoad);
             this.GLControl.Paint += new System.Windows.Forms.PaintEventHandler(this.OnRender);
             this.GLControl.KeyDown += new System.Windows.Forms.KeyEventHandler(this.OnKeyDown);
             this.GLControl.MouseDown += new System.Windows.Forms.MouseEventHandler(this.OnMouseDown);

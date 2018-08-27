@@ -120,30 +120,57 @@ namespace MassiveGame.Core.GameCore.Entities.Skeletal_Entities
             }
         }
 
+        // This is just for another one attempt to start animation working and ... now it works!!
+        private void CollectAnimatedMatrices(Bone parentBone, Matrix4 parentMatrix, List<BoneTransformation> srcTransformation, ref List<Matrix4> dstMatrices)
+        {
+            Matrix4 currentBoneMatrix = srcTransformation[parentBone.GetId()].GetLocalOffsetMatrix() * parentMatrix;
+            dstMatrices.Add(currentBoneMatrix);
+            foreach (var bone in parentBone.GetChildren())
+            {
+                CollectAnimatedMatrices(bone, currentBoneMatrix, srcTransformation, ref dstMatrices);
+            }
+        }
+
         public override void RenderEntity(PrimitiveType mode, bool bEnableNormalMapping, DirectionalLight Sun, List<PointLight> lights, BaseCamera camera, ref Matrix4 projectionMatrix, Vector4 clipPlane = default(Vector4))
         {
             var worldMatrix = GetWorldMatrix();
             var viewMatrix = camera.GetViewMatrix();
             
             List<BoneTransformation> relevantBoneTransformations = m_animationHolder.GetAnimationSkinningTransformations();
-            bool bResult = GetSkin().GetRootBone().SetSkeletonUpdatedTransforms(relevantBoneTransformations);
-            if (!bResult)
-                throw new ArgumentOutOfRangeException("Too much matrices for bones");
 
-            //GetShader().startProgram();
-            //m_texture.BindTexture(TextureUnit.Texture0);
-            //GetShader().SetAlbedoTexture(0);
-            //GetShader().SetTransformationMatrices(ref worldMatrix, ref viewMatrix, ref projectionMatrix);
-            //GetShader().SetSkinningMatrices(GetSkin().GetRootBone().GetAlignedWithIdListOffsetMatrices().ToArray());
-            //GetSkin().Buffer.RenderVAO(PrimitiveType.Triangles);
-            //GetShader().stopProgram();
+            List<Matrix4> animatedMatrices = new List<Matrix4>();
+            CollectAnimatedMatrices(GetSkin().GetRootBone(), Matrix4.Identity, relevantBoneTransformations, ref animatedMatrices);
 
-            m_skeletonShader.startProgram();
-            m_skeletonShader.SetTransformationMatrices(ref worldMatrix, ref viewMatrix, ref projectionMatrix);
-            m_skeletonShader.SetSkeletonMatrices(GetSkin().GetRootBone().GetAlignedWithIdListOffsetMatrices().ToArray());
-            GL.PointSize(10);
-            m_skeletonVAO.RenderVAO(PrimitiveType.Points);
-            m_skeletonShader.stopProgram();
+            List<Matrix4> offsetBones = GetSkin().GetRootBone().GetAlignedWithIdListOffsetMatrices();
+
+            Matrix4[] skinningMatrices = new Matrix4[animatedMatrices.Count];
+
+            for (Int32 i = 0; i < animatedMatrices.Count; i++)
+            {
+                Matrix4 animatedBoneMatrix = animatedMatrices[i];
+                Matrix4 offsetBoneMatrix = offsetBones[i];
+
+                skinningMatrices[i] = offsetBoneMatrix * animatedBoneMatrix;
+            }
+
+            //bool bResult = GetSkin().GetRootBone().SetSkeletonUpdatedTransforms(relevantBoneTransformations);
+            //if (!bResult)
+            //    throw new ArgumentOutOfRangeException("Too much matrices for bones");
+
+            GetShader().startProgram();
+            m_texture.BindTexture(TextureUnit.Texture0);
+            GetShader().SetAlbedoTexture(0);
+            GetShader().SetTransformationMatrices(ref worldMatrix, ref viewMatrix, ref projectionMatrix);
+            GetShader().SetSkinningMatrices(skinningMatrices);
+            GetSkin().Buffer.RenderVAO(PrimitiveType.Triangles);
+            GetShader().stopProgram();
+
+            //m_skeletonShader.startProgram();
+            //m_skeletonShader.SetTransformationMatrices(ref worldMatrix, ref viewMatrix, ref projectionMatrix);
+            //m_skeletonShader.SetSkeletonMatrices(GetSkin().GetRootBone().GetAlignedWithIdListOffsetMatrices().ToArray());
+            //GL.PointSize(10);
+            //m_skeletonVAO.RenderVAO(PrimitiveType.Points);
+            //m_skeletonShader.stopProgram();
 
             m_animationHolder.UpdateAnimationLoopTime(0.005f);
         }

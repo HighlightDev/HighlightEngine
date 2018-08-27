@@ -1,7 +1,7 @@
 #version 400
 
 #define MAX_LIGHT_COUNT 5 
-#define materialReflectivity 1.1 
+#define materialReflectivity 0.7 
 #define materialShineDamper 100
 
 layout (location = 0) out vec4 FragColor;

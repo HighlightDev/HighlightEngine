@@ -181,8 +181,8 @@ namespace MassiveGame.Core.GameCore.Water
         protected override void SetShaderMacros()
         {
             SetDefine<Int32>(ShaderTypeFlag.VertexShader | ShaderTypeFlag.FragmentShader, "MAX_LIGHT_COUNT", EngineStatics.MAX_LIGHT_COUNT);
-            SetDefine<float>(ShaderTypeFlag.VertexShader, "tiling", 3.0f);
-            SetDefine<float>(ShaderTypeFlag.FragmentShader, "materialReflectivity", 1.1f);
+            SetDefine<float>(ShaderTypeFlag.VertexShader, "tiling", 15.0f);
+            SetDefine<float>(ShaderTypeFlag.FragmentShader, "materialReflectivity", 0.7f);
             SetDefine<float>(ShaderTypeFlag.FragmentShader, "materialShineDamper", 100.0f);
         }
 

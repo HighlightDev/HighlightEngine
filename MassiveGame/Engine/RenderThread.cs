@@ -41,7 +41,7 @@ namespace MassiveGame.Engine
             GL.ClearColor(Color.Black);
         }
 
-        public void ThreadExecution(ref Point actualScreenRezolution, bool bInitialDraw)
+        public void ThreadExecution(Point actualScreenRezolution, bool bInitialDraw)
         {
             VisibilityCheckPass();
             PreDrawClearBuffers();

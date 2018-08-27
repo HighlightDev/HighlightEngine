@@ -44,11 +44,7 @@ C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\MassiveGame
 C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\MassiveGame\bin\Debug\TextureLoader.pdb
 C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\MassiveGame\bin\Debug\VBO.pdb
 C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\MassiveGame\bin\Debug\VectorMath.pdb
-C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\MassiveGame\obj\x86\Debug\HighlightEngine.csprojAssemblyReference.cache
-C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\MassiveGame\obj\x86\Debug\MassiveGame.UI.Engine.resources
 C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\MassiveGame\obj\x86\Debug\HighlightEngine.csproj.GenerateResource.cache
-C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\MassiveGame\obj\x86\Debug\HighlightEngine.csproj.CoreCompileInputs.cache
-C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\MassiveGame\obj\x86\Debug\HighlightEngine.csproj.CopyComplete
 C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\MassiveGame\obj\x86\Debug\MassiveGame.exe
 C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\MassiveGame\obj\x86\Debug\MassiveGame.pdb
 D:\VisualStudioProjects\HighlightEngine\MassiveGame\obj\x86\Debug\HighlightEngine.csprojAssemblyReference.cache
@@ -77,3 +73,6 @@ D:\VisualStudioProjects\HighlightEngine\MassiveGame\bin\Debug\TextureLoader.pdb
 D:\VisualStudioProjects\HighlightEngine\MassiveGame\bin\Debug\VBO.pdb
 D:\VisualStudioProjects\HighlightEngine\MassiveGame\bin\Debug\VectorMath.pdb
 D:\VisualStudioProjects\HighlightEngine\MassiveGame\obj\x86\Debug\HighlightEngine.csproj.CopyComplete
+C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\MassiveGame\obj\x86\Debug\HighlightEngine.csprojResolveAssemblyReference.cache
+C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\MassiveGame\obj\x86\Debug\MassiveGame.UI.EditorWindow.resources
+C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\MassiveGame\obj\x86\Debug\MassiveGame.UI.GameWindow.resources
