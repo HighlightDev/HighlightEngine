@@ -361,10 +361,11 @@ namespace ShaderPattern
             }
 
             string macroResult = String.Empty;
-            macros.ForEach(def =>
+
+            foreach (var def in macros)
             {
                 macroResult += string.Format("#define {0} {1} \n", def.Name, def.Value);
-            });
+            }
 
             Int32 startIndex = code.FindIndex(new Predicate<string>(s => s.StartsWith("#version"))) + 2;
             code.Insert(startIndex, macroResult);

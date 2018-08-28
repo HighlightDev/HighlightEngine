@@ -123,9 +123,9 @@ namespace MassiveGame.Core.GameCore.Entities.Skeletal_Entities
         // This is just for another one attempt to start animation working and ... now it works!!
         private void CollectAnimatedMatrices(Bone parentBone, Matrix4 parentMatrix, List<BoneTransformation> srcTransformation, ref List<Matrix4> dstMatrices)
         {
-            Matrix4 currentBoneMatrix = srcTransformation[parentBone.GetId()].GetLocalOffsetMatrix() * parentMatrix;
+            Matrix4 currentBoneMatrix = srcTransformation[parentBone.GetBoneId()].GetLocalOffsetMatrix() * parentMatrix;
             dstMatrices.Add(currentBoneMatrix);
-            foreach (var bone in parentBone.GetChildren())
+            foreach (var bone in parentBone.GetBoneChildren())
             {
                 CollectAnimatedMatrices(bone, currentBoneMatrix, srcTransformation, ref dstMatrices);
             }
@@ -152,10 +152,6 @@ namespace MassiveGame.Core.GameCore.Entities.Skeletal_Entities
 
                 skinningMatrices[i] = offsetBoneMatrix * animatedBoneMatrix;
             }
-
-            //bool bResult = GetSkin().GetRootBone().SetSkeletonUpdatedTransforms(relevantBoneTransformations);
-            //if (!bResult)
-            //    throw new ArgumentOutOfRangeException("Too much matrices for bones");
 
             GetShader().startProgram();
             m_texture.BindTexture(TextureUnit.Texture0);

@@ -51,3 +51,4 @@ D:\VisualStudioProjects\HighlightEngine\DLL\VBO\VBO\obj\Debug\VBO.csproj.CopyCom
 D:\VisualStudioProjects\HighlightEngine\DLL\VBO\VBO\obj\Debug\VBO.dll
 D:\VisualStudioProjects\HighlightEngine\DLL\VBO\VBO\obj\Debug\VBO.pdb
 D:\VisualStudioProjects\HighlightEngine\DLL\VBO\VBO\obj\Debug\VBO.csprojAssemblyReference.cache
+C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\DLL\VBO\VBO\obj\Debug\VBO.csprojResolveAssemblyReference.cache

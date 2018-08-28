@@ -11,16 +11,6 @@ namespace MassiveGame.Core.AnimationCore
         private Int32 m_id;
         private string m_name;
 
-        public List<Bone> GetChildren()
-        {
-            return m_children;
-        }
-
-        public Int32 GetId()
-        {
-            return m_id;
-        }
-
         // here are all necessary info regarding bone transformation and it's slerp
         private BoneTransformation localSpaceBoneTransformation;
 
@@ -33,6 +23,46 @@ namespace MassiveGame.Core.AnimationCore
             m_id = boneId;
         }
 
+        public Bone GetBoneParent()
+        {
+            return m_parent;
+        }
+
+        public List<Bone> GetBoneChildren()
+        {
+            return m_children;
+        }
+
+        public Int32 GetBoneId()
+        {
+            return m_id;
+        }
+
+        public string GetBoneName()
+        {
+            return m_name;
+        }
+
+        public Matrix4 GetOffsetMatrix()
+        {
+            return localSpaceBoneTransformation.GetLocalOffsetMatrix();
+        }
+
+        public Matrix4 GetInverseOffsetMatrix()
+        {
+            return localSpaceBoneTransformation.GetLocalInverseOffsetMatrix();
+        }
+
+        public Bone GetRootBone()
+        {
+            Bone this_bone = this;
+            while (this_bone.m_parent != null)
+            {
+                this_bone = this_bone.m_parent;
+            }
+            return this_bone;
+        }
+
         public void SetBoneTransformation(BoneTransformation boneTransformation)
         {
             localSpaceBoneTransformation = boneTransformation;
@@ -43,19 +73,9 @@ namespace MassiveGame.Core.AnimationCore
             localSpaceBoneTransformation.SetLocalOffsetMatrix(offsetMatrix);
         }
 
-        public Matrix4 GetOffsetMatrix()
-        {
-            return localSpaceBoneTransformation.GetLocalOffsetMatrix();
-        }
-
         public void SetInverseOffsetMatrix(Matrix4 inverseOffsetMatrix)
         {
             localSpaceBoneTransformation.SetLocalInverseOffsetMatrix(inverseOffsetMatrix);
-        }
-
-        public Matrix4 GetInverseOffsetMatrix()
-        {
-            return localSpaceBoneTransformation.GetLocalInverseOffsetMatrix();
         }
 
         public bool IsRootBone()
@@ -88,42 +108,6 @@ namespace MassiveGame.Core.AnimationCore
             m_children.Clear();
         }
 
-        public Bone GetRootBone()
-        {
-            Bone this_bone = this;
-            while (this_bone.m_parent != null)
-            {
-                this_bone = this_bone.m_parent;
-            }
-            return this_bone;
-        }
-
-        public bool SetSkeletonUpdatedTransforms(List<BoneTransformation> alignedWithIdListOfBoneTransformations)
-        {
-            Bone rootBone = GetRootBone();
-            return SetEachBoneItsMatrix(alignedWithIdListOfBoneTransformations, rootBone);
-        }
-
-        private bool SetEachBoneItsMatrix(List<BoneTransformation> alignedWithIdListOfBoneTransformations, Bone parentBone)
-        {
-            bool bResult = false;
-
-            // make check if matrix with id of current parent bone exists
-            if (alignedWithIdListOfBoneTransformations.Count >= parentBone.m_id + 1)
-            {
-                bResult = true;
-                parentBone.SetBoneTransformation(alignedWithIdListOfBoneTransformations[parentBone.m_id]);
-                foreach (var childBone in parentBone.m_children)
-                {
-                    bResult = SetEachBoneItsMatrix(alignedWithIdListOfBoneTransformations, childBone);
-                    if (!bResult)
-                        break;
-                }
-            }
-
-            return bResult;
-        }
-
         public void CalcInverseOffsetMatrices()
         {
             UpdateInverseOffsetMatrixRecursive(m_parent);
@@ -148,21 +132,21 @@ namespace MassiveGame.Core.AnimationCore
             Bone rootBone = GetRootBone();
 
             List<Matrix4> collectionOfOffsetMatrices = new List<Matrix4>();
-            CollectOffsetMatricesRecursive(Matrix4.Identity, ref collectionOfOffsetMatrices, rootBone);
+            CollectOffsetMatricesRecursive(ref collectionOfOffsetMatrices, rootBone);
             return collectionOfOffsetMatrices;
         }
 
-        private void CollectOffsetMatricesRecursive(Matrix4 toParentSpaceMatrix, ref List<Matrix4> collectionOfOffsetMatrices, Bone parentBone)
+        private void CollectOffsetMatricesRecursive(ref List<Matrix4> collectionOfOffsetMatrices, Bone parentBone)
         {
             if (parentBone != null)
             {
 
-                Matrix4 ToLocalBoneSpace = parentBone.localSpaceBoneTransformation.GetLocalOffsetMatrix();// * toParentSpaceMatrix;
+                Matrix4 ToLocalBoneSpace = parentBone.localSpaceBoneTransformation.GetLocalOffsetMatrix();
 
                 collectionOfOffsetMatrices.Add(ToLocalBoneSpace);
                 foreach (var childBone in parentBone.m_children)
                 {
-                    CollectOffsetMatricesRecursive(ToLocalBoneSpace, ref collectionOfOffsetMatrices, childBone);
+                    CollectOffsetMatricesRecursive(ref collectionOfOffsetMatrices, childBone);
                 }
             }
         }

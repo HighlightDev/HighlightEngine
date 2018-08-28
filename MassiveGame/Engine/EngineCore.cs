@@ -46,7 +46,7 @@ namespace MassiveGame.Engine
 
         public EngineCore()
         {
-            Point startScreenRezoluion = new Point(1000, 600);
+            Point startScreenRezoluion = new Point(1400, 800);
             Action preConstructorFunction = new Action(preConstructor), renderQueueFunction = new Action(RenderQueue), cleanUpFunction = new Action(cleanEverythingUp);
 
 #if DESIGN_EDITOR
@@ -211,14 +211,17 @@ namespace MassiveGame.Engine
 
             //PlantModels.LoadCollada();
 
-            modelPath = ProjectFolders.ModelsPath + "trialAnimation.dae";
-            texturePath = ProjectFolders.MultitexturesPath + "diffuse.png";
+            modelPath = ProjectFolders.ModelsPath + "playerCube.obj";
+            texturePath = ProjectFolders.MultitexturesPath + "path.png";
             normalMapPath = ProjectFolders.NormalMapsPath + "brick_nm_high.png";
             specularMapPath = ProjectFolders.SpecularMapsPath + "brick_sm.png";
 
             MovableEntityArguments arg = new MovableEntityArguments(modelPath, texturePath, normalMapPath, specularMapPath, new Vector3(175, 1200, 170), new Vector3(0, 0, 0), new Vector3(5f));
 
-            EngineStatics.skeletalMesh = new MovableSkeletalMeshEntity(modelPath, texturePath, normalMapPath, specularMapPath, 0.5f, new Vector3(175, 60, 170), default(Vector3), new Vector3(5));
+            modelPath = ProjectFolders.ModelsPath + "model.dae";
+            texturePath = ProjectFolders.MultitexturesPath + "diffuse.png";
+
+            EngineStatics.skeletalMesh = new MovableSkeletalMeshEntity(modelPath, texturePath, normalMapPath, specularMapPath, 0.5f, new Vector3(175, 60, 170), new Vector3(270, 0 , 0), new Vector3(5));
 
             EngineStatics.Player = (MovableMeshEntity)EngineObjectCreator.CreateInstance(arg);
             EngineStatics.Player.SetMistComponent(EngineStatics.Mist);

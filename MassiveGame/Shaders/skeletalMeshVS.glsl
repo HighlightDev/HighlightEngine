@@ -1,6 +1,5 @@
 #version 400
 
-#define MaxWeigths 3                                                                                                                     
 #define MaxWeights 3 
 #define MaxBones 40
 layout(location = 0) in vec3 vertex;
@@ -25,7 +24,7 @@ void main()
     vec4 localSpaceSkinnedVertex = vec4(0);
     vec4 localSpaceVertex = vec4(vertex, 1.0);
 
-    for (int i = 0; i < MaxWeigths; i++)
+    for (int i = 0; i < MaxWeights; i++)
     {
         int blendIndex = blendIndices[i];
         if (blendIndex < 0)
