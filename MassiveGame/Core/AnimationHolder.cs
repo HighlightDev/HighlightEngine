@@ -1,6 +1,7 @@
 ﻿using System;
 using MassiveGame.Core.AnimationCore;
 using System.Collections.Generic;
+using OpenTK;
 
 namespace MassiveGame.Core
 {
@@ -9,14 +10,19 @@ namespace MassiveGame.Core
         private List<AnimationSequence> m_animationSequences;
         private AnimationSequence m_currentSuquence;
 
+        private List<BoneTransformation> m_cachedBoneTransformation;
+
         private double m_sequenceloopTime;
         private double m_previousFrameTime;
+
+        private bool bSequenceDirty = true;
 
         public AnimationHolder(List<AnimationSequence> animationSequences)
         {
             m_animationSequences = animationSequences;
             m_currentSuquence = null;
             m_sequenceloopTime = 0.0;
+            m_cachedBoneTransformation = new List<BoneTransformation>();
         }
 
         public void SetAnimationByNameNoBlend(string animationName)
@@ -34,31 +40,52 @@ namespace MassiveGame.Core
             }
         }
 
-        public List<BoneTransformation> GetAnimationSkinningTransformations()
+        public AnimationSequence GetCurrentSequence()
+        {
+            return m_currentSuquence;
+        }
+
+        public List<BoneTransformation> GetAnimatedPoseTransformsList()
         {
             // BLEND BONE MATRICES WITHIN CURRENT ANIMATION FRAME AND RETURN THEM
-            List<BoneTransformation> resultBoneTransformations = new List<BoneTransformation>();
 
-            var nextAndPrevFrames = m_currentSuquence.GetNextAndPrevFrames(m_sequenceloopTime);
-            Int32 bonesCount = nextAndPrevFrames.Item1.Count;
-
-            for (Int32 i = 0; i < bonesCount; i++)
+            // Update animation pose only if sequence loop was updated
+            if (bSequenceDirty)
             {
-                BoneTransformation nextTransform = nextAndPrevFrames.Item1[i].Item2;
-                BoneTransformation prevTransform = nextAndPrevFrames.Item2[i].Item2;
+                m_cachedBoneTransformation.Clear();
+                var nextAndPrevFrames = m_currentSuquence.GetNextAndPrevFrames(m_sequenceloopTime);
+                Int32 bonesCount = nextAndPrevFrames.Item1.Count;
 
-                double nextTransformTime = nextAndPrevFrames.Item1[i].Item1;
-                double prevTransformTime = nextAndPrevFrames.Item2[i].Item1;
+                for (Int32 i = 0; i < bonesCount; i++)
+                {
+                    BoneTransformation nextTransform = nextAndPrevFrames.Item1[i].Item2;
+                    BoneTransformation prevTransform = nextAndPrevFrames.Item2[i].Item2;
 
-                m_previousFrameTime = prevTransformTime;
+                    double nextTransformTime = nextAndPrevFrames.Item1[i].Item1;
+                    double prevTransformTime = nextAndPrevFrames.Item2[i].Item1;
 
-                float blendFactor = (float)((m_sequenceloopTime - prevTransformTime) / (nextTransformTime - prevTransformTime));
+                    m_previousFrameTime = prevTransformTime;
 
-                BoneTransformation lerpedTransform = BoneTransformation.SLerp(prevTransform, nextTransform, blendFactor);
-                resultBoneTransformations.Add(lerpedTransform);
+                    float blendFactor = (float)((m_sequenceloopTime - prevTransformTime) / (nextTransformTime - prevTransformTime));
+
+                    BoneTransformation lerpedTransform = BoneTransformation.SLerp(prevTransform, nextTransform, blendFactor);
+                    m_cachedBoneTransformation.Add(lerpedTransform);
+                }
             }
 
-            return resultBoneTransformations;
+            return m_cachedBoneTransformation;
+        }
+
+        public List<Matrix4> GetAnimatedPoseMatricesList()
+        {
+            List<Matrix4> resultAnimatedPoseMatrices = new List<Matrix4>();
+
+            foreach (var boneTransformation in m_cachedBoneTransformation)
+            {
+                resultAnimatedPoseMatrices.Add(boneTransformation.GetLocalOffsetMatrix());
+            }
+
+            return resultAnimatedPoseMatrices;
         }
     }
 }

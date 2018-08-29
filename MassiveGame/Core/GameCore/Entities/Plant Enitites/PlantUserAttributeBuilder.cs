@@ -165,7 +165,7 @@ namespace MassiveGame.Core.GameCore.Entities.StaticEntities
                 }
             }
 
-            return new VertexBufferObjectOneDimension<float>(windS, OpenTK.Graphics.OpenGL.BufferTarget.ArrayBuffer, 7, 1, VertexBufferObjectBase.DataCarryFlag.Invalidate);
+            return new VertexBufferObjectOneDimension<float>(windS, OpenTK.Graphics.OpenGL.BufferTarget.ArrayBuffer, 7, VertexBufferObjectBase.DataCarryFlag.Invalidate);
         }
 
         public static VertexBufferObjectBase GetInstanceSamplerBuffer(IEnumerable<PlantUnit> plants, Int32 bufferSize)
@@ -189,7 +189,7 @@ namespace MassiveGame.Core.GameCore.Entities.StaticEntities
                 }
             }
 
-            return new VertexBufferObjectOneDimension<float>(tSampler, OpenTK.Graphics.OpenGL.BufferTarget.ArrayBuffer, 8, 1, VertexBufferObjectBase.DataCarryFlag.Invalidate);
+            return new VertexBufferObjectOneDimension<float>(tSampler, OpenTK.Graphics.OpenGL.BufferTarget.ArrayBuffer, 8, VertexBufferObjectBase.DataCarryFlag.Invalidate);
         }
 
         public static void AddBuilderUserAttribute(PlantUnit plant, VAO buffer, Int32 plantsCountBeforeAddition)

@@ -21,6 +21,11 @@ namespace MassiveGame.Core.AnimationCore
             return m_name;
         }
 
+        public Int32 GetBonesCount()
+        {
+            return m_frames.Count;
+        }
+
         public Tuple<List<Tuple<double, BoneTransformation>>, List<Tuple<double, BoneTransformation>>> GetNextAndPrevFrames(double animationLoopTime)
         {
             Tuple<List<Tuple<double, BoneTransformation>>, List<Tuple<double, BoneTransformation>>> result = null;

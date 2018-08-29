@@ -8,8 +8,8 @@ namespace VBO
     {
         private T[] m_data;
 
-        public VertexBufferObjectOneDimension(T[] data, BufferTarget bufferTarget, Int32 vertexAttribIndex, Int32 dataVectorSize, DataCarryFlag flag)
-            : base(bufferTarget, vertexAttribIndex, dataVectorSize, flag)
+        public VertexBufferObjectOneDimension(T[] data, BufferTarget bufferTarget, Int32 vertexAttribIndex, DataCarryFlag flag)
+            : base(bufferTarget, vertexAttribIndex, 1, flag)
         {
             m_data = data;
             m_verticesCount = m_data.GetLength(0);
@@ -22,7 +22,7 @@ namespace VBO
             IntPtr size = GetBufferSize();
             GL.BufferData(m_bufferTarget, size, m_data, BufferUsageHint.StaticDraw);
             GL.EnableVertexAttribArray(m_vertexAttribIndex);
-            BindVertexAttribPointer(m_vertexAttribIndex, m_dataVectorSize, false, 0, 0);
+            BindVertexAttribPointer(m_vertexAttribIndex, 1, false, 0, 0);
 
             // If data on CPU is unnecessary - throw it to GC
             if (m_dataCarryFlag == DataCarryFlag.Invalidate)
