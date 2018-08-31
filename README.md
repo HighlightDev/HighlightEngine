@@ -1,6 +1,6 @@
 # HighlightEngine
 
-## First of all install OpenAL and update OpenGL drivers so your video card could support GLSL shaders version 400.
+## First of all install OpenAL and update OpenGL drivers so your video card could support OpenGL 4.0.
 
 ## This is a game engine which is written using C# and OpenGL with GLSL shaders.
 
