@@ -26,11 +26,11 @@ namespace MassiveGame.Core.AnimationCore
             return m_frames.Count;
         }
 
-        public Tuple<List<Tuple<double, BoneTransformation>>, List<Tuple<double, BoneTransformation>>> GetNextAndPrevFrames(double animationLoopTime)
+        public Tuple<List<Tuple<double, BoneTransform>>, List<Tuple<double, BoneTransform>>> GetNextAndPrevFrames(double animationLoopTime)
         {
-            Tuple<List<Tuple<double, BoneTransformation>>, List<Tuple<double, BoneTransformation>>> result = null;
-            var nextFrames = new List<Tuple<double, BoneTransformation>>();
-            var prevFrames = new List<Tuple<double, BoneTransformation>>();
+            Tuple<List<Tuple<double, BoneTransform>>, List<Tuple<double, BoneTransform>>> result = null;
+            var nextFrames = new List<Tuple<double, BoneTransform>>();
+            var prevFrames = new List<Tuple<double, BoneTransform>>();
             foreach (var animationFrame in m_frames)
             {
                 Tuple<double, double> interval_max_min = animationFrame.GetIntervalsOnTimeBoundaries(animationLoopTime);
@@ -40,7 +40,7 @@ namespace MassiveGame.Core.AnimationCore
                 prevFrames.Add(prevFrame);
             }
 
-            result = new Tuple<List<Tuple<double, BoneTransformation>>, List<Tuple<double, BoneTransformation>>>(nextFrames, prevFrames);
+            result = new Tuple<List<Tuple<double, BoneTransform>>, List<Tuple<double, BoneTransform>>>(nextFrames, prevFrames);
             return result;
         }
         

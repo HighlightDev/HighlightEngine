@@ -37,10 +37,13 @@ namespace MassiveGame.Engine
         // here has to be created and held game or editor window
         private Form m_UiWindow = null;
         private Stopwatch m_renderTickTime;
+        
+        private CollisionHeadUnit m_collisionHeadUnit;
+
+        private bool bPostConstructor = true;
+
         private RenderThread m_renderThread;
         private GameThread m_gameThread;
-        private CollisionHeadUnit m_collisionHeadUnit;
-        private bool bPostConstructor = true;
 
         #region Init
 
@@ -211,17 +214,17 @@ namespace MassiveGame.Engine
 
             //PlantModels.LoadCollada();
 
-            modelPath = ProjectFolders.ModelsPath + "playerCube.obj";
+            modelPath = ProjectFolders.ModelsPath + "dark_templar_knight.dae";
             texturePath = ProjectFolders.MultitexturesPath + "path.png";
             normalMapPath = ProjectFolders.NormalMapsPath + "brick_nm_high.png";
             specularMapPath = ProjectFolders.SpecularMapsPath + "brick_sm.png";
 
             MovableEntityArguments arg = new MovableEntityArguments(modelPath, texturePath, normalMapPath, specularMapPath, new Vector3(175, 1200, 170), new Vector3(0, 0, 0), new Vector3(5f));
 
-            modelPath = ProjectFolders.ModelsPath + "model.dae";
+            modelPath = ProjectFolders.ModelsPath + "playerCube.obj";
             texturePath = ProjectFolders.MultitexturesPath + "diffuse.png";
 
-            EngineStatics.skeletalMesh = new MovableSkeletalMeshEntity(modelPath, texturePath, normalMapPath, specularMapPath, 0.5f, new Vector3(175, 60, 170), new Vector3(270, 0 , 0), new Vector3(5));
+            //EngineStatics.SkeletalMesh = new MovableSkeletalMeshEntity(modelPath, texturePath, normalMapPath, specularMapPath, 0.5f, new Vector3(175, 60, 170), new Vector3(270, 0 , 0), new Vector3(5));
 
             EngineStatics.Player = (MovableMeshEntity)EngineObjectCreator.CreateInstance(arg);
             EngineStatics.Player.SetMistComponent(EngineStatics.Mist);

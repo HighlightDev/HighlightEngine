@@ -145,13 +145,16 @@ namespace MassiveGame.Core.GameCore.Entities.StaticEntities
 
         #region Renderer
 
-        public void renderEntities(DirectionalLight sun, BaseCamera camera, Matrix4 projectionMatrix, float time, Landscape terrain = null,
+        public void Tick(float deltaTime)
+        {
+            timeElapsed += deltaTime * windSpeed;
+            timeElapsed = timeElapsed > 360 ? timeElapsed - 360 : timeElapsed;
+        }
+
+        public void renderEntities(DirectionalLight sun, BaseCamera camera, Matrix4 projectionMatrix, Landscape terrain = null,
             Vector4 clipPlane = new Vector4())
         {
             postConstructor(terrain);
-
-            timeElapsed += time * windSpeed;
-            timeElapsed = timeElapsed > 360 ? timeElapsed - 360 : timeElapsed;
 
             _shader.startProgram();
 

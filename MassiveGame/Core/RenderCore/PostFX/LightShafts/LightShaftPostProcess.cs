@@ -131,7 +131,7 @@ namespace MassiveGame.Core.RenderCore.PostFX.LightShafts
 
             if (EngineStatics.Plant1 != null)
             {
-                EngineStatics.Plant1.renderEntities(EngineStatics.Sun, camera, EngineStatics.ProjectionMatrix, (float)EngineStatics.RENDER_TIME, EngineStatics.terrain);
+                EngineStatics.Plant1.renderEntities(EngineStatics.Sun, camera, EngineStatics.ProjectionMatrix, EngineStatics.terrain);
             }
 
             if (EngineStatics.City != null)

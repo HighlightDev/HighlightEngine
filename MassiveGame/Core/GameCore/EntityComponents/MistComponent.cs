@@ -39,7 +39,7 @@ namespace MassiveGame.Core.GameCore.EntityComponents
 
         #region Update
 
-        public void Update()
+        public void Tick(float deltaTime)
         {
             /*Check fade event*/
             if (FadeOccurs != null)

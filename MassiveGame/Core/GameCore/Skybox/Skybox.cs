@@ -38,9 +38,9 @@ namespace MassiveGame.Core.GameCore.Skybox
             return mirrorMatrix;
         }
 
-        public void UpdateAnimation(float frameElapseTime)
+        public void Tick(float deltaTime)
         {
-            _moveFactor += frameElapseTime * FloatSpeed;
+            _moveFactor += deltaTime * FloatSpeed;
             _moveFactor %= 360.0f;
         }
 

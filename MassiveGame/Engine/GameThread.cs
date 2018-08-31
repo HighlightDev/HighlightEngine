@@ -31,23 +31,25 @@ namespace MassiveGame.Engine
 
         private void TickEntities(float deltaTime)
         {
-            Matrix4 viewMatrix = EngineStatics.Camera.GetViewMatrix();
+            EngineStatics.Player?.Tick(deltaTime);
 
-            if (EngineStatics.Player != null)
-            {
-                EngineStatics.Player.Tick(ref EngineStatics.ProjectionMatrix, ref viewMatrix);
-            }
-
-            if (!Object.Equals(EngineStatics.Enemy, null))
-            {
-                EngineStatics.Enemy.Tick(ref EngineStatics.ProjectionMatrix, ref viewMatrix);
-            }
+            EngineStatics.Enemy?.Tick(deltaTime);
 
             if (EngineStatics.City != null)
             {
                 foreach (var item in EngineStatics.City)
-                    item.Tick(ref EngineStatics.ProjectionMatrix, ref viewMatrix);
+                    item.Tick(deltaTime);
             }
+
+            EngineStatics.SkeletalMesh?.Tick(deltaTime);
+            EngineStatics.Water?.Tick(deltaTime);
+            EngineStatics.Plant1?.Tick(deltaTime);
+            EngineStatics.Grass?.Tick(deltaTime);
+            EngineStatics.Skybox?.Tick(deltaTime);
+            EngineStatics.SunReplica?.Tick(deltaTime);
+            EngineStatics.Picker?.Tick(deltaTime);
+            EngineStatics.Mist?.Tick(deltaTime);
+            EngineStatics.DayCycle?.Tick(deltaTime);
         }
 
         private void ThreadExecution(object target)
@@ -57,20 +59,11 @@ namespace MassiveGame.Engine
             {
                 float deltaTime = (float)gameTickTime.Elapsed.TotalSeconds;
                 gameTickTime.Restart();
+
                 EngineStatics.Camera.CameraTick(deltaTime);
                 TickEntities(deltaTime);
 
-                EngineStatics.Picker.Update();
-                EngineStatics.Mist.Update();
-                EngineStatics.DayCycle.UpdateTimeFlow();
-
                 EngineStatics.playerController.InvokeBindings();
-
-                if (EngineStatics.SunReplica != null)
-                    EngineStatics.SunReplica.UpdateFrustumCullingInfo();
-
-                if (EngineStatics.Skybox != null)
-                    EngineStatics.Skybox.UpdateAnimation(Convert.ToSingle(EngineStatics.RENDER_TIME));
             }
         }
     }

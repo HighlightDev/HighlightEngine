@@ -176,14 +176,14 @@ namespace PhysicsBox.ComponentCore
                 Quaternion rotation = parentTransformationMatrix.ExtractRotation(true);
                 if (component.Bound.GetBoundType() == BoundBase.BoundType.AABB)
                 {
-                    if (rotation.Xyz.LengthSquared > 0.01)
+                    if (rotation.Xyz.LengthSquared > 0.01f)
                         component.Bound = new OBB(component.Bound.GetLocalSpaceOrigin(), component.Bound.GetLocalSpaceExtent(), parentTransformationMatrix, component);
                     else
                         (component.Bound as AABB).ScalePlusTranslation = parentTransformationMatrix;
                 }
                 else
                 {
-                    if (rotation.Xyz.LengthSquared > 0.01)
+                    if (rotation.Xyz.LengthSquared > 0.01f)
                         (component.Bound as OBB).TransformationMatrix = parentTransformationMatrix;
                     else
                     {
@@ -194,7 +194,7 @@ namespace PhysicsBox.ComponentCore
             }
         }
 
-        public virtual void Tick(ref Matrix4 projectionMatrix, ref Matrix4 viewMatrix)
+        public virtual void Tick(float deltaTime)
         {
             lock (lockObject)
             {
@@ -205,7 +205,7 @@ namespace PhysicsBox.ComponentCore
                 }
                 foreach (var component in ChildrenComponents)
                 {
-                    component.Tick(ref projectionMatrix, ref viewMatrix);
+                    component.Tick(deltaTime);
                 }
             }
         }

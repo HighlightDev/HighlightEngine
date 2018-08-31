@@ -95,11 +95,6 @@ namespace MassiveGame.Core.GameCore.Entities
             this.m_collisionHeadUnit = collisionHeadUnit;
         }
 
-        public override void Tick(ref Matrix4 projectionMatrix, ref Matrix4 viewMatrix)
-        {
-            base.Tick(ref projectionMatrix, ref viewMatrix);
-        }
-
         #region LightOptimization
 
         protected virtual List<PointLight> GetRelevantPointLights(List<PointLight> PotentialyAffectedPointLights)

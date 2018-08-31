@@ -134,7 +134,7 @@
     <Compile Include="API\ResourcePool\Pools\TexturePool.cs" />
     <Compile Include="Core\AnimationCore\AnimationFrame.cs" />
     <Compile Include="Core\AnimationCore\AnimationSequence.cs" />
-    <Compile Include="Core\AnimationCore\BoneTransformation.cs" />
+    <Compile Include="Core\AnimationCore\BoneTransform.cs" />
     <Compile Include="API\Mesh\AnimatedSkin.cs" />
     <Compile Include="API\Mesh\Skin.cs" />
     <Compile Include="Core\AnimationCore\Bone.cs" />

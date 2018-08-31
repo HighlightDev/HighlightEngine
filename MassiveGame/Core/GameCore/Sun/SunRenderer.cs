@@ -57,7 +57,7 @@ namespace MassiveGame.Core.GameCore.Sun
 
         #region Renderer
 
-        public void UpdateFrustumCullingInfo()
+        public void Tick(float deltaTime)
         {
             if (Object.Equals(CQuad, null)) CQuad = new CollisionQuad(0, 0, 0, 0, 0, 0);
             var lbn = Vector4.Transform(_quadLBZ, Matrix4.CreateTranslation(_sun.Position));

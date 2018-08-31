@@ -264,9 +264,9 @@ namespace MassiveGame.Core.GameCore.Entities.MoveEntities
             base.UpdateTransformation();
         }
 
-        public override void Tick(ref Matrix4 projectionMatrix, ref Matrix4 viewMatrix)
+        public override void Tick(float deltaTime)
         {
-            base.Tick(ref projectionMatrix, ref viewMatrix);
+            base.Tick(deltaTime);
 
             if (ActorState == BehaviorState.FREE_FALLING)
             {

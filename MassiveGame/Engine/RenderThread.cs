@@ -134,14 +134,14 @@ namespace MassiveGame.Engine
 
             if (EngineStatics.Water != null && EngineStatics.Water.IsInCameraView)
             {
-                EngineStatics.Water.renderWater(EngineStatics.Camera, ref EngineStatics.ProjectionMatrix, EngineStatics.RENDER_TIME,
+                EngineStatics.Water.renderWater(EngineStatics.Camera, ref EngineStatics.ProjectionMatrix,
                         EngineStatics.NEAR_CLIPPING_PLANE, EngineStatics.FAR_CLIPPING_PLANE, EngineStatics.Sun, EngineStatics.PointLight);
             }
 
             GL.Disable(EnableCap.CullFace);
 
-            if (EngineStatics.Grass != null) EngineStatics.Grass.renderEntities(EngineStatics.Sun, camera, EngineStatics.ProjectionMatrix, EngineStatics.RENDER_TIME, EngineStatics.terrain);
-            if (EngineStatics.Plant1 != null) EngineStatics.Plant1.renderEntities(EngineStatics.Sun, camera, EngineStatics.ProjectionMatrix, EngineStatics.RENDER_TIME, EngineStatics.terrain);
+            if (EngineStatics.Grass != null) EngineStatics.Grass.renderEntities(EngineStatics.Sun, camera, EngineStatics.ProjectionMatrix, EngineStatics.terrain);
+            if (EngineStatics.Plant1 != null) EngineStatics.Plant1.renderEntities(EngineStatics.Sun, camera, EngineStatics.ProjectionMatrix, EngineStatics.terrain);
 
             if (EngineStatics.City != null)
             {
@@ -168,7 +168,7 @@ namespace MassiveGame.Engine
                 }
             }
 
-            EngineStatics.skeletalMesh.RenderEntity(EngineStatics.Mode, EngineStatics.NormalMapTrigger, EngineStatics.Sun, EngineStatics.PointLight, camera, ref EngineStatics.ProjectionMatrix);
+            EngineStatics.SkeletalMesh?.RenderEntity(EngineStatics.Mode, EngineStatics.NormalMapTrigger, EngineStatics.Sun, EngineStatics.PointLight, camera, ref EngineStatics.ProjectionMatrix);
 
             // ITS for TEST! COMPUTE SHADERS!
             //Matrix4 worldMatrix = Matrix4.CreateScale(1);
@@ -260,8 +260,8 @@ namespace MassiveGame.Engine
             false - disable EngineSingleton.Grass refractions*/
             if (quality.EnableGrassRefraction)
             {
-                if (EngineStatics.Grass != null) EngineStatics.Grass.renderEntities(EngineStatics.Sun, camera, EngineStatics.ProjectionMatrix, (float)EngineStatics.RENDER_TIME, EngineStatics.terrain, clipPlane);
-                if (EngineStatics.Plant1 != null) EngineStatics.Plant1.renderEntities(EngineStatics.Sun, camera, EngineStatics.ProjectionMatrix, (float)EngineStatics.RENDER_TIME, EngineStatics.terrain, clipPlane);
+                if (EngineStatics.Grass != null) EngineStatics.Grass.renderEntities(EngineStatics.Sun, camera, EngineStatics.ProjectionMatrix, EngineStatics.terrain, clipPlane);
+                if (EngineStatics.Plant1 != null) EngineStatics.Plant1.renderEntities(EngineStatics.Sun, camera, EngineStatics.ProjectionMatrix, EngineStatics.terrain, clipPlane);
             }
 
             /*TO DO : true - enable building refractions

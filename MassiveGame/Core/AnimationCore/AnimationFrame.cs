@@ -5,19 +5,19 @@ namespace MassiveGame.Core.AnimationCore
 {
     public class AnimationFrame
     {
-        private Dictionary<double, BoneTransformation> m_frames;
+        private Dictionary<double, BoneTransform> m_frames;
         private string m_boneName;
 
         public AnimationFrame(string boneName, Int32 frameCapacity = default(Int32))
         {
             m_boneName = boneName;
             if (frameCapacity != 0)
-                m_frames = new Dictionary<double, BoneTransformation>(frameCapacity);
+                m_frames = new Dictionary<double, BoneTransform>(frameCapacity);
             else
-                m_frames = new Dictionary<double, BoneTransformation>();
+                m_frames = new Dictionary<double, BoneTransform>();
         }
 
-        public void AddFrame(BoneTransformation boneFrameTransform, double frameTime)
+        public void AddFrame(BoneTransform boneFrameTransform, double frameTime)
         {
             m_frames.Add(frameTime, boneFrameTransform);
         }
@@ -27,7 +27,7 @@ namespace MassiveGame.Core.AnimationCore
             return m_boneName;
         }
 
-        public Dictionary<double, BoneTransformation> GetFrames()
+        public Dictionary<double, BoneTransform> GetFrames()
         {
             return m_frames;
         }
@@ -61,9 +61,9 @@ namespace MassiveGame.Core.AnimationCore
             return new Tuple<double, double>(next, prev);
         }
 
-        public Tuple<double, BoneTransformation> GetFrameByTime(double key)
+        public Tuple<double, BoneTransform> GetFrameByTime(double key)
         {
-            return new Tuple<double, BoneTransformation>(key, m_frames[key]);
+            return new Tuple<double, BoneTransform>(key, m_frames[key]);
         }
 
         public void CleanUp()

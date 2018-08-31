@@ -24,7 +24,7 @@ namespace MassiveGame.Core.GameCore.Sun.DayCycle
             this.Phases = phases;
             this.sun = sun;
             time = 0f;
-            TimeFlow = 0.1f;
+            TimeFlow = 0.5f;
             TimerPeriod = 1;
             this.sun.Destination = new Vector3(traectoryRadius / 2, 0, traectoryRadius / 2);
             this.traectoryRadius = traectoryRadius;
@@ -34,10 +34,10 @@ namespace MassiveGame.Core.GameCore.Sun.DayCycle
 
         #region Logics
 
-        private void TimeIncrease()
+        private void TimeIncrease(float deltaTime)
         {
-            this.time += TimeFlow;
-            this.time %= 99.0f;
+            this.time += deltaTime * TimeFlow;
+            this.time %= 99.9f;
         }
 
         private void CalculateCurrentLightColor()
@@ -91,20 +91,20 @@ namespace MassiveGame.Core.GameCore.Sun.DayCycle
 
         #endregion
 
-        public void UpdateTimeFlow()
+        public void Tick(float deltaTime)
         {
             CalculateCurrentLightDirection();
             CalculateCurrentLightColor();
-            TimeIncrease();
+            TimeIncrease(deltaTime);
         }
 
         #region Manipulation
 
         public void SetTime(float time)
         {
-            if (time > 99.0f)
+            if (time > 99.9f)
             {
-                time = 99.0f;
+                time = 99.9f;
             }
             else if (time < 0.0f)
             {

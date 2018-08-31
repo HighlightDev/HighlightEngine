@@ -28,7 +28,7 @@ namespace CParser.Assimp
         public float[,] BlendWeights { get; private set; }
         public Int32[,] BlendIndices { get; private set; }
 
-        public LoaderSkeletonBone SkeletonRoot { get; private set; }
+        public LoaderSkeletonParentBone SkeletonRoot { get; private set; }
 
         public void CleanUp()
         {
@@ -59,7 +59,8 @@ namespace CParser.Assimp
             bHasNormals = m_meshes.Any(mesh => mesh.HasNormals);
             bHasTextureCoordinates = m_meshes.Any(mesh => mesh.HasTextureCoords(0));
             bHasTangentVertices = m_meshes.Any(mesh => mesh.HasTangentBasis);
-            bHasAnimation = m_scene.HasAnimations;
+            bHasAnimation = false;
+                //m_scene.HasAnimations;
 
             Indices = bHasIndices ? new List<UInt32>() : null;
 
@@ -70,11 +71,10 @@ namespace CParser.Assimp
         private void GetSkin()
         {
             Int32 countOfVertices = 0;
-            m_scene.Meshes.All(mesh =>
+            foreach (Mesh mesh in m_scene.Meshes)
             {
                 countOfVertices += mesh.VertexCount;
-                return false;
-            });
+            }
 
             List<UInt32> countOfIndicesPerMesh = new List<UInt32>();
 
@@ -89,7 +89,7 @@ namespace CParser.Assimp
                 Mesh mesh = m_meshes[i];
                 countOfIndicesPerMesh.Add((UInt32)Indices.Count);
                 CollectIndices(Indices, mesh, (UInt32)Indices.Count);
-                TryToCollectSkinInfo(ref local_vert, ref local_n_vert, ref local_t_vert, ref local_tangent_vert, ref local_bitangent_vert, mesh);
+                TryToCollectSkinInfo((Int32)countOfIndicesPerMesh[i], ref local_vert, ref local_n_vert, ref local_t_vert, ref local_tangent_vert, ref local_bitangent_vert, mesh);
             }
 
             Verts = local_vert;
@@ -126,37 +126,23 @@ namespace CParser.Assimp
         {
             if (bHasAnimation)
             {
-                SkeletonRoot = new LoaderSkeletonBone(null);
+                SkeletonRoot = new LoaderSkeletonParentBone();
                 Int32 boneIdCounter = 0;
 
-                Node rootNode = m_scene.RootNode.FindNode("Armature")?.Children.First();
+                Node rootNode = m_scene.RootNode.FindNode(GetSkeletonArmatureNode(m_scene.RootNode));
                 if (rootNode != null)
                 {
-                    SkeletonRoot.SetBoneId(boneIdCounter++);
-                    var bone = GetBoneByName(rootNode.Name);
-                    SkeletonRoot.SetBoneInfo(bone);
-                    FillHierarchyRecursive(rootNode, SkeletonRoot, ref boneIdCounter);
+                    foreach (var node in rootNode.Children)
+                    {
+                        LoaderSkeletonBone skeletonBone = new LoaderSkeletonBone(SkeletonRoot);
+                        skeletonBone.SetBoneId(boneIdCounter++);
+                        var bone = GetBoneByName(node.Name);
+                        skeletonBone.SetBoneInfo(bone);
+                        FillHierarchyRecursive(node, skeletonBone, ref boneIdCounter);
+                        SkeletonRoot.AddChildBone(skeletonBone);
+                    }
                 }
             }
-        }
-
-        
-
-        private Bone GetBoneByName(string name)
-        {
-            Bone result = null;
-
-            foreach (var mesh in m_meshes)
-            {
-                var localBone = mesh.Bones.First(bone => bone.Name == name);
-                if (localBone != null)
-                {
-                    result = localBone;
-                    break;
-                }
-            }
-
-            return result;
         }
 
         private void FillHierarchyRecursive(Node parentNode, LoaderSkeletonBone parentBone, ref Int32 boneIdCounter)
@@ -173,6 +159,55 @@ namespace CParser.Assimp
                     FillHierarchyRecursive(child, childBone, ref boneIdCounter);
                 }
             }
+        }
+
+        private string GetSkeletonArmatureNode(Node rootNode)
+        {
+            string name = string.Empty;
+
+            Int32 maxHierarchySize = 0;
+
+            foreach (Node childNode in rootNode.Children)
+            {
+                Int32 currentChildHierarchySize = 0;
+                IterateHierarchy(childNode, ref currentChildHierarchySize);
+                if (currentChildHierarchySize > maxHierarchySize)
+                {
+                    maxHierarchySize = currentChildHierarchySize;
+                    name = childNode.Name;
+                }
+            }
+
+            return name;
+        }
+
+        private void IterateHierarchy(Node parentNode, ref Int32 countChildren)
+        {
+            if (parentNode.HasChildren)
+            {
+                foreach (Node childNode in parentNode.Children)
+                {
+                    countChildren++;
+                    IterateHierarchy(childNode, ref countChildren);
+                }
+            }
+        }
+
+        private Bone GetBoneByName(string name)
+        {
+            Bone result = null;
+
+            foreach (var mesh in m_meshes)
+            {
+                var localBone = mesh.Bones.First(bone => bone.Name == name);
+                if (localBone != null)
+                {
+                    result = localBone;
+                    break;
+                }
+            }
+
+            return result;
         }
 
         private void CollectIndices(List<UInt32> indices, Mesh meshBeingCollected, UInt32 lastIndexBeenInterrupted)
@@ -192,35 +227,36 @@ namespace CParser.Assimp
             }
         }
 
-        private void TryToCollectSkinInfo(ref float[,] vertices, ref float[,] normals, ref float[,] texCoords,
+        private void TryToCollectSkinInfo(Int32 startIndex, ref float[,] vertices, ref float[,] normals, ref float[,] texCoords,
             ref float[,] tangents, ref float[,] bitangents, Mesh meshBeingCollected)
         {
             for (Int32 i = 0; i < meshBeingCollected.VertexCount; ++i)
             {
-                vertices[i, 0] = meshBeingCollected.Vertices[i][0];
-                vertices[i, 1] = meshBeingCollected.Vertices[i][1];
-                vertices[i, 2] = meshBeingCollected.Vertices[i][2];
+                Int32 currentVertexIndex = startIndex + i;
+                vertices[currentVertexIndex, 0] = meshBeingCollected.Vertices[i][0];
+                vertices[currentVertexIndex, 1] = meshBeingCollected.Vertices[i][1];
+                vertices[currentVertexIndex, 2] = meshBeingCollected.Vertices[i][2];
 
                 if (bHasNormals)
                 {
-                    normals[i, 0] = meshBeingCollected.Normals[i][0];
-                    normals[i, 1] = meshBeingCollected.Normals[i][1];
-                    normals[i, 2] = meshBeingCollected.Normals[i][2];
+                    normals[currentVertexIndex, 0] = meshBeingCollected.Normals[i][0];
+                    normals[currentVertexIndex, 1] = meshBeingCollected.Normals[i][1];
+                    normals[currentVertexIndex, 2] = meshBeingCollected.Normals[i][2];
                 }
                 if (bHasTextureCoordinates)
                 {
-                    texCoords[i, 0] = meshBeingCollected.GetTextureCoords(0)[i][0];
-                    texCoords[i, 1] = meshBeingCollected.GetTextureCoords(0)[i][1];
+                    texCoords[currentVertexIndex, 0] = meshBeingCollected.GetTextureCoords(0)[i][0];
+                    texCoords[currentVertexIndex, 1] = meshBeingCollected.GetTextureCoords(0)[i][1];
                 }
                 if (bHasTangentVertices)
                 {
-                    tangents[i, 0] = meshBeingCollected.Tangents[i][0];
-                    tangents[i, 1] = meshBeingCollected.Tangents[i][1];
-                    tangents[i, 2] = meshBeingCollected.Tangents[i][2];
+                    tangents[currentVertexIndex, 0] = meshBeingCollected.Tangents[i][0];
+                    tangents[currentVertexIndex, 1] = meshBeingCollected.Tangents[i][1];
+                    tangents[currentVertexIndex, 2] = meshBeingCollected.Tangents[i][2];
 
-                    bitangents[i, 0] = meshBeingCollected.BiTangents[i][0];
-                    bitangents[i, 1] = meshBeingCollected.BiTangents[i][1];
-                    bitangents[i, 2] = meshBeingCollected.BiTangents[i][2];
+                    bitangents[currentVertexIndex, 0] = meshBeingCollected.BiTangents[i][0];
+                    bitangents[currentVertexIndex, 1] = meshBeingCollected.BiTangents[i][1];
+                    bitangents[currentVertexIndex, 2] = meshBeingCollected.BiTangents[i][2];
                 }
             }
         }
@@ -241,7 +277,7 @@ namespace CParser.Assimp
                     }
                     if (weight.VertexID == vertexId + countOfIndicesPerMesh[i])
                     {
-                        Int32 boneId = SkeletonRoot.GetIdByBone(bone);
+                        Int32 boneId = SkeletonRoot.GetIdByBoneInHierarchy(bone);
                         if (boneId < 0)
                             throw new ArgumentException("Such bone doesn't exist in skeleton!");
 

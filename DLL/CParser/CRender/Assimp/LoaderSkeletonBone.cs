@@ -4,17 +4,72 @@ using System.Collections.Generic;
 
 namespace CParser.Assimp
 {
-    public class LoaderSkeletonBone
+    public class LoaderSkeletonParentBone
     {
-        private LoaderSkeletonBone parent;
+        protected List<LoaderSkeletonBone> m_children;
+
+        public LoaderSkeletonParentBone()
+        {
+            m_children = new List<LoaderSkeletonBone>();
+        }
+
+        public void AddChildBone(LoaderSkeletonBone child)
+        {
+            m_children.Add(child);
+        }
+
+        public List<LoaderSkeletonBone> GetChildren()
+        {
+            return m_children;
+        }
+
+        public Int32 GetIdByBoneInHierarchy(Bone seekBone)
+        {
+            Int32 id = -1;
+
+            foreach (var child in m_children)
+            {
+                id = child.GetIdByBone(seekBone, child);
+                if (id > 0)
+                    break;
+            }
+
+            return id;
+        }
+
+        public Int32 GetIdByBone(Bone seekBone, LoaderSkeletonBone currentSkeletonBone)
+        {
+            Int32 id = -1;
+
+            if (currentSkeletonBone.GetBoneInfo() == seekBone)
+            {
+                id = currentSkeletonBone.GetBoneId();
+            }
+
+            if (id < 0)
+            {
+                foreach (var skeletonBone in currentSkeletonBone.GetChildren())
+                {
+                    id = skeletonBone.GetIdByBone(seekBone, skeletonBone);
+                    if (id > 0)
+                        return id;
+                }
+            }
+
+            return id;
+        }
+    }
+
+    public class LoaderSkeletonBone : LoaderSkeletonParentBone
+    {
+        private LoaderSkeletonParentBone parent;
         private Bone boneInfo;
         private Int32 boneId;
-        private List<LoaderSkeletonBone> children;
 
-        public LoaderSkeletonBone(LoaderSkeletonBone parent)
+        public LoaderSkeletonBone(LoaderSkeletonParentBone parent)
         {
             this.parent = parent;
-            children = new List<LoaderSkeletonBone>();
+            m_children = new List<LoaderSkeletonBone>();
         }
 
         public void SetBoneInfo(Bone info)
@@ -27,11 +82,6 @@ namespace CParser.Assimp
             boneId = id;
         }
 
-        public void AddChildBone(LoaderSkeletonBone child)
-        {
-            children.Add(child);
-        }
-
         public Bone GetBoneInfo()
         {
             return boneInfo;
@@ -42,46 +92,19 @@ namespace CParser.Assimp
             return boneId;
         }
 
-        public LoaderSkeletonBone GetParent()
+        public LoaderSkeletonParentBone GetParent()
         {
             return parent;
         }
 
-        public List<LoaderSkeletonBone> GetChildren()
-        {
-            return children;
-        }
-
-        public Int32 GetIdByBone(Bone seekBone)
-        {
-            Int32 id = -1;
-
-            if (boneInfo == seekBone)
-            {
-                id = boneId;
-            }
-
-            if (id < 0)
-            {
-                foreach (var bone in children)
-                {
-                    id = bone.GetIdByBone(seekBone);
-                    if (id > 0)
-                        return id;
-                }
-            }
-
-            return id;
-        }
-
         public void CleanUp()
         {
-            foreach (var child in children)
+            foreach (var child in m_children)
             {
                 boneInfo = null;
                 child.CleanUp();
             }
-            children = null;
+            m_children = null;
         }
     }
 }

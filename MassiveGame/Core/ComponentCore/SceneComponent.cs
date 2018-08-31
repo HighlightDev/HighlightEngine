@@ -20,7 +20,7 @@ namespace MassiveGame.Core.ComponentCore
         private Skin skin = null;
         private bool bPostConstructor = true;
 
-        public override void Tick(ref Matrix4 projectionMatrix, ref Matrix4 viewMatrix)
+        public override void Tick(float deltaTime)
         {
             if (bPostConstructor)
             {
@@ -30,7 +30,7 @@ namespace MassiveGame.Core.ComponentCore
                     skin = PoolProxy.GetResource<ObtainModelPool, ModelAllocationPolicy, string, Skin>("CollisionBound");
                 bPostConstructor = false;
             }
-            base.Tick(ref projectionMatrix, ref viewMatrix);
+            base.Tick(deltaTime);
         }
 
         public override void RenderBound(ref Matrix4 projectionMatrix, ref Matrix4 viewMatrix, Color4 color)

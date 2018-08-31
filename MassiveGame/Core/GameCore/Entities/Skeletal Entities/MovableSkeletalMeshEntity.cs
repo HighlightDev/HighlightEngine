@@ -59,38 +59,18 @@ namespace MassiveGame.Core.GameCore.Entities.Skeletal_Entities
             }
         }
 
-        // This is just for another one attempt to start animation working and ... now it works!!
-        private void CollectAnimatedMatrices(Bone parentBone, Matrix4 parentMatrix, List<BoneTransformation> srcTransformation, ref List<Matrix4> dstMatrices)
+        public override void Tick(float deltaTime)
         {
-            Matrix4 currentBoneMatrix = srcTransformation[parentBone.GetBoneId()].GetLocalOffsetMatrix() * parentMatrix;
-            dstMatrices.Add(currentBoneMatrix);
-            foreach (var bone in parentBone.GetBoneChildren())
-            {
-                CollectAnimatedMatrices(bone, currentBoneMatrix, srcTransformation, ref dstMatrices);
-            }
+            base.Tick(deltaTime);
+            m_animationHolder.UpdateAnimationLoopTime(deltaTime);
         }
 
         public override void RenderEntity(PrimitiveType mode, bool bEnableNormalMapping, DirectionalLight Sun, List<PointLight> lights, BaseCamera camera, ref Matrix4 projectionMatrix, Vector4 clipPlane = default(Vector4))
         {
             var worldMatrix = GetWorldMatrix();
             var viewMatrix = camera.GetViewMatrix();
-            
-            List<BoneTransformation> relevantBoneTransformations = m_animationHolder.GetAnimatedPoseTransformsList();
 
-            List<Matrix4> animatedMatrices = new List<Matrix4>();
-            CollectAnimatedMatrices(GetSkin().GetRootBone(), Matrix4.Identity, relevantBoneTransformations, ref animatedMatrices);
-
-            List<Matrix4> offsetBones = GetSkin().GetRootBone().GetAlignedWithIdListOffsetMatrices();
-
-            Matrix4[] skinningMatrices = new Matrix4[animatedMatrices.Count];
-
-            for (Int32 i = 0; i < animatedMatrices.Count; i++)
-            {
-                Matrix4 animatedBoneMatrix = animatedMatrices[i];
-                Matrix4 offsetBoneMatrix = offsetBones[i];
-
-                skinningMatrices[i] = offsetBoneMatrix * animatedBoneMatrix;
-            }
+            var skinningMatrices = m_animationHolder.GetAnimatedOffsetedMatrices(GetSkin().GetRootBone());
 
             GetShader().startProgram();
             m_texture.BindTexture(TextureUnit.Texture0);
@@ -99,8 +79,6 @@ namespace MassiveGame.Core.GameCore.Entities.Skeletal_Entities
             GetShader().SetSkinningMatrices(skinningMatrices);
             GetSkin().Buffer.RenderVAO(PrimitiveType.Triangles);
             GetShader().stopProgram();
-
-            m_animationHolder.UpdateAnimationLoopTime(0.005f);
         }
     }
 }

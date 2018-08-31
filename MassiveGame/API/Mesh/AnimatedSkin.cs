@@ -21,7 +21,7 @@ namespace MassiveGame.API.Mesh
         public override void CleanUp()
         {
             base.CleanUp();
-            m_rootBone.ClearChilderBones();
+            m_rootBone.ClearChildrenBones();
         }
     }
 }

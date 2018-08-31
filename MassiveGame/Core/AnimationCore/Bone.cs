@@ -11,46 +11,65 @@ namespace MassiveGame.Core.AnimationCore
         private Int32 m_id;
         private string m_name;
 
-        // here are all necessary info regarding bone transformation and it's slerp
-        private BoneTransformation localSpaceBoneTransformation;
+        // here is necessary info regarding bone transformation and it's slerp
+        private Matrix4 m_offsetMatrix;
 
         public Bone(Int32 boneId, string boneName, Bone parentBone = null)
         {
             m_name = boneName;
             m_children = new List<Bone>();
             this.m_parent = parentBone;
-            localSpaceBoneTransformation = new BoneTransformation();
+            m_offsetMatrix = Matrix4.Identity;
             m_id = boneId;
         }
 
-        public Bone GetBoneParent()
+        public Bone GetParent()
         {
             return m_parent;
         }
 
-        public List<Bone> GetBoneChildren()
+        public List<Bone> GetChildren()
         {
             return m_children;
         }
 
-        public Int32 GetBoneId()
+        public Int32 GetId()
         {
             return m_id;
         }
 
-        public string GetBoneName()
+        public string GetName()
         {
             return m_name;
         }
 
         public Matrix4 GetOffsetMatrix()
         {
-            return localSpaceBoneTransformation.GetLocalOffsetMatrix();
+            return m_offsetMatrix;
         }
 
-        public Matrix4 GetInverseOffsetMatrix()
+        public List<Matrix4> GetToParentSpaceMatricesList(List<Matrix4> toBoneSpaceMatrices)
         {
-            return localSpaceBoneTransformation.GetLocalInverseOffsetMatrix();
+            Bone rootBone = GetRootBone();
+            List<Matrix4> resultToParentSpaceMatrices = new List<Matrix4>();
+
+            // iterate through whole hierarchy and collect inverted ToBoneSpace matrices
+            Matrix4 toParentSpaceMatrix = toBoneSpaceMatrices[0].Inverted();
+            resultToParentSpaceMatrices.Add(toParentSpaceMatrix);
+            IterateBoneHierarchy(rootBone, ref toParentSpaceMatrix, toBoneSpaceMatrices, ref resultToParentSpaceMatrices);
+
+            return resultToParentSpaceMatrices;
+        }
+
+        private void IterateBoneHierarchy(Bone parent, ref Matrix4 toParentSpaceMatrix, List<Matrix4> toBoneSpaceMatrices, ref List<Matrix4> toParentSpaceMatrices)
+        {
+            foreach (var child in parent.GetChildren())
+            {
+                Matrix4 fromBoneSpaceMatrix = toBoneSpaceMatrices[child.GetId()].Inverted();
+                Matrix4 childToParentSpaceMatrix = fromBoneSpaceMatrix * toParentSpaceMatrix;
+                toParentSpaceMatrices.Add(childToParentSpaceMatrix);
+                IterateBoneHierarchy(child, ref toParentSpaceMatrix, toBoneSpaceMatrices, ref toParentSpaceMatrices);
+            }
         }
 
         public Bone GetRootBone()
@@ -63,24 +82,19 @@ namespace MassiveGame.Core.AnimationCore
             return this_bone;
         }
 
-        public void SetBoneTransformation(BoneTransformation boneTransformation)
+        public bool IsRootBone()
         {
-            localSpaceBoneTransformation = boneTransformation;
+            return m_parent == null;
         }
 
         public void SetOffsetMatrix(Matrix4 offsetMatrix)
         {
-            localSpaceBoneTransformation.SetLocalOffsetMatrix(offsetMatrix);
+            m_offsetMatrix = offsetMatrix;
         }
 
-        public void SetInverseOffsetMatrix(Matrix4 inverseOffsetMatrix)
+        public void SetOffsetMatrix(ref Matrix4 offsetMatrix)
         {
-            localSpaceBoneTransformation.SetLocalInverseOffsetMatrix(inverseOffsetMatrix);
-        }
-
-        public bool IsRootBone()
-        {
-            return m_parent == null;
+            m_offsetMatrix = offsetMatrix;
         }
 
         public void AddChildBone(Bone childBone)
@@ -91,6 +105,35 @@ namespace MassiveGame.Core.AnimationCore
         public void AddRangeChildBones(List<Bone> childBoneRange)
         {
             m_children.AddRange(childBoneRange);
+        }
+     
+        public List<Matrix4> GetSortedWithIdOffsetMatrices()
+        {
+            Bone rootBone = GetRootBone();
+
+            List<Matrix4> collectionOfOffsetMatrices = new List<Matrix4>();
+            collectionOfOffsetMatrices.Add(rootBone.GetOffsetMatrix());
+            CollectOffsetMatricesRecursive(rootBone, ref collectionOfOffsetMatrices);
+            return collectionOfOffsetMatrices;
+        }
+
+        private void CollectOffsetMatricesRecursive(Bone parentBone, ref List<Matrix4> collectionOfOffsetMatrices)
+        {
+            foreach (var child in parentBone.m_children)
+            {
+                collectionOfOffsetMatrices.Add(child.m_offsetMatrix);
+                CollectOffsetMatricesRecursive(child, ref collectionOfOffsetMatrices);
+            }
+        }
+       
+        public void CleanUp()
+        {
+            m_parent = null;
+            foreach (var child in m_children)
+            {
+                child.CleanUp();
+            }
+            ClearChildrenBones();
         }
 
         public void RemoveChildBone(Bone childBone)
@@ -103,83 +146,9 @@ namespace MassiveGame.Core.AnimationCore
             m_children.RemoveRange(index, count);
         }
 
-        public void ClearChilderBones()
+        public void ClearChildrenBones()
         {
             m_children.Clear();
-        }
-
-        public void CalcInverseOffsetMatrices()
-        {
-            UpdateInverseOffsetMatrixRecursive(m_parent);
-        }
-
-        private void UpdateInverseOffsetMatrixRecursive(Bone parentBone)
-        {
-            Matrix4 parentOffsetMatrix = parentBone != null ? parentBone.localSpaceBoneTransformation.GetLocalOffsetMatrix() : Matrix4.Identity;
-            localSpaceBoneTransformation.SetLocalInverseOffsetMatrix(Matrix4.Mult(localSpaceBoneTransformation.GetLocalOffsetMatrix(), parentOffsetMatrix).Inverted());
-
-            foreach (var bone in m_children)
-            {
-                if (bone != null)
-                {
-                    bone.UpdateInverseOffsetMatrixRecursive(this);
-                }
-            }
-        }
-
-        public List<Matrix4> GetAlignedWithIdListOffsetMatrices()
-        {
-            Bone rootBone = GetRootBone();
-
-            List<Matrix4> collectionOfOffsetMatrices = new List<Matrix4>();
-            CollectOffsetMatricesRecursive(ref collectionOfOffsetMatrices, rootBone);
-            return collectionOfOffsetMatrices;
-        }
-
-        private void CollectOffsetMatricesRecursive(ref List<Matrix4> collectionOfOffsetMatrices, Bone parentBone)
-        {
-            if (parentBone != null)
-            {
-
-                Matrix4 ToLocalBoneSpace = parentBone.localSpaceBoneTransformation.GetLocalOffsetMatrix();
-
-                collectionOfOffsetMatrices.Add(ToLocalBoneSpace);
-                foreach (var childBone in parentBone.m_children)
-                {
-                    CollectOffsetMatricesRecursive(ref collectionOfOffsetMatrices, childBone);
-                }
-            }
-        }
-
-        public List<Matrix4> GetAlignedWithIdListOfInvertedOffsetMatrices()
-        {
-            Bone rootBone = GetRootBone();
-
-            List<Matrix4> collectionOfOffsetMatrices = new List<Matrix4>();
-            CollectInverseOffsetMatricesRecursive(ref collectionOfOffsetMatrices, rootBone);
-            return collectionOfOffsetMatrices;
-        }
-
-        private void CollectInverseOffsetMatricesRecursive(ref List<Matrix4> collectionOfOffsetMatrices, Bone parentBone)
-        {
-            if (parentBone != null)
-            {
-                collectionOfOffsetMatrices.Add(parentBone.localSpaceBoneTransformation.GetLocalInverseOffsetMatrix());
-                foreach (var childBone in parentBone.m_children)
-                {
-                    CollectInverseOffsetMatricesRecursive(ref collectionOfOffsetMatrices, childBone);
-                }
-            }
-        }
-
-        public void CleanUp()
-        {
-            m_parent = null;
-            foreach (var child in m_children)
-            {
-                child.CleanUp();
-            }
-            ClearChilderBones();
         }
     }
 }

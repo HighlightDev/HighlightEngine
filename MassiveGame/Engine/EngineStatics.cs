@@ -84,6 +84,6 @@ namespace MassiveGame
 
         public static GlobalSettings globalSettings = new GlobalSettings();
 
-        public static MovableSkeletalMeshEntity skeletalMesh = null;
+        public static MovableSkeletalMeshEntity SkeletalMesh = null;
     }
 }

@@ -37,9 +37,6 @@ namespace MassiveGame.Core.GameCore.Water
 
     public class WaterPlane : IVisible
     {
-        private StencilPassShader stencilPassShader;
-
-
         #region Definitions
 
         private float _transparencyDepth;
@@ -50,6 +47,7 @@ namespace MassiveGame.Core.GameCore.Water
         private ITexture _waterNormalMap;
         private VertexArrayObject _buffer;
         private WaterShader _shader;
+        private StencilPassShader stencilPassShader;
         public WaterFBO _fbo;
         private bool _postConstructor;
         private MistComponent _mist;
@@ -161,14 +159,17 @@ namespace MassiveGame.Core.GameCore.Water
             stencilPassShader.stopProgram();
         }
 
-        public void renderWater(BaseCamera camera, ref Matrix4 projectionMatrix, float frameTimeSec, float nearClipPlane, float farClipPlane
+        public void Tick(float deltaTime)
+        {
+            _moveFactor += _waveSpeed * deltaTime;
+            _moveFactor %= 1;
+        }
+
+        public void renderWater(BaseCamera camera, ref Matrix4 projectionMatrix, float nearClipPlane, float farClipPlane
             , DirectionalLight sun = null, List<PointLight> lights = null)
         {
             postConstructor();
             /*Water distortion cycle*/
-
-            _moveFactor += _waveSpeed * frameTimeSec;
-            _moveFactor %= 1;
 
             this._shader.startProgram();
             this._fbo.ReflectionTexture.BindTexture(TextureUnit.Texture0);
@@ -248,7 +249,7 @@ namespace MassiveGame.Core.GameCore.Water
             /*Nominal water coords*/
             this.quad = new CollisionQuad(-1.0f, 1.0f, 0.0f, 0.0f, -1.0f, 1.0f);
             _moveFactor = 0.0f;
-            _waveSpeed = 0.3f;
+            _waveSpeed = 0.1f;
             _waveStrength = 0.04f;
             _transparencyDepth = 10000f;
             /*First pass postconstructor*/

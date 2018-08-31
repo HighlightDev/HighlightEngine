@@ -25,7 +25,7 @@ namespace MassiveGame.API.MouseObjectDetector
             this.viewMatrix = camera.GetViewMatrix();
         }
 
-        public void Update()
+        public void Tick(float deltaTime)
         {
             this.viewMatrix = camera.GetViewMatrix();
             this.currentRay = calculateMouseRay();
