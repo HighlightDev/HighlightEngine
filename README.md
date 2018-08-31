@@ -18,6 +18,6 @@
 * Bloom;
 * # Distortions
 * Water planes;
-*# Animation
+* # Animation
 
 ![Engine screenshot](/Screenshots/Rnd1.png)
