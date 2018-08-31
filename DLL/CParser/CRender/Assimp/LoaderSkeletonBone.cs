@@ -30,7 +30,7 @@ namespace CParser.Assimp
             foreach (var child in m_children)
             {
                 id = child.GetIdByBone(seekBone, child);
-                if (id > 0)
+                if (id >= 0)
                     break;
             }
 

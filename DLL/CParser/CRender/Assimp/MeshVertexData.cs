@@ -59,8 +59,7 @@ namespace CParser.Assimp
             bHasNormals = m_meshes.Any(mesh => mesh.HasNormals);
             bHasTextureCoordinates = m_meshes.Any(mesh => mesh.HasTextureCoords(0));
             bHasTangentVertices = m_meshes.Any(mesh => mesh.HasTangentBasis);
-            bHasAnimation = false;
-                //m_scene.HasAnimations;
+            bHasAnimation = m_scene.HasAnimations;
 
             Indices = bHasIndices ? new List<UInt32>() : null;
 
@@ -199,12 +198,17 @@ namespace CParser.Assimp
 
             foreach (var mesh in m_meshes)
             {
-                var localBone = mesh.Bones.First(bone => bone.Name == name);
-                if (localBone != null)
+                foreach (var bone in mesh.Bones)
                 {
-                    result = localBone;
-                    break;
+                    if (bone.Name == name)
+                    {
+                        result = bone;
+                        break;
+                    }
                 }
+
+                if (result != null)
+                    break;
             }
 
             return result;
