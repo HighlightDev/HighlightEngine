@@ -9,7 +9,7 @@ namespace MassiveGame.Core.GameCore.Entities.Skeletal_Entities
     {
         private const string ShaderName = "SkeletalMesh Shader";
         private const Int32 MaxWeights = 3;
-        private const Int32 MaxBones = 40;
+        private const Int32 MaxBones = 55;
 
         private Uniform u_worldMatrix, u_viewMatrix, u_projectionMatrix, u_albedoTexture;
         private Uniform[] u_bonesMatrices = new Uniform[MaxBones];

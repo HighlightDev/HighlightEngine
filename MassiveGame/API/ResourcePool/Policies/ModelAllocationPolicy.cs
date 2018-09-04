@@ -71,7 +71,7 @@ namespace MassiveGame.API.ResourcePool.Policies
 
                 if (meshData.bHasAnimation)
                 {
-                    Bone rootBone = AssimpConverter.Converter.ConvertAssimpBoneToEngineBone(meshData.SkeletonRoot);
+                    ParentBone rootBone = AssimpConverter.Converter.ConvertAssimpBoneToEngineBone(meshData.SkeletonRoot);
                     resultSkin = new AnimatedSkin(vao, rootBone);
                 }
                 else

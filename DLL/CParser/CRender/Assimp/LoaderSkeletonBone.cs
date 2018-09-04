@@ -41,7 +41,7 @@ namespace CParser.Assimp
         {
             Int32 id = -1;
 
-            if (currentSkeletonBone.GetBoneInfo() == seekBone)
+            if (currentSkeletonBone.GetBoneInfo().Name == seekBone.Name)
             {
                 id = currentSkeletonBone.GetBoneId();
             }

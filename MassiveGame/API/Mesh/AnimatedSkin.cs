@@ -5,15 +5,15 @@ namespace MassiveGame.API.Mesh
 {
     public class AnimatedSkin : Skin
     {
-        private Bone m_rootBone;
+        private ParentBone m_rootBone;
 
-        public AnimatedSkin(VertexArrayObject vao, Bone rootBone) 
+        public AnimatedSkin(VertexArrayObject vao, ParentBone rootBone) 
             : base(vao)
         {
             m_rootBone = rootBone;
         }
 
-        public Bone GetRootBone()
+        public ParentBone GetRootBone()
         {
             return m_rootBone;
         }

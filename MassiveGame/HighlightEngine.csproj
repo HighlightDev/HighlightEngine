@@ -138,6 +138,7 @@
     <Compile Include="API\Mesh\AnimatedSkin.cs" />
     <Compile Include="API\Mesh\Skin.cs" />
     <Compile Include="Core\AnimationCore\Bone.cs" />
+    <Compile Include="Core\AnimationCore\ParentBone.cs" />
     <Compile Include="Core\AnimationCore\SkeletalMeshComponent.cs" />
     <Compile Include="Core\GameCore\Entities\Skeleton\SkeletonDummy.cs" />
     <Compile Include="Core\GameCore\Entities\Skeleton\SkeletonShader.cs" />

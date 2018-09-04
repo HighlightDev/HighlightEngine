@@ -47,4 +47,3 @@ D:\VisualStudioProjects\HighlightEngine\DLL\FramebufferAPI\FramebufferAPI\obj\De
 D:\VisualStudioProjects\HighlightEngine\DLL\FramebufferAPI\FramebufferAPI\obj\Debug\FramebufferAPI.dll
 D:\VisualStudioProjects\HighlightEngine\DLL\FramebufferAPI\FramebufferAPI\obj\Debug\FramebufferAPI.pdb
 D:\VisualStudioProjects\HighlightEngine\DLL\FramebufferAPI\FramebufferAPI\obj\Debug\FramebufferAPI.csprojAssemblyReference.cache
-C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\DLL\FramebufferAPI\FramebufferAPI\obj\Debug\FramebufferAPI.csprojResolveAssemblyReference.cache

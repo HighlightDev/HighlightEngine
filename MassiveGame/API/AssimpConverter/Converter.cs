@@ -3,27 +3,23 @@ using MassiveGame.Core.AnimationCore;
 using OpenTK;
 
 using EngineBone = MassiveGame.Core.AnimationCore.Bone;
+using EngineParentBone = MassiveGame.Core.AnimationCore.ParentBone;
 using System;
 
 namespace MassiveGame.API.AssimpConverter
 {
     public static class Converter
     {
-        public static EngineBone ConvertAssimpBoneToEngineBone(CParser.Assimp.LoaderSkeletonParentBone rootBone)
+        public static EngineParentBone ConvertAssimpBoneToEngineBone(CParser.Assimp.LoaderSkeletonParentBone rootBone)
         {
-            EngineBone resultBone = null;
+            EngineParentBone resultBone = new EngineParentBone();
 
             foreach (var bone in rootBone.GetChildren())
             {
                 EngineBone root = new EngineBone(bone.GetBoneId(), bone.GetBoneInfo().Name, null);
                 root.SetOffsetMatrix(ConvertAssimpMatrix4x4ToOpenTKMatrix4(bone.GetBoneInfo().OffsetMatrix));
                 IterateBoneTree(root, bone);
-
-
-                throw new NotImplementedException();
-                // This is temporary until engine bone doesn't support multiple parent bones
-                resultBone = root;
-                break;
+                resultBone.AddChildBone(root);
             }
 
             return resultBone;

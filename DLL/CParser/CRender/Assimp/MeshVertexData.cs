@@ -133,12 +133,15 @@ namespace CParser.Assimp
                 {
                     foreach (var node in rootNode.Children)
                     {
-                        LoaderSkeletonBone skeletonBone = new LoaderSkeletonBone(SkeletonRoot);
-                        skeletonBone.SetBoneId(boneIdCounter++);
                         var bone = GetBoneByName(node.Name);
-                        skeletonBone.SetBoneInfo(bone);
-                        FillHierarchyRecursive(node, skeletonBone, ref boneIdCounter);
-                        SkeletonRoot.AddChildBone(skeletonBone);
+                        if (bone != null)
+                        {
+                            LoaderSkeletonBone skeletonBone = new LoaderSkeletonBone(SkeletonRoot);
+                            skeletonBone.SetBoneId(boneIdCounter++);
+                            skeletonBone.SetBoneInfo(bone);
+                            FillHierarchyRecursive(node, skeletonBone, ref boneIdCounter);
+                            SkeletonRoot.AddChildBone(skeletonBone);
+                        }
                     }
                 }
             }
@@ -198,6 +201,7 @@ namespace CParser.Assimp
 
             foreach (var mesh in m_meshes)
             {
+
                 foreach (var bone in mesh.Bones)
                 {
                     if (bone.Name == name)
@@ -282,13 +286,20 @@ namespace CParser.Assimp
                     if (weight.VertexID == vertexId + countOfIndicesPerMesh[i])
                     {
                         Int32 boneId = SkeletonRoot.GetIdByBoneInHierarchy(bone);
-                        if (boneId < 0)
-                            throw new ArgumentException("Such bone doesn't exist in skeleton!");
-
-                        vertex.AddBoneWeight(new KeyValuePair<Tuple<Bone, int>, float>(new Tuple<Bone, Int32>(bone, boneId), weight.Weight));
+                        if (boneId >= 0)
+                        {
+                            vertex.AddBoneWeight(new KeyValuePair<Tuple<Bone, int>, float>(new Tuple<Bone, Int32>(bone, boneId), weight.Weight));
+                        }
+                        else
+                        {
+                            //throw new ArgumentException("Such bone doesn't exist in skeleton!");
+                        }
                     }
                 }
             }
+
+            if (vertex.BoneWeightMap.Count == 0)
+                blendData.Remove(vertex);
         }
     }
 

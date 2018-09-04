@@ -93,14 +93,14 @@ namespace MassiveGame.Core
             return resultAnimatedPoseMatrices;
         }
 
-        public Matrix4[] GetAnimatedOffsetedMatrices(Bone rootBone)
+        public Matrix4[] GetAnimatedOffsetedMatrices(ParentBone rootBone)
         {
             List<Matrix4> relevantBoneTransformations = GetAnimatedPoseMatricesList();
 
             List<Matrix4> animatedMatrices = new List<Matrix4>();
             CollectAnimatedMatrices(rootBone, Matrix4.Identity, relevantBoneTransformations, ref animatedMatrices);
 
-            List<Matrix4> offsetBones = rootBone.GetSortedWithIdOffsetMatrices();
+            List<Matrix4> offsetBones = rootBone.GetToBoneSpaceMatricesList();
 
             Matrix4[] skinningMatrices = new Matrix4[animatedMatrices.Count];
 
@@ -115,14 +115,24 @@ namespace MassiveGame.Core
             return skinningMatrices;
         }
 
-        // This is just for another one attempt to start animation working and ... now it works!!
-        private void CollectAnimatedMatrices(Bone parentBone, Matrix4 parentMatrix, List<Matrix4> srcTransformation, ref List<Matrix4> dstMatrices)
+        private void GoThroughHierarchy(Bone parent, Matrix4 parentMatrix, List<Matrix4> srcTransformation, ref List<Matrix4> dstMatrices)
         {
-            Matrix4 currentBoneMatrix = srcTransformation[parentBone.GetId()] * parentMatrix;
-            dstMatrices.Add(currentBoneMatrix);
-            foreach (var bone in parentBone.GetChildren())
+            foreach (Bone child in parent.GetChildren())
             {
-                CollectAnimatedMatrices(bone, currentBoneMatrix, srcTransformation, ref dstMatrices);
+                Matrix4 currentBoneMatrix = srcTransformation[child.GetId()] * parentMatrix;
+                dstMatrices.Add(currentBoneMatrix);
+                GoThroughHierarchy(child, currentBoneMatrix, srcTransformation, ref dstMatrices);
+            }
+        }
+
+        // This is just for another one attempt to start animation working and ... now it works!!
+        private void CollectAnimatedMatrices(ParentBone parentBone, Matrix4 parentMatrix, List<Matrix4> srcTransformation, ref List<Matrix4> dstMatrices)
+        {
+            foreach (Bone child in parentBone.GetChildren())
+            {
+                Matrix4 currentBoneMatrix = srcTransformation[child.GetId()] * parentMatrix;
+                dstMatrices.Add(currentBoneMatrix);
+                GoThroughHierarchy(child, currentBoneMatrix, srcTransformation, ref dstMatrices);
             }
         }
     }
