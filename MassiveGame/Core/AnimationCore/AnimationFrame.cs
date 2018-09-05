@@ -41,24 +41,37 @@ namespace MassiveGame.Core.AnimationCore
 
         public Tuple<double, double> GetIntervalsOnTimeBoundaries(double time)
         {
-            double[] timeIntervals = GetFrameTimeIntervals();
+            double[] allTimeIntervals = GetFrameTimeIntervals();
+            Tuple<double, double> resultInterval = null;
 
-            if (time <= 0.000005)
-                return new Tuple<double, double>(timeIntervals[1], timeIntervals[0]);
-
-            double next = 0, prev = timeIntervals[0];
-            for (Int32 i = 0; i < timeIntervals.Length; i++)
+            // In case there is only one state in animation
+            if (allTimeIntervals.Length == 1)
             {
-                double reverseTimeInterval = timeIntervals[timeIntervals.Length - i - 1];
-                double forwardTimeInterval = timeIntervals[i];
-
-                if (reverseTimeInterval > time)
-                    next = reverseTimeInterval;
-
-                if (forwardTimeInterval < time)
-                    prev = forwardTimeInterval;
+                resultInterval = new Tuple<double, double>(allTimeIntervals[0], allTimeIntervals[0]);
             }
-            return new Tuple<double, double>(next, prev);
+            // -FIXME
+            else if (time <= 0.000005)
+            {
+                resultInterval = new Tuple<double, double>(allTimeIntervals[0], allTimeIntervals[1]);
+            }
+            else
+            {
+                double next = 0.0, prev = allTimeIntervals[0];
+                for (Int32 i = 0; i < allTimeIntervals.Length; i++)
+                {
+                    double reverseTimeInterval = allTimeIntervals[allTimeIntervals.Length - i - 1];
+                    double forwardTimeInterval = allTimeIntervals[i];
+
+                    if (reverseTimeInterval > time)
+                        next = reverseTimeInterval;
+
+                    if (forwardTimeInterval < time)
+                        prev = forwardTimeInterval;
+                }
+                resultInterval = new Tuple<double, double>(next, prev);
+            }
+
+            return resultInterval;
         }
 
         public Tuple<double, BoneTransform> GetFrameByTime(double key)

@@ -57,7 +57,7 @@ namespace MassiveGame.Core.GameCore.Entities.Skeleton
 
             m_skeletonShader.startProgram();
             m_skeletonShader.SetTransformationMatrices(ref worldMatrix, ref viewMatrix, ref projectionMatrix);
-            m_skeletonShader.SetSkeletonMatrices(m_animationHolder.GetAnimatedPoseMatricesList().ToArray());
+            m_skeletonShader.SetSkeletonMatrices(m_animationHolder.GetAnimatedNotOffsetedPoseMatricesList().ToArray());
             GL.PointSize(10);
             m_skeletonVAO.RenderVAO(PrimitiveType.Points);
             m_skeletonShader.stopProgram();

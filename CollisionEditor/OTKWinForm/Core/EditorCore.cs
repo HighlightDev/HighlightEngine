@@ -56,7 +56,7 @@ namespace OTKWinForm.Core
             if (actor != null)
             {
                 Matrix4 viewMatrix = EditorCamera.ViewMatrix;
-                actor.Tick(ref projectionMatrix, ref viewMatrix);
+                actor.Tick(0);
             }
         }
 

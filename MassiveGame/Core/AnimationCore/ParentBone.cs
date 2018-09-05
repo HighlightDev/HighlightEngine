@@ -1,9 +1,6 @@
 ﻿using OpenTK;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MassiveGame.Core.AnimationCore
 {
@@ -55,28 +52,28 @@ namespace MassiveGame.Core.AnimationCore
             ClearChildrenBones();
         }
 
-        public List<Matrix4> GetToBoneSpaceMatricesList()
+        public List<Matrix4> GetOffsetMatricesList()
         {
             List<Matrix4> collectionOfOffsetMatrices = new List<Matrix4>();
 
             foreach (Bone child in m_children)
             {
                 collectionOfOffsetMatrices.Add(child.GetOffsetMatrix());
-                IterateToBoneHierarchy(child, ref collectionOfOffsetMatrices);
+                IterateOffsetHierarchy(child, ref collectionOfOffsetMatrices);
             }
             return collectionOfOffsetMatrices;
         }
 
-        private void IterateToBoneHierarchy(Bone parentBone, ref List<Matrix4> collectionOfOffsetMatrices)
+        private void IterateOffsetHierarchy(Bone parentBone, ref List<Matrix4> collectionOfOffsetMatrices)
         {
             foreach (var child in parentBone.m_children)
             {
                 collectionOfOffsetMatrices.Add(child.GetOffsetMatrix());
-                IterateToBoneHierarchy(child, ref collectionOfOffsetMatrices);
+                IterateOffsetHierarchy(child, ref collectionOfOffsetMatrices);
             }
         }
 
-        public List<Matrix4> GetToParentSpaceMatricesList(List<Matrix4> toBoneSpaceMatrices)
+        public List<Matrix4> GetUndoOffsetMatricesList(List<Matrix4> toBoneSpaceMatrices)
         {
             List<Matrix4> resultToParentSpaceMatrices = new List<Matrix4>();
 
@@ -85,19 +82,19 @@ namespace MassiveGame.Core.AnimationCore
                 // iterate through whole hierarchy and collect inverted ToBoneSpace matrices
                 Matrix4 toParentSpaceMatrix = toBoneSpaceMatrices[i].Inverted();
                 resultToParentSpaceMatrices.Add(toParentSpaceMatrix);
-                IterateToParentHierarchy(m_children[i], ref toParentSpaceMatrix, toBoneSpaceMatrices, ref resultToParentSpaceMatrices);
+                IterateUndoOffsetHierarchy(m_children[i], ref toParentSpaceMatrix, toBoneSpaceMatrices, ref resultToParentSpaceMatrices);
             }
             return resultToParentSpaceMatrices;
         }
 
-        private void IterateToParentHierarchy(Bone parent, ref Matrix4 toParentSpaceMatrix, List<Matrix4> toBoneSpaceMatrices, ref List<Matrix4> toParentSpaceMatrices)
+        private void IterateUndoOffsetHierarchy(Bone parent, ref Matrix4 toParentSpaceMatrix, List<Matrix4> toBoneSpaceMatrices, ref List<Matrix4> toParentSpaceMatrices)
         {
             foreach (var child in parent.GetChildren())
             {
                 Matrix4 fromBoneSpaceMatrix = toBoneSpaceMatrices[child.GetId()].Inverted();
                 Matrix4 childToParentSpaceMatrix = fromBoneSpaceMatrix * toParentSpaceMatrix;
                 toParentSpaceMatrices.Add(childToParentSpaceMatrix);
-                IterateToParentHierarchy(child, ref toParentSpaceMatrix, toBoneSpaceMatrices, ref toParentSpaceMatrices);
+                IterateUndoOffsetHierarchy(child, ref toParentSpaceMatrix, toBoneSpaceMatrices, ref toParentSpaceMatrices);
             }
         }
     }
