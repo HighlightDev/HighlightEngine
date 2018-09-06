@@ -386,10 +386,11 @@ namespace ShaderPattern
 
             codeResult = codeResult.EndsWith("\n") || codeResult.EndsWith("\r") ? codeResult.Remove(indexNewLine) : codeResult;
 
-            StreamWriter writer = new StreamWriter(shaderPath, false);
-            writer.WriteLine(codeResult);
-            writer.Close();
-            writer.Dispose();
+            using (StreamWriter writer = new StreamWriter(shaderPath, false))
+            {
+                writer.WriteLine(codeResult);
+                writer.Close();
+            }
         }
 
         private void AddPrecompiledEditToShader()

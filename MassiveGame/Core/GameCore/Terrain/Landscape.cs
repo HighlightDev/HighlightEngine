@@ -230,9 +230,9 @@ namespace MassiveGame.Core.GameCore.Terrain
             if (Sun != null)
             {
                 // Get shadow handler
-                ITexture shadowMap = Sun.GetShadow().GetShadowMapTexture();
+                ITexture shadowMap = Sun.GetShadowHolder().GetShadowMapTexture();
                 shadowMap.BindTexture(TextureUnit.Texture9); // shadowmap
-                _shader.SetDirectionalLightShadowMatrix(Sun.GetShadow().GetShadowMatrix(ref ModelMatrix, ref ProjectionMatrix));
+                _shader.SetDirectionalLightShadowMatrix(Sun.GetShadowHolder().GetShadowMatrix(ref ModelMatrix, ref ProjectionMatrix));
             }
 
             _shader.SetTextureR(1, nmR, nmR > 0);

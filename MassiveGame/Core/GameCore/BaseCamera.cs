@@ -129,11 +129,11 @@ namespace MassiveGame.Core.GameCore
             Matrix3 rotatePitch = Matrix3.CreateFromAxisAngle(eyeSpaceRightVector, MathHelper.DegreesToRadians(anglePitch));
             Matrix3 rotateYaw = Matrix3.CreateRotationY(MathHelper.DegreesToRadians(angleYaw));
 
-            Matrix3 rotMat = Matrix3.Identity;
-            rotMat *= rotateYaw;
-            rotMat *= rotatePitch;
+            Matrix3 tempRotationMatrix = Matrix3.Identity;
+            tempRotationMatrix *= rotateYaw;
+            tempRotationMatrix *= rotatePitch;
 
-            rotationMatrix = rotMat * rotationMatrix;
+            rotationMatrix = tempRotationMatrix * rotationMatrix;
 
             bTransformationDirty = true;
 

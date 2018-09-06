@@ -58,7 +58,7 @@ namespace MassiveGame.API.ResourcePool.Policies
                 {
                     Int32 skeletonWeightsPerVertexCount = (Int32)loader.m_skeletonType;
                     if (skeletonWeightsPerVertexCount > 4)
-                        throw new NotImplementedException("There is no implementation for cases when there are more than four weights influencing on vertex.");
+                        throw new NotImplementedException("There is no implementation yet for cases when there are more than four weights influencing on vertex.");
 
                     Int32 vectorSize = skeletonWeightsPerVertexCount;
                     blendWeightsVBO = new VertexBufferObjectTwoDimension<float>(blendWeights, BufferTarget.ArrayBuffer, 6, vectorSize, VertexBufferObjectBase.DataCarryFlag.Invalidate);

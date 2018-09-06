@@ -72,7 +72,7 @@ namespace MassiveGame.Engine
 
         private void DepthPassDraw(ref Point actualScreenRezolution)
         {
-            EngineStatics.Sun.GetShadow().WriteDepth(EngineStatics.shadowList, ref EngineStatics.ProjectionMatrix);
+            EngineStatics.Sun.GetShadowHolder().WriteDepth(EngineStatics.shadowList, ref EngineStatics.ProjectionMatrix);
             GL.Viewport(0, 0, actualScreenRezolution.X, actualScreenRezolution.Y);
         }
 

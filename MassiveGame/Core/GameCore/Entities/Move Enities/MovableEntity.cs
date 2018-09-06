@@ -219,9 +219,9 @@ namespace MassiveGame.Core.GameCore.Entities.MoveEntities
             if (Sun != null)
             {
                 // Get shadow handler
-                ITexture shadowMap = Sun.GetShadow().GetShadowMapTexture();
+                ITexture shadowMap = Sun.GetShadowHolder().GetShadowMapTexture();
                 shadowMap.BindTexture(TextureUnit.Texture1);
-                GetShader().SetDirectionalLightShadowMatrix(Sun.GetShadow().GetShadowMatrix(ref modelMatrix, ref ProjectionMatrix));
+                GetShader().SetDirectionalLightShadowMatrix(Sun.GetShadowHolder().GetShadowMatrix(ref modelMatrix, ref ProjectionMatrix));
             }
             m_texture.BindTexture(TextureUnit.Texture0); 
             if (bEnableNormalMapping && m_normalMap != null)

@@ -13,11 +13,11 @@ namespace CParser.Assimp.Strategy
                 blendWeights[vertexId, 0] = blendVertex.BoneWeightMap[0].Value;
                 blendIndices[vertexId, 0] = blendVertex.BoneWeightMap[0].Key.Item2;
 
-                blendWeights[vertexId, 1] = 0.0f; // this provides assurance that skin matrix will not do anything in shader.
-                blendIndices[vertexId, 1] = -1; // take root matrix
+                blendWeights[vertexId, 1] = 0.0f;
+                blendIndices[vertexId, 1] = -1;  // this provides assurance that skin matrix will not do anything in shader.
 
-                blendWeights[vertexId, 2] = 0.0f; // this provides assurance that skin matrix will not do anything in shader.
-                blendIndices[vertexId, 2] = -1; 
+                blendWeights[vertexId, 2] = 0.0f;
+                blendIndices[vertexId, 2] = -1;   // this provides assurance that skin matrix will not do anything in shader.
             }
             else if (currentVertexInfluenceCount == 2)
             {
@@ -27,8 +27,8 @@ namespace CParser.Assimp.Strategy
                 blendWeights[vertexId, 1] = blendVertex.BoneWeightMap[1].Value;
                 blendIndices[vertexId, 1] = blendVertex.BoneWeightMap[1].Key.Item2;
 
-                blendWeights[vertexId, 2] = 0.0f; // this provides assurance that skin matrix will not do anything in shader.
-                blendIndices[vertexId, 2] = -1; 
+                blendWeights[vertexId, 2] = 0.0f; 
+                blendIndices[vertexId, 2] = -1; // this provides assurance that skin matrix will not do anything in shader.
             }
             else if (currentVertexInfluenceCount > 2)
             {

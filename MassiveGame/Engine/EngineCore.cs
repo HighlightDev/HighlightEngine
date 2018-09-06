@@ -59,7 +59,6 @@ namespace MassiveGame.Engine
 #endif
             m_UiWindow.Left = EngineStatics.SCREEN_POSITION_X;
             m_UiWindow.Top = EngineStatics.SCREEN_POSITION_Y;
-            preConstructor();
         }
 
         public void ShowUiWindow()
@@ -138,7 +137,7 @@ namespace MassiveGame.Engine
             var rtParams = new TextureParameters(TextureTarget.Texture2D, TextureMagFilter.Nearest, TextureMinFilter.Nearest, 0, PixelInternalFormat.DepthComponent16, EngineStatics.globalSettings.ShadowMapRezolution.X, EngineStatics.globalSettings.ShadowMapRezolution.Y, PixelFormat.DepthComponent, PixelType.Float, TextureWrapMode.Repeat);
             EngineStatics.Sun = new DirectionalLight(rtParams, new Vector3(-100, -10, 50), new Vector4(0.4f, 0.4f, 0.4f, 1),
                 new Vector4(0.7f, 0.7f, 0.7f, 1.0f), new Vector4(1, 1, 1, 1));
-            EngineStatics.Sun.GetShadow().CreateShadowMapCache();
+            EngineStatics.Sun.GetShadowHolder().CreateShadowMapCache();
 
             var dayPhases = new DayPhases(new Morning(new Vector3(0.3f, 0.3f, 0.3f), new Vector3(0.7f, 0.7f, 0.7f), new Vector3(.7f)),
                     new DayPhases.Day(new Vector3(0.4f, 0.4f, 0.4f), new Vector3(0.9f, 0.79f, 0.79f), new Vector3(1.0f)),

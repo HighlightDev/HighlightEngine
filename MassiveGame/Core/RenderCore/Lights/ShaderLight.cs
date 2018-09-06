@@ -8,7 +8,7 @@ namespace MassiveGame.Core.RenderCore.Lights
         public Vector4 Ambient { set; get; }
         public Vector4 Diffuse { set; get; }
         public Vector4 Specular { set; get; }
-        protected ShadowBase Shadow;
+        protected ShadowBase m_shadowHolder;
 
         public ShaderLight(Vector4 ambient, Vector4 diffuse, Vector4 specular)
         {

@@ -197,9 +197,9 @@ namespace MassiveGame.Core.GameCore.Entities.StaticEntities
 
             if (Sun != null)
             {
-                ITexture shadowMap = Sun.GetShadow().GetShadowMapTexture();
+                ITexture shadowMap = Sun.GetShadowHolder().GetShadowMapTexture();
                 shadowMap.BindTexture(TextureUnit.Texture4); // shadowmap
-                GetShader().SetDirectionalLightShadowMatrix(Sun.GetShadow().GetShadowMatrix(ref modelMatrix, ref ProjectionMatrix));
+                GetShader().SetDirectionalLightShadowMatrix(Sun.GetShadowHolder().GetShadowMatrix(ref modelMatrix, ref ProjectionMatrix));
             }
             GetShader().SetDirectionalLightShadowMap(4);
 

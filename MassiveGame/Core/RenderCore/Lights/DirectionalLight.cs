@@ -12,9 +12,9 @@ namespace MassiveGame.Core.RenderCore.Lights
         public Vector3 Position { set; get; }
         public Vector3 Destination { set; get; }
 
-        public ShadowDirectionalLight GetShadow()
+        public ShadowDirectionalLight GetShadowHolder()
         {
-            return (ShadowDirectionalLight)Shadow;
+            return m_shadowHolder as ShadowDirectionalLight;
         }
 
         #endregion
@@ -24,7 +24,7 @@ namespace MassiveGame.Core.RenderCore.Lights
         public DirectionalLight(TextureParameters rtParams, Vector3 direction, Vector4 ambient, Vector4 diffuse, Vector4 specular)
             : base(ambient, diffuse, specular)
         {
-            Shadow = new ShadowDirectionalLight(EngineStatics.Camera, rtParams, this);
+            m_shadowHolder = new ShadowDirectionalLight(EngineStatics.Camera, rtParams, this);
             this.Direction = direction;
         }
 
