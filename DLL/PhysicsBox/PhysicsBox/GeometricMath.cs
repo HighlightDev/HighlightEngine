@@ -1,6 +1,6 @@
 ﻿using System;
 using OpenTK;
-using VMath;
+using VectorMath;
 using PhysicsBox.MathTypes;
 
 namespace PhysicsBox
@@ -368,7 +368,7 @@ namespace PhysicsBox
             bool intersection = false;
             float distance1 = 0, distance2 = 0;     // Дистанция 2х точек линии
 
-            vNormal = VectorMath.Normal(vPolygon);        // Рассчитываем нормаль плоскости
+            vNormal = VectorMathOperations.GetNormalToPlane(vPolygon);        // Рассчитываем нормаль плоскости
 
             // Найдем дистанцию плоскости от начала координат:
             originDistance = planeDistance(vNormal, vPolygon[0]);
@@ -608,7 +608,7 @@ namespace PhysicsBox
             // 1) ШАГ ОДИН - Найдем положение сферы
 
             // Сначала найдем нормаль полигона
-            Vector3 vNormal = VectorMath.Normal(vPolygon);
+            Vector3 vNormal = VectorMathOperations.GetNormalToPlane(vPolygon);
 
             // Переменная для хранения дистанции от сферы
             float distance = 0.0f;

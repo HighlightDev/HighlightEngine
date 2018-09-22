@@ -86,15 +86,32 @@
     <DebugType>full</DebugType>
     <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'CollisionEditor|x86'">
+    <OutputPath>bin\x86\CollisionEditor\</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'CollisionEditor|AnyCPU'">
+    <OutputPath>bin\CollisionEditor\</OutputPath>
+    <DefineConstants>TRACE;type COLLISION_EDITOR</DefineConstants>
+    <Prefer32Bit>true</Prefer32Bit>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <DebugType>full</DebugType>
+    <DebugSymbols>true</DebugSymbols>
+  </PropertyGroup>
   <ItemGroup>
-    <Reference Include="AssimpNet, Version=3.2.0.0, Culture=neutral, PublicKeyToken=0d51b391f59f42a6" />
-    <Reference Include="OpenTK, Version=1.1.0.0, Culture=neutral, PublicKeyToken=bad199fe84eb3df4, processorArchitecture=MSIL">
+    <Reference Include="AssimpNet, Version=3.2.0.0, Culture=neutral, PublicKeyToken=0d51b391f59f42a6, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>bin\Debug\OpenTK.dll</HintPath>
+      <HintPath>..\DLL\MutualDLL\AssimpNet.dll</HintPath>
+    </Reference>
+    <Reference Include="OpenTK">
+      <HintPath>..\DLL\MutualDLL\OpenTK.dll</HintPath>
     </Reference>
     <Reference Include="OpenTK.GLControl, Version=1.1.0.0, Culture=neutral, PublicKeyToken=bad199fe84eb3df4, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>bin\Debug\OpenTK.GLControl.dll</HintPath>
+    </Reference>
+    <Reference Include="PhysicsBox, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\DLL\PhysicsBox\PhysicsBox\bin\Debug\PhysicsBox.dll</HintPath>
     </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
@@ -132,6 +149,18 @@
     <Compile Include="API\ResourcePool\Pools\RenderTargetPool.cs" />
     <Compile Include="API\ResourcePool\Pools\ShaderPool.cs" />
     <Compile Include="API\ResourcePool\Pools\TexturePool.cs" />
+    <Compile Include="CollisionEditor\Core\Actor.cs" />
+    <Compile Include="CollisionEditor\Core\Camera.cs" />
+    <Compile Include="CollisionEditor\Core\ComponentCreator.cs" />
+    <Compile Include="CollisionEditor\Core\EditorCore.cs" />
+    <Compile Include="CollisionEditor\Core\SceneComponent.cs" />
+    <Compile Include="CollisionEditor\Core\Skybox.cs" />
+    <Compile Include="CollisionEditor\GUI\AxesIcon.cs" />
+    <Compile Include="CollisionEditor\IOCore\ProxyModelLoader.cs" />
+    <Compile Include="CollisionEditor\IOCore\ProxyTextureLoader.cs" />
+    <Compile Include="CollisionEditor\RenderCore\BasicShader.cs" />
+    <Compile Include="CollisionEditor\RenderCore\RawModel.cs" />
+    <Compile Include="CollisionEditor\RenderCore\SkyboxShader.cs" />
     <Compile Include="Core\AnimationCore\AnimationFrame.cs" />
     <Compile Include="Core\AnimationCore\AnimationSequence.cs" />
     <Compile Include="Core\AnimationCore\BoneTransform.cs" />
@@ -260,6 +289,12 @@
     <Compile Include="UiWindow\EditorWindow.Designer.cs">
       <DependentUpon>EditorWindow.cs</DependentUpon>
     </Compile>
+    <Compile Include="UiWindow\CollisionEditorWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UiWindow\CollisionEditorWindow.Designer.cs">
+      <DependentUpon>CollisionEditorWindow.cs</DependentUpon>
+    </Compile>
     <Compile Include="UiWindow\GameWindow.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -315,20 +350,8 @@
     <None Include="Audio\material\actor\step\new_wood2.ogg" />
     <None Include="Audio\material\actor\step\new_wood3.ogg" />
     <None Include="Audio\material\actor\step\new_wood4.ogg" />
-    <None Include="ModelFiles\ASCIIExport\bmw.ASE" />
-    <None Include="ModelFiles\ASCIIExport\building.ASE" />
-    <None Include="ModelFiles\ASCIIExport\teapot_model.ASE" />
     <None Include="ModelFiles\cathedra_HighPoly.obj" />
     <None Include="ModelFiles\City_House_2_BI.obj" />
-    <None Include="ModelFiles\COLLADA\City_House_2_BI.dae" />
-    <None Include="ModelFiles\COLLADA\Dragon 2.5_dae.dae" />
-    <None Include="ModelFiles\COLLADA\house.dae" />
-    <None Include="ModelFiles\COLLADA\house2.dae" />
-    <None Include="ModelFiles\COLLADA\Rock.dae" />
-    <None Include="ModelFiles\COLLADA\TAtestCube4.dae" />
-    <None Include="ModelFiles\COLLADA\testModel.dae" />
-    <None Include="ModelFiles\COLLADA\testModel2.dae" />
-    <None Include="ModelFiles\COLLADA\testModel3.dae" />
     <None Include="ModelFiles\GothicLamp.obj" />
     <None Include="ModelFiles\grassBillboard.obj" />
     <None Include="ModelFiles\grassBillboard2.obj" />
@@ -336,17 +359,7 @@
     <None Include="ModelFiles\house3.obj" />
     <None Include="ModelFiles\playerCube.obj" />
     <None Include="ModelFiles\stall.obj" />
-    <None Include="ModelFiles\TAtestCube.obj" />
-    <None Include="ModelFiles\TAtestCube2.obj" />
     <None Include="ModelFiles\TAtestHouse.obj" />
-    <None Include="ModelFiles\wall_1_door.obj" />
-    <None Include="ModelFiles\wall_1_without_door.obj" />
-    <None Include="ModelFiles\wall_2_without_door.obj" />
-    <None Include="ModelFiles\wall_3.obj" />
-    <None Include="ModelFiles\wall_4_door.obj" />
-    <None Include="ModelFiles\wall_5_door.obj" />
-    <None Include="ModelFiles\wall_5_without_door.obj" />
-    <None Include="ModelFiles\wall_6_door.obj" />
     <None Include="Settings\keybindings.ini" />
     <None Include="Shaders\bloomFS.glsl" />
     <None Include="Shaders\bloomVS.glsl" />
@@ -394,8 +407,8 @@
     <None Include="Shaders\polyVS.glsl" />
     <None Include="Shaders\copyTextureFS.glsl" />
     <None Include="Shaders\copyTextureVS.glsl" />
-    <None Include="Shaders\skyboxFragmentShader.glsl" />
-    <None Include="Shaders\skyboxVertexShader.glsl" />
+    <None Include="Shaders\skyboxFS.glsl" />
+    <None Include="Shaders\skyboxVS.glsl" />
     <None Include="Shaders\sunFS.glsl" />
     <None Include="Shaders\sunVS.glsl" />
     <None Include="Shaders\terrainFragmentShader.glsl" />
@@ -413,6 +426,9 @@
   <ItemGroup>
     <EmbeddedResource Include="UiWindow\EditorWindow.resx">
       <DependentUpon>EditorWindow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UiWindow\CollisionEditorWindow.resx">
+      <DependentUpon>CollisionEditorWindow.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UiWindow\GameWindow.resx">
       <DependentUpon>GameWindow.cs</DependentUpon>
@@ -509,10 +525,6 @@
     <ProjectReference Include="..\DLL\FramebufferAPI\FramebufferAPI\FramebufferAPI.csproj">
       <Project>{48cdf51f-a311-4d4b-b7f5-a9d11afd67f8}</Project>
       <Name>FramebufferAPI</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\DLL\PhysicsBox\PhysicsBox\PhysicsBox.csproj">
-      <Project>{3b045858-f0f0-41e3-825b-c1c6bb3799f7}</Project>
-      <Name>PhysicsBox</Name>
     </ProjectReference>
     <ProjectReference Include="..\DLL\ShaderPattern\ShaderPattern\ShaderPattern.csproj">
       <Project>{0f8acded-024c-4b24-a383-745098ca3432}</Project>

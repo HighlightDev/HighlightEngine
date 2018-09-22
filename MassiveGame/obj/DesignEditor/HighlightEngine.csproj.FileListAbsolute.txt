@@ -54,3 +54,5 @@ C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\MassiveGame
 C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\MassiveGame\obj\DesignEditor\HighlightEngine.csproj.GenerateResource.Cache
 C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\MassiveGame\obj\DesignEditor\MassiveGame.exe
 C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\MassiveGame\obj\DesignEditor\MassiveGame.pdb
+C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\MassiveGame\bin\DesignEditor\AssimpNet.dll
+C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\MassiveGame\obj\DesignEditor\MassiveGame.UI.CollisionEditorWindow.resources

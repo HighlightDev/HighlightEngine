@@ -61,3 +61,4 @@ D:\VisualStudioProjects\HighlightEngine\DLL\PhysicsBox\PhysicsBox\obj\Debug\Phys
 D:\VisualStudioProjects\HighlightEngine\DLL\PhysicsBox\PhysicsBox\obj\Debug\PhysicsBox.dll
 D:\VisualStudioProjects\HighlightEngine\DLL\PhysicsBox\PhysicsBox\obj\Debug\PhysicsBox.pdb
 D:\VisualStudioProjects\HighlightEngine\DLL\PhysicsBox\PhysicsBox\obj\Debug\PhysicsBox.csprojAssemblyReference.cache
+C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\DLL\PhysicsBox\PhysicsBox\obj\Debug\PhysicsBox.csprojResolveAssemblyReference.cache

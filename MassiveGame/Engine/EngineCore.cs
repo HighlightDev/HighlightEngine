@@ -54,6 +54,8 @@ namespace MassiveGame.Engine
 
 #if DESIGN_EDITOR
             m_UiWindow = new UI.EditorWindow(startScreenRezoluion.X, startScreenRezoluion.Y, preConstructorFunction, renderQueueFunction, cleanUpFunction);
+#elif COLLISION_EDITOR
+            m_UiWindow = new UI.CollisionEditorWindow();
 #else
             m_UiWindow = new UI.GameWindow(startScreenRezoluion.X, startScreenRezoluion.Y, preConstructorFunction, renderQueueFunction, cleanUpFunction);
 #endif
@@ -170,9 +172,9 @@ namespace MassiveGame.Engine
             //EngineStatics.terrain.SetNormalMapB(ProjectFolders.NormalMapsPath + "brick_nm_high.png");
             //EngineStatics.terrain.SetMist(EngineStatics.Mist);
 
-            string modelPath = ProjectFolders.ModelsPath + "playerCube.obj";
-            string texturePath = ProjectFolders.MultitexturesPath + "b.png";
-            string normalMapPath = ProjectFolders.NormalMapsPath + "brick_nm_high.png";
+            string modelPath = ProjectFolders.ModelsPath + "house00.obj";
+            string texturePath = ProjectFolders.TextureAtlasPath + "houseDiffuse.jpg";
+            string normalMapPath = ProjectFolders.NormalMapsPath + "houseNormal.jpg";
             string specularMapPath = ProjectFolders.SpecularMapsPath + "brick_sm.png";
 
             //EngineStatics.City.Add((Building)EngineObjectCreator.CreateInstance(new StaticEntityArguments(modelPath, texturePath, normalMapPath, specularMapPath,
@@ -186,7 +188,7 @@ namespace MassiveGame.Engine
             //EngineStatics.City.Add((Building)EngineObjectCreator.CreateInstance(new StaticEntityArguments(modelPath, texturePath, normalMapPath, specularMapPath,
             //   new Vector3(230, 10 + EngineStatics.MAP_HEIGHT, 48), new Vector3(0, 180, 0), new Vector3(30, 30, 30))));
             EngineStatics.City.Add((Building)EngineObjectCreator.CreateInstance(new StaticEntityArguments(modelPath, texturePath, normalMapPath, specularMapPath,
-              new Vector3(170, 13f + EngineStatics.MAP_HEIGHT, 170), new Vector3(0, 180, 0), new Vector3(10, 10, 10))));
+              new Vector3(170, 13f + EngineStatics.MAP_HEIGHT, 170), new Vector3(0, 180, 0), new Vector3(10))));
             //EngineStatics.City.Add((Building)EngineObjectCreator.CreateInstance(new StaticEntityArguments(modelPath, texturePath, normalMapPath, specularMapPath,
             //   new Vector3(280, 10, 350), new Vector3(0, 180, 0), new Vector3(10))));
             //EngineStatics.City.Add((Building)EngineObjectCreator.CreateInstance(new StaticEntityArguments(modelPath, texturePath, normalMapPath, specularMapPath,

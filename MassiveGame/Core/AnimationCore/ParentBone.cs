@@ -79,7 +79,7 @@ namespace MassiveGame.Core.AnimationCore
 
             for (Int32 i = 0; i < m_children.Count; i++)
             {
-                // iterate through whole hierarchy and collect inverted ToBoneSpace matrices
+                // iterate through whole hierarchy and collect inverted matrices
                 Matrix4 toParentSpaceMatrix = toBoneSpaceMatrices[i].Inverted();
                 resultToParentSpaceMatrices.Add(toParentSpaceMatrix);
                 IterateUndoOffsetHierarchy(m_children[i], ref toParentSpaceMatrix, toBoneSpaceMatrices, ref resultToParentSpaceMatrices);

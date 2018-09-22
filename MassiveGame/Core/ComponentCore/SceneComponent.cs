@@ -22,6 +22,11 @@ namespace MassiveGame.Core.ComponentCore
 
         public override void Tick(float deltaTime)
         {
+            base.Tick(deltaTime);
+        }
+
+        private void PostConstructor()
+        {
             if (bPostConstructor)
             {
                 if ((new ObtainModelPool().GetPool() as ModelPool).GetModelReferenceCount("CollisionBound") == 0)
@@ -30,14 +35,11 @@ namespace MassiveGame.Core.ComponentCore
                     skin = PoolProxy.GetResource<ObtainModelPool, ModelAllocationPolicy, string, Skin>("CollisionBound");
                 bPostConstructor = false;
             }
-            base.Tick(deltaTime);
         }
 
         public override void RenderBound(ref Matrix4 projectionMatrix, ref Matrix4 viewMatrix, Color4 color)
         {
-            if (bPostConstructor)
-                return;
-
+            PostConstructor();
 
             Matrix4 worldMatrix = Matrix4.Identity;
             if ((Bound.GetBoundType() & BoundBase.BoundType.AABB) == BoundBase.BoundType.AABB)

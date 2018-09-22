@@ -114,15 +114,20 @@ namespace MassiveGame.API.ResourcePool.Pools
             {
                 resource = new Policy().AllocateMemory(arg);
 
-                if (!IsValidResourceType(resource))
+                if (resource != null)
                 {
-                    TryToFreeMemory<Policy, ArgType, ReturnType>(resource);
-                    throw new Exception("WRONG ALLOCATED TYPE FOR CURRENT POOL");
+                    if (!IsValidResourceType(resource))
+                    {
+                        TryToFreeMemory<Policy, ArgType, ReturnType>(resource);
+                        throw new Exception("WRONG ALLOCATED TYPE FOR CURRENT POOL");
+                    }
+                    resourceMap.Add(arg, resource);
                 }
-
-                resourceMap.Add(arg, resource);
             }
-            IncreaseRefCounter(arg, bHasInPool);
+
+            if (resource != null)
+                IncreaseRefCounter(arg, bHasInPool);
+
             return resource;
         }
     }

@@ -44,7 +44,7 @@ namespace MassiveGame.Core.GameCore.Skybox
             _moveFactor %= 360.0f;
         }
 
-        public void RenderWaterReflection(WaterPlane water, BaseCamera camera, DirectionalLight sun, Matrix4 projectionMatrix, Vector4 clipPlane)
+        public void RenderWaterReflection(WaterPlane water, BaseCamera camera, Vector3 sunDirection, Matrix4 projectionMatrix, Vector4 clipPlane)
         {
             if (_postConstructor)
                 return;
@@ -60,7 +60,7 @@ namespace MassiveGame.Core.GameCore.Skybox
             shader.SetTransformationMatrices(ref projectionMatrix, camera.GetViewMatrix(), ref mirrorMatrix);
             shader.SetDayCubeTexture(0);
             shader.SetNightCubeTexture(1);
-            shader.SetDirectionalLight(sun);
+            shader.SetDayCycleValue(sunDirection.Normalized().Y);
             shader.SetMist(_mist);
             shader.SetClipPlane(ref clipPlane);
             buffer.RenderVAO(PrimitiveType.Triangles);
@@ -69,7 +69,7 @@ namespace MassiveGame.Core.GameCore.Skybox
             GL.Disable(EnableCap.ClipDistance0);
         }
 
-        public void renderSkybox(BaseCamera camera, DirectionalLight sun, Matrix4 projectionMatrix)
+        public void renderSkybox(BaseCamera camera, Vector3 sunDirection, Matrix4 projectionMatrix)
         {
             postConstructor();
 
@@ -83,7 +83,7 @@ namespace MassiveGame.Core.GameCore.Skybox
             shader.SetTransformationMatrices(ref projectionMatrix, camera.GetViewMatrix(), ref modelMatrix);
             shader.SetDayCubeTexture(0);
             shader.SetNightCubeTexture(1);
-            shader.SetDirectionalLight(sun);
+            shader.SetDayCycleValue(sunDirection.Normalized().Y);
             shader.SetMist(_mist);
             buffer.RenderVAO(PrimitiveType.Triangles);
             shader.stopProgram();
@@ -106,8 +106,8 @@ namespace MassiveGame.Core.GameCore.Skybox
         {
             if (this._postConstructor)
             {
-                shader = PoolProxy.GetResource<ObtainShaderPool, ShaderAllocationPolicy<SkyboxShader>, string, SkyboxShader>(ProjectFolders.ShadersPath + "skyboxVertexShader.glsl" + "," +
-                    ProjectFolders.ShadersPath + "skyboxFragmentShader.glsl");
+                shader = PoolProxy.GetResource<ObtainShaderPool, ShaderAllocationPolicy<SkyboxShader>, string, SkyboxShader>(ProjectFolders.ShadersPath + "skyboxVS.glsl" + "," +
+                    ProjectFolders.ShadersPath + "skyboxFS.glsl");
 
                 float[,] vertices = new float[6 * 6, 3] { { -SKYBOX_SIZE, SKYBOX_SIZE, -SKYBOX_SIZE }, { -SKYBOX_SIZE, -SKYBOX_SIZE, -SKYBOX_SIZE }, { SKYBOX_SIZE, -SKYBOX_SIZE, -SKYBOX_SIZE },
             { SKYBOX_SIZE, -SKYBOX_SIZE, -SKYBOX_SIZE },{ SKYBOX_SIZE, SKYBOX_SIZE, -SKYBOX_SIZE },{ -SKYBOX_SIZE, SKYBOX_SIZE, -SKYBOX_SIZE },{ -SKYBOX_SIZE, -SKYBOX_SIZE, SKYBOX_SIZE },

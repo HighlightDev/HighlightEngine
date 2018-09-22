@@ -153,7 +153,7 @@ namespace MassiveGame.Core.RenderCore.PostFX.LensFlare
 
             if (EngineStatics.Skybox != null)
             {
-                EngineStatics.Skybox.renderSkybox(EngineStatics.Camera, EngineStatics.Sun, EngineStatics.ProjectionMatrix);
+                EngineStatics.Skybox.renderSkybox(EngineStatics.Camera, EngineStatics.Sun.Direction, EngineStatics.ProjectionMatrix);
             }
 
             GL.Clear(ClearBufferMask.DepthBufferBit);

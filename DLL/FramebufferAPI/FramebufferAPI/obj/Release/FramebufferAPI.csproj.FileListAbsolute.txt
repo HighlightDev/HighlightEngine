@@ -8,3 +8,10 @@ D:\Мультимедиа\Visual Studio Projects\OpenTK Applications\DLL\Framebu
 D:\Мультимедиа\Visual Studio Projects\OpenTK Applications\DLL\FramebufferAPI\FramebufferAPI\obj\Release\FramebufferAPI.pdb
 D:\Мультимедиа\Visual Studio Projects\OpenTK Applications\DLL\FramebufferAPI\FramebufferAPI\obj\Release\FramebufferAPI.csprojResolveAssemblyReference.cache
 D:\Мультимедиа\Visual Studio Projects\OpenTK Applications\DLL\FramebufferAPI\FramebufferAPI\bin\Release\TextureLoader.dll
+C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\DLL\FramebufferAPI\FramebufferAPI\bin\Release\FramebufferAPI.dll
+C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\DLL\FramebufferAPI\FramebufferAPI\bin\Release\FramebufferAPI.pdb
+C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\DLL\FramebufferAPI\FramebufferAPI\obj\Release\FramebufferAPI.dll
+C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\DLL\FramebufferAPI\FramebufferAPI\obj\Release\FramebufferAPI.pdb
+C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\DLL\FramebufferAPI\FramebufferAPI\bin\Release\TextureLoader.dll
+C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\DLL\FramebufferAPI\FramebufferAPI\bin\Release\TextureLoader.pdb
+C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\DLL\FramebufferAPI\FramebufferAPI\obj\Release\FramebufferAPI.csprojResolveAssemblyReference.cache

@@ -13,8 +13,7 @@ namespace MassiveGame.Core.GameCore.Skybox
 
         private const string SHADER_NAME = "Skybox Shader";
         private Uniform u_modelMatrix, u_viewMatrix, u_projectionMatrix,
-            u_skyboxDayTexture, u_skyboxNightTexture, u_sunPosition,
-            u_sunEnable, u_mistEnable, u_mistColour,
+            u_skyboxDayTexture, u_skyboxNightTexture, u_dayCycleValue, u_mistEnable, u_mistColour,
             u_clipPlane;
 
         #endregion
@@ -23,15 +22,15 @@ namespace MassiveGame.Core.GameCore.Skybox
 
         protected override void getAllUniformLocations()
         {
+            base.getAllUniformLocations();
             try
             {
                 u_modelMatrix = GetUniform("modelMatrix");
-                u_viewMatrix = GetUniform("ViewMatrix");
-                u_projectionMatrix = GetUniform("ProjectionMatrix");
-                u_skyboxDayTexture = GetUniform("skyboxSampler");
-                u_skyboxNightTexture = GetUniform("skyboxSampler2");
-                u_sunPosition = GetUniform("sunPosition");
-                u_sunEnable = GetUniform("sunEnable");
+                u_viewMatrix = GetUniform("viewMatrix");
+                u_projectionMatrix = GetUniform("projectionMatrix");
+                u_skyboxDayTexture = GetUniform("daySampler");
+                u_skyboxNightTexture = GetUniform("nightSampler");
+                u_dayCycleValue = GetUniform("dayCycleValue");
                 u_mistEnable = GetUniform("mistEnable");
                 u_mistColour = GetUniform("mistColour");
                 u_clipPlane = GetUniform("clipPlane");
@@ -72,16 +71,9 @@ namespace MassiveGame.Core.GameCore.Skybox
             u_skyboxNightTexture.LoadUniform(skyboxNightTexture);
         }
 
-        public void SetDirectionalLight(DirectionalLight sun)
+        public void SetDayCycleValue(float value)
         {
-            bool bSunEnable = false;
-            if (sun != null)
-            {
-                u_sunPosition.LoadUniform(sun.Direction);
-                bSunEnable = true;
-            }
-
-            u_sunEnable.LoadUniform(bSunEnable);
+            u_dayCycleValue.LoadUniform(value);
         }
 
         public void SetMist(MistComponent mist)
@@ -100,9 +92,9 @@ namespace MassiveGame.Core.GameCore.Skybox
 
         protected override void SetShaderMacros()
         {
-            SetDefine<Vector3>(ShaderTypeFlag.FragmentShader, "zenith", new Vector3(0, 1, 0));
             SetDefine<float>(ShaderTypeFlag.FragmentShader, "UPPER_LIMIT", 30.0f);
             SetDefine<float>(ShaderTypeFlag.FragmentShader, "LOWER_LIMIT", 0.0f);
+            SetDefine<int>(ShaderTypeFlag.FragmentShader, "COMPLEX_SKYBOX", 1);
         }
 
         #region Constructor

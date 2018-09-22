@@ -11,3 +11,7 @@ D:\Мультимедиа\Visual Studio Projects\ОперацияOpenTK\2DGameTa
 D:\Мультимедиа\Visual Studio Projects\ОперацияOpenTK\2DGameTable\2DGameTable\obj\Release\2DGameTable.csprojResolveAssemblyReference.cache
 D:\Мультимедиа\Visual Studio Projects\ОперацияOpenTK\2DGameTable\2DGameTable\obj\Release\2DGameTable.dll
 D:\Мультимедиа\Visual Studio Projects\ОперацияOpenTK\2DGameTable\2DGameTable\obj\Release\2DGameTable.pdb
+C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\DLL\2DGameTable\2DGameTable\bin\Release\2DGameTable.dll
+C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\DLL\2DGameTable\2DGameTable\bin\Release\2DGameTable.pdb
+C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\DLL\2DGameTable\2DGameTable\obj\Release\2DGameTable.dll
+C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\DLL\2DGameTable\2DGameTable\obj\Release\2DGameTable.pdb

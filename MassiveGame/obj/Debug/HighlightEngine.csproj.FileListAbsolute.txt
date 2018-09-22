@@ -17,7 +17,6 @@ C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\MassiveGame
 C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\MassiveGame\bin\Debug\TextureLoader.pdb
 C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\MassiveGame\bin\Debug\VBO.pdb
 C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\MassiveGame\bin\Debug\VectorMath.pdb
-C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\MassiveGame\obj\Debug\MassiveGame.UI.Engine.resources
 C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\MassiveGame\obj\Debug\HighlightEngine.csproj.GenerateResource.Cache
 C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\MassiveGame\obj\Debug\MassiveGame.exe
 C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\MassiveGame\obj\Debug\MassiveGame.pdb
@@ -49,3 +48,8 @@ D:\VisualStudioProjects\HighlightEngine\MassiveGame\obj\Debug\MassiveGame.exe
 D:\VisualStudioProjects\HighlightEngine\MassiveGame\obj\Debug\MassiveGame.pdb
 D:\VisualStudioProjects\HighlightEngine\MassiveGame\obj\Debug\MassiveGame.UI.EditorWindow.resources
 D:\VisualStudioProjects\HighlightEngine\MassiveGame\obj\Debug\MassiveGame.UI.GameWindow.resources
+C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\MassiveGame\obj\Debug\MassiveGame.UI.EditorWindow.resources
+C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\MassiveGame\obj\Debug\MassiveGame.UI.GameWindow.resources
+C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\MassiveGame\obj\Debug\MassiveGame.UI.CollisionEditorWindow.resources
+C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\MassiveGame\bin\Debug\AssimpNet.dll
+C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\MassiveGame\bin\Debug\OpenTK.dll

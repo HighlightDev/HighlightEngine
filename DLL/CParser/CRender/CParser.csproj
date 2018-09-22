@@ -38,7 +38,7 @@
       <HintPath>bin\Debug\AssimpNet.dll</HintPath>
     </Reference>
     <Reference Include="OpenTK">
-      <HintPath>..\..\..\MassiveGame\bin\Debug\OpenTK.dll</HintPath>
+      <HintPath>..\..\MutualDLL\OpenTK.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />

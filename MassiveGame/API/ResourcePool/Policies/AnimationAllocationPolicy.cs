@@ -14,8 +14,14 @@ namespace MassiveGame.API.ResourcePool.Policies
 
             using (AssimpModelLoader loader = new AssimpModelLoader(arg, CParser.Assimp.Strategy.SkeletonPerVertexBoneInfluenceType.ThreeBones))
             {
-                MeshAnimationData animationData = loader.GetAnimationData();
-                resultAnimationCollection = AssimpConverter.Converter.ConvertAssimpAnimationToEngineAnimation(animationData.Animations);
+                if (loader.GetHasAnimationData())
+                {
+                    MeshAnimationData animationData = loader.GetAnimationData();
+                    if (animationData != null)
+                    {
+                        resultAnimationCollection = AssimpConverter.Converter.ConvertAssimpAnimationToEngineAnimation(animationData.Animations);
+                    }
+                }
             }
 
             return resultAnimationCollection;

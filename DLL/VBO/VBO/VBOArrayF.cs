@@ -1,12 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using OpenTK;
-using VMath;
-using OpenTK.Graphics;
-
-using OpenTK.Graphics.OpenGL;
+using VectorMath;
 
 namespace GpuGraphics
 {
@@ -142,14 +136,14 @@ namespace GpuGraphics
             for (Int32 i = 0; i < Vertices.Length / 3; i++)
             {
                 Vector4 vertex = new Vector4(Vertices[i, 0], Vertices[i, 1], Vertices[i, 2], 1.0f);
-                vertex = VectorMath.multMatrix(modelMatrix, vertex);
+                vertex = VectorMathOperations.multMatrix(modelMatrix, vertex);
                 this.Vertices[i, 0] = vertex.X;
                 this.Vertices[i, 1] = vertex.Y;
                 this.Vertices[i, 2] = vertex.Z;
                 if (_normals != null)
                 {
                     Vector4 normal = new Vector4(Normals[i, 0], Normals[i, 1], Normals[i, 2], 0.0f);
-                    normal = VectorMath.multMatrix(modelMatrix, normal);
+                    normal = VectorMathOperations.multMatrix(modelMatrix, normal);
                     this.Normals[i, 0] = normal.X;
                     this.Normals[i, 1] = normal.Y;
                     this.Normals[i, 2] = normal.Z;

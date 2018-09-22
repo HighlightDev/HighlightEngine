@@ -10,21 +10,21 @@ namespace PhysicsBox.ComponentCore
     {
         public Component SerializableComponent { set; get; }
 
-        private void CopyFields(Component Src, Component Dest)
+        private void CopyFields(Component Dst, Component Src)
         {
-            Src.Bound = Dest.Bound;
-            if (Src.Bound != null)
-                Src.Bound.ParentComponent = Src;
-            Src.ComponentTranslation = Dest.ComponentTranslation;
-            Src.ComponentRotation = Dest.ComponentRotation;
-            Src.ComponentScale = Dest.ComponentScale;
-            Src.Type = Dest.Type;
-            foreach (Component destComponent in Dest.ChildrenComponents)
+            Dst.Bound = Src.Bound;
+            if (Dst.Bound != null)
+                Dst.Bound.ParentComponent = Dst;
+            Dst.ComponentTranslation = Src.ComponentTranslation;
+            Dst.ComponentRotation = Src.ComponentRotation;
+            Dst.ComponentScale = Src.ComponentScale;
+            Dst.Type = Src.Type;
+            foreach (Component destComponent in Src.ChildrenComponents)
             {
                 Component child = new Component();
-                child.ParentComponent = Src;
+                child.ParentComponent = Dst;
                 CopyFields(child, destComponent);
-                Src.ChildrenComponents.Add(child);
+                Dst.ChildrenComponents.Add(child);
             }
         }
 
@@ -32,7 +32,7 @@ namespace PhysicsBox.ComponentCore
         {
             SerializableComponent = new Component();
             SerializableComponent.ParentComponent = null;
-            CopyFields(SerializableComponent, component );
+            CopyFields(SerializableComponent, component);
         }
     }
 

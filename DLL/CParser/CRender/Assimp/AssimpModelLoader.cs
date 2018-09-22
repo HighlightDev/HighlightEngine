@@ -20,6 +20,11 @@ namespace CParser
             m_scene = importer.ImportFile(modelFilePath, PostProcessSteps.FlipUVs | PostProcessSteps.CalculateTangentSpace);
         }
 
+        public bool GetHasAnimationData()
+        {
+            return m_scene.HasAnimations;
+        }
+
         public MeshVertexData GetMeshData()
         {
             if (m_meshData == null)

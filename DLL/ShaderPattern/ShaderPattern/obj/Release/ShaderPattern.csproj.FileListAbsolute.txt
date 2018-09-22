@@ -21,3 +21,7 @@ D:\Мультимедиа\Visual Studio Projects\OpenTK Applications\DLL\ShaderP
 D:\Мультимедиа\Visual Studio Projects\OpenTK Applications\DLL\ShaderPattern\ShaderPattern\obj\Release\ShaderPattern.csprojResolveAssemblyReference.cache
 D:\Мультимедиа\Visual Studio Projects\OpenTK Applications\DLL\ShaderPattern\ShaderPattern\obj\Release\ShaderPattern.dll
 D:\Мультимедиа\Visual Studio Projects\OpenTK Applications\DLL\ShaderPattern\ShaderPattern\obj\Release\ShaderPattern.pdb
+C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\DLL\ShaderPattern\ShaderPattern\bin\Release\ShaderPattern.dll
+C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\DLL\ShaderPattern\ShaderPattern\bin\Release\ShaderPattern.pdb
+C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\DLL\ShaderPattern\ShaderPattern\obj\Release\ShaderPattern.dll
+C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\DLL\ShaderPattern\ShaderPattern\obj\Release\ShaderPattern.pdb

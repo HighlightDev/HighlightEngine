@@ -21,9 +21,19 @@ namespace MassiveGame.Core.GameCore.Entities.Skeletal_Entities
         public MovableSkeletalMeshEntity(string modelPath, string texturePath, string normalMapPath, string specularMapPath, float Speed, Vector3 translation, Vector3 rotation, Vector3 scale) :
           base(modelPath, texturePath, normalMapPath, specularMapPath, translation, rotation, scale)
         {
-            m_animations = PoolProxy.GetResource<ObtainAnimationPool, AnimationAllocationPolicy, string, List<AnimationSequence>>(modelPath);
+            TryLoadAnimation(modelPath);
             m_animationHolder = new AnimationHolder(m_animations);
             m_animationHolder.SetAnimationByNameNoBlend(m_animations[0].GetName());
+        }
+
+        private bool TryLoadAnimation(string modelPath)
+        {
+            if (m_skin as AnimatedSkin == null)
+                throw new ArgumentException("Mesh that is loaded doesn't support animation.");
+
+            m_animations = PoolProxy.GetResource<ObtainAnimationPool, AnimationAllocationPolicy, string, List<AnimationSequence>>(modelPath);
+
+            return true;
         }
 
         private SkeletalMeshEntityShader GetShader()

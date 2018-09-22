@@ -117,7 +117,7 @@ namespace MassiveGame.Engine
             GL.CullFace(CullFaceMode.Back);
 
             if (EngineStatics.Skybox != null)
-                EngineStatics.Skybox.renderSkybox(EngineStatics.Camera, EngineStatics.Sun, EngineStatics.ProjectionMatrix);
+                EngineStatics.Skybox.renderSkybox(EngineStatics.Camera, EngineStatics.Sun.Direction, EngineStatics.ProjectionMatrix);
 
             GL.Enable(EnableCap.DepthTest);
             GL.DepthMask(true);
@@ -204,7 +204,7 @@ namespace MassiveGame.Engine
             GL.Enable(EnableCap.CullFace);
             GL.CullFace(CullFaceMode.Front);
 
-            if (EngineStatics.Skybox != null) EngineStatics.Skybox.RenderWaterReflection(EngineStatics.Water, camera, EngineStatics.Sun, EngineStatics.ProjectionMatrix, clipPlane);
+            if (EngineStatics.Skybox != null) EngineStatics.Skybox.RenderWaterReflection(EngineStatics.Water, camera, EngineStatics.Sun.Direction, EngineStatics.ProjectionMatrix, clipPlane);
 
             GL.Enable(EnableCap.DepthTest);
             GL.Clear(ClearBufferMask.DepthBufferBit);

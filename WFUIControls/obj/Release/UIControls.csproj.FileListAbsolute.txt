@@ -1,0 +1,15 @@
+C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\WFUIControls\bin\Release\UIControls.dll
+C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\WFUIControls\bin\Release\UIControls.pdb
+C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\WFUIControls\bin\Release\OpenTK.dll
+C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\WFUIControls\obj\Release\UIControls.csprojResolveAssemblyReference.cache
+C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\WFUIControls\obj\Release\UIControls.ButtonEx.resources
+C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\WFUIControls\obj\Release\UIControls.CheckBoxEx.resources
+C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\WFUIControls\obj\Release\UIControls.EntityTextures.resources
+C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\WFUIControls\obj\Release\UIControls.EntityTransformation.resources
+C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\WFUIControls\obj\Release\UIControls.MinimizeCheckBox.resources
+C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\WFUIControls\obj\Release\UIControls.MinimizeBox.resources
+C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\WFUIControls\obj\Release\UIControls.Properties.Resources.resources
+C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\WFUIControls\obj\Release\UIControls.RadioButtonEx.resources
+C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\WFUIControls\obj\Release\UIControls.csproj.GenerateResource.Cache
+C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\WFUIControls\obj\Release\UIControls.dll
+C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\WFUIControls\obj\Release\UIControls.pdb

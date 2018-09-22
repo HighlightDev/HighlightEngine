@@ -6,3 +6,8 @@ D:\Мультимедиа\Visual Studio Projects\ОперацияOpenTK\VectorMa
 D:\Мультимедиа\Visual Studio Projects\ОперацияOpenTK\VectorMath\VectorMath\obj\Release\VectorMath.csprojResolveAssemblyReference.cache
 D:\Мультимедиа\Visual Studio Projects\ОперацияOpenTK\VectorMath\VectorMath\obj\Release\VectorMath.dll
 D:\Мультимедиа\Visual Studio Projects\ОперацияOpenTK\VectorMath\VectorMath\obj\Release\VectorMath.pdb
+C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\DLL\VectorMath\VectorMath\bin\Release\VectorMath.dll
+C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\DLL\VectorMath\VectorMath\bin\Release\VectorMath.pdb
+C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\DLL\VectorMath\VectorMath\bin\Release\OpenTK.dll
+C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\DLL\VectorMath\VectorMath\obj\Release\VectorMath.dll
+C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\DLL\VectorMath\VectorMath\obj\Release\VectorMath.pdb

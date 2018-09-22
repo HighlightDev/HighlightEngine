@@ -50,13 +50,13 @@ namespace ShaderPattern
         private string m_vsPath;
         private string m_fsPath;
         private string m_gsPath;
-        private string m_shaderName;
 
         private Int32 m_vertexShaderID;
         private Int32 m_fragmentShaderID;
         private Int32 m_geometryShaderID;
         private Int32 m_shaderProgramID;
         protected bool m_shaderLoaded { set; get; }
+        protected string m_shaderName;
 
         private List<DefineParams> m_defineParameters;
 

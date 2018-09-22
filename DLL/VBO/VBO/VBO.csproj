@@ -46,8 +46,9 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
-    <Reference Include="VectorMath">
-      <HintPath>..\..\VectorMath\VectorMath\bin\Release\VectorMath.dll</HintPath>
+    <Reference Include="VectorMath, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\VectorMath\VectorMath\bin\Debug\VectorMath.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
