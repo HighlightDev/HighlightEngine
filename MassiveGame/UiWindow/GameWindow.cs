@@ -116,30 +116,29 @@ namespace MassiveGame.UI
 
         private void OnMouseWheel(object sender, MouseEventArgs e)
         {
-            if (EngineStatics.DayCycle != null)
+            //if (EngineStatics.DayCycle != null)
+            //{
+            //    if (e.Delta > 0)
+            //    {
+            //        EngineStatics.DayCycle.TimeFlow += 0.1f;
+            //    }
+            //    else if (e.Delta < 0 && EngineStatics.DayCycle.TimeFlow > 0)
+            //    {
+            //        EngineStatics.DayCycle.TimeFlow -= 0.1f;
+            //    }
+            //    else if (EngineStatics.DayCycle.TimeFlow < 0)
+            //    {
+            //        EngineStatics.DayCycle.TimeFlow = 0.0f;
+            //    }
+            //}
+            if (e.Delta > 0)
             {
-                if (e.Delta > 0)
-                {
-                    EngineStatics.DayCycle.TimeFlow += 0.1f;
-                }
-                else if (e.Delta < 0 && EngineStatics.DayCycle.TimeFlow > 0)
-                {
-                    EngineStatics.DayCycle.TimeFlow -= 0.1f;
-                }
-                else if (EngineStatics.DayCycle.TimeFlow < 0)
-                {
-                    EngineStatics.DayCycle.TimeFlow = 0.0f;
-                }
+                (EngineStatics.Camera as ThirdPersonCamera).SeekDistanceFromTargetToCamera += 5;
             }
-            //if (e.Delta > 0)
-            //{
-            //    (EngineStatics.Camera as ThirdPersonCamera).SeekDistanceFromTargetToCamera += 5;
-            //}
-            //else if (e.Delta < 0)
-            //{
-            //    (EngineStatics.Camera as ThirdPersonCamera).SeekDistanceFromTargetToCamera -= 5;
-            //}
-
+            else if (e.Delta < 0)
+            {
+                (EngineStatics.Camera as ThirdPersonCamera).SeekDistanceFromTargetToCamera -= 5;
+            }
         }
         #endregion
 

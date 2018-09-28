@@ -1,6 +1,6 @@
-﻿using MassiveGame.Core.PhysicsCore;
+﻿using MassiveGame.Core.MathCore.MathTypes;
+using MassiveGame.Core.PhysicsCore;
 using OpenTK;
-using PhysicsBox.MathTypes;
 using System;
 using System.Drawing;
 using System.Windows.Forms;

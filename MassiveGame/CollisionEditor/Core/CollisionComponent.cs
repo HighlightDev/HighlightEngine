@@ -4,93 +4,77 @@ using CollisionEditor.RenderCore;
 using System;
 using OpenTK.Graphics.OpenGL;
 using TextureLoader;
-using PhysicsBox.ComponentCore;
-using PhysicsBox.MathTypes;
+using MassiveGame.Core.ComponentCore;
+using MassiveGame.Core.MathCore.MathTypes;
 
 namespace CollisionEditor.Core
 {
-    public class SceneComponent : Component
+    public class CollisionComponent : Component
     {
         private RawModel model;
         private BasicShader shader;
         private ITexture texture;
+        private bool bComponentHierarchyChangedDirty = true;
 
         public override void AttachComponent(Component component)
         {
+            bComponentHierarchyChangedDirty = true;
             base.AttachComponent(component);
         }
 
         public override void DetachComponent(Component component)
         {
+            bComponentHierarchyChangedDirty = true;
             base.DetachComponent(component);
         }
 
         public override void Tick(float delta)
         {
+            Bound = UpdateBound();
             base.Tick(delta);
-            Bound = CreateBound();
         }
 
-        private BoundBase CreateBound()
+        private BoundBase UpdateBound()
         {
             BoundBase resultBound = null;
-            AABB aabb = AABB.CreateFromMinMax(FindMinFromModel(), FindMaxFromModel(), this);
-            Matrix4 TransformMatrix = GetWorldMatrix();
-            Quaternion rotation = TransformMatrix.ExtractRotation();
-            if (rotation.Xyz.LengthSquared > 0.01f)
-                resultBound = new OBB(aabb.GetLocalSpaceOrigin(), aabb.GetLocalSpaceExtent(), TransformMatrix, this);
+            if (bComponentHierarchyChangedDirty || bTransformationDirty)
+            {
+                AABB aabb = AABB.CreateFromMinMax(FindEdgeInMesh((lhv, rhv) => { return Math.Min(lhv, rhv); }),
+                    FindEdgeInMesh((lhv, rhv) => { return Math.Max(lhv, rhv); }), this);
+                Matrix4 TransformMatrix = GetWorldMatrix();
+                Quaternion rotation = TransformMatrix.ExtractRotation();
+                if (rotation.Xyz.LengthSquared > 0.01f)
+                    resultBound = new OBB(aabb.GetLocalSpaceOrigin(), aabb.GetLocalSpaceExtent(), TransformMatrix, this);
+                else
+                {
+                    aabb.ScalePlusTranslation = TransformMatrix;
+                    resultBound = aabb;
+                }
+                bComponentHierarchyChangedDirty = false;
+            }
             else
             {
-                aabb.ScalePlusTranslation = TransformMatrix;
-                resultBound = aabb;
+                resultBound = Bound;
             }
             return resultBound;
         }
 
-        private Vector3 FindMaxFromModel()
+        private Vector3 FindEdgeInMesh(Func<float, float, float> func)
         {
             float[,] vertices = model.Buffer.getBufferData().Vertices;
 
-            float tempRight = vertices[0, 0], tempTop = vertices[0, 1], tempFar = vertices[0, 2];
+            float edge1 = vertices[0, 0], edge2 = vertices[0, 1], edge3 = vertices[0, 2];
 
             var iterationCount = vertices.Length / 3;
 
             for (Int32 i = 0; i < iterationCount; i++)
             {
-                tempRight = Math.Max(tempRight, vertices[i, 0]);
-                tempTop = Math.Max(tempTop, vertices[i, 1]);
-                tempFar = Math.Max(tempFar, vertices[i, 2]);
-            }
-            return new Vector3(tempRight, tempTop, tempFar);
-        }
-
-        private Vector3 FindMinFromModel()
-        {
-            float[,] vertices = model.Buffer.getBufferData().Vertices;
-
-            float tempLeft = vertices[0, 0],
-                  tempBottom = vertices[0, 1],
-                  tempNear = vertices[0, 2];
-
-            var iterationCount = vertices.Length / 3;
-
-            for (Int32 i = 0; i < iterationCount; i++)
-            {
-                if (tempLeft > vertices[i, 0]) //Находим минимум по Х
-                {
-                    tempLeft = vertices[i, 0];
-                }
-                if (tempBottom > vertices[i, 1])   //Находим минимум по Y
-                {
-                    tempBottom = vertices[i, 1];
-                }
-                if (tempNear > vertices[i, 2]) //Находим минимум по Z  
-                {
-                    tempNear = vertices[i, 2];
-                }
+                edge1 = func(edge1, vertices[i, 0]);
+                edge2 = func(edge2, vertices[i, 1]);
+                edge3 = func(edge3, vertices[i, 2]);
             }
 
-            return new Vector3(tempLeft, tempBottom, tempNear);
+            return new Vector3(edge1, edge2, edge3);
         }
 
         public virtual void Render(Matrix4 viewMatrix, Matrix4 projectionMatrix)
@@ -112,23 +96,20 @@ namespace CollisionEditor.Core
 
             foreach (var item in ChildrenComponents)
             {
-                SceneComponent comp = item as SceneComponent;
+                CollisionComponent comp = item as CollisionComponent;
                 if (comp != null)
                     comp.Render(viewMatrix, projectionMatrix);
             }
         }
 
-        public SceneComponent(RawModel model, ITexture texture, BasicShader shader)
+        public CollisionComponent(RawModel model, ITexture texture, BasicShader shader)
         {
             this.texture = texture;
             this.model = model;
             this.shader = shader;
         }
 
-        public SceneComponent()
-        {
-
-        }
+        public CollisionComponent() { }
 
         public override string ToString()
         {

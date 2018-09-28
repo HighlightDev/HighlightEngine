@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using PhysicsBox;
 using OpenTK;
 using OpenTK.Graphics.OpenGL;
-using PhysicsBox.MathTypes;
 using MassiveGame.Core.PhysicsCore;
 using MassiveGame.Core.RenderCore.Lights;
 using MassiveGame.Core.GameCore.Water;
@@ -12,6 +10,8 @@ using MassiveGame.Settings;
 using MassiveGame.API.ResourcePool.PoolHandling;
 using MassiveGame.API.ResourcePool.Policies;
 using MassiveGame.API.ResourcePool;
+using MassiveGame.Core.MathCore;
+using MassiveGame.Core.MathCore.MathTypes;
 
 namespace MassiveGame.Core.GameCore.Entities.MoveEntities
 {
@@ -149,7 +149,7 @@ namespace MassiveGame.Core.GameCore.Entities.MoveEntities
             modelMatrix = GetWorldMatrix();
 
             /*If clip plane is set - enable clipping plane*/
-            if (GeometricMath.CMP(clipPlane.LengthSquared, 0.0f) > 0)
+            if (GeometryMath.CMP(clipPlane.LengthSquared, 0.0f) > 0)
                 GL.Disable(EnableCap.ClipDistance0); 
             else
                 GL.Enable(EnableCap.ClipDistance0); 

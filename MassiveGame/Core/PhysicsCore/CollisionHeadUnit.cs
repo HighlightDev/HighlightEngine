@@ -1,10 +1,10 @@
 ﻿using MassiveGame.Core.GameCore;
 using MassiveGame.Core.PhysicsCore.OutputData;
 using OpenTK;
-using PhysicsBox;
-using PhysicsBox.ComponentCore;
-using PhysicsBox.MathTypes;
+using MassiveGame.Core.ComponentCore;
 using System.Collections.Generic;
+using MassiveGame.Core.MathCore;
+using MassiveGame.Core.MathCore.MathTypes;
 
 namespace MassiveGame.Core.PhysicsCore
 {
@@ -47,15 +47,15 @@ namespace MassiveGame.Core.PhysicsCore
             {
                 AABB aabb = characterBound.GetBoundType() == BoundBase.BoundType.AABB ? characterBound as AABB : collidedRootBound as AABB;
                 OBB obb = collidedRootBound.GetBoundType() == BoundBase.BoundType.OBB ? collidedRootBound as OBB : characterBound as OBB;
-                bHasCollision = GeometricMath.AABBOBB(aabb, obb);
+                bHasCollision = GeometryMath.AABBOBB(aabb, obb);
             }
             else if (collisionType == (BoundBase.BoundType.AABB | BoundBase.BoundType.AABB))
             {
-                bHasCollision = GeometricMath.AABBAABB(characterBound as AABB, collidedRootBound as AABB);
+                bHasCollision = GeometryMath.AABBAABB(characterBound as AABB, collidedRootBound as AABB);
             }
             else
             {
-                bHasCollision = GeometricMath.OBBOBB(characterBound as OBB, collidedRootBound as OBB);
+                bHasCollision = GeometryMath.OBBOBB(characterBound as OBB, collidedRootBound as OBB);
             }
             return bHasCollision;
         }
@@ -70,7 +70,7 @@ namespace MassiveGame.Core.PhysicsCore
 
                 AABB aabb1 = characterCollisionUnit.GetAndTryUpdateFramingBoundingBox();
                 AABB aabb2 = unit.GetAndTryUpdateFramingBoundingBox();
-                if (GeometricMath.AABBAABB(aabb1, aabb2))
+                if (GeometryMath.AABBAABB(aabb1, aabb2))
                 {
                     bFrameBoundBoxCollision = true;
                     collidedRootComponent = aabb2.ParentComponent.GetRootComponent();
@@ -142,7 +142,7 @@ namespace MassiveGame.Core.PhysicsCore
                     continue;
 
                 FSphere aabbCollisionSphere = (FSphere)(unit.GetAndTryUpdateFramingBoundingBox());
-                if (GeometricMath.IsSphereVsSphereIntersection(ref cameraCollisionSphere, ref aabbCollisionSphere))
+                if (GeometryMath.IsSphereVsSphereIntersection(ref cameraCollisionSphere, ref aabbCollisionSphere))
                 {
                     resultCollidedRootBounds.AddRange(unit.GetBoundingBoxes());
                 }
@@ -158,7 +158,7 @@ namespace MassiveGame.Core.PhysicsCore
             {
                 FSphere obbCollisionSphere = (FSphere)testingBound;
 
-                if (GeometricMath.IsSphereVsSphereIntersection(ref cameraCollisionSphere, ref obbCollisionSphere))
+                if (GeometryMath.IsSphereVsSphereIntersection(ref cameraCollisionSphere, ref obbCollisionSphere))
                 {
                     bSphereAndFrameBoundingBoxCollision = true;
                     break;
@@ -196,8 +196,10 @@ namespace MassiveGame.Core.PhysicsCore
                 var boundingBoxes = GetBoundingBoxesForCameraCollisionTest(ref cameraCollisionSphere, thirdPersonCamera.GetThirdPersonTarget().GetRootComponent());
                 if (boundingBoxes.Count > 0)
                 {
-                    if (IsCameraCollisionWithBoundingBoxes(ref cameraCollisionSphere, boundingBoxes))
-                        break;
+                    //if (IsCameraCollisionWithBoundingBoxes(ref cameraCollisionSphere, boundingBoxes))
+                    //{
+                    //    break;
+                    //}
                 }
 
                 safeInterval = interval;

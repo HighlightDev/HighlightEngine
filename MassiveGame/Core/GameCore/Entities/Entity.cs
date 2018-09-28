@@ -1,11 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using OpenTK;
-using PhysicsBox;
 using TextureLoader;
-using VectorMath;
-using PhysicsBox.ComponentCore;
-using PhysicsBox.MathTypes;
+using MassiveGame.Core.ComponentCore;
 using MassiveGame.Core.RenderCore.Visibility;
 using MassiveGame.Core.RenderCore.Lights;
 using MassiveGame.Core.RenderCore;
@@ -16,6 +13,8 @@ using MassiveGame.API.ResourcePool;
 using MassiveGame.API.ResourcePool.PoolHandling;
 using MassiveGame.API.ResourcePool.Policies;
 using MassiveGame.API.Mesh;
+using MassiveGame.Core.MathCore.MathTypes;
+using MassiveGame.Core.MathCore;
 
 namespace MassiveGame.Core.GameCore.Entities
 {
@@ -118,7 +117,7 @@ namespace MassiveGame.Core.GameCore.Entities
                 BoundBase bound = GetAABBFromAllChildComponents();
                 FSphere boundSphere = (FSphere)bound;
                 FSphere lightSphere = new FSphere(LightList[i].Position.Xyz, LightList[i].AttenuationRadius);
-                m_lightVisibilityMap[i] = GeometricMath.IsSphereVsSphereIntersection(ref boundSphere, ref lightSphere);
+                m_lightVisibilityMap[i] = GeometryMath.IsSphereVsSphereIntersection(ref boundSphere, ref lightSphere);
             }
         }
 

@@ -2,7 +2,6 @@
 using OpenTK.Graphics.OpenGL;
 using System;
 using TextureLoader;
-using PhysicsBox;
 using MassiveGame.Core.RenderCore.Visibility;
 using MassiveGame.Core.RenderCore.Lights;
 using MassiveGame.Settings;
@@ -11,6 +10,7 @@ using VBO;
 using MassiveGame.API.ResourcePool.PoolHandling;
 using MassiveGame.API.ResourcePool.Policies;
 using MassiveGame.API.ResourcePool;
+using MassiveGame.Core.MathCore;
 
 namespace MassiveGame.Core.GameCore.Sun
 {

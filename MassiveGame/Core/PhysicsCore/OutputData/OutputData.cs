@@ -1,5 +1,5 @@
-﻿using PhysicsBox.ComponentCore;
-using PhysicsBox.MathTypes;
+﻿using MassiveGame.Core.ComponentCore;
+using MassiveGame.Core.MathCore.MathTypes;
 using System.Collections.Generic;
 
 namespace MassiveGame.Core.PhysicsCore.OutputData

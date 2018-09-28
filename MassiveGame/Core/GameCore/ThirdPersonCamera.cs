@@ -1,6 +1,6 @@
 ﻿using MassiveGame.Core.GameCore.Entities.MoveEntities;
+using MassiveGame.Core.MathCore;
 using OpenTK;
-using PhysicsBox;
 using System;
 
 namespace MassiveGame.Core.GameCore
@@ -48,7 +48,7 @@ namespace MassiveGame.Core.GameCore
                 actualTargetVector = LerpPosition(lerpTimeElapsed, 0.0f, timeForInterpolation, ref actualTargetVector, ref finalTargetVector);
 
                 // If camera is at final position  
-                if (GeometricMath.CMP(lerpTimeElapsed, timeForInterpolation) > 0)
+                if (GeometryMath.CMP(lerpTimeElapsed, timeForInterpolation) > 0)
                 {
                     lerpTimeElapsed = 0.0f;
                     bThirdPersonTargetTransformationDirty = false;

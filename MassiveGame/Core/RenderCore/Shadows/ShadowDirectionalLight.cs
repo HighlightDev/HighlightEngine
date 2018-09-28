@@ -1,7 +1,7 @@
 ﻿using OpenTK;
 using OpenTK.Graphics.OpenGL;
 using TextureLoader;
-using PhysicsBox.ComponentCore;
+using MassiveGame.Core.ComponentCore;
 using MassiveGame.Core.RenderCore.Lights;
 using MassiveGame.Core.GameCore;
 

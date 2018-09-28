@@ -1,7 +1,7 @@
 ﻿using MassiveGame.Core.GameCore;
+using MassiveGame.Core.MathCore;
+using MassiveGame.Core.MathCore.MathTypes;
 using OpenTK;
-using PhysicsBox;
-using PhysicsBox.MathTypes;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -37,7 +37,7 @@ namespace MassiveGame.Core.RenderCore.Shadows
             acRayDirection *= Vector3.Dot(cbNormal, acRayDirection) > 0.0 ? 1 : -1;
             FRay acRay = new FRay(A, acRayDirection);
 
-            result = GeometricMath.GetIntersectionRayPlane(cbPlane, acRay);
+            result = GeometryMath.GetIntersectionRayPlane(cbPlane, acRay);
             return result;
         }
 
@@ -53,7 +53,7 @@ namespace MassiveGame.Core.RenderCore.Shadows
             acRayDirection *= Vector3.Dot(cbNormal, acRayDirection) > 0.0 ? 1 : -1;
             FRay acRay = new FRay(A, acRayDirection);
 
-            result = GeometricMath.GetIntersectionRayPlane(cbPlane, acRay);
+            result = GeometryMath.GetIntersectionRayPlane(cbPlane, acRay);
             return result;
         }
 
@@ -71,44 +71,44 @@ namespace MassiveGame.Core.RenderCore.Shadows
             float left, right, top, bottom, near, far;
             // left 
             Dictionary<float, Vector3> projectedValues = new Dictionary<float, Vector3>();
-            projectedValues.Add(GeometricMath.ProjectVectorOnNormalizedVector(IntersectionPointB, -RightVector), IntersectionPointB);
-            projectedValues.Add(GeometricMath.ProjectVectorOnNormalizedVector(IntersectionPointC, -RightVector), IntersectionPointC);
-            projectedValues.Add(GeometricMath.ProjectVectorOnNormalizedVector(ViewerPosition, -RightVector), ViewerPosition);
+            projectedValues.Add(GeometryMath.ProjectVectorOnNormalizedVector(IntersectionPointB, -RightVector), IntersectionPointB);
+            projectedValues.Add(GeometryMath.ProjectVectorOnNormalizedVector(IntersectionPointC, -RightVector), IntersectionPointC);
+            projectedValues.Add(GeometryMath.ProjectVectorOnNormalizedVector(ViewerPosition, -RightVector), ViewerPosition);
             left = projectedValues[projectedValues.Keys.Max()].X;
 
             // right
             projectedValues.Clear();
-            projectedValues.Add(GeometricMath.ProjectVectorOnNormalizedVector(IntersectionPointB, RightVector), IntersectionPointB);
-            projectedValues.Add(GeometricMath.ProjectVectorOnNormalizedVector(IntersectionPointC, RightVector), IntersectionPointC);
-            projectedValues.Add(GeometricMath.ProjectVectorOnNormalizedVector(ViewerPosition, RightVector), ViewerPosition);
+            projectedValues.Add(GeometryMath.ProjectVectorOnNormalizedVector(IntersectionPointB, RightVector), IntersectionPointB);
+            projectedValues.Add(GeometryMath.ProjectVectorOnNormalizedVector(IntersectionPointC, RightVector), IntersectionPointC);
+            projectedValues.Add(GeometryMath.ProjectVectorOnNormalizedVector(ViewerPosition, RightVector), ViewerPosition);
             right = projectedValues[projectedValues.Keys.Max()].X;
 
             // top 
             projectedValues.Clear();
-            projectedValues.Add(GeometricMath.ProjectVectorOnNormalizedVector(IntersectionPointTop, UpVector), IntersectionPointTop);
-            projectedValues.Add(GeometricMath.ProjectVectorOnNormalizedVector(IntersectionPointBottom, UpVector), IntersectionPointBottom);
-            projectedValues.Add(GeometricMath.ProjectVectorOnNormalizedVector(ViewerPosition, UpVector), ViewerPosition);
+            projectedValues.Add(GeometryMath.ProjectVectorOnNormalizedVector(IntersectionPointTop, UpVector), IntersectionPointTop);
+            projectedValues.Add(GeometryMath.ProjectVectorOnNormalizedVector(IntersectionPointBottom, UpVector), IntersectionPointBottom);
+            projectedValues.Add(GeometryMath.ProjectVectorOnNormalizedVector(ViewerPosition, UpVector), ViewerPosition);
             top = projectedValues[projectedValues.Keys.Max()].Y;
 
             // bottom
             projectedValues.Clear();
-            projectedValues.Add(GeometricMath.ProjectVectorOnNormalizedVector(IntersectionPointTop, -UpVector), IntersectionPointTop);
-            projectedValues.Add(GeometricMath.ProjectVectorOnNormalizedVector(IntersectionPointBottom, -UpVector), IntersectionPointBottom);
-            projectedValues.Add(GeometricMath.ProjectVectorOnNormalizedVector(ViewerPosition, -UpVector), ViewerPosition);
+            projectedValues.Add(GeometryMath.ProjectVectorOnNormalizedVector(IntersectionPointTop, -UpVector), IntersectionPointTop);
+            projectedValues.Add(GeometryMath.ProjectVectorOnNormalizedVector(IntersectionPointBottom, -UpVector), IntersectionPointBottom);
+            projectedValues.Add(GeometryMath.ProjectVectorOnNormalizedVector(ViewerPosition, -UpVector), ViewerPosition);
             bottom = projectedValues[projectedValues.Keys.Max()].Y;
 
             // far 
             projectedValues.Clear();
-            projectedValues.Add(GeometricMath.ProjectVectorOnNormalizedVector(IntersectionPointB, ForwardVector), IntersectionPointB);
-            projectedValues.Add(GeometricMath.ProjectVectorOnNormalizedVector(IntersectionPointC, ForwardVector), IntersectionPointC);
-            projectedValues.Add(GeometricMath.ProjectVectorOnNormalizedVector(ViewerPosition, ForwardVector), ViewerPosition);
+            projectedValues.Add(GeometryMath.ProjectVectorOnNormalizedVector(IntersectionPointB, ForwardVector), IntersectionPointB);
+            projectedValues.Add(GeometryMath.ProjectVectorOnNormalizedVector(IntersectionPointC, ForwardVector), IntersectionPointC);
+            projectedValues.Add(GeometryMath.ProjectVectorOnNormalizedVector(ViewerPosition, ForwardVector), ViewerPosition);
             far = projectedValues[projectedValues.Keys.Max()].Z;
 
             // near
             projectedValues.Clear();
-            projectedValues.Add(GeometricMath.ProjectVectorOnNormalizedVector(IntersectionPointB, -ForwardVector), IntersectionPointB);
-            projectedValues.Add(GeometricMath.ProjectVectorOnNormalizedVector(IntersectionPointC, -ForwardVector), IntersectionPointC);
-            projectedValues.Add(GeometricMath.ProjectVectorOnNormalizedVector(ViewerPosition, -ForwardVector), ViewerPosition);
+            projectedValues.Add(GeometryMath.ProjectVectorOnNormalizedVector(IntersectionPointB, -ForwardVector), IntersectionPointB);
+            projectedValues.Add(GeometryMath.ProjectVectorOnNormalizedVector(IntersectionPointC, -ForwardVector), IntersectionPointC);
+            projectedValues.Add(GeometryMath.ProjectVectorOnNormalizedVector(ViewerPosition, -ForwardVector), ViewerPosition);
             near = projectedValues[projectedValues.Keys.Max()].Z;
 
             LBN = new Vector3(left, bottom, near);

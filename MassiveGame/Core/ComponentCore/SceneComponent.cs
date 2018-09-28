@@ -2,9 +2,6 @@
 using OpenTK;
 using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL;
-
-using PhysicsBox.ComponentCore;
-using PhysicsBox.MathTypes;
 using System.Collections.Generic;
 using VBO;
 using MassiveGame.API.ResourcePool.PoolHandling;
@@ -12,17 +9,52 @@ using MassiveGame.API.ResourcePool.Pools;
 using MassiveGame.API.ResourcePool;
 using MassiveGame.API.ResourcePool.Policies;
 using MassiveGame.API.Mesh;
+using System;
+using MassiveGame.Core.MathCore.MathTypes;
 
 namespace MassiveGame.Core.ComponentCore
 {
+    [Serializable]
     public class SceneComponent : Component
     {
+        [NonSerialized]
         private Skin skin = null;
+
+        [NonSerialized]
         private bool bPostConstructor = true;
 
-        public override void Tick(float deltaTime)
+        public SceneComponent() : base()
         {
-            base.Tick(deltaTime);
+        }
+
+        public SceneComponent(Component component, bool bCopyComponents = false) : base()
+        {
+            this.Bound = component.Bound;
+            if (bCopyComponents)
+            {
+                this.ChildrenComponents = component.ChildrenComponents;
+                this.ParentComponent = component.ParentComponent;
+            }
+            else
+            {
+                this.ChildrenComponents = new List<Component>();
+                this.ParentComponent = null;
+            }
+            this.Type = component.Type;
+            this.ComponentTranslation = component.ComponentTranslation;
+            this.ComponentRotation = component.ComponentRotation;
+            this.ComponentScale = component.ComponentScale;
+        }
+
+        public override void PostDeserializeInit()
+        {
+            base.PostDeserializeInit();
+
+            foreach (var child in ChildrenComponents)
+            {
+                child.PostDeserializeInit();
+            }
+            bPostConstructor = true;
         }
 
         private void PostConstructor()
@@ -35,6 +67,11 @@ namespace MassiveGame.Core.ComponentCore
                     skin = PoolProxy.GetResource<ObtainModelPool, ModelAllocationPolicy, string, Skin>("CollisionBound");
                 bPostConstructor = false;
             }
+        }
+
+        public override void Tick(float deltaTime)
+        {
+            base.Tick(deltaTime);
         }
 
         public override void RenderBound(ref Matrix4 projectionMatrix, ref Matrix4 viewMatrix, Color4 color)
@@ -107,29 +144,6 @@ namespace MassiveGame.Core.ComponentCore
 
             skin = new Skin(vao);
             PoolCollector.GetInstance().s_ModelPool.AddModelToRoot(skin, "CollisionBound");
-        }
-
-        public SceneComponent() : base()
-        {
-        }
-
-        public SceneComponent(Component component, bool bCopyComponents = false) : base()
-        {
-            this.Bound = component.Bound;
-            if (bCopyComponents)
-            {
-                this.ChildrenComponents = component.ChildrenComponents;
-                this.ParentComponent = component.ParentComponent;
-            }
-            else
-            {
-                this.ChildrenComponents = new List<Component>();
-                this.ParentComponent = null;
-            }
-            this.Type = component.Type;
-            this.ComponentTranslation = component.ComponentTranslation;
-            this.ComponentRotation = component.ComponentRotation;
-            this.ComponentScale = component.ComponentScale;
         }
     }
 }

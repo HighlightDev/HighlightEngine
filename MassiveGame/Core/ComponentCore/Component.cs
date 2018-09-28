@@ -1,13 +1,14 @@
-﻿using OpenTK;
+﻿using MassiveGame.Core.ioCore;
+using MassiveGame.Core.MathCore.MathTypes;
+using OpenTK;
 using OpenTK.Graphics;
-using PhysicsBox.MathTypes;
 using System;
 using System.Collections.Generic;
 
-namespace PhysicsBox.ComponentCore
+namespace MassiveGame.Core.ComponentCore
 {
     [Serializable]
-    public class Component
+    public class Component : ISerializable
     {
         public enum ComponentType
         {
@@ -235,5 +236,8 @@ namespace PhysicsBox.ComponentCore
                 component.ParentComponent = null;
             }
         }
+
+        // Called directly after deserialization
+        public virtual void PostDeserializeInit() { }
     }
 }

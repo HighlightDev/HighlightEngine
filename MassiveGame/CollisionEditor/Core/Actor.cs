@@ -1,8 +1,9 @@
 ﻿using GpuGraphics;
 using OpenTK;
 using CollisionEditor.RenderCore;
-using PhysicsBox.ComponentCore;
+using MassiveGame.Core.ComponentCore;
 using TextureLoader;
+using MassiveGame.Core.ComponentCore;
 
 namespace CollisionEditor.Core
 {
@@ -50,7 +51,7 @@ namespace CollisionEditor.Core
             {
                 SceneComponent comp = item as SceneComponent;
                 if (comp != null)
-                    comp.Render(viewMatrix, projectionMatrix);
+                    comp.RenderBound(ref projectionMatrix, ref viewMatrix, OpenTK.Graphics.Color4.Red);
             }
         }
 

@@ -4,7 +4,6 @@ using System.Linq;
 using OpenTK;
 using OpenTK.Graphics.OpenGL;
 using TextureLoader;
-using PhysicsBox;
 using MassiveGame.Core.GameCore.EntityComponents;
 using MassiveGame.Core.RenderCore.Lights;
 using MassiveGame.Core.RenderCore.Visibility;
@@ -14,6 +13,7 @@ using VBO;
 using MassiveGame.API.ResourcePool.PoolHandling;
 using MassiveGame.API.ResourcePool.Policies;
 using MassiveGame.API.ResourcePool;
+using MassiveGame.Core.MathCore;
 
 namespace MassiveGame.Core.GameCore.Water
 {

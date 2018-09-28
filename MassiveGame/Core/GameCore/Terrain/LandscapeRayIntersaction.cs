@@ -1,7 +1,7 @@
 ﻿using System;
 using OpenTK;
-using PhysicsBox.MathTypes;
-using PhysicsBox;
+using MassiveGame.Core.MathCore;
+using MassiveGame.Core.MathCore.MathTypes;
 
 namespace MassiveGame.Core.GameCore.Terrain
 {
@@ -39,11 +39,11 @@ namespace MassiveGame.Core.GameCore.Terrain
             {
                 Vector3 P = getIntersectionPoint(terrain, ray);
 
-                if (GeometricMath.CMP(ray.Direction.X, 0.0f) <= 0.0f && GeometricMath.CMP(P.X, 0.0f) <= 0.0f)
+                if (GeometryMath.CMP(ray.Direction.X, 0.0f) <= 0.0f && GeometryMath.CMP(P.X, 0.0f) <= 0.0f)
                     t = (P.X - ray.StartPosition.X) / ray.Direction.X;
-                else if (GeometricMath.CMP(ray.Direction.Y, 0.0f) <= 0.0f && GeometricMath.CMP(P.Y, 0.0f) <= 0.0f)
+                else if (GeometryMath.CMP(ray.Direction.Y, 0.0f) <= 0.0f && GeometryMath.CMP(P.Y, 0.0f) <= 0.0f)
                     t = (P.Y - ray.StartPosition.Y) / ray.Direction.Y;
-                else if (GeometricMath.CMP(ray.Direction.Z, 0.0f) <= 0.0f && GeometricMath.CMP(P.Z, 0.0f) <= 0.0f)
+                else if (GeometryMath.CMP(ray.Direction.Z, 0.0f) <= 0.0f && GeometryMath.CMP(P.Z, 0.0f) <= 0.0f)
                     t = (P.Z - ray.StartPosition.Z) / ray.Direction.Z;
             }
             return t;

@@ -1,5 +1,5 @@
 ﻿using CollisionEditor.Core;
-using PhysicsBox.ComponentCore;
+using MassiveGame.Core.ComponentCore;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -7,6 +7,8 @@ using System.Threading;
 using System.Windows.Forms;
 using OpenTK;
 using OpenTK.Graphics.OpenGL;
+using MassiveGame.Settings;
+using MassiveGame.CollisionEditor.Core.SerializeAPI;
 
 namespace MassiveGame.UI
 {
@@ -132,63 +134,97 @@ namespace MassiveGame.UI
             {
                 float value = (trackBarTranslationX.Value * 2) - 100.0f;
                 if (selectedComponent != null)
+                {
                     selectedComponent.ComponentTranslation = new Vector3(value, selectedComponent.ComponentTranslation.Y, selectedComponent.ComponentTranslation.Z);
+                    Editor.bComponentHierarchyIsDirty = true;
+                }
             }
             else if (sender == trackBarTranslationY)
             {
                 float value = (trackBarTranslationY.Value * 2) - 100.0f;
                 if (selectedComponent != null)
+                {
                     selectedComponent.ComponentTranslation = new Vector3(selectedComponent.ComponentTranslation.X, value, selectedComponent.ComponentTranslation.Z);
+                    Editor.bComponentHierarchyIsDirty = true;
+                }
             }
             else if (sender == trackBarTranslationZ)
             {
                 float value = (trackBarTranslationZ.Value * 2) - 100.0f;
                 if (selectedComponent != null)
+                {
                     selectedComponent.ComponentTranslation = new Vector3(selectedComponent.ComponentTranslation.X, selectedComponent.ComponentTranslation.Y, value);
+                    Editor.bComponentHierarchyIsDirty = true;
+                }
             }
             else if (sender == trackBarRotationX)
             {
                 float value = trackBarRotationX.Value * 3.6f;
                 if (selectedComponent != null)
+                {
                     selectedComponent.ComponentRotation = new Vector3(value, selectedComponent.ComponentRotation.Y, selectedComponent.ComponentRotation.Z);
+                    Editor.bComponentHierarchyIsDirty = true;
+                }
             }
             else if (sender == trackBarRotationY)
             {
                 float value = trackBarRotationY.Value * 3.6f;
                 if (selectedComponent != null)
+                {
                     selectedComponent.ComponentRotation = new Vector3(selectedComponent.ComponentRotation.X, value, selectedComponent.ComponentRotation.Z);
+                    Editor.bComponentHierarchyIsDirty = true;
+                }
             }
             else if (sender == trackBarRotationZ)
             {
                 float value = trackBarRotationZ.Value * 3.6f;
                 if (selectedComponent != null)
+                {
                     selectedComponent.ComponentRotation = new Vector3(selectedComponent.ComponentRotation.X, selectedComponent.ComponentRotation.Y, value);
+                    Editor.bComponentHierarchyIsDirty = true;
+                }
             }
             else if (sender == trackBarScaleX)
             {
                 float value = trackBarScaleX.Value * (0.01f * ScaleFactor);
                 if (selectedComponent != null)
+                {
                     selectedComponent.ComponentScale = new Vector3(value, selectedComponent.ComponentScale.Y, selectedComponent.ComponentScale.Z);
+                    Editor.bComponentHierarchyIsDirty = true;
+                }
             }
             else if (sender == trackBarScaleY)
             {
                 float value = trackBarScaleY.Value * (0.01f * ScaleFactor);
                 if (selectedComponent != null)
+                {
                     selectedComponent.ComponentScale = new Vector3(selectedComponent.ComponentScale.X, value, selectedComponent.ComponentScale.Z);
+                    Editor.bComponentHierarchyIsDirty = true;
+                }
             }
             else if (sender == trackBarScaleZ)
             {
                 float value = trackBarScaleZ.Value * (0.01f * ScaleFactor);
                 if (selectedComponent != null)
+                {
                     selectedComponent.ComponentScale = new Vector3(selectedComponent.ComponentScale.X, selectedComponent.ComponentScale.Y, value);
+                    Editor.bComponentHierarchyIsDirty = true;
+                }
             }
+        }
+
+        private string GetNameOfComponent(Component component)
+        {
+            string result = "CollisionComponent_" + ComponentCreator.GetIdByComponent(component);
+            return result;
         }
 
         private void AddTreeViewNodes(Int32 parentNodeIndex, TreeNodeCollection parentNodeCollection, List<Component> childrenComponents)
         {
             for (var i = 0; i < childrenComponents.Count; i++, parentNodeIndex++)
             {
-                parentNodeCollection.Add(childrenComponents[i].ToString());
+                string componentName = GetNameOfComponent(childrenComponents[i]);
+                parentNodeCollection.Add(componentName);
                 AddTreeViewNodes(parentNodeIndex, parentNodeCollection[i].Nodes, childrenComponents[i].ChildrenComponents);
             }
         }
@@ -222,33 +258,6 @@ namespace MassiveGame.UI
             PrevCursorPosition.Y = e.Y;
         }
 
-        private void button1_Click(object sender, EventArgs e)
-        {
-            OpenFileDialog dlg = new OpenFileDialog();
-            dlg.InitialDirectory = Environment.CurrentDirectory;
-            dlg.RestoreDirectory = false;
-            var result = dlg.ShowDialog();
-            if (result == DialogResult.OK)
-            {
-                selectedComponent = Editor.CreateActor(dlg.FileName);
-                bTreeViewDirty = true;
-            }
-            dlg.Dispose();
-        }
-
-        private void button2_Click(object sender, EventArgs e)
-        {
-            OpenFileDialog dlg = new OpenFileDialog();
-            var result = dlg.ShowDialog();
-            if (result == DialogResult.OK)
-            {
-                Editor.SetTexture(dlg.FileName);
-            }
-            dlg.Dispose();
-        }
-
-
-
         private void GLControl_KeyDown(object sender, KeyEventArgs e)
         {
 
@@ -278,37 +287,27 @@ namespace MassiveGame.UI
                 enabledKeys[3] = false;
         }
 
-        private void button3_Click(object sender, EventArgs e)
+        private CollisionComponentsWrapper SetMementoComponent(Component serializableComponent)
         {
-            if (selectedComponent != null)
-            {
-                selectedComponent.AttachComponent(Editor.CreateCollisionComponent());
-                bTreeViewDirty = true;
-            }
+            CollisionComponentsWrapper wrapper = new CollisionComponentsWrapper(serializableComponent);
+            return wrapper;
         }
 
-        private SerializedComponentsContainer SetMementoComponent(Component serializableComponent)
+        private void Serialize(CollisionComponentsWrapper wrappedComponent, string pathToDir)
         {
-            SerializationComponentWrapper wrapper = new SerializationComponentWrapper(serializableComponent);
-            SerializedComponentsContainer container = new SerializedComponentsContainer(wrapper);
-            return container;
+            CollisionComponentSerializer serializer = new CollisionComponentSerializer();
+            serializer.Serialize(wrappedComponent, pathToDir);
         }
 
-        private void Serialize(SerializedComponentsContainer wrappedComponent, string pathToDir)
+        private CollisionComponentsWrapper Deserialize(string pathToFile)
         {
-            ComponentSerializer serializer = new ComponentSerializer();
-            serializer.SerializeComponents(wrappedComponent, pathToDir);
-        }
-
-        private SerializedComponentsContainer Deserialize(string pathToFile)
-        {
-            SerializedComponentsContainer deserializedComponent = null;
-            ComponentSerializer serializer = new ComponentSerializer();
-            deserializedComponent = serializer.DeserializeComponents(pathToFile);
+            CollisionComponentsWrapper deserializedComponent = null;
+            CollisionComponentSerializer serializer = new CollisionComponentSerializer();
+            deserializedComponent = serializer.Deserialize(pathToFile) as CollisionComponentsWrapper;
             return deserializedComponent;
         }
 
-        private List<Component> GetMemento(Component parent, SerializedComponentsContainer wrappedComponent)
+        private List<Component> GetMemento(Component parent, CollisionComponentsWrapper wrappedComponent)
         {
             List<Component> result = new List<Component>();
             foreach (var component in wrappedComponent.SerializedComponents)
@@ -348,7 +347,47 @@ namespace MassiveGame.UI
             }
         }
 
-        private void button4_Click(object sender, EventArgs e)
+        private void createMesh_B_click(object sender, EventArgs e)
+        {
+            OpenFileDialog dlg = new OpenFileDialog();
+            dlg.InitialDirectory = ProjectFolders.ModelsPath;
+                //Environment.CurrentDirectory;
+            
+            var result = dlg.ShowDialog();
+            if (result == DialogResult.OK)
+            {
+                selectedComponent = Editor.CreateActor(dlg.FileName);
+                bTreeViewDirty = true;
+            }
+            dlg.RestoreDirectory = true;
+            dlg.Dispose();
+        }
+
+        private void setMeshTexture_B_click(object sender, EventArgs e)
+        {
+            OpenFileDialog dlg = new OpenFileDialog();
+            dlg.InitialDirectory = ProjectFolders.TextureAtlasPath;
+           
+            var result = dlg.ShowDialog();
+            if (result == DialogResult.OK)
+            {
+                Editor.SetTexture(dlg.FileName);
+            }
+            dlg.RestoreDirectory = true;
+            dlg.Dispose();
+        }
+
+        private void createCollisionComponent_B_click(object sender, EventArgs e)
+        {
+            if (selectedComponent != null)
+            {
+                selectedComponent.AttachComponent(Editor.CreateCollisionComponent());
+                bTreeViewDirty = true;
+                Editor.bComponentHierarchyIsDirty = true;
+            }
+        }
+
+        private void serialize_B_click(object sender, EventArgs e)
         {
             if (Editor.actor == null)
                 return;
@@ -358,13 +397,13 @@ namespace MassiveGame.UI
             var result = dlg.ShowDialog();
             if (result == DialogResult.OK)
             {
-                SerializedComponentsContainer wrappedComponent = SetMementoComponent(Editor.actor);
-                Serialize(wrappedComponent, dlg.FileName);
+                CollisionComponentsWrapper wrappedComponents = SetMementoComponent(Editor.actor);
+                Serialize(wrappedComponents, dlg.FileName);
             }
             dlg.Dispose();
         }
 
-        private void button5_Click(object sender, EventArgs e)
+        private void deserialize_B_click(object sender, EventArgs e)
         {
             if (Editor.actor == null)
                 return;

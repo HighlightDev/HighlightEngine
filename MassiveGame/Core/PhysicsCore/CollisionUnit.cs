@@ -1,9 +1,9 @@
 ﻿using OpenTK;
-using PhysicsBox.ComponentCore;
-using PhysicsBox.MathTypes;
+using MassiveGame.Core.ComponentCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using MassiveGame.Core.MathCore.MathTypes;
 
 namespace MassiveGame.Core.PhysicsCore
 {

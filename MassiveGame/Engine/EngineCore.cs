@@ -1,6 +1,7 @@
 ﻿using MassiveGame.API.MouseObjectDetector;
 using MassiveGame.API.ObjectFactory;
 using MassiveGame.API.ObjectFactory.ObjectArguments;
+using MassiveGame.CollisionEditor.Core.SerializeAPI;
 using MassiveGame.Core.ComponentCore;
 using MassiveGame.Core.GameCore;
 using MassiveGame.Core.GameCore.Entities.MoveEntities;
@@ -20,7 +21,7 @@ using MassiveGame.Debug.UiPanel;
 using MassiveGame.Settings;
 using OpenTK;
 using OpenTK.Graphics.OpenGL;
-using PhysicsBox.ComponentCore;
+using MassiveGame.Core.ComponentCore;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -29,6 +30,7 @@ using System.IO;
 using System.Windows.Forms;
 using TextureLoader;
 using static MassiveGame.Core.GameCore.Sun.DayCycle.DayPhases;
+using MassiveGame.Core.ioCore;
 
 namespace MassiveGame.Engine
 {
@@ -110,7 +112,6 @@ namespace MassiveGame.Engine
                     File.Delete(@"NewModel.msh");
                 defaultMatrixSettings();
 
-
                 setTestValues();
                 KeyboardBindingsLoader bindingsLoader = new KeyboardBindingsLoader();
                 bindingsLoader.SetKeyboardBindings();
@@ -188,7 +189,7 @@ namespace MassiveGame.Engine
             //EngineStatics.City.Add((Building)EngineObjectCreator.CreateInstance(new StaticEntityArguments(modelPath, texturePath, normalMapPath, specularMapPath,
             //   new Vector3(230, 10 + EngineStatics.MAP_HEIGHT, 48), new Vector3(0, 180, 0), new Vector3(30, 30, 30))));
             EngineStatics.City.Add((Building)EngineObjectCreator.CreateInstance(new StaticEntityArguments(modelPath, texturePath, normalMapPath, specularMapPath,
-              new Vector3(170, 13f + EngineStatics.MAP_HEIGHT, 170), new Vector3(0, 180, 0), new Vector3(10))));
+              new Vector3(170, 13f + EngineStatics.MAP_HEIGHT, 170), new Vector3(0, 180, 0), new Vector3(20))));
             //EngineStatics.City.Add((Building)EngineObjectCreator.CreateInstance(new StaticEntityArguments(modelPath, texturePath, normalMapPath, specularMapPath,
             //   new Vector3(280, 10, 350), new Vector3(0, 180, 0), new Vector3(10))));
             //EngineStatics.City.Add((Building)EngineObjectCreator.CreateInstance(new StaticEntityArguments(modelPath, texturePath, normalMapPath, specularMapPath,
@@ -197,17 +198,17 @@ namespace MassiveGame.Engine
             //   new Vector3(260, 10, 400), new Vector3(0, 180, 0), new Vector3(10))));
 
             // TEST components
-            ComponentSerializer serializer = new ComponentSerializer();
-            SerializedComponentsContainer container;
-            Component parent = new Component();
-            Component component;
+            //CollisionComponentSerializer serializer = new CollisionComponentSerializer();
+            Deserializer deserializer = new Deserializer();
+            //Component parent = new Component();
+            //Component component;
             foreach (var item in EngineStatics.City)
             {
                 // FIXME
-                container = serializer.DeserializeComponents("12345.cl");
-                parent.ChildrenComponents = container.SerializedComponents;
-                component = convertToSceneComponent(parent);
-                item.SetComponents(component.ChildrenComponents);
+                var inner_wrapper = deserializer.Deserialize<CollisionComponentsWrapper>("1.cl");
+                //parent.ChildrenComponents = wrapper.SerializedComponents;
+                //component = convertToSceneComponent(parent);
+                item.SetComponents(inner_wrapper.SerializedComponents);
                 item.SetCollisionHeadUnit(m_collisionHeadUnit);
 
                 item.SetMistComponent(EngineStatics.Mist);
@@ -229,12 +230,12 @@ namespace MassiveGame.Engine
             EngineStatics.Player.SetMistComponent(EngineStatics.Mist);
 
             // TEST components
-            container = serializer.DeserializeComponents("123.cl");
-            parent = new Component();
-            parent.ChildrenComponents = container.SerializedComponents;
-            component = convertToSceneComponent(parent);
-            // TEST
-            EngineStatics.Player.SetComponents(component.ChildrenComponents);
+            var wrapper = deserializer.Deserialize<CollisionComponentsWrapper>("2.cl");
+            //parent = new Component();
+            //parent.ChildrenComponents = wrapper.SerializedComponents;
+            //component = convertToSceneComponent(parent);
+            //// TEST
+            EngineStatics.Player.SetComponents(wrapper.SerializedComponents);
 
             EngineStatics.Player.SetCollisionHeadUnit(m_collisionHeadUnit);
             EngineStatics.Player.Speed = 0.6f;
@@ -247,11 +248,11 @@ namespace MassiveGame.Engine
             EngineStatics.Enemy = (MovableMeshEntity)EngineObjectCreator.CreateInstance(arg);
             EngineStatics.Enemy.SetMistComponent(EngineStatics.Mist);
 
-            container = serializer.DeserializeComponents("123.cl");
-            parent = new Component();
-            parent.ChildrenComponents = container.SerializedComponents;
-            component = convertToSceneComponent(parent);
-            EngineStatics.Enemy.SetComponents(component.ChildrenComponents);
+            wrapper = deserializer.Deserialize<CollisionComponentsWrapper>("2.cl");
+            //parent = new Component();
+            //parent.ChildrenComponents = wrapper.SerializedComponents;
+            //component = convertToSceneComponent(parent);
+            EngineStatics.Enemy.SetComponents(wrapper.SerializedComponents);
             EngineStatics.Enemy.SetCollisionHeadUnit(m_collisionHeadUnit);
             arg = null;
 

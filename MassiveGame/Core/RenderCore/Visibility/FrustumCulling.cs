@@ -1,7 +1,7 @@
 ﻿using System;
 using OpenTK;
-using PhysicsBox;
-using PhysicsBox.MathTypes;
+using MassiveGame.Core.MathCore.MathTypes;
+using MassiveGame.Core.MathCore;
 
 namespace MassiveGame.Core.RenderCore.Visibility
 {

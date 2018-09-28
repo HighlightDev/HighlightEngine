@@ -1,0 +1,26 @@
+﻿using OpenTK;
+
+namespace MassiveGame.Core.MathCore.MathTypes
+{
+    public class FRay
+    {
+        public Vector3 StartPosition { set; get; }
+        public Vector3 Direction { set; get; }
+
+        static public FRay operator*(FRay ray, Matrix4 rotationMatrix)
+        {
+            return new FRay(Vector3.TransformPosition(ray.StartPosition, rotationMatrix), Vector3.TransformNormal(ray.Direction, rotationMatrix));
+        }
+
+        public Vector3 GetPositionInTime(float t)
+        {
+            return StartPosition + Direction * t;
+        }
+
+        public FRay(Vector3 startPosition, Vector3 direction)
+        {
+            StartPosition = startPosition;
+            Direction = direction.Normalized();
+        }
+    }
+}

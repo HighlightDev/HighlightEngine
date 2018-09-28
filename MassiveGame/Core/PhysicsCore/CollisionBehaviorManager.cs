@@ -5,12 +5,12 @@ using MassiveGame.Core.GameCore.Entities.StaticEntities;
 using MassiveGame.Core.GameCore.Terrain;
 using MassiveGame.Core.PhysicsCore.OutputData;
 using OpenTK;
-using PhysicsBox;
-using PhysicsBox.ComponentCore;
-using PhysicsBox.MathTypes;
+using MassiveGame.Core.ComponentCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using MassiveGame.Core.MathCore.MathTypes;
+using MassiveGame.Core.MathCore;
 
 namespace MassiveGame.Core.PhysicsCore
 {
@@ -98,9 +98,9 @@ namespace MassiveGame.Core.PhysicsCore
                 float localIntersectionDistance = 0.0f;
                 BoundBase.BoundType boundType = collidedBounds[i].GetBoundType();
                 if ((boundType & BoundBase.BoundType.AABB) == BoundBase.BoundType.AABB)
-                    localIntersectionDistance = GeometricMath.Intersection_RayAABB(ray, collidedBounds[i] as AABB);
+                    localIntersectionDistance = GeometryMath.Intersection_RayAABB(ray, collidedBounds[i] as AABB);
                 else if ((boundType & BoundBase.BoundType.OBB) == BoundBase.BoundType.OBB)
-                    localIntersectionDistance = GeometricMath.Intersection_RayOBB(ray, collidedBounds[i] as OBB);
+                    localIntersectionDistance = GeometryMath.Intersection_RayOBB(ray, collidedBounds[i] as OBB);
 
                 if (resultShortestDistance <= -1.0f || (localIntersectionDistance > 0.0f && localIntersectionDistance < resultShortestDistance))
                 {
@@ -184,7 +184,7 @@ namespace MassiveGame.Core.PhysicsCore
             // find rays with the most high start position
             foreach (var result in rayCastResults)
             {
-                if (result.shortestDistance > -1 && GeometricMath.CMP(result.parentRay.StartPosition.Y, boundMaxY) > 0)
+                if (result.shortestDistance > -1 && GeometryMath.CMP(result.parentRay.StartPosition.Y, boundMaxY) > 0)
                 {
                     mostHighRayCastPositionResults.Add(result);
                 }
@@ -219,9 +219,9 @@ namespace MassiveGame.Core.PhysicsCore
                 float localIntersectionDistance = -1.0f;
                 BoundBase.BoundType boundType = characterBound.GetBoundType();
                 if ((boundType & BoundBase.BoundType.AABB) == BoundBase.BoundType.AABB)
-                    localIntersectionDistance = GeometricMath.Intersection_RayAABBExt(ray, boundMax, boundMin);
+                    localIntersectionDistance = GeometryMath.Intersection_RayAABBExt(ray, boundMax, boundMin);
                 else if ((boundType & BoundBase.BoundType.OBB) == BoundBase.BoundType.OBB)
-                    localIntersectionDistance = GeometricMath.Intersection_RayOBBExt(ray, (characterBound as OBB).GetTangetX(), (characterBound as OBB).GetTangetY(),
+                    localIntersectionDistance = GeometryMath.Intersection_RayOBBExt(ray, (characterBound as OBB).GetTangetX(), (characterBound as OBB).GetTangetY(),
                         (characterBound as OBB).GetTangetZ(), boundOrigin, (characterBound as OBB).GetExtent());
 
                 if (localIntersectionDistance > -1.0f)
@@ -272,9 +272,9 @@ namespace MassiveGame.Core.PhysicsCore
                 float localIntersectionDistance = 0.0f;
                 BoundBase.BoundType boundType = characterBound.GetBoundType();
                 if ((boundType & BoundBase.BoundType.AABB) == BoundBase.BoundType.AABB)
-                    localIntersectionDistance = GeometricMath.Intersection_RayAABBExt(ray, boundMax, boundMin);
+                    localIntersectionDistance = GeometryMath.Intersection_RayAABBExt(ray, boundMax, boundMin);
                 else if ((boundType & BoundBase.BoundType.OBB) == BoundBase.BoundType.OBB)
-                    localIntersectionDistance = GeometricMath.Intersection_RayOBBExt(ray, (characterBound as OBB).GetTangetX(), (characterBound as OBB).GetTangetY(),
+                    localIntersectionDistance = GeometryMath.Intersection_RayOBBExt(ray, (characterBound as OBB).GetTangetX(), (characterBound as OBB).GetTangetY(),
                         (characterBound as OBB).GetTangetZ(), boundOrigin, (characterBound as OBB).GetExtent());
 
                 Vector3 intersectionPosition = ray.GetPositionInTime(localIntersectionDistance);

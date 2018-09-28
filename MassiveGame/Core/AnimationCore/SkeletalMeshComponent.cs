@@ -1,4 +1,4 @@
-﻿using PhysicsBox.ComponentCore;
+﻿using MassiveGame.Core.ComponentCore;
 
 namespace MassiveGame.Core.AnimationCore
 {

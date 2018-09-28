@@ -2,16 +2,10 @@
 using OpenTK;
 using OTKWinForm.RenderCore;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL;
 using TextureLoader;
-using PhysicsBox.ComponentCore;
-using PhysicsBox.MathTypes;
+using MassiveGame.Core.ComponentCore;
+using MassiveGame.Core.MathCore.MathTypes;
 
 namespace OTKWinForm.Core
 {

@@ -63,8 +63,8 @@
             this.button2 = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
             this.button4 = new System.Windows.Forms.Button();
-            this.treeView1 = new System.Windows.Forms.TreeView();
             this.button5 = new System.Windows.Forms.Button();
+            this.treeView1 = new System.Windows.Forms.TreeView();
             this.tableLayoutPanel1.SuspendLayout();
             this.flowLayoutPanel1.SuspendLayout();
             this.panel4.SuspendLayout();
@@ -409,67 +409,67 @@
             // 
             this.button1.Location = new System.Drawing.Point(3, 3);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(74, 23);
+            this.button1.Size = new System.Drawing.Size(113, 23);
             this.button1.TabIndex = 3;
-            this.button1.Text = "mesh";
+            this.button1.Text = "Create Mesh";
             this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.button1.Click += new System.EventHandler(this.createMesh_B_click);
             // 
             // button2
             // 
             this.button2.Location = new System.Drawing.Point(3, 32);
             this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(75, 23);
+            this.button2.Size = new System.Drawing.Size(113, 23);
             this.button2.TabIndex = 4;
-            this.button2.Text = "texture";
+            this.button2.Text = "Set Texture";
             this.button2.UseVisualStyleBackColor = true;
-            this.button2.Click += new System.EventHandler(this.button2_Click);
+            this.button2.Click += new System.EventHandler(this.setMeshTexture_B_click);
             // 
             // button3
             // 
             this.button3.Location = new System.Drawing.Point(3, 61);
             this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(75, 23);
+            this.button3.Size = new System.Drawing.Size(113, 42);
             this.button3.TabIndex = 6;
-            this.button3.Text = "AddComponent";
+            this.button3.Text = "Create CollisionComponent";
             this.button3.UseVisualStyleBackColor = true;
-            this.button3.Click += new System.EventHandler(this.button3_Click);
+            this.button3.Click += new System.EventHandler(this.createCollisionComponent_B_click);
             // 
             // button4
             // 
-            this.button4.Location = new System.Drawing.Point(3, 90);
+            this.button4.Location = new System.Drawing.Point(3, 109);
             this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(75, 23);
+            this.button4.Size = new System.Drawing.Size(113, 41);
             this.button4.TabIndex = 7;
-            this.button4.Text = "Serialize";
+            this.button4.Text = "Serialize Collision Components";
             this.button4.UseVisualStyleBackColor = true;
-            this.button4.Click += new System.EventHandler(this.button4_Click);
+            this.button4.Click += new System.EventHandler(this.serialize_B_click);
+            // 
+            // button5
+            // 
+            this.button5.Location = new System.Drawing.Point(3, 156);
+            this.button5.Name = "button5";
+            this.button5.Size = new System.Drawing.Size(113, 52);
+            this.button5.TabIndex = 8;
+            this.button5.Text = "Deserialize Collision Components";
+            this.button5.UseVisualStyleBackColor = true;
+            this.button5.Click += new System.EventHandler(this.deserialize_B_click);
             // 
             // treeView1
             // 
-            this.treeView1.Location = new System.Drawing.Point(84, 3);
+            this.treeView1.Location = new System.Drawing.Point(122, 3);
             this.treeView1.Name = "treeView1";
             this.treeView1.Size = new System.Drawing.Size(474, 358);
             this.treeView1.TabIndex = 5;
             // 
-            // button5
-            // 
-            this.button5.Location = new System.Drawing.Point(3, 119);
-            this.button5.Name = "button5";
-            this.button5.Size = new System.Drawing.Size(75, 23);
-            this.button5.TabIndex = 8;
-            this.button5.Text = "Deserialize";
-            this.button5.UseVisualStyleBackColor = true;
-            this.button5.Click += new System.EventHandler(this.button5_Click);
-            // 
-            // OTKWinForm
+            // CollisionEditorWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1503, 753);
             this.Controls.Add(this.tableLayoutPanel1);
             this.Controls.Add(this.GLControl);
-            this.Name = "OTKWinForm";
+            this.Name = "CollisionEditorWindow";
             this.Text = "Form1";
             this.tableLayoutPanel1.ResumeLayout(false);
             this.flowLayoutPanel1.ResumeLayout(false);

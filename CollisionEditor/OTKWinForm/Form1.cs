@@ -295,7 +295,7 @@ namespace OTKWinForm
 
         private SerializedComponentsContainer SetMementoComponent(Component serializableComponent)
         {
-            SerializationComponentWrapper wrapper = new SerializationComponentWrapper(serializableComponent);
+            CollisionComponentsWrapper wrapper = new CollisionComponentsWrapper(serializableComponent);
             SerializedComponentsContainer container = new SerializedComponentsContainer(wrapper);
             return container;
         }

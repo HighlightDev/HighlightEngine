@@ -109,10 +109,6 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>bin\Debug\OpenTK.GLControl.dll</HintPath>
     </Reference>
-    <Reference Include="PhysicsBox, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\DLL\PhysicsBox\PhysicsBox\bin\Debug\PhysicsBox.dll</HintPath>
-    </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />
@@ -151,9 +147,12 @@
     <Compile Include="API\ResourcePool\Pools\TexturePool.cs" />
     <Compile Include="CollisionEditor\Core\Actor.cs" />
     <Compile Include="CollisionEditor\Core\Camera.cs" />
+    <Compile Include="CollisionEditor\Core\CollisionComponentBoundBuilder.cs" />
+    <Compile Include="CollisionEditor\Core\SerializeAPI\CollisionComponentsWrapper.cs" />
+    <Compile Include="CollisionEditor\Core\SerializeAPI\CollisionComponentSerializer.cs" />
     <Compile Include="CollisionEditor\Core\ComponentCreator.cs" />
     <Compile Include="CollisionEditor\Core\EditorCore.cs" />
-    <Compile Include="CollisionEditor\Core\SceneComponent.cs" />
+    <Compile Include="CollisionEditor\Core\CollisionComponent.cs" />
     <Compile Include="CollisionEditor\Core\Skybox.cs" />
     <Compile Include="CollisionEditor\GUI\AxesIcon.cs" />
     <Compile Include="CollisionEditor\IOCore\ProxyModelLoader.cs" />
@@ -169,6 +168,7 @@
     <Compile Include="Core\AnimationCore\Bone.cs" />
     <Compile Include="Core\AnimationCore\ParentBone.cs" />
     <Compile Include="Core\AnimationCore\SkeletalMeshComponent.cs" />
+    <Compile Include="Core\ComponentCore\Component.cs" />
     <Compile Include="Core\GameCore\Entities\Skeleton\SkeletonDummy.cs" />
     <Compile Include="Core\GameCore\Entities\Skeleton\SkeletonShader.cs" />
     <Compile Include="Core\AnimationHolder.cs" />
@@ -176,6 +176,19 @@
     <Compile Include="Core\GameCore\Entities\Skeletal Entities\MovableSkeletalMeshEntity.cs" />
     <Compile Include="Core\GameCore\Entities\Skeletal Entities\SkeletalMeshEntityShader.cs" />
     <Compile Include="Core\GameCore\PlayerController.cs" />
+    <Compile Include="Core\ioCore\Deserializer.cs" />
+    <Compile Include="Core\ioCore\ISerializer.cs" />
+    <Compile Include="Core\MathCore\ActorPositionMemento.cs" />
+    <Compile Include="Core\MathCore\CollisionQuad.cs" />
+    <Compile Include="Core\MathCore\GeometryMath.cs" />
+    <Compile Include="Core\MathCore\MathTypes\AABB.cs" />
+    <Compile Include="Core\MathCore\MathTypes\BoundBase.cs" />
+    <Compile Include="Core\MathCore\MathTypes\ConvexVolume.cs" />
+    <Compile Include="Core\MathCore\MathTypes\FMirrorMatrix.cs" />
+    <Compile Include="Core\MathCore\MathTypes\FPlane.cs" />
+    <Compile Include="Core\MathCore\MathTypes\FRay.cs" />
+    <Compile Include="Core\MathCore\MathTypes\FSphere.cs" />
+    <Compile Include="Core\MathCore\MathTypes\OBB.cs" />
     <Compile Include="Debug\UiPanel\UiFrameMaster.cs" />
     <Compile Include="Engine\EngineCore.cs" />
     <Compile Include="Engine\GameThread.cs" />

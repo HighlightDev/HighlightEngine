@@ -1,9 +1,11 @@
 ﻿using OpenTK;
 using TextureLoader;
-using PhysicsBox.ComponentCore;
+using MassiveGame.Core.ComponentCore;
 using CollisionEditor.RenderCore;
 using CollisionEditor.IOCore;
 using MassiveGame.Settings;
+using MassiveGame.CollisionEditor.Core;
+using MassiveGame.Core.ComponentCore;
 
 namespace CollisionEditor.Core
 {
@@ -21,6 +23,11 @@ namespace CollisionEditor.Core
         private bool PostConstructor = true;
 
         private string CollisionBoxPath;
+        private RawModel CollisionBoxModel;
+
+        private object locker = new object();
+
+        public bool bComponentHierarchyIsDirty { set; get; } = false;
 
         public EditorCore()
         {
@@ -45,10 +52,14 @@ namespace CollisionEditor.Core
 
         public void TickEditor()
         {
-            if (actor != null)
+            lock (locker)
             {
-                Matrix4 viewMatrix = EditorCamera.ViewMatrix;
-                actor.Tick(0);
+                if (actor != null && bComponentHierarchyIsDirty)
+                {
+                    Matrix4 viewMatrix = EditorCamera.ViewMatrix;
+                    CollisionComponentBoundBuilder.UpdateCollisionBoundHierarchy(actor, CollisionBoxModel.Buffer.getBufferData().Vertices);
+                    bComponentHierarchyIsDirty = false;
+                }
             }
         }
 
@@ -56,12 +67,13 @@ namespace CollisionEditor.Core
         {
             if (PostConstructor)
             {
+                CollisionBoxModel = new RawModel(ProxyModelLoader.LoadModel(CollisionBoxPath));
                 DefaultTexture = ProxyTextureLoader.LoadSingleTexture(ProjectFolders.TextureAtlasPath + "\\default.jpg");
                 DefaultShader = new BasicShader(ProjectFolders.ShadersPath + "\\basicVS.glsl", ProjectFolders.ShadersPath + "\\basicFS.glsl");
                 PostConstructor = false;
             }
 
-            if (actor != null)
+            if (actor != null && !bComponentHierarchyIsDirty)
                 actor.Render(EditorCamera.ViewMatrix, projectionMatrix);
 
             skybox.Render(EditorCamera.ViewMatrix, projectionMatrix);
@@ -81,7 +93,7 @@ namespace CollisionEditor.Core
 
         public Component CreateCollisionComponent()
         {
-            var component = new SceneComponent(new RawModel(ProxyModelLoader.LoadModel(CollisionBoxPath)), DefaultTexture, DefaultShader);
+            var component = new SceneComponent();
             ComponentCreator.AddComponentToRoot(component);
             return component;
         }
