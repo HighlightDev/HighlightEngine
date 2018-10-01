@@ -14,6 +14,7 @@ using MassiveGame.API.ResourcePool.PoolHandling;
 using MassiveGame.API.ResourcePool.Policies;
 using MassiveGame.API.ResourcePool;
 using MassiveGame.Core.MathCore;
+using MassiveGame.Core.GameCore.Entities;
 
 namespace MassiveGame.Core.GameCore.Water
 {
@@ -22,20 +23,20 @@ namespace MassiveGame.Core.GameCore.Water
     public struct WaterQuality
     {
         public readonly bool EnableBuilding;
-        public readonly bool EnablePlayer;
+        public readonly bool EnableMovableEntities;
         public readonly bool EnableGrassRefraction;
 
-        public WaterQuality(bool enableBuilding, bool enablePlayer, bool enableGrassRefraction)
+        public WaterQuality(bool enableBuilding, bool enableMovableEntities, bool enableGrassRefraction)
         {
             EnableBuilding = enableBuilding;
-            EnablePlayer = enablePlayer;
+            EnableMovableEntities = enableMovableEntities;
             EnableGrassRefraction = enableGrassRefraction;
         }
     }
 
     #endregion
 
-    public class WaterPlane : IVisible
+    public class WaterPlane : IVisible, IObservable
     {
         #region Definitions
 
@@ -130,6 +131,16 @@ namespace MassiveGame.Core.GameCore.Water
                 IsInCameraView = this.IsInCameraView = FrustumCulling.isWaterIntersection(this._collisionCheckPoints, viewMatrix, ref projectionMatrix);
 
             return IsInCameraView;
+        }
+
+        public void NotifyAdded()
+        {
+            EngineStatics.RenderableCollection.Add(this);
+        }
+
+        public void NotifyRemoved()
+        {
+            EngineStatics.RenderableCollection.Remove(this);
         }
 
         #endregion
@@ -284,6 +295,6 @@ namespace MassiveGame.Core.GameCore.Water
             PoolProxy.FreeResourceMemory<ObtainShaderPool, ShaderAllocationPolicy<StencilPassShader>, string, StencilPassShader>(stencilPassShader);
         }
 
-        #endregion 
+        #endregion
     }
 }

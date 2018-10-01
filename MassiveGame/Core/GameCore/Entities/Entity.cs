@@ -18,7 +18,7 @@ using MassiveGame.Core.MathCore;
 
 namespace MassiveGame.Core.GameCore.Entities
 {
-    public abstract class Entity: Component, IVisible, ILightHit, IDrawable
+    public abstract class Entity: Component, IVisible, ILightHit, IDrawable, IObservable
     {
         #region Definitions 
 
@@ -109,6 +109,14 @@ namespace MassiveGame.Core.GameCore.Entities
             return AffectedPointLights;
         }
 
+        #endregion
+
+        public bool IsVisibleByCamera { protected set { bVisibleByCamera = value; } get { return bVisibleByCamera; } }
+
+        #endregion
+
+        #region Interface implementation
+
         public virtual void IsLitByLightSource(List<PointLight> LightList)
         {
             m_lightVisibilityMap.Init(LightList.Count, false);
@@ -120,14 +128,6 @@ namespace MassiveGame.Core.GameCore.Entities
                 m_lightVisibilityMap[i] = GeometryMath.IsSphereVsSphereIntersection(ref boundSphere, ref lightSphere);
             }
         }
-
-        #endregion
-
-        public bool IsVisibleByCamera { protected set { bVisibleByCamera = value; } get { return bVisibleByCamera; } }
-
-        #endregion
-
-        #region Interface implementation
 
         private void CheckComponentsAreVisible(ref Component parentComponent, ref Matrix4 viewMatrix, ref Matrix4 projectionMatrix, ref bool bVisible)
         {
@@ -181,6 +181,20 @@ namespace MassiveGame.Core.GameCore.Entities
         public ITexture GetSpecularMap()
         {
             return m_specularMap;
+        }
+
+        public void NotifyAdded()
+        {
+            EngineStatics.AffectedByShadowCollection.Add(this);
+            EngineStatics.LitByLightCollection.Add(this);
+            EngineStatics.RenderableCollection.Add(this);
+        }
+
+        public void NotifyRemoved()
+        {
+            EngineStatics.AffectedByShadowCollection.Remove(this);
+            EngineStatics.LitByLightCollection.Remove(this);
+            EngineStatics.RenderableCollection.Remove(this);
         }
 
         #endregion

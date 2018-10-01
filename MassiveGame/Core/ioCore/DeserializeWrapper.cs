@@ -2,7 +2,7 @@
 
 namespace MassiveGame.Core.ioCore
 {
-    public class Deserializer
+    public class DeserializeWrapper
     {
         ISerializer GetDeserializer(string extension)
         {

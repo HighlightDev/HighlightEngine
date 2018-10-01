@@ -28,10 +28,10 @@ namespace MassiveGame.Engine
         private void VisibilityCheckPass()
         {
             // Find which primitives are visible for current frame
-            VisibilityCheckApi.CheckMeshIsVisible(EngineStatics.RenderableMeshCollection, ref EngineStatics.ProjectionMatrix, EngineStatics.Camera.GetViewMatrix());
+            VisibilityCheckApi.CheckMeshIsVisible(EngineStatics.RenderableCollection, ref EngineStatics.ProjectionMatrix, EngineStatics.Camera.GetViewMatrix());
 
             // Find which light sources effects on meshes
-            LightHitCheckApi.CheckLightSourceHitsMesh(EngineStatics.LitByLightSourcesMeshCollection, EngineStatics.PointLight);
+            LightHitCheckApi.CheckLightSourceHitsMesh(EngineStatics.LitByLightCollection, EngineStatics.PointLight);
         }
 
         private void PreDrawClearBuffers()
@@ -72,7 +72,7 @@ namespace MassiveGame.Engine
 
         private void DepthPassDraw(ref Point actualScreenRezolution)
         {
-            EngineStatics.Sun.GetShadowHolder().WriteDepth(EngineStatics.shadowList, ref EngineStatics.ProjectionMatrix);
+            EngineStatics.Sun.GetShadowHolder().WriteDepth(EngineStatics.AffectedByShadowCollection, ref EngineStatics.ProjectionMatrix);
             GL.Viewport(0, 0, actualScreenRezolution.X, actualScreenRezolution.Y);
         }
 
@@ -160,11 +160,12 @@ namespace MassiveGame.Engine
                 }
             }
 
-            if (EngineStatics.Enemy != null)
+            if (EngineStatics.Bots != null)
             {
-                if (EngineStatics.Enemy.IsVisibleByCamera)
+                foreach (var bot in EngineStatics.Bots)
                 {
-                    EngineStatics.Enemy.RenderEntity(EngineStatics.Mode, EngineStatics.NormalMapTrigger, EngineStatics.Sun, EngineStatics.PointLight, camera, ref EngineStatics.ProjectionMatrix);
+                    if (bot.IsVisibleByCamera)
+                        bot.RenderEntity(EngineStatics.Mode, EngineStatics.NormalMapTrigger, EngineStatics.Sun, EngineStatics.PointLight, camera, ref EngineStatics.ProjectionMatrix);
                 }
             }
 
@@ -223,10 +224,10 @@ namespace MassiveGame.Engine
                     }
             }
 
-            if (quality.EnablePlayer)
+            if (quality.EnableMovableEntities)
             {
                 if (EngineStatics.Player != null) EngineStatics.Player.RenderWaterReflection(EngineStatics.Water, EngineStatics.Sun, camera, ref EngineStatics.ProjectionMatrix, clipPlane);
-                if (EngineStatics.Enemy != null) EngineStatics.Enemy.RenderWaterReflection(EngineStatics.Water, EngineStatics.Sun, camera, ref EngineStatics.ProjectionMatrix, clipPlane);
+                if (EngineStatics.Bots != null) foreach (var bot in EngineStatics.Bots) { bot.RenderWaterReflection(EngineStatics.Water, EngineStatics.Sun, camera, ref EngineStatics.ProjectionMatrix, clipPlane); }
             }
 
             if (!Object.Equals(EngineStatics.SunReplica, null))
@@ -274,7 +275,7 @@ namespace MassiveGame.Engine
 
             /*TO DO : true - enable EngineSingleton.Player and EngineSingleton.Enemy refractions
             false - disable EngineSingleton.Player and EngineSingleton.Enemy refractions*/
-            if (quality.EnablePlayer)
+            if (quality.EnableMovableEntities)
             {
                 if (EngineStatics.Player != null)
                 {
@@ -283,7 +284,15 @@ namespace MassiveGame.Engine
                         EngineStatics.Player.RenderWaterRefraction(EngineStatics.Sun, camera, ref EngineStatics.ProjectionMatrix, clipPlane);
                     }
                 }
-                if (EngineStatics.Enemy != null) EngineStatics.Enemy.RenderWaterRefraction(EngineStatics.Sun, camera, ref EngineStatics.ProjectionMatrix, clipPlane);
+
+                if (EngineStatics.Bots != null)
+                {
+                    foreach (var bot in EngineStatics.Bots)
+                    {
+                        if (bot.IsVisibleByCamera)
+                            bot.RenderWaterRefraction(EngineStatics.Sun, camera, ref EngineStatics.ProjectionMatrix, clipPlane);
+                    }
+                }
             }
 
             /*TO DO :
@@ -317,18 +326,26 @@ namespace MassiveGame.Engine
 
             if (EngineStatics.Player != null)
             {
-                EngineStatics.Player.RenderBound(ref EngineStatics.ProjectionMatrix, ref viewMatrix, System.Drawing.Color.Red);
+                if (EngineStatics.Player.IsVisibleByCamera)
+                    EngineStatics.Player.RenderBound(ref EngineStatics.ProjectionMatrix, ref viewMatrix, System.Drawing.Color.Red);
             }
 
-            if (!Object.Equals(EngineStatics.Enemy, null))
+            if (EngineStatics.Bots != null)
             {
-                EngineStatics.Enemy.RenderBound(ref EngineStatics.ProjectionMatrix, ref viewMatrix, System.Drawing.Color.Red);
+                foreach (var bot in EngineStatics.Bots)
+                {
+                    if (bot.IsVisibleByCamera)
+                        bot.RenderBound(ref EngineStatics.ProjectionMatrix, ref viewMatrix, System.Drawing.Color.Red);
+                }
             }
 
             if (EngineStatics.City != null)
             {
                 foreach (var item in EngineStatics.City)
-                    item.RenderBound(ref EngineStatics.ProjectionMatrix, ref viewMatrix, System.Drawing.Color.Red);
+                {
+                    if (item.IsVisibleByCamera)
+                        item.RenderBound(ref EngineStatics.ProjectionMatrix, ref viewMatrix, System.Drawing.Color.Red);
+                }
             }
 
             if (EngineStatics.SunReplica != null && EngineStatics.SunReplica.CQuad != null)

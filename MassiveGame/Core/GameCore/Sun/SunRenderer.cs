@@ -11,10 +11,11 @@ using MassiveGame.API.ResourcePool.PoolHandling;
 using MassiveGame.API.ResourcePool.Policies;
 using MassiveGame.API.ResourcePool;
 using MassiveGame.Core.MathCore;
+using MassiveGame.Core.GameCore.Entities;
 
 namespace MassiveGame.Core.GameCore.Sun
 {
-    public class SunRenderer : IVisible
+    public class SunRenderer : IVisible, IObservable
     {
         #region Definitions
 
@@ -51,6 +52,16 @@ namespace MassiveGame.Core.GameCore.Sun
             }
             // if sun lays in view frustum - then it intersects with it
             return IsInCameraView;
+        }
+
+        public void NotifyAdded()
+        {
+            EngineStatics.RenderableCollection.Add(this);
+        }
+
+        public void NotifyRemoved()
+        {
+            EngineStatics.RenderableCollection.Remove(this);
         }
 
         #endregion
@@ -172,7 +183,7 @@ namespace MassiveGame.Core.GameCore.Sun
             PoolProxy.FreeResourceMemory<ObtainShaderPool, ShaderAllocationPolicy<SunShader>, string, SunShader>(this._shader);
             _buffer.CleanUp();
         }
-
+       
         #endregion
     }
 }

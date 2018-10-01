@@ -2,7 +2,6 @@
 using MassiveGame.API.ObjectFactory;
 using MassiveGame.API.ObjectFactory.ObjectArguments;
 using MassiveGame.CollisionEditor.Core.SerializeAPI;
-using MassiveGame.Core.ComponentCore;
 using MassiveGame.Core.GameCore;
 using MassiveGame.Core.GameCore.Entities.MoveEntities;
 using MassiveGame.Core.GameCore.Entities.Skeletal_Entities;
@@ -21,7 +20,6 @@ using MassiveGame.Debug.UiPanel;
 using MassiveGame.Settings;
 using OpenTK;
 using OpenTK.Graphics.OpenGL;
-using MassiveGame.Core.ComponentCore;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -38,21 +36,25 @@ namespace MassiveGame.Engine
     {
         // here has to be created and held game or editor window
         private Form m_UiWindow = null;
-        private Stopwatch m_renderTickTime;
-        
-        private CollisionHeadUnit m_collisionHeadUnit;
 
+#if !COLLISION_EDITOR
         private bool bPostConstructor = true;
 
         private RenderThread m_renderThread;
+
         private GameThread m_gameThread;
 
-        #region Init
+        private CollisionHeadUnit m_collisionHeadUnit;
+
+        private Stopwatch m_renderTickTime;
+#endif
 
         public EngineCore()
         {
+#if !COLLISION_EDITOR
             Point startScreenRezoluion = new Point(1400, 800);
             Action preConstructorFunction = new Action(preConstructor), renderQueueFunction = new Action(RenderQueue), cleanUpFunction = new Action(cleanEverythingUp);
+#endif
 
 #if DESIGN_EDITOR
             m_UiWindow = new UI.EditorWindow(startScreenRezoluion.X, startScreenRezoluion.Y, preConstructorFunction, renderQueueFunction, cleanUpFunction);
@@ -75,6 +77,7 @@ namespace MassiveGame.Engine
             m_UiWindow.Close();
         }
 
+#if !COLLISION_EDITOR
         private void defaultMatrixSettings()
         {
             // create projection matrix
@@ -106,23 +109,32 @@ namespace MassiveGame.Engine
             {
                 m_collisionHeadUnit = new CollisionHeadUnit();
                 EngineStatics.ProjectionMatrix = Matrix4.Identity;
-                EngineStatics.City = new List<Building>();
+                EngineStatics.City = new ObserverListWrapper<Building>();
+                EngineStatics.Bots = new ObserverListWrapper<MovableMeshEntity>();
+                EngineStatics.RenderableCollection = new List<IVisible>();
+                EngineStatics.LitByLightCollection = new List<ILightHit>();
+                EngineStatics.AffectedByShadowCollection = new List<IDrawable>();
+
                 // need to delete NewMesh.msh if it exists
                 if (File.Exists(@"NewModel.msh"))
                     File.Delete(@"NewModel.msh");
                 defaultMatrixSettings();
 
                 setTestValues();
-                KeyboardBindingsLoader bindingsLoader = new KeyboardBindingsLoader();
-                bindingsLoader.SetKeyboardBindings();
 
                 // add objects to optimization list
-                EngineStatics.RenderableMeshCollection = new List<IVisible> { EngineStatics.SunReplica, EngineStatics.Water,
-                    EngineStatics.Player, EngineStatics.Enemy };
-                EngineStatics.RenderableMeshCollection.AddRange(EngineStatics.City);
 
-                EngineStatics.LitByLightSourcesMeshCollection = new List<ILightHit> { EngineStatics.Player, EngineStatics.Enemy };
-                EngineStatics.LitByLightSourcesMeshCollection.AddRange(EngineStatics.City);
+                EngineStatics.RenderableCollection.Add(EngineStatics.SunReplica);
+                EngineStatics.RenderableCollection.Add(EngineStatics.Water);
+                EngineStatics.RenderableCollection.Add(EngineStatics.Player);
+
+                EngineStatics.LitByLightCollection.Add(EngineStatics.Player);
+
+                EngineStatics.AffectedByShadowCollection.Add(EngineStatics.Player);
+                EngineStatics.AffectedByShadowCollection.Add(EngineStatics.terrain);
+
+                KeyboardBindingsLoader bindingsLoader = new KeyboardBindingsLoader();
+                bindingsLoader.SetKeyboardBindings();
 
                 // Start game and render thread execution
                 m_renderThread = new RenderThread();
@@ -132,8 +144,6 @@ namespace MassiveGame.Engine
                 m_gameThread = new GameThread(100, 1);
             }
         }
-
-        #endregion
 
         private void setTestValues()
         {
@@ -188,7 +198,7 @@ namespace MassiveGame.Engine
             //  new Vector3(230, 7.5f + EngineStatics.MAP_HEIGHT, 115), new Vector3(0, 180, 0), new Vector3(30, 30, 30))));
             //EngineStatics.City.Add((Building)EngineObjectCreator.CreateInstance(new StaticEntityArguments(modelPath, texturePath, normalMapPath, specularMapPath,
             //   new Vector3(230, 10 + EngineStatics.MAP_HEIGHT, 48), new Vector3(0, 180, 0), new Vector3(30, 30, 30))));
-            EngineStatics.City.Add((Building)EngineObjectCreator.CreateInstance(new StaticEntityArguments(modelPath, texturePath, normalMapPath, specularMapPath,
+            EngineStatics.City.AddToList((Building)EngineObjectCreator.CreateInstance(new StaticEntityArguments(modelPath, texturePath, normalMapPath, specularMapPath,
               new Vector3(170, 13f + EngineStatics.MAP_HEIGHT, 170), new Vector3(0, 180, 0), new Vector3(20))));
             //EngineStatics.City.Add((Building)EngineObjectCreator.CreateInstance(new StaticEntityArguments(modelPath, texturePath, normalMapPath, specularMapPath,
             //   new Vector3(280, 10, 350), new Vector3(0, 180, 0), new Vector3(10))));
@@ -197,17 +207,10 @@ namespace MassiveGame.Engine
             //EngineStatics.City.Add((Building)EngineObjectCreator.CreateInstance(new StaticEntityArguments(modelPath, texturePath, normalMapPath, specularMapPath,
             //   new Vector3(260, 10, 400), new Vector3(0, 180, 0), new Vector3(10))));
 
-            // TEST components
-            //CollisionComponentSerializer serializer = new CollisionComponentSerializer();
-            Deserializer deserializer = new Deserializer();
-            //Component parent = new Component();
-            //Component component;
+            DeserializeWrapper deserializer = new DeserializeWrapper();
             foreach (var item in EngineStatics.City)
             {
-                // FIXME
                 var inner_wrapper = deserializer.Deserialize<CollisionComponentsWrapper>("1.cl");
-                //parent.ChildrenComponents = wrapper.SerializedComponents;
-                //component = convertToSceneComponent(parent);
                 item.SetComponents(inner_wrapper.SerializedComponents);
                 item.SetCollisionHeadUnit(m_collisionHeadUnit);
 
@@ -229,12 +232,7 @@ namespace MassiveGame.Engine
             EngineStatics.Player = (MovableMeshEntity)EngineObjectCreator.CreateInstance(arg);
             EngineStatics.Player.SetMistComponent(EngineStatics.Mist);
 
-            // TEST components
             var wrapper = deserializer.Deserialize<CollisionComponentsWrapper>("2.cl");
-            //parent = new Component();
-            //parent.ChildrenComponents = wrapper.SerializedComponents;
-            //component = convertToSceneComponent(parent);
-            //// TEST
             EngineStatics.Player.SetComponents(wrapper.SerializedComponents);
 
             EngineStatics.Player.SetCollisionHeadUnit(m_collisionHeadUnit);
@@ -245,15 +243,13 @@ namespace MassiveGame.Engine
 
             arg = new MovableEntityArguments(modelPath, texturePath, normalMapPath, specularMapPath, new Vector3(180, 200, 220), new Vector3(0, 0, 0), new Vector3(10));
 
-            EngineStatics.Enemy = (MovableMeshEntity)EngineObjectCreator.CreateInstance(arg);
-            EngineStatics.Enemy.SetMistComponent(EngineStatics.Mist);
+            var bot = (MovableMeshEntity)EngineObjectCreator.CreateInstance(arg);
+            bot.SetMistComponent(EngineStatics.Mist);
 
             wrapper = deserializer.Deserialize<CollisionComponentsWrapper>("2.cl");
-            //parent = new Component();
-            //parent.ChildrenComponents = wrapper.SerializedComponents;
-            //component = convertToSceneComponent(parent);
-            EngineStatics.Enemy.SetComponents(wrapper.SerializedComponents);
-            EngineStatics.Enemy.SetCollisionHeadUnit(m_collisionHeadUnit);
+            bot.SetComponents(wrapper.SerializedComponents);
+            bot.SetCollisionHeadUnit(m_collisionHeadUnit);
+            EngineStatics.Bots.AddToList(bot);
             arg = null;
 
             //EngineStatics.Grass = new PlantReadyMaster(
@@ -307,13 +303,6 @@ namespace MassiveGame.Engine
             EngineStatics.Camera.SetCollisionHeadUnit(m_collisionHeadUnit);
             //EngineStatics.Camera.SetFirstPerson();
 
-            EngineStatics.shadowList = new List<IDrawable>();
-            EngineStatics.City.ForEach(new Action<Building>((house) => { EngineStatics.shadowList.Add(house); }));
-            EngineStatics.shadowList.Add(EngineStatics.Player);
-            EngineStatics.shadowList.Add(EngineStatics.Enemy);
-            EngineStatics.shadowList.Add(EngineStatics.terrain);
-
-
             EngineStatics.uiFrameCreator = new UiFrameMaster();
 
             //ch = new ComputeShader();
@@ -329,29 +318,6 @@ namespace MassiveGame.Engine
             bPostConstructor = false;
         }
 
-        #region TEST
-
-        private void convertToSceneComponentRecursive(Component existing, Component duplicate)
-        {
-            for (Int32 i = 0; i < existing.ChildrenComponents.Count; i++)
-            {
-                Component existingChild = existing.ChildrenComponents[i];
-                duplicate.ChildrenComponents.Add(new SceneComponent(existingChild));
-                Component duplicateChild = duplicate.ChildrenComponents[i];
-                duplicate.ChildrenComponents[i].ParentComponent = duplicate;
-                convertToSceneComponentRecursive(existingChild, duplicateChild);
-            }
-        }
-
-        private Component convertToSceneComponent(Component existing)
-        {
-            Component duplicate = new Component();
-            convertToSceneComponentRecursive(existing, duplicate);
-            return duplicate;
-        }
-
-        #endregion
-
         #region Cleaning
 
         private void cleanEverythingUp()
@@ -360,7 +326,7 @@ namespace MassiveGame.Engine
             if (EngineStatics.SunReplica != null) EngineStatics.SunReplica.cleanUp();
             if (EngineStatics.terrain != null) EngineStatics.terrain.cleanUp();
             if (EngineStatics.Player != null) EngineStatics.Player.CleanUp();
-            if (EngineStatics.Enemy != null) EngineStatics.Enemy.CleanUp();
+            if (EngineStatics.Bots != null) foreach (var bot in EngineStatics.Bots) { bot.CleanUp(); }
             if (EngineStatics.Grass != null) EngineStatics.Grass.cleanUp();
             if (EngineStatics.Plant1 != null) EngineStatics.Plant1.cleanUp();
             if (EngineStatics.City != null) foreach (Building house in EngineStatics.City) { house.CleanUp(); }
@@ -368,5 +334,7 @@ namespace MassiveGame.Engine
         }
 
         #endregion
+    
+#endif
     }
 }

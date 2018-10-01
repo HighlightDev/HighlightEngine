@@ -28,7 +28,7 @@ namespace MassiveGame
     public static class EngineStatics
     {
         public static PrimitiveType Mode = PrimitiveType.Triangles;
-       
+
         public const float FoV = 60.0f;
         public const float MAP_SIZE = 500;
         public const float MAP_HEIGHT = 30;
@@ -55,32 +55,32 @@ namespace MassiveGame
         public static DateTime ElapsedTime;
         public static Matrix4 ProjectionMatrix;
 
-
+        public static List<IVisible> RenderableCollection;
+        public static List<ILightHit> LitByLightCollection;
+        public static List<IDrawable> AffectedByShadowCollection;
         public static List<PointLight> PointLight;
         public static DirectionalLight Sun;
         public static DayLightCycle DayCycle;
-        public static  Landscape terrain;
-        public static  MovableMeshEntity Player;
-        public static  MovableMeshEntity Enemy;
-        public static  List<Building> City;
-        public static  BaseCamera Camera;
-        public static  PlantBuilderMaster builder;
-        public static  PlantReadyMaster Grass;
-        public static  PlantReadyMaster Plant1;
-        public static  Skybox Skybox;
-        public static  MousePicker Picker;
-        public static  WaterPlane Water;
-        public static  SunRenderer SunReplica;
-        public static  MistComponent Mist;
-        public static  PointLightsDebugRenderer pointLightDebugRenderer;
-        public static  List<IVisible> RenderableMeshCollection;
-        public static  List<ILightHit> LitByLightSourcesMeshCollection;
-        public static  Point PrevCursorPosition;
+        public static Landscape terrain;
+        public static MovableMeshEntity Player;
+        public static ObserverListWrapper<MovableMeshEntity> Bots;
+        public static ObserverListWrapper<Building> City;
+        public static BaseCamera Camera;
+        public static PlantBuilderMaster builder;
+        public static PlantReadyMaster Grass;
+        public static PlantReadyMaster Plant1;
+        public static Skybox Skybox;
+        public static MousePicker Picker;
+        public static WaterPlane Water;
+        public static SunRenderer SunReplica;
+        public static MistComponent Mist;
+        public static PointLightsDebugRenderer pointLightDebugRenderer;
+        public static Point PrevCursorPosition;
 
         public static PlayerController playerController;
-       
+
         public static UiFrameMaster uiFrameCreator;
-        public static List<IDrawable> shadowList;
+        
 
         public static GlobalSettings globalSettings = new GlobalSettings();
 

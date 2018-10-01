@@ -169,14 +169,16 @@
     <Compile Include="Core\AnimationCore\ParentBone.cs" />
     <Compile Include="Core\AnimationCore\SkeletalMeshComponent.cs" />
     <Compile Include="Core\ComponentCore\Component.cs" />
+    <Compile Include="Core\GameCore\Entities\IObservable.cs" />
     <Compile Include="Core\GameCore\Entities\Skeleton\SkeletonDummy.cs" />
     <Compile Include="Core\GameCore\Entities\Skeleton\SkeletonShader.cs" />
     <Compile Include="Core\AnimationHolder.cs" />
     <Compile Include="Core\GameCore\BaseCamera.cs" />
     <Compile Include="Core\GameCore\Entities\Skeletal Entities\MovableSkeletalMeshEntity.cs" />
     <Compile Include="Core\GameCore\Entities\Skeletal Entities\SkeletalMeshEntityShader.cs" />
+    <Compile Include="Core\GameCore\ObserverListWrapper.cs" />
     <Compile Include="Core\GameCore\PlayerController.cs" />
-    <Compile Include="Core\ioCore\Deserializer.cs" />
+    <Compile Include="Core\ioCore\DeserializeWrapper.cs" />
     <Compile Include="Core\ioCore\ISerializer.cs" />
     <Compile Include="Core\MathCore\ActorPositionMemento.cs" />
     <Compile Include="Core\MathCore\CollisionQuad.cs" />

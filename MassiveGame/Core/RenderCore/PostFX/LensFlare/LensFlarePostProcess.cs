@@ -176,9 +176,13 @@ namespace MassiveGame.Core.RenderCore.PostFX.LensFlare
                 EngineStatics.Player.RenderEntity(EngineStatics.Mode, EngineStatics.NormalMapTrigger, EngineStatics.Sun, EngineStatics.PointLight, camera, ref EngineStatics.ProjectionMatrix);
             }
 
-            if (EngineStatics.Enemy != null && EngineStatics.Enemy.IsVisibleByCamera)
+            if (EngineStatics.Bots != null)
             {
-                EngineStatics.Enemy.RenderEntity(EngineStatics.Mode, EngineStatics.NormalMapTrigger, EngineStatics.Sun, EngineStatics.PointLight, camera, ref EngineStatics.ProjectionMatrix);
+                foreach (var bot in EngineStatics.Bots)
+                {
+                    if (bot.IsVisibleByCamera)
+                        bot.RenderEntity(EngineStatics.Mode, EngineStatics.NormalMapTrigger, EngineStatics.Sun, EngineStatics.PointLight, camera, ref EngineStatics.ProjectionMatrix);
+                }
             }
 
             if (EngineStatics.Water != null && EngineStatics.Water.IsInCameraView)

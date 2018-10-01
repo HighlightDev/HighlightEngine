@@ -33,7 +33,13 @@ namespace MassiveGame.Engine
         {
             EngineStatics.Player?.Tick(deltaTime);
 
-            EngineStatics.Enemy?.Tick(deltaTime);
+            if (EngineStatics.Bots != null)
+            {
+                foreach (var bot in EngineStatics.Bots)
+                {
+                    bot.Tick(deltaTime);
+                }
+            }
 
             if (EngineStatics.City != null)
             {
