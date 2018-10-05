@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using System.Linq;
 using MassiveGame.Core.MathCore.MathTypes;
 using MassiveGame.Core.MathCore;
+using MassiveGame.Core.GameCore;
 
 namespace MassiveGame.Core.PhysicsCore
 {
@@ -336,7 +337,7 @@ namespace MassiveGame.Core.PhysicsCore
             List<Vector3> currentPositionsForRayCast = GetCurrentMiddlePositionsForRayCast(characterBound, character);
             List<FRay> listOfRays = new List<FRay>();
             for (Int32 i = 0; i < currentPositionsForRayCast.Count; i++)
-                listOfRays.Add(new FRay(currentPositionsForRayCast[i], -EngineStatics.Camera.GetLocalSpaceUpVector()));
+                listOfRays.Add(new FRay(currentPositionsForRayCast[i], -GameWorld.GetWorldInstance().GetLevel().Camera.GetLocalSpaceUpVector()));
 
             RayCastOutputData closestRayCastDown = GetClosestRayCastResultFromMultipleRayCast(listOfRays, collidedBounds, character);
 
@@ -378,7 +379,7 @@ namespace MassiveGame.Core.PhysicsCore
                 rayCastStartPosition.Y = boundMin.Y;
 
                 FRay ray = new FRay(rayCastStartPosition, character.Velocity);
-                float intersectionDistance = LandscapeRayIntersection.Intersection_TerrainRay(EngineStatics.terrain, ray);
+                float intersectionDistance = LandscapeRayIntersection.Intersection_TerrainRay(GameWorld.GetWorldInstance().GetLevel().Terrain, ray);
 
                 // Character is still in free fall, just update position
                 if (intersectionDistance < 0.0f || RAYCAST_INTERSECTION_FAR(BodyMechanics.GetFreeFallDistanceInVelocity(character.Velocity), intersectionDistance))
@@ -405,8 +406,8 @@ namespace MassiveGame.Core.PhysicsCore
             // Ray cast from middle height position to avoid miss ray casting
             Vector3 rayCastStartPosition = new Vector3(origin);
 
-            FRay rayDown = new FRay(rayCastStartPosition, -EngineStatics.Camera.GetLocalSpaceUpVector());
-            float intersectionDistance = LandscapeRayIntersection.Intersection_TerrainRay(EngineStatics.terrain, rayDown);
+            FRay rayDown = new FRay(rayCastStartPosition, -GameWorld.GetWorldInstance().GetLevel().Camera.GetLocalSpaceUpVector());
+            float intersectionDistance = LandscapeRayIntersection.Intersection_TerrainRay(GameWorld.GetWorldInstance().GetLevel().Terrain, rayDown);
 
             // Subtract length of bound extent from middle height position
             float boundExtent = origin.Y - boundMin.Y;
@@ -515,7 +516,7 @@ namespace MassiveGame.Core.PhysicsCore
                     {
                         // Restore previous position and set velocity to fall
                         character.popPosition();
-                        character.Velocity = -EngineStatics.Camera.GetLocalSpaceUpVector();
+                        character.Velocity = -GameWorld.GetWorldInstance().GetLevel().Camera.GetLocalSpaceUpVector();
                         break;
                     }
 
@@ -531,7 +532,7 @@ namespace MassiveGame.Core.PhysicsCore
 
                         // Necessary data for subsequent calculations
                         RayCastOutputData rayCastOutputData = null;
-                        float terrainIntersectionDistance = LandscapeRayIntersection.Intersection_TerrainRay(EngineStatics.terrain, rayFromMiddleBottom);
+                        float terrainIntersectionDistance = LandscapeRayIntersection.Intersection_TerrainRay(GameWorld.GetWorldInstance().GetLevel().Terrain, rayFromMiddleBottom);
 
                         bool bTerrainIntersection = !(terrainIntersectionDistance < 0.0f ||
                             RAYCAST_INTERSECTION_FAR(BodyMechanics.GetFreeFallDistanceInVelocity(character.Velocity), terrainIntersectionDistance));
@@ -561,14 +562,14 @@ namespace MassiveGame.Core.PhysicsCore
                                     // This is quick fix
                                     character.ActorState = BehaviorState.MOVE;
                                     character.popPosition();
-                                    character.Velocity = -EngineStatics.Camera.GetLocalSpaceUpVector();
+                                    character.Velocity = -GameWorld.GetWorldInstance().GetLevel().Camera.GetLocalSpaceUpVector();
                                 }
                             }
                             // No ray collision, but bound collision exists, bound position is unknown - return to previous position and set velocity to down
                             else
                             {
                                 character.popPosition();
-                                character.Velocity = -EngineStatics.Camera.GetLocalSpaceUpVector();
+                                character.Velocity = -GameWorld.GetWorldInstance().GetLevel().Camera.GetLocalSpaceUpVector();
                             }
                         }
                         // Character could be elevated on terrain 

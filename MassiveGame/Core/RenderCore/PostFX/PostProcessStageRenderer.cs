@@ -1,4 +1,5 @@
-﻿using MassiveGame.Core.RenderCore.PostFX.Bloom;
+﻿using MassiveGame.Core.GameCore;
+using MassiveGame.Core.RenderCore.PostFX.Bloom;
 using MassiveGame.Core.RenderCore.PostFX.DepthOfField;
 using MassiveGame.Core.RenderCore.PostFX.LensFlare;
 using MassiveGame.Core.RenderCore.PostFX.LightShafts;
@@ -72,28 +73,31 @@ namespace MassiveGame.Core.RenderCore.PostFX
         {
             ITexture subsequentPostProcessResult = null;
 
-            // DoF
-            if (bPostProcessEnabled && depthOfFieldPP != null)
+            if (bPostProcessEnabled)
             {
-                subsequentPostProcessResult = depthOfFieldPP.GetPostProcessResult(frameColorTexture, frameDepthTexture, actualScreenRezolution, null);
-            }
+                // DoF
+                if (depthOfFieldPP != null)
+                {
+                    subsequentPostProcessResult = depthOfFieldPP.GetPostProcessResult(frameColorTexture, frameDepthTexture, actualScreenRezolution, null);
+                }
 
-            // Bloom
-            if (bPostProcessEnabled && bloomPP != null)
-            {
-                subsequentPostProcessResult = bloomPP.GetPostProcessResult(frameColorTexture, frameDepthTexture, actualScreenRezolution, subsequentPostProcessResult);
-            }
+                // Bloom
+                if (bloomPP != null)
+                {
+                    subsequentPostProcessResult = bloomPP.GetPostProcessResult(frameColorTexture, frameDepthTexture, actualScreenRezolution, subsequentPostProcessResult);
+                }
 
-            // Light shafts
-            if (bPostProcessEnabled && EngineStatics.SunReplica.IsInCameraView && lightShaftsPP != null)
-            {
-                subsequentPostProcessResult = lightShaftsPP.GetPostProcessResult(frameColorTexture, frameDepthTexture, actualScreenRezolution, subsequentPostProcessResult);
-            }
+                // Light shafts
+                if (GameWorld.GetWorldInstance().GetLevel().SunRenderer.IsInCameraView && lightShaftsPP != null)
+                {
+                    subsequentPostProcessResult = lightShaftsPP.GetPostProcessResult(frameColorTexture, frameDepthTexture, actualScreenRezolution, subsequentPostProcessResult);
+                }
 
-            // Lens flares
-            if (bPostProcessEnabled && EngineStatics.SunReplica.IsInCameraView && lensFlaresPP != null)
-            {
-                subsequentPostProcessResult = lensFlaresPP.GetPostProcessResult(frameColorTexture, frameDepthTexture, actualScreenRezolution, subsequentPostProcessResult);
+                // Lens flares
+                if (GameWorld.GetWorldInstance().GetLevel().SunRenderer.IsInCameraView && lensFlaresPP != null)
+                {
+                    subsequentPostProcessResult = lensFlaresPP.GetPostProcessResult(frameColorTexture, frameDepthTexture, actualScreenRezolution, subsequentPostProcessResult);
+                }
             }
 
             // Resolve post process result texture or default color texture to default framebuffer
@@ -102,11 +106,11 @@ namespace MassiveGame.Core.RenderCore.PostFX
                 if (depthOfFieldPP == null)
                     TextureResolver.ResolvePostProcessResultToDefaultFramebuffer(frameColorTexture, subsequentPostProcessResult, actualScreenRezolution);
                 else
-                    EngineStatics.uiFrameCreator.RenderFullScreenInputTexture(subsequentPostProcessResult, actualScreenRezolution);
+                    GameWorld.GetWorldInstance().GetUiFrameCreator().RenderFullScreenInputTexture(subsequentPostProcessResult, actualScreenRezolution);
             }
             else
             {
-                EngineStatics.uiFrameCreator.RenderFullScreenInputTexture(frameColorTexture, actualScreenRezolution);
+                GameWorld.GetWorldInstance().GetUiFrameCreator().RenderFullScreenInputTexture(frameColorTexture, actualScreenRezolution);
             }
         }
     }

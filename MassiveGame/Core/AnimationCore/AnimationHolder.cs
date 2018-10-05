@@ -1,9 +1,8 @@
 ﻿using System;
-using MassiveGame.Core.AnimationCore;
 using System.Collections.Generic;
 using OpenTK;
 
-namespace MassiveGame.Core
+namespace MassiveGame.Core.AnimationCore
 {
     public class AnimationHolder
     {

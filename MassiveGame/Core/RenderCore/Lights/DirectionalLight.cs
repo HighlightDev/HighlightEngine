@@ -1,4 +1,5 @@
-﻿using MassiveGame.Core.RenderCore.Shadows;
+﻿using MassiveGame.Core.GameCore;
+using MassiveGame.Core.RenderCore.Shadows;
 using OpenTK;
 using TextureLoader;
 
@@ -24,7 +25,7 @@ namespace MassiveGame.Core.RenderCore.Lights
         public DirectionalLight(TextureParameters rtParams, Vector3 direction, Vector4 ambient, Vector4 diffuse, Vector4 specular)
             : base(ambient, diffuse, specular)
         {
-            m_shadowHolder = new ShadowDirectionalLight(EngineStatics.Camera, rtParams, this);
+            m_shadowHolder = new ShadowDirectionalLight(GameWorld.GetWorldInstance().GetLevel().Camera, rtParams, this);
             this.Direction = direction;
         }
 

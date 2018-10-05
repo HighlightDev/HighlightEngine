@@ -20,7 +20,7 @@ namespace MassiveGame.Core.GameCore.Entities.StaticEntities
 
         #region Renderer
 
-        public virtual void renderObject(PrimitiveType mode, bool enableNormalMapping, DirectionalLight Sun, List<PointLight> lights, BaseCamera camera,
+        public virtual void renderObject(PrimitiveType mode, DirectionalLight Sun, List<PointLight> lights, BaseCamera camera,
             ref Matrix4 ProjectionMatrix, Vector4 clipPlane) { }
 
         #endregion

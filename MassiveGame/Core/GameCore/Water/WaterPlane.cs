@@ -135,12 +135,12 @@ namespace MassiveGame.Core.GameCore.Water
 
         public void NotifyAdded()
         {
-            EngineStatics.RenderableCollection.Add(this);
+            GameWorld.GetWorldInstance().GetLevel().VisibilityCheckCollection.Add(this);
         }
 
         public void NotifyRemoved()
         {
-            EngineStatics.RenderableCollection.Remove(this);
+            GameWorld.GetWorldInstance().GetLevel().VisibilityCheckCollection.Remove(this);
         }
 
         #endregion

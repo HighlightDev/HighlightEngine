@@ -21,5 +21,7 @@ namespace MassiveGame.Settings
         // Texture
         public bool bSupported_MipMap { set; get; } = false;
         public float AnisotropicFilterValue { set; get; } = 0.0f;
+
+        public GlobalSettings() { }
     }
 }

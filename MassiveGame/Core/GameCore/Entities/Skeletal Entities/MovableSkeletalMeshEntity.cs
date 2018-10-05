@@ -75,7 +75,7 @@ namespace MassiveGame.Core.GameCore.Entities.Skeletal_Entities
             m_animationHolder.UpdateAnimationLoopTime(deltaTime);
         }
 
-        public override void RenderEntity(PrimitiveType mode, bool bEnableNormalMapping, DirectionalLight Sun, List<PointLight> lights, BaseCamera camera, ref Matrix4 projectionMatrix, Vector4 clipPlane = default(Vector4))
+        public override void RenderEntity(PrimitiveType mode, DirectionalLight Sun, List<PointLight> lights, BaseCamera camera, ref Matrix4 projectionMatrix, Vector4 clipPlane = default(Vector4))
         {
             var worldMatrix = GetWorldMatrix();
             var viewMatrix = camera.GetViewMatrix();

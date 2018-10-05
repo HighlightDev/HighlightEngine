@@ -2,10 +2,11 @@
 using System;
 using System.Collections.Generic;
 using System.Collections;
+using MassiveGame.Core.ioCore;
 
 namespace MassiveGame.Core.GameCore
 {
-    public class ObserverListWrapper<T> : IEnumerable<T>
+    public class ObserverListWrapper<T> : IEnumerable<T>, ISerializable
         where T : IObservable
     {
         private List<T> m_dataList;
@@ -65,6 +66,14 @@ namespace MassiveGame.Core.GameCore
         IEnumerator IEnumerable.GetEnumerator()
         {
             return ((IEnumerable<T>)m_dataList).GetEnumerator();
+        }
+
+        public void PostDeserializeInit()
+        {
+            for (Int32 i = 0; i < m_dataList.Count; i++)
+            {
+                m_dataList[i].NotifyAdded();
+            }
         }
     }
 

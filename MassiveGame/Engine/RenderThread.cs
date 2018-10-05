@@ -17,7 +17,7 @@ namespace MassiveGame.Engine
     {
         public DefaultFrameBuffer DefaultFB { set; get; }
         public PostProcessStageRenderer postProcessStage { set; get; }
-        //private ComputeShader ch;
+        //private ComputeShader cs;
 
         public RenderThread()
         {
@@ -28,10 +28,10 @@ namespace MassiveGame.Engine
         private void VisibilityCheckPass()
         {
             // Find which primitives are visible for current frame
-            VisibilityCheckApi.CheckMeshIsVisible(EngineStatics.RenderableCollection, ref EngineStatics.ProjectionMatrix, EngineStatics.Camera.GetViewMatrix());
+            VisibilityCheckApi.CheckMeshIsVisible(GameWorld.GetWorldInstance().GetLevel().VisibilityCheckCollection, ref EngineStatics.ProjectionMatrix, GameWorld.GetWorldInstance().GetLevel().Camera.GetViewMatrix());
 
             // Find which light sources effects on meshes
-            LightHitCheckApi.CheckLightSourceHitsMesh(EngineStatics.LitByLightCollection, EngineStatics.PointLight);
+            LightHitCheckApi.CheckLightSourceHitsMesh(GameWorld.GetWorldInstance().GetLevel().LitCheckCollection, GameWorld.GetWorldInstance().GetLevel().PointLightCollection);
         }
 
         private void PreDrawClearBuffers()
@@ -53,7 +53,7 @@ namespace MassiveGame.Engine
             BasePassDraw(ref actualScreenRezolution);
             PostProcessPass(DefaultFB.GetColorTexture(), DefaultFB.GetDepthStencilTexture(), ref actualScreenRezolution);
 
-#if DEBUG
+#if DEBUG || DESIGN_EDITOR
             DebugFramePanelsPass();
 #endif
         }
@@ -63,8 +63,8 @@ namespace MassiveGame.Engine
         private void BasePassDraw(ref Point actualScreenRezolution)
         {
             DefaultFB.Bind();
-            RenderBaseMeshes(EngineStatics.Camera);
-#if DEBUG
+            RenderBaseMeshes(GameWorld.GetWorldInstance().GetLevel().Camera);
+#if DEBUG || DESIGN_EDITOR
             RenderDebugInfo(ref actualScreenRezolution);
 #endif
             DefaultFB.Unbind();
@@ -72,19 +72,19 @@ namespace MassiveGame.Engine
 
         private void DepthPassDraw(ref Point actualScreenRezolution)
         {
-            EngineStatics.Sun.GetShadowHolder().WriteDepth(EngineStatics.AffectedByShadowCollection, ref EngineStatics.ProjectionMatrix);
+            GameWorld.GetWorldInstance().GetLevel().DirectionalLight.GetShadowHolder().WriteDepth(GameWorld.GetWorldInstance().GetLevel().ShadowCastCollection, ref EngineStatics.ProjectionMatrix);
             GL.Viewport(0, 0, actualScreenRezolution.X, actualScreenRezolution.Y);
         }
 
         private void DistortionsPassDraw()
         {
-            if (EngineStatics.Water != null && EngineStatics.Water.IsInCameraView)
+            if (GameWorld.GetWorldInstance().GetLevel().Water != null && GameWorld.GetWorldInstance().GetLevel().Water.IsInCameraView)
             {
-                EngineStatics.Water.SetReflectionRendertarget();
-                RenderToReflectionRenderTarget(EngineStatics.Camera, new Vector4(0, -1, 0, EngineStatics.Water.WaterHeight), EngineStatics.Water.Quality);
+                GameWorld.GetWorldInstance().GetLevel().Water.SetReflectionRendertarget();
+                RenderToReflectionRenderTarget(GameWorld.GetWorldInstance().GetLevel().Camera, new Vector4(0, -1, 0, GameWorld.GetWorldInstance().GetLevel().Water.WaterHeight), GameWorld.GetWorldInstance().GetLevel().Water.Quality);
 
-                EngineStatics.Water.SetRefractionRendertarget();
-                RenderToRefractionRenderTarget(EngineStatics.Camera, new Vector4(0, -1, 0, EngineStatics.Water.WaterHeight), EngineStatics.Water.Quality);
+                GameWorld.GetWorldInstance().GetLevel().Water.SetRefractionRendertarget();
+                RenderToRefractionRenderTarget(GameWorld.GetWorldInstance().GetLevel().Camera, new Vector4(0, -1, 0, GameWorld.GetWorldInstance().GetLevel().Water.WaterHeight), GameWorld.GetWorldInstance().GetLevel().Water.Quality);
             }
         }
 
@@ -116,65 +116,65 @@ namespace MassiveGame.Engine
             GL.Enable(EnableCap.CullFace);
             GL.CullFace(CullFaceMode.Back);
 
-            if (EngineStatics.Skybox != null)
-                EngineStatics.Skybox.renderSkybox(EngineStatics.Camera, EngineStatics.Sun.Direction, EngineStatics.ProjectionMatrix);
+            if (GameWorld.GetWorldInstance().GetLevel().Skybox != null)
+                GameWorld.GetWorldInstance().GetLevel().Skybox.renderSkybox(GameWorld.GetWorldInstance().GetLevel().Camera, GameWorld.GetWorldInstance().GetLevel().DirectionalLight.Direction, EngineStatics.ProjectionMatrix);
 
             GL.Enable(EnableCap.DepthTest);
             GL.DepthMask(true);
 
-            if (EngineStatics.terrain != null) EngineStatics.terrain.renderTerrain(EngineStatics.Mode, EngineStatics.Sun, EngineStatics.PointLight, camera, EngineStatics.ProjectionMatrix);
+            if (GameWorld.GetWorldInstance().GetLevel().Terrain != null) GameWorld.GetWorldInstance().GetLevel().Terrain.renderTerrain(EngineStatics.Mode, GameWorld.GetWorldInstance().GetLevel().DirectionalLight, GameWorld.GetWorldInstance().GetLevel().PointLightCollection, camera, EngineStatics.ProjectionMatrix);
 
-            if (!Object.Equals(EngineStatics.SunReplica, null))
+            if (!Object.Equals(GameWorld.GetWorldInstance().GetLevel().SunRenderer, null))
             {
-                if (EngineStatics.SunReplica.IsInCameraView)
+                if (GameWorld.GetWorldInstance().GetLevel().SunRenderer.IsInCameraView)
                 {
-                    EngineStatics.SunReplica.renderSun(EngineStatics.Camera, ref EngineStatics.ProjectionMatrix);
+                    GameWorld.GetWorldInstance().GetLevel().SunRenderer.renderSun(GameWorld.GetWorldInstance().GetLevel().Camera, ref EngineStatics.ProjectionMatrix);
                 }
             }
 
-            if (EngineStatics.Water != null && EngineStatics.Water.IsInCameraView)
+            if (GameWorld.GetWorldInstance().GetLevel().Water != null && GameWorld.GetWorldInstance().GetLevel().Water.IsInCameraView)
             {
-                EngineStatics.Water.renderWater(EngineStatics.Camera, ref EngineStatics.ProjectionMatrix,
-                        EngineStatics.NEAR_CLIPPING_PLANE, EngineStatics.FAR_CLIPPING_PLANE, EngineStatics.Sun, EngineStatics.PointLight);
+                GameWorld.GetWorldInstance().GetLevel().Water.renderWater(GameWorld.GetWorldInstance().GetLevel().Camera, ref EngineStatics.ProjectionMatrix,
+                        EngineStatics.NEAR_CLIPPING_PLANE, EngineStatics.FAR_CLIPPING_PLANE, GameWorld.GetWorldInstance().GetLevel().DirectionalLight, GameWorld.GetWorldInstance().GetLevel().PointLightCollection);
             }
 
             GL.Disable(EnableCap.CullFace);
 
-            if (EngineStatics.Grass != null) EngineStatics.Grass.renderEntities(EngineStatics.Sun, camera, EngineStatics.ProjectionMatrix, EngineStatics.terrain);
-            if (EngineStatics.Plant1 != null) EngineStatics.Plant1.renderEntities(EngineStatics.Sun, camera, EngineStatics.ProjectionMatrix, EngineStatics.terrain);
+            if (GameWorld.GetWorldInstance().GetLevel().Grass != null) GameWorld.GetWorldInstance().GetLevel().Grass.renderEntities(GameWorld.GetWorldInstance().GetLevel().DirectionalLight, camera, EngineStatics.ProjectionMatrix, GameWorld.GetWorldInstance().GetLevel().Terrain);
+            if (GameWorld.GetWorldInstance().GetLevel().Plant != null) GameWorld.GetWorldInstance().GetLevel().Plant.renderEntities(GameWorld.GetWorldInstance().GetLevel().DirectionalLight, camera, EngineStatics.ProjectionMatrix, GameWorld.GetWorldInstance().GetLevel().Terrain);
 
-            if (EngineStatics.City != null)
+            if (GameWorld.GetWorldInstance().GetLevel().StaticMeshCollection != null)
             {
-                foreach (Building house in EngineStatics.City)
+                foreach (Building house in GameWorld.GetWorldInstance().GetLevel().StaticMeshCollection)
                 {
                     if (!house.IsVisibleByCamera) continue;
-                    house.renderObject(EngineStatics.Mode, EngineStatics.NormalMapTrigger, EngineStatics.Sun, EngineStatics.PointLight, camera, ref EngineStatics.ProjectionMatrix);
+                    house.renderObject(EngineStatics.Mode, GameWorld.GetWorldInstance().GetLevel().DirectionalLight, GameWorld.GetWorldInstance().GetLevel().PointLightCollection, camera, ref EngineStatics.ProjectionMatrix);
                 }
             }
 
-            if (EngineStatics.Player != null)
+            if (GameWorld.GetWorldInstance().GetLevel().Player != null)
             {
-                if (EngineStatics.Player.IsVisibleByCamera)
+                if (GameWorld.GetWorldInstance().GetLevel().Player.IsVisibleByCamera)
                 {
-                    EngineStatics.Player.RenderEntity(EngineStatics.Mode, EngineStatics.NormalMapTrigger, EngineStatics.Sun, EngineStatics.PointLight, camera, ref EngineStatics.ProjectionMatrix);
+                    GameWorld.GetWorldInstance().GetLevel().Player.RenderEntity(EngineStatics.Mode, GameWorld.GetWorldInstance().GetLevel().DirectionalLight, GameWorld.GetWorldInstance().GetLevel().PointLightCollection, camera, ref EngineStatics.ProjectionMatrix);
                 }
             }
 
-            if (EngineStatics.Bots != null)
+            if (GameWorld.GetWorldInstance().GetLevel().Bots != null)
             {
-                foreach (var bot in EngineStatics.Bots)
+                foreach (var bot in GameWorld.GetWorldInstance().GetLevel().Bots)
                 {
                     if (bot.IsVisibleByCamera)
-                        bot.RenderEntity(EngineStatics.Mode, EngineStatics.NormalMapTrigger, EngineStatics.Sun, EngineStatics.PointLight, camera, ref EngineStatics.ProjectionMatrix);
+                        bot.RenderEntity(EngineStatics.Mode, GameWorld.GetWorldInstance().GetLevel().DirectionalLight, GameWorld.GetWorldInstance().GetLevel().PointLightCollection, camera, ref EngineStatics.ProjectionMatrix);
                 }
             }
 
-            EngineStatics.SkeletalMesh?.RenderEntity(EngineStatics.Mode, EngineStatics.NormalMapTrigger, EngineStatics.Sun, EngineStatics.PointLight, camera, ref EngineStatics.ProjectionMatrix);
+            GameWorld.GetWorldInstance().GetLevel().SkeletalMesh?.RenderEntity(EngineStatics.Mode, GameWorld.GetWorldInstance().GetLevel().DirectionalLight, GameWorld.GetWorldInstance().GetLevel().PointLightCollection, camera, ref EngineStatics.ProjectionMatrix);
 
             // ITS for TEST! COMPUTE SHADERS!
             //Matrix4 worldMatrix = Matrix4.CreateScale(1);
             //worldMatrix *= Matrix4.CreateTranslation(new Vector3(0, 60, 0));
-            //ch.Render(worldMatrix, DOUEngine.Camera.getViewMatrix(), DOUEngine.ProjectionMatrix);
+            //cs.Render(worldMatrix, DOUEngine.Camera.getViewMatrix(), DOUEngine.ProjectionMatrix);
         }
 
         private void RenderToReflectionRenderTarget(BaseCamera camera, Vector4 clipPlane, WaterQuality quality)
@@ -188,7 +188,7 @@ namespace MassiveGame.Engine
             GL.Clear(ClearBufferMask.StencilBufferBit); // Clear stencil buffer
 
             // prepass for stencil only
-            EngineStatics.Water.StencilPass(camera, ref EngineStatics.ProjectionMatrix);
+            GameWorld.GetWorldInstance().GetLevel().Water.StencilPass(camera, ref EngineStatics.ProjectionMatrix);
 
             GL.DepthMask(true); // Enable write depth
             GL.ColorMask(true, true, true, true); // Enable write color
@@ -205,34 +205,34 @@ namespace MassiveGame.Engine
             GL.Enable(EnableCap.CullFace);
             GL.CullFace(CullFaceMode.Front);
 
-            if (EngineStatics.Skybox != null) EngineStatics.Skybox.RenderWaterReflection(EngineStatics.Water, camera, EngineStatics.Sun.Direction, EngineStatics.ProjectionMatrix, clipPlane);
+            if (GameWorld.GetWorldInstance().GetLevel().Skybox != null) GameWorld.GetWorldInstance().GetLevel().Skybox.RenderWaterReflection(GameWorld.GetWorldInstance().GetLevel().Water, camera, GameWorld.GetWorldInstance().GetLevel().DirectionalLight.Direction, EngineStatics.ProjectionMatrix, clipPlane);
 
             GL.Enable(EnableCap.DepthTest);
             GL.Clear(ClearBufferMask.DepthBufferBit);
             GL.CullFace(CullFaceMode.Back);
 
-            if (EngineStatics.terrain != null) EngineStatics.terrain.RenderWaterReflection(EngineStatics.Water, EngineStatics.Sun, camera, ref EngineStatics.ProjectionMatrix, clipPlane);
+            if (GameWorld.GetWorldInstance().GetLevel().Terrain != null) GameWorld.GetWorldInstance().GetLevel().Terrain.RenderWaterReflection(GameWorld.GetWorldInstance().GetLevel().Water, GameWorld.GetWorldInstance().GetLevel().DirectionalLight, camera, ref EngineStatics.ProjectionMatrix, clipPlane);
             GL.Disable(EnableCap.CullFace);
 
             /*TO DO : true - enable building reflections
              false - disable building reflections*/
             if (quality.EnableBuilding)
             {
-                if (EngineStatics.City != null) foreach (Building house in EngineStatics.City)
+                if (GameWorld.GetWorldInstance().GetLevel().StaticMeshCollection != null) foreach (Building house in GameWorld.GetWorldInstance().GetLevel().StaticMeshCollection)
                     {
-                        house.RenderWaterReflection(EngineStatics.Water, EngineStatics.Sun, camera, ref EngineStatics.ProjectionMatrix, clipPlane);
+                        house.RenderWaterReflection(GameWorld.GetWorldInstance().GetLevel().Water, GameWorld.GetWorldInstance().GetLevel().DirectionalLight, camera, ref EngineStatics.ProjectionMatrix, clipPlane);
                     }
             }
 
             if (quality.EnableMovableEntities)
             {
-                if (EngineStatics.Player != null) EngineStatics.Player.RenderWaterReflection(EngineStatics.Water, EngineStatics.Sun, camera, ref EngineStatics.ProjectionMatrix, clipPlane);
-                if (EngineStatics.Bots != null) foreach (var bot in EngineStatics.Bots) { bot.RenderWaterReflection(EngineStatics.Water, EngineStatics.Sun, camera, ref EngineStatics.ProjectionMatrix, clipPlane); }
+                if (GameWorld.GetWorldInstance().GetLevel().Player != null) GameWorld.GetWorldInstance().GetLevel().Player.RenderWaterReflection(GameWorld.GetWorldInstance().GetLevel().Water, GameWorld.GetWorldInstance().GetLevel().DirectionalLight, camera, ref EngineStatics.ProjectionMatrix, clipPlane);
+                if (GameWorld.GetWorldInstance().GetLevel().Bots != null) foreach (var bot in GameWorld.GetWorldInstance().GetLevel().Bots) { bot.RenderWaterReflection(GameWorld.GetWorldInstance().GetLevel().Water, GameWorld.GetWorldInstance().GetLevel().DirectionalLight, camera, ref EngineStatics.ProjectionMatrix, clipPlane); }
             }
 
-            if (!Object.Equals(EngineStatics.SunReplica, null))
+            if (!Object.Equals(GameWorld.GetWorldInstance().GetLevel().SunRenderer, null))
             {
-                EngineStatics.SunReplica.RenderWaterReflection(EngineStatics.Water, camera, ref EngineStatics.ProjectionMatrix, clipPlane);
+                GameWorld.GetWorldInstance().GetLevel().SunRenderer.RenderWaterReflection(GameWorld.GetWorldInstance().GetLevel().Water, camera, ref EngineStatics.ProjectionMatrix, clipPlane);
             }
 
             GL.Disable(EnableCap.StencilTest); // Disable stencil test 
@@ -249,7 +249,7 @@ namespace MassiveGame.Engine
             GL.Clear(ClearBufferMask.StencilBufferBit); // Clear stencil buffer
 
             // prepass for stencil only
-            EngineStatics.Water.StencilPass(camera, ref EngineStatics.ProjectionMatrix);
+            GameWorld.GetWorldInstance().GetLevel().Water.StencilPass(camera, ref EngineStatics.ProjectionMatrix);
 
             GL.DepthMask(true); // Enable write depth
             GL.ColorMask(true, true, true, true); // Enable write color
@@ -261,36 +261,36 @@ namespace MassiveGame.Engine
             false - disable EngineSingleton.Grass refractions*/
             if (quality.EnableGrassRefraction)
             {
-                if (EngineStatics.Grass != null) EngineStatics.Grass.renderEntities(EngineStatics.Sun, camera, EngineStatics.ProjectionMatrix, EngineStatics.terrain, clipPlane);
-                if (EngineStatics.Plant1 != null) EngineStatics.Plant1.renderEntities(EngineStatics.Sun, camera, EngineStatics.ProjectionMatrix, EngineStatics.terrain, clipPlane);
+                if (GameWorld.GetWorldInstance().GetLevel().Grass != null) GameWorld.GetWorldInstance().GetLevel().Grass.renderEntities(GameWorld.GetWorldInstance().GetLevel().DirectionalLight, camera, EngineStatics.ProjectionMatrix, GameWorld.GetWorldInstance().GetLevel().Terrain, clipPlane);
+                if (GameWorld.GetWorldInstance().GetLevel().Plant != null) GameWorld.GetWorldInstance().GetLevel().Plant.renderEntities(GameWorld.GetWorldInstance().GetLevel().DirectionalLight, camera, EngineStatics.ProjectionMatrix, GameWorld.GetWorldInstance().GetLevel().Terrain, clipPlane);
             }
 
             /*TO DO : true - enable building refractions
              false - disable building refractions*/
             if (quality.EnableBuilding)
             {
-                if (EngineStatics.City != null) foreach (Building house in EngineStatics.City)
-                        house.RenderWaterRefraction(EngineStatics.Sun, camera, ref EngineStatics.ProjectionMatrix, clipPlane);
+                if (GameWorld.GetWorldInstance().GetLevel().StaticMeshCollection != null) foreach (Building house in GameWorld.GetWorldInstance().GetLevel().StaticMeshCollection)
+                        house.RenderWaterRefraction(GameWorld.GetWorldInstance().GetLevel().DirectionalLight, camera, ref EngineStatics.ProjectionMatrix, clipPlane);
             }
 
             /*TO DO : true - enable EngineSingleton.Player and EngineSingleton.Enemy refractions
             false - disable EngineSingleton.Player and EngineSingleton.Enemy refractions*/
             if (quality.EnableMovableEntities)
             {
-                if (EngineStatics.Player != null)
+                if (GameWorld.GetWorldInstance().GetLevel().Player != null)
                 {
-                    if (EngineStatics.Player.IsVisibleByCamera)
+                    if (GameWorld.GetWorldInstance().GetLevel().Player.IsVisibleByCamera)
                     {
-                        EngineStatics.Player.RenderWaterRefraction(EngineStatics.Sun, camera, ref EngineStatics.ProjectionMatrix, clipPlane);
+                        GameWorld.GetWorldInstance().GetLevel().Player.RenderWaterRefraction(GameWorld.GetWorldInstance().GetLevel().DirectionalLight, camera, ref EngineStatics.ProjectionMatrix, clipPlane);
                     }
                 }
 
-                if (EngineStatics.Bots != null)
+                if (GameWorld.GetWorldInstance().GetLevel().Bots != null)
                 {
-                    foreach (var bot in EngineStatics.Bots)
+                    foreach (var bot in GameWorld.GetWorldInstance().GetLevel().Bots)
                     {
                         if (bot.IsVisibleByCamera)
-                            bot.RenderWaterRefraction(EngineStatics.Sun, camera, ref EngineStatics.ProjectionMatrix, clipPlane);
+                            bot.RenderWaterRefraction(GameWorld.GetWorldInstance().GetLevel().DirectionalLight, camera, ref EngineStatics.ProjectionMatrix, clipPlane);
                     }
                 }
             }
@@ -299,7 +299,7 @@ namespace MassiveGame.Engine
              * Culling back facies of terrain, cause they don't refract in EngineSingleton.Water*/
             GL.Enable(EnableCap.CullFace);
             GL.CullFace(CullFaceMode.Back);
-            if (EngineStatics.terrain != null) EngineStatics.terrain.RenderWaterRefraction(EngineStatics.Sun, camera, ref EngineStatics.ProjectionMatrix, clipPlane);
+            if (GameWorld.GetWorldInstance().GetLevel().Terrain != null) GameWorld.GetWorldInstance().GetLevel().Terrain.RenderWaterRefraction(GameWorld.GetWorldInstance().GetLevel().DirectionalLight, camera, ref EngineStatics.ProjectionMatrix, clipPlane);
             GL.Disable(EnableCap.CullFace);
             GL.Disable(EnableCap.StencilTest); // Enable stencil test
         }
@@ -312,58 +312,60 @@ namespace MassiveGame.Engine
 
         private void RenderLamps()
         {
+#if DEBUG || DESIGN_EDITOR
             /*TO DO :
              * If point lights exist - show them */
-            if (EngineStatics.PointLight != null)
+            if (GameWorld.GetWorldInstance().GetLevel().PointLightCollection != null)
             {
-                EngineStatics.pointLightDebugRenderer.Render(EngineStatics.Camera, EngineStatics.ProjectionMatrix);
+                GameWorld.GetWorldInstance().GetLevel().PointLightDebugRenderer.Render(GameWorld.GetWorldInstance().GetLevel().Camera, EngineStatics.ProjectionMatrix);
             }
+#endif
         }
 
         private void RenderBoundingBoxes()
         {
-            Matrix4 viewMatrix = EngineStatics.Camera.GetViewMatrix();
+            Matrix4 viewMatrix = GameWorld.GetWorldInstance().GetLevel().Camera.GetViewMatrix();
 
-            if (EngineStatics.Player != null)
+            if (GameWorld.GetWorldInstance().GetLevel().Player != null)
             {
-                if (EngineStatics.Player.IsVisibleByCamera)
-                    EngineStatics.Player.RenderBound(ref EngineStatics.ProjectionMatrix, ref viewMatrix, System.Drawing.Color.Red);
+                if (GameWorld.GetWorldInstance().GetLevel().Player.IsVisibleByCamera)
+                    GameWorld.GetWorldInstance().GetLevel().Player.RenderBound(ref EngineStatics.ProjectionMatrix, ref viewMatrix, System.Drawing.Color.Red);
             }
 
-            if (EngineStatics.Bots != null)
+            if (GameWorld.GetWorldInstance().GetLevel().Bots != null)
             {
-                foreach (var bot in EngineStatics.Bots)
+                foreach (var bot in GameWorld.GetWorldInstance().GetLevel().Bots)
                 {
                     if (bot.IsVisibleByCamera)
                         bot.RenderBound(ref EngineStatics.ProjectionMatrix, ref viewMatrix, System.Drawing.Color.Red);
                 }
             }
 
-            if (EngineStatics.City != null)
+            if (GameWorld.GetWorldInstance().GetLevel().StaticMeshCollection != null)
             {
-                foreach (var item in EngineStatics.City)
+                foreach (var item in GameWorld.GetWorldInstance().GetLevel().StaticMeshCollection)
                 {
                     if (item.IsVisibleByCamera)
                         item.RenderBound(ref EngineStatics.ProjectionMatrix, ref viewMatrix, System.Drawing.Color.Red);
                 }
             }
 
-            if (EngineStatics.SunReplica != null && EngineStatics.SunReplica.CQuad != null)
+            if (GameWorld.GetWorldInstance().GetLevel().SunRenderer != null && GameWorld.GetWorldInstance().GetLevel().SunRenderer.CQuad != null)
             {
-                var matrix = EngineStatics.Camera.GetViewMatrix();
+                var matrix = GameWorld.GetWorldInstance().GetLevel().Camera.GetViewMatrix();
                 matrix[3, 0] = 0.0f;
                 matrix[3, 1] = 0.0f;
                 matrix[3, 2] = 0.0f;
-                EngineStatics.SunReplica.CQuad.renderQuad(matrix, ref EngineStatics.ProjectionMatrix);
+                GameWorld.GetWorldInstance().GetLevel().SunRenderer.CQuad.renderQuad(matrix, ref EngineStatics.ProjectionMatrix);
             }
         }
 
         private void RenderDebugFramePanels()
         {
-            EngineStatics.uiFrameCreator.RenderFrames();
+            GameWorld.GetWorldInstance().GetUiFrameCreator().RenderFrames();
         }
 
-        #endregion
+#endregion
 
     }
 }

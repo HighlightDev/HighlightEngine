@@ -28,6 +28,7 @@ namespace MassiveGame.Core.GameCore.Water
             u_clipPlane,
             u_specularMap,
             u_bSpecularMapEnable,
+            u_bNormalMapEnable,
             u_lightWorldMatrix;
 
         public WaterReflectionEntityShader() : base() { }
@@ -45,6 +46,7 @@ namespace MassiveGame.Core.GameCore.Water
         public void SetNormalMap(Int32 normalMapSampler)
         {
             u_normalMap.LoadUniform(normalMapSampler);
+            u_bNormalMapEnable.LoadUniform(true);
         }
 
         public void SetSpecularMap(Int32 specularMapSampler)
@@ -113,6 +115,7 @@ namespace MassiveGame.Core.GameCore.Water
                 u_specularMap = GetUniform("specularMap");
                 u_lightWorldMatrix = GetUniform("lightWorldMatrix");
                 u_bSpecularMapEnable = GetUniform("bSpecularMapEnable");
+                u_bNormalMapEnable = GetUniform("bNormalMapEnable");
             }
             catch (ArgumentNullException innerException)
             {

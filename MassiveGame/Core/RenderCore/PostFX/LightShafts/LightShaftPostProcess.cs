@@ -78,7 +78,7 @@ namespace MassiveGame.Core.RenderCore.PostFX.LightShafts
               new Vector4(0, 0, 1, 0),
               new Vector4(0, 0, 0, 1));
 
-            var radialBlurScreenSpacePosition = getRadialPos(EngineStatics.Sun.Position, EngineStatics.Camera.GetViewMatrix(), ref EngineStatics.ProjectionMatrix, ref viewportMatrix);
+            var radialBlurScreenSpacePosition = getRadialPos(GameWorld.GetWorldInstance().GetLevel().DirectionalLight.Position, GameWorld.GetWorldInstance().GetLevel().Camera.GetViewMatrix(), ref EngineStatics.ProjectionMatrix, ref viewportMatrix);
 
             // Render to light shaft result render target
             renderTarget.renderToFBO(2, renderTarget.LightShaftsResultTexture.GetTextureRezolution());
@@ -116,57 +116,57 @@ namespace MassiveGame.Core.RenderCore.PostFX.LightShafts
             GL.CullFace(CullFaceMode.Back);
             GL.Clear(ClearBufferMask.DepthBufferBit);
 
-            if (EngineStatics.Skybox != null)
+            if (GameWorld.GetWorldInstance().GetLevel().Skybox != null)
             {
-                EngineStatics.Skybox.renderSkybox(EngineStatics.Camera, EngineStatics.Sun.Direction, EngineStatics.ProjectionMatrix);
+                GameWorld.GetWorldInstance().GetLevel().Skybox.renderSkybox(GameWorld.GetWorldInstance().GetLevel().Camera, GameWorld.GetWorldInstance().GetLevel().DirectionalLight.Direction, EngineStatics.ProjectionMatrix);
             }
 
             GL.Clear(ClearBufferMask.DepthBufferBit);
-            if (EngineStatics.terrain != null)
+            if (GameWorld.GetWorldInstance().GetLevel().Terrain != null)
             {
-                EngineStatics.terrain.renderTerrain(EngineStatics.Mode, EngineStatics.Sun, EngineStatics.PointLight, camera, EngineStatics.ProjectionMatrix);
+                GameWorld.GetWorldInstance().GetLevel().Terrain.renderTerrain(EngineStatics.Mode, GameWorld.GetWorldInstance().GetLevel().DirectionalLight, GameWorld.GetWorldInstance().GetLevel().PointLightCollection, camera, EngineStatics.ProjectionMatrix);
             }
 
             GL.Disable(EnableCap.CullFace);
 
-            if (EngineStatics.Plant1 != null)
+            if (GameWorld.GetWorldInstance().GetLevel().Plant != null)
             {
-                EngineStatics.Plant1.renderEntities(EngineStatics.Sun, camera, EngineStatics.ProjectionMatrix, EngineStatics.terrain);
+                GameWorld.GetWorldInstance().GetLevel().Plant.renderEntities(GameWorld.GetWorldInstance().GetLevel().DirectionalLight, camera, EngineStatics.ProjectionMatrix, GameWorld.GetWorldInstance().GetLevel().Terrain);
             }
 
-            if (EngineStatics.City != null)
+            if (GameWorld.GetWorldInstance().GetLevel().StaticMeshCollection != null)
             {
-                foreach (Building house in EngineStatics.City)
+                foreach (Building house in GameWorld.GetWorldInstance().GetLevel().StaticMeshCollection)
                 {
                     if (house.IsVisibleByCamera)
-                        house.renderObject(EngineStatics.Mode, EngineStatics.NormalMapTrigger, EngineStatics.Sun, EngineStatics.PointLight, camera, ref EngineStatics.ProjectionMatrix);
+                        house.renderObject(EngineStatics.Mode, GameWorld.GetWorldInstance().GetLevel().DirectionalLight, GameWorld.GetWorldInstance().GetLevel().PointLightCollection, camera, ref EngineStatics.ProjectionMatrix);
                 }
             }
 
-            if (EngineStatics.Player != null && EngineStatics.Player.IsVisibleByCamera)
+            if (GameWorld.GetWorldInstance().GetLevel().Player != null && GameWorld.GetWorldInstance().GetLevel().Player.IsVisibleByCamera)
             {
-                EngineStatics.Player.RenderEntity(EngineStatics.Mode, EngineStatics.NormalMapTrigger, EngineStatics.Sun, EngineStatics.PointLight, camera, ref EngineStatics.ProjectionMatrix);
+                GameWorld.GetWorldInstance().GetLevel().Player.RenderEntity(EngineStatics.Mode, GameWorld.GetWorldInstance().GetLevel().DirectionalLight, GameWorld.GetWorldInstance().GetLevel().PointLightCollection, camera, ref EngineStatics.ProjectionMatrix);
             }
 
-            if (EngineStatics.Bots != null)
+            if (GameWorld.GetWorldInstance().GetLevel().Bots != null)
             {
-                foreach (var bot in EngineStatics.Bots)
+                foreach (var bot in GameWorld.GetWorldInstance().GetLevel().Bots)
                 {
                     if (bot.IsVisibleByCamera)
-                        bot.RenderEntity(EngineStatics.Mode, EngineStatics.NormalMapTrigger, EngineStatics.Sun, EngineStatics.PointLight, camera, ref EngineStatics.ProjectionMatrix);
+                        bot.RenderEntity(EngineStatics.Mode, GameWorld.GetWorldInstance().GetLevel().DirectionalLight, GameWorld.GetWorldInstance().GetLevel().PointLightCollection, camera, ref EngineStatics.ProjectionMatrix);
                 }
             }
 
-            if (EngineStatics.Water != null && EngineStatics.Water.IsInCameraView)
+            if (GameWorld.GetWorldInstance().GetLevel().Water != null && GameWorld.GetWorldInstance().GetLevel().Water.IsInCameraView)
             {
-                EngineStatics.Water.StencilPass(camera, ref EngineStatics.ProjectionMatrix);
+                GameWorld.GetWorldInstance().GetLevel().Water.StencilPass(camera, ref EngineStatics.ProjectionMatrix);
             }
 
             GL.ColorMask(true, true, true, true);
 
-            if (EngineStatics.SunReplica != null && EngineStatics.SunReplica.IsInCameraView)
+            if (GameWorld.GetWorldInstance().GetLevel().SunRenderer != null && GameWorld.GetWorldInstance().GetLevel().SunRenderer.IsInCameraView)
             {
-                EngineStatics.SunReplica.renderSun(EngineStatics.Camera, ref EngineStatics.ProjectionMatrix);
+                GameWorld.GetWorldInstance().GetLevel().SunRenderer.renderSun(GameWorld.GetWorldInstance().GetLevel().Camera, ref EngineStatics.ProjectionMatrix);
             }
 
             /*Stop culling*/

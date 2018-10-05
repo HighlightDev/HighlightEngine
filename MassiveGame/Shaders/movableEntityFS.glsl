@@ -131,7 +131,7 @@ void main()
 	vec3 totalAmbientColour = sunAmbientColour * materialAmbient;
 	for (int i = 0;i < MAX_LIGHT_COUNT;i ++)
 	{
-		if (!enableLight[i]) continue; //���� ������� ���� �������� - ���������� �������
+		if (!enableLight[i]) continue;
 		totalPointLight =  totalPointLight + phongModelPointLight(DiffuseNormal, SpecularNormal,
 			toLightDiffuseVec[i], toLightSpecularVec[i], attenuation[i], diffuseColour[i], specularColour[i]);
 	}

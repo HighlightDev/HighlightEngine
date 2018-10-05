@@ -172,12 +172,14 @@
     <Compile Include="Core\GameCore\Entities\IObservable.cs" />
     <Compile Include="Core\GameCore\Entities\Skeleton\SkeletonDummy.cs" />
     <Compile Include="Core\GameCore\Entities\Skeleton\SkeletonShader.cs" />
-    <Compile Include="Core\AnimationHolder.cs" />
+    <Compile Include="Core\AnimationCore\AnimationHolder.cs" />
     <Compile Include="Core\GameCore\BaseCamera.cs" />
     <Compile Include="Core\GameCore\Entities\Skeletal Entities\MovableSkeletalMeshEntity.cs" />
     <Compile Include="Core\GameCore\Entities\Skeletal Entities\SkeletalMeshEntityShader.cs" />
+    <Compile Include="Core\GameCore\Level.cs" />
     <Compile Include="Core\GameCore\ObserverListWrapper.cs" />
     <Compile Include="Core\GameCore\PlayerController.cs" />
+    <Compile Include="Core\GameCore\GameWorld.cs" />
     <Compile Include="Core\ioCore\DeserializeWrapper.cs" />
     <Compile Include="Core\ioCore\ISerializer.cs" />
     <Compile Include="Core\MathCore\ActorPositionMemento.cs" />
@@ -291,7 +293,7 @@
     <Compile Include="Core\GameCore\Entities\Entity.cs" />
     <Compile Include="RawModels\PlantModels.cs" />
     <Compile Include="Program.cs" />
-    <Compile Include="Core\GameCore\Skybox\Skybox.cs" />
+    <Compile Include="Core\GameCore\Skybox\SkyboxEntity.cs" />
     <Compile Include="Core\GameCore\Skybox\SkyboxShader.cs" />
     <Compile Include="Core\GameCore\Sun\SunRenderer.cs" />
     <Compile Include="Core\GameCore\Sun\SunShader.cs" />

@@ -12,7 +12,7 @@ using MassiveGame.API.ResourcePool;
 
 namespace MassiveGame.Core.GameCore.Skybox
 {
-    public class Skybox
+    public class SkyboxEntity
     {
         #region Definitions
 
@@ -129,7 +129,7 @@ namespace MassiveGame.Core.GameCore.Skybox
             }
         }
 
-        public Skybox(string[] dayTextures, string[] nightTextures)
+        public SkyboxEntity(string[] dayTextures, string[] nightTextures)
         {
             _moveFactor = 0.0f;
             FloatSpeed = 0.3f;

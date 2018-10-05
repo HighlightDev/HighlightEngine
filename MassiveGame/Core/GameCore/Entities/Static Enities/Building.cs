@@ -80,7 +80,7 @@ namespace MassiveGame.Core.GameCore.Entities.StaticEntities
 
         #region WaterReflection
 
-        public Matrix4 GetMirrorMatrix(WaterPlane water)
+        private Matrix4 GetMirrorMatrix(WaterPlane water)
         {
             Vector3 currentPosition = ComponentTranslation;
             float translationPositionY = (2 * water.GetTranslation().Y) - currentPosition.Y;
@@ -107,17 +107,26 @@ namespace MassiveGame.Core.GameCore.Entities.StaticEntities
             if (clipPlane.X == 0 && clipPlane.Y == 0 && clipPlane.Z == 0 && clipPlane.W == 0) { GL.Disable(EnableCap.ClipDistance0); }
             else { GL.Enable(EnableCap.ClipDistance0); }
 
-            m_liteReflectionShader.startProgram();      //Бинд шейдера
+            m_liteReflectionShader.startProgram();
 
             m_texture.BindTexture(TextureUnit.Texture0); // diffusemap texture
-            if (m_normalMap != null)
+
+            bool bEnableNM = m_normalMap != null;
+            bool bEnableSM = m_specularMap != null;
+            if (bEnableNM)
                 m_normalMap.BindTexture(TextureUnit.Texture1);  // normalmap
-            if (m_specularMap != null)
+            if (bEnableSM)
                 m_specularMap.BindTexture(TextureUnit.Texture2);  //Bind specular map
 
             m_liteReflectionShader.SetTexture(0);
-            m_liteReflectionShader.SetNormalMap(1);
-            m_liteReflectionShader.SetSpecularMap(2);
+            if (bEnableNM)
+            {
+                m_liteReflectionShader.SetNormalMap(1);
+            }
+            if (bEnableSM)
+            {
+                m_liteReflectionShader.SetSpecularMap(2);
+            }
             m_liteReflectionShader.SetMaterial(m_material);
             m_liteReflectionShader.SetTransformationMatrices(ref mirrorMatrix, ref modelMatrix, camera.GetViewMatrix(), ref ProjectionMatrix);
             m_liteReflectionShader.SetDirectionalLight(Sun);
@@ -143,14 +152,23 @@ namespace MassiveGame.Core.GameCore.Entities.StaticEntities
             m_liteRefractionShader.startProgram();      //Бинд шейдера
 
             m_texture.BindTexture(TextureUnit.Texture0); // diffusemap texture
-            if (m_normalMap != null)
+            bool bEnableNM = m_normalMap != null;
+            bool bEnableSM = m_specularMap != null;
+            if (bEnableNM)
                 m_normalMap.BindTexture(TextureUnit.Texture1);  // normalmap
-            if (m_specularMap != null)
+            if (bEnableSM)
                 m_specularMap.BindTexture(TextureUnit.Texture2);  //Bind specular map
 
+            m_liteReflectionShader.SetTexture(0);
+            if (bEnableNM)
+            {
+                m_liteRefractionShader.SetNormalMap(1);
+            }
+            if (bEnableSM)
+            {
+                m_liteRefractionShader.SetSpecularMap(2);
+            }
             m_liteRefractionShader.SetAlbedoTexture(0);
-            m_liteRefractionShader.SetNormalMap(1);
-            m_liteRefractionShader.SetSpecularMap(2);
             m_liteRefractionShader.SetMaterial(m_material);
             m_liteRefractionShader.SetTransformationMatrices(ref modelMatrix, camera.GetViewMatrix(), ref ProjectionMatrix);
             m_liteRefractionShader.SetDirectionalLight(Sun);
@@ -164,8 +182,8 @@ namespace MassiveGame.Core.GameCore.Entities.StaticEntities
 
         #region Renderer
 
-        public override void renderObject(PrimitiveType mode, bool enableNormalMapping, DirectionalLight Sun,
-           List<PointLight> lights, BaseCamera camera, ref Matrix4 ProjectionMatrix, Vector4 clipPlane = new Vector4())
+        public override void renderObject(PrimitiveType mode, DirectionalLight Sun, List<PointLight> lights,
+            BaseCamera camera, ref Matrix4 ProjectionMatrix, Vector4 clipPlane = new Vector4())
         {
             postConstructor();
 
@@ -179,15 +197,23 @@ namespace MassiveGame.Core.GameCore.Entities.StaticEntities
             GetShader().startProgram();
             m_texture.BindTexture(TextureUnit.Texture0);  //Bind texture
 
-            if (enableNormalMapping && m_normalMap != null)
+            bool bEnableNormalMap = m_normalMap != null;
+            bool bEnableSpecularMap = m_specularMap != null;
+            if (bEnableNormalMap)
                 m_normalMap.BindTexture(TextureUnit.Texture1);  //Bind normal map
 
             if (m_specularMap != null)
                 m_specularMap.BindTexture(TextureUnit.Texture2);  //Bind specular map
 
             GetShader().SetDiffuseMap(0);
-            GetShader().SetNormalMap(1, enableNormalMapping);
-            GetShader().SetSpecularMap(2);
+            if (bEnableNormalMap)
+            {
+                GetShader().SetNormalMap(1);
+            }
+            if (bEnableSpecularMap)
+            {
+                GetShader().SetSpecularMap(2);
+            }
             GetShader().SetMaterial(m_material);
             GetShader().SetTransformationMatrices(ref modelMatrix, camera.GetViewMatrix(), ref ProjectionMatrix);
             GetShader().SetPointLights(GetRelevantPointLights(lights));

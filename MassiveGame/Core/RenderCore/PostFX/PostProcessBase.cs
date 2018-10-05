@@ -1,5 +1,4 @@
-﻿using GpuGraphics;
-using MassiveGame.Core.GameCore;
+﻿using MassiveGame.Core.GameCore;
 using System;
 using System.Drawing;
 using TextureLoader;
@@ -70,7 +69,7 @@ namespace MassiveGame.Core.RenderCore.PostFX
                 weights[i] = gaussFunction(i, sigma2);
                 sum += 2 * weights[i];
             }
-            // Normalize the weights and set the uniform
+            // Normalize the weights
             for (int i = 0; i < weights.Length; i++)
             {
                 weights[i] = weights[i] / sum;
@@ -92,13 +91,11 @@ namespace MassiveGame.Core.RenderCore.PostFX
 
         public virtual ITexture GetPostProcessResult(ITexture frameColorTexture, ITexture frameDepthTexture, Point actualScreenRezolution, ITexture previousPostProcessResult = null)
         {
-            RenderScene(EngineStatics.Camera);
+            RenderScene(GameWorld.GetWorldInstance().GetLevel().Camera);
             return null;
         }
 
-        protected virtual void RenderScene(BaseCamera camera)
-        {
-        }
+        protected virtual void RenderScene(BaseCamera camera) { }
 
         public abstract void CleanUp();
     }

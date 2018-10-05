@@ -13,7 +13,8 @@ uniform float matReflectivity;
 uniform float matShineDamper;
 
 uniform bool bSunEnable;
-uniform bool bSpecularMapEnable;
+uniform bool bNormalMapEnable = false;
+uniform bool bSpecularMapEnable = false;
 uniform vec3 sunAmbientColour;
 uniform vec3 sunDiffuseColour;
 uniform vec3 sunSpecularColour;
@@ -52,8 +53,16 @@ void main()
 	vec3 SpecularNormal = vec3(0);
 	vec3 normSunDirection = normalize(-SunDirection);
 
-	vec4 normalMapUnit =  2.0 * texture2D(normalMap, pass_textureCoordinates) - 1.0;
-	SpecularNormal = DiffuseNormal = normalize(normalMapUnit.rgb);
+	if (bNormalMapEnable)
+	{
+		vec4 normalMapUnit =  2.0 * texture2D(normalMap, pass_textureCoordinates) - 1.0;
+		SpecularNormal = DiffuseNormal = normalize(normalMapUnit.rgb);
+	}
+	else
+	{
+		SpecularNormal = normalize(surfaceSpecularNormal);
+		DiffuseNormal = normalize(surfaceDiffuseNormal);
+	}
 
 	vec3 totalAmbientColour = sunAmbientColour * matAmbient;
 

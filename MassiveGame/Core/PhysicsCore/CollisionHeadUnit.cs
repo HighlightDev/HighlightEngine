@@ -10,8 +10,6 @@ namespace MassiveGame.Core.PhysicsCore
 {
     public class CollisionHeadUnit
     {
-        // ENTITY
-
         List<CollisionUnit> CollisionUnits;
 
         List<CollisionOutputData> CollisionOutput;

@@ -34,7 +34,8 @@ namespace MassiveGame.Core.GameCore.Water
             u_sunSpecularColour,
             u_clipPlane,
             u_specularMap,
-            u_bSpecularMapEnable;
+            u_bSpecularMapEnable,
+            u_bNormalMapEnable;
 
         public void SetAlbedoTexture(Int32 textureSampler)
         {
@@ -44,6 +45,7 @@ namespace MassiveGame.Core.GameCore.Water
         public void SetNormalMap(Int32 normalMapSampler)
         {
             u_normalMap.LoadUniform(normalMapSampler);
+            u_bNormalMapEnable.LoadUniform(true);
         }
 
         public void SetSpecularMap(Int32 specularMapSampler)
@@ -112,6 +114,7 @@ namespace MassiveGame.Core.GameCore.Water
                 u_clipPlane = GetUniform("clipPlane");
                 u_specularMap = GetUniform("specularMap");
                 u_bSpecularMapEnable = GetUniform("bSpecularMapEnable");
+                u_bNormalMapEnable = GetUniform("bNormalMapEnable");
             }
             catch (ArgumentNullException innerException)
             {

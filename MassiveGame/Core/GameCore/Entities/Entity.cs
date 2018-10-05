@@ -18,27 +18,38 @@ using MassiveGame.Core.MathCore;
 
 namespace MassiveGame.Core.GameCore.Entities
 {
+    [Serializable]
     public abstract class Entity: Component, IVisible, ILightHit, IDrawable, IObservable
     {
         #region Definitions 
 
+        [NonSerialized]
         protected bool bVisibleByCamera, bPostConstructor;
 
+        [NonSerialized]
         protected CollisionHeadUnit m_collisionHeadUnit;
 
         protected MistComponent m_mist;
 
+        [NonSerialized]
         protected Skin m_skin;
 
+        [NonSerialized]
         protected ShaderBase m_shader;
 
+        [NonSerialized]
         protected ITexture m_texture;
 
+        [NonSerialized]
         protected ITexture m_normalMap;
 
+        [NonSerialized]
         protected ITexture m_specularMap;
 
+        [NonSerialized]
         protected BoolMap m_lightVisibilityMap;
+
+        public bool bIsCollidable { protected set; get; } = false;
 
         #region Constructor
 
@@ -92,6 +103,7 @@ namespace MassiveGame.Core.GameCore.Entities
         public virtual void SetCollisionHeadUnit(CollisionHeadUnit collisionHeadUnit)
         {
             this.m_collisionHeadUnit = collisionHeadUnit;
+            bIsCollidable = true;
         }
 
         #region LightOptimization
@@ -185,16 +197,16 @@ namespace MassiveGame.Core.GameCore.Entities
 
         public void NotifyAdded()
         {
-            EngineStatics.AffectedByShadowCollection.Add(this);
-            EngineStatics.LitByLightCollection.Add(this);
-            EngineStatics.RenderableCollection.Add(this);
+            GameWorld.GetWorldInstance().GetLevel().ShadowCastCollection.Add(this);
+            GameWorld.GetWorldInstance().GetLevel().LitCheckCollection.Add(this);
+            GameWorld.GetWorldInstance().GetLevel().VisibilityCheckCollection.Add(this);
         }
 
         public void NotifyRemoved()
         {
-            EngineStatics.AffectedByShadowCollection.Remove(this);
-            EngineStatics.LitByLightCollection.Remove(this);
-            EngineStatics.RenderableCollection.Remove(this);
+            GameWorld.GetWorldInstance().GetLevel().ShadowCastCollection.Remove(this);
+            GameWorld.GetWorldInstance().GetLevel().LitCheckCollection.Remove(this);
+            GameWorld.GetWorldInstance().GetLevel().VisibilityCheckCollection.Remove(this);
         }
 
         #endregion

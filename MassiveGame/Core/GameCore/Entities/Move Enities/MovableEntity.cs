@@ -22,6 +22,7 @@ namespace MassiveGame.Core.GameCore.Entities.MoveEntities
         FREE_FALLING
     }
 
+    [Serializable]
     public abstract class MovableEntity : Entity
     {
         #region Definitions
@@ -200,9 +201,8 @@ namespace MassiveGame.Core.GameCore.Entities.MoveEntities
             m_liteReflectionShader.stopProgram();
         }
 
-        public virtual void RenderEntity(PrimitiveType mode, bool bEnableNormalMapping,
-            DirectionalLight Sun, List<PointLight> lights, BaseCamera camera, ref Matrix4 ProjectionMatrix,
-            Vector4 clipPlane = new Vector4())
+        public virtual void RenderEntity(PrimitiveType mode, DirectionalLight Sun,
+            List<PointLight> lights, BaseCamera camera, ref Matrix4 ProjectionMatrix, Vector4 clipPlane = new Vector4())
         {
             postConstructor();
 
@@ -223,15 +223,16 @@ namespace MassiveGame.Core.GameCore.Entities.MoveEntities
                 shadowMap.BindTexture(TextureUnit.Texture1);
                 GetShader().SetDirectionalLightShadowMatrix(Sun.GetShadowHolder().GetShadowMatrix(ref modelMatrix, ref ProjectionMatrix));
             }
-            m_texture.BindTexture(TextureUnit.Texture0); 
-            if (bEnableNormalMapping && m_normalMap != null)
+            m_texture.BindTexture(TextureUnit.Texture0);
+            bool bEnableNormalMap = m_normalMap != null;
+            if (bEnableNormalMap)
                 m_normalMap.BindTexture(TextureUnit.Texture2);
 
             GetShader().SetDiffuseMap(0);
-            GetShader().SetNormalMap(2, bEnableNormalMapping);
+            GetShader().SetNormalMap(2, bEnableNormalMap);
             GetShader().SetMaterial(m_material);
             GetShader().SetTransformationMatrices(ref modelMatrix, camera.GetViewMatrix(), ref ProjectionMatrix);
-            GetShader().SetPointLights(lights);
+            GetShader().SetPointLights(GetRelevantPointLights(lights));
             GetShader().SetDirectionalLight(Sun);
             GetShader().SetClippingPlane(ref clipPlane);
             GetShader().SetMist(m_mist);
@@ -310,7 +311,7 @@ namespace MassiveGame.Core.GameCore.Entities.MoveEntities
                 return;
 
             ActorState = BehaviorState.MOVE;
-            Velocity = EngineStatics.Camera.GetEyeSpaceForwardVector() * new Vector3(1, 0, 1)/*truncate y-velocity*/;
+            Velocity = GameWorld.GetWorldInstance().GetLevel().Camera.GetEyeSpaceForwardVector() * new Vector3(1, 0, 1)/*truncate y-velocity*/;
 
             var newPosition = ComponentTranslation + Velocity * Speed;
             SetPosition(newPosition);

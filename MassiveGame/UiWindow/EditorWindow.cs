@@ -70,9 +70,9 @@ namespace MassiveGame.UI
 
         private void OnMouseMove(object sender, MouseEventArgs e)
         {
-            if (EngineStatics.Camera.SwitchCamera)
+            if (GameWorld.GetWorldInstance().GetLevel().Camera.SwitchCamera)
             {
-                EngineStatics.Camera.Rotate(e.X, e.Y, new Point(Width, GLControl.Height));
+                GameWorld.GetWorldInstance().GetLevel().Camera.Rotate(e.X, e.Y, new Point(Width, GLControl.Height));
                 Cursor.Hide();
 
                 if ((EngineStatics.PrevCursorPosition.X != -1) && (EngineStatics.PrevCursorPosition.Y != -1)) // need to calculate delta of mouse position
@@ -108,7 +108,7 @@ namespace MassiveGame.UI
                 case MouseButtons.Right:
                     {
                         //mist.aEngineSingleton.PostProcear(this.RenderTime, 10000, FadeType.LINEARLY, 0.016f);
-                        EngineStatics.Camera.SwitchCamera = !EngineStatics.Camera.SwitchCamera;
+                        GameWorld.GetWorldInstance().GetLevel().Camera.SwitchCamera = !GameWorld.GetWorldInstance().GetLevel().Camera.SwitchCamera;
                         break;
                     }
             }
@@ -133,11 +133,11 @@ namespace MassiveGame.UI
             //}
             if (e.Delta > 0)
             {
-                (EngineStatics.Camera as ThirdPersonCamera).SeekDistanceFromTargetToCamera += 5;
+                (GameWorld.GetWorldInstance().GetLevel().Camera as ThirdPersonCamera).SeekDistanceFromTargetToCamera += 5;
             }
             else if (e.Delta < 0)
             {
-                (EngineStatics.Camera as ThirdPersonCamera).SeekDistanceFromTargetToCamera -= 5;
+                (GameWorld.GetWorldInstance().GetLevel().Camera as ThirdPersonCamera).SeekDistanceFromTargetToCamera -= 5;
             }
 
         }
@@ -159,7 +159,7 @@ namespace MassiveGame.UI
 
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData) // arrow keys event
         {
-            FirstPersonCamera firstPersonCamera = EngineStatics.Camera as FirstPersonCamera;
+            FirstPersonCamera firstPersonCamera = GameWorld.GetWorldInstance().GetLevel().Camera as FirstPersonCamera;
             if (firstPersonCamera != null)
             {
                 switch (keyData)
@@ -186,7 +186,6 @@ namespace MassiveGame.UI
 
                         break;
                     }
-                case Keys.N: EngineStatics.NormalMapTrigger = !EngineStatics.NormalMapTrigger; break;
                 case Keys.M:
                     {
                         if (EngineStatics.Mode == PrimitiveType.Triangles)
@@ -202,19 +201,19 @@ namespace MassiveGame.UI
                 case Keys.Escape: this.Close(); break;//Exit
                 case Keys.Add:
                     {
-                        EngineStatics.Water.WaveSpeed += 0.1f;
-                        EngineStatics.Water.WaveStrength += 0.1f;
+                        GameWorld.GetWorldInstance().GetLevel().Water.WaveSpeed += 0.1f;
+                        GameWorld.GetWorldInstance().GetLevel().Water.WaveStrength += 0.1f;
                         break;
                     }
                 case Keys.Subtract:
                     {
-                        EngineStatics.Water.WaveSpeed -= 0.1f;
-                        EngineStatics.Water.WaveStrength -= 0.1f;
+                        GameWorld.GetWorldInstance().GetLevel().Water.WaveSpeed -= 0.1f;
+                        GameWorld.GetWorldInstance().GetLevel().Water.WaveStrength -= 0.1f;
                         break;
                     }
                 case Keys.Insert:
                     {
-                        EngineStatics.uiFrameCreator.PushFrame((new ObtainRenderTargetPool().GetPool() as RenderTargetPool).GetRenderTargetAt(renderTargetIndex));
+                        GameWorld.GetWorldInstance().GetUiFrameCreator().PushFrame((new ObtainRenderTargetPool().GetPool() as RenderTargetPool).GetRenderTargetAt(renderTargetIndex));
                         Int32 count = PoolProxy.GetResourceCountInPool<ObtainRenderTargetPool>();
                         if (renderTargetIndex + 1 >= count)
                         {
@@ -233,12 +232,12 @@ namespace MassiveGame.UI
         private void OnKeyPress(object sender, System.Windows.Forms.KeyPressEventArgs args)
         {
             Keys key = (Keys)char.ToUpper(args.KeyChar);
-            EngineStatics.playerController.GetKeyboardHandler().KeyPress(key);
+            GameWorld.GetWorldInstance().GetLevel().PlayerController.GetKeyboardHandler().KeyPress(key);
         }
 
         private void OnKeyUp(object sender, KeyEventArgs args)
         {
-            EngineStatics.playerController.GetKeyboardHandler().KeyRelease(args.KeyData);
+            GameWorld.GetWorldInstance().GetLevel().PlayerController.GetKeyboardHandler().KeyRelease(args.KeyData);
         }
 
         #endregion

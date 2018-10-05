@@ -1,8 +1,8 @@
 #version 400
 
-#define UPPER_LIMIT 30 
-#define LOWER_LIMIT 0 
-#define COMPLEX_SKYBOX 1
+#define UPPER_LIMIT 30    
+#define LOWER_LIMIT 0    
+#define COMPLEX_SKYBOX 0
 layout (location = 0) out vec4 FragColor;
 
 uniform samplerCube daySampler;

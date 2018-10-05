@@ -35,7 +35,6 @@ C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\MassiveGame
 C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\MassiveGame\bin\DesignEditor\FramebufferAPI.dll
 C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\MassiveGame\bin\DesignEditor\OpenTK.dll
 C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\MassiveGame\bin\DesignEditor\OpenTK.GLControl.dll
-C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\MassiveGame\bin\DesignEditor\PhysicsBox.dll
 C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\MassiveGame\bin\DesignEditor\ShaderPattern.dll
 C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\MassiveGame\bin\DesignEditor\TextureLoader.dll
 C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\MassiveGame\bin\DesignEditor\VBO.dll
@@ -43,7 +42,6 @@ C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\MassiveGame
 C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\MassiveGame\bin\DesignEditor\2DGameTable.pdb
 C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\MassiveGame\bin\DesignEditor\CParser.pdb
 C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\MassiveGame\bin\DesignEditor\FramebufferAPI.pdb
-C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\MassiveGame\bin\DesignEditor\PhysicsBox.pdb
 C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\MassiveGame\bin\DesignEditor\ShaderPattern.pdb
 C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\MassiveGame\bin\DesignEditor\TextureLoader.pdb
 C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\MassiveGame\bin\DesignEditor\VBO.pdb

@@ -16,7 +16,6 @@ namespace MassiveGame.Core.GameCore.Entities.StaticEntities
         private Uniform u_entityTexture,
             u_entityNormalMap,
             u_entitySpecularMap,
-            u_normalMapEnDis,
             u_materialAmbient,
             u_materialDiffuse,
             u_materialSpecular,
@@ -36,7 +35,9 @@ namespace MassiveGame.Core.GameCore.Entities.StaticEntities
             u_mistGradient,
             u_mistColour,
             u_directionalLightShadowMap,
-            u_directionalLightShadowMatrix;
+            u_directionalLightShadowMatrix,
+            u_bEnableSpecularMap,
+            u_bEnableNormalMap;
 
         private Uniform[] u_lightPosition = new Uniform[EngineStatics.MAX_LIGHT_COUNT],
         u_attenuation = new Uniform[EngineStatics.MAX_LIGHT_COUNT],
@@ -54,7 +55,6 @@ namespace MassiveGame.Core.GameCore.Entities.StaticEntities
             {
                 u_entityTexture = GetUniform("entitieTexture");
                 u_entityNormalMap = GetUniform("normalMap");
-                u_normalMapEnDis = GetUniform("normalMapEnableDisable");
                 u_materialAmbient = GetUniform("materialAmbient");
                 u_materialDiffuse = GetUniform("materialDiffuse");
                 u_materialSpecular = GetUniform("materialSpecular");
@@ -84,6 +84,8 @@ namespace MassiveGame.Core.GameCore.Entities.StaticEntities
                 u_directionalLightShadowMap = GetUniform("dirLightShadowMap");
                 u_directionalLightShadowMatrix = GetUniform("dirLightShadowMatrix");
                 u_entitySpecularMap = GetUniform("specularMap");
+                u_bEnableNormalMap = GetUniform("bEnableNormalMap");
+                u_bEnableSpecularMap = GetUniform("bEnableSpecularMap");
             }
             catch (ArgumentNullException innerException)
             {
@@ -101,16 +103,16 @@ namespace MassiveGame.Core.GameCore.Entities.StaticEntities
             u_entityTexture.LoadUniform(diffuseMapSampler);
         }
 
-        public void SetNormalMap(Int32 normalMapSampler, bool bEnableNormalMap)
+        public void SetNormalMap(Int32 normalMapSampler)
         {
-            if (bEnableNormalMap)
-                u_entityNormalMap.LoadUniform(normalMapSampler);
-            u_normalMapEnDis.LoadUniform(bEnableNormalMap);
+            u_entityNormalMap.LoadUniform(normalMapSampler);
+            u_bEnableNormalMap.LoadUniform(true);
         }
 
         public void SetSpecularMap(Int32 specularMapSampler)
         {
             u_entitySpecularMap.LoadUniform(specularMapSampler);
+            u_bEnableSpecularMap.LoadUniform(true);
         }
 
         public void SetMaterial(Material material)

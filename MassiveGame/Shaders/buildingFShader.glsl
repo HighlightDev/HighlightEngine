@@ -28,10 +28,10 @@ uniform vec3 specularColour[MAX_LIGHT_COUNT];
 uniform vec3 attenuation[MAX_LIGHT_COUNT];
 uniform bool enableLight[MAX_LIGHT_COUNT];
 
+uniform bool bEnableNormalMap;
+uniform bool bEnableSpecularMap;
 uniform bool mistEnable;
 uniform vec3 mistColour;
-
-uniform bool normalMapEnableDisable;
 
 in vec2 pass_textureCoordinates;
 in vec3 surfaceDiffuseNormal;
@@ -129,23 +129,29 @@ void main()
     	vec3 normSunDirection = normalize(SunDirection);
         normSunDirection = -normSunDirection;
 
-    	vec3 MaterialSpecular = materialSpecular;
-
-    	vec3 DiffuseNormal = vec3(0);
+		vec3 DiffuseNormal = vec3(0);
     	vec3 SpecularNormal = vec3(0);
-    	if (normalMapEnableDisable)
+    	if (bEnableNormalMap)
     	{
     		vec4 normalMapUnit =  2.0 * texture2D(normalMap, pass_textureCoordinates) - 1.0;
     		DiffuseNormal = normalize(normalMapUnit.rgb);
     		SpecularNormal = normalize(normalMapUnit.rgb);
-
-    		MaterialSpecular = texture(specularMap, pass_textureCoordinates).rgb;
     	}
 		else
     	{
     		DiffuseNormal = normalize(surfaceDiffuseNormal);
     		SpecularNormal = normalize(surfaceSpecularNormal);
     	}
+
+		vec3 MaterialSpecular = vec3(0);
+		if (bEnableSpecularMap)
+		{
+			MaterialSpecular = materialSpecular;
+		}
+		else
+		{
+			MaterialSpecular = texture(specularMap, pass_textureCoordinates).rgb;
+		}
 
     	vec3 MultiLightColour = vec3(0);
     	vec3 totalAmbientColour = sunAmbientColour * materialAmbient;

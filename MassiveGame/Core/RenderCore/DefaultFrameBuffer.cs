@@ -69,7 +69,7 @@ namespace MassiveGame.Core.RenderCore
 
         public void CleanUp()
         {
-             PoolProxy.FreeResourceMemory<ObtainRenderTargetPool, RenderTargetAllocationPolicy, TextureParameters, ITexture>(ColorTexture);
+            PoolProxy.FreeResourceMemory<ObtainRenderTargetPool, RenderTargetAllocationPolicy, TextureParameters, ITexture>(ColorTexture);
             PoolProxy.FreeResourceMemory<ObtainRenderTargetPool, RenderTargetAllocationPolicy, TextureParameters, ITexture>(DepthStencilTexture);
             GL.DeleteFramebuffer(FramebufferDescriptor);
         }

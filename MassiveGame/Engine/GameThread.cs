@@ -1,4 +1,5 @@
-﻿using OpenTK;
+﻿using MassiveGame.Core.GameCore;
+using OpenTK;
 using System;
 using System.Diagnostics;
 using System.Threading;
@@ -31,31 +32,33 @@ namespace MassiveGame.Engine
 
         private void TickEntities(float deltaTime)
         {
-            EngineStatics.Player?.Tick(deltaTime);
+            GameWorld.GetWorldInstance().GetLevel().Player?.Tick(deltaTime);
 
-            if (EngineStatics.Bots != null)
+            if (GameWorld.GetWorldInstance().GetLevel().Bots != null)
             {
-                foreach (var bot in EngineStatics.Bots)
+                foreach (var bot in GameWorld.GetWorldInstance().GetLevel().Bots)
                 {
                     bot.Tick(deltaTime);
                 }
             }
 
-            if (EngineStatics.City != null)
+            if (GameWorld.GetWorldInstance().GetLevel().StaticMeshCollection != null)
             {
-                foreach (var item in EngineStatics.City)
+                foreach (var item in GameWorld.GetWorldInstance().GetLevel().StaticMeshCollection)
                     item.Tick(deltaTime);
             }
 
-            EngineStatics.SkeletalMesh?.Tick(deltaTime);
-            EngineStatics.Water?.Tick(deltaTime);
-            EngineStatics.Plant1?.Tick(deltaTime);
-            EngineStatics.Grass?.Tick(deltaTime);
-            EngineStatics.Skybox?.Tick(deltaTime);
-            EngineStatics.SunReplica?.Tick(deltaTime);
-            EngineStatics.Picker?.Tick(deltaTime);
-            EngineStatics.Mist?.Tick(deltaTime);
-            EngineStatics.DayCycle?.Tick(deltaTime);
+            GameWorld.GetWorldInstance().GetLevel().SkeletalMesh?.Tick(deltaTime);
+            GameWorld.GetWorldInstance().GetLevel().Water?.Tick(deltaTime);
+            GameWorld.GetWorldInstance().GetLevel().Plant?.Tick(deltaTime);
+            GameWorld.GetWorldInstance().GetLevel().Grass?.Tick(deltaTime);
+            GameWorld.GetWorldInstance().GetLevel().Skybox?.Tick(deltaTime);
+            GameWorld.GetWorldInstance().GetLevel().SunRenderer?.Tick(deltaTime);
+#if DESIGN_EDITOR
+            GameWorld.GetWorldInstance().GetLevel().Picker?.Tick(deltaTime);
+#endif
+            GameWorld.GetWorldInstance().GetLevel().Mist?.Tick(deltaTime);
+            GameWorld.GetWorldInstance().GetLevel().DayCycle?.Tick(deltaTime);
         }
 
         private void ThreadExecution(object target)
@@ -66,10 +69,10 @@ namespace MassiveGame.Engine
                 float deltaTime = (float)gameTickTime.Elapsed.TotalSeconds;
                 gameTickTime.Restart();
 
-                EngineStatics.Camera.CameraTick(deltaTime);
+                GameWorld.GetWorldInstance().GetLevel().Camera.CameraTick(deltaTime);
                 TickEntities(deltaTime);
 
-                EngineStatics.playerController.InvokeBindings();
+                GameWorld.GetWorldInstance().GetLevel().PlayerController.InvokeBindings();
             }
         }
     }
