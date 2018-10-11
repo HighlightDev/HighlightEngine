@@ -130,4 +130,23 @@ namespace MassiveGame.Core.RenderCore.Shadows
             return result;
         }
     }
+
+    public class Test1
+    {
+        private BaseCamera m_camera;
+
+        public Test1(BaseCamera camera) { m_camera = camera; }
+        /*________*/
+        /*|   A  |*/
+        /*|  /\  |*/
+        /*| /  \ |*/
+        /*|C----B|*/
+        /*|______|*/
+
+        private void someFoo()
+        {
+            Vector3 camForward = m_camera.GetEyeSpaceForwardVector();
+
+        }      
+    }
 }

@@ -102,13 +102,15 @@ namespace MassiveGame.Core.GameCore
             string normalMapPath = ProjectFolders.NormalMapsPath + "houseNormal.jpg";
             string specularMapPath = ProjectFolders.SpecularMapsPath + "brick_sm.png";
 
-            level.StaticMeshCollection.AddToList((Building)EngineObjectCreator.CreateInstance(new StaticEntityArguments(modelPath, texturePath, normalMapPath, specularMapPath,
-              new Vector3(170, 13f + EngineStatics.MAP_HEIGHT, 170), new Vector3(0, 180, 0), new Vector3(20))));
+            StaticEntityArguments staticMeshArg = new StaticEntityArguments(modelPath, texturePath, normalMapPath, specularMapPath,
+              new Vector3(170, 13f + EngineStatics.MAP_HEIGHT, 170), new Vector3(0, 180, 0), new Vector3(20));
+            var house1 = EngineObjectCreator.CreateInstance<Building>(staticMeshArg);
+            level.StaticMeshCollection.AddToList(house1);
 
             DeserializeWrapper deserializer = new DeserializeWrapper();
             foreach (var item in level.StaticMeshCollection)
             {
-                var inner_wrapper = deserializer.Deserialize<CollisionComponentsWrapper>("1.cl");
+                var inner_wrapper = deserializer.Deserialize<CollisionComponentsWrapper>("house.cl");
                 item.SetComponents(inner_wrapper.SerializedComponents);
                 item.SetCollisionHeadUnit(m_collisionHeadUnit);
 
@@ -120,14 +122,14 @@ namespace MassiveGame.Core.GameCore
             normalMapPath = ProjectFolders.NormalMapsPath + "brick_nm_high.png";
             specularMapPath = ProjectFolders.SpecularMapsPath + "brick_sm.png";
 
-            MovableEntityArguments arg = new MovableEntityArguments(modelPath, texturePath, normalMapPath, specularMapPath, new Vector3(175, 1200, 170), new Vector3(0, 0, 0), new Vector3(4f));
+            MovableEntityArguments movableMeshArg = new MovableEntityArguments(modelPath, texturePath, normalMapPath, specularMapPath, new Vector3(175, 1200, 170), new Vector3(0, 0, 0), new Vector3(4f));
 
             modelPath = ProjectFolders.ModelsPath + "model.dae";
             texturePath = ProjectFolders.MultitexturesPath + "diffuse.png";
 
             level.SkeletalMesh = new MovableSkeletalMeshEntity(modelPath, texturePath, normalMapPath, specularMapPath, 0.5f, new Vector3(175, 60, 170), new Vector3(-90, 0, 0), new Vector3(1));
 
-            level.Player = (MovableMeshEntity)EngineObjectCreator.CreateInstance(arg);
+            level.Player = EngineObjectCreator.CreateInstance<MovableMeshEntity>(movableMeshArg);
             level.Player.SetMistComponent(level.Mist);
 
             var wrapper = deserializer.Deserialize<CollisionComponentsWrapper>("2.cl");
@@ -139,16 +141,16 @@ namespace MassiveGame.Core.GameCore
             modelPath = ProjectFolders.ModelsPath + "playerCube.obj";
             texturePath = ProjectFolders.MultitexturesPath + "b.png";
 
-            arg = new MovableEntityArguments(modelPath, texturePath, normalMapPath, specularMapPath, new Vector3(180, 200, 220), new Vector3(0, 0, 0), new Vector3(10));
+            movableMeshArg = new MovableEntityArguments(modelPath, texturePath, normalMapPath, specularMapPath, new Vector3(180, 200, 220), new Vector3(0, 0, 0), new Vector3(10));
 
-            var bot = (MovableMeshEntity)EngineObjectCreator.CreateInstance(arg);
+            var bot = EngineObjectCreator.CreateInstance<MovableMeshEntity>(movableMeshArg);
             bot.SetMistComponent(level.Mist);
 
             wrapper = deserializer.Deserialize<CollisionComponentsWrapper>("2.cl");
             bot.SetComponents(wrapper.SerializedComponents);
             bot.SetCollisionHeadUnit(m_collisionHeadUnit);
             level.Bots.AddToList(bot);
-            arg = null;
+            movableMeshArg = null;
 
             level.Skybox = new SkyboxEntity(
                     new string[] { ProjectFolders.SkyboxTexturesPath + "/Day/" + "right.bmp",

@@ -24,8 +24,11 @@ namespace MassiveGame.UI
 
         private bool bTreeViewDirty = false;
         private bool bTransformationPanelDirty = false;
+        private bool bMultipleAxisScale = false;
 
-        private float ScaleFactor = 5;
+        private float m_scalingScale = 5;
+        private const float m_translationScale = 0.1f;
+        private const float m_invertedTranslationScale = 10.0f;
 
         public CollisionEditorWindow()
         {
@@ -82,6 +85,15 @@ namespace MassiveGame.UI
             UpdateEditorGUI();
         }
 
+        private float ChangeMinMaxBoundsAndScale(float minBound, float maxBound, float currentValue)
+        {
+            if (currentValue < minBound || currentValue > maxBound)
+                throw new ArgumentException("Wrong bounds.");
+
+            float delta = maxBound - minBound;
+            return ((currentValue * 2) - delta);
+        }
+
         private void UpdateEditorGUI()
         {
             if (Editor.actor != null && bTreeViewDirty)
@@ -105,7 +117,7 @@ namespace MassiveGame.UI
                 Vector3 translation = new Vector3(), rotation = new Vector3(), scale = new Vector3();
                 if (selectedComponent != null)
                 {
-                    translation = selectedComponent.ComponentTranslation;
+                    translation = selectedComponent.ComponentTranslation * m_invertedTranslationScale;
                     rotation = selectedComponent.ComponentRotation;
                     scale = selectedComponent.ComponentScale;
                 }
@@ -119,20 +131,30 @@ namespace MassiveGame.UI
                     this.trackBarRotationY.Value = (Int32)(rotation.Y * 0.27f);
                     this.trackBarRotationZ.Value = (Int32)(rotation.Z * 0.27f);
 
-                    this.trackBarScaleX.Value = (Int32)(scale.X * (100f / ScaleFactor));
-                    this.trackBarScaleY.Value = (Int32)(scale.Y * (100f / ScaleFactor));
-                    this.trackBarScaleZ.Value = (Int32)(scale.Z * (100f / ScaleFactor));
+                    this.trackBarScaleX.Value = (Int32)(scale.X * (100f / m_scalingScale));
+                    this.trackBarScaleY.Value = (Int32)(scale.Y * (100f / m_scalingScale));
+                    this.trackBarScaleZ.Value = (Int32)(scale.Z * (100f / m_scalingScale));
                 }));
 
                 bTransformationPanelDirty = false;
             }
         }
 
+        protected override bool ProcessCmdKey(ref Message msg, Keys keyData) // arrow keys event
+        {
+            switch (keyData)
+            {
+                case Keys.Shift: break;
+            }
+            return base.ProcessCmdKey(ref msg, keyData);
+        }
+
         private void TrackBarValueChanged(object sender, EventArgs e)
         {
             if (sender == trackBarTranslationX)
             {
-                float value = (trackBarTranslationX.Value * 2) - 100.0f;
+                float value = trackBarTranslationX.Value;
+                value = ChangeMinMaxBoundsAndScale(0, 100, value) * m_translationScale;
                 if (selectedComponent != null)
                 {
                     selectedComponent.ComponentTranslation = new Vector3(value, selectedComponent.ComponentTranslation.Y, selectedComponent.ComponentTranslation.Z);
@@ -141,7 +163,8 @@ namespace MassiveGame.UI
             }
             else if (sender == trackBarTranslationY)
             {
-                float value = (trackBarTranslationY.Value * 2) - 100.0f;
+                float value = trackBarTranslationY.Value;
+                value = ChangeMinMaxBoundsAndScale(0, 100, value) * m_translationScale;
                 if (selectedComponent != null)
                 {
                     selectedComponent.ComponentTranslation = new Vector3(selectedComponent.ComponentTranslation.X, value, selectedComponent.ComponentTranslation.Z);
@@ -150,7 +173,8 @@ namespace MassiveGame.UI
             }
             else if (sender == trackBarTranslationZ)
             {
-                float value = (trackBarTranslationZ.Value * 2) - 100.0f;
+                float value = trackBarTranslationZ.Value;
+                value = ChangeMinMaxBoundsAndScale(0, 100, value) * m_translationScale;
                 if (selectedComponent != null)
                 {
                     selectedComponent.ComponentTranslation = new Vector3(selectedComponent.ComponentTranslation.X, selectedComponent.ComponentTranslation.Y, value);
@@ -184,9 +208,18 @@ namespace MassiveGame.UI
                     Editor.bComponentHierarchyIsDirty = true;
                 }
             }
+            else if (bMultipleAxisScale && (sender == trackBarScaleX || sender == trackBarScaleY || sender == trackBarScaleZ))
+            {
+                float value = (sender as TrackBar).Value * (0.01f * m_scalingScale);
+                if (selectedComponent != null)
+                {
+                    selectedComponent.ComponentScale = new Vector3(value, value, value);
+                    Editor.bComponentHierarchyIsDirty = true;
+                }
+            }
             else if (sender == trackBarScaleX)
             {
-                float value = trackBarScaleX.Value * (0.01f * ScaleFactor);
+                float value = trackBarScaleX.Value * (0.01f * m_scalingScale);
                 if (selectedComponent != null)
                 {
                     selectedComponent.ComponentScale = new Vector3(value, selectedComponent.ComponentScale.Y, selectedComponent.ComponentScale.Z);
@@ -195,7 +228,7 @@ namespace MassiveGame.UI
             }
             else if (sender == trackBarScaleY)
             {
-                float value = trackBarScaleY.Value * (0.01f * ScaleFactor);
+                float value = trackBarScaleY.Value * (0.01f * m_scalingScale);
                 if (selectedComponent != null)
                 {
                     selectedComponent.ComponentScale = new Vector3(selectedComponent.ComponentScale.X, value, selectedComponent.ComponentScale.Z);
@@ -204,7 +237,7 @@ namespace MassiveGame.UI
             }
             else if (sender == trackBarScaleZ)
             {
-                float value = trackBarScaleZ.Value * (0.01f * ScaleFactor);
+                float value = trackBarScaleZ.Value * (0.01f * m_scalingScale);
                 if (selectedComponent != null)
                 {
                     selectedComponent.ComponentScale = new Vector3(selectedComponent.ComponentScale.X, selectedComponent.ComponentScale.Y, value);
@@ -260,7 +293,6 @@ namespace MassiveGame.UI
 
         private void GLControl_KeyDown(object sender, KeyEventArgs e)
         {
-
         }
 
         private void GLControl_KeyPress(object sender, System.Windows.Forms.KeyPressEventArgs e)
@@ -421,6 +453,11 @@ namespace MassiveGame.UI
                 }
             }
             dlg.Dispose();
+        }
+
+        private void check_multipleAxistScale_CheckedChanged(object sender, EventArgs e)
+        {
+            bMultipleAxisScale = (sender as CheckBox).Checked;
         }
     }
 }

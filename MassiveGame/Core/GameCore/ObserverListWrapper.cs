@@ -30,11 +30,14 @@ namespace MassiveGame.Core.GameCore
 
         public void AddToList(params T[] objects)
         {
-            for (Int32 i = 0; i< objects.Length; i++)
+            if (objects != null)
             {
-                objects[i].NotifyAdded();
+                for (Int32 i = 0; i < objects.Length; i++)
+                {
+                    objects[i].NotifyAdded();
+                }
+                m_dataList.AddRange(objects);
             }
-            m_dataList.AddRange(objects);
         }
 
         public void AddRangeToList(List<T> objects)

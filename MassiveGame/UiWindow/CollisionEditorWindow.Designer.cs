@@ -65,6 +65,7 @@
             this.button4 = new System.Windows.Forms.Button();
             this.button5 = new System.Windows.Forms.Button();
             this.treeView1 = new System.Windows.Forms.TreeView();
+            this.check_multipleAxistScale = new System.Windows.Forms.CheckBox();
             this.tableLayoutPanel1.SuspendLayout();
             this.flowLayoutPanel1.SuspendLayout();
             this.panel4.SuspendLayout();
@@ -132,6 +133,7 @@
             this.flowLayoutPanel1.Controls.Add(this.panel7);
             this.flowLayoutPanel1.Controls.Add(this.panel8);
             this.flowLayoutPanel1.Controls.Add(this.panel9);
+            this.flowLayoutPanel1.Controls.Add(this.check_multipleAxistScale);
             this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.flowLayoutPanel1.Location = new System.Drawing.Point(3, 379);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
@@ -462,6 +464,17 @@
             this.treeView1.Size = new System.Drawing.Size(474, 358);
             this.treeView1.TabIndex = 5;
             // 
+            // check_multipleAxistScale
+            // 
+            this.check_multipleAxistScale.AutoSize = true;
+            this.check_multipleAxistScale.Location = new System.Drawing.Point(3, 249);
+            this.check_multipleAxistScale.Name = "check_multipleAxistScale";
+            this.check_multipleAxistScale.Size = new System.Drawing.Size(119, 17);
+            this.check_multipleAxistScale.TabIndex = 16;
+            this.check_multipleAxistScale.Text = "Multiple axis scaling";
+            this.check_multipleAxistScale.UseVisualStyleBackColor = true;
+            this.check_multipleAxistScale.CheckedChanged += new System.EventHandler(this.check_multipleAxistScale_CheckedChanged);
+            // 
             // CollisionEditorWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -473,6 +486,7 @@
             this.Text = "Form1";
             this.tableLayoutPanel1.ResumeLayout(false);
             this.flowLayoutPanel1.ResumeLayout(false);
+            this.flowLayoutPanel1.PerformLayout();
             this.panel4.ResumeLayout(false);
             this.panel4.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.trackBarTranslationX)).EndInit();
@@ -544,6 +558,7 @@
         private System.Windows.Forms.Button button3;
         private System.Windows.Forms.Button button4;
         private System.Windows.Forms.Button button5;
+        private System.Windows.Forms.CheckBox check_multipleAxistScale;
     }
 }
 

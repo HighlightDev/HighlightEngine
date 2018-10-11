@@ -5,24 +5,24 @@ namespace MassiveGame.API.ObjectFactory
 {
     public static class EngineObjectCreator
     {
-        public static IVisible CreateInstance(Arguments a)
+        public static T CreateInstance<T>(Arguments a) where T : IVisible
         {
             ICreator creator = null;
             switch (a.ObjectType)
             {
                 case EntityType.MOVABLE_ENTITY:
                     {
-                        creator = new ObjectFactory.MovableEntityCreator();
+                        creator = new MovableEntityCreator();
                         break;
                     }
                 case EntityType.STATIC_ENTITY:
                     {
-                        creator = new ObjectFactory.StaticEntityCreator();
+                        creator = new StaticEntityCreator();
                         break;
                     }
             }
 
-            return creator.CreateInstance(a);
+            return (T)creator.CreateInstance(a);
         }
     }
 }
