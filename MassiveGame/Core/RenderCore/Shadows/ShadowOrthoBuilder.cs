@@ -2,6 +2,7 @@
 using MassiveGame.Core.MathCore;
 using MassiveGame.Core.MathCore.MathTypes;
 using OpenTK;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -145,8 +146,49 @@ namespace MassiveGame.Core.RenderCore.Shadows
 
         private void someFoo()
         {
+            float ShadowFarPlane = 100.0f;
+            float ShadowNearPlane = 30.0f;
+            float FoV = EngineStatics.FoV;
+            float halfFoV = FoV * 0.5f;
+            float AspectRatio = EngineStatics.SCREEN_ASPECT_RATIO;
+
+            Vector3 camWorldPosition = m_camera.GetEyeVector();
             Vector3 camForward = m_camera.GetEyeSpaceForwardVector();
 
+            float rotByHalfFov_x1 = (float)Math.Cos(MathHelper.DegreesToRadians(halfFoV));
+            float rotByHalfFov_z1 = (float)Math.Sin(MathHelper.DegreesToRadians(halfFoV));
+
+            float rotByHalfFov_x2 = (float)Math.Cos(MathHelper.DegreesToRadians(-halfFoV));
+            float rotByHalfFov_z2 = (float)Math.Sin(MathHelper.DegreesToRadians(-halfFoV));
+
+            float edge_x1 = camForward.X * rotByHalfFov_x1;
+            float edge_z1 = camForward.Z * rotByHalfFov_z1;
+
+            float edge_x2 = camForward.X * rotByHalfFov_x2;
+            float edge_z2 = camForward.Z * rotByHalfFov_z2;
+
+            Vector3 camEdgePlaneDirection1 = (new Vector3(edge_x1, 0.0f, edge_z1)).Normalized();
+            Vector3 camEdgePlaneDirection2 = (new Vector3(edge_x2, 0.0f, edge_z2)).Normalized();
+
+            Vector3 camFarPlaneWorldPosition = camWorldPosition + camForward * ShadowFarPlane;
+
+            float edge1ProjValue = Vector3.Dot(camEdgePlaneDirection1, camFarPlaneWorldPosition);
+            float edge2ProjValue = Vector3.Dot(camEdgePlaneDirection2, camFarPlaneWorldPosition);
+
+            Vector3 edgePosition1 = camWorldPosition + camEdgePlaneDirection1 * edge1ProjValue;
+            Vector3 edgePosition2 = camWorldPosition + camEdgePlaneDirection2 * edge2ProjValue;
+            Vector3 edgePosition3 = camWorldPosition - camForward * ShadowNearPlane;
+
+            // TODO -> Find maxX, minX, maxZ, minZ
+
+            float maxX = Math.Max(Math.Max(edgePosition1.X, edgePosition2.X), edgePosition3.X);
+            //float maxY = Math.Max(Math.Max(edgePosition1.Y, edgePosition2.Y), edgePosition3.Y);
+            float maxZ = Math.Max(Math.Max(edgePosition1.Z, edgePosition2.Z), edgePosition3.Z);
+
+            float minX = Math.Min(Math.Min(edgePosition1.X, edgePosition2.X), edgePosition3.X);
+            //float minY = Math.Min(Math.Min(edgePosition1.Y, edgePosition2.Y), edgePosition3.Y);
+            float minZ = Math.Min(Math.Min(edgePosition1.Z, edgePosition2.Z), edgePosition3.Z);
+            
         }      
     }
 }
