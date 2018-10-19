@@ -12,9 +12,11 @@ using MassiveGame.API.ResourcePool.Policies;
 using MassiveGame.API.ResourcePool;
 using MassiveGame.Core.MathCore;
 using MassiveGame.Core.MathCore.MathTypes;
+using System.Runtime.Serialization;
 
 namespace MassiveGame.Core.GameCore.Entities.MoveEntities
 {
+    [Serializable]
     public enum BehaviorState
     {
         IDLE,
@@ -33,8 +35,14 @@ namespace MassiveGame.Core.GameCore.Entities.MoveEntities
 
         protected Material m_material;
 
+        private Vector3 m_velocity;
+
+        private float m_speed;
+
+        [NonSerialized]
         private WaterReflectionEntityShader m_liteReflectionShader;
 
+        [NonSerialized]
         private WaterRefractionEntityShader m_liteRefractionShader;
 
         public BehaviorState ActorState
@@ -53,9 +61,9 @@ namespace MassiveGame.Core.GameCore.Entities.MoveEntities
             }
         }
 
-        public Vector3 Velocity { set; get; }
+        public Vector3 Velocity { set { m_velocity = value; } get { return m_velocity; } }
 
-        public float Speed { set; get; }
+        public float Speed { set { m_speed = value; } get { return m_speed; } }
 
         public event EventHandler TransformationDirtyEvent;
 
@@ -81,6 +89,31 @@ namespace MassiveGame.Core.GameCore.Entities.MoveEntities
         {
             if (bPostConstructor)
                 bPostConstructor = false;
+        }
+
+        #endregion
+
+        #region Serialization
+
+        protected MovableEntity(SerializationInfo info, StreamingContext context)
+        {
+            throw new NotImplementedException();
+            // TODO -> deserialize properties
+            m_actorState = (BehaviorState)info.GetValue("actorState", typeof(BehaviorState));
+            m_positionMemento = (ActorPositionMemento)info.GetValue("positionMemento", typeof(ActorPositionMemento));
+            m_material = info.GetValue("material", typeof(Material)) as Material;
+            m_velocity = (Vector3)info.GetValue("velocity", typeof(Vector3));
+            m_speed = info.GetSingle("speed");
+        }
+
+        public override void GetObjectData(SerializationInfo info, StreamingContext context)
+        {
+            base.GetObjectData(info, context);
+            info.AddValue("actorState", m_actorState, typeof(BehaviorState));
+            info.AddValue("positionMemento", m_positionMemento, typeof(ActorPositionMemento));
+            info.AddValue("material", m_material, typeof(Material));
+            info.AddValue("velocity", m_velocity, typeof(Vector3));
+            info.AddValue("speed", m_speed);
         }
 
         #endregion

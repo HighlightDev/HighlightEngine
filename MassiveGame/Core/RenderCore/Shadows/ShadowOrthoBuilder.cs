@@ -136,6 +136,9 @@ namespace MassiveGame.Core.RenderCore.Shadows
     {
         private BaseCamera m_camera;
 
+        public Vector3 Max { set; get; }
+        public Vector3 Min { set; get; }
+
         public Test1(BaseCamera camera) { m_camera = camera; }
         /*________*/
         /*|   A  |*/
@@ -144,9 +147,11 @@ namespace MassiveGame.Core.RenderCore.Shadows
         /*|C----B|*/
         /*|______|*/
 
-        private void someFoo()
+
+            // There is no use for current algorithm because orthogonal projection should be cubic
+        public void Update()
         {
-            float ShadowFarPlane = 100.0f;
+            float ShadowFarPlane = 300.0f;
             float ShadowNearPlane = 30.0f;
             float FoV = EngineStatics.FoV;
             float halfFoV = FoV * 0.5f;
@@ -154,41 +159,42 @@ namespace MassiveGame.Core.RenderCore.Shadows
 
             Vector3 camWorldPosition = m_camera.GetEyeVector();
             Vector3 camForward = m_camera.GetEyeSpaceForwardVector();
-
-            float rotByHalfFov_x1 = (float)Math.Cos(MathHelper.DegreesToRadians(halfFoV));
-            float rotByHalfFov_z1 = (float)Math.Sin(MathHelper.DegreesToRadians(halfFoV));
-
-            float rotByHalfFov_x2 = (float)Math.Cos(MathHelper.DegreesToRadians(-halfFoV));
-            float rotByHalfFov_z2 = (float)Math.Sin(MathHelper.DegreesToRadians(-halfFoV));
-
-            float edge_x1 = camForward.X * rotByHalfFov_x1;
-            float edge_z1 = camForward.Z * rotByHalfFov_z1;
-
-            float edge_x2 = camForward.X * rotByHalfFov_x2;
-            float edge_z2 = camForward.Z * rotByHalfFov_z2;
-
-            Vector3 camEdgePlaneDirection1 = (new Vector3(edge_x1, 0.0f, edge_z1)).Normalized();
-            Vector3 camEdgePlaneDirection2 = (new Vector3(edge_x2, 0.0f, edge_z2)).Normalized();
+            Vector3 camRight = m_camera.GetEyeSpaceRightVector();
+            // Omit y component
+            camForward = new Vector3(camForward.X, 0, camForward.Z).Normalized();
+            camRight = new Vector3(camRight.X, 0, camRight.Z).Normalized();
 
             Vector3 camFarPlaneWorldPosition = camWorldPosition + camForward * ShadowFarPlane;
 
-            float edge1ProjValue = Vector3.Dot(camEdgePlaneDirection1, camFarPlaneWorldPosition);
-            float edge2ProjValue = Vector3.Dot(camEdgePlaneDirection2, camFarPlaneWorldPosition);
+            Vector3 camEdgeFarPlaneWorldPosition1 = camFarPlaneWorldPosition + camRight * ShadowFarPlane;
+            Vector3 camEdgeFarPlaneWorldPosition2 = camFarPlaneWorldPosition - camRight * ShadowFarPlane;
+            Vector3 camEdgeNearPlaneWorldPosition = camWorldPosition - camForward * ShadowNearPlane;
 
-            Vector3 edgePosition1 = camWorldPosition + camEdgePlaneDirection1 * edge1ProjValue;
-            Vector3 edgePosition2 = camWorldPosition + camEdgePlaneDirection2 * edge2ProjValue;
-            Vector3 edgePosition3 = camWorldPosition - camForward * ShadowNearPlane;
+            //Matrix3 rotationPositive = Matrix3.CreateRotationY(MathHelper.DegreesToRadians(halfFoV));
+            //Matrix3 rotationNegative = Matrix3.CreateRotationY(MathHelper.DegreesToRadians(-halfFoV));
+
+            //Vector3 camEdgePlaneDirection1 = (VectorMath.VectorMathOperations.TransformVec3(ref camForward, ref rotationPositive)).Normalized();
+            //Vector3 camEdgePlaneDirection2 = (VectorMath.VectorMathOperations.TransformVec3(ref camForward, ref rotationNegative)).Normalized();
+
+            
+
+            //float edge1ProjValue = Vector3.Dot(camEdgePlaneDirection1, camFarPlaneWorldPosition);
+            //float edge2ProjValue = Vector3.Dot(camEdgePlaneDirection2, camFarPlaneWorldPosition);
+
+            //Vector3 edgePosition1 = camWorldPosition + camEdgePlaneDirection1 * edge1ProjValue;
+            //Vector3 edgePosition2 = camWorldPosition + camEdgePlaneDirection2 * edge2ProjValue;
+            //Vector3 edgePosition3 = camWorldPosition - camForward * ShadowNearPlane;
 
             // TODO -> Find maxX, minX, maxZ, minZ
 
-            float maxX = Math.Max(Math.Max(edgePosition1.X, edgePosition2.X), edgePosition3.X);
-            //float maxY = Math.Max(Math.Max(edgePosition1.Y, edgePosition2.Y), edgePosition3.Y);
-            float maxZ = Math.Max(Math.Max(edgePosition1.Z, edgePosition2.Z), edgePosition3.Z);
+            float maxX = Math.Max(Math.Max(camEdgeFarPlaneWorldPosition1.X, camEdgeFarPlaneWorldPosition2.X), camEdgeNearPlaneWorldPosition.X);
+            float maxZ = Math.Max(Math.Max(camEdgeFarPlaneWorldPosition1.Z, camEdgeFarPlaneWorldPosition2.Z), camEdgeNearPlaneWorldPosition.Z);
 
-            float minX = Math.Min(Math.Min(edgePosition1.X, edgePosition2.X), edgePosition3.X);
-            //float minY = Math.Min(Math.Min(edgePosition1.Y, edgePosition2.Y), edgePosition3.Y);
-            float minZ = Math.Min(Math.Min(edgePosition1.Z, edgePosition2.Z), edgePosition3.Z);
-            
+            float minX = Math.Min(Math.Min(camEdgeFarPlaneWorldPosition1.X, camEdgeFarPlaneWorldPosition2.X), camEdgeNearPlaneWorldPosition.X);
+            float minZ = Math.Min(Math.Min(camEdgeFarPlaneWorldPosition1.Z, camEdgeFarPlaneWorldPosition2.Z), camEdgeNearPlaneWorldPosition.Z);
+
+            Max = new Vector3(maxX, 0, maxZ);
+            Min = new Vector3(minX, 0, minZ);
         }      
     }
 }

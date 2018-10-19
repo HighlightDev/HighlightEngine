@@ -1,6 +1,6 @@
 ﻿namespace MassiveGame.Core.ioCore
 {
-    public interface ISerializable
+    public interface IPostDeserializable
     {
         void PostDeserializeInit();
     }

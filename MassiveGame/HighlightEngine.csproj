@@ -211,7 +211,7 @@
     <Compile Include="Core\GameCore\FirstPersonCamera.cs" />
     <Compile Include="Core\GameCore\ThirdPersonCamera.cs" />
     <Compile Include="Core\ComponentCore\SceneComponent.cs" />
-    <Compile Include="Core\ioCore\ISerializable.cs" />
+    <Compile Include="Core\ioCore\IPostDeserializable.cs" />
     <Compile Include="Core\PhysicsCore\CollisionHeadUnit.cs" />
     <Compile Include="Core\PhysicsCore\CollisionBehaviorManager.cs" />
     <Compile Include="Core\PhysicsCore\OutputData\OutputData.cs" />

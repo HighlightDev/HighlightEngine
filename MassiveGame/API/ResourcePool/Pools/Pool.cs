@@ -30,12 +30,31 @@ namespace MassiveGame.API.ResourcePool.Pools
             return count;
         }
 
-        private bool AlreadyIsInPool<ArgType, ReturnType>(ArgType key, ref ReturnType resource)
+        private bool CheckIsInPoolByKey<ArgType, ReturnType>(ArgType key, ref ReturnType resource)
         {
             object result;
             bool exist = resourceMap.TryGetValue(key, out result);
             resource = (ReturnType)result;
             return exist;
+        }
+
+        private bool CheckIsInPoolByValue<ArgType, ReturnType>(ReturnType value, ref ArgType keyOut)
+        {
+            object key = null;
+            bool bExist = resourceMap.Any(item =>
+            {
+                if (item.Value == (object)value)
+                {
+                    key = (ArgType)item.Key;
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            });
+            keyOut = (ArgType)key;
+            return bExist;
         }
 
         private void IncreaseRefCounter<ArgType>(ArgType key, bool exist)
@@ -62,6 +81,16 @@ namespace MassiveGame.API.ResourcePool.Pools
             }
         }
 
+        public ArgType GetResourceKeyFromPool<ArgType, ReturnType>(ReturnType arg) 
+        {
+            ArgType key = default(ArgType);
+            bool bHasInPool = CheckIsInPoolByValue(arg, ref key);
+            if (!bHasInPool)
+                throw new ArgumentException("Wrong argument, it doesn't exist in pool.");
+
+            return key;
+        }
+
         public bool TryToFreeMemory<Policy, ArgType, ReturnType>(ArgType key)
             where Policy : AllocationPolicy<ArgType, ReturnType>, new()
         {
@@ -81,20 +110,9 @@ namespace MassiveGame.API.ResourcePool.Pools
         public bool TryToFreeMemory<Policy, ArgType, ReturnType>(ReturnType value)
             where Policy : AllocationPolicy<ArgType, ReturnType>, new()
         {
-            object key = null;
+            ArgType key = default(ArgType);
             bool bMemoryFreed = false;
-            bool bExist = resourceMap.Any(item =>
-            {
-                if (item.Value == (object)value)
-                {
-                    key = item.Key;
-                    return true;
-                }
-                else
-                {
-                    return false;
-                }
-            });
+            bool bExist = CheckIsInPoolByValue(value, ref key);
 
             if (bExist)
             {
@@ -109,7 +127,7 @@ namespace MassiveGame.API.ResourcePool.Pools
           where Policy : AllocationPolicy<ArgType, ReturnType>, new()
         {
             ReturnType resource = default(ReturnType);
-            bool bHasInPool = AlreadyIsInPool(arg, ref resource);
+            bool bHasInPool = CheckIsInPoolByKey(arg, ref resource);
             if (!bHasInPool)
             {
                 resource = new Policy().AllocateMemory(arg);

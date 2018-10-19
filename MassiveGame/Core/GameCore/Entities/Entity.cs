@@ -15,13 +15,22 @@ using MassiveGame.API.ResourcePool.Policies;
 using MassiveGame.API.Mesh;
 using MassiveGame.Core.MathCore.MathTypes;
 using MassiveGame.Core.MathCore;
+using System.Runtime.Serialization;
 
 namespace MassiveGame.Core.GameCore.Entities
 {
     [Serializable]
-    public abstract class Entity: Component, IVisible, ILightHit, IDrawable, IObservable
-    {
+    public abstract class Entity: 
+          Component
+        , IVisible
+        , ILightHit
+        , IDrawable
+        , IObservable
+        , ISerializable
+    { 
         #region Definitions 
+
+        protected MistComponent m_mist;
 
         [NonSerialized]
         protected bool bVisibleByCamera, bPostConstructor;
@@ -29,7 +38,8 @@ namespace MassiveGame.Core.GameCore.Entities
         [NonSerialized]
         protected CollisionHeadUnit m_collisionHeadUnit;
 
-        protected MistComponent m_mist;
+        [NonSerialized]
+        protected BoolMap m_lightVisibilityMap;
 
         [NonSerialized]
         protected Skin m_skin;
@@ -47,9 +57,7 @@ namespace MassiveGame.Core.GameCore.Entities
         protected ITexture m_specularMap;
 
         [NonSerialized]
-        protected BoolMap m_lightVisibilityMap;
-
-        public bool bIsCollidable { protected set; get; } = false;
+        protected bool bIsCollidable = false;
 
         #region Constructor
 
@@ -61,17 +69,11 @@ namespace MassiveGame.Core.GameCore.Entities
             ComponentTranslation = translation;
             ComponentRotation = rotation;
             ComponentScale = scale;
-            m_texture = PoolProxy.GetResource<ObtainTexturePool, TextureAllocationPolicy, string, ITexture>(texturePath);
-            m_normalMap = PoolProxy.GetResource<ObtainTexturePool, TextureAllocationPolicy, string, ITexture>(normalMapPath);
-            m_specularMap = PoolProxy.GetResource<ObtainTexturePool, TextureAllocationPolicy, string, ITexture>(specularMapPath);
-            m_skin = PoolProxy.GetResource<ObtainModelPool, ModelAllocationPolicy, string, Skin>(modelPath);
-
-            this.bVisibleByCamera = true;
-            this.m_mist = null;
-            this.bPostConstructor = true;
+            bVisibleByCamera = true;
+            m_mist = null;
             m_lightVisibilityMap = new BoolMap();
 
-            InitShader();
+            InitResources(modelPath, texturePath, normalMapPath, specularMapPath);
         }
 
         #endregion
@@ -79,6 +81,15 @@ namespace MassiveGame.Core.GameCore.Entities
         protected abstract void InitShader();
 
         protected abstract void FreeShader();
+
+        private void InitResources(string modelPath, string texturePath, string normalMapPath, string specularMapPath)
+        {
+            m_texture = PoolProxy.GetResource<ObtainTexturePool, TextureAllocationPolicy, string, ITexture>(texturePath);
+            m_normalMap = PoolProxy.GetResource<ObtainTexturePool, TextureAllocationPolicy, string, ITexture>(normalMapPath);
+            m_specularMap = PoolProxy.GetResource<ObtainTexturePool, TextureAllocationPolicy, string, ITexture>(specularMapPath);
+            m_skin = PoolProxy.GetResource<ObtainModelPool, ModelAllocationPolicy, string, Skin>(modelPath);
+            InitShader();
+        }
 
         public void SetComponents(List<Component> components)
         {
@@ -127,6 +138,44 @@ namespace MassiveGame.Core.GameCore.Entities
 
         #endregion
 
+        #region Serialization
+
+        protected Entity(SerializationInfo info, StreamingContext context)
+        {
+            throw new NotImplementedException();
+            // TODO -> deserialize all properties
+
+            bIsCollidable = false;
+            bPostConstructor = true;
+
+            var texturePath = info.GetString("albedo");
+            var normalTexPath = info.GetString("normalMap");
+            var specularTexPath = info.GetString("specularMap");
+            var skinPath = info.GetString("skin");
+            InitResources(skinPath, texturePath, normalTexPath, specularTexPath);
+
+            m_mist = info.GetValue("mistComponent", typeof(MistComponent)) as MistComponent;
+        }
+
+        public virtual void GetObjectData(SerializationInfo info, StreamingContext context)
+        {
+            throw new NotImplementedException();
+            // TODO -> serialize all properties
+
+            var texturePath = PoolProxy.GetResourceKey<ObtainTexturePool, string, ITexture>(m_texture);
+            var normalTexPath = PoolProxy.GetResourceKey<ObtainTexturePool, string, ITexture>(m_normalMap);
+            var specularTexPath = PoolProxy.GetResourceKey<ObtainTexturePool, string, ITexture>(m_specularMap);
+            var skinPath = PoolProxy.GetResourceKey<ObtainModelPool, string, Skin>(m_skin);
+
+            info.AddValue("albedo", texturePath);
+            info.AddValue("normalMap", normalTexPath);
+            info.AddValue("specularMap", specularTexPath);
+            info.AddValue("skin", skinPath);
+            info.AddValue("mistComponent", m_mist, typeof(MistComponent));
+        }
+
+        #endregion
+
         #region Interface implementation
 
         public virtual void IsLitByLightSource(List<PointLight> LightList)
@@ -171,7 +220,7 @@ namespace MassiveGame.Core.GameCore.Entities
                 CheckComponentsAreVisible(ref current, ref viewMatrix, ref projectionMatrix, ref bVisible);
                 IsVisibleByCamera = bVisible;
             }
-                    
+
             return IsVisibleByCamera;
         }
 

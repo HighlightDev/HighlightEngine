@@ -8,7 +8,7 @@ using System.Collections.Generic;
 namespace MassiveGame.Core.ComponentCore
 {
     [Serializable]
-    public class Component : ISerializable
+    public class Component : IPostDeserializable
     {
         public enum ComponentType
         {

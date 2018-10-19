@@ -6,7 +6,7 @@ using MassiveGame.Core.ioCore;
 
 namespace MassiveGame.Core.GameCore
 {
-    public class ObserverListWrapper<T> : IEnumerable<T>, ISerializable
+    public class ObserverListWrapper<T> : IEnumerable<T>, IPostDeserializable
         where T : IObservable
     {
         private List<T> m_dataList;

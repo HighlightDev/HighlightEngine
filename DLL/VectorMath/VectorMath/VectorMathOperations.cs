@@ -7,6 +7,15 @@ namespace VectorMath
     {
         #region Vector Operations
 
+        public static Vector3 TransformVec3(ref Vector3 vec, ref Matrix3 mat)
+        {
+            return new Vector3(
+                Vector3.Dot(vec, mat.Column0),
+                Vector3.Dot(vec, mat.Column1),
+                Vector3.Dot(vec, mat.Column2)
+                );
+        }
+
         /// <summary>
         /// Возвращает нормаль к плоскости
         /// </summary>

@@ -16,6 +16,7 @@ namespace MassiveGame.Core.GameCore.EntityComponents
 
     public delegate void MistEvent(float velocity);
 
+    [Serializable]
     public sealed class MistComponent
     {
         #region Definitions

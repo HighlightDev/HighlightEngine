@@ -21,7 +21,7 @@ using System;
 namespace MassiveGame.Core.GameCore
 {
     [Serializable]
-    public class Level : ISerializable
+    public class Level : IPostDeserializable
     {
         #region private_fields
 
@@ -48,16 +48,22 @@ namespace MassiveGame.Core.GameCore
 
         private MovableMeshEntity m_player;
 
+        [NonSerialized]
         private ObserverListWrapper<MovableMeshEntity> m_bots;
 
+        [NonSerialized]
         private ObserverListWrapper<Building> m_staticMeshCollection;
 
+        [NonSerialized]
         private BaseCamera m_camera;
 
+        [NonSerialized]
         private SkyboxEntity m_skybox;
 
+        [NonSerialized]
         private DirectionalLight m_directionalLight;
 
+        [NonSerialized]
         private DayLightCycle m_dayLightCycle;
 
         [NonSerialized]
@@ -66,12 +72,16 @@ namespace MassiveGame.Core.GameCore
         [NonSerialized]
         private MovableSkeletalMeshEntity m_skeletalMesh;
 
+        [NonSerialized]
         private WaterPlane m_waterPlane;
 
+        [NonSerialized]
         private SunRenderer m_sunRenderer;
 
+        [NonSerialized]
         private MistComponent m_mistComponent;
 
+        [NonSerialized]
         private PlayerController m_playerController;
 
         [NonSerialized]
@@ -83,6 +93,7 @@ namespace MassiveGame.Core.GameCore
         #endregion  
 
         #region public_properties
+
         public string LevelName { set { m_levelName = value; } get { return m_levelName; } }
 
         public Vector2 LevelSize { set { m_levelSize = value; } get { return m_levelSize; } }

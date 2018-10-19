@@ -4,6 +4,7 @@ using TextureLoader;
 using MassiveGame.Core.ComponentCore;
 using MassiveGame.Core.RenderCore.Lights;
 using MassiveGame.Core.GameCore;
+using System;
 
 namespace MassiveGame.Core.RenderCore.Shadows
 {
@@ -52,7 +53,7 @@ namespace MassiveGame.Core.RenderCore.Shadows
 
         public override Matrix4 GetShadowProjectionMatrix(ref Matrix4 projectionMatrix)
         {
-            return Matrix4.CreateOrthographic(400, 400, 1, 500);
+            return Matrix4.CreateOrthographic(400, 400, 1, 400);
         }
 
         protected override void PrepareRenderTarget()

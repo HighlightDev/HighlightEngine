@@ -30,6 +30,13 @@ namespace MassiveGame.API.ResourcePool
             return pool.GetPool().GetResourceFromPool<Policy, ArgType, ReturnType>(arg);
         }
 
+        public static ArgType GetResourceKey<PoolType, ArgType, ReturnType>(ReturnType arg)
+            where PoolType : IPoolObtainable<Pool>, new()
+        {
+            PoolType pool = new PoolType();
+            return pool.GetPool().GetResourceKeyFromPool<ArgType, ReturnType>(arg);
+        }
+
         public static void FreeResourceMemory<PoolType, Policy, ArgType, ReturnType>(object arg)
              where PoolType : IPoolObtainable<Pool>, new()
              where Policy : AllocationPolicy<ArgType, ReturnType>, new()

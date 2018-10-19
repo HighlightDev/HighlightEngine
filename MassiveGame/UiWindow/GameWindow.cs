@@ -237,7 +237,8 @@ namespace MassiveGame.UI
 
         private void OnKeyUp(object sender, KeyEventArgs args)
         {
-            GameWorld.GetWorldInstance().GetLevel().PlayerController.GetKeyboardHandler().KeyRelease(args.KeyData);
+            if (GameWorld.GetWorldInstance() != null && GameWorld.GetWorldInstance().GetLevel() != null)
+                GameWorld.GetWorldInstance().GetLevel().PlayerController.GetKeyboardHandler().KeyRelease(args.KeyData);
         }
 
         #endregion

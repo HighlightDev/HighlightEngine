@@ -1,7 +1,9 @@
 ﻿using OpenTK;
+using System;
 
 namespace MassiveGame.Core.RenderCore.Lights
 {
+    [Serializable]
     public class Material : ShaderLight
     {
         public Vector3 Emission { private set; get; }
