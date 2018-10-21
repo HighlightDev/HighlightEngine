@@ -21,6 +21,8 @@ using OpenTK;
 using OpenTK.Graphics.OpenGL;
 using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Runtime.Serialization.Formatters.Binary;
 using TextureLoader;
 using static MassiveGame.Core.GameCore.Sun.DayCycle.DayPhases;
 
@@ -137,6 +139,31 @@ namespace MassiveGame.Core.GameCore
 
             level.Player.SetCollisionHeadUnit(m_collisionHeadUnit);
             level.Player.Speed = 0.6f;
+
+            var serialization = new Action<MovableMeshEntity>((player) =>
+            {
+                BinaryFormatter serializer = new BinaryFormatter();
+
+
+                using (FileStream fileStream = new FileStream("entity.bn", FileMode.OpenOrCreate))
+                {
+                    serializer.Serialize(fileStream, player);
+                }
+            });
+
+            var deserialization = new Func<MovableMeshEntity>(() =>
+           {
+               BinaryFormatter serializer = new BinaryFormatter();
+               MovableMeshEntity deserializedComponent = null;
+               using (FileStream fileStream = new FileStream("entity.bn", FileMode.Open))
+               {
+                   deserializedComponent = serializer.Deserialize(fileStream) as MovableMeshEntity;
+               }
+               return deserializedComponent as MovableMeshEntity;
+           });
+
+            serialization(level.Player);
+            level.Player = deserialization();
 
             modelPath = ProjectFolders.ModelsPath + "playerCube.obj";
             texturePath = ProjectFolders.MultitexturesPath + "b.png";

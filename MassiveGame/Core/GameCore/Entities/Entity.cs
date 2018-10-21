@@ -71,7 +71,6 @@ namespace MassiveGame.Core.GameCore.Entities
             ComponentScale = scale;
             bVisibleByCamera = true;
             m_mist = null;
-            m_lightVisibilityMap = new BoolMap();
 
             InitResources(modelPath, texturePath, normalMapPath, specularMapPath);
         }
@@ -84,6 +83,7 @@ namespace MassiveGame.Core.GameCore.Entities
 
         private void InitResources(string modelPath, string texturePath, string normalMapPath, string specularMapPath)
         {
+            m_lightVisibilityMap = new BoolMap();
             m_texture = PoolProxy.GetResource<ObtainTexturePool, TextureAllocationPolicy, string, ITexture>(texturePath);
             m_normalMap = PoolProxy.GetResource<ObtainTexturePool, TextureAllocationPolicy, string, ITexture>(normalMapPath);
             m_specularMap = PoolProxy.GetResource<ObtainTexturePool, TextureAllocationPolicy, string, ITexture>(specularMapPath);
@@ -142,7 +142,6 @@ namespace MassiveGame.Core.GameCore.Entities
 
         protected Entity(SerializationInfo info, StreamingContext context)
         {
-            throw new NotImplementedException();
             // TODO -> deserialize all properties
 
             bIsCollidable = false;
@@ -159,7 +158,6 @@ namespace MassiveGame.Core.GameCore.Entities
 
         public virtual void GetObjectData(SerializationInfo info, StreamingContext context)
         {
-            throw new NotImplementedException();
             // TODO -> serialize all properties
 
             var texturePath = PoolProxy.GetResourceKey<ObtainTexturePool, string, ITexture>(m_texture);

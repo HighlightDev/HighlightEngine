@@ -7,30 +7,53 @@ using MassiveGame.Settings;
 using MassiveGame.API.ResourcePool.PoolHandling;
 using MassiveGame.API.ResourcePool.Policies;
 using MassiveGame.API.ResourcePool;
+using System.Runtime.Serialization;
 
 namespace MassiveGame.Core.RenderCore.Shadows
 {
-    public abstract class ShadowBase
+    [Serializable]
+    public abstract class ShadowBase : ISerializable
     {
         public abstract ShadowTypes GetShadowType();
         public abstract Matrix4 GetShadowProjectionMatrix(ref Matrix4 projectionMatrix);
         public abstract Matrix4 GetShadowViewMatrix();
         protected abstract void PrepareRenderTarget();
 
+        [NonSerialized]
         protected ITexture ShadowMapTexture;
+
+        [NonSerialized]
         protected Int32 FramebufferHandler;
 
+        [NonSerialized]
         protected BasicShadowShader shadowShader;
 
-        protected Matrix4 ShadowBiasMatrix = new Matrix4(
+        #region Serialization
+
+        protected ShadowBase(SerializationInfo info, StreamingContext context)
+        {
+            var shadowMapSettings = (TextureParameters)info.GetValue("shadowMapTextureRezolution", typeof(TextureParameters));
+            AllocateRenderTarget(shadowMapSettings);
+            PrepareRenderTarget();
+        }
+
+        public void GetObjectData(SerializationInfo info, StreamingContext context)
+        {
+            var shadowMapTextureRezolution = PoolProxy.GetResourceKey<ObtainRenderTargetPool, TextureParameters, ITexture>(ShadowMapTexture);
+            info.AddValue("shadowMapTextureRezolution", shadowMapTextureRezolution, typeof(TextureParameters));
+        }
+
+        #endregion
+
+        public Matrix4 GetShadowMatrix(ref Matrix4 ModelMatrix, ref Matrix4 ProjectionMatrix)
+        {
+            Matrix4 ShadowBiasMatrix = new Matrix4(
                 0.5f, 0, 0, 0,
                 0, 0.5f, 0, 0,
                 0, 0, 0.5f, 0,
                 0.5f, 0.5f, 0.5f, 1
                 );
 
-        public Matrix4 GetShadowMatrix(ref Matrix4 ModelMatrix, ref Matrix4 ProjectionMatrix)
-        {
             Matrix4 result = ModelMatrix;
             result *= GetShadowViewMatrix();
             result *= GetShadowProjectionMatrix(ref ProjectionMatrix);
@@ -77,11 +100,16 @@ namespace MassiveGame.Core.RenderCore.Shadows
             GL.BindFramebuffer(FramebufferTarget.Framebuffer, 0);
         }
 
-        public ShadowBase(TextureParameters ShadowMapSettings)
+        private void InitResources(TextureParameters ShadowMapSettings)
         {
             shadowShader = PoolProxy.GetResource<ObtainShaderPool, ShaderAllocationPolicy<BasicShadowShader>, string, BasicShadowShader>(ProjectFolders.ShadersPath + "basicShadowVS.glsl" + "," + ProjectFolders.ShadersPath + "basicShadowFS.glsl");
             AllocateRenderTarget(ShadowMapSettings);
             PrepareRenderTarget();
+        }
+
+        public ShadowBase(TextureParameters ShadowMapSettings)
+        {
+            InitResources(ShadowMapSettings);
         }
 
         public void CleanUp()
@@ -93,5 +121,6 @@ namespace MassiveGame.Core.RenderCore.Shadows
         {
             return ShadowMapTexture;
         }
+
     }
 }

@@ -1,8 +1,10 @@
 ﻿using OpenTK;
 using MassiveGame.Core.RenderCore.Shadows;
+using System;
 
 namespace MassiveGame.Core.RenderCore.Lights
 {
+    [Serializable]
     public abstract class ShaderLight
     {
         public Vector4 Ambient { set; get; }

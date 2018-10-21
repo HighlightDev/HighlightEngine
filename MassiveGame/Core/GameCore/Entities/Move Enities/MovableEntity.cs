@@ -95,9 +95,8 @@ namespace MassiveGame.Core.GameCore.Entities.MoveEntities
 
         #region Serialization
 
-        protected MovableEntity(SerializationInfo info, StreamingContext context)
+        protected MovableEntity(SerializationInfo info, StreamingContext context) : base(info, context)
         {
-            throw new NotImplementedException();
             // TODO -> deserialize properties
             m_actorState = (BehaviorState)info.GetValue("actorState", typeof(BehaviorState));
             m_positionMemento = (ActorPositionMemento)info.GetValue("positionMemento", typeof(ActorPositionMemento));
