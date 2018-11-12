@@ -11,6 +11,7 @@ using MassiveGame.API.ResourcePool.Policies;
 using MassiveGame.API.Mesh;
 using System;
 using MassiveGame.Core.MathCore.MathTypes;
+using System.Runtime.Serialization;
 
 namespace MassiveGame.Core.ComponentCore
 {
@@ -22,6 +23,15 @@ namespace MassiveGame.Core.ComponentCore
 
         [NonSerialized]
         private bool bPostConstructor = true;
+
+        protected SceneComponent(SerializationInfo info, StreamingContext context) : base(info, context)
+        {
+        }
+
+        public override void GetObjectData(SerializationInfo info, StreamingContext context)
+        {
+            base.GetObjectData(info, context);
+        }
 
         public SceneComponent() : base()
         {

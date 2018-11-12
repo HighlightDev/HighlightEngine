@@ -140,30 +140,8 @@ namespace MassiveGame.Core.GameCore
             level.Player.SetCollisionHeadUnit(m_collisionHeadUnit);
             level.Player.Speed = 0.6f;
 
-            var serialization = new Action<MovableMeshEntity>((player) =>
-            {
-                BinaryFormatter serializer = new BinaryFormatter();
-
-
-                using (FileStream fileStream = new FileStream("entity.bn", FileMode.OpenOrCreate))
-                {
-                    serializer.Serialize(fileStream, player);
-                }
-            });
-
-            var deserialization = new Func<MovableMeshEntity>(() =>
-           {
-               BinaryFormatter serializer = new BinaryFormatter();
-               MovableMeshEntity deserializedComponent = null;
-               using (FileStream fileStream = new FileStream("entity.bn", FileMode.Open))
-               {
-                   deserializedComponent = serializer.Deserialize(fileStream) as MovableMeshEntity;
-               }
-               return deserializedComponent as MovableMeshEntity;
-           });
-
-            serialization(level.Player);
-            level.Player = deserialization();
+            // TODO: test io
+            //TestingIO(level);
 
             modelPath = ProjectFolders.ModelsPath + "playerCube.obj";
             texturePath = ProjectFolders.MultitexturesPath + "b.png";
@@ -213,6 +191,37 @@ namespace MassiveGame.Core.GameCore
 
             //ch = new ComputeShader();
             //ch.Init();
+        }
+
+        private void TestingIO(Level level)
+        {
+            /***********************************************************/
+            var serialization = new Action<MovableMeshEntity>((player) =>
+            {
+                BinaryFormatter serializer = new BinaryFormatter();
+
+
+                using (FileStream fileStream = new FileStream("entity.bn", FileMode.OpenOrCreate))
+                {
+                    serializer.Serialize(fileStream, player);
+                }
+            });
+
+            var deserialization = new Func<MovableMeshEntity>(() =>
+            {
+                BinaryFormatter serializer = new BinaryFormatter();
+                MovableMeshEntity deserializedComponent = null;
+                using (FileStream fileStream = new FileStream("entity.bn", FileMode.Open))
+                {
+                    deserializedComponent = serializer.Deserialize(fileStream) as MovableMeshEntity;
+                }
+                return deserializedComponent as MovableMeshEntity;
+            });
+
+            serialization(level.Player);
+            level.Player = deserialization();
+            level.Player.SetCollisionHeadUnit(m_collisionHeadUnit);
+            /***********************************************************/
         }
 
         // TODO ->> Load test values for current level

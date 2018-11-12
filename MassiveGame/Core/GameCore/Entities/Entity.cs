@@ -20,13 +20,11 @@ using System.Runtime.Serialization;
 namespace MassiveGame.Core.GameCore.Entities
 {
     [Serializable]
-    public abstract class Entity: 
-          Component
+    public abstract class Entity: Component
         , IVisible
         , ILightHit
         , IDrawable
         , IObservable
-        , ISerializable
     { 
         #region Definitions 
 
@@ -140,7 +138,8 @@ namespace MassiveGame.Core.GameCore.Entities
 
         #region Serialization
 
-        protected Entity(SerializationInfo info, StreamingContext context)
+        protected Entity(SerializationInfo info, StreamingContext context) 
+            : base(info, context)
         {
             // TODO -> deserialize all properties
 
@@ -156,8 +155,9 @@ namespace MassiveGame.Core.GameCore.Entities
             m_mist = info.GetValue("mistComponent", typeof(MistComponent)) as MistComponent;
         }
 
-        public virtual void GetObjectData(SerializationInfo info, StreamingContext context)
+        public override void GetObjectData(SerializationInfo info, StreamingContext context)
         {
+            base.GetObjectData(info, context);
             // TODO -> serialize all properties
 
             var texturePath = PoolProxy.GetResourceKey<ObtainTexturePool, string, ITexture>(m_texture);

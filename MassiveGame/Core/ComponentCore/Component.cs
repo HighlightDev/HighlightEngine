@@ -4,11 +4,14 @@ using OpenTK;
 using OpenTK.Graphics;
 using System;
 using System.Collections.Generic;
+using System.Runtime.Serialization;
 
 namespace MassiveGame.Core.ComponentCore
 {
     [Serializable]
-    public class Component : IPostDeserializable
+    public class Component :  
+          ISerializable
+        , IPostDeserializable
     {
         public enum ComponentType
         {
@@ -26,12 +29,23 @@ namespace MassiveGame.Core.ComponentCore
         }
 
         // If transformation was changed
+        [NonSerialized]
         protected bool bTransformationDirty;
 
         protected Vector3 componentTranslation;
         protected Vector3 componentRotation;
         protected Vector3 componentScale;
 
+        public ComponentType Type { set; get; }
+
+        public Component ParentComponent { set; get; }
+
+        public List<Component> ChildrenComponents { set; get; }
+
+        // For serialization collision bounds, maybe there is a better way
+        public BoundBase Bound { set; get; }
+
+        [NonSerialized]
         private object lockObject = new object();
 
         public Vector3 ComponentTranslation
@@ -73,14 +87,34 @@ namespace MassiveGame.Core.ComponentCore
             }
         }
 
-        public ComponentType Type { set; get; }
+        #region Serialization
 
-        public Component ParentComponent { set; get; }
+        // Called directly after deserialization
+        public virtual void PostDeserializeInit() { }
 
-        public List<Component> ChildrenComponents { set; get; }
+        protected Component(SerializationInfo info, StreamingContext context)
+        {
+            componentTranslation = (Vector3)info.GetValue("translation", typeof(Vector3));
+            componentRotation = (Vector3)info.GetValue("rotation", typeof(Vector3));
+            componentScale = (Vector3)info.GetValue("scale", typeof(Vector3));
+            Type = (ComponentType)info.GetValue("componentType", typeof(ComponentType));
+            ParentComponent = (Component)info.GetValue("parentComponent", typeof(Component));
+            ChildrenComponents = (List<Component>)info.GetValue("childrenComponents", typeof(List<Component>));
+            Bound = (BoundBase)info.GetValue("bound", typeof(BoundBase));
+        }
 
-        // For serialization collision bounds, maybe there is a better way
-        public BoundBase Bound { set; get; }
+        public virtual void GetObjectData(SerializationInfo info, StreamingContext context)
+        {
+            info.AddValue("translation", componentTranslation, typeof(Vector3));
+            info.AddValue("rotation", componentRotation, typeof(Vector3));
+            info.AddValue("scale", componentScale, typeof(Vector3));
+            info.AddValue("componentType", Type, typeof(ComponentType));
+            info.AddValue("parentComponent", ParentComponent, typeof(Component));
+            info.AddValue("childrenComponents", ChildrenComponents, typeof(List<Component>));
+            info.AddValue("bound", Bound, typeof(BoundBase));
+        }
+
+        #endregion
 
         // Return the base component (parent of all hierarchy)
         public Component GetRootComponent()
@@ -237,7 +271,5 @@ namespace MassiveGame.Core.ComponentCore
             }
         }
 
-        // Called directly after deserialization
-        public virtual void PostDeserializeInit() { }
     }
 }
