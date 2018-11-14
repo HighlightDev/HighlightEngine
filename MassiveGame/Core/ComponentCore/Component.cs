@@ -28,8 +28,6 @@ namespace MassiveGame.Core.ComponentCore
             ParentComponent = null;
         }
 
-        // If transformation was changed
-        [NonSerialized]
         protected bool bTransformationDirty;
 
         protected Vector3 componentTranslation;
@@ -45,7 +43,6 @@ namespace MassiveGame.Core.ComponentCore
         // For serialization collision bounds, maybe there is a better way
         public BoundBase Bound { set; get; }
 
-        [NonSerialized]
         private object lockObject = new object();
 
         public Vector3 ComponentTranslation
@@ -94,6 +91,7 @@ namespace MassiveGame.Core.ComponentCore
 
         protected Component(SerializationInfo info, StreamingContext context)
         {
+            bTransformationDirty = true; 
             componentTranslation = (Vector3)info.GetValue("translation", typeof(Vector3));
             componentRotation = (Vector3)info.GetValue("rotation", typeof(Vector3));
             componentScale = (Vector3)info.GetValue("scale", typeof(Vector3));

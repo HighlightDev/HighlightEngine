@@ -9,14 +9,14 @@ using MassiveGame.Settings;
 using MassiveGame.API.ResourcePool.PoolHandling;
 using MassiveGame.API.ResourcePool.Policies;
 using MassiveGame.API.ResourcePool;
+using System.Runtime.Serialization;
 
 namespace MassiveGame.Core.GameCore.Entities.StaticEntities
 {
-    public sealed class Building : StaticEntity
+    [Serializable]
+    public class Building : StaticEntity
     {
         private SpecialStaticEntityShader m_specialShader;
-
-        private Material m_material;
 
         private WaterReflectionEntityShader m_liteReflectionShader;
 
@@ -33,9 +33,15 @@ namespace MassiveGame.Core.GameCore.Entities.StaticEntities
         public Building(string modelPath, string texturePath, string normalMapPath, string specularMapPath
             , Vector3 translation = new Vector3(), Vector3 rotation = new Vector3(), Vector3 scale = new Vector3())
             : base(modelPath, texturePath, normalMapPath, specularMapPath, translation, rotation, scale)
-        {
-            m_material = new Material(Vector3.One, Vector3.One, Vector3.One, Vector3.Zero, 10.0f, 10.0f);
-        }
+        { }
+
+        #endregion
+
+        #region Serialization
+
+        protected Building(SerializationInfo info, StreamingContext context)
+            : base(info, context)
+        { }
 
         #endregion
 

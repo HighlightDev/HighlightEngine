@@ -96,10 +96,9 @@ namespace MassiveGame.Core.GameCore
         {
             this.thirdPersonTarget = thirdPersonTarget;
             actualTargetVector = thirdPersonTarget.ComponentTranslation;
-            thirdPersonTarget.TransformationDirtyEvent += new EventHandler(ThirdPersonTargetTransformationDirty);
         }
 
-        private void ThirdPersonTargetTransformationDirty(object sender, EventArgs e)
+        public void SetThirdPersonTargetTransformationDirty()
         {
             lerpTimeElapsed = 0.0f;
             bThirdPersonTargetTransformationDirty = true;

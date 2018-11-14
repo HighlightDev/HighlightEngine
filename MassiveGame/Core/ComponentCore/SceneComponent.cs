@@ -18,15 +18,15 @@ namespace MassiveGame.Core.ComponentCore
     [Serializable]
     public class SceneComponent : Component
     {
-        [NonSerialized]
         private Skin skin = null;
 
-        [NonSerialized]
         private bool bPostConstructor = true;
 
         protected SceneComponent(SerializationInfo info, StreamingContext context) : base(info, context)
         {
         }
+
+        #region Serialization
 
         public override void GetObjectData(SerializationInfo info, StreamingContext context)
         {
@@ -36,6 +36,8 @@ namespace MassiveGame.Core.ComponentCore
         public SceneComponent() : base()
         {
         }
+
+        #endregion
 
         public SceneComponent(Component component, bool bCopyComponents = false) : base()
         {

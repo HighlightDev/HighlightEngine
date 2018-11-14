@@ -1,20 +1,20 @@
 ﻿using System.Collections.Generic;
 using OpenTK;
 using OpenTK.Graphics.OpenGL;
-using MassiveGame.Core.PhysicsCore;
 using MassiveGame.Core.RenderCore.Lights;
+using System;
+using System.Runtime.Serialization;
 
 namespace MassiveGame.Core.GameCore.Entities.StaticEntities
 {
+    [Serializable]
     public abstract class StaticEntity : Entity
     {
-        #region Collision
+        #region Serialization
 
-        public override void SetCollisionHeadUnit(CollisionHeadUnit collisionHeadUnit)
-        {
-            base.SetCollisionHeadUnit(collisionHeadUnit);
-            collisionHeadUnit.AddCollisionObserver(this);
-        }
+        protected StaticEntity(SerializationInfo info, StreamingContext context)
+            : base(info, context)
+        { }
 
         #endregion
 

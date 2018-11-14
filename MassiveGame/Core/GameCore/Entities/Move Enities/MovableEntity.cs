@@ -33,16 +33,12 @@ namespace MassiveGame.Core.GameCore.Entities.MoveEntities
 
         protected ActorPositionMemento m_positionMemento;
 
-        protected Material m_material;
-
         private Vector3 m_velocity;
 
         private float m_speed;
 
-        [NonSerialized]
         private WaterReflectionEntityShader m_liteReflectionShader;
 
-        [NonSerialized]
         private WaterRefractionEntityShader m_liteRefractionShader;
 
         public BehaviorState ActorState
@@ -65,8 +61,6 @@ namespace MassiveGame.Core.GameCore.Entities.MoveEntities
 
         public float Speed { set { m_speed = value; } get { return m_speed; } }
 
-        public event EventHandler TransformationDirtyEvent;
-
         #endregion
 
         #region Constructors
@@ -76,9 +70,6 @@ namespace MassiveGame.Core.GameCore.Entities.MoveEntities
         public MovableEntity(string modelPath, string texturePath, string normalMapPath, string specularMapPath, Vector3 translation, Vector3 rotation, Vector3 scale) :
             base(modelPath, texturePath, normalMapPath, specularMapPath, translation, rotation, scale)
         {
-            m_material = new Material(new Vector3(1.0f, 1.0f, 1.0f), new Vector3(1.0f, 1.0f, 1.0f),
-               new Vector3(1.0f, 1.0f, 1.0f), new Vector3(1.0f, 1.0f, 1.0f), 20.0f, 1.0f);
-
             ActorState = BehaviorState.FREE_FALLING;
             m_positionMemento = new ActorPositionMemento();
             pushPosition();
@@ -97,10 +88,8 @@ namespace MassiveGame.Core.GameCore.Entities.MoveEntities
 
         protected MovableEntity(SerializationInfo info, StreamingContext context) : base(info, context)
         {
-            // TODO -> deserialize properties
             m_actorState = (BehaviorState)info.GetValue("actorState", typeof(BehaviorState));
             m_positionMemento = (ActorPositionMemento)info.GetValue("positionMemento", typeof(ActorPositionMemento));
-            m_material = info.GetValue("material", typeof(Material)) as Material;
             m_velocity = (Vector3)info.GetValue("velocity", typeof(Vector3));
             m_speed = info.GetSingle("speed");
         }
@@ -110,7 +99,6 @@ namespace MassiveGame.Core.GameCore.Entities.MoveEntities
             base.GetObjectData(info, context);
             info.AddValue("actorState", m_actorState, typeof(BehaviorState));
             info.AddValue("positionMemento", m_positionMemento, typeof(ActorPositionMemento));
-            info.AddValue("material", m_material, typeof(Material));
             info.AddValue("velocity", m_velocity, typeof(Vector3));
             info.AddValue("speed", m_speed);
         }
@@ -319,21 +307,20 @@ namespace MassiveGame.Core.GameCore.Entities.MoveEntities
             }
         }
 
-        public override void SetCollisionHeadUnit(CollisionHeadUnit collisionHeadUnit)
-        {
-            base.SetCollisionHeadUnit(collisionHeadUnit);
-            collisionHeadUnit.AddCollisionObserver(this);
-        }
-
-        public void SetActionMovedDelegateListener(EventHandler handler)
-        {
-            this.TransformationDirtyEvent += handler;
-        }
-
         public void SetPosition(Vector3 newPosition)
         {
             ComponentTranslation = newPosition;
-            TransformationDirtyEvent?.Invoke(this, null);
+            ProceedTransformationDirty();
+        }
+
+        private void ProceedTransformationDirty()
+        {
+            BaseCamera worldCamera = GameWorld.GetWorldInstance().GetLevel().Camera;
+
+            if (worldCamera != null && worldCamera is ThirdPersonCamera)
+            {
+                (worldCamera as ThirdPersonCamera).SetThirdPersonTargetTransformationDirty(); // Update position of third person camera
+            }
         }
 
         public void MoveActorForward()
@@ -357,7 +344,7 @@ namespace MassiveGame.Core.GameCore.Entities.MoveEntities
         public virtual void popPosition()
         {
             ComponentTranslation = m_positionMemento.GetSavedOffset();
-            TransformationDirtyEvent?.Invoke(this, null);
+            ProceedTransformationDirty();
         }
 
         // maybe will be needed later

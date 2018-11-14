@@ -196,31 +196,41 @@ namespace MassiveGame.Core.GameCore
         private void TestingIO(Level level)
         {
             /***********************************************************/
-            var serialization = new Action<MovableMeshEntity>((player) =>
+            var serialization = new Action<Entities.Entity>((obj) =>
             {
                 BinaryFormatter serializer = new BinaryFormatter();
 
 
                 using (FileStream fileStream = new FileStream("entity.bn", FileMode.OpenOrCreate))
                 {
-                    serializer.Serialize(fileStream, player);
+                    serializer.Serialize(fileStream, obj);
+                    fileStream.Close();
                 }
             });
 
-            var deserialization = new Func<MovableMeshEntity>(() =>
+            var deserialization = new Func<Entities.Entity>(() =>
             {
                 BinaryFormatter serializer = new BinaryFormatter();
-                MovableMeshEntity deserializedComponent = null;
+                Entities.Entity deserializedComponent = null;
                 using (FileStream fileStream = new FileStream("entity.bn", FileMode.Open))
                 {
-                    deserializedComponent = serializer.Deserialize(fileStream) as MovableMeshEntity;
+                    deserializedComponent = serializer.Deserialize(fileStream) as Entities.Entity;
+                    fileStream.Close();
                 }
-                return deserializedComponent as MovableMeshEntity;
+                return deserializedComponent as Entities.Entity;
             });
 
             serialization(level.Player);
-            level.Player = deserialization();
+            level.Player = deserialization() as MovableMeshEntity;
             level.Player.SetCollisionHeadUnit(m_collisionHeadUnit);
+
+            var building = level.StaticMeshCollection[0];
+            level.StaticMeshCollection.RemoveFromList(building);
+
+            serialization(building);
+            building = deserialization() as Building;
+            building.SetCollisionHeadUnit(m_collisionHeadUnit);
+            level.StaticMeshCollection.AddToList(building);
             /***********************************************************/
         }
 

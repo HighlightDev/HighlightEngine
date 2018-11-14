@@ -25,36 +25,29 @@ namespace MassiveGame.Core.GameCore.Entities
         , ILightHit
         , IDrawable
         , IObservable
-    { 
+    {
         #region Definitions 
+
+        protected Material m_material;
 
         protected MistComponent m_mist;
 
-        [NonSerialized]
         protected bool bVisibleByCamera, bPostConstructor;
 
-        [NonSerialized]
         protected CollisionHeadUnit m_collisionHeadUnit;
 
-        [NonSerialized]
         protected BoolMap m_lightVisibilityMap;
 
-        [NonSerialized]
         protected Skin m_skin;
 
-        [NonSerialized]
         protected ShaderBase m_shader;
 
-        [NonSerialized]
         protected ITexture m_texture;
 
-        [NonSerialized]
         protected ITexture m_normalMap;
 
-        [NonSerialized]
         protected ITexture m_specularMap;
 
-        [NonSerialized]
         protected bool bIsCollidable = false;
 
         #region Constructor
@@ -69,8 +62,48 @@ namespace MassiveGame.Core.GameCore.Entities
             ComponentScale = scale;
             bVisibleByCamera = true;
             m_mist = null;
+            m_material = new Material(new Vector3(1.0f, 1.0f, 1.0f), new Vector3(1.0f, 1.0f, 1.0f),
+               new Vector3(1.0f, 1.0f, 1.0f), new Vector3(1.0f, 1.0f, 1.0f), 20.0f, 1.0f);
 
             InitResources(modelPath, texturePath, normalMapPath, specularMapPath);
+        }
+
+        #endregion
+
+        #region Serialization
+
+        protected Entity(SerializationInfo info, StreamingContext context)
+            : base(info, context)
+        {
+            bIsCollidable = false;
+            bPostConstructor = true;
+
+            var texturePath = info.GetString("albedo");
+            var normalTexPath = info.GetString("normalMap");
+            var specularTexPath = info.GetString("specularMap");
+            var skinPath = info.GetString("skin");
+            InitResources(skinPath, texturePath, normalTexPath, specularTexPath);
+
+            m_mist = info.GetValue("mistComponent", typeof(MistComponent)) as MistComponent;
+            m_material = info.GetValue("material", typeof(Material)) as Material;
+        }
+
+        public override void GetObjectData(SerializationInfo info, StreamingContext context)
+        {
+            base.GetObjectData(info, context);
+
+            var texturePath = PoolProxy.GetResourceKey<ObtainTexturePool, string, ITexture>(m_texture);
+            var normalTexPath = PoolProxy.GetResourceKey<ObtainTexturePool, string, ITexture>(m_normalMap);
+            var specularTexPath = PoolProxy.GetResourceKey<ObtainTexturePool, string, ITexture>(m_specularMap);
+            var skinPath = PoolProxy.GetResourceKey<ObtainModelPool, string, Skin>(m_skin);
+
+            info.AddValue("albedo", texturePath);
+            info.AddValue("normalMap", normalTexPath);
+            info.AddValue("specularMap", specularTexPath);
+            info.AddValue("skin", skinPath);
+            info.AddValue("material", m_material, typeof(Material));
+            info.AddValue("mistComponent", m_mist, typeof(MistComponent));
+
         }
 
         #endregion
@@ -112,6 +145,7 @@ namespace MassiveGame.Core.GameCore.Entities
         public virtual void SetCollisionHeadUnit(CollisionHeadUnit collisionHeadUnit)
         {
             this.m_collisionHeadUnit = collisionHeadUnit;
+            collisionHeadUnit.AddCollisionObserver(this);
             bIsCollidable = true;
         }
 
@@ -133,44 +167,6 @@ namespace MassiveGame.Core.GameCore.Entities
         #endregion
 
         public bool IsVisibleByCamera { protected set { bVisibleByCamera = value; } get { return bVisibleByCamera; } }
-
-        #endregion
-
-        #region Serialization
-
-        protected Entity(SerializationInfo info, StreamingContext context) 
-            : base(info, context)
-        {
-            // TODO -> deserialize all properties
-
-            bIsCollidable = false;
-            bPostConstructor = true;
-
-            var texturePath = info.GetString("albedo");
-            var normalTexPath = info.GetString("normalMap");
-            var specularTexPath = info.GetString("specularMap");
-            var skinPath = info.GetString("skin");
-            InitResources(skinPath, texturePath, normalTexPath, specularTexPath);
-
-            m_mist = info.GetValue("mistComponent", typeof(MistComponent)) as MistComponent;
-        }
-
-        public override void GetObjectData(SerializationInfo info, StreamingContext context)
-        {
-            base.GetObjectData(info, context);
-            // TODO -> serialize all properties
-
-            var texturePath = PoolProxy.GetResourceKey<ObtainTexturePool, string, ITexture>(m_texture);
-            var normalTexPath = PoolProxy.GetResourceKey<ObtainTexturePool, string, ITexture>(m_normalMap);
-            var specularTexPath = PoolProxy.GetResourceKey<ObtainTexturePool, string, ITexture>(m_specularMap);
-            var skinPath = PoolProxy.GetResourceKey<ObtainModelPool, string, Skin>(m_skin);
-
-            info.AddValue("albedo", texturePath);
-            info.AddValue("normalMap", normalTexPath);
-            info.AddValue("specularMap", specularTexPath);
-            info.AddValue("skin", skinPath);
-            info.AddValue("mistComponent", m_mist, typeof(MistComponent));
-        }
 
         #endregion
 
