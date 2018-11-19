@@ -14,6 +14,7 @@ using MassiveGame.Core.PhysicsCore;
 using MassiveGame.Core.RenderCore;
 using MassiveGame.Core.RenderCore.Light_visualization;
 using MassiveGame.Core.RenderCore.Lights;
+using MassiveGame.Core.RenderCore.Shadows;
 using MassiveGame.Core.RenderCore.Visibility;
 using MassiveGame.Debug.UiPanel;
 using MassiveGame.Settings;
@@ -64,13 +65,12 @@ namespace MassiveGame.Core.GameCore
 
         private void SetLevelTestValues(Level level)
         {
-            var rtParams = new TextureParameters(TextureTarget.Texture2D, TextureMagFilter.Nearest, TextureMinFilter.Nearest, 0,
+            var globalLightShadowMapParams = new TextureParameters(TextureTarget.Texture2D, TextureMagFilter.Nearest, TextureMinFilter.Nearest, 0,
                 PixelInternalFormat.DepthComponent16, EngineStatics.globalSettings.ShadowMapRezolution.X, EngineStatics.globalSettings.ShadowMapRezolution.Y,
                 PixelFormat.DepthComponent, PixelType.Float, TextureWrapMode.Repeat);
 
-            level.DirectionalLight = new DirectionalLight(rtParams, new Vector3(-100, -10, 50), new Vector4(0.4f, 0.4f, 0.4f, 1),
+            level.DirectionalLight = new DirectionalLightWithShadow(level.Camera, globalLightShadowMapParams, new Vector3(-100, -10, 50), new Vector4(0.4f, 0.4f, 0.4f, 1),
                 new Vector4(0.7f, 0.7f, 0.7f, 1.0f), new Vector4(1, 1, 1, 1));
-            level.DirectionalLight.GetShadowHolder().CreateShadowMapCache();
 
             var dayPhases = new DayPhases(new Morning(new Vector3(0.3f, 0.3f, 0.3f), new Vector3(0.7f, 0.7f, 0.7f), new Vector3(.7f)),
                     new DayPhases.Day(new Vector3(0.4f, 0.4f, 0.4f), new Vector3(0.9f, 0.79f, 0.79f), new Vector3(1.0f)),
@@ -131,17 +131,14 @@ namespace MassiveGame.Core.GameCore
 
             level.SkeletalMesh = new MovableSkeletalMeshEntity(modelPath, texturePath, normalMapPath, specularMapPath, 0.5f, new Vector3(175, 60, 170), new Vector3(-90, 0, 0), new Vector3(1));
 
-            level.Player = EngineObjectCreator.CreateInstance<MovableMeshEntity>(movableMeshArg);
-            level.Player.SetMistComponent(level.Mist);
+            level.Player.AddToWrapper(EngineObjectCreator.CreateInstance<MovableMeshEntity>(movableMeshArg));
+            level.Player.GetData().SetMistComponent(level.Mist);
 
             var wrapper = deserializer.Deserialize<CollisionComponentsWrapper>("2.cl");
-            level.Player.SetComponents(wrapper.SerializedComponents);
+            level.Player.GetData().SetComponents(wrapper.SerializedComponents);
 
-            level.Player.SetCollisionHeadUnit(m_collisionHeadUnit);
-            level.Player.Speed = 0.6f;
-
-            // TODO: test io
-            //TestingIO(level);
+            level.Player.GetData().SetCollisionHeadUnit(m_collisionHeadUnit);
+            level.Player.GetData().Speed = 0.6f;
 
             modelPath = ProjectFolders.ModelsPath + "playerCube.obj";
             texturePath = ProjectFolders.MultitexturesPath + "b.png";
@@ -175,64 +172,61 @@ namespace MassiveGame.Core.GameCore
             level.Water = new WaterPlane(ProjectFolders.WaterTexturePath + "DUDV.png", ProjectFolders.WaterTexturePath + "normal.png",
                 new Vector3(160, 29, 200), new Vector3(0, 0, 0), new Vector3(200, 1, 200), new WaterQuality(true, true, true), 10);
 
-            level.SunRenderer = new SunRenderer(level.DirectionalLight, ProjectFolders.SunTexturePath + "sunC.png",
-                    ProjectFolders.SunTexturePath + "sunB.png");
+            level.SunRenderer.AddToWrapper(new SunRenderer(level.DirectionalLight, ProjectFolders.SunTexturePath + "sunC.png",
+                    ProjectFolders.SunTexturePath + "sunB.png", 150, 130));
 
 #if DEBUG || DESIGN_EDITOR
             level.PointLightDebugRenderer = new PointLightsDebugRenderer(ProjectFolders.TexturesPath + "/LightTextures/" + "light-bulb-icon (1).png",
                 level.PointLightCollection);
 #endif
 
-            if (level.Camera as ThirdPersonCamera != null)
-            {
-                (level.Camera as ThirdPersonCamera).SetThirdPersonTarget(level.Player);
-            }
+            // TODO: test io
+            TestingIO(level, deserializer);
+
+            // Set third person target
+            ThirdPersonCamera thirdPersonCamera = (level.Camera as ThirdPersonCamera);
+            thirdPersonCamera?.SetThirdPersonTarget(level.Player.GetData());
+
             level.Camera.SetCollisionHeadUnit(m_collisionHeadUnit);
 
             //ch = new ComputeShader();
             //ch.Init();
         }
 
-        private void TestingIO(Level level)
+        #region TEST
+
+        private void Serialize<T>(T obj)
         {
-            /***********************************************************/
-            var serialization = new Action<Entities.Entity>((obj) =>
+            BinaryFormatter serializer = new BinaryFormatter();
+            using (FileStream fileStream = new FileStream("entity.bn", FileMode.OpenOrCreate))
             {
-                BinaryFormatter serializer = new BinaryFormatter();
+                serializer.Serialize(fileStream, obj);
+                fileStream.Close();
+            }
+        }
 
+        private void TestingIO(Level level, DeserializeWrapper deserializer)
+        {
+            // Player
+            Serialize(level.Player);
+            level.Player.ClearWrapper();
+            level.Player = deserializer.Deserialize<ObserverWrapper<MovableMeshEntity>>("entity.bn");
+            level.Player.GetData().SetCollisionHeadUnit(m_collisionHeadUnit);
 
-                using (FileStream fileStream = new FileStream("entity.bn", FileMode.OpenOrCreate))
-                {
-                    serializer.Serialize(fileStream, obj);
-                    fileStream.Close();
-                }
-            });
+            // Static mesh list
+            Serialize(level.StaticMeshCollection);
+            level.StaticMeshCollection.ClearList();
+            level.StaticMeshCollection = deserializer.Deserialize<ObserverListWrapper<Building>>("entity.bn");
+            foreach (var item in level.StaticMeshCollection) item.SetCollisionHeadUnit(m_collisionHeadUnit);
 
-            var deserialization = new Func<Entities.Entity>(() =>
-            {
-                BinaryFormatter serializer = new BinaryFormatter();
-                Entities.Entity deserializedComponent = null;
-                using (FileStream fileStream = new FileStream("entity.bn", FileMode.Open))
-                {
-                    deserializedComponent = serializer.Deserialize(fileStream) as Entities.Entity;
-                    fileStream.Close();
-                }
-                return deserializedComponent as Entities.Entity;
-            });
-
-            serialization(level.Player);
-            level.Player = deserialization() as MovableMeshEntity;
-            level.Player.SetCollisionHeadUnit(m_collisionHeadUnit);
-
-            var building = level.StaticMeshCollection[0];
-            level.StaticMeshCollection.RemoveFromList(building);
-
-            serialization(building);
-            building = deserialization() as Building;
-            building.SetCollisionHeadUnit(m_collisionHeadUnit);
-            level.StaticMeshCollection.AddToList(building);
+            // Sun renderer
+            //Serialize(level.SunRenderer);
+            //level.SunRenderer.ClearWrapper();
+            //level.SunRenderer = deserializer.Deserialize<ObserverWrapper<SunRenderer>>("entity.bn");
             /***********************************************************/
         }
+
+        #endregion
 
         // TODO ->> Load test values for current level
         public void LoadTestLevel()
@@ -242,7 +236,9 @@ namespace MassiveGame.Core.GameCore
 
             level.PointLightCollection = new List<PointLight>();
             level.StaticMeshCollection = new ObserverListWrapper<Building>();
+            level.Player = new ObserverWrapper<MovableMeshEntity>();
             level.Bots = new ObserverListWrapper<MovableMeshEntity>();
+            level.SunRenderer = new ObserverWrapper<SunRenderer>();
             level.VisibilityCheckCollection = new List<IVisible>();
             level.LitCheckCollection = new List<ILightHit>();
             level.ShadowCastCollection = new List<IDrawable>();
@@ -252,11 +248,7 @@ namespace MassiveGame.Core.GameCore
 
             SetLevelTestValues(level);
 
-            level.VisibilityCheckCollection.Add(m_currentLevel.SunRenderer);
             level.VisibilityCheckCollection.Add(m_currentLevel.Water);
-            level.VisibilityCheckCollection.Add(m_currentLevel.Player);
-            level.LitCheckCollection.Add(m_currentLevel.Player);
-            level.ShadowCastCollection.Add(m_currentLevel.Player);
             level.ShadowCastCollection.Add(m_currentLevel.Terrain);
         }
 

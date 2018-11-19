@@ -14,6 +14,7 @@ using VBO;
 using MassiveGame.API.ResourcePool.PoolHandling;
 using MassiveGame.API.ResourcePool.Policies;
 using MassiveGame.API.ResourcePool;
+using MassiveGame.Core.RenderCore.Shadows;
 
 namespace MassiveGame.Core.GameCore.Terrain
 {
@@ -167,7 +168,7 @@ namespace MassiveGame.Core.GameCore.Terrain
             GL.Disable(EnableCap.ClipDistance0);
         }
 
-        public void RenderWaterRefraction(DirectionalLight Sun, BaseCamera camera, ref Matrix4 ProjectionMatrix, Vector4 clipPlane)
+        public void RenderWaterRefraction(DirectionalLight directionalLight, BaseCamera camera, ref Matrix4 ProjectionMatrix, Vector4 clipPlane)
         {
             if (_postConstructor)
                 return;
@@ -191,15 +192,15 @@ namespace MassiveGame.Core.GameCore.Terrain
             liteRefractionShader.SetBlendMap(4);
             liteRefractionShader.SetMaterial(_terrainMaterial);
             liteRefractionShader.SetTransformationMatrices(ref modelMatrix, camera.GetViewMatrix(), ref ProjectionMatrix);
-            liteRefractionShader.SetDirectionalLight(Sun);
+            liteRefractionShader.SetDirectionalLight(directionalLight);
             liteRefractionShader.SetClippingPlane(ref clipPlane);
             _buffer.RenderVAO(PrimitiveType.Triangles);
             liteRefractionShader.stopProgram();
             GL.Disable(EnableCap.ClipDistance0);
         }
 
-        public void renderTerrain(PrimitiveType mode, DirectionalLight Sun,
-            List<PointLight> pointLights, BaseCamera camera, Matrix4 ProjectionMatrix, Vector4 clipPlane = new Vector4())     //Rendering ландшафта
+        public void renderTerrain(PrimitiveType mode, DirectionalLight directionalLight,
+            List<PointLight> pointLights, BaseCamera camera, Matrix4 ProjectionMatrix, Vector4 clipPlane = new Vector4())
         {
             postConstructor();
             Matrix4 ModelMatrix = Matrix4.Identity;
@@ -227,12 +228,13 @@ namespace MassiveGame.Core.GameCore.Terrain
             if (_normalMapB != null) { nmB = 7; _normalMapB.BindTexture(TextureUnit.Texture7); }
             if (_normalMapBlack != null) { nmBlack = 8; _normalMapBlack.BindTexture(TextureUnit.Texture8); }
 
-            if (Sun != null)
+            if (directionalLight != null && directionalLight.GetHasShadow())
             {
+                DirectionalLightWithShadow lightWithShadow = directionalLight as DirectionalLightWithShadow;
                 // Get shadow handler
-                ITexture shadowMap = Sun.GetShadowHolder().GetShadowMapTexture();
+                ITexture shadowMap = lightWithShadow.GetShadowMapTexture();
                 shadowMap.BindTexture(TextureUnit.Texture9); // shadowmap
-                _shader.SetDirectionalLightShadowMatrix(Sun.GetShadowHolder().GetShadowMatrix(ref ModelMatrix, ref ProjectionMatrix));
+                _shader.SetDirectionalLightShadowMatrix(lightWithShadow.GetShadowMatrix(ref ModelMatrix, ref ProjectionMatrix));
             }
 
             _shader.SetTextureR(1, nmR, nmR > 0);
@@ -242,7 +244,7 @@ namespace MassiveGame.Core.GameCore.Terrain
             _shader.SetBlendMap(4);
             _shader.SetMaterial(_terrainMaterial);
             _shader.SetTransformationMatrices(ref ModelMatrix, camera.GetViewMatrix(), ref ProjectionMatrix);
-            _shader.SetDirectionalLight(Sun);
+            _shader.SetDirectionalLight(directionalLight);
             _shader.SetPointLights(pointLights);
             _shader.SetMist(_mist);
             _shader.SetClippingPlane(ref clipPlane);

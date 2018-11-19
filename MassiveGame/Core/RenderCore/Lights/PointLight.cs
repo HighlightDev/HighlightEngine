@@ -2,7 +2,7 @@
 
 namespace MassiveGame.Core.RenderCore.Lights
 {
-    public class PointLight : ShaderLight
+    public class PointLight : LightBase
     {
         public Vector4 Position { set; get; }
         public Vector3 Attenuation { private set; get; }

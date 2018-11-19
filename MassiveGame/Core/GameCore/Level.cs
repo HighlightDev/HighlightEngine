@@ -1,5 +1,4 @@
-﻿using MassiveGame.API.MouseObjectDetector;
-using MassiveGame.Core.GameCore.Entities.MoveEntities;
+﻿using MassiveGame.Core.GameCore.Entities.MoveEntities;
 using MassiveGame.Core.GameCore.Entities.StaticEntities;
 using MassiveGame.Core.GameCore.EntityComponents;
 using MassiveGame.Core.GameCore.Sun;
@@ -13,7 +12,6 @@ using MassiveGame.Core.RenderCore.Visibility;
 using OpenTK;
 using System.Collections.Generic;
 using MassiveGame.Core.RenderCore.Light_visualization;
-using System.Drawing;
 using MassiveGame.Core.GameCore.Entities.Skeletal_Entities;
 using MassiveGame.Core.ioCore;
 using System;
@@ -46,12 +44,10 @@ namespace MassiveGame.Core.GameCore
         private PointLightsDebugRenderer m_pointLightDebugRenderer;
 #endif
 
-        private MovableMeshEntity m_player;
+        private ObserverWrapper<MovableMeshEntity> m_player;
 
-        [NonSerialized]
         private ObserverListWrapper<MovableMeshEntity> m_bots;
 
-        [NonSerialized]
         private ObserverListWrapper<Building> m_staticMeshCollection;
 
         [NonSerialized]
@@ -75,8 +71,7 @@ namespace MassiveGame.Core.GameCore
         [NonSerialized]
         private WaterPlane m_waterPlane;
 
-        [NonSerialized]
-        private SunRenderer m_sunRenderer;
+        private ObserverWrapper<SunRenderer> m_sunRenderer;
 
         [NonSerialized]
         private MistComponent m_mistComponent;
@@ -110,7 +105,7 @@ namespace MassiveGame.Core.GameCore
         public PointLightsDebugRenderer PointLightDebugRenderer { set { m_pointLightDebugRenderer = value; } get { return m_pointLightDebugRenderer; } }
 #endif
 
-        public MovableMeshEntity Player { set { m_player = value; }  get { return m_player; } }
+        public ObserverWrapper<MovableMeshEntity> Player { set { m_player = value; }  get { return m_player; } }
 
         public ObserverListWrapper<MovableMeshEntity> Bots { set { m_bots = value; } get { return m_bots; } }
 
@@ -130,7 +125,7 @@ namespace MassiveGame.Core.GameCore
 
         public WaterPlane Water { set { m_waterPlane = value; } get { return m_waterPlane; } }
 
-        public SunRenderer SunRenderer { set { m_sunRenderer = value; } get { return m_sunRenderer; } }
+        public ObserverWrapper<SunRenderer> SunRenderer { set { m_sunRenderer = value; } get { return m_sunRenderer; } }
 
         public MistComponent Mist { set { m_mistComponent = value; } get { return m_mistComponent; } }
 
@@ -156,11 +151,7 @@ namespace MassiveGame.Core.GameCore
         public void PostDeserializeInit()
         {
             // TODO: ->> invent something better
-            VisibilityCheckCollection.Add(SunRenderer);
             VisibilityCheckCollection.Add(Water);
-            VisibilityCheckCollection.Add(Player);
-            LitCheckCollection.Add(Player);
-            ShadowCastCollection.Add(Player);
             ShadowCastCollection.Add(Terrain);
         } 
     }

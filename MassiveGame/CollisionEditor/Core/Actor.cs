@@ -3,7 +3,6 @@ using OpenTK;
 using CollisionEditor.RenderCore;
 using MassiveGame.Core.ComponentCore;
 using TextureLoader;
-using MassiveGame.Core.ComponentCore;
 
 namespace CollisionEditor.Core
 {

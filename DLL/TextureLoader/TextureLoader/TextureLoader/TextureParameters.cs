@@ -1,9 +1,11 @@
 ﻿using System;
 using OpenTK.Graphics.OpenGL;
+using System.Runtime.Serialization;
 
 namespace TextureLoader
 {
-    public class TextureParameters
+    [Serializable]
+    public class TextureParameters : ISerializable
     {
         public TextureTarget TexTarget { set; get; }
         public TextureMagFilter TexMagFilter { set; get; }
@@ -37,6 +39,38 @@ namespace TextureLoader
         {
         }
 
+        #region Serialization
+
+        public void GetObjectData(SerializationInfo info, StreamingContext context)
+        {
+            info.AddValue("texTarget", TexTarget);
+            info.AddValue("texMipLvl", TexMipLvl);
+            info.AddValue("texPixelInternalFormat", TexPixelInternalFormat);
+            info.AddValue("texBufferWidth", TexBufferWidth);
+            info.AddValue("texBufferHeight", TexBufferHeight);
+            info.AddValue("texPixelFormat", TexPixelFormat);
+            info.AddValue("texPixelType", TexPixelType);
+            info.AddValue("texMagFilter", TexMagFilter);
+            info.AddValue("texMinFilter", TexMinFilter);
+            info.AddValue("texWrapMode", TexWrapMode);
+        }
+
+        protected TextureParameters(SerializationInfo info, StreamingContext context)
+        {
+            TexTarget = (TextureTarget)info.GetValue("texTarget", typeof(TextureTarget));
+            TexMipLvl = info.GetInt32("texMipLvl");
+            TexPixelInternalFormat = (PixelInternalFormat)info.GetValue("texPixelInternalFormat", typeof(PixelInternalFormat));
+            TexBufferWidth = info.GetInt32("texBufferWidth");
+            TexBufferHeight = info.GetInt32("texBufferHeight");
+            TexPixelFormat = (PixelFormat)info.GetValue("texPixelFormat", typeof(PixelFormat));
+            TexPixelType = (PixelType)info.GetValue("texPixelType", typeof(PixelType));
+            TexMagFilter = (TextureMagFilter)info.GetValue("texMagFilter", typeof(TextureMagFilter));
+            TexMinFilter = (TextureMinFilter)info.GetValue("texMinFilter", typeof(TextureMinFilter));
+            TexWrapMode = (TextureWrapMode)info.GetValue("texWrapMode", typeof(TextureWrapMode));
+        }
+
+        #endregion
+
         public static bool operator ==(TextureParameters left, TextureParameters right)
         {
             bool bEqual =
@@ -68,5 +102,6 @@ namespace TextureLoader
         {
             return base.GetHashCode();
         }
+
     }
 }

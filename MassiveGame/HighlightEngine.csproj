@@ -169,7 +169,6 @@
     <Compile Include="Core\AnimationCore\ParentBone.cs" />
     <Compile Include="Core\AnimationCore\SkeletalMeshComponent.cs" />
     <Compile Include="Core\ComponentCore\Component.cs" />
-    <Compile Include="Core\GameCore\Entities\IObservable.cs" />
     <Compile Include="Core\GameCore\Entities\Skeleton\SkeletonDummy.cs" />
     <Compile Include="Core\GameCore\Entities\Skeleton\SkeletonShader.cs" />
     <Compile Include="Core\AnimationCore\AnimationHolder.cs" />
@@ -178,10 +177,12 @@
     <Compile Include="Core\GameCore\Entities\Skeletal Entities\SkeletalMeshEntityShader.cs" />
     <Compile Include="Core\GameCore\Level.cs" />
     <Compile Include="Core\GameCore\ObserverListWrapper.cs" />
+    <Compile Include="Core\GameCore\ObserverWrapper.cs" />
     <Compile Include="Core\GameCore\PlayerController.cs" />
     <Compile Include="Core\GameCore\GameWorld.cs" />
     <Compile Include="Core\ioCore\DeserializeWrapper.cs" />
-    <Compile Include="Core\ioCore\ISerializer.cs" />
+    <Compile Include="Core\ioCore\EngineObjectsSerializer.cs" />
+    <Compile Include="Core\ioCore\ICustomSerializer.cs" />
     <Compile Include="Core\MathCore\ActorPositionMemento.cs" />
     <Compile Include="Core\MathCore\CollisionQuad.cs" />
     <Compile Include="Core\MathCore\GeometryMath.cs" />
@@ -224,6 +225,7 @@
     <Compile Include="Core\RenderCore\PostFX\DepthOfField\DepthOfFieldShader.cs" />
     <Compile Include="Core\RenderCore\PostFX\LensFlare\LensFlarePostProcess.cs" />
     <Compile Include="Core\RenderCore\PostFX\LightShafts\LightShaftPostProcess.cs" />
+    <Compile Include="IObservable.cs" />
     <Compile Include="Settings\GlobalSettings.cs" />
     <Compile Include="Core\RenderCore\PostFX\PostProcessShaderBase.cs" />
     <Compile Include="Core\RenderCore\PostFX\PostProcessStageRenderer.cs" />
@@ -233,7 +235,7 @@
     <Compile Include="Core\RenderCore\Lights\DirectionalLight.cs" />
     <Compile Include="Core\RenderCore\Lights\Material.cs" />
     <Compile Include="Core\RenderCore\Lights\PointLight.cs" />
-    <Compile Include="Core\RenderCore\Lights\ShaderLight.cs" />
+    <Compile Include="Core\RenderCore\Lights\LightBase.cs" />
     <Compile Include="Core\RenderCore\Lights\SpotLight.cs" />
     <Compile Include="Core\RenderCore\ResolvePostProcessResultToDefaultFramebufferShader.cs" />
     <Compile Include="Core\RenderCore\ShaderBase.cs" />
@@ -272,8 +274,7 @@
     <Compile Include="Core\RenderCore\CopyTextureShader.cs" />
     <Compile Include="Core\RenderCore\ScreenQuad.cs" />
     <Compile Include="Core\RenderCore\Shadows\BasicShadowShader.cs" />
-    <Compile Include="Core\RenderCore\Shadows\ShadowBase.cs" />
-    <Compile Include="Core\RenderCore\Shadows\ShadowDirectionalLight.cs" />
+    <Compile Include="Core\RenderCore\Shadows\DirectionalLightWithShadow.cs" />
     <Compile Include="Core\RenderCore\Shadows\ShadowMapCache.cs" />
     <Compile Include="Core\RenderCore\Shadows\ShadowOrthoBuilder.cs" />
     <Compile Include="Core\RenderCore\Shadows\ShadowTypes.cs" />

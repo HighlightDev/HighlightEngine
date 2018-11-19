@@ -137,4 +137,6 @@ D:\VisualStudioProjects\HighlightEngine\WFUIControls\obj\Debug\UIControls.csproj
 D:\VisualStudioProjects\HighlightEngine\WFUIControls\obj\Debug\UIControls.csproj.CopyComplete
 D:\VisualStudioProjects\HighlightEngine\WFUIControls\obj\Debug\UIControls.dll
 D:\VisualStudioProjects\HighlightEngine\WFUIControls\obj\Debug\UIControls.pdb
-C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\WFUIControls\obj\Debug\UIControls.csprojResolveAssemblyReference.cache
+C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\WFUIControls\obj\Debug\UIControls.csprojAssemblyReference.cache
+C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\WFUIControls\obj\Debug\UIControls.csproj.CoreCompileInputs.cache
+C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\WFUIControls\obj\Debug\UIControls.csproj.CopyComplete

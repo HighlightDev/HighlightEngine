@@ -109,9 +109,9 @@ namespace MassiveGame.Engine
         private void cleanEverythingUp()
         {
             if (GameWorld.GetWorldInstance().GetLevel().Water != null) GameWorld.GetWorldInstance().GetLevel().Water.cleanUp();
-            if (GameWorld.GetWorldInstance().GetLevel().SunRenderer != null) GameWorld.GetWorldInstance().GetLevel().SunRenderer.cleanUp();
+            if (GameWorld.GetWorldInstance().GetLevel().SunRenderer != null) GameWorld.GetWorldInstance().GetLevel().SunRenderer.GetData().cleanUp();
             if (GameWorld.GetWorldInstance().GetLevel().Terrain != null) GameWorld.GetWorldInstance().GetLevel().Terrain.cleanUp();
-            if (GameWorld.GetWorldInstance().GetLevel().Player != null) GameWorld.GetWorldInstance().GetLevel().Player.CleanUp();
+            if (GameWorld.GetWorldInstance().GetLevel().Player != null) GameWorld.GetWorldInstance().GetLevel().Player.GetData().CleanUp();
             if (GameWorld.GetWorldInstance().GetLevel().Bots != null) foreach (var bot in GameWorld.GetWorldInstance().GetLevel().Bots) { bot.CleanUp(); }
             if (GameWorld.GetWorldInstance().GetLevel().Grass != null) GameWorld.GetWorldInstance().GetLevel().Grass.cleanUp();
             if (GameWorld.GetWorldInstance().GetLevel().Plant != null) GameWorld.GetWorldInstance().GetLevel().Plant.cleanUp();

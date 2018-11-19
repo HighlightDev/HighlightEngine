@@ -13,6 +13,7 @@ using MassiveGame.API.ResourcePool;
 using MassiveGame.Core.MathCore;
 using MassiveGame.Core.MathCore.MathTypes;
 using System.Runtime.Serialization;
+using MassiveGame.Core.RenderCore.Shadows;
 
 namespace MassiveGame.Core.GameCore.Entities.MoveEntities
 {
@@ -221,7 +222,7 @@ namespace MassiveGame.Core.GameCore.Entities.MoveEntities
             m_liteReflectionShader.stopProgram();
         }
 
-        public virtual void RenderEntity(PrimitiveType mode, DirectionalLight Sun,
+        public virtual void RenderEntity(PrimitiveType mode, DirectionalLight directionalLight,
             List<PointLight> lights, BaseCamera camera, ref Matrix4 ProjectionMatrix, Vector4 clipPlane = new Vector4())
         {
             postConstructor();
@@ -236,12 +237,13 @@ namespace MassiveGame.Core.GameCore.Entities.MoveEntities
             GetShader().startProgram();
 
             // pass uniform variables to shader
-            if (Sun != null)
+            if (directionalLight != null && directionalLight.GetHasShadow())
             {
+                DirectionalLightWithShadow lightWithShadow = directionalLight as DirectionalLightWithShadow;
                 // Get shadow handler
-                ITexture shadowMap = Sun.GetShadowHolder().GetShadowMapTexture();
+                ITexture shadowMap = lightWithShadow.GetShadowMapTexture();
                 shadowMap.BindTexture(TextureUnit.Texture1);
-                GetShader().SetDirectionalLightShadowMatrix(Sun.GetShadowHolder().GetShadowMatrix(ref modelMatrix, ref ProjectionMatrix));
+                GetShader().SetDirectionalLightShadowMatrix(lightWithShadow.GetShadowMatrix(ref modelMatrix, ref ProjectionMatrix));
             }
             m_texture.BindTexture(TextureUnit.Texture0);
             bool bEnableNormalMap = m_normalMap != null;
@@ -253,7 +255,7 @@ namespace MassiveGame.Core.GameCore.Entities.MoveEntities
             GetShader().SetMaterial(m_material);
             GetShader().SetTransformationMatrices(ref modelMatrix, camera.GetViewMatrix(), ref ProjectionMatrix);
             GetShader().SetPointLights(GetRelevantPointLights(lights));
-            GetShader().SetDirectionalLight(Sun);
+            GetShader().SetDirectionalLight(directionalLight);
             GetShader().SetClippingPlane(ref clipPlane);
             GetShader().SetMist(m_mist);
             GetShader().SetDirectionalLightShadowMap(1);

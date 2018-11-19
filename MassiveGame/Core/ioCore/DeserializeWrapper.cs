@@ -4,23 +4,24 @@ namespace MassiveGame.Core.ioCore
 {
     public class DeserializeWrapper
     {
-        ISerializer GetDeserializer(string extension)
+        ICustomSerializer GetDeserializer(string extension)
         {
-            ISerializer serializer = null;
+            ICustomSerializer serializer = null;
             switch (extension)
             {
                 case "cl":
                     serializer = new CollisionComponentSerializer(); break;
-                default: break;
+                default:
+                    serializer = new EngineObjectsSerializer(); break;
             }
 
             return serializer;
         }
 
-        public ReturnType Deserialize<ReturnType>(string pathToFile) where ReturnType : class, new()
+        public ReturnType Deserialize<ReturnType>(string pathToFile) where ReturnType : class
         {
             string extension = pathToFile.Split('.')[1];
-            ISerializer deserializer = GetDeserializer(extension);
+            ICustomSerializer deserializer = GetDeserializer(extension);
             object result = deserializer.Deserialize(pathToFile);
             return (result as ReturnType);
         }

@@ -88,13 +88,13 @@ namespace MassiveGame.Core.RenderCore.PostFX
                 }
 
                 // Light shafts
-                if (GameWorld.GetWorldInstance().GetLevel().SunRenderer.IsInCameraView && lightShaftsPP != null)
+                if (GameWorld.GetWorldInstance().GetLevel().SunRenderer.GetData().IsInCameraView && lightShaftsPP != null)
                 {
                     subsequentPostProcessResult = lightShaftsPP.GetPostProcessResult(frameColorTexture, frameDepthTexture, actualScreenRezolution, subsequentPostProcessResult);
                 }
 
                 // Lens flares
-                if (GameWorld.GetWorldInstance().GetLevel().SunRenderer.IsInCameraView && lensFlaresPP != null)
+                if (GameWorld.GetWorldInstance().GetLevel().SunRenderer.GetData().IsInCameraView && lensFlaresPP != null)
                 {
                     subsequentPostProcessResult = lensFlaresPP.GetPostProcessResult(frameColorTexture, frameDepthTexture, actualScreenRezolution, subsequentPostProcessResult);
                 }

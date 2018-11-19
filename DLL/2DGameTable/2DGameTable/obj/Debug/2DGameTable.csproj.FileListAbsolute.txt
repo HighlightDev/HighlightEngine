@@ -41,4 +41,6 @@ D:\VisualStudioProjects\HighlightEngine\DLL\2DGameTable\2DGameTable\obj\Debug\2D
 D:\VisualStudioProjects\HighlightEngine\DLL\2DGameTable\2DGameTable\obj\Debug\2DGameTable.dll
 D:\VisualStudioProjects\HighlightEngine\DLL\2DGameTable\2DGameTable\obj\Debug\2DGameTable.pdb
 D:\VisualStudioProjects\HighlightEngine\DLL\2DGameTable\2DGameTable\obj\Debug\2DGameTable.csprojAssemblyReference.cache
-C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\DLL\2DGameTable\2DGameTable\obj\Debug\2DGameTable.csprojResolveAssemblyReference.cache
+C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\DLL\2DGameTable\2DGameTable\obj\Debug\2DGameTable.csprojAssemblyReference.cache
+C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\DLL\2DGameTable\2DGameTable\obj\Debug\2DGameTable.csproj.CoreCompileInputs.cache
+C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\DLL\2DGameTable\2DGameTable\obj\Debug\2DGameTable.csproj.CopyComplete

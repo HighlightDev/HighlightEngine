@@ -2,7 +2,7 @@
 
 namespace MassiveGame.Core.RenderCore.Lights
 {
-    public class SpotLight : ShaderLight
+    public class SpotLight : LightBase
     {
         public Vector4 Position { set; get; }
         public Vector3 Direction { set; get; }

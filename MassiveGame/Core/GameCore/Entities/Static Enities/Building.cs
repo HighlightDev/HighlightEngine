@@ -10,6 +10,7 @@ using MassiveGame.API.ResourcePool.PoolHandling;
 using MassiveGame.API.ResourcePool.Policies;
 using MassiveGame.API.ResourcePool;
 using System.Runtime.Serialization;
+using MassiveGame.Core.RenderCore.Shadows;
 
 namespace MassiveGame.Core.GameCore.Entities.StaticEntities
 {
@@ -99,7 +100,7 @@ namespace MassiveGame.Core.GameCore.Entities.StaticEntities
             return mirrorMatrix;
         }
 
-        public void RenderWaterReflection(WaterPlane water, DirectionalLight Sun, BaseCamera camera, ref Matrix4 ProjectionMatrix,
+        public void RenderWaterReflection(WaterPlane water, DirectionalLight directionalLight, BaseCamera camera, ref Matrix4 ProjectionMatrix,
             Vector4 clipPlane = new Vector4())
         {
             if (bPostConstructor)
@@ -135,7 +136,7 @@ namespace MassiveGame.Core.GameCore.Entities.StaticEntities
             }
             m_liteReflectionShader.SetMaterial(m_material);
             m_liteReflectionShader.SetTransformationMatrices(ref mirrorMatrix, ref modelMatrix, camera.GetViewMatrix(), ref ProjectionMatrix);
-            m_liteReflectionShader.SetDirectionalLight(Sun);
+            m_liteReflectionShader.SetDirectionalLight(directionalLight);
             m_liteReflectionShader.SetClipPlane(ref clipPlane);
 
             m_skin.Buffer.RenderVAO(PrimitiveType.Triangles);
@@ -188,7 +189,7 @@ namespace MassiveGame.Core.GameCore.Entities.StaticEntities
 
         #region Renderer
 
-        public override void renderObject(PrimitiveType mode, DirectionalLight Sun, List<PointLight> lights,
+        public override void renderObject(PrimitiveType mode, DirectionalLight directionalLight, List<PointLight> lights,
             BaseCamera camera, ref Matrix4 ProjectionMatrix, Vector4 clipPlane = new Vector4())
         {
             postConstructor();
@@ -223,15 +224,16 @@ namespace MassiveGame.Core.GameCore.Entities.StaticEntities
             GetShader().SetMaterial(m_material);
             GetShader().SetTransformationMatrices(ref modelMatrix, camera.GetViewMatrix(), ref ProjectionMatrix);
             GetShader().SetPointLights(GetRelevantPointLights(lights));
-            GetShader().SetDirectionalLight(Sun);
+            GetShader().SetDirectionalLight(directionalLight);
             GetShader().SetClippingPlane(ref clipPlane);
             GetShader().SetMist(m_mist);
 
-            if (Sun != null)
+            if (directionalLight != null && directionalLight.GetHasShadow())
             {
-                ITexture shadowMap = Sun.GetShadowHolder().GetShadowMapTexture();
+                DirectionalLightWithShadow lightWithShadow = directionalLight as DirectionalLightWithShadow;
+                ITexture shadowMap = lightWithShadow.GetShadowMapTexture();
                 shadowMap.BindTexture(TextureUnit.Texture4); // shadowmap
-                GetShader().SetDirectionalLightShadowMatrix(Sun.GetShadowHolder().GetShadowMatrix(ref modelMatrix, ref ProjectionMatrix));
+                GetShader().SetDirectionalLightShadowMatrix(lightWithShadow.GetShadowMatrix(ref modelMatrix, ref ProjectionMatrix));
             }
             GetShader().SetDirectionalLightShadowMap(4);
 

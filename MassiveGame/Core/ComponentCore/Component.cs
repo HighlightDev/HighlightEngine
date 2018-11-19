@@ -87,7 +87,7 @@ namespace MassiveGame.Core.ComponentCore
         #region Serialization
 
         // Called directly after deserialization
-        public virtual void PostDeserializeInit() { }
+        public virtual void PostDeserializeInit() {  }
 
         protected Component(SerializationInfo info, StreamingContext context)
         {

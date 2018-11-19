@@ -3,10 +3,12 @@ using System;
 using System.Collections.Generic;
 using System.Collections;
 using MassiveGame.Core.ioCore;
+using System.Runtime.Serialization;
 
 namespace MassiveGame.Core.GameCore
 {
-    public class ObserverListWrapper<T> : IEnumerable<T>, IPostDeserializable
+    [Serializable]
+    public class ObserverListWrapper<T> : IEnumerable<T>, ISerializable, IPostDeserializable
         where T : IObservable
     {
         private List<T> m_dataList;
@@ -61,6 +63,12 @@ namespace MassiveGame.Core.GameCore
             }
         }
 
+        public void ClearList()
+        {
+            m_dataList.ForEach(input => input.NotifyRemoved());
+            m_dataList.Clear();
+        }
+
         public IEnumerator<T> GetEnumerator()
         {
             return ((IEnumerable<T>)m_dataList).GetEnumerator();
@@ -71,6 +79,8 @@ namespace MassiveGame.Core.GameCore
             return ((IEnumerable<T>)m_dataList).GetEnumerator();
         }
 
+        #region Serialization
+
         public void PostDeserializeInit()
         {
             for (Int32 i = 0; i < m_dataList.Count; i++)
@@ -78,6 +88,18 @@ namespace MassiveGame.Core.GameCore
                 m_dataList[i].NotifyAdded();
             }
         }
+
+        public void GetObjectData(SerializationInfo info, StreamingContext context)
+        {
+            info.AddValue(string.Format("data{0}", ToString()), m_dataList, typeof(List<T>));
+        }
+
+        protected ObserverListWrapper(SerializationInfo info, StreamingContext context)
+        {
+            m_dataList = (List<T>)info.GetValue(string.Format("data{0}", ToString()), typeof(List<T>));
+        }
+
+        #endregion
     }
 
 }

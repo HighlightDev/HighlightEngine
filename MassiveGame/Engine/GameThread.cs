@@ -32,7 +32,7 @@ namespace MassiveGame.Engine
 
         private void TickEntities(float deltaTime)
         {
-            GameWorld.GetWorldInstance().GetLevel().Player?.Tick(deltaTime);
+            GameWorld.GetWorldInstance().GetLevel().Player?.GetData().Tick(deltaTime);
 
             if (GameWorld.GetWorldInstance().GetLevel().Bots != null)
             {
@@ -53,7 +53,7 @@ namespace MassiveGame.Engine
             GameWorld.GetWorldInstance().GetLevel().Plant?.Tick(deltaTime);
             GameWorld.GetWorldInstance().GetLevel().Grass?.Tick(deltaTime);
             GameWorld.GetWorldInstance().GetLevel().Skybox?.Tick(deltaTime);
-            GameWorld.GetWorldInstance().GetLevel().SunRenderer?.Tick(deltaTime);
+            GameWorld.GetWorldInstance().GetLevel().SunRenderer?.GetData().Tick(deltaTime);
 #if DESIGN_EDITOR
             GameWorld.GetWorldInstance().GetLevel().Picker?.Tick(deltaTime);
 #endif

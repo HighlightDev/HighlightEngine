@@ -5,7 +5,7 @@ using System;
 
 namespace MassiveGame.CollisionEditor.Core.SerializeAPI
 {
-    public class CollisionComponentSerializer : ISerializer
+    public class CollisionComponentSerializer : ICustomSerializer
     {
         private BinaryFormatter serializer = null;
 
