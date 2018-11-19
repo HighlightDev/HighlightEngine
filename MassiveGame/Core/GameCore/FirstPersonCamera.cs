@@ -19,7 +19,7 @@ namespace MassiveGame.Core.GameCore
         public FirstPersonCamera(Vector3 localSpaceForwardVector, Vector3 CameraPosition)
         : base()
         {
-            this.localSpaceForwardVector = localSpaceForwardVector.Normalized();
+            this.m_localSpaceForwardVector = localSpaceForwardVector.Normalized();
             FirstPersonCameraPosition = CameraPosition;
         }
 
@@ -42,12 +42,13 @@ namespace MassiveGame.Core.GameCore
 
         public override Vector3 GetTargetVector()
         {
-            return (FirstPersonCameraPosition + eyeSpaceForwardVector * 10);
+            var result = FirstPersonCameraPosition + m_eyeSpaceForwardVector * 10;
+            return result;
         }
 
         public override Vector3 GetLocalSpaceUpVector()
         {
-            return localSpaceUpVector;
+            return m_localSpaceUpVector;
         }
 
         public void moveCamera(CameraDirections direction)

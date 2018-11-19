@@ -24,6 +24,12 @@ namespace MassiveGame.Core.GameCore
         private Tuple<Action, Keys> PlayerMoveLeft = null;
         private Tuple<Action, Keys> PlayerMoveRight = null;
 
+        public PlayerController(ThirdPersonCamera camera)
+        {
+            keyboard = new KeyboardHandler();
+            playerCamera = camera;
+        }
+
         public void InvokeBindings()
         {
             if (PlayerMoveForward != null && keyboard.GetKeyState(PlayerMoveForward.Item2))
@@ -60,12 +66,6 @@ namespace MassiveGame.Core.GameCore
                 MovableEntity thirdPersonEntity = playerCamera.GetThirdPersonTarget();
                 Factory_BindActionToKey(key, actionBinding);
             }
-        }
-
-        public PlayerController(ThirdPersonCamera camera)
-        {
-            keyboard = new KeyboardHandler();
-            playerCamera = camera;
         }
     }
 }

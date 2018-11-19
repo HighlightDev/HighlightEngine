@@ -134,11 +134,11 @@ namespace MassiveGame.UI
             //}
             if (e.Delta > 0)
             {
-                (GameWorld.GetWorldInstance().GetLevel().Camera as ThirdPersonCamera).SeekDistanceFromTargetToCamera += 5;
+                (GameWorld.GetWorldInstance().GetLevel().Camera as ThirdPersonCamera).MaxDistanceFromTargetToCamera += 5;
             }
             else if (e.Delta < 0)
             {
-                (GameWorld.GetWorldInstance().GetLevel().Camera as ThirdPersonCamera).SeekDistanceFromTargetToCamera -= 5;
+                (GameWorld.GetWorldInstance().GetLevel().Camera as ThirdPersonCamera).MaxDistanceFromTargetToCamera -= 5;
             }
         }
         #endregion

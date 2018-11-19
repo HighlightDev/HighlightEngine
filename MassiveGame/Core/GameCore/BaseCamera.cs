@@ -3,23 +3,25 @@ using MassiveGame.Core.PhysicsCore;
 using OpenTK;
 using System;
 using System.Drawing;
+using System.Runtime.Serialization;
 using System.Windows.Forms;
 using VectorMath;
 
 namespace MassiveGame.Core.GameCore
 {
-    public abstract class BaseCamera
+    [Serializable]
+    public abstract class BaseCamera : ISerializable
     {
         // some unnecessary staff
         public bool SwitchCamera { set; get; }
 
-        protected Vector3 localSpaceRightVector;
-        protected Vector3 localSpaceUpVector;
-        protected Vector3 localSpaceForwardVector;
-        protected Vector3 eyeSpaceRightVector;
-        protected Vector3 eyeSpaceForwardVector;
-        protected Matrix3 rotationMatrix;
-        protected CollisionHeadUnit collisionHeadUnit = null;
+        protected Vector3 m_localSpaceRightVector;
+        protected Vector3 m_localSpaceUpVector;
+        protected Vector3 m_localSpaceForwardVector;
+        protected Vector3 m_eyeSpaceRightVector;
+        protected Vector3 m_eyeSpaceForwardVector;
+        protected Matrix3 m_rotationMatrix;
+        protected CollisionHeadUnit m_collisionHeadUnit = null;
 
         protected bool bTransformationDirty = false;
 
@@ -28,33 +30,63 @@ namespace MassiveGame.Core.GameCore
 
         public BaseCamera()
         {
-            localSpaceForwardVector = eyeSpaceForwardVector = new Vector3(0, 0, 1);
-            localSpaceUpVector = new Vector3(0, 1, 0);
-            localSpaceRightVector = eyeSpaceRightVector = new Vector3(1, 0, 0);
-            rotationMatrix = Matrix3.Identity;
+            m_localSpaceForwardVector = m_eyeSpaceForwardVector = new Vector3(0, 0, 1);
+            m_localSpaceUpVector = new Vector3(0, 1, 0);
+            m_localSpaceRightVector = m_eyeSpaceRightVector = new Vector3(1, 0, 0);
+            m_rotationMatrix = Matrix3.Identity;
             SwitchCamera = false;
         }
 
+        #region Serialization
+
+        public virtual void GetObjectData(SerializationInfo info, StreamingContext context)
+        {
+            m_localSpaceRightVector = (Vector3)info.GetValue("m_localSpaceRightVector", typeof(Vector3));
+            m_localSpaceUpVector = (Vector3)info.GetValue("m_localSpaceUpVector", typeof(Vector3));
+            m_localSpaceForwardVector = (Vector3)info.GetValue("m_localSpaceForwardVector", typeof(Vector3));
+            m_eyeSpaceRightVector = (Vector3)info.GetValue("m_eyeSpaceRightVector", typeof(Vector3));
+            m_eyeSpaceForwardVector = (Vector3)info.GetValue("m_eyeSpaceForwardVector", typeof(Vector3));
+            m_rotationMatrix = (Matrix3)info.GetValue("m_rotationMatrix", typeof(Matrix3));
+            CameraCollisionSphereRadius = info.GetSingle("CameraCollisionSphereRadius");
+            rotateSensetivity = info.GetSingle("rotateSensetivity");
+        }
+
+        protected BaseCamera(SerializationInfo info, StreamingContext context)
+        {
+            SwitchCamera = false;
+            bTransformationDirty = false;
+            info.AddValue("m_localSpaceRightVector", m_localSpaceRightVector, typeof(Vector3));
+            info.AddValue("m_localSpaceUpVector", m_localSpaceUpVector, typeof(Vector3));
+            info.AddValue("m_localSpaceForwardVector", m_localSpaceForwardVector, typeof(Vector3));
+            info.AddValue("m_eyeSpaceRightVector", m_eyeSpaceRightVector, typeof(Vector3));
+            info.AddValue("m_eyeSpaceForwardVector", m_eyeSpaceForwardVector, typeof(Vector3));
+            info.AddValue("m_rotationMatrix", m_rotationMatrix, typeof(Matrix3));
+            info.AddValue("CameraCollisionSphereRadius", CameraCollisionSphereRadius);
+            info.AddValue("rotateSensetivity", rotateSensetivity);
+        }
+
+        #endregion
+       
         public abstract void CameraTick(float DeltaTime);
 
         public void SetCollisionHeadUnit(CollisionHeadUnit collisionHeadUnit)
         {
-            this.collisionHeadUnit = collisionHeadUnit;
+            this.m_collisionHeadUnit = collisionHeadUnit;
         }
 
         public void SetLocalSpaceUpVector(Vector3 upVector)
         {
-            localSpaceUpVector = upVector;
+            m_localSpaceUpVector = upVector;
         }
 
         public void SetLocalSpaceForwardVector(Vector3 forwardVector)
         {
-            localSpaceForwardVector = forwardVector;
+            m_localSpaceForwardVector = forwardVector;
         }
 
         public void SetLocalSpaceRightVector(Vector3 rightVector)
         {
-            localSpaceRightVector = rightVector;
+            m_localSpaceRightVector = rightVector;
         }
 
         public void SetCameraSensetivity(float rotateSensetivity)
@@ -68,22 +100,22 @@ namespace MassiveGame.Core.GameCore
 
         public Vector3 GetLocalSpaceRightVector()
         {
-            return localSpaceRightVector;
+            return m_localSpaceRightVector;
         }
 
         public Vector3 GetLocalSpaceForwardVector()
         {
-            return localSpaceForwardVector;
+            return m_localSpaceForwardVector;
         }
 
         public Vector3 GetEyeSpaceForwardVector()
         {
-            return eyeSpaceForwardVector;
+            return m_eyeSpaceForwardVector;
         }
 
         public Vector3 GetEyeSpaceRightVector()
         {
-            return eyeSpaceRightVector;
+            return m_eyeSpaceRightVector;
         }
 
         public Matrix4 GetViewMatrix()
@@ -93,7 +125,7 @@ namespace MassiveGame.Core.GameCore
 
         public Matrix3 GetRotationMatrix()
         {
-            return rotationMatrix;
+            return m_rotationMatrix;
         }
 
         public FSphere GetCameraCollisionSphere()
@@ -120,20 +152,20 @@ namespace MassiveGame.Core.GameCore
 
         private void UpdateRotationMatrix(Int32 deltaX, Int32 deltaY)
         {
-            eyeSpaceForwardVector = VectorMathOperations.multMatrix(rotationMatrix, localSpaceForwardVector).Normalized();
-            eyeSpaceRightVector = Vector3.Cross(eyeSpaceForwardVector, localSpaceUpVector).Normalized();
+            m_eyeSpaceForwardVector = VectorMathOperations.multMatrix(m_rotationMatrix, m_localSpaceForwardVector).Normalized();
+            m_eyeSpaceRightVector = Vector3.Cross(m_eyeSpaceForwardVector, m_localSpaceUpVector).Normalized();
 
             float anglePitch = deltaY * rotateSensetivity;
             float angleYaw = deltaX * rotateSensetivity;
 
-            Matrix3 rotatePitch = Matrix3.CreateFromAxisAngle(eyeSpaceRightVector, MathHelper.DegreesToRadians(anglePitch));
+            Matrix3 rotatePitch = Matrix3.CreateFromAxisAngle(m_eyeSpaceRightVector, MathHelper.DegreesToRadians(anglePitch));
             Matrix3 rotateYaw = Matrix3.CreateRotationY(MathHelper.DegreesToRadians(angleYaw));
 
             Matrix3 tempRotationMatrix = Matrix3.Identity;
             tempRotationMatrix *= rotateYaw;
             tempRotationMatrix *= rotatePitch;
 
-            rotationMatrix = tempRotationMatrix * rotationMatrix;
+            m_rotationMatrix = tempRotationMatrix * m_rotationMatrix;
 
             bTransformationDirty = true;
 

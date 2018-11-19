@@ -180,7 +180,7 @@ namespace MassiveGame.Core.PhysicsCore
                 return;
 
             // Start moving from camera target to it's seek position
-            float distanceFromTargetToCamera = thirdPersonCamera.SeekDistanceFromTargetToCamera;
+            float distanceFromTargetToCamera = thirdPersonCamera.MaxDistanceFromTargetToCamera;
             Vector3 cameraForwardVector = thirdPersonCamera.GetEyeSpaceForwardVector();
             Vector3 startPosition = thirdPersonCamera.GetTargetVector();
 
