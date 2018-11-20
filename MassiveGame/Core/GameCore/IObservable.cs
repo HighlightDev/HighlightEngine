@@ -1,4 +1,4 @@
-﻿namespace MassiveGame.Core.GameCore.Entities
+﻿namespace MassiveGame.Core.GameCore
 {
     public interface IObservable
     {

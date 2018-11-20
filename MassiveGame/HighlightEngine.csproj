@@ -225,7 +225,7 @@
     <Compile Include="Core\RenderCore\PostFX\DepthOfField\DepthOfFieldShader.cs" />
     <Compile Include="Core\RenderCore\PostFX\LensFlare\LensFlarePostProcess.cs" />
     <Compile Include="Core\RenderCore\PostFX\LightShafts\LightShaftPostProcess.cs" />
-    <Compile Include="IObservable.cs" />
+    <Compile Include="Core\GameCore\IObservable.cs" />
     <Compile Include="Settings\GlobalSettings.cs" />
     <Compile Include="Core\RenderCore\PostFX\PostProcessShaderBase.cs" />
     <Compile Include="Core\RenderCore\PostFX\PostProcessStageRenderer.cs" />
