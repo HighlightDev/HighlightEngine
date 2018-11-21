@@ -34,16 +34,24 @@ namespace MassiveGame.Core.GameCore
 
         #region Serialization
 
-        protected ThirdPersonCamera(SerializationInfo info, StreamingContext context) 
+        protected ThirdPersonCamera(SerializationInfo info, StreamingContext context)
             : base(info, context)
         {
-
+            m_distanceFromTargetToCamera = info.GetSingle("m_distanceFromTargetToCamera");
+            m_thirdPersonTarget = (MovableEntity)info.GetValue("m_thirdPersonTarget", typeof(MovableEntity));
+            m_actualTargetVector = (Vector3)info.GetValue("m_actualTargetVector", typeof(Vector3));
+            m_lerpTimeElapsed = info.GetSingle("m_lerpTimeElapsed");
+            m_timeForInterpolation = info.GetSingle("m_timeForInterpolation");
         }
 
         public override void GetObjectData(SerializationInfo info, StreamingContext context)
         {
             base.GetObjectData(info, context);
-
+            info.AddValue("m_distanceFromTargetToCamera", m_distanceFromTargetToCamera);
+            info.AddValue("m_thirdPersonTarget", m_thirdPersonTarget, typeof(MovableEntity));
+            info.AddValue("m_actualTargetVector", m_actualTargetVector, typeof(Vector3));
+            info.AddValue("m_lerpTimeElapsed", m_lerpTimeElapsed);
+            info.AddValue("m_timeForInterpolation", m_timeForInterpolation);
         }
 
         #endregion
@@ -73,6 +81,16 @@ namespace MassiveGame.Core.GameCore
                     m_bThirdPersonTargetTransformationDirty = false;
                 }
             }
+        }
+
+        public float GetTimeForInterpolation()
+        {
+            return m_timeForInterpolation;
+        }
+
+        public void SetTimeForInterpolation(float timeForInterpolation)
+        {
+            m_timeForInterpolation = timeForInterpolation;
         }
 
         public override Vector3 GetLocalSpaceUpVector()
