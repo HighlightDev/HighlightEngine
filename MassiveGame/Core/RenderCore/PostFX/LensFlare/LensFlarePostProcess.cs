@@ -185,9 +185,9 @@ namespace MassiveGame.Core.RenderCore.PostFX.LensFlare
                 }
             }
 
-            if (GameWorld.GetWorldInstance().GetLevel().Water != null && GameWorld.GetWorldInstance().GetLevel().Water.IsInCameraView)
+            if (GameWorld.GetWorldInstance().GetLevel().Water != null && GameWorld.GetWorldInstance().GetLevel().Water.GetData().IsInCameraView)
             {
-                GameWorld.GetWorldInstance().GetLevel().Water.StencilPass(camera, ref EngineStatics.ProjectionMatrix);
+                GameWorld.GetWorldInstance().GetLevel().Water.GetData().StencilPass(camera, ref EngineStatics.ProjectionMatrix);
             }
 
             /*Disable color masking*/

@@ -1,10 +1,12 @@
 ﻿using System;
+using System.Runtime.Serialization;
 using OpenTK;
 
 namespace MassiveGame.Core.GameCore.EntityComponents
 {
     #region FadeEnum
 
+    [Serializable]
     public enum FadeType
     {
         LINEARLY = 0,
@@ -17,7 +19,7 @@ namespace MassiveGame.Core.GameCore.EntityComponents
     public delegate void MistEvent(float velocity);
 
     [Serializable]
-    public sealed class MistComponent
+    public class MistComponent : ISerializable
     {
         #region Definitions
 
@@ -31,8 +33,8 @@ namespace MassiveGame.Core.GameCore.EntityComponents
 
         private Vector3 _mistColour;
 
-        private float _fadeVelocity;
-        private float _appearVelocity;
+        private float m_fadeVelocity;
+        private float m_appearVelocity;
 
         public bool EnableMist { set; get; }
 
@@ -44,11 +46,11 @@ namespace MassiveGame.Core.GameCore.EntityComponents
         {
             /*Check fade event*/
             if (FadeOccurs != null)
-            { FadeOccurs(this._fadeVelocity); }
+            { FadeOccurs(this.m_fadeVelocity); }
 
             /*Check appear event*/
             if (AppearOccurs != null)
-            { AppearOccurs(this._appearVelocity); }
+            { AppearOccurs(this.m_appearVelocity); }
         }
 
         #endregion
@@ -74,7 +76,7 @@ namespace MassiveGame.Core.GameCore.EntityComponents
                 case FadeType.LINEARLY:
                     {
                         float mistVolume = densityThreshold - this.MistDensity;
-                        _appearVelocity = mistVolume / beatTime;
+                        m_appearVelocity = mistVolume / beatTime;
                         this._densityThreshold = densityThreshold;
                         this.AppearOccurs += MistComponent_AppearOccurs;
                         this.EnableMist = true;
@@ -137,7 +139,7 @@ namespace MassiveGame.Core.GameCore.EntityComponents
                     {
                          /*Fade mist*/
                         float fadeVolume = this.MistDensity - densityThreshold;                       
-                        _fadeVelocity = fadeVolume / beatTime;
+                        m_fadeVelocity = fadeVolume / beatTime;
                         this._densityThreshold = densityThreshold;
                         this.FadeOccurs += MistComponent_FadeOccurs;
                         break;
@@ -182,6 +184,27 @@ namespace MassiveGame.Core.GameCore.EntityComponents
         public float MistGradient { set { this._gradient = value; } get { return this._gradient; } }
 
         public float MistDensity { set { this._density = value; } get { return this._density; } }
+
+        #endregion
+
+        #region Serialization
+
+        public void GetObjectData(SerializationInfo info, StreamingContext context)
+        {
+            info.AddValue("_density", _density);
+            info.AddValue("_gradient", _gradient);
+            info.AddValue("_densityThreshold", _densityThreshold);
+            info.AddValue("_mistColour", _mistColour, typeof(Vector3));
+        }
+
+        protected MistComponent(SerializationInfo info, StreamingContext context)
+        {
+            EnableMist = true;
+            _density = info.GetSingle("_density");
+            _gradient = info.GetSingle("_gradient");
+            _densityThreshold = info.GetSingle("_densityThreshold");
+            _mistColour = (Vector3)info.GetValue("_mistColour", typeof(Vector3));
+        }
 
         #endregion
 

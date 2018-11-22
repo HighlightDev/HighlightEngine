@@ -201,14 +201,14 @@ namespace MassiveGame.UI
                 case Keys.Escape: this.Close(); break;//Exit
                 case Keys.Add:
                     {
-                        GameWorld.GetWorldInstance().GetLevel().Water.WaveSpeed += 0.1f;
-                        GameWorld.GetWorldInstance().GetLevel().Water.WaveStrength += 0.1f;
+                        GameWorld.GetWorldInstance().GetLevel().Water.GetData().WaveSpeed += 0.1f;
+                        GameWorld.GetWorldInstance().GetLevel().Water.GetData().WaveStrength += 0.1f;
                         break;
                     }
                 case Keys.Subtract:
                     {
-                        GameWorld.GetWorldInstance().GetLevel().Water.WaveSpeed -= 0.1f;
-                        GameWorld.GetWorldInstance().GetLevel().Water.WaveStrength -= 0.1f;
+                        GameWorld.GetWorldInstance().GetLevel().Water.GetData().WaveSpeed -= 0.1f;
+                        GameWorld.GetWorldInstance().GetLevel().Water.GetData().WaveStrength -= 0.1f;
                         break;
                     }
                 case Keys.Insert:

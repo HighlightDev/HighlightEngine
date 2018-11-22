@@ -14,12 +14,14 @@ using MassiveGame.API.ResourcePool.PoolHandling;
 using MassiveGame.API.ResourcePool.Policies;
 using MassiveGame.API.ResourcePool;
 using MassiveGame.Core.MathCore;
+using System.Runtime.Serialization;
 
 namespace MassiveGame.Core.GameCore.Water
 {
     #region WaterQuality
 
-    public struct WaterQuality
+    [Serializable]
+    public class WaterQuality : ISerializable
     {
         public readonly bool EnableBuilding;
         public readonly bool EnableMovableEntities;
@@ -31,40 +33,54 @@ namespace MassiveGame.Core.GameCore.Water
             EnableMovableEntities = enableMovableEntities;
             EnableGrassRefraction = enableGrassRefraction;
         }
+
+        public void GetObjectData(SerializationInfo info, StreamingContext context)
+        {
+            info.AddValue("EnableBuilding", EnableBuilding);
+            info.AddValue("EnableMovableEntities", EnableMovableEntities);
+            info.AddValue("EnableGrassRefraction", EnableGrassRefraction);
+        }
+
+        protected WaterQuality(SerializationInfo info, StreamingContext context)
+        {
+            EnableBuilding = info.GetBoolean("EnableBuilding");
+            EnableMovableEntities = info.GetBoolean("EnableMovableEntities");
+            EnableGrassRefraction = info.GetBoolean("EnableGrassRefraction");
+        }
     }
 
     #endregion
 
-    public class WaterPlane : IVisible, IObservable
+    [Serializable]
+    public class WaterPlane : IVisible, IObservable, ISerializable
     {
         #region Definitions
 
-        private float _transparencyDepth;
-        private float _waveSpeed;
-        private float _waveStrength;
-        private float _moveFactor;
-        private ITexture _waterDistortionMap;
-        private ITexture _waterNormalMap;
-        private VertexArrayObject _buffer;
-        private WaterShader _shader;
-        private StencilPassShader stencilPassShader;
-        public WaterFBO _fbo;
-        private bool _postConstructor;
-        private MistComponent _mist;
-        private Vector3[] _collisionCheckPoints;
-        public CollisionQuad quad { set; get; }
+        private float m_transparencyDepth;
+        private float m_waveSpeed;
+        private float m_waveStrength;
+        private float m_moveFactor;
+        private ITexture m_waterDistortionMap;
+        private ITexture m_waterNormalMap;
+        private VertexArrayObject m_buffer;
+        private WaterShader m_shader;
+        private StencilPassShader m_stencilPassShader;
+        public WaterFBO m_fbo;
+        private bool m_postConstructor;
+        private MistComponent m_mist;
+        private Vector3[] m_collisionCheckPoints;
+        private Int32 m_frustumSquares;
+        public CollisionQuad Quad { set; get; }
 
-        private Matrix4 modelMatrix;
+        private Matrix4 m_modelMatrix;
 
         public WaterQuality Quality { private set; get; }
-
-        private bool _isInCameraView;
-        public bool IsInCameraView { private set { _isInCameraView = value; } get { return _isInCameraView; } }
+        public bool IsInCameraView { private set; get; }
 
         public float TransparencyDepth
         {
-            set { this._transparencyDepth = value < 0f ? 0f : value; }
-            get { return this._transparencyDepth; }
+            set { m_transparencyDepth = value < 0f ? 0f : value; }
+            get { return m_transparencyDepth; }
         }
 
         public float WaterHeight
@@ -73,48 +89,165 @@ namespace MassiveGame.Core.GameCore.Water
             {
                 /*TODO - calculate average value of water height*/
                 var retValue = 0.0f;
-                for (Int32 i = 0; i < _buffer.GetVertexBufferArray().First().GetBufferVerticesCount(); i++)
+                for (Int32 i = 0; i < m_buffer.GetVertexBufferArray().First().GetBufferVerticesCount(); i++)
                 {
-                    retValue += ((float[,])(_buffer.GetVertexBufferArray().First().GetBufferData()))[i, 1];
+                    retValue += ((float[,])(m_buffer.GetVertexBufferArray().First().GetBufferData()))[i, 1];
                 }
-                return ((retValue / _buffer.GetVertexBufferArray().First().GetBufferVerticesCount()) + _translation.Y);
+                return ((retValue / m_buffer.GetVertexBufferArray().First().GetBufferVerticesCount()) + m_translation.Y);
             }
         }
 
         public float WaveSpeed
         {
-            set { this._waveSpeed = value > 1.0f ? 1.0f : value < 0.0f ? 0.0f : value; }
-            get { return this._waveSpeed; }
+            set { m_waveSpeed = value > 1.0f ? 1.0f : value < 0.0f ? 0.0f : value; }
+            get { return m_waveSpeed; }
         }
 
         public float WaveStrength
         {
-            set { this._waveStrength = value > 1.0f ? 1.0f : value < 0.0f ? 0.0f : value; }
-            get { return this._waveStrength; }
+            set { m_waveStrength = value > 1.0f ? 1.0f : value < 0.0f ? 0.0f : value; }
+            get { return m_waveStrength; }
         }
 
         #region Transformation
 
-        private Vector3 _translation;
-        private Vector3 _rotation;
-        private Vector3 _scaling;
+        private Vector3 m_translation;
+        private Vector3 m_rotation;
+        private Vector3 m_scaling;
 
         public Vector3 GetTranslation()
         {
-            return _translation;
+            return m_translation;
         }
 
         public Vector3 GetRotation()
         {
-            return _rotation;
+            return m_rotation;
         }
 
         public Vector3 GetScaling()
         {
-            return _scaling;
+            return m_scaling;
         }
 
         #endregion
+
+        #endregion
+
+        #region Constructor
+
+        private void InitPhysics()
+        {
+            Quad = new CollisionQuad(-1.0f, 1.0f, 0.0f, 0.0f, -1.0f, 1.0f);
+            Quad.LBNCoordinates = Vector3.TransformPosition(Quad.LBNCoordinates, m_modelMatrix);
+            Quad.RTFCoordinates = Vector3.TransformPosition(Quad.RTFCoordinates, m_modelMatrix);
+
+            // divide water collision box to avoid "bugs" with frustum culling
+            m_collisionCheckPoints = FrustumCulling.divideWaterCollisionBox(Quad, m_frustumSquares);
+        }
+
+        private void PostConstructor()
+        {
+            if (this.m_postConstructor)
+            {
+                float[,] vertices = new float[6, 3] { { -1.0f, 0.0f, 1.0f }, { 1.0f, 0.0f, 1.0f }, { 1.0f, 0.0f, -1.0f }, { 1.0f, 0.0f, -1.0f }, { -1.0f, 0.0f, -1.0f }, { -1.0f, 0.0f, 1.0f } };
+                float[,] normals = new float[6, 3] { { 0.0f, 1.0f, 0.0f }, { 0.0f, 1.0f, 0.0f }, { 0.0f, 1.0f, 0.0f }, { 0.0f, 1.0f, 0.0f }, { 0.0f, 1.0f, 0.0f }, { 0.0f, 1.0f, 0.0f } };
+                float[,] texCoords = new float[6, 2] { { 0, 1 }, { 1, 1 }, { 1, 0 }, { 1, 0 }, { 0, 0 }, { 0, 1 } };
+
+                VertexBufferObjectTwoDimension<float> verticesVBO = new VertexBufferObjectTwoDimension<float>(vertices, BufferTarget.ArrayBuffer, 0, 3, VertexBufferObjectBase.DataCarryFlag.Store);
+                VertexBufferObjectTwoDimension<float> normalsVBO = new VertexBufferObjectTwoDimension<float>(normals, BufferTarget.ArrayBuffer, 1, 3, VertexBufferObjectBase.DataCarryFlag.Invalidate);
+                VertexBufferObjectTwoDimension<float> texCoordsVBO = new VertexBufferObjectTwoDimension<float>(texCoords, BufferTarget.ArrayBuffer, 2, 2, VertexBufferObjectBase.DataCarryFlag.Invalidate);
+                VertexBufferObjectTwoDimension<float> tangentsVBO = new VertexBufferObjectTwoDimension<float>(VectorMath.AdditionalVertexInfoCreator.CreateTangentVertices(vertices, texCoords), BufferTarget.ArrayBuffer, 3, 3, VertexBufferObjectBase.DataCarryFlag.Invalidate);
+                VertexBufferObjectTwoDimension<float> bitangentsVBO = new VertexBufferObjectTwoDimension<float>(VectorMath.AdditionalVertexInfoCreator.CreateBitangentVertices(vertices, texCoords), BufferTarget.ArrayBuffer, 4, 3, VertexBufferObjectBase.DataCarryFlag.Invalidate);
+
+                m_buffer = new VertexArrayObject();
+                m_buffer.AddVBO(verticesVBO, normalsVBO, texCoordsVBO, tangentsVBO, bitangentsVBO);
+                m_buffer.BindBuffersToVao();
+
+                m_shader = PoolProxy.GetResource<ObtainShaderPool, ShaderAllocationPolicy<WaterShader>, string, WaterShader>(ProjectFolders.ShadersPath + "waterVS.glsl" + "," + ProjectFolders.ShadersPath + "waterFS.glsl");
+                m_stencilPassShader = PoolProxy.GetResource<ObtainShaderPool, ShaderAllocationPolicy<StencilPassShader>, string, StencilPassShader>(ProjectFolders.ShadersPath + "stencilPassVS.glsl" + "," + ProjectFolders.ShadersPath + "stencilPassFS.glsl");
+
+                this.m_fbo = new WaterFBO();
+                this.m_postConstructor = !this.m_postConstructor;
+            }
+        }
+
+        public WaterPlane(string distortionMap, string normalMap, Vector3 translation, Vector3 rotation, Vector3 scaling,
+            WaterQuality quality, Int32 frustumSquares = 0)
+        {
+            m_waterDistortionMap = PoolProxy.GetResource<ObtainTexturePool, TextureAllocationPolicy, string, ITexture>(distortionMap);
+            m_waterNormalMap = PoolProxy.GetResource<ObtainTexturePool, TextureAllocationPolicy, string, ITexture>(normalMap);
+            m_frustumSquares = frustumSquares;
+
+            m_translation = translation;
+            m_rotation = rotation;
+            m_scaling = scaling;
+            /*Nominal water coords*/
+           
+            m_moveFactor = 0.0f;
+            m_waveSpeed = 0.1f;
+            m_waveStrength = 0.04f;
+            m_transparencyDepth = 10000f;
+            /*First pass post constructor*/
+            this.m_postConstructor = true;
+            this.Quality = quality;
+            m_collisionCheckPoints = null;
+            m_modelMatrix = Matrix4.Identity;
+            m_modelMatrix *= Matrix4.CreateRotationX(MathHelper.DegreesToRadians(m_rotation.X));
+            m_modelMatrix *= Matrix4.CreateRotationY(MathHelper.DegreesToRadians(m_rotation.Y));
+            m_modelMatrix *= Matrix4.CreateRotationZ(MathHelper.DegreesToRadians(m_rotation.Z));
+            m_modelMatrix *= Matrix4.CreateScale(m_scaling);
+            m_modelMatrix *= Matrix4.CreateTranslation(m_translation);
+            InitPhysics();
+        }
+
+        #endregion
+
+        #region Serialization
+
+        protected WaterPlane(SerializationInfo info, StreamingContext context)
+        {
+            m_transparencyDepth = info.GetSingle("m_transparencyDepth");
+            m_waveSpeed = info.GetSingle("m_waveSpeed");
+            m_waveStrength = info.GetSingle("m_waveStrength");
+            m_moveFactor = info.GetSingle("m_moveFactor");
+            m_mist = (MistComponent)info.GetValue("m_mist", typeof(MistComponent));
+            m_modelMatrix = (Matrix4)info.GetValue("m_modelMatrix", typeof(Matrix4));
+            m_translation = (Vector3)info.GetValue("m_translation", typeof(Vector3));
+            m_rotation = (Vector3)info.GetValue("m_rotation", typeof(Vector3));
+            m_scaling = (Vector3)info.GetValue("m_scaling", typeof(Vector3));
+            Quality = (WaterQuality)info.GetValue("Quality", typeof(WaterQuality));
+            m_frustumSquares = info.GetInt32("m_frustumSquares");
+
+            string distortionMapTexPath = info.GetString("m_waterDistortionMap");
+            string normalMapTexPath = info.GetString("m_waterNormalMap");
+
+            m_waterDistortionMap = PoolProxy.GetResource<ObtainTexturePool, TextureAllocationPolicy, string, ITexture>(distortionMapTexPath);
+            m_waterNormalMap = PoolProxy.GetResource<ObtainTexturePool, TextureAllocationPolicy, string, ITexture>(normalMapTexPath);
+
+            m_postConstructor = true;
+            InitPhysics();
+        }
+
+        public void GetObjectData(SerializationInfo info, StreamingContext context)
+        {
+            info.AddValue("m_transparencyDepth", m_transparencyDepth);
+            info.AddValue("m_waveSpeed", m_waveSpeed);
+            info.AddValue("m_waveStrength", m_waveStrength);
+            info.AddValue("m_moveFactor", m_moveFactor);
+            info.AddValue("m_mist", m_mist, typeof(MistComponent));
+            info.AddValue("m_modelMatrix", m_modelMatrix, typeof(Matrix4));
+            info.AddValue("m_translation", m_translation, typeof(Vector3));
+            info.AddValue("m_rotation", m_rotation, typeof(Vector3));
+            info.AddValue("m_scaling", m_scaling, typeof(Vector3));
+            info.AddValue("Quality", Quality, typeof(WaterQuality));
+            info.AddValue("m_frustumSquares", m_frustumSquares);
+
+            string distortionMapTexPath = PoolProxy.GetResourceKey<ObtainTexturePool, string, ITexture>(m_waterDistortionMap);
+            string normalMapTexPath = PoolProxy.GetResourceKey<ObtainTexturePool, string, ITexture>(m_waterNormalMap);
+            info.AddValue("m_waterDistortionMap", distortionMapTexPath);
+            info.AddValue("m_waterNormalMap", normalMapTexPath);
+        }
 
         #endregion
 
@@ -123,11 +256,11 @@ namespace MassiveGame.Core.GameCore.Water
         // Implement method of iOptimizable interface
         public bool IsInViewFrustum(ref Matrix4 projectionMatrix, Matrix4 viewMatrix)
         {
-            if (Object.Equals(this._collisionCheckPoints, null))
+            if (Object.Equals(this.m_collisionCheckPoints, null))
                 // disable optimization, keep water always in view frustum
                 IsInCameraView = true;
             else
-                IsInCameraView = this.IsInCameraView = FrustumCulling.isWaterIntersection(this._collisionCheckPoints, viewMatrix, ref projectionMatrix);
+                IsInCameraView = this.IsInCameraView = FrustumCulling.isWaterIntersection(this.m_collisionCheckPoints, viewMatrix, ref projectionMatrix);
 
             return IsInCameraView;
         }
@@ -148,150 +281,86 @@ namespace MassiveGame.Core.GameCore.Water
 
         public void SetReflectionRendertarget()
         {
-            postConstructor();
+            PostConstructor();
             /*Select water framebuffer object render to*/
-            _fbo.renderToFBO(1, _fbo.ReflectionTexture.GetTextureRezolution());
+            m_fbo.renderToFBO(1, m_fbo.ReflectionTexture.GetTextureRezolution());
         }
 
         public void SetRefractionRendertarget()
         {
-            postConstructor();
+            PostConstructor();
             /*Select water framebuffer object render to*/
-            _fbo.renderToFBO(2, _fbo.RefractionTexture.GetTextureRezolution());
+            m_fbo.renderToFBO(2, m_fbo.RefractionTexture.GetTextureRezolution());
         }
 
         public void StencilPass(BaseCamera camera, ref Matrix4 projectionMatrix)
         {
-            postConstructor();
-            stencilPassShader.startProgram();
-            stencilPassShader.SetUniformVariables(ref projectionMatrix, camera.GetViewMatrix(), ref modelMatrix);
-            _buffer.RenderVAO(PrimitiveType.Triangles);
-            stencilPassShader.stopProgram();
+            PostConstructor();
+            m_stencilPassShader.startProgram();
+            m_stencilPassShader.SetUniformVariables(ref projectionMatrix, camera.GetViewMatrix(), ref m_modelMatrix);
+            m_buffer.RenderVAO(PrimitiveType.Triangles);
+            m_stencilPassShader.stopProgram();
         }
 
         public void Tick(float deltaTime)
         {
-            _moveFactor += _waveSpeed * deltaTime;
-            _moveFactor %= 1;
+            m_moveFactor += m_waveSpeed * deltaTime;
+            m_moveFactor %= 1;
         }
 
-        public void renderWater(BaseCamera camera, ref Matrix4 projectionMatrix, float nearClipPlane, float farClipPlane
+        public void RenderWater(BaseCamera camera, ref Matrix4 projectionMatrix, float nearClipPlane, float farClipPlane
             , DirectionalLight sun = null, List<PointLight> lights = null)
         {
-            postConstructor();
+            PostConstructor();
             /*Water distortion cycle*/
 
-            this._shader.startProgram();
-            this._fbo.ReflectionTexture.BindTexture(TextureUnit.Texture0);
-            this._fbo.RefractionTexture.BindTexture(TextureUnit.Texture1);
-            this._waterDistortionMap.BindTexture(TextureUnit.Texture2);
-            this._waterNormalMap.BindTexture(TextureUnit.Texture3);
-            this._fbo.DepthTexture.BindTexture(TextureUnit.Texture4);
-            _shader.setTransformationMatrices(ref modelMatrix, camera.GetViewMatrix(), ref projectionMatrix);
-            _shader.setReflectionSampler(0);
-            _shader.setRefractionSampler(1);
-            _shader.setDuDvSampler(2);
-            _shader.setNormalMapSampler(3);
-            _shader.setDepthSampler(4);
-            _shader.setCameraPosition(camera.GetEyeVector());
-            _shader.setDistortionProperties(_moveFactor, _waveStrength);
-            _shader.setDirectionalLight(sun);
-            _shader.setPointLight(lights);
-            _shader.setClippingPlanes(ref nearClipPlane, ref farClipPlane);
-            _shader.setMist(_mist);
-            _shader.setTransparancyDepth(TransparencyDepth);
+            m_shader.startProgram();
+            m_fbo.ReflectionTexture.BindTexture(TextureUnit.Texture0);
+            m_fbo.RefractionTexture.BindTexture(TextureUnit.Texture1);
+            m_waterDistortionMap.BindTexture(TextureUnit.Texture2);
+            m_waterNormalMap.BindTexture(TextureUnit.Texture3);
+            m_fbo.DepthTexture.BindTexture(TextureUnit.Texture4);
+            m_shader.setTransformationMatrices(ref m_modelMatrix, camera.GetViewMatrix(), ref projectionMatrix);
+            m_shader.setReflectionSampler(0);
+            m_shader.setRefractionSampler(1);
+            m_shader.setDuDvSampler(2);
+            m_shader.setNormalMapSampler(3);
+            m_shader.setDepthSampler(4);
+            m_shader.setCameraPosition(camera.GetEyeVector());
+            m_shader.setDistortionProperties(m_moveFactor, m_waveStrength);
+            m_shader.setDirectionalLight(sun);
+            m_shader.setPointLight(lights);
+            m_shader.setClippingPlanes(ref nearClipPlane, ref farClipPlane);
+            m_shader.setMist(m_mist);
+            m_shader.setTransparancyDepth(TransparencyDepth);
 
             GL.Enable(EnableCap.Blend);
             GL.BlendFunc(BlendingFactorSrc.SrcAlpha, BlendingFactorDest.OneMinusSrcAlpha);
-            _buffer.RenderVAO(PrimitiveType.Triangles);
+            m_buffer.RenderVAO(PrimitiveType.Triangles);
             GL.Disable(EnableCap.Blend);
-            this._shader.stopProgram();
+            m_shader.stopProgram();
         }
 
         #endregion
 
         #region Seter
 
-        public void setMist(MistComponent mist)
+        public void SetMist(MistComponent mist)
         {
-            this._mist = mist;
-        }
-
-        #endregion
-
-        #region Constructor
-
-        private void postConstructor()
-        {
-            if (this._postConstructor)
-            {
-                float[,] vertices = new float[6, 3] { { -1.0f, 0.0f, 1.0f }, { 1.0f, 0.0f, 1.0f }, { 1.0f, 0.0f, -1.0f }, { 1.0f, 0.0f, -1.0f }, { -1.0f, 0.0f, -1.0f }, { -1.0f, 0.0f, 1.0f } };
-                float[,] normals = new float[6, 3] { { 0.0f, 1.0f, 0.0f }, { 0.0f, 1.0f, 0.0f }, { 0.0f, 1.0f, 0.0f }, { 0.0f, 1.0f, 0.0f }, { 0.0f, 1.0f, 0.0f }, { 0.0f, 1.0f, 0.0f } };
-                float[,] texCoords = new float[6, 2] { { 0, 1 }, { 1, 1 }, { 1, 0 }, { 1, 0 }, { 0, 0 }, { 0, 1 } };
-
-                VertexBufferObjectTwoDimension<float> verticesVBO = new VertexBufferObjectTwoDimension<float>(vertices, BufferTarget.ArrayBuffer, 0, 3, VertexBufferObjectBase.DataCarryFlag.Store);
-                VertexBufferObjectTwoDimension<float> normalsVBO = new VertexBufferObjectTwoDimension<float>(normals, BufferTarget.ArrayBuffer, 1, 3, VertexBufferObjectBase.DataCarryFlag.Invalidate);
-                VertexBufferObjectTwoDimension<float> texCoordsVBO = new VertexBufferObjectTwoDimension<float>(texCoords, BufferTarget.ArrayBuffer, 2, 2, VertexBufferObjectBase.DataCarryFlag.Invalidate);
-                VertexBufferObjectTwoDimension<float> tangentsVBO = new VertexBufferObjectTwoDimension<float>(VectorMath.AdditionalVertexInfoCreator.CreateTangentVertices(vertices, texCoords), BufferTarget.ArrayBuffer, 3, 3, VertexBufferObjectBase.DataCarryFlag.Invalidate);
-                VertexBufferObjectTwoDimension<float> bitangentsVBO = new VertexBufferObjectTwoDimension<float>(VectorMath.AdditionalVertexInfoCreator.CreateBitangentVertices(vertices, texCoords), BufferTarget.ArrayBuffer, 4, 3, VertexBufferObjectBase.DataCarryFlag.Invalidate);
-
-                _buffer = new VertexArrayObject();
-                _buffer.AddVBO(verticesVBO, normalsVBO, texCoordsVBO, tangentsVBO, bitangentsVBO);
-                _buffer.BindBuffersToVao();
-
-                _shader = PoolProxy.GetResource<ObtainShaderPool, ShaderAllocationPolicy<WaterShader>, string, WaterShader>(ProjectFolders.ShadersPath + "waterVS.glsl" + "," + ProjectFolders.ShadersPath + "waterFS.glsl");
-                stencilPassShader = PoolProxy.GetResource<ObtainShaderPool, ShaderAllocationPolicy<StencilPassShader>, string, StencilPassShader>(ProjectFolders.ShadersPath + "stencilPassVS.glsl" + "," + ProjectFolders.ShadersPath + "stencilPassFS.glsl");
-
-                this._fbo = new WaterFBO();
-                this._postConstructor = !this._postConstructor;
-            }
-        }
-
-        public WaterPlane(string distortionMap, string normalMap, Vector3 translation, Vector3 rotation, Vector3 scaling,
-            WaterQuality quality, Int32 frustumSquares = 0)
-        {
-            this._waterDistortionMap = PoolProxy.GetResource<ObtainTexturePool, TextureAllocationPolicy, string, ITexture>(distortionMap);
-            this._waterNormalMap = PoolProxy.GetResource<ObtainTexturePool, TextureAllocationPolicy, string, ITexture>(normalMap);
-
-            this._translation = translation;
-            this._rotation = rotation;
-            this._scaling = scaling;
-            /*Nominal water coords*/
-            this.quad = new CollisionQuad(-1.0f, 1.0f, 0.0f, 0.0f, -1.0f, 1.0f);
-            _moveFactor = 0.0f;
-            _waveSpeed = 0.1f;
-            _waveStrength = 0.04f;
-            _transparencyDepth = 10000f;
-            /*First pass postconstructor*/
-            this._postConstructor = true;
-            this.Quality = quality;
-            _collisionCheckPoints = null;
-
-            modelMatrix = Matrix4.Identity;
-            modelMatrix *= Matrix4.CreateRotationX(MathHelper.DegreesToRadians(this._rotation.X));
-            modelMatrix *= Matrix4.CreateRotationY(MathHelper.DegreesToRadians(this._rotation.Y));
-            modelMatrix *= Matrix4.CreateRotationZ(MathHelper.DegreesToRadians(this._rotation.Z));
-            modelMatrix *= Matrix4.CreateScale(this._scaling);
-            modelMatrix *= Matrix4.CreateTranslation(this._translation);
-
-            quad.LBNCoordinates = Vector3.TransformPosition(quad.LBNCoordinates, modelMatrix);
-            quad.RTFCoordinates = Vector3.TransformPosition(quad.RTFCoordinates, modelMatrix);
-
-            // divide water collision box to avoid "bugs" with frustum culling
-            this._collisionCheckPoints = FrustumCulling.divideWaterCollisionBox(quad, frustumSquares);      
+            m_mist = mist;
         }
 
         #endregion
 
         #region Cleaning
 
-        public void cleanUp()
+        public void CleanUp()
         {
-            _buffer?.CleanUp();
-            PoolProxy.FreeResourceMemory<ObtainTexturePool, TextureAllocationPolicy, string, ITexture>(this._waterDistortionMap);
-            PoolProxy.FreeResourceMemory<ObtainTexturePool, TextureAllocationPolicy, string, ITexture>(this._waterNormalMap);
-            PoolProxy.FreeResourceMemory<ObtainShaderPool, ShaderAllocationPolicy<WaterShader>, string, WaterShader>(this._shader);
-            PoolProxy.FreeResourceMemory<ObtainShaderPool, ShaderAllocationPolicy<StencilPassShader>, string, StencilPassShader>(stencilPassShader);
+            m_buffer?.CleanUp();
+            PoolProxy.FreeResourceMemory<ObtainTexturePool, TextureAllocationPolicy, string, ITexture>(m_waterDistortionMap);
+            PoolProxy.FreeResourceMemory<ObtainTexturePool, TextureAllocationPolicy, string, ITexture>(m_waterNormalMap);
+            PoolProxy.FreeResourceMemory<ObtainShaderPool, ShaderAllocationPolicy<WaterShader>, string, WaterShader>(m_shader);
+            PoolProxy.FreeResourceMemory<ObtainShaderPool, ShaderAllocationPolicy<StencilPassShader>, string, StencilPassShader>(m_stencilPassShader);
         }
 
         #endregion

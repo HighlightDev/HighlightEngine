@@ -37,6 +37,7 @@ namespace MassiveGame.Core.GameCore
         protected ThirdPersonCamera(SerializationInfo info, StreamingContext context)
             : base(info, context)
         {
+            m_bThirdPersonTargetTransformationDirty = false;
             m_distanceFromTargetToCamera = info.GetSingle("m_distanceFromTargetToCamera");
             m_thirdPersonTarget = (MovableEntity)info.GetValue("m_thirdPersonTarget", typeof(MovableEntity));
             m_actualTargetVector = (Vector3)info.GetValue("m_actualTargetVector", typeof(Vector3));

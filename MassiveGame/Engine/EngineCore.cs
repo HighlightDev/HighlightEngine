@@ -28,7 +28,7 @@ namespace MassiveGame.Engine
         {
 #if !COLLISION_EDITOR
             Point startScreenRezoluion = new Point(1400, 800);
-            Action preConstructorFunction = new Action(preConstructor), renderQueueFunction = new Action(RenderQueue), cleanUpFunction = new Action(cleanEverythingUp);
+            Action preConstructorFunction = new Action(PreConstructor), renderQueueFunction = new Action(RenderQueue), cleanUpFunction = new Action(CleanEverythingUp);
 #endif
 
 #if DESIGN_EDITOR
@@ -72,9 +72,9 @@ namespace MassiveGame.Engine
             bindingsLoader.SetKeyboardBindings();
         }
 
-        private void preConstructor() { }
+        private void PreConstructor() { }
 
-        private void postConstructor()
+        private void PostConstructor()
         {
             if (bPostConstructor)
             {
@@ -97,7 +97,7 @@ namespace MassiveGame.Engine
 
         private void RenderQueue()
         {
-            postConstructor();
+            PostConstructor();
             m_renderTickTime.Restart();
             m_renderThread.ThreadExecution(EngineStatics.globalSettings.ActualScreenRezolution, bPostConstructor);
             EngineStatics.RENDER_TIME = (float)m_renderTickTime.Elapsed.TotalSeconds;
@@ -106,9 +106,9 @@ namespace MassiveGame.Engine
 
         #region Cleaning
 
-        private void cleanEverythingUp()
+        private void CleanEverythingUp()
         {
-            if (GameWorld.GetWorldInstance().GetLevel().Water != null) GameWorld.GetWorldInstance().GetLevel().Water.cleanUp();
+            if (GameWorld.GetWorldInstance().GetLevel().Water != null) GameWorld.GetWorldInstance().GetLevel().Water.GetData().CleanUp();
             if (GameWorld.GetWorldInstance().GetLevel().SunRenderer != null) GameWorld.GetWorldInstance().GetLevel().SunRenderer.GetData().cleanUp();
             if (GameWorld.GetWorldInstance().GetLevel().Terrain != null) GameWorld.GetWorldInstance().GetLevel().Terrain.cleanUp();
             if (GameWorld.GetWorldInstance().GetLevel().Player != null) GameWorld.GetWorldInstance().GetLevel().Player.GetData().CleanUp();

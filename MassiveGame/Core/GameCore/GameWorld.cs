@@ -169,8 +169,8 @@ namespace MassiveGame.Core.GameCore
                     ProjectFolders.SkyboxTexturesPath + "/Night/" + "front.png" });
             level.Skybox.setMistComponent(level.Mist);
 
-            level.Water = new WaterPlane(ProjectFolders.WaterTexturePath + "DUDV.png", ProjectFolders.WaterTexturePath + "normal.png",
-                new Vector3(160, 29, 200), new Vector3(0, 0, 0), new Vector3(200, 1, 200), new WaterQuality(true, true, true), 10);
+            level.Water.AddToWrapper(new WaterPlane(ProjectFolders.WaterTexturePath + "DUDV.png", ProjectFolders.WaterTexturePath + "normal.png",
+                new Vector3(160, 29, 200), new Vector3(0, 0, 0), new Vector3(200, 1, 200), new WaterQuality(true, true, true), 10));
 
             level.SunRenderer.AddToWrapper(new SunRenderer(level.DirectionalLight, ProjectFolders.SunTexturePath + "sunC.png",
                     ProjectFolders.SunTexturePath + "sunB.png", 150, 130));
@@ -224,6 +224,11 @@ namespace MassiveGame.Core.GameCore
             //level.SunRenderer.ClearWrapper();
             //level.SunRenderer = deserializer.Deserialize<ObserverWrapper<SunRenderer>>("entity.bn");
             /***********************************************************/
+
+            // Water 
+            //Serialize(level.Water);
+            //level.Water.ClearWrapper();
+            //level.Water = deserializer.Deserialize<ObserverWrapper<WaterPlane>>("entity.bn");
         }
 
         #endregion
@@ -239,6 +244,8 @@ namespace MassiveGame.Core.GameCore
             level.Player = new ObserverWrapper<MovableMeshEntity>();
             level.Bots = new ObserverListWrapper<MovableMeshEntity>();
             level.SunRenderer = new ObserverWrapper<SunRenderer>();
+            level.Water = new ObserverWrapper<WaterPlane>();
+
             level.VisibilityCheckCollection = new List<IVisible>();
             level.LitCheckCollection = new List<ILightHit>();
             level.ShadowCastCollection = new List<IDrawable>();
@@ -248,7 +255,6 @@ namespace MassiveGame.Core.GameCore
 
             SetLevelTestValues(level);
 
-            level.VisibilityCheckCollection.Add(m_currentLevel.Water);
             level.ShadowCastCollection.Add(m_currentLevel.Terrain);
         }
 

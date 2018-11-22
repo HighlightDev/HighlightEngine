@@ -49,11 +49,11 @@ namespace MassiveGame.Engine
             }
 
             GameWorld.GetWorldInstance().GetLevel().SkeletalMesh?.Tick(deltaTime);
-            GameWorld.GetWorldInstance().GetLevel().Water?.Tick(deltaTime);
+            GameWorld.GetWorldInstance().GetLevel().Water.GetData()?.Tick(deltaTime);
             GameWorld.GetWorldInstance().GetLevel().Plant?.Tick(deltaTime);
             GameWorld.GetWorldInstance().GetLevel().Grass?.Tick(deltaTime);
             GameWorld.GetWorldInstance().GetLevel().Skybox?.Tick(deltaTime);
-            GameWorld.GetWorldInstance().GetLevel().SunRenderer?.GetData().Tick(deltaTime);
+            GameWorld.GetWorldInstance().GetLevel().SunRenderer.GetData()?.Tick(deltaTime);
 #if DESIGN_EDITOR
             GameWorld.GetWorldInstance().GetLevel().Picker?.Tick(deltaTime);
 #endif

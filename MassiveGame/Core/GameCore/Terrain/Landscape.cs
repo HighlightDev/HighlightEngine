@@ -18,7 +18,7 @@ using MassiveGame.Core.RenderCore.Shadows;
 
 namespace MassiveGame.Core.GameCore.Terrain
 {
-    public class Landscape : IDrawable
+    public class Landscape : IDrawable, IObservable
     {
         #region Definitions 
 
@@ -76,6 +76,16 @@ namespace MassiveGame.Core.GameCore.Terrain
         }
 
         #endregion
+
+        public void NotifyAdded()
+        {
+            GameWorld.GetWorldInstance().GetLevel().ShadowCastCollection.Add(this);
+        }
+
+        public void NotifyRemoved()
+        {
+            GameWorld.GetWorldInstance().GetLevel().ShadowCastCollection.Remove(this);
+        }
 
         #region Getter
 

@@ -50,13 +50,11 @@ namespace MassiveGame.Core.GameCore
 
         private ObserverListWrapper<Building> m_staticMeshCollection;
 
-        [NonSerialized]
         private BaseCamera m_camera;
 
         [NonSerialized]
         private SkyboxEntity m_skybox;
 
-        [NonSerialized]
         private DirectionalLight m_directionalLight;
 
         [NonSerialized]
@@ -68,12 +66,10 @@ namespace MassiveGame.Core.GameCore
         [NonSerialized]
         private MovableSkeletalMeshEntity m_skeletalMesh;
 
-        [NonSerialized]
-        private WaterPlane m_waterPlane;
+        private ObserverWrapper<WaterPlane> m_waterPlane;
 
         private ObserverWrapper<SunRenderer> m_sunRenderer;
 
-        [NonSerialized]
         private MistComponent m_mistComponent;
 
         [NonSerialized]
@@ -123,7 +119,7 @@ namespace MassiveGame.Core.GameCore
 
         public MovableSkeletalMeshEntity SkeletalMesh { set { m_skeletalMesh = value; } get { return m_skeletalMesh; } }
 
-        public WaterPlane Water { set { m_waterPlane = value; } get { return m_waterPlane; } }
+        public ObserverWrapper<WaterPlane> Water { set { m_waterPlane = value; } get { return m_waterPlane; } }
 
         public ObserverWrapper<SunRenderer> SunRenderer { set { m_sunRenderer = value; } get { return m_sunRenderer; } }
 
@@ -151,7 +147,6 @@ namespace MassiveGame.Core.GameCore
         public void PostDeserializeInit()
         {
             // TODO: ->> invent something better
-            VisibilityCheckCollection.Add(Water);
             ShadowCastCollection.Add(Terrain);
         } 
     }

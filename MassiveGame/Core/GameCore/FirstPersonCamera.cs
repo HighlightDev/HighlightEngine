@@ -1,4 +1,6 @@
 ﻿using OpenTK;
+using System;
+using System.Runtime.Serialization;
 
 namespace MassiveGame.Core.GameCore
 {
@@ -11,23 +13,43 @@ namespace MassiveGame.Core.GameCore
         STAY
     }
    
+    [Serializable]
     public class FirstPersonCamera : BaseCamera
     {
-        private float CameraMoveSpeed = 20.5f;
-        private Vector3 FirstPersonCameraPosition;
+        private float m_cameraMoveSpeed;
+        private Vector3 m_firstPersonCameraPosition;
 
         public FirstPersonCamera(Vector3 localSpaceForwardVector, Vector3 CameraPosition)
         : base()
         {
             this.m_localSpaceForwardVector = localSpaceForwardVector.Normalized();
-            FirstPersonCameraPosition = CameraPosition;
+            m_firstPersonCameraPosition = CameraPosition;
+            m_cameraMoveSpeed = 20.5f;
         }
 
         public FirstPersonCamera()
             : base()
         {
-            FirstPersonCameraPosition = Vector3.Zero;
+            m_firstPersonCameraPosition = Vector3.Zero;
         }
+
+        #region Serialization
+
+        protected FirstPersonCamera(SerializationInfo info, StreamingContext context)
+            : base(info, context)
+        {
+            m_cameraMoveSpeed = info.GetSingle("m_cameraMoveSpeed");
+            m_firstPersonCameraPosition = (Vector3)info.GetValue("m_firstPersonCameraPosition", typeof(Vector3));
+        }
+
+        public override void GetObjectData(SerializationInfo info, StreamingContext context)
+        {
+            base.GetObjectData(info, context);
+            info.AddValue("m_cameraMoveSpeed", m_cameraMoveSpeed);
+            info.AddValue("m_firstPersonCameraPosition", m_firstPersonCameraPosition, typeof(Vector3));
+        }
+
+        #endregion
 
         public override void CameraTick(float DeltaTime)
         {
@@ -35,14 +57,24 @@ namespace MassiveGame.Core.GameCore
 
         }
 
+        public float GetCameraMoveSpeed()
+        {
+            return m_cameraMoveSpeed;
+        }
+
+        public void SetCameraMoveSpeed(float speed)
+        {
+            m_cameraMoveSpeed = speed;
+        }
+
         public override Vector3 GetEyeVector()
         {
-            return FirstPersonCameraPosition;
+            return m_firstPersonCameraPosition;
         }
 
         public override Vector3 GetTargetVector()
         {
-            var result = FirstPersonCameraPosition + m_eyeSpaceForwardVector * 10;
+            var result = m_firstPersonCameraPosition + m_eyeSpaceForwardVector * 10;
             return result;
         }
 
@@ -55,10 +87,10 @@ namespace MassiveGame.Core.GameCore
         {
             switch (direction)
             {
-                case CameraDirections.FORWARD: FirstPersonCameraPosition += GetEyeSpaceForwardVector() * CameraMoveSpeed; break;
-                case CameraDirections.BACK: FirstPersonCameraPosition -= GetEyeSpaceForwardVector() * CameraMoveSpeed; break;
-                case CameraDirections.LEFT: FirstPersonCameraPosition -= GetEyeSpaceRightVector() * CameraMoveSpeed; break;
-                case CameraDirections.RIGHT: FirstPersonCameraPosition += GetEyeSpaceRightVector() * CameraMoveSpeed; break;
+                case CameraDirections.FORWARD: m_firstPersonCameraPosition += GetEyeSpaceForwardVector() * m_cameraMoveSpeed; break;
+                case CameraDirections.BACK: m_firstPersonCameraPosition -= GetEyeSpaceForwardVector() * m_cameraMoveSpeed; break;
+                case CameraDirections.LEFT: m_firstPersonCameraPosition -= GetEyeSpaceRightVector() * m_cameraMoveSpeed; break;
+                case CameraDirections.RIGHT: m_firstPersonCameraPosition += GetEyeSpaceRightVector() * m_cameraMoveSpeed; break;
             }
         }
     }

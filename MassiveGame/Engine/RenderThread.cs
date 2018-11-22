@@ -85,13 +85,13 @@ namespace MassiveGame.Engine
 
         private void DistortionsPassDraw()
         {
-            if (GameWorld.GetWorldInstance().GetLevel().Water != null && GameWorld.GetWorldInstance().GetLevel().Water.IsInCameraView)
+            if (GameWorld.GetWorldInstance().GetLevel().Water != null && GameWorld.GetWorldInstance().GetLevel().Water.GetData().IsInCameraView)
             {
-                GameWorld.GetWorldInstance().GetLevel().Water.SetReflectionRendertarget();
-                RenderToReflectionRenderTarget(GameWorld.GetWorldInstance().GetLevel().Camera, new Vector4(0, -1, 0, GameWorld.GetWorldInstance().GetLevel().Water.WaterHeight), GameWorld.GetWorldInstance().GetLevel().Water.Quality);
+                GameWorld.GetWorldInstance().GetLevel().Water.GetData().SetReflectionRendertarget();
+                RenderToReflectionRenderTarget(GameWorld.GetWorldInstance().GetLevel().Camera, new Vector4(0, -1, 0, GameWorld.GetWorldInstance().GetLevel().Water.GetData().WaterHeight), GameWorld.GetWorldInstance().GetLevel().Water.GetData().Quality);
 
-                GameWorld.GetWorldInstance().GetLevel().Water.SetRefractionRendertarget();
-                RenderToRefractionRenderTarget(GameWorld.GetWorldInstance().GetLevel().Camera, new Vector4(0, -1, 0, GameWorld.GetWorldInstance().GetLevel().Water.WaterHeight), GameWorld.GetWorldInstance().GetLevel().Water.Quality);
+                GameWorld.GetWorldInstance().GetLevel().Water.GetData().SetRefractionRendertarget();
+                RenderToRefractionRenderTarget(GameWorld.GetWorldInstance().GetLevel().Camera, new Vector4(0, -1, 0, GameWorld.GetWorldInstance().GetLevel().Water.GetData().WaterHeight), GameWorld.GetWorldInstance().GetLevel().Water.GetData().Quality);
             }
         }
 
@@ -139,9 +139,9 @@ namespace MassiveGame.Engine
                 }
             }
 
-            if (GameWorld.GetWorldInstance().GetLevel().Water != null && GameWorld.GetWorldInstance().GetLevel().Water.IsInCameraView)
+            if (GameWorld.GetWorldInstance().GetLevel().Water.GetData() != null && GameWorld.GetWorldInstance().GetLevel().Water.GetData().IsInCameraView)
             {
-                GameWorld.GetWorldInstance().GetLevel().Water.renderWater(GameWorld.GetWorldInstance().GetLevel().Camera, ref EngineStatics.ProjectionMatrix,
+                GameWorld.GetWorldInstance().GetLevel().Water.GetData().RenderWater(GameWorld.GetWorldInstance().GetLevel().Camera, ref EngineStatics.ProjectionMatrix,
                         EngineStatics.NEAR_CLIPPING_PLANE, EngineStatics.FAR_CLIPPING_PLANE, GameWorld.GetWorldInstance().GetLevel().DirectionalLight, GameWorld.GetWorldInstance().GetLevel().PointLightCollection);
             }
 
@@ -195,7 +195,7 @@ namespace MassiveGame.Engine
             GL.Clear(ClearBufferMask.StencilBufferBit); // Clear stencil buffer
 
             // prepass for stencil only
-            GameWorld.GetWorldInstance().GetLevel().Water.StencilPass(camera, ref EngineStatics.ProjectionMatrix);
+            GameWorld.GetWorldInstance().GetLevel().Water.GetData().StencilPass(camera, ref EngineStatics.ProjectionMatrix);
 
             GL.DepthMask(true); // Enable write depth
             GL.ColorMask(true, true, true, true); // Enable write color
@@ -212,13 +212,13 @@ namespace MassiveGame.Engine
             GL.Enable(EnableCap.CullFace);
             GL.CullFace(CullFaceMode.Front);
 
-            if (GameWorld.GetWorldInstance().GetLevel().Skybox != null) GameWorld.GetWorldInstance().GetLevel().Skybox.RenderWaterReflection(GameWorld.GetWorldInstance().GetLevel().Water, camera, GameWorld.GetWorldInstance().GetLevel().DirectionalLight.Direction, EngineStatics.ProjectionMatrix, clipPlane);
+            if (GameWorld.GetWorldInstance().GetLevel().Skybox != null) GameWorld.GetWorldInstance().GetLevel().Skybox.RenderWaterReflection(GameWorld.GetWorldInstance().GetLevel().Water.GetData(), camera, GameWorld.GetWorldInstance().GetLevel().DirectionalLight.Direction, EngineStatics.ProjectionMatrix, clipPlane);
 
             GL.Enable(EnableCap.DepthTest);
             GL.Clear(ClearBufferMask.DepthBufferBit);
             GL.CullFace(CullFaceMode.Back);
 
-            if (GameWorld.GetWorldInstance().GetLevel().Terrain != null) GameWorld.GetWorldInstance().GetLevel().Terrain.RenderWaterReflection(GameWorld.GetWorldInstance().GetLevel().Water, GameWorld.GetWorldInstance().GetLevel().DirectionalLight, camera, ref EngineStatics.ProjectionMatrix, clipPlane);
+            if (GameWorld.GetWorldInstance().GetLevel().Terrain != null) GameWorld.GetWorldInstance().GetLevel().Terrain.RenderWaterReflection(GameWorld.GetWorldInstance().GetLevel().Water.GetData(), GameWorld.GetWorldInstance().GetLevel().DirectionalLight, camera, ref EngineStatics.ProjectionMatrix, clipPlane);
             GL.Disable(EnableCap.CullFace);
 
             /*TO DO : true - enable building reflections
@@ -227,19 +227,19 @@ namespace MassiveGame.Engine
             {
                 if (GameWorld.GetWorldInstance().GetLevel().StaticMeshCollection != null) foreach (Building house in GameWorld.GetWorldInstance().GetLevel().StaticMeshCollection)
                     {
-                        house.RenderWaterReflection(GameWorld.GetWorldInstance().GetLevel().Water, GameWorld.GetWorldInstance().GetLevel().DirectionalLight, camera, ref EngineStatics.ProjectionMatrix, clipPlane);
+                        house.RenderWaterReflection(GameWorld.GetWorldInstance().GetLevel().Water.GetData(), GameWorld.GetWorldInstance().GetLevel().DirectionalLight, camera, ref EngineStatics.ProjectionMatrix, clipPlane);
                     }
             }
 
             if (quality.EnableMovableEntities)
             {
-                if (GameWorld.GetWorldInstance().GetLevel().Player != null) GameWorld.GetWorldInstance().GetLevel().Player.GetData().RenderWaterReflection(GameWorld.GetWorldInstance().GetLevel().Water, GameWorld.GetWorldInstance().GetLevel().DirectionalLight, camera, ref EngineStatics.ProjectionMatrix, clipPlane);
-                if (GameWorld.GetWorldInstance().GetLevel().Bots != null) foreach (var bot in GameWorld.GetWorldInstance().GetLevel().Bots) { bot.RenderWaterReflection(GameWorld.GetWorldInstance().GetLevel().Water, GameWorld.GetWorldInstance().GetLevel().DirectionalLight, camera, ref EngineStatics.ProjectionMatrix, clipPlane); }
+                if (GameWorld.GetWorldInstance().GetLevel().Player != null) GameWorld.GetWorldInstance().GetLevel().Player.GetData().RenderWaterReflection(GameWorld.GetWorldInstance().GetLevel().Water.GetData(), GameWorld.GetWorldInstance().GetLevel().DirectionalLight, camera, ref EngineStatics.ProjectionMatrix, clipPlane);
+                if (GameWorld.GetWorldInstance().GetLevel().Bots != null) foreach (var bot in GameWorld.GetWorldInstance().GetLevel().Bots) { bot.RenderWaterReflection(GameWorld.GetWorldInstance().GetLevel().Water.GetData(), GameWorld.GetWorldInstance().GetLevel().DirectionalLight, camera, ref EngineStatics.ProjectionMatrix, clipPlane); }
             }
 
             if (!Object.Equals(GameWorld.GetWorldInstance().GetLevel().SunRenderer, null))
             {
-                GameWorld.GetWorldInstance().GetLevel().SunRenderer.GetData().RenderWaterReflection(GameWorld.GetWorldInstance().GetLevel().Water, camera, ref EngineStatics.ProjectionMatrix, clipPlane);
+                GameWorld.GetWorldInstance().GetLevel().SunRenderer.GetData().RenderWaterReflection(GameWorld.GetWorldInstance().GetLevel().Water.GetData(), camera, ref EngineStatics.ProjectionMatrix, clipPlane);
             }
 
             GL.Disable(EnableCap.StencilTest); // Disable stencil test 
@@ -256,7 +256,7 @@ namespace MassiveGame.Engine
             GL.Clear(ClearBufferMask.StencilBufferBit); // Clear stencil buffer
 
             // prepass for stencil only
-            GameWorld.GetWorldInstance().GetLevel().Water.StencilPass(camera, ref EngineStatics.ProjectionMatrix);
+            GameWorld.GetWorldInstance().GetLevel().Water.GetData().StencilPass(camera, ref EngineStatics.ProjectionMatrix);
 
             GL.DepthMask(true); // Enable write depth
             GL.ColorMask(true, true, true, true); // Enable write color
@@ -303,7 +303,7 @@ namespace MassiveGame.Engine
             }
 
             /*TO DO :
-             * Culling back facies of terrain, cause they don't refract in EngineSingleton.Water*/
+             * Culling back faces of terrain, cause they don't refract in EngineSingleton.Water*/
             GL.Enable(EnableCap.CullFace);
             GL.CullFace(CullFaceMode.Back);
             if (GameWorld.GetWorldInstance().GetLevel().Terrain != null) GameWorld.GetWorldInstance().GetLevel().Terrain.RenderWaterRefraction(GameWorld.GetWorldInstance().GetLevel().DirectionalLight, camera, ref EngineStatics.ProjectionMatrix, clipPlane);
@@ -363,7 +363,7 @@ namespace MassiveGame.Engine
                 matrix[3, 0] = 0.0f;
                 matrix[3, 1] = 0.0f;
                 matrix[3, 2] = 0.0f;
-                GameWorld.GetWorldInstance().GetLevel().SunRenderer.GetData().CQuad.renderQuad(matrix, ref EngineStatics.ProjectionMatrix);
+                GameWorld.GetWorldInstance().GetLevel().SunRenderer.GetData().CQuad.RenderQuad(matrix, ref EngineStatics.ProjectionMatrix);
             }
         }
 

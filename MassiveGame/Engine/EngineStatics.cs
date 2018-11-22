@@ -1,27 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using OpenTK;
 using OpenTK.Graphics.OpenGL;
 using System.Drawing;
-
-using MassiveGame.Core.RenderCore.Lights;
-using MassiveGame.Core.GameCore.Sun.DayCycle;
-using MassiveGame.Core.GameCore.Terrain;
-using MassiveGame.Core.GameCore.Entities.MoveEntities;
-using MassiveGame.Core.GameCore.Entities.StaticEntities;
-using MassiveGame.Core.GameCore;
-using MassiveGame.Core.GameCore.Skybox;
-using MassiveGame.Core.GameCore.Water;
-using MassiveGame.Core.GameCore.Sun;
-using MassiveGame.Core.GameCore.EntityComponents;
-using MassiveGame.Core.RenderCore.Light_visualization;
-using MassiveGame.Core.RenderCore.Visibility;
-using MassiveGame.Core.RenderCore;
-
-using MassiveGame.API.MouseObjectDetector;
-using MassiveGame.Debug.UiPanel;
 using MassiveGame.Settings;
-using MassiveGame.Core.GameCore.Entities.Skeletal_Entities;
 
 namespace MassiveGame
 {

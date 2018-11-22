@@ -10,6 +10,7 @@ using OpenTK.Graphics.OpenGL;
 
 namespace MassiveGame.Core.MathCore
 {
+    [Serializable]
     public sealed class CollisionQuad
     {
         public Vector3 LBNCoordinates { set; get; }
@@ -18,7 +19,7 @@ namespace MassiveGame.Core.MathCore
         public Vector4 Color { set; get; }
         private float[,] _renderCoordinates;
 
-        public void renderQuad(Matrix4 modelViewMatrix, ref Matrix4 projectionMatrix)
+        public void RenderQuad(Matrix4 modelViewMatrix, ref Matrix4 projectionMatrix)
         {
             _renderCoordinates[0, 0] = LBNCoordinates.X; _renderCoordinates[0, 1] = LBNCoordinates.Y; _renderCoordinates[0, 2] = LBNCoordinates.Z;
             _renderCoordinates[1, 0] = RTFCoordinates.X; _renderCoordinates[1, 1] = LBNCoordinates.Y; _renderCoordinates[1, 2] = RTFCoordinates.Z;
