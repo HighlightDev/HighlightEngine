@@ -9,3 +9,7 @@ MassiveGame/Debug/ProjectLogs.txt
 *.ide-shm
 *.ide-shm
 *.resources
+*.ide
+*.lock
+*.ide-shm
+*.ide-wal
