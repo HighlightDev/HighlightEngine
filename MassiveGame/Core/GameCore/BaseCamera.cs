@@ -41,18 +41,6 @@ namespace MassiveGame.Core.GameCore
 
         public virtual void GetObjectData(SerializationInfo info, StreamingContext context)
         {
-            m_localSpaceRightVector = (Vector3)info.GetValue("m_localSpaceRightVector", typeof(Vector3));
-            m_localSpaceUpVector = (Vector3)info.GetValue("m_localSpaceUpVector", typeof(Vector3));
-            m_localSpaceForwardVector = (Vector3)info.GetValue("m_localSpaceForwardVector", typeof(Vector3));
-            m_eyeSpaceRightVector = (Vector3)info.GetValue("m_eyeSpaceRightVector", typeof(Vector3));
-            m_eyeSpaceForwardVector = (Vector3)info.GetValue("m_eyeSpaceForwardVector", typeof(Vector3));
-            m_rotationMatrix = (Matrix3)info.GetValue("m_rotationMatrix", typeof(Matrix3));
-            CameraCollisionSphereRadius = info.GetSingle("CameraCollisionSphereRadius");
-            rotateSensetivity = info.GetSingle("rotateSensetivity");
-        }
-
-        protected BaseCamera(SerializationInfo info, StreamingContext context)
-        {
             SwitchCamera = false;
             bTransformationDirty = false;
             info.AddValue("m_localSpaceRightVector", m_localSpaceRightVector, typeof(Vector3));
@@ -63,6 +51,18 @@ namespace MassiveGame.Core.GameCore
             info.AddValue("m_rotationMatrix", m_rotationMatrix, typeof(Matrix3));
             info.AddValue("CameraCollisionSphereRadius", CameraCollisionSphereRadius);
             info.AddValue("rotateSensetivity", rotateSensetivity);
+        }
+
+        protected BaseCamera(SerializationInfo info, StreamingContext context)
+        {
+            m_localSpaceRightVector = (Vector3)info.GetValue("m_localSpaceRightVector", typeof(Vector3));
+            m_localSpaceUpVector = (Vector3)info.GetValue("m_localSpaceUpVector", typeof(Vector3));
+            m_localSpaceForwardVector = (Vector3)info.GetValue("m_localSpaceForwardVector", typeof(Vector3));
+            m_eyeSpaceRightVector = (Vector3)info.GetValue("m_eyeSpaceRightVector", typeof(Vector3));
+            m_eyeSpaceForwardVector = (Vector3)info.GetValue("m_eyeSpaceForwardVector", typeof(Vector3));
+            m_rotationMatrix = (Matrix3)info.GetValue("m_rotationMatrix", typeof(Matrix3));
+            CameraCollisionSphereRadius = info.GetSingle("CameraCollisionSphereRadius");
+            rotateSensetivity = info.GetSingle("rotateSensetivity");
         }
 
         #endregion

@@ -1,11 +1,14 @@
 ﻿using OpenTK;
+using System;
 
 namespace MassiveGame.Core.GameCore.Sun.DayCycle
 {
+    [Serializable]
     public class DayPhases
     {
         #region NestedTypes
 
+        [Serializable]
         public class Morning : Phase
         {
             public float PhaseTime { private set; get; }
@@ -16,6 +19,7 @@ namespace MassiveGame.Core.GameCore.Sun.DayCycle
             }
         }
 
+        [Serializable]
         public class Day : Phase
         {
             public float PhaseTime { private set; get; }
@@ -26,6 +30,7 @@ namespace MassiveGame.Core.GameCore.Sun.DayCycle
             }
         }
 
+        [Serializable]
         public class Evening : Phase
         {
             public float PhaseTime { private set; get; }
@@ -36,6 +41,7 @@ namespace MassiveGame.Core.GameCore.Sun.DayCycle
             }
         }
 
+        [Serializable]
         public class Night : Phase
         {
             public float PhaseTime { private set; get; }

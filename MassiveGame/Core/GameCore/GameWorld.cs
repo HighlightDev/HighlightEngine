@@ -208,16 +208,16 @@ namespace MassiveGame.Core.GameCore
         private void TestingIO(Level level, DeserializeWrapper deserializer)
         {
             // Player
-            Serialize(level.Player);
-            level.Player.ClearWrapper();
-            level.Player = deserializer.Deserialize<ObserverWrapper<MovableMeshEntity>>("entity.bn");
-            level.Player.GetData().SetCollisionHeadUnit(m_collisionHeadUnit);
+            //Serialize(level.Player);
+            //level.Player.ClearWrapper();
+            //level.Player = deserializer.Deserialize<ObserverWrapper<MovableMeshEntity>>("entity.bn");
+            //level.Player.GetData().SetCollisionHeadUnit(m_collisionHeadUnit);
 
             // Static mesh list
-            Serialize(level.StaticMeshCollection);
-            level.StaticMeshCollection.ClearList();
-            level.StaticMeshCollection = deserializer.Deserialize<ObserverListWrapper<Building>>("entity.bn");
-            foreach (var item in level.StaticMeshCollection) item.SetCollisionHeadUnit(m_collisionHeadUnit);
+            //Serialize(level.StaticMeshCollection);
+            //level.StaticMeshCollection.ClearList();
+            //level.StaticMeshCollection = deserializer.Deserialize<ObserverListWrapper<Building>>("entity.bn");
+            //foreach (var item in level.StaticMeshCollection) item.SetCollisionHeadUnit(m_collisionHeadUnit);
 
             // Sun renderer
             //Serialize(level.SunRenderer);
@@ -229,6 +229,16 @@ namespace MassiveGame.Core.GameCore
             //Serialize(level.Water);
             //level.Water.ClearWrapper();
             //level.Water = deserializer.Deserialize<ObserverWrapper<WaterPlane>>("entity.bn");
+
+            // Skybox
+            //Serialize(level.Skybox);
+            //level.Skybox = null;
+            //level.Skybox = deserializer.Deserialize<SkyboxEntity>("entity.bn");
+
+            // Day cycle
+            Serialize(level.DayCycle);
+            level.DayCycle = null;
+            level.DayCycle = deserializer.Deserialize<DayLightCycle>("entity.bn");
         }
 
         #endregion

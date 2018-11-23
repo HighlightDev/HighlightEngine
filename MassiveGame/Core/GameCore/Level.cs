@@ -52,12 +52,10 @@ namespace MassiveGame.Core.GameCore
 
         private BaseCamera m_camera;
 
-        [NonSerialized]
         private SkyboxEntity m_skybox;
 
         private DirectionalLight m_directionalLight;
 
-        [NonSerialized]
         private DayLightCycle m_dayLightCycle;
 
         [NonSerialized]

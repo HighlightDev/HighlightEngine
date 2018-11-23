@@ -9,22 +9,96 @@ using VBO;
 using MassiveGame.API.ResourcePool.PoolHandling;
 using MassiveGame.API.ResourcePool.Policies;
 using MassiveGame.API.ResourcePool;
+using System;
+using System.Runtime.Serialization;
 
 namespace MassiveGame.Core.GameCore.Skybox
 {
-    public class SkyboxEntity
+    [Serializable]
+    public class SkyboxEntity : ISerializable
     {
         #region Definitions
 
         private const float SKYBOX_SIZE = 500.0f;
         public float FloatSpeed { set; get; }
-        private float _moveFactor;
-        private bool _postConstructor;
-        private ITexture skyboxDayTexture;
-        private ITexture skyboxNightTexture;
-        private SkyboxShader shader;
-        private VertexArrayObject buffer;
-        private MistComponent _mist;
+        private float m_moveFactor;
+        private bool m_bPostConstructor;
+        private ITexture m_skyboxDayTexture;
+        private ITexture m_skyboxNightTexture;
+        private SkyboxShader m_shader;
+        private VertexArrayObject m_buffer;
+        private MistComponent m_mist;
+
+        #endregion
+
+        #region Constructor
+
+        private void PostConstructor()
+        {
+            if (m_bPostConstructor)
+            {
+                m_shader = PoolProxy.GetResource<ObtainShaderPool, ShaderAllocationPolicy<SkyboxShader>, string, SkyboxShader>(ProjectFolders.ShadersPath + "skyboxVS.glsl" + "," +
+                    ProjectFolders.ShadersPath + "skyboxFS.glsl");
+
+                float[,] vertices = new float[6 * 6, 3] { { -SKYBOX_SIZE, SKYBOX_SIZE, -SKYBOX_SIZE }, { -SKYBOX_SIZE, -SKYBOX_SIZE, -SKYBOX_SIZE }, { SKYBOX_SIZE, -SKYBOX_SIZE, -SKYBOX_SIZE },
+                { SKYBOX_SIZE, -SKYBOX_SIZE, -SKYBOX_SIZE },{ SKYBOX_SIZE, SKYBOX_SIZE, -SKYBOX_SIZE },{ -SKYBOX_SIZE, SKYBOX_SIZE, -SKYBOX_SIZE },{ -SKYBOX_SIZE, -SKYBOX_SIZE, SKYBOX_SIZE },
+                { -SKYBOX_SIZE, -SKYBOX_SIZE, -SKYBOX_SIZE },{ -SKYBOX_SIZE, SKYBOX_SIZE, -SKYBOX_SIZE },{ -SKYBOX_SIZE, SKYBOX_SIZE, -SKYBOX_SIZE },{ -SKYBOX_SIZE, SKYBOX_SIZE, SKYBOX_SIZE },
+                { -SKYBOX_SIZE, -SKYBOX_SIZE, SKYBOX_SIZE },{ SKYBOX_SIZE, -SKYBOX_SIZE, -SKYBOX_SIZE },{ SKYBOX_SIZE, -SKYBOX_SIZE, SKYBOX_SIZE },{ SKYBOX_SIZE, SKYBOX_SIZE, SKYBOX_SIZE },
+                { SKYBOX_SIZE, SKYBOX_SIZE, SKYBOX_SIZE },{ SKYBOX_SIZE, SKYBOX_SIZE, -SKYBOX_SIZE },{ SKYBOX_SIZE, -SKYBOX_SIZE, -SKYBOX_SIZE },{ -SKYBOX_SIZE, -SKYBOX_SIZE, SKYBOX_SIZE },
+                { -SKYBOX_SIZE, SKYBOX_SIZE, SKYBOX_SIZE },{ SKYBOX_SIZE, SKYBOX_SIZE, SKYBOX_SIZE },{ SKYBOX_SIZE, SKYBOX_SIZE, SKYBOX_SIZE },{ SKYBOX_SIZE, -SKYBOX_SIZE, SKYBOX_SIZE },
+                { -SKYBOX_SIZE, -SKYBOX_SIZE, SKYBOX_SIZE },{ -SKYBOX_SIZE, SKYBOX_SIZE, -SKYBOX_SIZE },{ SKYBOX_SIZE, SKYBOX_SIZE, -SKYBOX_SIZE },{ SKYBOX_SIZE, SKYBOX_SIZE, SKYBOX_SIZE },
+                { SKYBOX_SIZE, SKYBOX_SIZE, SKYBOX_SIZE },{ -SKYBOX_SIZE, SKYBOX_SIZE, SKYBOX_SIZE },{ -SKYBOX_SIZE, SKYBOX_SIZE, -SKYBOX_SIZE },{ -SKYBOX_SIZE, -SKYBOX_SIZE, -SKYBOX_SIZE },
+                { -SKYBOX_SIZE, -SKYBOX_SIZE, SKYBOX_SIZE },{ SKYBOX_SIZE, -SKYBOX_SIZE, -SKYBOX_SIZE },{ SKYBOX_SIZE, -SKYBOX_SIZE, -SKYBOX_SIZE },{ -SKYBOX_SIZE, -SKYBOX_SIZE, SKYBOX_SIZE },
+                { SKYBOX_SIZE, -SKYBOX_SIZE, SKYBOX_SIZE } };
+
+                VertexBufferObjectTwoDimension<float> verticesVBO = new VertexBufferObjectTwoDimension<float>(vertices, BufferTarget.ArrayBuffer, 0, 3, VertexBufferObjectBase.DataCarryFlag.Invalidate);
+                m_buffer = new VertexArrayObject();
+                m_buffer.AddVBO(verticesVBO);
+                m_buffer.BindBuffersToVao();
+
+                m_bPostConstructor = !m_bPostConstructor;
+            }
+        }
+
+        public SkyboxEntity(string[] dayTextures, string[] nightTextures)
+        {
+            FloatSpeed = 0.3f;
+            Init(dayTextures, nightTextures);
+        }
+
+        private void Init(string[] dayTextures, string[] nightTextures)
+        {
+            m_moveFactor = 0.0f;
+            m_skyboxDayTexture = PoolProxy.GetResource<ObtainTexturePool, TextureAllocationPolicy, string, ITexture>(dayTextures[0] + "," + dayTextures[1] + "," + dayTextures[2] + "," +
+               dayTextures[3] + "," + dayTextures[4] + "," + dayTextures[5]);
+            m_skyboxNightTexture = PoolProxy.GetResource<ObtainTexturePool, TextureAllocationPolicy, string, ITexture>(nightTextures[0] + "," + nightTextures[1] + "," + nightTextures[2] + "," +
+                nightTextures[3] + "," + nightTextures[4] + "," + nightTextures[5]);
+            m_bPostConstructor = true;
+        }
+
+        #endregion
+
+        #region Serialization
+
+        protected SkyboxEntity(SerializationInfo info, StreamingContext context)
+        {
+            m_mist = (MistComponent)info.GetValue("m_mist", typeof(MistComponent));
+            FloatSpeed = info.GetSingle("FloatSpeed");
+            string[] dayTexturesPath = info.GetString("m_skyboxDayTexture").Split(',');
+            string[] nightTexturesPath = info.GetString("m_skyboxNightTexture").Split(',');
+            Init(dayTexturesPath, nightTexturesPath);
+        }
+
+        public void GetObjectData(SerializationInfo info, StreamingContext context)
+        {
+            string dayTexturesPath = PoolProxy.GetResourceKey<ObtainTexturePool, string, ITexture>(m_skyboxDayTexture);
+            string nightTexturesPath = PoolProxy.GetResourceKey<ObtainTexturePool, string, ITexture>(m_skyboxNightTexture);
+
+            info.AddValue("m_skyboxDayTexture", dayTexturesPath);
+            info.AddValue("m_skyboxNightTexture", nightTexturesPath);
+            info.AddValue("m_mist", m_mist, typeof(MistComponent));
+            info.AddValue("FloatSpeed", FloatSpeed);
+        }
 
         #endregion
 
@@ -33,20 +107,20 @@ namespace MassiveGame.Core.GameCore.Skybox
         private Matrix4 GetMirrorMatrix(WaterPlane water)
         {
             Matrix4 mirrorMatrix = Matrix4.Identity;
-            mirrorMatrix *= Matrix4.CreateRotationY(MathHelper.DegreesToRadians(_moveFactor));
+            mirrorMatrix *= Matrix4.CreateRotationY(MathHelper.DegreesToRadians(m_moveFactor));
             mirrorMatrix *= Matrix4.CreateScale(1, -1, 1);
             return mirrorMatrix;
         }
 
         public void Tick(float deltaTime)
         {
-            _moveFactor += deltaTime * FloatSpeed;
-            _moveFactor %= 360.0f;
+            m_moveFactor += deltaTime * FloatSpeed;
+            m_moveFactor %= 360.0f;
         }
 
         public void RenderWaterReflection(WaterPlane water, BaseCamera camera, Vector3 sunDirection, Matrix4 projectionMatrix, Vector4 clipPlane)
         {
-            if (_postConstructor)
+            if (m_bPostConstructor)
                 return;
 
             GL.Enable(EnableCap.ClipDistance0);
@@ -54,39 +128,39 @@ namespace MassiveGame.Core.GameCore.Skybox
             Matrix4 mirrorMatrix;
             mirrorMatrix = GetMirrorMatrix(water);
 
-            shader.startProgram();
-            skyboxDayTexture.BindTexture(TextureUnit.Texture0);
-            skyboxNightTexture.BindTexture(TextureUnit.Texture1);
-            shader.SetTransformationMatrices(ref projectionMatrix, camera.GetViewMatrix(), ref mirrorMatrix);
-            shader.SetDayCubeTexture(0);
-            shader.SetNightCubeTexture(1);
-            shader.SetDayCycleValue(sunDirection.Normalized().Y);
-            shader.SetMist(_mist);
-            shader.SetClipPlane(ref clipPlane);
-            buffer.RenderVAO(PrimitiveType.Triangles);
-            shader.stopProgram();
+            m_shader.startProgram();
+            m_skyboxDayTexture.BindTexture(TextureUnit.Texture0);
+            m_skyboxNightTexture.BindTexture(TextureUnit.Texture1);
+            m_shader.SetTransformationMatrices(ref projectionMatrix, camera.GetViewMatrix(), ref mirrorMatrix);
+            m_shader.SetDayCubeTexture(0);
+            m_shader.SetNightCubeTexture(1);
+            m_shader.SetDayCycleValue(sunDirection.Normalized().Y);
+            m_shader.SetMist(m_mist);
+            m_shader.SetClipPlane(ref clipPlane);
+            m_buffer.RenderVAO(PrimitiveType.Triangles);
+            m_shader.stopProgram();
 
             GL.Disable(EnableCap.ClipDistance0);
         }
 
         public void renderSkybox(BaseCamera camera, Vector3 sunDirection, Matrix4 projectionMatrix)
         {
-            postConstructor();
+            PostConstructor();
 
             GL.Disable(EnableCap.ClipDistance0);
 
-            Matrix4 modelMatrix = Matrix4.CreateRotationY(MathHelper.DegreesToRadians(_moveFactor));
+            Matrix4 modelMatrix = Matrix4.CreateRotationY(MathHelper.DegreesToRadians(m_moveFactor));
 
-            shader.startProgram();
-            skyboxDayTexture.BindTexture(TextureUnit.Texture0);
-            skyboxNightTexture.BindTexture(TextureUnit.Texture1);
-            shader.SetTransformationMatrices(ref projectionMatrix, camera.GetViewMatrix(), ref modelMatrix);
-            shader.SetDayCubeTexture(0);
-            shader.SetNightCubeTexture(1);
-            shader.SetDayCycleValue(sunDirection.Normalized().Y);
-            shader.SetMist(_mist);
-            buffer.RenderVAO(PrimitiveType.Triangles);
-            shader.stopProgram();
+            m_shader.startProgram();
+            m_skyboxDayTexture.BindTexture(TextureUnit.Texture0);
+            m_skyboxNightTexture.BindTexture(TextureUnit.Texture1);
+            m_shader.SetTransformationMatrices(ref projectionMatrix, camera.GetViewMatrix(), ref modelMatrix);
+            m_shader.SetDayCubeTexture(0);
+            m_shader.SetNightCubeTexture(1);
+            m_shader.SetDayCycleValue(sunDirection.Normalized().Y);
+            m_shader.SetMist(m_mist);
+            m_buffer.RenderVAO(PrimitiveType.Triangles);
+            m_shader.stopProgram();
         }
 
         #endregion
@@ -95,49 +169,7 @@ namespace MassiveGame.Core.GameCore.Skybox
 
         public void setMistComponent(MistComponent mist)
         {
-            this._mist = mist;
-        }
-
-        #endregion
-
-        #region Constructor
-
-        private void postConstructor()
-        {
-            if (this._postConstructor)
-            {
-                shader = PoolProxy.GetResource<ObtainShaderPool, ShaderAllocationPolicy<SkyboxShader>, string, SkyboxShader>(ProjectFolders.ShadersPath + "skyboxVS.glsl" + "," +
-                    ProjectFolders.ShadersPath + "skyboxFS.glsl");
-
-                float[,] vertices = new float[6 * 6, 3] { { -SKYBOX_SIZE, SKYBOX_SIZE, -SKYBOX_SIZE }, { -SKYBOX_SIZE, -SKYBOX_SIZE, -SKYBOX_SIZE }, { SKYBOX_SIZE, -SKYBOX_SIZE, -SKYBOX_SIZE },
-            { SKYBOX_SIZE, -SKYBOX_SIZE, -SKYBOX_SIZE },{ SKYBOX_SIZE, SKYBOX_SIZE, -SKYBOX_SIZE },{ -SKYBOX_SIZE, SKYBOX_SIZE, -SKYBOX_SIZE },{ -SKYBOX_SIZE, -SKYBOX_SIZE, SKYBOX_SIZE },
-            { -SKYBOX_SIZE, -SKYBOX_SIZE, -SKYBOX_SIZE },{ -SKYBOX_SIZE, SKYBOX_SIZE, -SKYBOX_SIZE },{ -SKYBOX_SIZE, SKYBOX_SIZE, -SKYBOX_SIZE },{ -SKYBOX_SIZE, SKYBOX_SIZE, SKYBOX_SIZE },
-            { -SKYBOX_SIZE, -SKYBOX_SIZE, SKYBOX_SIZE },{ SKYBOX_SIZE, -SKYBOX_SIZE, -SKYBOX_SIZE },{ SKYBOX_SIZE, -SKYBOX_SIZE, SKYBOX_SIZE },{ SKYBOX_SIZE, SKYBOX_SIZE, SKYBOX_SIZE },
-            { SKYBOX_SIZE, SKYBOX_SIZE, SKYBOX_SIZE },{ SKYBOX_SIZE, SKYBOX_SIZE, -SKYBOX_SIZE },{ SKYBOX_SIZE, -SKYBOX_SIZE, -SKYBOX_SIZE },{ -SKYBOX_SIZE, -SKYBOX_SIZE, SKYBOX_SIZE },
-            { -SKYBOX_SIZE, SKYBOX_SIZE, SKYBOX_SIZE },{ SKYBOX_SIZE, SKYBOX_SIZE, SKYBOX_SIZE },{ SKYBOX_SIZE, SKYBOX_SIZE, SKYBOX_SIZE },{ SKYBOX_SIZE, -SKYBOX_SIZE, SKYBOX_SIZE },
-            { -SKYBOX_SIZE, -SKYBOX_SIZE, SKYBOX_SIZE },{ -SKYBOX_SIZE, SKYBOX_SIZE, -SKYBOX_SIZE },{ SKYBOX_SIZE, SKYBOX_SIZE, -SKYBOX_SIZE },{ SKYBOX_SIZE, SKYBOX_SIZE, SKYBOX_SIZE },
-            { SKYBOX_SIZE, SKYBOX_SIZE, SKYBOX_SIZE },{ -SKYBOX_SIZE, SKYBOX_SIZE, SKYBOX_SIZE },{ -SKYBOX_SIZE, SKYBOX_SIZE, -SKYBOX_SIZE },{ -SKYBOX_SIZE, -SKYBOX_SIZE, -SKYBOX_SIZE },
-            { -SKYBOX_SIZE, -SKYBOX_SIZE, SKYBOX_SIZE },{ SKYBOX_SIZE, -SKYBOX_SIZE, -SKYBOX_SIZE },{ SKYBOX_SIZE, -SKYBOX_SIZE, -SKYBOX_SIZE },{ -SKYBOX_SIZE, -SKYBOX_SIZE, SKYBOX_SIZE },
-            { SKYBOX_SIZE, -SKYBOX_SIZE, SKYBOX_SIZE } };
-
-                VertexBufferObjectTwoDimension<float> verticesVBO = new VertexBufferObjectTwoDimension<float>(vertices, BufferTarget.ArrayBuffer, 0, 3, VertexBufferObjectBase.DataCarryFlag.Invalidate);
-                buffer = new VertexArrayObject();
-                buffer.AddVBO(verticesVBO);
-                buffer.BindBuffersToVao();
-
-                this._postConstructor = !this._postConstructor;
-            }
-        }
-
-        public SkyboxEntity(string[] dayTextures, string[] nightTextures)
-        {
-            _moveFactor = 0.0f;
-            FloatSpeed = 0.3f;
-            skyboxDayTexture = PoolProxy.GetResource<ObtainTexturePool, TextureAllocationPolicy, string, ITexture>(dayTextures[0] + "," + dayTextures[1] + "," + dayTextures[2] + "," +
-                dayTextures[3] + "," + dayTextures[4] + "," + dayTextures[5]);
-            skyboxNightTexture = PoolProxy.GetResource<ObtainTexturePool, TextureAllocationPolicy, string, ITexture>(nightTextures[0] + "," + nightTextures[1] + "," + nightTextures[2] + "," +
-                nightTextures[3] + "," + nightTextures[4] + "," + nightTextures[5]);
-            _postConstructor = true;
+            this.m_mist = mist;
         }
 
         #endregion
@@ -146,10 +178,10 @@ namespace MassiveGame.Core.GameCore.Skybox
 
         public void cleanUp()
         {
-            PoolProxy.FreeResourceMemory<ObtainShaderPool, ShaderAllocationPolicy<SkyboxShader>, string, SkyboxShader>(shader);
-            buffer.CleanUp();
-            PoolProxy.FreeResourceMemory<ObtainTexturePool, TextureAllocationPolicy, string, ITexture>(skyboxDayTexture);
-            PoolProxy.FreeResourceMemory<ObtainTexturePool, TextureAllocationPolicy, string, ITexture>(skyboxNightTexture);
+            PoolProxy.FreeResourceMemory<ObtainShaderPool, ShaderAllocationPolicy<SkyboxShader>, string, SkyboxShader>(m_shader);
+            m_buffer.CleanUp();
+            PoolProxy.FreeResourceMemory<ObtainTexturePool, TextureAllocationPolicy, string, ITexture>(m_skyboxDayTexture);
+            PoolProxy.FreeResourceMemory<ObtainTexturePool, TextureAllocationPolicy, string, ITexture>(m_skyboxNightTexture);
         }
 
         #endregion

@@ -50,11 +50,13 @@ namespace MassiveGame.Core.RenderCore.Shadows
             base.GetObjectData(info, context);
             TextureParameters shadowmapTextureParameters = m_shadowMapTexture.GetTextureParameters();
             info.AddValue("shadowMapTextureParameters", shadowmapTextureParameters, typeof(TextureParameters));
+            info.AddValue("m_viewerCamera", m_viewerCamera, typeof(BaseCamera));
         }
 
         protected DirectionalLightWithShadow(SerializationInfo info, StreamingContext context) 
             : base(info ,context)
         {
+            m_viewerCamera = info.GetValue("m_viewerCamera", typeof(BaseCamera)) as BaseCamera;
             var shadowMapSettings = info.GetValue("shadowMapTextureParameters", typeof(TextureParameters)) as TextureParameters;
             InitResources(shadowMapSettings);
             m_shadowOrthographicProjectionBuilder = new ShadowOrthoBuilder();

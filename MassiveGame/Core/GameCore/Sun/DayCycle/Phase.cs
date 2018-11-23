@@ -1,7 +1,9 @@
 ﻿using OpenTK;
+using System;
 
 namespace MassiveGame.Core.GameCore.Sun.DayCycle
 {
+    [Serializable]
     public abstract class Phase
     {
         public Vector3 AmbientLight { set; get; }

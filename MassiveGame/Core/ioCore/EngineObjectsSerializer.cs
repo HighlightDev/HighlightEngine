@@ -34,8 +34,8 @@ namespace MassiveGame.Core.ioCore
 
         public void PostDeserializeObserver(object deserializedObject)
         {
-            IPostDeserializable obj = (IPostDeserializable)deserializedObject;
-            obj.PostDeserializeInit();
+            IPostDeserializable obj = deserializedObject as IPostDeserializable;
+            obj?.PostDeserializeInit();
         }
     }
 }

@@ -4,6 +4,7 @@ using MassiveGame.Core.RenderCore.Lights;
 
 namespace MassiveGame.Core.GameCore.Sun.DayCycle
 {
+    [Serializable]
     public class DayLightCycle
     {
         #region Definitions
