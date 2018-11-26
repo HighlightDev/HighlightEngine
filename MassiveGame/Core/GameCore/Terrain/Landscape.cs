@@ -163,6 +163,11 @@ namespace MassiveGame.Core.GameCore.Terrain
 
         #region Constructor
 
+        public void PostDeserializePass(MistComponent mistComponent)
+        {
+            _mist = mistComponent;
+        }
+
         private void InitTextures(string pathTexR, string pathTexG, string pathTexB, string pathTexBlack, string pathTexBlendMap)
         {
             this._textureR = PoolProxy.GetResource<ObtainTexturePool, TextureAllocationPolicy, string, ITexture>(pathTexR);

@@ -24,6 +24,7 @@ namespace MassiveGame.Core.RenderCore.Shadows
 
         private ShadowOrthoBuilder m_shadowOrthographicProjectionBuilder;
 
+        [NonSerialized]
         private BaseCamera m_viewerCamera;
 
         private ITexture m_shadowMapTexture;
@@ -45,18 +46,21 @@ namespace MassiveGame.Core.RenderCore.Shadows
 
         #region Serialization
 
+        public void PostDeserializePass(BaseCamera camera)
+        {
+            m_viewerCamera = camera;
+        }
+
         public override void GetObjectData(SerializationInfo info, StreamingContext context)
         {
             base.GetObjectData(info, context);
             TextureParameters shadowmapTextureParameters = m_shadowMapTexture.GetTextureParameters();
             info.AddValue("shadowMapTextureParameters", shadowmapTextureParameters, typeof(TextureParameters));
-            info.AddValue("m_viewerCamera", m_viewerCamera, typeof(BaseCamera));
         }
 
         protected DirectionalLightWithShadow(SerializationInfo info, StreamingContext context) 
             : base(info ,context)
         {
-            m_viewerCamera = info.GetValue("m_viewerCamera", typeof(BaseCamera)) as BaseCamera;
             var shadowMapSettings = info.GetValue("shadowMapTextureParameters", typeof(TextureParameters)) as TextureParameters;
             InitResources(shadowMapSettings);
             m_shadowOrthographicProjectionBuilder = new ShadowOrthoBuilder();

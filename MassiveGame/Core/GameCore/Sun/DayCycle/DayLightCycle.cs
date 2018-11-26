@@ -15,7 +15,7 @@ namespace MassiveGame.Core.GameCore.Sun.DayCycle
         private float time;
 
         [NonSerialized]
-        private DirectionalLight sun;
+        private DirectionalLight m_globalLight;
 
         private float traectoryRadius;
 
@@ -23,14 +23,19 @@ namespace MassiveGame.Core.GameCore.Sun.DayCycle
 
         #region Constructor
 
+        public void PostDeserializePass(DirectionalLight directionalLight)
+        {
+            m_globalLight = directionalLight;
+        }
+
         public DayLightCycle(DirectionalLight sun, float traectoryRadius, DayPhases phases)
         {
             this.Phases = phases;
-            this.sun = sun;
+            this.m_globalLight = sun;
             time = 0f;
             TimeFlow = 0.5f;
             TimerPeriod = 1;
-            this.sun.Destination = new Vector3(traectoryRadius / 2, 0, traectoryRadius / 2);
+            this.m_globalLight.Destination = new Vector3(traectoryRadius / 2, 0, traectoryRadius / 2);
             this.traectoryRadius = traectoryRadius;
         }
 
@@ -75,9 +80,9 @@ namespace MassiveGame.Core.GameCore.Sun.DayCycle
                 newDiffuse = Phases.GetNightDiffuseIterpolatedColor(time);
                 newSpecular = Phases.GetNightSpecularIterpolatedColor(time);
             }
-            sun.Ambient = new Vector4(newAmbient, 1.0f);
-            sun.Diffuse = new Vector4(newDiffuse, 1.0f);
-            sun.Specular = new Vector4(newSpecular, 1.0f);
+            m_globalLight.Ambient = new Vector4(newAmbient, 1.0f);
+            m_globalLight.Diffuse = new Vector4(newDiffuse, 1.0f);
+            m_globalLight.Specular = new Vector4(newSpecular, 1.0f);
         }
 
         private void CalculateCurrentLightDirection()
@@ -88,9 +93,9 @@ namespace MassiveGame.Core.GameCore.Sun.DayCycle
                 traectoryRadius * (float)Math.Cos(radians),
                 traectoryRadius * (float)Math.Sin(radians),
                 traectoryRadius);
-            Vector3 direction = sun.Destination - position;
-            sun.Direction = direction;
-            sun.Position = position;
+            Vector3 direction = m_globalLight.Destination - position;
+            m_globalLight.Direction = direction;
+            m_globalLight.Position = position;
         }
 
         #endregion
