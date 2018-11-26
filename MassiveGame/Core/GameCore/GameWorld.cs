@@ -175,10 +175,6 @@ namespace MassiveGame.Core.GameCore
             level.SunRenderer.AddToWrapper(new SunRenderer(level.DirectionalLight, ProjectFolders.SunTexturePath + "sunC.png",
                     ProjectFolders.SunTexturePath + "sunB.png", 150, 130));
 
-#if DEBUG || DESIGN_EDITOR
-            level.PointLightDebugRenderer = new PointLightsDebugRenderer(ProjectFolders.TexturesPath + "/LightTextures/" + "light-bulb-icon (1).png",
-                level.PointLightCollection);
-#endif
 
             // TODO: test io
             TestingIO(level, deserializer);
@@ -187,7 +183,6 @@ namespace MassiveGame.Core.GameCore
             ThirdPersonCamera thirdPersonCamera = (level.Camera as ThirdPersonCamera);
             thirdPersonCamera?.SetThirdPersonTarget(level.Player.GetData());
 
-            level.Camera.SetCollisionHeadUnit(m_collisionHeadUnit);
 
             //ch = new ComputeShader();
             //ch.Init();
@@ -203,6 +198,13 @@ namespace MassiveGame.Core.GameCore
                 serializer.Serialize(fileStream, obj);
                 fileStream.Close();
             }
+        }
+
+        private void SerializeCurrentLevel()
+        {
+            string localPath = "testLevel.save";
+
+            Serialize(m_currentLevel);
         }
 
         private void TestingIO(Level level, DeserializeWrapper deserializer)
@@ -236,9 +238,9 @@ namespace MassiveGame.Core.GameCore
             //level.Skybox = deserializer.Deserialize<SkyboxEntity>("entity.bn");
 
             // Day cycle
-            Serialize(level.DayCycle);
-            level.DayCycle = null;
-            level.DayCycle = deserializer.Deserialize<DayLightCycle>("entity.bn");
+            //Serialize(level.DayCycle);
+            //level.DayCycle = null;
+            //level.DayCycle = deserializer.Deserialize<DayLightCycle>("entity.bn");
         }
 
         #endregion
@@ -249,23 +251,23 @@ namespace MassiveGame.Core.GameCore
             Level level = new Level(new Vector2(500, 500), "Test Level");
             m_currentLevel = level;
 
-            level.PointLightCollection = new List<PointLight>();
-            level.StaticMeshCollection = new ObserverListWrapper<Building>();
-            level.Player = new ObserverWrapper<MovableMeshEntity>();
-            level.Bots = new ObserverListWrapper<MovableMeshEntity>();
-            level.SunRenderer = new ObserverWrapper<SunRenderer>();
-            level.Water = new ObserverWrapper<WaterPlane>();
-
-            level.VisibilityCheckCollection = new List<IVisible>();
-            level.LitCheckCollection = new List<ILightHit>();
-            level.ShadowCastCollection = new List<IDrawable>();
-
             level.Camera = new ThirdPersonCamera(new Vector3(0.5f, -0.8f, 0), 45);
             level.PlayerController = new PlayerController(level.Camera as ThirdPersonCamera);
 
             SetLevelTestValues(level);
 
-            level.ShadowCastCollection.Add(m_currentLevel.Terrain);
+            level.Camera.SetCollisionHeadUnit(m_collisionHeadUnit);
+        }
+
+        public void PostInit()
+        {
+#if DEBUG || DESIGN_EDITOR
+            if (m_currentLevel != null && m_currentLevel.PointLightCollection.Count > 0)
+            {
+                m_currentLevel.PointLightDebugRenderer = new PointLightsDebugRenderer(ProjectFolders.TexturesPath + "/LightTextures/" + "light-bulb-icon (1).png",
+                    m_currentLevel.PointLightCollection);
+            }
+#endif
         }
 
         public static GameWorld GetWorldInstance()

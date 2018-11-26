@@ -43,7 +43,7 @@ namespace MassiveGame.Core.ComponentCore
         // For serialization collision bounds, maybe there is a better way
         public BoundBase Bound { set; get; }
 
-        private object lockObject = new object();
+        private readonly object lockObject = new object();
 
         public Vector3 ComponentTranslation
         {

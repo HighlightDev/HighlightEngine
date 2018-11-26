@@ -21,6 +21,8 @@ namespace MassiveGame.Core.GameCore
         protected Vector3 m_eyeSpaceRightVector;
         protected Vector3 m_eyeSpaceForwardVector;
         protected Matrix3 m_rotationMatrix;
+
+        [NonSerialized]
         protected CollisionHeadUnit m_collisionHeadUnit = null;
 
         protected bool bTransformationDirty = false;

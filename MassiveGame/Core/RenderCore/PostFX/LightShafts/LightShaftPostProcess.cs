@@ -122,16 +122,16 @@ namespace MassiveGame.Core.RenderCore.PostFX.LightShafts
             }
 
             GL.Clear(ClearBufferMask.DepthBufferBit);
-            if (GameWorld.GetWorldInstance().GetLevel().Terrain != null)
+            if (GameWorld.GetWorldInstance().GetLevel().Terrain.GetData() != null)
             {
-                GameWorld.GetWorldInstance().GetLevel().Terrain.renderTerrain(EngineStatics.Mode, GameWorld.GetWorldInstance().GetLevel().DirectionalLight, GameWorld.GetWorldInstance().GetLevel().PointLightCollection, camera, EngineStatics.ProjectionMatrix);
+                GameWorld.GetWorldInstance().GetLevel().Terrain.GetData().renderTerrain(EngineStatics.Mode, GameWorld.GetWorldInstance().GetLevel().DirectionalLight, GameWorld.GetWorldInstance().GetLevel().PointLightCollection, camera, EngineStatics.ProjectionMatrix);
             }
 
             GL.Disable(EnableCap.CullFace);
 
             if (GameWorld.GetWorldInstance().GetLevel().Plant != null)
             {
-                GameWorld.GetWorldInstance().GetLevel().Plant.renderEntities(GameWorld.GetWorldInstance().GetLevel().DirectionalLight, camera, EngineStatics.ProjectionMatrix, GameWorld.GetWorldInstance().GetLevel().Terrain);
+                GameWorld.GetWorldInstance().GetLevel().Plant.renderEntities(GameWorld.GetWorldInstance().GetLevel().DirectionalLight, camera, EngineStatics.ProjectionMatrix, GameWorld.GetWorldInstance().GetLevel().Terrain.GetData());
             }
 
             if (GameWorld.GetWorldInstance().GetLevel().StaticMeshCollection != null)

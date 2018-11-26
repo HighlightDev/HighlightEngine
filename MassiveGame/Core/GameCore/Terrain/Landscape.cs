@@ -15,19 +15,24 @@ using MassiveGame.API.ResourcePool.PoolHandling;
 using MassiveGame.API.ResourcePool.Policies;
 using MassiveGame.API.ResourcePool;
 using MassiveGame.Core.RenderCore.Shadows;
+using System.Runtime.Serialization;
 
 namespace MassiveGame.Core.GameCore.Terrain
 {
-    public class Landscape : IDrawable, IObservable
+    [Serializable]
+    public class Landscape : IDrawable, IObservable, ISerializable
     {
         #region Definitions 
 
-        public TableGrid LandscapeMap { set; get; }
         public const float MAX_PIXEL_COLOUR = 256 * 3;
+
         public readonly float MapSize;
         public readonly float MaximumHeight;
+
+        public TableGrid LandscapeMap { set; get; }
+
         private VertexArrayObject _buffer;
-        private bool _postConstructor;
+        private bool m_bPostConstructor;
         private LandscapeShader _shader;
         private Material _terrainMaterial;
         private ITexture _textureR;
@@ -44,7 +49,168 @@ namespace MassiveGame.Core.GameCore.Terrain
 
         private WaterReflectionTerrainShader liteReflectionShader;
         private WaterRefractionTerrainShader liteRefractionShader;
-        
+
+        private string m_heightMapTexPath;
+
+        #endregion
+
+        #region Serialization
+
+        protected Landscape(SerializationInfo info, StreamingContext context)
+        {
+            m_bPostConstructor = true;
+            MapSize = info.GetSingle("MapSize");
+            MaximumHeight = info.GetSingle("MaximumHeight");
+
+            string pathTexR = info.GetString("pathTexR");
+            string pathTexG = info.GetString("pathTexG");
+            string pathTexB = info.GetString("pathTexB");
+            string pathTexBlack = info.GetString("pathTexBlack");
+            string pathTexBlendMap = info.GetString("pathTexBlendMap");
+            m_heightMapTexPath = info.GetString("m_heightMapTexPath");
+            InitTextures(pathTexR, pathTexG, pathTexB, pathTexBlack, pathTexBlendMap);
+
+            // normal map red channel
+            bool bNormalR = info.GetBoolean("bNormalR");
+            if (bNormalR)
+            {
+                string pathTexNormalMapR = info.GetString("pathTexNormalMapR");
+                _normalMapR = PoolProxy.GetResource<ObtainTexturePool, TextureAllocationPolicy, string, ITexture>(pathTexNormalMapR);
+            }
+
+            // normal map green channel
+            bool bNormalG = info.GetBoolean("bNormalR");
+            if (bNormalG)
+            {
+                string pathTexNormalMapG = info.GetString("pathTexNormalMapG");
+                _normalMapG = PoolProxy.GetResource<ObtainTexturePool, TextureAllocationPolicy, string, ITexture>(pathTexNormalMapG);
+            }
+
+            // normal map blue channel
+            bool bNormalB = info.GetBoolean("bNormalB");
+            if (bNormalB)
+            {
+                string pathTexNormalMapB = info.GetString("pathTexNormalMapB");
+                _normalMapB = PoolProxy.GetResource<ObtainTexturePool, TextureAllocationPolicy, string, ITexture>(pathTexNormalMapB);
+            }
+
+            // normal map black channel
+            bool bNormalBlack = info.GetBoolean("bNormalR");
+            if (bNormalBlack)
+            {
+                string pathTexNormalMapBlack = info.GetString("pathTexNormalMapBlack");
+                _normalMapBlack = PoolProxy.GetResource<ObtainTexturePool, TextureAllocationPolicy, string, ITexture>(pathTexNormalMapBlack);
+            }
+        }
+
+        public void GetObjectData(SerializationInfo info, StreamingContext context)
+        {
+            info.AddValue("_normalsSmoothLvl", _normalsSmoothLvl);
+            info.AddValue("_terrainMaterial", _terrainMaterial, typeof(MistComponent));
+            info.AddValue("_terrainMaterial", _terrainMaterial, typeof(Material));
+
+            string pathTexR = PoolProxy.GetResourceKey<ObtainTexturePool, string, ITexture>(_textureR);
+            string pathTexG = PoolProxy.GetResourceKey<ObtainTexturePool, string, ITexture>(_textureR);
+            string pathTexB = PoolProxy.GetResourceKey<ObtainTexturePool, string, ITexture>(_textureR);
+            string pathTexBlack = PoolProxy.GetResourceKey<ObtainTexturePool, string, ITexture>(_textureR);
+            string pathTexBlendMap = PoolProxy.GetResourceKey<ObtainTexturePool, string, ITexture>(_textureR);
+            info.AddValue("pathTexR", pathTexR);
+            info.AddValue("pathTexG", pathTexG);
+            info.AddValue("pathTexB", pathTexB);
+            info.AddValue("pathTexBlack", pathTexBlack);
+            info.AddValue("pathTexBlendMap", pathTexBlendMap);
+            info.AddValue("m_heightMapTexPath", m_heightMapTexPath);
+            info.AddValue("MapSize", MapSize);
+            info.AddValue("MaximumHeight", MaximumHeight);
+
+            // normal map red channel
+            bool bNormalR = _normalMapR != null;
+            info.AddValue("bNormalR", bNormalR);
+            if (bNormalR)
+            {
+                string pathTexNormalMapR = PoolProxy.GetResourceKey<ObtainTexturePool, string, ITexture>(_normalMapR);
+                info.AddValue("pathTexNormalMapR", pathTexNormalMapR);
+            }
+            // normal map green channel
+            bool bNormalG = _normalMapG != null;
+            info.AddValue("bNormalG", bNormalG);
+            if (bNormalG)
+            {
+                string pathTexNormalMapG = PoolProxy.GetResourceKey<ObtainTexturePool, string, ITexture>(_normalMapG);
+                info.AddValue("pathTexNormalMapG", pathTexNormalMapG);
+            }
+
+            // normal map blue channel
+            bool bNormalB = _normalMapB != null;
+            info.AddValue("bNormalB", bNormalB);
+            if (bNormalB)
+            {
+                string pathTexNormalMapB = PoolProxy.GetResourceKey<ObtainTexturePool, string, ITexture>(_normalMapB);
+                info.AddValue("pathTexNormalMapB", pathTexNormalMapB);
+            }
+
+            // normal map black channel
+            bool bNormalBlack = _normalMapBlack != null;
+            info.AddValue("bNormalBlack", bNormalBlack);
+            if (bNormalBlack)
+            {
+                string pathTexNormalMapBlack = PoolProxy.GetResourceKey<ObtainTexturePool, string, ITexture>(_normalMapBlack);
+                info.AddValue("pathTexNormalMapBlack", pathTexNormalMapBlack);
+            }
+        }
+
+        #endregion
+
+        #region Constructor
+
+        private void InitTextures(string pathTexR, string pathTexG, string pathTexB, string pathTexBlack, string pathTexBlendMap)
+        {
+            this._textureR = PoolProxy.GetResource<ObtainTexturePool, TextureAllocationPolicy, string, ITexture>(pathTexR);
+            this._textureG = PoolProxy.GetResource<ObtainTexturePool, TextureAllocationPolicy, string, ITexture>(pathTexG);
+            this._textureB = PoolProxy.GetResource<ObtainTexturePool, TextureAllocationPolicy, string, ITexture>(pathTexB);
+            this._textureBlack = PoolProxy.GetResource<ObtainTexturePool, TextureAllocationPolicy, string, ITexture>(pathTexBlack);
+            this._blendMap = PoolProxy.GetResource<ObtainTexturePool, TextureAllocationPolicy, string, ITexture>(pathTexBlendMap);
+            
+            try
+            {
+                using (var map = new Bitmap(m_heightMapTexPath))
+                {
+                    LandscapeMap = new TableGrid(map.Height, MapSize / map.Height);
+                    LandscapeBuilder.loadHeightMap(map, this);
+                }
+            }
+            catch (ArgumentException ef)
+            {
+                Debug.Log.AddToFileStreamLog("Terrain height map file load error : " + ef.Message);
+                System.Environment.Exit(0);
+            }
+        }
+
+        private void PostConstructor()
+        {
+            if (this.m_bPostConstructor)
+            {
+                _shader = PoolProxy.GetResource<ObtainShaderPool, ShaderAllocationPolicy<LandscapeShader>, string, LandscapeShader>(string.Format("{0}{1},{0}{2}", ProjectFolders.ShadersPath, "terrainVertexShader.glsl", "terrainFragmentShader.glsl"));
+                liteReflectionShader = PoolProxy.GetResource<ObtainShaderPool, ShaderAllocationPolicy<WaterReflectionTerrainShader>, string, WaterReflectionTerrainShader>(string.Format("{0}{1},{0}{2}", ProjectFolders.ShadersPath, "waterReflectionTerrainVS.glsl", "waterReflectionTerrainFS.glsl"));
+                liteRefractionShader = PoolProxy.GetResource<ObtainShaderPool, ShaderAllocationPolicy<WaterRefractionTerrainShader>, string, WaterRefractionTerrainShader>(string.Format("{0}{1},{0}{2}", ProjectFolders.ShadersPath, "waterRefractionTerrainVS.glsl" ,"waterRefractionTerrainFS.glsl"));
+
+                _buffer = LandscapeBuilder.getTerrainAttributes(this.LandscapeMap, this._normalsSmoothLvl);
+                this.m_bPostConstructor = !this.m_bPostConstructor;
+            }
+        }
+
+        public Landscape(float MapSize, float MaximumHeight, Int32 normalSmoothLvl, string mapFile, string textureR, string textureG,
+            string textureB, string textureBlack, string blendMap)
+        {
+            this.m_bPostConstructor = true;
+            this.MapSize = MapSize;
+            this.MaximumHeight = MaximumHeight;
+            this._normalsSmoothLvl = normalSmoothLvl;
+            this._terrainMaterial = new Material(new Vector3(1.0f, 1.0f, 1.0f), new Vector3(1.0f, 1.0f, 1.0f),
+               new Vector3(1.0f, 1.0f, 1.0f), new Vector3(1.0f, 1.0f, 1.0f), 10.0f, 1.0f);
+            m_heightMapTexPath = mapFile;
+            InitTextures(textureR, textureG, textureB, textureBlack, blendMap);
+        }
 
         #endregion
 
@@ -146,7 +312,7 @@ namespace MassiveGame.Core.GameCore.Terrain
 
         public void RenderWaterReflection(WaterPlane water, DirectionalLight Sun, BaseCamera camera, ref Matrix4 ProjectionMatrix, Vector4 clipPlane)
         {
-            if (_postConstructor)
+            if (m_bPostConstructor)
                 return;
 
             float translationPositionY = (2 * water.GetTranslation().Y);
@@ -180,7 +346,7 @@ namespace MassiveGame.Core.GameCore.Terrain
 
         public void RenderWaterRefraction(DirectionalLight directionalLight, BaseCamera camera, ref Matrix4 ProjectionMatrix, Vector4 clipPlane)
         {
-            if (_postConstructor)
+            if (m_bPostConstructor)
                 return;
 
             Matrix4 modelMatrix = Matrix4.Identity;
@@ -212,7 +378,7 @@ namespace MassiveGame.Core.GameCore.Terrain
         public void renderTerrain(PrimitiveType mode, DirectionalLight directionalLight,
             List<PointLight> pointLights, BaseCamera camera, Matrix4 ProjectionMatrix, Vector4 clipPlane = new Vector4())
         {
-            postConstructor();
+            PostConstructor();
             Matrix4 ModelMatrix = Matrix4.Identity;
 
             /*If clip plane is setted - enable clipping plane*/
@@ -262,52 +428,6 @@ namespace MassiveGame.Core.GameCore.Terrain
 
             _buffer.RenderVAO(mode);
             _shader.stopProgram();
-        }
-
-        #endregion
-
-        #region Constructor
-
-        private void postConstructor()
-        {
-            if (this._postConstructor)
-            {
-                _shader = PoolProxy.GetResource<ObtainShaderPool, ShaderAllocationPolicy<LandscapeShader>, string, LandscapeShader>(ProjectFolders.ShadersPath + "terrainVertexShader.glsl" + "," + ProjectFolders.ShadersPath + "terrainFragmentShader.glsl");
-                liteReflectionShader = PoolProxy.GetResource<ObtainShaderPool, ShaderAllocationPolicy<WaterReflectionTerrainShader>, string, WaterReflectionTerrainShader>(ProjectFolders.ShadersPath + "waterReflectionTerrainVS.glsl" + "," + ProjectFolders.ShadersPath + "waterReflectionTerrainFS.glsl");
-                liteRefractionShader = PoolProxy.GetResource<ObtainShaderPool, ShaderAllocationPolicy<WaterRefractionTerrainShader>, string, WaterRefractionTerrainShader>(ProjectFolders.ShadersPath + "waterRefractionTerrainVS.glsl" + "," + ProjectFolders.ShadersPath + "waterRefractionTerrainFS.glsl");
-
-                _buffer = LandscapeBuilder.getTerrainAttributes(this.LandscapeMap, this._normalsSmoothLvl);
-                this._postConstructor = !this._postConstructor;
-            }
-        }
-
-        public Landscape(float MapSize, float MaximumHeight, Int32 normalSmoothLvl, string mapFile, string textureR, string textureG,
-            string textureB, string textureBlack, string blendMap)
-        {
-            this._postConstructor = true;
-            this._terrainMaterial = new Material(new Vector3(1.0f, 1.0f, 1.0f), new Vector3(1.0f, 1.0f, 1.0f),
-               new Vector3(1.0f, 1.0f, 1.0f), new Vector3(1.0f, 1.0f, 1.0f), 10.0f, 1.0f);
-            this._textureR = PoolProxy.GetResource<ObtainTexturePool, TextureAllocationPolicy, string, ITexture>(textureR);
-            this._textureG = PoolProxy.GetResource<ObtainTexturePool, TextureAllocationPolicy, string, ITexture>(textureG);
-            this._textureB = PoolProxy.GetResource<ObtainTexturePool, TextureAllocationPolicy, string, ITexture>(textureB);
-            this._textureBlack = PoolProxy.GetResource<ObtainTexturePool, TextureAllocationPolicy, string, ITexture>(textureBlack);
-            this._blendMap = PoolProxy.GetResource<ObtainTexturePool, TextureAllocationPolicy, string, ITexture>(blendMap);
-            this.MapSize = MapSize;
-            this.MaximumHeight = MaximumHeight;
-            this._normalsSmoothLvl = normalSmoothLvl;
-            Bitmap map = null;
-            try
-            {
-                map = new Bitmap(mapFile);
-                LandscapeMap = new TableGrid(map.Height, MapSize / map.Height);
-            }
-            catch (ArgumentException ef)
-            {
-                Debug.Log.AddToFileStreamLog("Terrain height map file load error : " + ef.Message);
-                System.Environment.Exit(0);
-            }
-            LandscapeBuilder.loadHeightMap(map, this);
-            map.Dispose();
         }
 
         #endregion

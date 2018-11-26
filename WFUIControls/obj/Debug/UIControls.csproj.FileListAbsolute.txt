@@ -108,7 +108,6 @@ C:\Users\dzinovev\Desktop\Универчик\project\MassiveGame\MassiveGame\Mas
 C:\Users\dzinovev\Desktop\Универчик\project\MassiveGame\MassiveGame\MassiveGame\WFUIControls\obj\Debug\UIControls.pdb
 C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\WFUIControls\bin\Debug\UIControls.dll
 C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\WFUIControls\bin\Debug\UIControls.pdb
-C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\WFUIControls\bin\Debug\OpenTK.dll
 C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\WFUIControls\obj\Debug\UIControls.ButtonEx.resources
 C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\WFUIControls\obj\Debug\UIControls.CheckBoxEx.resources
 C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\WFUIControls\obj\Debug\UIControls.EntityTextures.resources

@@ -67,7 +67,10 @@ namespace MassiveGame.Core.GameCore.Water
         private StencilPassShader m_stencilPassShader;
         public WaterFBO m_fbo;
         private bool m_postConstructor;
+
+        [NonSerialized]
         private MistComponent m_mist;
+
         private Vector3[] m_collisionCheckPoints;
         private Int32 m_frustumSquares;
         public CollisionQuad Quad { set; get; }
@@ -211,7 +214,6 @@ namespace MassiveGame.Core.GameCore.Water
             m_waveSpeed = info.GetSingle("m_waveSpeed");
             m_waveStrength = info.GetSingle("m_waveStrength");
             m_moveFactor = info.GetSingle("m_moveFactor");
-            m_mist = (MistComponent)info.GetValue("m_mist", typeof(MistComponent));
             m_modelMatrix = (Matrix4)info.GetValue("m_modelMatrix", typeof(Matrix4));
             m_translation = (Vector3)info.GetValue("m_translation", typeof(Vector3));
             m_rotation = (Vector3)info.GetValue("m_rotation", typeof(Vector3));
@@ -235,7 +237,6 @@ namespace MassiveGame.Core.GameCore.Water
             info.AddValue("m_waveSpeed", m_waveSpeed);
             info.AddValue("m_waveStrength", m_waveStrength);
             info.AddValue("m_moveFactor", m_moveFactor);
-            info.AddValue("m_mist", m_mist, typeof(MistComponent));
             info.AddValue("m_modelMatrix", m_modelMatrix, typeof(Matrix4));
             info.AddValue("m_translation", m_translation, typeof(Vector3));
             info.AddValue("m_rotation", m_rotation, typeof(Vector3));

@@ -50,7 +50,7 @@ namespace MassiveGame.UI
 
 #endregion
 
-#region Form Move&Resize events
+        #region Form Move&Resize events
 
         private void OnResize(object sender, EventArgs e)
         {
@@ -66,82 +66,82 @@ namespace MassiveGame.UI
         }
 #endregion
 
-#region Mouse events
+        #region Mouse events
 
-        private void OnMouseMove(object sender, MouseEventArgs e)
-        {
-            if (GameWorld.GetWorldInstance().GetLevel() != null && GameWorld.GetWorldInstance().GetLevel().Camera != null)
-            if (GameWorld.GetWorldInstance().GetLevel().Camera.SwitchCamera)
-            {
-                GameWorld.GetWorldInstance().GetLevel().Camera.Rotate(e.X, e.Y, new Point(Width, GLControl.Height));
-                Cursor.Hide();
-
-                if ((EngineStatics.PrevCursorPosition.X != -1) && (EngineStatics.PrevCursorPosition.Y != -1)) // need to calculate delta of mouse position
+                private void OnMouseMove(object sender, MouseEventArgs e)
                 {
-                    Int32 xDelta = e.X - EngineStatics.PrevCursorPosition.X;
-                    Int32 yDelta = e.Y - EngineStatics.PrevCursorPosition.Y;
+                    if (GameWorld.GetWorldInstance().GetLevel() != null && GameWorld.GetWorldInstance().GetLevel().Camera != null)
+                    if (GameWorld.GetWorldInstance().GetLevel().Camera.SwitchCamera)
+                    {
+                        GameWorld.GetWorldInstance().GetLevel().Camera.Rotate(e.X, e.Y, new Point(Width, GLControl.Height));
+                        Cursor.Hide();
+
+                        if ((EngineStatics.PrevCursorPosition.X != -1) && (EngineStatics.PrevCursorPosition.Y != -1)) // need to calculate delta of mouse position
+                        {
+                            Int32 xDelta = e.X - EngineStatics.PrevCursorPosition.X;
+                            Int32 yDelta = e.Y - EngineStatics.PrevCursorPosition.Y;
+                        }
+
+                        EngineStatics.PrevCursorPosition = e.Location;
+                    }
+                    else
+                    {
+                        Cursor.Show();
+                        Cursor.Draw(this.CreateGraphics(),
+                            new Rectangle(this.Location.X, this.Location.Y, this.Size.Width, this.Size.Height));
+                    }
+
+                    GLControl.Update(); // need to update frame after invalidation to redraw changes
                 }
 
-                EngineStatics.PrevCursorPosition = e.Location;
-            }
-            else
-            {
-                Cursor.Show();
-                Cursor.Draw(this.CreateGraphics(),
-                    new Rectangle(this.Location.X, this.Location.Y, this.Size.Width, this.Size.Height));
-            }
-
-            GLControl.Update(); // need to update frame after invalidation to redraw changes
-        }
-
-        private void OnMouseDown(object sender, MouseEventArgs e)
-        {
-            switch (e.Button)
-            {
-                case MouseButtons.Left:
+                private void OnMouseDown(object sender, MouseEventArgs e)
+                {
+                    switch (e.Button)
                     {
-                        //mist.fade(this.RenderTime, 10000, FadeType.LINEARLY, 0.0f);
-                        //PlantUnit plant = new PlantUnit(TerrainIntersaction.getIntersactionPoint(EngineSingleton.Map, EngineSingleton.Picker.currentRay, EngineSingleton.Camera.getPosition()), new Vector3(), new Vector3(10), 0, null);
-                        //EngineSingleton.Grass.add(plant, EngineSingleton.Map);
+                        case MouseButtons.Left:
+                            {
+                                //mist.fade(this.RenderTime, 10000, FadeType.LINEARLY, 0.0f);
+                                //PlantUnit plant = new PlantUnit(TerrainIntersaction.getIntersactionPoint(EngineSingleton.Map, EngineSingleton.Picker.currentRay, EngineSingleton.Camera.getPosition()), new Vector3(), new Vector3(10), 0, null);
+                                //EngineSingleton.Grass.add(plant, EngineSingleton.Map);
 
-                        break;
+                                break;
+                            }
+                        case MouseButtons.Right:
+                            {
+                                //mist.aEngineSingleton.PostProcear(this.RenderTime, 10000, FadeType.LINEARLY, 0.016f);
+                                GameWorld.GetWorldInstance().GetLevel().Camera.SwitchCamera = !GameWorld.GetWorldInstance().GetLevel().Camera.SwitchCamera;
+                                break;
+                            }
                     }
-                case MouseButtons.Right:
+                }
+
+                private void OnMouseWheel(object sender, MouseEventArgs e)
+                {
+                    //if (EngineStatics.DayCycle != null)
+                    //{
+                    //    if (e.Delta > 0)
+                    //    {
+                    //        EngineStatics.DayCycle.TimeFlow += 0.1f;
+                    //    }
+                    //    else if (e.Delta < 0 && EngineStatics.DayCycle.TimeFlow > 0)
+                    //    {
+                    //        EngineStatics.DayCycle.TimeFlow -= 0.1f;
+                    //    }
+                    //    else if (EngineStatics.DayCycle.TimeFlow < 0)
+                    //    {
+                    //        EngineStatics.DayCycle.TimeFlow = 0.0f;
+                    //    }
+                    //}
+                    if (e.Delta > 0)
                     {
-                        //mist.aEngineSingleton.PostProcear(this.RenderTime, 10000, FadeType.LINEARLY, 0.016f);
-                        GameWorld.GetWorldInstance().GetLevel().Camera.SwitchCamera = !GameWorld.GetWorldInstance().GetLevel().Camera.SwitchCamera;
-                        break;
+                        (GameWorld.GetWorldInstance().GetLevel().Camera as ThirdPersonCamera).MaxDistanceFromTargetToCamera += 5;
                     }
-            }
-        }
-
-        private void OnMouseWheel(object sender, MouseEventArgs e)
-        {
-            //if (EngineStatics.DayCycle != null)
-            //{
-            //    if (e.Delta > 0)
-            //    {
-            //        EngineStatics.DayCycle.TimeFlow += 0.1f;
-            //    }
-            //    else if (e.Delta < 0 && EngineStatics.DayCycle.TimeFlow > 0)
-            //    {
-            //        EngineStatics.DayCycle.TimeFlow -= 0.1f;
-            //    }
-            //    else if (EngineStatics.DayCycle.TimeFlow < 0)
-            //    {
-            //        EngineStatics.DayCycle.TimeFlow = 0.0f;
-            //    }
-            //}
-            if (e.Delta > 0)
-            {
-                (GameWorld.GetWorldInstance().GetLevel().Camera as ThirdPersonCamera).MaxDistanceFromTargetToCamera += 5;
-            }
-            else if (e.Delta < 0)
-            {
-                (GameWorld.GetWorldInstance().GetLevel().Camera as ThirdPersonCamera).MaxDistanceFromTargetToCamera -= 5;
-            }
-        }
-        #endregion
+                    else if (e.Delta < 0)
+                    {
+                        (GameWorld.GetWorldInstance().GetLevel().Camera as ThirdPersonCamera).MaxDistanceFromTargetToCamera -= 5;
+                    }
+                }
+                #endregion
 
         private void AdjustMouseCursor()
         {

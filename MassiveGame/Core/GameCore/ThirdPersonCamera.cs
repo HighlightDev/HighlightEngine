@@ -10,7 +10,10 @@ namespace MassiveGame.Core.GameCore
     public class ThirdPersonCamera : BaseCamera
     {
         private float m_distanceFromTargetToCamera;
+
+        [NonSerialized]
         private MovableEntity m_thirdPersonTarget;
+
         private Vector3 m_actualTargetVector;
         private float m_lerpTimeElapsed = 0.0f;
         private float m_timeForInterpolation = 0.15f;
@@ -39,7 +42,6 @@ namespace MassiveGame.Core.GameCore
         {
             m_bThirdPersonTargetTransformationDirty = false;
             m_distanceFromTargetToCamera = info.GetSingle("m_distanceFromTargetToCamera");
-            m_thirdPersonTarget = (MovableEntity)info.GetValue("m_thirdPersonTarget", typeof(MovableEntity));
             m_actualTargetVector = (Vector3)info.GetValue("m_actualTargetVector", typeof(Vector3));
             m_lerpTimeElapsed = info.GetSingle("m_lerpTimeElapsed");
             m_timeForInterpolation = info.GetSingle("m_timeForInterpolation");
@@ -49,7 +51,6 @@ namespace MassiveGame.Core.GameCore
         {
             base.GetObjectData(info, context);
             info.AddValue("m_distanceFromTargetToCamera", m_distanceFromTargetToCamera);
-            info.AddValue("m_thirdPersonTarget", m_thirdPersonTarget, typeof(MovableEntity));
             info.AddValue("m_actualTargetVector", m_actualTargetVector, typeof(Vector3));
             info.AddValue("m_lerpTimeElapsed", m_lerpTimeElapsed);
             info.AddValue("m_timeForInterpolation", m_timeForInterpolation);

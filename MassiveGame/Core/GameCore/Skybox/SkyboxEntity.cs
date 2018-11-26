@@ -27,6 +27,8 @@ namespace MassiveGame.Core.GameCore.Skybox
         private ITexture m_skyboxNightTexture;
         private SkyboxShader m_shader;
         private VertexArrayObject m_buffer;
+
+        [NonSerialized]
         private MistComponent m_mist;
 
         #endregion
@@ -82,7 +84,6 @@ namespace MassiveGame.Core.GameCore.Skybox
 
         protected SkyboxEntity(SerializationInfo info, StreamingContext context)
         {
-            m_mist = (MistComponent)info.GetValue("m_mist", typeof(MistComponent));
             FloatSpeed = info.GetSingle("FloatSpeed");
             string[] dayTexturesPath = info.GetString("m_skyboxDayTexture").Split(',');
             string[] nightTexturesPath = info.GetString("m_skyboxNightTexture").Split(',');
@@ -96,7 +97,6 @@ namespace MassiveGame.Core.GameCore.Skybox
 
             info.AddValue("m_skyboxDayTexture", dayTexturesPath);
             info.AddValue("m_skyboxNightTexture", nightTexturesPath);
-            info.AddValue("m_mist", m_mist, typeof(MistComponent));
             info.AddValue("FloatSpeed", FloatSpeed);
         }
 

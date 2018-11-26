@@ -25,7 +25,9 @@ namespace MassiveGame.Core.GameCore.Sun
         public readonly float SUN_SIZE;
         public readonly float LENS_FLARE_SIZE_TO_SUN_SIZE;
 
+        [NonSerialized]
         private DirectionalLight m_lightSource;
+
         private VertexArrayObject m_buffer;
         
         private SunShader m_shader;
@@ -47,7 +49,6 @@ namespace MassiveGame.Core.GameCore.Sun
             string pathToTexture1 = PoolProxy.GetResourceKey<ObtainTexturePool, string, ITexture>(m_texture1);
             string pathToTexture2 = PoolProxy.GetResourceKey<ObtainTexturePool, string, ITexture>(m_texture2);
 
-            info.AddValue("lightSource", m_lightSource, typeof(DirectionalLight));
             info.AddValue("pathToTexture1", pathToTexture1);
             info.AddValue("pathToTexture2", pathToTexture2);
             info.AddValue("lensFlareSunSize", LENS_FLARE_SUN_SIZE);
@@ -61,7 +62,6 @@ namespace MassiveGame.Core.GameCore.Sun
             string pathToTexture2 = info.GetString("pathToTexture2");
 
             InitResources(pathToTexture1, pathToTexture2);
-            m_lightSource = info.GetValue("lightSource", typeof(DirectionalLight)) as DirectionalLight;
             LENS_FLARE_SUN_SIZE = info.GetSingle("lensFlareSunSize");
             SUN_SIZE = info.GetSingle("sunSize");
             LENS_FLARE_SIZE_TO_SUN_SIZE = info.GetSingle("lensFlareSizeToSunSize");

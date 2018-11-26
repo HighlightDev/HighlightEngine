@@ -379,7 +379,7 @@ namespace MassiveGame.Core.PhysicsCore
                 rayCastStartPosition.Y = boundMin.Y;
 
                 FRay ray = new FRay(rayCastStartPosition, character.Velocity);
-                float intersectionDistance = LandscapeRayIntersection.Intersection_TerrainRay(GameWorld.GetWorldInstance().GetLevel().Terrain, ray);
+                float intersectionDistance = LandscapeRayIntersection.Intersection_TerrainRay(GameWorld.GetWorldInstance().GetLevel().Terrain.GetData(), ray);
 
                 // Character is still in free fall, just update position
                 if (intersectionDistance < 0.0f || RAYCAST_INTERSECTION_FAR(BodyMechanics.GetFreeFallDistanceInVelocity(character.Velocity), intersectionDistance))
@@ -407,7 +407,7 @@ namespace MassiveGame.Core.PhysicsCore
             Vector3 rayCastStartPosition = new Vector3(origin);
 
             FRay rayDown = new FRay(rayCastStartPosition, -GameWorld.GetWorldInstance().GetLevel().Camera.GetLocalSpaceUpVector());
-            float intersectionDistance = LandscapeRayIntersection.Intersection_TerrainRay(GameWorld.GetWorldInstance().GetLevel().Terrain, rayDown);
+            float intersectionDistance = LandscapeRayIntersection.Intersection_TerrainRay(GameWorld.GetWorldInstance().GetLevel().Terrain.GetData(), rayDown);
 
             // Subtract length of bound extent from middle height position
             float boundExtent = origin.Y - boundMin.Y;
@@ -532,7 +532,7 @@ namespace MassiveGame.Core.PhysicsCore
 
                         // Necessary data for subsequent calculations
                         RayCastOutputData rayCastOutputData = null;
-                        float terrainIntersectionDistance = LandscapeRayIntersection.Intersection_TerrainRay(GameWorld.GetWorldInstance().GetLevel().Terrain, rayFromMiddleBottom);
+                        float terrainIntersectionDistance = LandscapeRayIntersection.Intersection_TerrainRay(GameWorld.GetWorldInstance().GetLevel().Terrain.GetData(), rayFromMiddleBottom);
 
                         bool bTerrainIntersection = !(terrainIntersectionDistance < 0.0f ||
                             RAYCAST_INTERSECTION_FAR(BodyMechanics.GetFreeFallDistanceInVelocity(character.Velocity), terrainIntersectionDistance));

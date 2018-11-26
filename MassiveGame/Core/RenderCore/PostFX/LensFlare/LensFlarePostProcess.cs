@@ -157,9 +157,9 @@ namespace MassiveGame.Core.RenderCore.PostFX.LensFlare
             }
 
             GL.Clear(ClearBufferMask.DepthBufferBit);
-            if (GameWorld.GetWorldInstance().GetLevel().Terrain != null)
+            if (GameWorld.GetWorldInstance().GetLevel().Terrain.GetData() != null)
             {
-                GameWorld.GetWorldInstance().GetLevel().Terrain.renderTerrain(EngineStatics.Mode, GameWorld.GetWorldInstance().GetLevel().DirectionalLight, GameWorld.GetWorldInstance().GetLevel().PointLightCollection, camera, EngineStatics.ProjectionMatrix);
+                GameWorld.GetWorldInstance().GetLevel().Terrain.GetData().renderTerrain(EngineStatics.Mode, GameWorld.GetWorldInstance().GetLevel().DirectionalLight, GameWorld.GetWorldInstance().GetLevel().PointLightCollection, camera, EngineStatics.ProjectionMatrix);
             }
 
             if (GameWorld.GetWorldInstance().GetLevel().StaticMeshCollection != null)
@@ -171,7 +171,7 @@ namespace MassiveGame.Core.RenderCore.PostFX.LensFlare
                 }
             }
 
-            if (GameWorld.GetWorldInstance().GetLevel().Player != null && GameWorld.GetWorldInstance().GetLevel().Player.GetData().IsVisibleByCamera)
+            if (GameWorld.GetWorldInstance().GetLevel().Player.GetData() != null && GameWorld.GetWorldInstance().GetLevel().Player.GetData().IsVisibleByCamera)
             {
                 GameWorld.GetWorldInstance().GetLevel().Player.GetData().RenderEntity(EngineStatics.Mode, GameWorld.GetWorldInstance().GetLevel().DirectionalLight, GameWorld.GetWorldInstance().GetLevel().PointLightCollection, camera, ref EngineStatics.ProjectionMatrix);
             }
@@ -185,7 +185,7 @@ namespace MassiveGame.Core.RenderCore.PostFX.LensFlare
                 }
             }
 
-            if (GameWorld.GetWorldInstance().GetLevel().Water != null && GameWorld.GetWorldInstance().GetLevel().Water.GetData().IsInCameraView)
+            if (GameWorld.GetWorldInstance().GetLevel().Water.GetData() != null && GameWorld.GetWorldInstance().GetLevel().Water.GetData().IsInCameraView)
             {
                 GameWorld.GetWorldInstance().GetLevel().Water.GetData().StencilPass(camera, ref EngineStatics.ProjectionMatrix);
             }

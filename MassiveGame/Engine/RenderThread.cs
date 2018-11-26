@@ -129,7 +129,7 @@ namespace MassiveGame.Engine
             GL.Enable(EnableCap.DepthTest);
             GL.DepthMask(true);
 
-            if (GameWorld.GetWorldInstance().GetLevel().Terrain != null) GameWorld.GetWorldInstance().GetLevel().Terrain.renderTerrain(EngineStatics.Mode, GameWorld.GetWorldInstance().GetLevel().DirectionalLight, GameWorld.GetWorldInstance().GetLevel().PointLightCollection, camera, EngineStatics.ProjectionMatrix);
+            if (GameWorld.GetWorldInstance().GetLevel().Terrain.GetData() != null) GameWorld.GetWorldInstance().GetLevel().Terrain.GetData().renderTerrain(EngineStatics.Mode, GameWorld.GetWorldInstance().GetLevel().DirectionalLight, GameWorld.GetWorldInstance().GetLevel().PointLightCollection, camera, EngineStatics.ProjectionMatrix);
 
             if (!Object.Equals(GameWorld.GetWorldInstance().GetLevel().SunRenderer, null))
             {
@@ -147,8 +147,8 @@ namespace MassiveGame.Engine
 
             GL.Disable(EnableCap.CullFace);
 
-            if (GameWorld.GetWorldInstance().GetLevel().Grass != null) GameWorld.GetWorldInstance().GetLevel().Grass.renderEntities(GameWorld.GetWorldInstance().GetLevel().DirectionalLight, camera, EngineStatics.ProjectionMatrix, GameWorld.GetWorldInstance().GetLevel().Terrain);
-            if (GameWorld.GetWorldInstance().GetLevel().Plant != null) GameWorld.GetWorldInstance().GetLevel().Plant.renderEntities(GameWorld.GetWorldInstance().GetLevel().DirectionalLight, camera, EngineStatics.ProjectionMatrix, GameWorld.GetWorldInstance().GetLevel().Terrain);
+            if (GameWorld.GetWorldInstance().GetLevel().Grass != null) GameWorld.GetWorldInstance().GetLevel().Grass.renderEntities(GameWorld.GetWorldInstance().GetLevel().DirectionalLight, camera, EngineStatics.ProjectionMatrix, GameWorld.GetWorldInstance().GetLevel().Terrain.GetData());
+            if (GameWorld.GetWorldInstance().GetLevel().Plant != null) GameWorld.GetWorldInstance().GetLevel().Plant.renderEntities(GameWorld.GetWorldInstance().GetLevel().DirectionalLight, camera, EngineStatics.ProjectionMatrix, GameWorld.GetWorldInstance().GetLevel().Terrain.GetData());
 
             if (GameWorld.GetWorldInstance().GetLevel().StaticMeshCollection != null)
             {
@@ -218,7 +218,7 @@ namespace MassiveGame.Engine
             GL.Clear(ClearBufferMask.DepthBufferBit);
             GL.CullFace(CullFaceMode.Back);
 
-            if (GameWorld.GetWorldInstance().GetLevel().Terrain != null) GameWorld.GetWorldInstance().GetLevel().Terrain.RenderWaterReflection(GameWorld.GetWorldInstance().GetLevel().Water.GetData(), GameWorld.GetWorldInstance().GetLevel().DirectionalLight, camera, ref EngineStatics.ProjectionMatrix, clipPlane);
+            if (GameWorld.GetWorldInstance().GetLevel().Terrain.GetData() != null) GameWorld.GetWorldInstance().GetLevel().Terrain.GetData().RenderWaterReflection(GameWorld.GetWorldInstance().GetLevel().Water.GetData(), GameWorld.GetWorldInstance().GetLevel().DirectionalLight, camera, ref EngineStatics.ProjectionMatrix, clipPlane);
             GL.Disable(EnableCap.CullFace);
 
             /*TO DO : true - enable building reflections
@@ -268,8 +268,8 @@ namespace MassiveGame.Engine
             false - disable EngineSingleton.Grass refractions*/
             if (quality.EnableGrassRefraction)
             {
-                if (GameWorld.GetWorldInstance().GetLevel().Grass != null) GameWorld.GetWorldInstance().GetLevel().Grass.renderEntities(GameWorld.GetWorldInstance().GetLevel().DirectionalLight, camera, EngineStatics.ProjectionMatrix, GameWorld.GetWorldInstance().GetLevel().Terrain, clipPlane);
-                if (GameWorld.GetWorldInstance().GetLevel().Plant != null) GameWorld.GetWorldInstance().GetLevel().Plant.renderEntities(GameWorld.GetWorldInstance().GetLevel().DirectionalLight, camera, EngineStatics.ProjectionMatrix, GameWorld.GetWorldInstance().GetLevel().Terrain, clipPlane);
+                if (GameWorld.GetWorldInstance().GetLevel().Grass != null) GameWorld.GetWorldInstance().GetLevel().Grass.renderEntities(GameWorld.GetWorldInstance().GetLevel().DirectionalLight, camera, EngineStatics.ProjectionMatrix, GameWorld.GetWorldInstance().GetLevel().Terrain.GetData(), clipPlane);
+                if (GameWorld.GetWorldInstance().GetLevel().Plant != null) GameWorld.GetWorldInstance().GetLevel().Plant.renderEntities(GameWorld.GetWorldInstance().GetLevel().DirectionalLight, camera, EngineStatics.ProjectionMatrix, GameWorld.GetWorldInstance().GetLevel().Terrain.GetData(), clipPlane);
             }
 
             /*TO DO : true - enable building refractions
@@ -306,7 +306,7 @@ namespace MassiveGame.Engine
              * Culling back faces of terrain, cause they don't refract in EngineSingleton.Water*/
             GL.Enable(EnableCap.CullFace);
             GL.CullFace(CullFaceMode.Back);
-            if (GameWorld.GetWorldInstance().GetLevel().Terrain != null) GameWorld.GetWorldInstance().GetLevel().Terrain.RenderWaterRefraction(GameWorld.GetWorldInstance().GetLevel().DirectionalLight, camera, ref EngineStatics.ProjectionMatrix, clipPlane);
+            if (GameWorld.GetWorldInstance().GetLevel().Terrain.GetData() != null) GameWorld.GetWorldInstance().GetLevel().Terrain.GetData().RenderWaterRefraction(GameWorld.GetWorldInstance().GetLevel().DirectionalLight, camera, ref EngineStatics.ProjectionMatrix, clipPlane);
             GL.Disable(EnableCap.CullFace);
             GL.Disable(EnableCap.StencilTest); // Enable stencil test
         }
@@ -322,7 +322,7 @@ namespace MassiveGame.Engine
 #if DEBUG || DESIGN_EDITOR
             /*TO DO :
              * If point lights exist - show them */
-            if (GameWorld.GetWorldInstance().GetLevel().PointLightCollection != null)
+            if (GameWorld.GetWorldInstance().GetLevel().PointLightDebugRenderer != null)
             {
                 GameWorld.GetWorldInstance().GetLevel().PointLightDebugRenderer.Render(GameWorld.GetWorldInstance().GetLevel().Camera, EngineStatics.ProjectionMatrix);
             }

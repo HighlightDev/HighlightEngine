@@ -81,6 +81,7 @@ namespace MassiveGame.Engine
                 // TODO -> test game level
                 GameWorld.GetWorldInstance().LoadTestLevel();
                 //
+                GameWorld.GetWorldInstance().PostInit();
                 SetProjectionMatrixToDefault();
                 EngineStatics.PrevCursorPosition = new Point(-1, -1);
                 EngineStatics.ElapsedTime = DateTime.Now;
@@ -108,11 +109,11 @@ namespace MassiveGame.Engine
 
         private void CleanEverythingUp()
         {
-            if (GameWorld.GetWorldInstance().GetLevel().Water != null) GameWorld.GetWorldInstance().GetLevel().Water.GetData().CleanUp();
-            if (GameWorld.GetWorldInstance().GetLevel().SunRenderer != null) GameWorld.GetWorldInstance().GetLevel().SunRenderer.GetData().cleanUp();
-            if (GameWorld.GetWorldInstance().GetLevel().Terrain != null) GameWorld.GetWorldInstance().GetLevel().Terrain.cleanUp();
-            if (GameWorld.GetWorldInstance().GetLevel().Player != null) GameWorld.GetWorldInstance().GetLevel().Player.GetData().CleanUp();
-            if (GameWorld.GetWorldInstance().GetLevel().Bots != null) foreach (var bot in GameWorld.GetWorldInstance().GetLevel().Bots) { bot.CleanUp(); }
+            GameWorld.GetWorldInstance().GetLevel().Water.GetData()?.CleanUp();
+            GameWorld.GetWorldInstance().GetLevel().SunRenderer.GetData()?.cleanUp();
+            GameWorld.GetWorldInstance().GetLevel().Terrain.GetData()?.cleanUp();
+            GameWorld.GetWorldInstance().GetLevel().Player.GetData()?.CleanUp();
+            foreach (var bot in GameWorld.GetWorldInstance().GetLevel().Bots) { bot.CleanUp(); }
             if (GameWorld.GetWorldInstance().GetLevel().Grass != null) GameWorld.GetWorldInstance().GetLevel().Grass.cleanUp();
             if (GameWorld.GetWorldInstance().GetLevel().Plant != null) GameWorld.GetWorldInstance().GetLevel().Plant.cleanUp();
             if (GameWorld.GetWorldInstance().GetLevel().StaticMeshCollection != null) foreach (Building house in GameWorld.GetWorldInstance().GetLevel().StaticMeshCollection) { house.CleanUp(); }

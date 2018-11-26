@@ -15,11 +15,12 @@ using MassiveGame.Core.RenderCore.Light_visualization;
 using MassiveGame.Core.GameCore.Entities.Skeletal_Entities;
 using MassiveGame.Core.ioCore;
 using System;
+using System.Runtime.Serialization;
 
 namespace MassiveGame.Core.GameCore
 {
     [Serializable]
-    public class Level : IPostDeserializable
+    public class Level : IPostDeserializable, ISerializable
     {
         #region private_fields
 
@@ -58,8 +59,7 @@ namespace MassiveGame.Core.GameCore
 
         private DayLightCycle m_dayLightCycle;
 
-        [NonSerialized]
-        private Landscape m_terrain;
+        private ObserverWrapper<Landscape> m_terrain;
 
         [NonSerialized]
         private MovableSkeletalMeshEntity m_skeletalMesh;
@@ -113,7 +113,7 @@ namespace MassiveGame.Core.GameCore
 
         public DayLightCycle DayCycle { set { m_dayLightCycle = value; } get { return m_dayLightCycle; } }
 
-        public Landscape Terrain { set { m_terrain = value; } get { return m_terrain; } }
+        public ObserverWrapper<Landscape> Terrain { set { m_terrain = value; } get { return m_terrain; } }
 
         public MovableSkeletalMeshEntity SkeletalMesh { set { m_skeletalMesh = value; } get { return m_skeletalMesh; } }
 
@@ -136,16 +136,66 @@ namespace MassiveGame.Core.GameCore
 
         #endregion
 
+        private void Init()
+        {
+
+        }
+
         public Level(Vector2 levelSize, string levelName)
         {
             LevelSize = levelSize;
             m_levelName = levelName;
+
+            PointLightCollection = new List<PointLight>();
+            StaticMeshCollection = new ObserverListWrapper<Building>();
+            Player = new ObserverWrapper<MovableMeshEntity>();
+            Bots = new ObserverListWrapper<MovableMeshEntity>();
+            SunRenderer = new ObserverWrapper<SunRenderer>();
+            Water = new ObserverWrapper<WaterPlane>();
+            Terrain = new ObserverWrapper<Landscape>();
+            VisibilityCheckCollection = new List<IVisible>();
+            LitCheckCollection = new List<ILightHit>();
+            ShadowCastCollection = new List<IDrawable>();
         }
 
         public void PostDeserializeInit()
         {
-            // TODO: ->> invent something better
-            ShadowCastCollection.Add(Terrain);
-        } 
+            // todo: reassemble all game entities
+        }
+
+        public void GetObjectData(SerializationInfo info, StreamingContext context)
+        {
+            info.AddValue("m_levelSize", m_levelSize);
+            info.AddValue("m_levelName", m_levelName);
+            info.AddValue("m_directionalLight", m_directionalLight, typeof(DirectionalLight));
+            info.AddValue("m_camera", m_camera, typeof(BaseCamera));
+            info.AddValue("m_dayLightCycle", m_dayLightCycle, typeof(DayLightCycle));
+            info.AddValue("m_mistComponent", m_mistComponent, typeof(MistComponent));
+            info.AddValue("m_terrain", m_terrain, typeof(ObserverWrapper<Landscape>));
+            info.AddValue("m_staticMeshCollection", m_staticMeshCollection, typeof(ObserverListWrapper<StaticEntity>));
+            info.AddValue("m_player", m_player, typeof(ObserverWrapper<MovableMeshEntity>));
+            info.AddValue("m_bots", m_bots, typeof(ObserverListWrapper<MovableMeshEntity>));
+            info.AddValue("m_skybox", m_skybox, typeof(SkyboxEntity));
+            info.AddValue("m_waterPlane", m_waterPlane, typeof(ObserverWrapper<WaterPlane>));
+            info.AddValue("m_sunRenderer", m_sunRenderer, typeof(ObserverWrapper<SunRenderer>));
+        }
+
+        protected Level(SerializationInfo info, StreamingContext context)
+        {
+            throw new NotImplementedException("Not done yet.");
+            info.AddValue("m_levelSize", m_levelSize);
+            info.AddValue("m_levelName", m_levelName);
+            info.AddValue("m_directionalLight", m_directionalLight, typeof(DirectionalLight));
+            info.AddValue("m_camera", m_camera, typeof(BaseCamera));
+            info.AddValue("m_dayLightCycle", m_dayLightCycle, typeof(DayLightCycle));
+            info.AddValue("m_mistComponent", m_mistComponent, typeof(MistComponent));
+            info.AddValue("m_terrain", m_terrain, typeof(ObserverWrapper<Landscape>));
+            info.AddValue("m_staticMeshCollection", m_staticMeshCollection, typeof(ObserverListWrapper<StaticEntity>));
+            info.AddValue("m_player", m_player, typeof(ObserverWrapper<MovableMeshEntity>));
+            info.AddValue("m_bots", m_bots, typeof(ObserverListWrapper<MovableMeshEntity>));
+            info.AddValue("m_skybox", m_skybox, typeof(SkyboxEntity));
+            info.AddValue("m_waterPlane", m_waterPlane, typeof(ObserverWrapper<WaterPlane>));
+            info.AddValue("m_sunRenderer", m_sunRenderer, typeof(ObserverWrapper<SunRenderer>));
+        }
     }
 }

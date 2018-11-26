@@ -13,7 +13,10 @@ namespace MassiveGame.Core.GameCore.Sun.DayCycle
         public float TimeFlow { set; get; }
         public Int32 TimerPeriod { set; get; }
         private float time;
+
+        [NonSerialized]
         private DirectionalLight sun;
+
         private float traectoryRadius;
 
         #endregion

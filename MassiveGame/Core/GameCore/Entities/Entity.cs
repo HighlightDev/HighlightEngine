@@ -30,12 +30,15 @@ namespace MassiveGame.Core.GameCore.Entities
 
         protected Material m_material;
 
+        [NonSerialized]
         protected MistComponent m_mist;
 
         protected bool bVisibleByCamera, bPostConstructor;
 
+        [NonSerialized]
         protected CollisionHeadUnit m_collisionHeadUnit;
 
+        [NonSerialized]
         protected BoolMap m_lightVisibilityMap;
 
         protected Skin m_skin;
@@ -48,7 +51,10 @@ namespace MassiveGame.Core.GameCore.Entities
 
         protected ITexture m_specularMap;
 
+        [NonSerialized]
         protected bool bIsCollidable = false;
+
+        #endregion
 
         #region Constructor
 
@@ -84,7 +90,6 @@ namespace MassiveGame.Core.GameCore.Entities
             var skinPath = info.GetString("skin");
             InitResources(skinPath, texturePath, normalTexPath, specularTexPath);
 
-            m_mist = info.GetValue("mistComponent", typeof(MistComponent)) as MistComponent;
             m_material = info.GetValue("material", typeof(Material)) as Material;
         }
 
@@ -167,8 +172,6 @@ namespace MassiveGame.Core.GameCore.Entities
         #endregion
 
         public bool IsVisibleByCamera { protected set { bVisibleByCamera = value; } get { return bVisibleByCamera; } }
-
-        #endregion
 
         #region Interface implementation
 
