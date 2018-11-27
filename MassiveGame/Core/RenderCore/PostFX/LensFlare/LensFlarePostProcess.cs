@@ -159,7 +159,7 @@ namespace MassiveGame.Core.RenderCore.PostFX.LensFlare
             GL.Clear(ClearBufferMask.DepthBufferBit);
             if (GameWorld.GetWorldInstance().GetLevel().Terrain.GetData() != null)
             {
-                GameWorld.GetWorldInstance().GetLevel().Terrain.GetData().renderTerrain(EngineStatics.Mode, GameWorld.GetWorldInstance().GetLevel().DirectionalLight, GameWorld.GetWorldInstance().GetLevel().PointLightCollection, camera, EngineStatics.ProjectionMatrix);
+                GameWorld.GetWorldInstance().GetLevel().Terrain.GetData().renderTerrain(EngineStatics.Mode, GameWorld.GetWorldInstance().GetLevel().DirectionalLight, GameWorld.GetWorldInstance().GetLevel().PointLightCollection.GetData(), camera, EngineStatics.ProjectionMatrix);
             }
 
             if (GameWorld.GetWorldInstance().GetLevel().StaticMeshCollection != null)
@@ -167,13 +167,13 @@ namespace MassiveGame.Core.RenderCore.PostFX.LensFlare
                 foreach (Building house in GameWorld.GetWorldInstance().GetLevel().StaticMeshCollection)
                 {
                     if (house.IsVisibleByCamera)
-                        house.renderObject(EngineStatics.Mode, GameWorld.GetWorldInstance().GetLevel().DirectionalLight, GameWorld.GetWorldInstance().GetLevel().PointLightCollection, camera, ref EngineStatics.ProjectionMatrix);
+                        house.renderObject(EngineStatics.Mode, GameWorld.GetWorldInstance().GetLevel().DirectionalLight, GameWorld.GetWorldInstance().GetLevel().PointLightCollection.GetData(), camera, ref EngineStatics.ProjectionMatrix);
                 }
             }
 
             if (GameWorld.GetWorldInstance().GetLevel().Player.GetData() != null && GameWorld.GetWorldInstance().GetLevel().Player.GetData().IsVisibleByCamera)
             {
-                GameWorld.GetWorldInstance().GetLevel().Player.GetData().RenderEntity(EngineStatics.Mode, GameWorld.GetWorldInstance().GetLevel().DirectionalLight, GameWorld.GetWorldInstance().GetLevel().PointLightCollection, camera, ref EngineStatics.ProjectionMatrix);
+                GameWorld.GetWorldInstance().GetLevel().Player.GetData().RenderEntity(EngineStatics.Mode, GameWorld.GetWorldInstance().GetLevel().DirectionalLight, GameWorld.GetWorldInstance().GetLevel().PointLightCollection.GetData(), camera, ref EngineStatics.ProjectionMatrix);
             }
 
             if (GameWorld.GetWorldInstance().GetLevel().Bots != null)
@@ -181,7 +181,7 @@ namespace MassiveGame.Core.RenderCore.PostFX.LensFlare
                 foreach (var bot in GameWorld.GetWorldInstance().GetLevel().Bots)
                 {
                     if (bot.IsVisibleByCamera)
-                        bot.RenderEntity(EngineStatics.Mode, GameWorld.GetWorldInstance().GetLevel().DirectionalLight, GameWorld.GetWorldInstance().GetLevel().PointLightCollection, camera, ref EngineStatics.ProjectionMatrix);
+                        bot.RenderEntity(EngineStatics.Mode, GameWorld.GetWorldInstance().GetLevel().DirectionalLight, GameWorld.GetWorldInstance().GetLevel().PointLightCollection.GetData(), camera, ref EngineStatics.ProjectionMatrix);
                 }
             }
 

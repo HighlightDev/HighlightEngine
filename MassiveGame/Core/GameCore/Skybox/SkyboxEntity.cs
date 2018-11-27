@@ -82,6 +82,11 @@ namespace MassiveGame.Core.GameCore.Skybox
 
         #region Serialization
 
+        public void PostDeserializePass(MistComponent mistComponent)
+        {
+            m_mist = mistComponent;
+        }
+
         protected SkyboxEntity(SerializationInfo info, StreamingContext context)
         {
             FloatSpeed = info.GetSingle("FloatSpeed");

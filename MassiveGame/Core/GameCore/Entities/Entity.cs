@@ -78,6 +78,12 @@ namespace MassiveGame.Core.GameCore.Entities
 
         #region Serialization
 
+        public void PostDeserializePass(MistComponent mistComponent, CollisionHeadUnit collisionHeadUnit)
+        {
+            m_mist = mistComponent;
+            SetCollisionHeadUnit(collisionHeadUnit);
+        }
+
         protected Entity(SerializationInfo info, StreamingContext context)
             : base(info, context)
         {
@@ -243,16 +249,16 @@ namespace MassiveGame.Core.GameCore.Entities
 
         public void NotifyAdded()
         {
-            GameWorld.GetWorldInstance().GetLevel().ShadowCastCollection.Add(this);
-            GameWorld.GetWorldInstance().GetLevel().LitCheckCollection.Add(this);
-            GameWorld.GetWorldInstance().GetLevel().VisibilityCheckCollection.Add(this);
+            GameWorld.GetWorldInstance().ShadowCastCollection.Add(this);
+            GameWorld.GetWorldInstance().LitCheckCollection.Add(this);
+            GameWorld.GetWorldInstance().VisibilityCheckCollection.Add(this);
         }
 
         public void NotifyRemoved()
         {
-            GameWorld.GetWorldInstance().GetLevel().ShadowCastCollection.Remove(this);
-            GameWorld.GetWorldInstance().GetLevel().LitCheckCollection.Remove(this);
-            GameWorld.GetWorldInstance().GetLevel().VisibilityCheckCollection.Remove(this);
+            GameWorld.GetWorldInstance().ShadowCastCollection.Remove(this);
+            GameWorld.GetWorldInstance().LitCheckCollection.Remove(this);
+            GameWorld.GetWorldInstance().VisibilityCheckCollection.Remove(this);
         }
 
         #endregion

@@ -30,10 +30,10 @@ namespace MassiveGame.Engine
         private void VisibilityCheckPass()
         {
             // Find which primitives are visible for current frame
-            VisibilityCheckApi.CheckMeshIsVisible(GameWorld.GetWorldInstance().GetLevel().VisibilityCheckCollection, ref EngineStatics.ProjectionMatrix, GameWorld.GetWorldInstance().GetLevel().Camera.GetViewMatrix());
+            VisibilityCheckApi.CheckMeshIsVisible(GameWorld.GetWorldInstance().VisibilityCheckCollection, ref EngineStatics.ProjectionMatrix, GameWorld.GetWorldInstance().GetLevel().Camera.GetViewMatrix());
 
             // Find which light sources effects on meshes
-            LightHitCheckApi.CheckLightSourceHitsMesh(GameWorld.GetWorldInstance().GetLevel().LitCheckCollection, GameWorld.GetWorldInstance().GetLevel().PointLightCollection);
+            LightHitCheckApi.CheckLightSourceHitsMesh(GameWorld.GetWorldInstance().LitCheckCollection, GameWorld.GetWorldInstance().GetLevel().PointLightCollection.GetData());
         }
 
         private void PreDrawClearBuffers()
@@ -78,7 +78,7 @@ namespace MassiveGame.Engine
             DirectionalLight globalLight = GameWorld.GetWorldInstance().GetLevel().DirectionalLight;
             if (globalLight.GetHasShadow())
             {
-                (globalLight as DirectionalLightWithShadow).WriteDepth(GameWorld.GetWorldInstance().GetLevel().ShadowCastCollection, ref EngineStatics.ProjectionMatrix);
+                (globalLight as DirectionalLightWithShadow).WriteDepth(GameWorld.GetWorldInstance().ShadowCastCollection, ref EngineStatics.ProjectionMatrix);
             }
             GL.Viewport(0, 0, actualScreenRezolution.X, actualScreenRezolution.Y);
         }
@@ -129,7 +129,7 @@ namespace MassiveGame.Engine
             GL.Enable(EnableCap.DepthTest);
             GL.DepthMask(true);
 
-            if (GameWorld.GetWorldInstance().GetLevel().Terrain.GetData() != null) GameWorld.GetWorldInstance().GetLevel().Terrain.GetData().renderTerrain(EngineStatics.Mode, GameWorld.GetWorldInstance().GetLevel().DirectionalLight, GameWorld.GetWorldInstance().GetLevel().PointLightCollection, camera, EngineStatics.ProjectionMatrix);
+            if (GameWorld.GetWorldInstance().GetLevel().Terrain.GetData() != null) GameWorld.GetWorldInstance().GetLevel().Terrain.GetData().renderTerrain(EngineStatics.Mode, GameWorld.GetWorldInstance().GetLevel().DirectionalLight, GameWorld.GetWorldInstance().GetLevel().PointLightCollection.GetData(), camera, EngineStatics.ProjectionMatrix);
 
             if (!Object.Equals(GameWorld.GetWorldInstance().GetLevel().SunRenderer, null))
             {
@@ -142,7 +142,7 @@ namespace MassiveGame.Engine
             if (GameWorld.GetWorldInstance().GetLevel().Water.GetData() != null && GameWorld.GetWorldInstance().GetLevel().Water.GetData().IsInCameraView)
             {
                 GameWorld.GetWorldInstance().GetLevel().Water.GetData().RenderWater(GameWorld.GetWorldInstance().GetLevel().Camera, ref EngineStatics.ProjectionMatrix,
-                        EngineStatics.NEAR_CLIPPING_PLANE, EngineStatics.FAR_CLIPPING_PLANE, GameWorld.GetWorldInstance().GetLevel().DirectionalLight, GameWorld.GetWorldInstance().GetLevel().PointLightCollection);
+                        EngineStatics.NEAR_CLIPPING_PLANE, EngineStatics.FAR_CLIPPING_PLANE, GameWorld.GetWorldInstance().GetLevel().DirectionalLight, GameWorld.GetWorldInstance().GetLevel().PointLightCollection.GetData());
             }
 
             GL.Disable(EnableCap.CullFace);
@@ -155,7 +155,7 @@ namespace MassiveGame.Engine
                 foreach (Building house in GameWorld.GetWorldInstance().GetLevel().StaticMeshCollection)
                 {
                     if (!house.IsVisibleByCamera) continue;
-                    house.renderObject(EngineStatics.Mode, GameWorld.GetWorldInstance().GetLevel().DirectionalLight, GameWorld.GetWorldInstance().GetLevel().PointLightCollection, camera, ref EngineStatics.ProjectionMatrix);
+                    house.renderObject(EngineStatics.Mode, GameWorld.GetWorldInstance().GetLevel().DirectionalLight, GameWorld.GetWorldInstance().GetLevel().PointLightCollection.GetData(), camera, ref EngineStatics.ProjectionMatrix);
                 }
             }
 
@@ -163,7 +163,7 @@ namespace MassiveGame.Engine
             {
                 if (GameWorld.GetWorldInstance().GetLevel().Player.GetData().IsVisibleByCamera)
                 {
-                    GameWorld.GetWorldInstance().GetLevel().Player.GetData().RenderEntity(EngineStatics.Mode, GameWorld.GetWorldInstance().GetLevel().DirectionalLight, GameWorld.GetWorldInstance().GetLevel().PointLightCollection, camera, ref EngineStatics.ProjectionMatrix);
+                    GameWorld.GetWorldInstance().GetLevel().Player.GetData().RenderEntity(EngineStatics.Mode, GameWorld.GetWorldInstance().GetLevel().DirectionalLight, GameWorld.GetWorldInstance().GetLevel().PointLightCollection.GetData(), camera, ref EngineStatics.ProjectionMatrix);
                 }
             }
 
@@ -172,11 +172,11 @@ namespace MassiveGame.Engine
                 foreach (var bot in GameWorld.GetWorldInstance().GetLevel().Bots)
                 {
                     if (bot.IsVisibleByCamera)
-                        bot.RenderEntity(EngineStatics.Mode, GameWorld.GetWorldInstance().GetLevel().DirectionalLight, GameWorld.GetWorldInstance().GetLevel().PointLightCollection, camera, ref EngineStatics.ProjectionMatrix);
+                        bot.RenderEntity(EngineStatics.Mode, GameWorld.GetWorldInstance().GetLevel().DirectionalLight, GameWorld.GetWorldInstance().GetLevel().PointLightCollection.GetData(), camera, ref EngineStatics.ProjectionMatrix);
                 }
             }
 
-            GameWorld.GetWorldInstance().GetLevel().SkeletalMesh?.RenderEntity(EngineStatics.Mode, GameWorld.GetWorldInstance().GetLevel().DirectionalLight, GameWorld.GetWorldInstance().GetLevel().PointLightCollection, camera, ref EngineStatics.ProjectionMatrix);
+            GameWorld.GetWorldInstance().GetLevel().SkeletalMesh?.RenderEntity(EngineStatics.Mode, GameWorld.GetWorldInstance().GetLevel().DirectionalLight, GameWorld.GetWorldInstance().GetLevel().PointLightCollection.GetData(), camera, ref EngineStatics.ProjectionMatrix);
 
             // ITS for TEST! COMPUTE SHADERS!
             //Matrix4 worldMatrix = Matrix4.CreateScale(1);

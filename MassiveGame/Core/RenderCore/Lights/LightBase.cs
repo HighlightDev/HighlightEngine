@@ -1,12 +1,12 @@
 ﻿using OpenTK;
-using MassiveGame.Core.RenderCore.Shadows;
 using System;
 using System.Runtime.Serialization;
+using MassiveGame.Core.GameCore;
 
 namespace MassiveGame.Core.RenderCore.Lights
 {
     [Serializable]
-    public abstract class LightBase : ISerializable
+    public abstract class LightBase : ISerializable, IObservable
     {
         public Vector4 Ambient { set; get; }
         public Vector4 Diffuse { set; get; }
@@ -30,6 +30,11 @@ namespace MassiveGame.Core.RenderCore.Lights
             info.AddValue("diffuse", Diffuse, typeof(Vector4));
             info.AddValue("specular", Specular, typeof(Vector4));
         }
+
+
+        public void NotifyAdded() { }
+
+        public void NotifyRemoved() { }
 
         protected LightBase(SerializationInfo info, StreamingContext context)
         {

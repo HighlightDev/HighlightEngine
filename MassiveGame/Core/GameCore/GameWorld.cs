@@ -34,8 +34,24 @@ namespace MassiveGame.Core.GameCore
         private static GameWorld m_world = null;
 
         private Level m_currentLevel = null;
-        private CollisionHeadUnit m_collisionHeadUnit;
         private UiFrameMaster m_uiFrameCreator;
+
+        [NonSerialized]
+        private List<IVisible> m_visibilityCheckCollection;
+
+        [NonSerialized]
+        private List<ILightHit> m_litCheckCollection;
+
+        [NonSerialized]
+        private List<IDrawable> m_shadowCastCollection;
+
+        public List<IVisible> VisibilityCheckCollection { set { m_visibilityCheckCollection = value; } get { return m_visibilityCheckCollection; } }
+
+        public List<ILightHit> LitCheckCollection { set { m_litCheckCollection = value; } get { return m_litCheckCollection; } }
+
+        public List<IDrawable> ShadowCastCollection { set { m_shadowCastCollection = value; } get { return m_shadowCastCollection; } }
+
+        public CollisionHeadUnit CollisionHeadUnitObject { private set; get; }
 
         public Level GetLevel()
         {
@@ -47,20 +63,9 @@ namespace MassiveGame.Core.GameCore
             m_currentLevel = lvl;
         }
 
-        public CollisionHeadUnit GetCollisionHeadUnit()
-        {
-            return m_collisionHeadUnit;
-        }
-
         public UiFrameMaster GetUiFrameCreator()
         {
             return m_uiFrameCreator;
-        }
-
-        // TODO ->> Here path to level supposed to be file with serialized level 
-        public void LoadLevel(string pathToLevel)
-        {
-            throw new NotImplementedException();
         }
 
         private void SetLevelTestValues(Level level)
@@ -114,7 +119,7 @@ namespace MassiveGame.Core.GameCore
             {
                 var inner_wrapper = deserializer.Deserialize<CollisionComponentsWrapper>("house.cl");
                 item.SetComponents(inner_wrapper.SerializedComponents);
-                item.SetCollisionHeadUnit(m_collisionHeadUnit);
+                item.SetCollisionHeadUnit(CollisionHeadUnitObject);
 
                 item.SetMistComponent(level.Mist);
             }
@@ -137,7 +142,7 @@ namespace MassiveGame.Core.GameCore
             var wrapper = deserializer.Deserialize<CollisionComponentsWrapper>("2.cl");
             level.Player.GetData().SetComponents(wrapper.SerializedComponents);
 
-            level.Player.GetData().SetCollisionHeadUnit(m_collisionHeadUnit);
+            level.Player.GetData().SetCollisionHeadUnit(CollisionHeadUnitObject);
             level.Player.GetData().Speed = 0.6f;
 
             modelPath = ProjectFolders.ModelsPath + "playerCube.obj";
@@ -150,7 +155,7 @@ namespace MassiveGame.Core.GameCore
 
             wrapper = deserializer.Deserialize<CollisionComponentsWrapper>("2.cl");
             bot.SetComponents(wrapper.SerializedComponents);
-            bot.SetCollisionHeadUnit(m_collisionHeadUnit);
+            bot.SetCollisionHeadUnit(CollisionHeadUnitObject);
             level.Bots.AddToList(bot);
             movableMeshArg = null;
 
@@ -175,14 +180,9 @@ namespace MassiveGame.Core.GameCore
             level.SunRenderer.AddToWrapper(new SunRenderer(level.DirectionalLight, ProjectFolders.SunTexturePath + "sunC.png",
                     ProjectFolders.SunTexturePath + "sunB.png", 150, 130));
 
-
-            // TODO: test io
-            TestingIO(level, deserializer);
-
             // Set third person target
             ThirdPersonCamera thirdPersonCamera = (level.Camera as ThirdPersonCamera);
             thirdPersonCamera?.SetThirdPersonTarget(level.Player.GetData());
-
 
             //ch = new ComputeShader();
             //ch.Init();
@@ -190,82 +190,62 @@ namespace MassiveGame.Core.GameCore
 
         #region TEST
 
-        private void Serialize<T>(T obj)
-        {
-            BinaryFormatter serializer = new BinaryFormatter();
-            using (FileStream fileStream = new FileStream("entity.bn", FileMode.OpenOrCreate))
-            {
-                serializer.Serialize(fileStream, obj);
-                fileStream.Close();
-            }
-        }
-
         private void SerializeCurrentLevel()
         {
-            string localPath = "testLevel.save";
+            void Serialize<T>(T obj, string path)
+            {
+                BinaryFormatter serializer = new BinaryFormatter();
+                using (FileStream fileStream = new FileStream(path, FileMode.OpenOrCreate))
+                {
+                    serializer.Serialize(fileStream, obj);
+                    fileStream.Close();
+                }
+            }
 
-            Serialize(m_currentLevel);
+            string localPath = "testLevel.save";
+            Serialize(m_currentLevel, localPath);
         }
 
-        private void TestingIO(Level level, DeserializeWrapper deserializer)
+        public void LoadTestLevel()
         {
-            // Player
-            //Serialize(level.Player);
-            //level.Player.ClearWrapper();
-            //level.Player = deserializer.Deserialize<ObserverWrapper<MovableMeshEntity>>("entity.bn");
-            //level.Player.GetData().SetCollisionHeadUnit(m_collisionHeadUnit);
+            bool bEnable = false;
+            if (bEnable)
+            {
+                Level level = new Level(new Vector2(500, 500), "Test Level");
+                m_currentLevel = level;
 
-            // Static mesh list
-            //Serialize(level.StaticMeshCollection);
-            //level.StaticMeshCollection.ClearList();
-            //level.StaticMeshCollection = deserializer.Deserialize<ObserverListWrapper<Building>>("entity.bn");
-            //foreach (var item in level.StaticMeshCollection) item.SetCollisionHeadUnit(m_collisionHeadUnit);
+                level.Camera = new ThirdPersonCamera(new Vector3(0.5f, -0.8f, 0), 45);
+                level.PlayerController = new PlayerController(level.Camera as ThirdPersonCamera);
 
-            // Sun renderer
-            //Serialize(level.SunRenderer);
-            //level.SunRenderer.ClearWrapper();
-            //level.SunRenderer = deserializer.Deserialize<ObserverWrapper<SunRenderer>>("entity.bn");
-            /***********************************************************/
+                SetLevelTestValues(level);
 
-            // Water 
-            //Serialize(level.Water);
-            //level.Water.ClearWrapper();
-            //level.Water = deserializer.Deserialize<ObserverWrapper<WaterPlane>>("entity.bn");
+                level.Camera.SetCollisionHeadUnit(CollisionHeadUnitObject);
 
-            // Skybox
-            //Serialize(level.Skybox);
-            //level.Skybox = null;
-            //level.Skybox = deserializer.Deserialize<SkyboxEntity>("entity.bn");
-
-            // Day cycle
-            //Serialize(level.DayCycle);
-            //level.DayCycle = null;
-            //level.DayCycle = deserializer.Deserialize<DayLightCycle>("entity.bn");
+                SerializeCurrentLevel();
+            }
+            else
+            {
+                m_currentLevel = LoadLevel("testLevel.save");
+            }
         }
 
         #endregion
 
-        // TODO ->> Load test values for current level
-        public void LoadTestLevel()
+        public Level LoadLevel(string pathToLevel)
         {
-            Level level = new Level(new Vector2(500, 500), "Test Level");
-            m_currentLevel = level;
-
-            level.Camera = new ThirdPersonCamera(new Vector3(0.5f, -0.8f, 0), 45);
-            level.PlayerController = new PlayerController(level.Camera as ThirdPersonCamera);
-
-            SetLevelTestValues(level);
-
-            level.Camera.SetCollisionHeadUnit(m_collisionHeadUnit);
+            Level result = null;
+            DeserializeWrapper deserializer = new DeserializeWrapper();
+            result = deserializer.Deserialize<Level>(pathToLevel);
+            return result;
         }
 
         public void PostInit()
         {
 #if DEBUG || DESIGN_EDITOR
-            if (m_currentLevel != null && m_currentLevel.PointLightCollection.Count > 0)
+            if (m_currentLevel != null && m_currentLevel.PointLightCollection.GetCount() > 0)
             {
                 m_currentLevel.PointLightDebugRenderer = new PointLightsDebugRenderer(ProjectFolders.TexturesPath + "/LightTextures/" + "light-bulb-icon (1).png",
-                    m_currentLevel.PointLightCollection);
+                    m_currentLevel.PointLightCollection.GetData());
             }
 #endif
         }
@@ -280,8 +260,11 @@ namespace MassiveGame.Core.GameCore
 
         private GameWorld()
         {
-            m_collisionHeadUnit = new CollisionHeadUnit();
             m_uiFrameCreator = new UiFrameMaster();
+            VisibilityCheckCollection = new List<IVisible>();
+            LitCheckCollection = new List<ILightHit>();
+            ShadowCastCollection = new List<IDrawable>();
+            CollisionHeadUnitObject = new CollisionHeadUnit();
         }
     }
 }

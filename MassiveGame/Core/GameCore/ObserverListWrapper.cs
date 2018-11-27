@@ -24,6 +24,16 @@ namespace MassiveGame.Core.GameCore
             get { return m_dataList[index]; }
         }
 
+        public Int32 GetCount()
+        {
+            return m_dataList.Count;
+        }
+
+        public List<T> GetData()
+        {
+            return m_dataList;
+        }
+
         public void AddToList(T obj)
         {
             obj.NotifyAdded();

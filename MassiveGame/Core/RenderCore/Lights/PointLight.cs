@@ -1,7 +1,10 @@
-﻿using OpenTK;
+﻿using MassiveGame.Core.GameCore;
+using OpenTK;
+using System;
 
 namespace MassiveGame.Core.RenderCore.Lights
 {
+    [Serializable]
     public class PointLight : LightBase
     {
         public Vector4 Position { set; get; }

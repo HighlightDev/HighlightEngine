@@ -5,7 +5,6 @@ using CollisionEditor.RenderCore;
 using CollisionEditor.IOCore;
 using MassiveGame.Settings;
 using MassiveGame.CollisionEditor.Core;
-using MassiveGame.Core.ComponentCore;
 
 namespace CollisionEditor.Core
 {

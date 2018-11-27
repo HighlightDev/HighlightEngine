@@ -22,7 +22,7 @@ namespace MassiveGame.Core.GameCore
 
         public void AddToWrapper(T obj)
         {
-            obj.NotifyAdded();
+            obj?.NotifyAdded();
             m_data = obj;
         }
        
@@ -36,7 +36,7 @@ namespace MassiveGame.Core.GameCore
 
         public void PostDeserializeInit()
         {
-            m_data.NotifyAdded();
+            m_data?.NotifyAdded();
         }
 
         public void GetObjectData(SerializationInfo info, StreamingContext context)

@@ -17,6 +17,7 @@ using MassiveGame.Core.ioCore;
 using System;
 using System.Runtime.Serialization;
 using MassiveGame.Core.RenderCore.Shadows;
+using MassiveGame.Core.PhysicsCore;
 
 namespace MassiveGame.Core.GameCore
 {
@@ -29,17 +30,7 @@ namespace MassiveGame.Core.GameCore
 
         private Vector2 m_levelSize;
 
-        [NonSerialized]
-        private List<IVisible> m_visibilityCheckCollection;
-
-        [NonSerialized]
-        private List<ILightHit> m_litCheckCollection;
-
-        [NonSerialized]
-        private List<IDrawable> m_shadowCastCollection;
-
-        [NonSerialized]
-        private List<PointLight> m_pointLightCollection;
+        private ObserverListWrapper<PointLight> m_pointLightCollection;
 
 #if DEBUG || DESIGN_EDITOR
         [NonSerialized]
@@ -88,13 +79,7 @@ namespace MassiveGame.Core.GameCore
 
         public Vector2 LevelSize { set { m_levelSize = value; } get { return m_levelSize; } }
 
-        public List<IVisible> VisibilityCheckCollection { set { m_visibilityCheckCollection = value; } get { return m_visibilityCheckCollection; } }
-
-        public List<ILightHit> LitCheckCollection { set { m_litCheckCollection = value; } get { return m_litCheckCollection; } }
-
-        public List<IDrawable> ShadowCastCollection { set { m_shadowCastCollection = value; } get { return m_shadowCastCollection; } }
-
-        public List<PointLight> PointLightCollection { set { m_pointLightCollection = value; }  get { return m_pointLightCollection; } }
+        public ObserverListWrapper<PointLight> PointLightCollection { set { m_pointLightCollection = value; }  get { return m_pointLightCollection; } }
 
 #if DEBUG || DESIGN_EDITOR
         public PointLightsDebugRenderer PointLightDebugRenderer { set { m_pointLightDebugRenderer = value; } get { return m_pointLightDebugRenderer; } }
@@ -137,35 +122,36 @@ namespace MassiveGame.Core.GameCore
 
         #endregion
 
-        private void Init()
-        {
-
-        }
+        #region Constructor
 
         public Level(Vector2 levelSize, string levelName)
         {
             LevelSize = levelSize;
             m_levelName = levelName;
-
-            PointLightCollection = new List<PointLight>();
             StaticMeshCollection = new ObserverListWrapper<Building>();
             Player = new ObserverWrapper<MovableMeshEntity>();
             Bots = new ObserverListWrapper<MovableMeshEntity>();
             SunRenderer = new ObserverWrapper<SunRenderer>();
             Water = new ObserverWrapper<WaterPlane>();
             Terrain = new ObserverWrapper<Landscape>();
-            VisibilityCheckCollection = new List<IVisible>();
-            LitCheckCollection = new List<ILightHit>();
-            ShadowCastCollection = new List<IDrawable>();
+            PointLightCollection = new ObserverListWrapper<PointLight>();
         }
 
-        public void PostDeserializeInit()
+        #endregion
+
+        #region Serialization
+
+        void IPostDeserializable.PostDeserializeInit()
         {
-            // todo: reassemble all game entities
+            var collisionHeadUnit = GameWorld.GetWorldInstance().CollisionHeadUnitObject;
+
             if (m_camera is ThirdPersonCamera)
             {
-                (m_camera as ThirdPersonCamera).SetThirdPersonTarget(m_player.GetData());
+                ThirdPersonCamera camera = m_camera as ThirdPersonCamera;
+                camera.SetThirdPersonTarget(m_player.GetData());
+                m_playerController = new PlayerController(camera);
             }
+            m_camera.SetCollisionHeadUnit(collisionHeadUnit);
 
             if (m_directionalLight is DirectionalLightWithShadow)
             {
@@ -174,14 +160,38 @@ namespace MassiveGame.Core.GameCore
 
             m_dayLightCycle.PostDeserializePass(m_directionalLight);
 
-            m_terrain.GetData().PostDeserializePass(m_mistComponent);
-            // to be continue
+            m_terrain.GetData()?.PostDeserializePass(m_mistComponent);
+            m_terrain.PostDeserializeInit();
+
+            foreach (var building in m_staticMeshCollection)
+            {
+                building.PostDeserializePass(m_mistComponent, collisionHeadUnit);
+            }
+            m_staticMeshCollection.PostDeserializeInit();
+
+            m_player.GetData().PostDeserializePass(m_mistComponent, collisionHeadUnit);
+            m_player.PostDeserializeInit();
+
+            foreach (var bot in m_bots)
+            {
+                bot.PostDeserializePass(m_mistComponent, collisionHeadUnit);
+                bot.PostDeserializeInit();
+            }
+
+            m_skybox?.PostDeserializePass(m_mistComponent);
+
+            m_waterPlane.GetData()?.PostDeserializePass(m_mistComponent);
+            m_waterPlane.PostDeserializeInit();
+
+            m_sunRenderer.GetData()?.PostDeserializePass(m_directionalLight);
+            m_sunRenderer.PostDeserializeInit();
         }
 
         public void GetObjectData(SerializationInfo info, StreamingContext context)
         {
             info.AddValue("m_levelSize", m_levelSize);
             info.AddValue("m_levelName", m_levelName);
+            info.AddValue("m_pointLightCollection", m_pointLightCollection, typeof(ObserverListWrapper<PointLight>));
             info.AddValue("m_directionalLight", m_directionalLight, typeof(DirectionalLight));
             info.AddValue("m_camera", m_camera, typeof(BaseCamera));
             info.AddValue("m_dayLightCycle", m_dayLightCycle, typeof(DayLightCycle));
@@ -199,6 +209,7 @@ namespace MassiveGame.Core.GameCore
         {
             m_levelSize = (Vector2)info.GetValue("m_levelSize", typeof(Vector2));
             m_levelName = info.GetString("m_levelName");
+            m_pointLightCollection = info.GetValue("m_pointLightCollection", typeof(ObserverListWrapper<PointLight>)) as ObserverListWrapper<PointLight>;
             m_directionalLight = info.GetValue("m_directionalLight", typeof(DirectionalLight)) as DirectionalLight;
             m_camera = info.GetValue("m_camera", typeof(BaseCamera)) as BaseCamera;
             m_dayLightCycle = info.GetValue ("m_dayLightCycle", typeof(DayLightCycle)) as DayLightCycle;
@@ -211,5 +222,7 @@ namespace MassiveGame.Core.GameCore
             m_waterPlane = info.GetValue("m_waterPlane", typeof(ObserverWrapper<WaterPlane>)) as ObserverWrapper<WaterPlane>;
             m_sunRenderer= info.GetValue("m_sunRenderer", typeof(ObserverWrapper<SunRenderer>)) as ObserverWrapper<SunRenderer>;
         }
+
+        #endregion
     }
 }

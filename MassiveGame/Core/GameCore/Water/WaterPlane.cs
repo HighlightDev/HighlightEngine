@@ -208,6 +208,11 @@ namespace MassiveGame.Core.GameCore.Water
 
         #region Serialization
 
+        public void PostDeserializePass(MistComponent mistComponent)
+        {
+            //m_mist = mistComponent;
+        }
+
         protected WaterPlane(SerializationInfo info, StreamingContext context)
         {
             m_transparencyDepth = info.GetSingle("m_transparencyDepth");
@@ -268,12 +273,12 @@ namespace MassiveGame.Core.GameCore.Water
 
         public void NotifyAdded()
         {
-            GameWorld.GetWorldInstance().GetLevel().VisibilityCheckCollection.Add(this);
+            GameWorld.GetWorldInstance().VisibilityCheckCollection.Add(this);
         }
 
         public void NotifyRemoved()
         {
-            GameWorld.GetWorldInstance().GetLevel().VisibilityCheckCollection.Remove(this);
+            GameWorld.GetWorldInstance().VisibilityCheckCollection.Remove(this);
         }
 
         #endregion

@@ -44,6 +44,11 @@ namespace MassiveGame.Core.GameCore.Sun
 
         #region Serialization
 
+        public void PostDeserializePass(DirectionalLight globalLight)
+        {
+            m_lightSource = globalLight;
+        }
+
         public void GetObjectData(SerializationInfo info, StreamingContext context)
         {
             string pathToTexture1 = PoolProxy.GetResourceKey<ObtainTexturePool, string, ITexture>(m_texture1);
@@ -61,10 +66,11 @@ namespace MassiveGame.Core.GameCore.Sun
             string pathToTexture1 = info.GetString("pathToTexture1");
             string pathToTexture2 = info.GetString("pathToTexture2");
 
-            InitResources(pathToTexture1, pathToTexture2);
+
             LENS_FLARE_SUN_SIZE = info.GetSingle("lensFlareSunSize");
             SUN_SIZE = info.GetSingle("sunSize");
             LENS_FLARE_SIZE_TO_SUN_SIZE = info.GetSingle("lensFlareSizeToSunSize");
+            InitResources(pathToTexture1, pathToTexture2);
             m_postConstructor = true;
         }
 
@@ -88,12 +94,12 @@ namespace MassiveGame.Core.GameCore.Sun
 
         public void NotifyAdded()
         {
-            GameWorld.GetWorldInstance().GetLevel().VisibilityCheckCollection.Add(this);
+            GameWorld.GetWorldInstance().VisibilityCheckCollection.Add(this);
         }
 
         public void NotifyRemoved()
         {
-            GameWorld.GetWorldInstance().GetLevel().VisibilityCheckCollection.Remove(this);
+            GameWorld.GetWorldInstance().VisibilityCheckCollection.Remove(this);
         }
 
         #endregion

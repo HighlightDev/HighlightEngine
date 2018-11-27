@@ -250,12 +250,12 @@ namespace MassiveGame.Core.GameCore.Terrain
 
         public void NotifyAdded()
         {
-            GameWorld.GetWorldInstance().GetLevel().ShadowCastCollection.Add(this);
+            GameWorld.GetWorldInstance().ShadowCastCollection.Add(this);
         }
 
         public void NotifyRemoved()
         {
-            GameWorld.GetWorldInstance().GetLevel().ShadowCastCollection.Remove(this);
+            GameWorld.GetWorldInstance().ShadowCastCollection.Remove(this);
         }
 
         #region Getter
