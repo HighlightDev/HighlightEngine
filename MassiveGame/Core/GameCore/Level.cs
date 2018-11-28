@@ -6,36 +6,30 @@ using MassiveGame.Core.GameCore.Sun.DayCycle;
 using MassiveGame.Core.GameCore.Terrain;
 using MassiveGame.Core.GameCore.Water;
 using MassiveGame.Core.GameCore.Skybox;
-using MassiveGame.Core.RenderCore;
 using MassiveGame.Core.RenderCore.Lights;
-using MassiveGame.Core.RenderCore.Visibility;
 using OpenTK;
-using System.Collections.Generic;
 using MassiveGame.Core.RenderCore.Light_visualization;
 using MassiveGame.Core.GameCore.Entities.Skeletal_Entities;
 using MassiveGame.Core.ioCore;
 using System;
 using System.Runtime.Serialization;
 using MassiveGame.Core.RenderCore.Shadows;
-using MassiveGame.Core.PhysicsCore;
 
 namespace MassiveGame.Core.GameCore
 {
     [Serializable]
     public class Level : IPostDeserializable, ISerializable
     {
+
         #region private_fields
-
-        private string m_levelName = string.Empty;
-
-        private Vector2 m_levelSize;
-
-        private ObserverListWrapper<PointLight> m_pointLightCollection;
 
 #if DEBUG || DESIGN_EDITOR
         [NonSerialized]
         private PointLightsDebugRenderer m_pointLightDebugRenderer;
 #endif
+        private Vector2 m_levelSize;
+
+        private ObserverListWrapper<PointLight> m_pointLightCollection;
 
         private ObserverWrapper<MovableMeshEntity> m_player;
 
@@ -71,19 +65,18 @@ namespace MassiveGame.Core.GameCore
         [NonSerialized]
         private PlantReadyMaster m_plant;
 
-        #endregion  
+        #endregion
 
         #region public_properties
-
-        public string LevelName { set { m_levelName = value; } get { return m_levelName; } }
-
-        public Vector2 LevelSize { set { m_levelSize = value; } get { return m_levelSize; } }
-
-        public ObserverListWrapper<PointLight> PointLightCollection { set { m_pointLightCollection = value; }  get { return m_pointLightCollection; } }
 
 #if DEBUG || DESIGN_EDITOR
         public PointLightsDebugRenderer PointLightDebugRenderer { set { m_pointLightDebugRenderer = value; } get { return m_pointLightDebugRenderer; } }
 #endif
+        public string LevelName { set; get; } = string.Empty;
+
+        public Vector2 LevelSize { set { LevelSize1 = value; } get { return LevelSize1; } }
+
+        public ObserverListWrapper<PointLight> PointLightCollection { set { PointLightCollection1 = value; }  get { return PointLightCollection1; } }
 
         public ObserverWrapper<MovableMeshEntity> Player { set { m_player = value; }  get { return m_player; } }
 
@@ -120,6 +113,10 @@ namespace MassiveGame.Core.GameCore
 
         public PlantReadyMaster Plant { set { m_plant = value; } get { return m_plant; } }
 
+        public Vector2 LevelSize1 { get => LevelSize2; set => LevelSize2 = value; }
+        public Vector2 LevelSize2 { get => m_levelSize; set => m_levelSize = value; }
+        public ObserverListWrapper<PointLight> PointLightCollection1 { get => m_pointLightCollection; set => m_pointLightCollection = value; }
+
         #endregion
 
         #region Constructor
@@ -127,7 +124,7 @@ namespace MassiveGame.Core.GameCore
         public Level(Vector2 levelSize, string levelName)
         {
             LevelSize = levelSize;
-            m_levelName = levelName;
+            LevelName = levelName;
             StaticMeshCollection = new ObserverListWrapper<Building>();
             Player = new ObserverWrapper<MovableMeshEntity>();
             Bots = new ObserverListWrapper<MovableMeshEntity>();
@@ -189,9 +186,9 @@ namespace MassiveGame.Core.GameCore
 
         public void GetObjectData(SerializationInfo info, StreamingContext context)
         {
-            info.AddValue("m_levelSize", m_levelSize);
-            info.AddValue("m_levelName", m_levelName);
-            info.AddValue("m_pointLightCollection", m_pointLightCollection, typeof(ObserverListWrapper<PointLight>));
+            info.AddValue("m_levelSize", LevelSize1);
+            info.AddValue("m_levelName", LevelName);
+            info.AddValue("m_pointLightCollection", PointLightCollection1, typeof(ObserverListWrapper<PointLight>));
             info.AddValue("m_directionalLight", m_directionalLight, typeof(DirectionalLight));
             info.AddValue("m_camera", m_camera, typeof(BaseCamera));
             info.AddValue("m_dayLightCycle", m_dayLightCycle, typeof(DayLightCycle));
@@ -207,9 +204,9 @@ namespace MassiveGame.Core.GameCore
 
         protected Level(SerializationInfo info, StreamingContext context)
         {
-            m_levelSize = (Vector2)info.GetValue("m_levelSize", typeof(Vector2));
-            m_levelName = info.GetString("m_levelName");
-            m_pointLightCollection = info.GetValue("m_pointLightCollection", typeof(ObserverListWrapper<PointLight>)) as ObserverListWrapper<PointLight>;
+            LevelSize1 = (Vector2)info.GetValue("m_levelSize", typeof(Vector2));
+            LevelName = info.GetString("m_levelName");
+            PointLightCollection1 = info.GetValue("m_pointLightCollection", typeof(ObserverListWrapper<PointLight>)) as ObserverListWrapper<PointLight>;
             m_directionalLight = info.GetValue("m_directionalLight", typeof(DirectionalLight)) as DirectionalLight;
             m_camera = info.GetValue("m_camera", typeof(BaseCamera)) as BaseCamera;
             m_dayLightCycle = info.GetValue ("m_dayLightCycle", typeof(DayLightCycle)) as DayLightCycle;

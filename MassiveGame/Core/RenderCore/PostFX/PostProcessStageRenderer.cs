@@ -5,12 +5,13 @@ using MassiveGame.Core.RenderCore.PostFX.LensFlare;
 using MassiveGame.Core.RenderCore.PostFX.LightShafts;
 using System.Drawing;
 using TextureLoader;
+using OpenTK.Graphics.OpenGL;
 
 namespace MassiveGame.Core.RenderCore.PostFX
 {
     public class PostProcessStageRenderer
     {
-        private bool bPostProcessEnabled = true;
+        private readonly bool bPostProcessEnabled = true;
         private PostProcessBase depthOfFieldPP = null;
         private PostProcessBase bloomPP = null;
         private PostProcessBase lightShaftsPP = null;

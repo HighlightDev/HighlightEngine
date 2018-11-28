@@ -13,7 +13,6 @@ using MassiveGame.Core.ioCore;
 using MassiveGame.Core.PhysicsCore;
 using MassiveGame.Core.RenderCore;
 using MassiveGame.Core.RenderCore.Light_visualization;
-using MassiveGame.Core.RenderCore.Lights;
 using MassiveGame.Core.RenderCore.Shadows;
 using MassiveGame.Core.RenderCore.Visibility;
 using MassiveGame.Debug.UiPanel;
@@ -34,6 +33,7 @@ namespace MassiveGame.Core.GameCore
         private static GameWorld m_world = null;
 
         private Level m_currentLevel = null;
+
         private UiFrameMaster m_uiFrameCreator;
 
         [NonSerialized]
@@ -67,6 +67,9 @@ namespace MassiveGame.Core.GameCore
         {
             return m_uiFrameCreator;
         }
+
+
+        #region TEST
 
         private void SetLevelTestValues(Level level)
         {
@@ -188,7 +191,6 @@ namespace MassiveGame.Core.GameCore
             //ch.Init();
         }
 
-        #region TEST
 
         private void SerializeCurrentLevel()
         {

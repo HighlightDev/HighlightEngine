@@ -1,4 +1,5 @@
-﻿using MassiveGame.Core.GameCore;
+﻿using MassiveGame.API.ResourcePool;
+using MassiveGame.Core.GameCore;
 using MassiveGame.Core.GameCore.Entities.StaticEntities;
 using MassiveGame.Settings;
 using OpenTK;
@@ -11,6 +12,8 @@ namespace MassiveGame.Engine
 {
     public class EngineCore
     {
+        private static bool bAllowRender = true;
+
         // here has to be created and held game or editor window
         private Form m_UiWindow = null;
 
@@ -50,6 +53,20 @@ namespace MassiveGame.Engine
         public void CloseUiWindow()
         {
             m_UiWindow.Close();
+        }
+
+        public void RecompileShaders()
+        {
+            bAllowRender = false;
+
+            bool bSuccess = PoolCollector.GetInstance().s_ShaderPool.RecompileAllShaders();
+            if (!bSuccess)
+            {
+                Debug.Log.AddToConsoleStreamLog("Shaders recompilation failed!");
+                Debug.Log.AddToFileStreamLog("Shaders recompilation failed!");
+            }
+
+            bAllowRender = true;
         }
 
 #if !COLLISION_EDITOR
@@ -98,11 +115,14 @@ namespace MassiveGame.Engine
 
         private void RenderQueue()
         {
-            PostConstructor();
-            m_renderTickTime.Restart();
-            m_renderThread.ThreadExecution(EngineStatics.globalSettings.ActualScreenRezolution, bPostConstructor);
-            EngineStatics.RENDER_TIME = (float)m_renderTickTime.Elapsed.TotalSeconds;
-            bPostConstructor = false;
+            if  (bAllowRender)
+            {
+                PostConstructor();
+                m_renderTickTime.Restart();
+                m_renderThread.ThreadExecution(EngineStatics.globalSettings.ActualScreenRezolution, bPostConstructor);
+                EngineStatics.RENDER_TIME = (float)m_renderTickTime.Elapsed.TotalSeconds;
+                bPostConstructor = false;
+            }
         }
 
         #region Cleaning
@@ -113,10 +133,14 @@ namespace MassiveGame.Engine
             GameWorld.GetWorldInstance().GetLevel().SunRenderer.GetData()?.cleanUp();
             GameWorld.GetWorldInstance().GetLevel().Terrain.GetData()?.cleanUp();
             GameWorld.GetWorldInstance().GetLevel().Player.GetData()?.CleanUp();
-            foreach (var bot in GameWorld.GetWorldInstance().GetLevel().Bots) { bot.CleanUp(); }
+            foreach (Core.GameCore.Entities.MoveEntities.MovableMeshEntity bot in GameWorld.GetWorldInstance().GetLevel().Bots) { bot.CleanUp(); }
             if (GameWorld.GetWorldInstance().GetLevel().Grass != null) GameWorld.GetWorldInstance().GetLevel().Grass.cleanUp();
             if (GameWorld.GetWorldInstance().GetLevel().Plant != null) GameWorld.GetWorldInstance().GetLevel().Plant.cleanUp();
-            if (GameWorld.GetWorldInstance().GetLevel().StaticMeshCollection != null) foreach (Building house in GameWorld.GetWorldInstance().GetLevel().StaticMeshCollection) { house.CleanUp(); }
+            if (GameWorld.GetWorldInstance().GetLevel().StaticMeshCollection != null)
+            {
+                foreach (Building house in GameWorld.GetWorldInstance().GetLevel().StaticMeshCollection) { house.CleanUp(); }
+            }
+
             if (GameWorld.GetWorldInstance().GetLevel().Skybox != null) GameWorld.GetWorldInstance().GetLevel().Skybox.cleanUp();
         }
 

@@ -10,7 +10,7 @@ namespace MassiveGame.Debug.UiPanel
         #region Definitions
 
         private const string SHADER_NAME = "UiFrame Shader";
-        private Uniform u_uiTexture, u_screenSpaceMatrix, u_bPerspectiveDepthTexture;
+        private Uniform u_uiTexture, u_screenSpaceMatrix, u_bPerspectiveDepthTexture, u_bSeparated;
 
         #endregion
 
@@ -30,6 +30,11 @@ namespace MassiveGame.Debug.UiPanel
         {
             u_bPerspectiveDepthTexture.LoadUniform(bPerspectiveDepthTexture);
         }
+   
+        public void SetIsSeparatedScreen(bool bSeparatedScreen)
+        {
+            u_bSeparated.LoadUniform(bSeparatedScreen);
+        }
 
         #endregion
 
@@ -42,6 +47,7 @@ namespace MassiveGame.Debug.UiPanel
                 u_uiTexture = GetUniform("uiTexture");
                 u_screenSpaceMatrix = GetUniform("screenSpaceMatrix");
                 u_bPerspectiveDepthTexture = GetUniform("bPerspectiveDepthTexture");
+                u_bSeparated = GetUniform("bSeparated");
             }
             catch (ArgumentNullException innerException)
             {

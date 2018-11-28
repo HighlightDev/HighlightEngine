@@ -18,13 +18,17 @@ namespace MassiveGame.Engine
     public class RenderThread
     {
         public DefaultFrameBuffer DefaultFB { set; get; }
-        public PostProcessStageRenderer postProcessStage { set; get; }
+        public PostProcessStageRenderer PostProcessStage { set; get; }
+
+#if DEBUG || DESIGN_EDITOR
+        public bool IsSeparatedScreen { set; get; } = true;
+#endif
         //private ComputeShader cs;
 
         public RenderThread()
         {
             DefaultFB = new DefaultFrameBuffer(EngineStatics.globalSettings.DomainFramebufferRezolution);
-            postProcessStage = new PostProcessStageRenderer();
+            PostProcessStage = new PostProcessStageRenderer();
         }
 
         private void VisibilityCheckPass()
@@ -56,7 +60,7 @@ namespace MassiveGame.Engine
             PostProcessPass(DefaultFB.GetColorTexture(), DefaultFB.GetDepthStencilTexture(), ref actualScreenRezolution);
 
 #if DEBUG || DESIGN_EDITOR
-            DebugFramePanelsPass();
+            DebugFramePanelsPass(ref actualScreenRezolution);
 #endif
         }
 
@@ -97,13 +101,13 @@ namespace MassiveGame.Engine
 
         private void PostProcessPass(ITexture colorTexture, ITexture depthTexture, ref Point actualScreenRezolution)
         {
-            postProcessStage.ExecutePostProcessPass(colorTexture, depthTexture, ref actualScreenRezolution);
+            PostProcessStage.ExecutePostProcessPass(colorTexture, depthTexture, ref actualScreenRezolution);
         }
 
-        private void DebugFramePanelsPass()
+        private void DebugFramePanelsPass(ref Point actualScreenRezolution)
         {
             GL.Disable(EnableCap.DepthTest);
-            RenderDebugFramePanels();
+            RenderDebugFramePanels(ref actualScreenRezolution);
         }
 
         #endregion
@@ -367,9 +371,15 @@ namespace MassiveGame.Engine
             }
         }
 
-        private void RenderDebugFramePanels()
+        private void RenderDebugFramePanels(ref Point actualScreenRezoltuion)
         {
             GameWorld.GetWorldInstance().GetUiFrameCreator().RenderFrames();
+#if DEBUG || DESIGN_EDITOR
+            if (IsSeparatedScreen)
+            {
+                GameWorld.GetWorldInstance().GetUiFrameCreator().RenderSeparatedScreen(DefaultFB.GetColorTexture(), actualScreenRezoltuion);
+            }
+#endif
         }
 
 #endregion

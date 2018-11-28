@@ -8,6 +8,7 @@ in vec2 texCoords;
 
 uniform sampler2D uiTexture;
 uniform bool bPerspectiveDepthTexture = false;
+uniform bool bSeparated = false;
 
 float ToLinearDepth(float nonLinearDepth)
 {
@@ -24,6 +25,10 @@ void main(void){
        float depth = (2.0 * color.r) - 1.0;
        float linearDepth = ToLinearDepth(depth);
        color = vec4(linearDepth, linearDepth, linearDepth, 1);
+   }
+   else if (bSeparated && texCoords.x < 0.5)
+   {
+		discard;
    }
 
 	FragColor = color;

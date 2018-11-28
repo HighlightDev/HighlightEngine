@@ -236,7 +236,7 @@ namespace ShaderPattern
 
         #region Cleaning
 
-        public void cleanUp()
+        public void cleanUp(bool bDeleteShaderProgram = true)
         {
             stopProgram();
             GL.DetachShader(m_shaderProgramID, m_vertexShaderID);
@@ -419,7 +419,23 @@ namespace ShaderPattern
         {
             string formatedValue = ShaderMacrosConverter<T>.ConvertToString(value);
             m_defineParameters.Add(new DefineParams(name, formatedValue, shaderType));
-       } 
+       }
+
+        #endregion
+
+        #region Recompile
+
+        public bool RecompileShader()
+        {
+            cleanUp(false);
+            m_shaderLoaded = loadShaders();
+            if (m_shaderLoaded)
+            {
+                linkShaders();
+                getAllUniformLocations();
+            }
+            return true;
+        }
 
         #endregion
     }

@@ -79,6 +79,7 @@ namespace MassiveGame.Debug.UiPanel
             _shader.startProgram();
             renderTexture.BindTexture(TextureUnit.Texture0);
             _shader.SetIsDepthTexture(bDepthTexture);
+            _shader.SetIsSeparatedScreen(false);
             _shader.SetUiTextureSampler(0);
             _shader.SetScreenSpaceMatrix(screenSpaceMatrix);
             _buffer.RenderVAO(PrimitiveType.Triangles);
@@ -95,6 +96,22 @@ namespace MassiveGame.Debug.UiPanel
             _shader.SetUiTextureSampler(0);
             _shader.SetScreenSpaceMatrix(Matrix4.Identity);
             _shader.SetIsDepthTexture(false);
+            _shader.SetIsSeparatedScreen(false);
+            _buffer.RenderVAO(PrimitiveType.Triangles);
+            _shader.stopProgram();
+        }
+
+        public void RenderSeparatedScreen(ITexture separatedTexture, Point screenRezolution)
+        {
+            PostConstructor();
+            GL.BindFramebuffer(FramebufferTarget.Framebuffer, 0);
+            GL.Viewport(0, 0, screenRezolution.X, screenRezolution.Y);
+            _shader.startProgram();
+            separatedTexture.BindTexture(TextureUnit.Texture0);
+            _shader.SetUiTextureSampler(0);
+            _shader.SetIsDepthTexture(false);
+            _shader.SetIsSeparatedScreen(true);
+            _shader.SetScreenSpaceMatrix(Matrix4.Identity);
             _buffer.RenderVAO(PrimitiveType.Triangles);
             _shader.stopProgram();
         }
