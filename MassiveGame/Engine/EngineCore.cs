@@ -1,18 +1,20 @@
 ﻿using MassiveGame.API.ResourcePool;
 using MassiveGame.Core.GameCore;
 using MassiveGame.Core.GameCore.Entities.StaticEntities;
+using MassiveGame.Core.ioCore;
 using MassiveGame.Settings;
 using OpenTK;
 using System;
 using System.Diagnostics;
 using System.Drawing;
 using System.Windows.Forms;
+using ConsoleCommands = MassiveGame.Core.ioCore.ConsoleCommandsManager.ConsoleCommands;
 
 namespace MassiveGame.Engine
 {
     public class EngineCore
     {
-        private static bool bAllowRender = true;
+        private IOManager m_ioManager;
 
         // here has to be created and held game or editor window
         private Form m_UiWindow = null;
@@ -55,18 +57,34 @@ namespace MassiveGame.Engine
             m_UiWindow.Close();
         }
 
-        public void RecompileShaders()
+        public void ProcessIO()
         {
-            bAllowRender = false;
+            // Console commands processing
+            var consoleCommands = m_ioManager.GetConsoleUnhandledCommands();
+            if (consoleCommands == null)
+                return;
 
-            bool bSuccess = PoolCollector.GetInstance().s_ShaderPool.RecompileAllShaders();
-            if (!bSuccess)
+            foreach (var command in consoleCommands)
             {
-                Debug.Log.AddToConsoleStreamLog("Shaders recompilation failed!");
-                Debug.Log.AddToFileStreamLog("Shaders recompilation failed!");
+                switch (command)
+                {
+                    case ConsoleCommands.SHADERS_RECOMPILE:
+                        {
+                            bool bSuccess = PoolCollector.GetInstance().s_ShaderPool.RecompileAllShaders();
+                            if (!bSuccess)
+                            {
+                                Debug.Log.AddToConsoleStreamLog("Shaders recompilation failed!");
+                                Debug.Log.AddToFileStreamLog("Shaders recompilation failed!");
+                            }
+                            break;
+                        }
+                    case ConsoleCommands.INFO:
+                        {
+                            Debug.Log.AddToConsoleStreamLog("Available console commands: ", m_ioManager.GetConsoleCommandsInfo());
+                            break;
+                        }
+                }
             }
-
-            bAllowRender = true;
         }
 
 #if !COLLISION_EDITOR
@@ -110,19 +128,18 @@ namespace MassiveGame.Engine
                 // Every frame capture time of draw call execution
                 m_renderTickTime.Start();
                 m_gameThread = new GameThread(100, 1);
+                m_ioManager = new IOManager(); 
             }
         }
 
         private void RenderQueue()
         {
-            if  (bAllowRender)
-            {
-                PostConstructor();
-                m_renderTickTime.Restart();
-                m_renderThread.ThreadExecution(EngineStatics.globalSettings.ActualScreenRezolution, bPostConstructor);
-                EngineStatics.RENDER_TIME = (float)m_renderTickTime.Elapsed.TotalSeconds;
-                bPostConstructor = false;
-            }
+            PostConstructor();
+            ProcessIO();
+            m_renderTickTime.Restart();
+            m_renderThread.ThreadExecution(EngineStatics.globalSettings.ActualScreenRezolution, bPostConstructor);
+            EngineStatics.RENDER_TIME = (float)m_renderTickTime.Elapsed.TotalSeconds;
+            bPostConstructor = false;
         }
 
         #region Cleaning

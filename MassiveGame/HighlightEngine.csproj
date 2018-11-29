@@ -180,9 +180,11 @@
     <Compile Include="Core\GameCore\ObserverWrapper.cs" />
     <Compile Include="Core\GameCore\PlayerController.cs" />
     <Compile Include="Core\GameCore\GameWorld.cs" />
+    <Compile Include="Core\ioCore\ConsoleCommandsManager.cs" />
     <Compile Include="Core\ioCore\DeserializeWrapper.cs" />
     <Compile Include="Core\ioCore\EngineObjectsSerializer.cs" />
     <Compile Include="Core\ioCore\ICustomSerializer.cs" />
+    <Compile Include="Core\ioCore\IOManager.cs" />
     <Compile Include="Core\MathCore\ActorPositionMemento.cs" />
     <Compile Include="Core\MathCore\CollisionQuad.cs" />
     <Compile Include="Core\MathCore\GeometryMath.cs" />

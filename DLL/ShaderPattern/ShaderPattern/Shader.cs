@@ -245,7 +245,10 @@ namespace ShaderPattern
             GL.DeleteShader(m_vertexShaderID);
             GL.DeleteShader(m_fragmentShaderID);
 
-            GL.DeleteProgram(m_shaderProgramID);
+            if (bDeleteShaderProgram)
+            {
+                GL.DeleteProgram(m_shaderProgramID);
+            }
         }
 
         #endregion
