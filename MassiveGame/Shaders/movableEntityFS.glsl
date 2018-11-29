@@ -47,7 +47,7 @@ vec3 phongModelDirectLight(vec3 diffuseNormal, vec3 specularNormal, vec3 toLight
 	float sunBrightness = max(sDotN, 0.0);
 	vec3 totalDirectDiffuse = sunBrightness * sunDiffuseColour * materialDiffuse;
 	vec3 totalDirectSpecular = vec3(0.0);
-	if (sunBrightness > 0.0)	//���� �������� ����� �������� �����������
+	if (sunBrightness > 0.0)
 	{
 		vec3 normLightVec = toLightVector;
 		vec3 halfWayVector = normalize(normLightVec + toCameraVec);
@@ -73,7 +73,7 @@ vec3 phongModelPointLight(vec3 diffuseNormal, vec3 specularNormal, vec3 ligthDif
 		float brightness = max(sDotN, 0.0);
 		totalDiffuseColour = (brightness * diffuseColor * materialDiffuse) * attenuationLVL;
 	//Specular light calculations
-		if (brightness > 0.0) {		//���� �������� ����� �������� �����������
+		if (brightness > 0.0) {	
 			vec3 normCameraV = normalize(toCameraVec);
 			normLightVec = normalize(lightSpecularV);
 			vec3 halfWayVector = normalize(normLightVec + normCameraV);
@@ -127,7 +127,7 @@ void main()
 		SpecularNormal = normalize(surfaceSpecularNormal);
 	}
 
-	vec3 totalPointLight = vec3(0);
+	vec3 totalPointLight;
 	vec3 totalAmbientColour = sunAmbientColour * materialAmbient;
 	for (int i = 0;i < MAX_LIGHT_COUNT;i ++)
 	{

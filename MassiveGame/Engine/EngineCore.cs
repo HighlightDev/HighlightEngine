@@ -83,6 +83,11 @@ namespace MassiveGame.Engine
                             Debug.Log.AddToConsoleStreamLog("Available console commands: ", m_ioManager.GetConsoleCommandsInfo());
                             break;
                         }
+                    case ConsoleCommands.UNDEFINED:
+                        {
+                            Debug.Log.AddToConsoleStreamLog("Unknown command, available console commands are: ", m_ioManager.GetConsoleCommandsInfo());
+                            break;
+                        }
                 }
             }
         }
