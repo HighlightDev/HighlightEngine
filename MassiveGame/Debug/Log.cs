@@ -14,7 +14,7 @@ namespace MassiveGame.Debug
 
         static Log()
         {
-            using (StreamWriter writer = new StreamWriter(ProjectFolders.getFolderPath() + "Debug/"
+            using (StreamWriter writer = new StreamWriter(ProjectFolders.GetRootFolder() + "Debug/"
                 + LOG_NAME, true, Encoding.Default))
             {
                 writer.WriteLine("Session started at : {0}", DateTime.Now);
@@ -25,7 +25,7 @@ namespace MassiveGame.Debug
 
         private static void writeLogsToFile(string message)
         {
-            using (StreamWriter writer = new StreamWriter(ProjectFolders.getFolderPath() + "Debug/"
+            using (StreamWriter writer = new StreamWriter(ProjectFolders.GetRootFolder() + "Debug/"
             + LOG_NAME, false, Encoding.Default))
             {
                 writer.WriteLine(message);

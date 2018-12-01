@@ -73,7 +73,7 @@ vec3 phongModelPointLight(vec3 diffuseNormal, vec3 specularNormal, vec3 ligthDif
 		float brightness = max(sDotN, 0.0);
 		totalDiffuseColour = (brightness * diffuseColor * materialDiffuse) * attenuationLVL;
 	//Specular light calculations
-		if (brightness > 0.0) {	
+		if (brightness > 0.0) {
 			vec3 normCameraV = normalize(toCameraVec);
 			normLightVec = normalize(lightSpecularV);
 			vec3 halfWayVector = normalize(normLightVec + normCameraV);

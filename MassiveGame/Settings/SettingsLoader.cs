@@ -10,7 +10,7 @@ namespace MassiveGame.Settings
 
         public SettingsLoader()
         {
-            string pathToIni = ProjectFolders.getFolderPath() + "/Settings/settings.ini";
+            string pathToIni = ProjectFolders.GetRootFolder() + "/Settings/settings.ini";
 
             try
             {

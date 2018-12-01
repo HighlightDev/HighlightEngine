@@ -13,7 +13,7 @@ namespace MassiveGame.Settings
 
         public KeyboardBindingsLoader()
         {
-            string pathToIni = ProjectFolders.getFolderPath() + "/Settings/keybindings.ini";
+            string pathToIni = ProjectFolders.GetRootFolder() + "/Settings/keybindings.ini";
 
             try
             {
