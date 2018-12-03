@@ -14,6 +14,11 @@ using MassiveGame.Core.ioCore;
 using System;
 using System.Runtime.Serialization;
 using MassiveGame.Core.RenderCore.Shadows;
+using MassiveGame.EngineEditor.Core.Entities;
+
+#if ENGINE_EDITOR
+using MassiveGame.API.MouseObjectDetector;
+#endif
 
 namespace MassiveGame.Core.GameCore
 {
@@ -23,7 +28,11 @@ namespace MassiveGame.Core.GameCore
 
         #region private_fields
 
-#if DEBUG || DESIGN_EDITOR
+#if ENGINE_EDITOR
+        [NonSerialized]
+        private WorldGrid m_worldGrid;
+#endif
+#if DEBUG || ENGINE_EDITOR
         [NonSerialized]
         private PointLightsDebugRenderer m_pointLightDebugRenderer;
 #endif
@@ -56,8 +65,10 @@ namespace MassiveGame.Core.GameCore
 
         private MistComponent m_mistComponent;
 
+#if DEBUG
         [NonSerialized]
         private PlayerController m_playerController;
+#endif
 
         [NonSerialized]
         private PlantReadyMaster m_grass;
@@ -65,12 +76,15 @@ namespace MassiveGame.Core.GameCore
         [NonSerialized]
         private PlantReadyMaster m_plant;
 
-        #endregion
+#endregion
 
-        #region public_properties
+#region public_properties
 
-#if DEBUG || DESIGN_EDITOR
+#if DEBUG || ENGINE_EDITOR
         public PointLightsDebugRenderer PointLightDebugRenderer { set { m_pointLightDebugRenderer = value; } get { return m_pointLightDebugRenderer; } }
+#endif
+#if DEBUG
+        public PlayerController PlayerController { set { m_playerController = value; } get { return m_playerController; } }
 #endif
         public string LevelName { set; get; } = string.Empty;
 
@@ -102,10 +116,9 @@ namespace MassiveGame.Core.GameCore
 
         public MistComponent Mist { set { m_mistComponent = value; } get { return m_mistComponent; } }
 
-        public PlayerController PlayerController { set { m_playerController = value; } get { return m_playerController; } }
-
-#if DESIGN_EDITOR
+#if ENGINE_EDITOR
         public MousePicker Picker { set; get; }
+        public WorldGrid EditorGrid { set { m_worldGrid = value ; } get { return m_worldGrid; } }
 #endif
 
         // TODO -> not yet ready for serialization
@@ -117,9 +130,9 @@ namespace MassiveGame.Core.GameCore
         public Vector2 LevelSize2 { get => m_levelSize; set => m_levelSize = value; }
         public ObserverListWrapper<PointLight> PointLightCollection1 { get => m_pointLightCollection; set => m_pointLightCollection = value; }
 
-        #endregion
+#endregion
 
-        #region Constructor
+#region Constructor
 
         public Level(Vector2 levelSize, string levelName)
         {
@@ -132,11 +145,14 @@ namespace MassiveGame.Core.GameCore
             Water = new ObserverWrapper<WaterPlane>();
             Terrain = new ObserverWrapper<Landscape>();
             PointLightCollection = new ObserverListWrapper<PointLight>();
+#if ENGINE_EDITOR
+            m_worldGrid = new WorldGrid(EngineStatics.FAR_CLIPPING_PLANE);
+#endif
         }
 
-        #endregion
+#endregion
 
-        #region Serialization
+#region Serialization
 
         void IPostDeserializable.PostDeserializeInit()
         {
@@ -146,7 +162,9 @@ namespace MassiveGame.Core.GameCore
             {
                 ThirdPersonCamera camera = m_camera as ThirdPersonCamera;
                 camera.SetThirdPersonTarget(m_player.GetData());
+#if DEBUG
                 m_playerController = new PlayerController(camera);
+#endif
             }
             m_camera.SetCollisionHeadUnit(collisionHeadUnit);
 
@@ -220,6 +238,6 @@ namespace MassiveGame.Core.GameCore
             m_sunRenderer= info.GetValue("m_sunRenderer", typeof(ObserverWrapper<SunRenderer>)) as ObserverWrapper<SunRenderer>;
         }
 
-        #endregion
+#endregion
     }
 }

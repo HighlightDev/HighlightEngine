@@ -46,7 +46,6 @@ C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\MassiveGame
 C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\MassiveGame\bin\DesignEditor\TextureLoader.pdb
 C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\MassiveGame\bin\DesignEditor\VBO.pdb
 C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\MassiveGame\bin\DesignEditor\VectorMath.pdb
-C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\MassiveGame\obj\DesignEditor\HighlightEngine.csprojResolveAssemblyReference.cache
 C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\MassiveGame\obj\DesignEditor\MassiveGame.UI.EditorWindow.resources
 C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\MassiveGame\obj\DesignEditor\MassiveGame.UI.GameWindow.resources
 C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\MassiveGame\obj\DesignEditor\HighlightEngine.csproj.GenerateResource.Cache
@@ -54,3 +53,8 @@ C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\MassiveGame
 C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\MassiveGame\obj\DesignEditor\MassiveGame.pdb
 C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\MassiveGame\bin\DesignEditor\AssimpNet.dll
 C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\MassiveGame\obj\DesignEditor\MassiveGame.UI.CollisionEditorWindow.resources
+C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\MassiveGame\obj\DesignEditor\HighlightEngine.csprojAssemblyReference.cache
+C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\MassiveGame\obj\DesignEditor\HighlightEngine.csproj.CoreCompileInputs.cache
+C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\MassiveGame\obj\DesignEditor\HighlightEngine.csproj.CopyComplete
+C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\MassiveGame\bin\DesignEditor\UIControls.dll
+C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\MassiveGame\bin\DesignEditor\UIControls.pdb

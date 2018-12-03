@@ -64,12 +64,14 @@ namespace MassiveGame.Settings
 
         #endregion
 
+#if DEBUG
         public void SetKeyboardBindings()
         {
             // player controller bindings
             var playerController = GameWorld.GetWorldInstance().GetLevel().PlayerController;
             GetBindings().ForEach((key_value_pair) => playerController.SetBindingKeyboardKey(key_value_pair.Key, key_value_pair.Value));
         }
+#endif
 
     }
 }

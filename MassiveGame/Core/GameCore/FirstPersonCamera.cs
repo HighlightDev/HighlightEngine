@@ -24,7 +24,7 @@ namespace MassiveGame.Core.GameCore
         {
             this.m_localSpaceForwardVector = localSpaceForwardVector.Normalized();
             m_firstPersonCameraPosition = CameraPosition;
-            m_cameraMoveSpeed = 20.5f;
+            m_cameraMoveSpeed = 1.5f;
         }
 
         public FirstPersonCamera()

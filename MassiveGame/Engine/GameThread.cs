@@ -32,7 +32,7 @@ namespace MassiveGame.Engine
 
         private void TickEntities(float deltaTime)
         {
-            GameWorld.GetWorldInstance().GetLevel().Player?.GetData().Tick(deltaTime);
+            GameWorld.GetWorldInstance().GetLevel().Player.GetData()?.Tick(deltaTime);
 
             if (GameWorld.GetWorldInstance().GetLevel().Bots != null)
             {
@@ -54,7 +54,7 @@ namespace MassiveGame.Engine
             GameWorld.GetWorldInstance().GetLevel().Grass?.Tick(deltaTime);
             GameWorld.GetWorldInstance().GetLevel().Skybox?.Tick(deltaTime);
             GameWorld.GetWorldInstance().GetLevel().SunRenderer.GetData()?.Tick(deltaTime);
-#if DESIGN_EDITOR
+#if ENGINE_EDITOR
             GameWorld.GetWorldInstance().GetLevel().Picker?.Tick(deltaTime);
 #endif
             GameWorld.GetWorldInstance().GetLevel().Mist?.Tick(deltaTime);
@@ -72,7 +72,9 @@ namespace MassiveGame.Engine
                 GameWorld.GetWorldInstance().GetLevel().Camera.CameraTick(deltaTime);
                 TickEntities(deltaTime);
 
+#if DEBUG
                 GameWorld.GetWorldInstance().GetLevel().PlayerController.InvokeBindings();
+#endif
             }
         }
     }

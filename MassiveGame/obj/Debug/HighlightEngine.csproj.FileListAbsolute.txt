@@ -54,3 +54,5 @@ D:\VisualStudioProjects\HighlightEngine\MassiveGame\obj\Debug\MassiveGame.UI.Col
 C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\MassiveGame\obj\Debug\HighlightEngine.csprojAssemblyReference.cache
 C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\MassiveGame\obj\Debug\HighlightEngine.csproj.CoreCompileInputs.cache
 C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\MassiveGame\obj\Debug\HighlightEngine.csproj.CopyComplete
+C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\MassiveGame\bin\Debug\UIControls.dll
+C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\MassiveGame\bin\Debug\UIControls.pdb

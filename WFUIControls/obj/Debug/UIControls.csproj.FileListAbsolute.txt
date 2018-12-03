@@ -139,3 +139,4 @@ D:\VisualStudioProjects\HighlightEngine\WFUIControls\obj\Debug\UIControls.pdb
 C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\WFUIControls\obj\Debug\UIControls.csprojAssemblyReference.cache
 C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\WFUIControls\obj\Debug\UIControls.csproj.CoreCompileInputs.cache
 C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\WFUIControls\obj\Debug\UIControls.csproj.CopyComplete
+C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\WFUIControls\bin\Debug\OpenTK.dll

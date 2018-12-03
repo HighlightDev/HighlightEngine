@@ -20,7 +20,7 @@ namespace MassiveGame.Engine
         public DefaultFrameBuffer DefaultFB { set; get; }
         public PostProcessStageRenderer PostProcessStage { set; get; }
 
-#if DEBUG || DESIGN_EDITOR
+#if DEBUG || ENGINE_EDITOR
         public bool IsSeparatedScreen { set; get; } = true;
 #endif
         //private ComputeShader cs;
@@ -59,7 +59,7 @@ namespace MassiveGame.Engine
             BasePassDraw(ref actualScreenRezolution);
             PostProcessPass(DefaultFB.GetColorTexture(), DefaultFB.GetDepthStencilTexture(), ref actualScreenRezolution);
 
-#if DEBUG || DESIGN_EDITOR
+#if DEBUG || ENGINE_EDITOR
             DebugFramePanelsPass(ref actualScreenRezolution);
 #endif
         }
@@ -70,7 +70,7 @@ namespace MassiveGame.Engine
         {
             DefaultFB.Bind();
             RenderBaseMeshes(GameWorld.GetWorldInstance().GetLevel().Camera);
-#if DEBUG || DESIGN_EDITOR
+#if DEBUG || ENGINE_EDITOR
             RenderDebugInfo(ref actualScreenRezolution);
 #endif
             DefaultFB.Unbind();
@@ -80,16 +80,19 @@ namespace MassiveGame.Engine
         {
             // Global light source
             DirectionalLight globalLight = GameWorld.GetWorldInstance().GetLevel().DirectionalLight;
-            if (globalLight.GetHasShadow())
+            if (globalLight != null)
             {
-                (globalLight as DirectionalLightWithShadow).WriteDepth(GameWorld.GetWorldInstance().ShadowCastCollection, ref EngineStatics.ProjectionMatrix);
+                if (globalLight.GetHasShadow())
+                {
+                    (globalLight as DirectionalLightWithShadow).WriteDepth(GameWorld.GetWorldInstance().ShadowCastCollection, ref EngineStatics.ProjectionMatrix);
+                }
+                GL.Viewport(0, 0, actualScreenRezolution.X, actualScreenRezolution.Y);
             }
-            GL.Viewport(0, 0, actualScreenRezolution.X, actualScreenRezolution.Y);
         }
 
         private void DistortionsPassDraw()
         {
-            if (GameWorld.GetWorldInstance().GetLevel().Water != null && GameWorld.GetWorldInstance().GetLevel().Water.GetData().IsInCameraView)
+            if (GameWorld.GetWorldInstance().GetLevel().Water.GetData() != null && GameWorld.GetWorldInstance().GetLevel().Water.GetData().IsInCameraView)
             {
                 GameWorld.GetWorldInstance().GetLevel().Water.GetData().SetReflectionRendertarget();
                 RenderToReflectionRenderTarget(GameWorld.GetWorldInstance().GetLevel().Camera, new Vector4(0, -1, 0, GameWorld.GetWorldInstance().GetLevel().Water.GetData().WaterHeight), GameWorld.GetWorldInstance().GetLevel().Water.GetData().Quality);
@@ -135,7 +138,7 @@ namespace MassiveGame.Engine
 
             if (GameWorld.GetWorldInstance().GetLevel().Terrain.GetData() != null) GameWorld.GetWorldInstance().GetLevel().Terrain.GetData().renderTerrain(EngineStatics.Mode, GameWorld.GetWorldInstance().GetLevel().DirectionalLight, GameWorld.GetWorldInstance().GetLevel().PointLightCollection.GetData(), camera, EngineStatics.ProjectionMatrix);
 
-            if (!Object.Equals(GameWorld.GetWorldInstance().GetLevel().SunRenderer, null))
+            if (GameWorld.GetWorldInstance().GetLevel().SunRenderer.GetData() != null)
             {
                 if (GameWorld.GetWorldInstance().GetLevel().SunRenderer.GetData().IsInCameraView)
                 {
@@ -163,7 +166,7 @@ namespace MassiveGame.Engine
                 }
             }
 
-            if (GameWorld.GetWorldInstance().GetLevel().Player != null)
+            if (GameWorld.GetWorldInstance().GetLevel().Player.GetData() != null)
             {
                 if (GameWorld.GetWorldInstance().GetLevel().Player.GetData().IsVisibleByCamera)
                 {
@@ -182,6 +185,9 @@ namespace MassiveGame.Engine
 
             GameWorld.GetWorldInstance().GetLevel().SkeletalMesh?.RenderEntity(EngineStatics.Mode, GameWorld.GetWorldInstance().GetLevel().DirectionalLight, GameWorld.GetWorldInstance().GetLevel().PointLightCollection.GetData(), camera, ref EngineStatics.ProjectionMatrix);
 
+#if ENGINE_EDITOR
+            GameWorld.GetWorldInstance().GetLevel().EditorGrid.Render(GameWorld.GetWorldInstance().GetLevel().Camera, ref EngineStatics.ProjectionMatrix);
+#endif
             // ITS for TEST! COMPUTE SHADERS!
             //Matrix4 worldMatrix = Matrix4.CreateScale(1);
             //worldMatrix *= Matrix4.CreateTranslation(new Vector3(0, 60, 0));
@@ -237,11 +243,11 @@ namespace MassiveGame.Engine
 
             if (quality.EnableMovableEntities)
             {
-                if (GameWorld.GetWorldInstance().GetLevel().Player != null) GameWorld.GetWorldInstance().GetLevel().Player.GetData().RenderWaterReflection(GameWorld.GetWorldInstance().GetLevel().Water.GetData(), GameWorld.GetWorldInstance().GetLevel().DirectionalLight, camera, ref EngineStatics.ProjectionMatrix, clipPlane);
+                if (GameWorld.GetWorldInstance().GetLevel().Player.GetData() != null) GameWorld.GetWorldInstance().GetLevel().Player.GetData().RenderWaterReflection(GameWorld.GetWorldInstance().GetLevel().Water.GetData(), GameWorld.GetWorldInstance().GetLevel().DirectionalLight, camera, ref EngineStatics.ProjectionMatrix, clipPlane);
                 if (GameWorld.GetWorldInstance().GetLevel().Bots != null) foreach (var bot in GameWorld.GetWorldInstance().GetLevel().Bots) { bot.RenderWaterReflection(GameWorld.GetWorldInstance().GetLevel().Water.GetData(), GameWorld.GetWorldInstance().GetLevel().DirectionalLight, camera, ref EngineStatics.ProjectionMatrix, clipPlane); }
             }
 
-            if (!Object.Equals(GameWorld.GetWorldInstance().GetLevel().SunRenderer, null))
+            if (GameWorld.GetWorldInstance().GetLevel().SunRenderer.GetData() != null)
             {
                 GameWorld.GetWorldInstance().GetLevel().SunRenderer.GetData().RenderWaterReflection(GameWorld.GetWorldInstance().GetLevel().Water.GetData(), camera, ref EngineStatics.ProjectionMatrix, clipPlane);
             }
@@ -288,7 +294,7 @@ namespace MassiveGame.Engine
             false - disable EngineSingleton.Player and EngineSingleton.Enemy refractions*/
             if (quality.EnableMovableEntities)
             {
-                if (GameWorld.GetWorldInstance().GetLevel().Player != null)
+                if (GameWorld.GetWorldInstance().GetLevel().Player.GetData() != null)
                 {
                     if (GameWorld.GetWorldInstance().GetLevel().Player.GetData().IsVisibleByCamera)
                     {
@@ -323,7 +329,7 @@ namespace MassiveGame.Engine
 
         private void RenderLamps()
         {
-#if DEBUG || DESIGN_EDITOR
+#if DEBUG || ENGINE_EDITOR
             /*TO DO :
              * If point lights exist - show them */
             if (GameWorld.GetWorldInstance().GetLevel().PointLightDebugRenderer != null)
@@ -337,7 +343,7 @@ namespace MassiveGame.Engine
         {
             Matrix4 viewMatrix = GameWorld.GetWorldInstance().GetLevel().Camera.GetViewMatrix();
 
-            if (GameWorld.GetWorldInstance().GetLevel().Player != null)
+            if (GameWorld.GetWorldInstance().GetLevel().Player.GetData() != null)
             {
                 if (GameWorld.GetWorldInstance().GetLevel().Player.GetData().IsVisibleByCamera)
                     GameWorld.GetWorldInstance().GetLevel().Player.GetData().RenderBound(ref EngineStatics.ProjectionMatrix, ref viewMatrix, System.Drawing.Color.Red);
@@ -361,7 +367,7 @@ namespace MassiveGame.Engine
                 }
             }
 
-            if (GameWorld.GetWorldInstance().GetLevel().SunRenderer != null && GameWorld.GetWorldInstance().GetLevel().SunRenderer.GetData().CQuad != null)
+            if (GameWorld.GetWorldInstance().GetLevel().SunRenderer.GetData() != null && GameWorld.GetWorldInstance().GetLevel().SunRenderer.GetData().CQuad != null)
             {
                 var matrix = GameWorld.GetWorldInstance().GetLevel().Camera.GetViewMatrix();
                 matrix[3, 0] = 0.0f;
@@ -374,7 +380,7 @@ namespace MassiveGame.Engine
         private void RenderDebugFramePanels(ref Point actualScreenRezoltuion)
         {
             GameWorld.GetWorldInstance().GetUiFrameCreator().RenderFrames();
-#if DEBUG || DESIGN_EDITOR
+#if DEBUG || ENGINE_EDITOR
             if (IsSeparatedScreen)
             {
                 GameWorld.GetWorldInstance().GetUiFrameCreator().RenderSeparatedScreen(DefaultFB.GetColorTexture(), actualScreenRezoltuion);

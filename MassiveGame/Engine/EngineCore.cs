@@ -36,7 +36,7 @@ namespace MassiveGame.Engine
             Action preConstructorFunction = new Action(PreConstructor), renderQueueFunction = new Action(RenderQueue), cleanUpFunction = new Action(CleanEverythingUp);
 #endif
 
-#if DESIGN_EDITOR
+#if ENGINE_EDITOR
             m_UiWindow = new UI.EditorWindow(startScreenRezoluion.X, startScreenRezoluion.Y, preConstructorFunction, renderQueueFunction, cleanUpFunction);
 #elif COLLISION_EDITOR
             m_UiWindow = new UI.CollisionEditorWindow();
@@ -106,11 +106,13 @@ namespace MassiveGame.Engine
             settingsLoader.SetGlobalSettings();
         }
 
+#if DEBUG
         private void LoadKeyboardBindings()
         {
             KeyboardBindingsLoader bindingsLoader = new KeyboardBindingsLoader();
             bindingsLoader.SetKeyboardBindings();
         }
+#endif
 
         private void PreConstructor() { }
 
@@ -118,22 +120,28 @@ namespace MassiveGame.Engine
         {
             if (bPostConstructor)
             {
+#if ENGINE_EDITOR
+                GameWorld.GetWorldInstance().CreateEditorDefaultLevel();
+#elif DEBUG
                 // TODO -> test game level
                 GameWorld.GetWorldInstance().LoadTestLevel();
                 //
+                LoadIniSettings();
+                LoadKeyboardBindings();
+#endif
                 GameWorld.GetWorldInstance().PostInit();
                 SetProjectionMatrixToDefault();
                 EngineStatics.PrevCursorPosition = new Point(-1, -1);
                 EngineStatics.ElapsedTime = DateTime.Now;
-                LoadIniSettings();
-                LoadKeyboardBindings();
+
                 m_renderTickTime = new Stopwatch();
                 // Start game and render thread execution
                 m_renderThread = new RenderThread();
                 // Every frame capture time of draw call execution
                 m_renderTickTime.Start();
                 m_gameThread = new GameThread(100, 1);
-                m_ioManager = new IOManager(); 
+                m_ioManager = new IOManager();
+
             }
         }
 
@@ -167,7 +175,7 @@ namespace MassiveGame.Engine
         }
 
         #endregion
-    
+
 #endif
     }
 }

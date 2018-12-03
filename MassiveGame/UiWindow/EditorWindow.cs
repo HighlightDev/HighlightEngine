@@ -32,6 +32,21 @@ namespace MassiveGame.UI
         {
             this.Width = width;
             this.Height = height;
+            ToggleFullscreenMode();
+        }
+
+        private void ToggleFullscreenMode()
+        {
+            if (WindowState == FormWindowState.Maximized)
+            {
+                //FormBorderStyle = FormBorderStyle.Fixed3D;
+                WindowState = FormWindowState.Normal;
+            }
+            else
+            {
+                //FormBorderStyle = FormBorderStyle.None;
+                WindowState = FormWindowState.Maximized;
+            }
         }
 
         #endregion
@@ -70,27 +85,34 @@ namespace MassiveGame.UI
 
         private void OnMouseMove(object sender, MouseEventArgs e)
         {
-            if (GameWorld.GetWorldInstance().GetLevel().Camera.SwitchCamera)
+            if (GameWorld.GetWorldInstance().GetLevel() != null)
             {
-                GameWorld.GetWorldInstance().GetLevel().Camera.Rotate(e.X, e.Y, new Point(Width, GLControl.Height));
-                Cursor.Hide();
+                BaseCamera camera = GameWorld.GetWorldInstance().GetLevel().Camera;
+                if (camera == null)
+                    return;
 
-                if ((EngineStatics.PrevCursorPosition.X != -1) && (EngineStatics.PrevCursorPosition.Y != -1)) // need to calculate delta of mouse position
+                if (camera.SwitchCamera)
                 {
-                    Int32 xDelta = e.X - EngineStatics.PrevCursorPosition.X;
-                    Int32 yDelta = e.Y - EngineStatics.PrevCursorPosition.Y;
+                    camera.Rotate(e.X, e.Y, new Point(Width, GLControl.Height));
+                    Cursor.Hide();
+
+                    if ((EngineStatics.PrevCursorPosition.X != -1) && (EngineStatics.PrevCursorPosition.Y != -1)) // need to calculate delta of mouse position
+                    {
+                        Int32 xDelta = e.X - EngineStatics.PrevCursorPosition.X;
+                        Int32 yDelta = e.Y - EngineStatics.PrevCursorPosition.Y;
+                    }
+
+                    EngineStatics.PrevCursorPosition = e.Location;
+                }
+                else
+                {
+                    Cursor.Show();
+                    Cursor.Draw(this.CreateGraphics(),
+                        new Rectangle(this.Location.X, this.Location.Y, this.Size.Width, this.Size.Height));
                 }
 
-                EngineStatics.PrevCursorPosition = e.Location;
+                GLControl.Update(); // need to update frame after invalidation to redraw changes
             }
-            else
-            {
-                Cursor.Show();
-                Cursor.Draw(this.CreateGraphics(),
-                    new Rectangle(this.Location.X, this.Location.Y, this.Size.Width, this.Size.Height));
-            }
-
-            GLControl.Update(); // need to update frame after invalidation to redraw changes
         }
 
         private void OnMouseDown(object sender, MouseEventArgs e)
@@ -99,9 +121,6 @@ namespace MassiveGame.UI
             {
                 case MouseButtons.Left:
                     {
-                        //mist.fade(this.RenderTime, 10000, FadeType.LINEARLY, 0.0f);
-                        //PlantUnit plant = new PlantUnit(TerrainIntersaction.getIntersactionPoint(EngineSingleton.Map, EngineSingleton.Picker.currentRay, EngineSingleton.Camera.getPosition()), new Vector3(), new Vector3(10), 0, null);
-                        //EngineSingleton.Grass.add(plant, EngineSingleton.Map);
 
                         break;
                     }
@@ -116,30 +135,6 @@ namespace MassiveGame.UI
 
         private void OnMouseWheel(object sender, MouseEventArgs e)
         {
-            //if (EngineStatics.DayCycle != null)
-            //{
-            //    if (e.Delta > 0)
-            //    {
-            //        EngineStatics.DayCycle.TimeFlow += 0.01f;
-            //    }
-            //    else if (e.Delta < 0 && EngineStatics.DayCycle.TimeFlow > 0)
-            //    {
-            //        EngineStatics.DayCycle.TimeFlow -= 0.01f;
-            //    }
-            //    else if (EngineStatics.DayCycle.TimeFlow < 0)
-            //    {
-            //        EngineStatics.DayCycle.TimeFlow = 0.0f;
-            //    }
-            //}
-            if (e.Delta > 0)
-            {
-                (GameWorld.GetWorldInstance().GetLevel().Camera as ThirdPersonCamera).MaxDistanceFromTargetToCamera += 5;
-            }
-            else if (e.Delta < 0)
-            {
-                (GameWorld.GetWorldInstance().GetLevel().Camera as ThirdPersonCamera).MaxDistanceFromTargetToCamera -= 5;
-            }
-
         }
         #endregion
 
@@ -201,14 +196,10 @@ namespace MassiveGame.UI
                 case Keys.Escape: this.Close(); break;//Exit
                 case Keys.Add:
                     {
-                        GameWorld.GetWorldInstance().GetLevel().Water.GetData().WaveSpeed += 0.1f;
-                        GameWorld.GetWorldInstance().GetLevel().Water.GetData().WaveStrength += 0.1f;
                         break;
                     }
                 case Keys.Subtract:
                     {
-                        GameWorld.GetWorldInstance().GetLevel().Water.GetData().WaveSpeed -= 0.1f;
-                        GameWorld.GetWorldInstance().GetLevel().Water.GetData().WaveStrength -= 0.1f;
                         break;
                     }
                 case Keys.Insert:
@@ -231,13 +222,16 @@ namespace MassiveGame.UI
 
         private void OnKeyPress(object sender, System.Windows.Forms.KeyPressEventArgs args)
         {
-            Keys key = (Keys)char.ToUpper(args.KeyChar);
-            GameWorld.GetWorldInstance().GetLevel().PlayerController.GetKeyboardHandler().KeyPress(key);
         }
 
         private void OnKeyUp(object sender, KeyEventArgs args)
         {
-            GameWorld.GetWorldInstance().GetLevel().PlayerController.GetKeyboardHandler().KeyRelease(args.KeyData);
+         
+        }
+
+        private void minimizeBox1_Load(object sender, EventArgs e)
+        {
+
         }
 
         #endregion

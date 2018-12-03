@@ -80,7 +80,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'DesignEditor|AnyCPU'">
     <OutputPath>bin\DesignEditor\</OutputPath>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    <DefineConstants>TRACE;type DESIGN_EDITOR</DefineConstants>
+    <DefineConstants>TRACE;type ENGINE_EDITOR</DefineConstants>
     <Prefer32Bit>true</Prefer32Bit>
     <ErrorReport>prompt</ErrorReport>
     <DebugType>full</DebugType>
@@ -115,12 +115,15 @@
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xaml" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
+    <Reference Include="UIAutomationProvider" />
     <Reference Include="WindowsBase" />
+    <Reference Include="WindowsFormsIntegration" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="API\AssimpConverter\Converter.cs" />
@@ -197,6 +200,8 @@
     <Compile Include="Core\MathCore\MathTypes\FSphere.cs" />
     <Compile Include="Core\MathCore\MathTypes\OBB.cs" />
     <Compile Include="Debug\UiPanel\UiFrameMaster.cs" />
+    <Compile Include="EngineEditor\Core\Entities\WorldGrid.cs" />
+    <Compile Include="EngineEditor\Core\Entities\WorldGridShader.cs" />
     <Compile Include="Engine\EngineCore.cs" />
     <Compile Include="Engine\GameThread.cs" />
     <Compile Include="Engine\RenderThread.cs" />
@@ -315,9 +320,7 @@
     <Compile Include="UiWindow\CollisionEditorWindow.Designer.cs">
       <DependentUpon>CollisionEditorWindow.cs</DependentUpon>
     </Compile>
-    <Compile Include="UiWindow\GameWindow.cs">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Include="UiWindow\GameWindow.cs" />
     <Compile Include="UiWindow\GameWindow.Designer.cs">
       <DependentUpon>GameWindow.cs</DependentUpon>
     </Compile>
@@ -326,6 +329,8 @@
     <Compile Include="Core\GameCore\Water\WaterRefractionTerrainShader.cs" />
     <Compile Include="Core\GameCore\Water\WaterReflectionTerrainShader.cs" />
     <Compile Include="Core\GameCore\Water\WaterShader.cs" />
+    <None Include="Shaders\gridFS.glsl" />
+    <None Include="Shaders\gridVS.glsl" />
     <None Include="Shaders\skeletonFS.glsl" />
     <None Include="Shaders\skeletonVS.glsl" />
   </ItemGroup>
@@ -561,6 +566,10 @@
     <ProjectReference Include="..\DLL\VectorMath\VectorMath\VectorMath.csproj">
       <Project>{2fafbe7a-4393-46c9-9463-04d211f3eab1}</Project>
       <Name>VectorMath</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\WFUIControls\UIControls.csproj">
+      <Project>{CBFDA7AF-C46F-4273-8FF5-C7D335E2B7B1}</Project>
+      <Name>UIControls</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />

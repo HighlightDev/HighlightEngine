@@ -30,6 +30,8 @@ namespace MassiveGame.Core.GameCore
 {
     public class GameWorld
     {
+        private const float DEFAULT_LEVEL_SIZE = 300f;
+
         private static GameWorld m_world = null;
 
         private Level m_currentLevel = null;
@@ -68,7 +70,20 @@ namespace MassiveGame.Core.GameCore
             return m_uiFrameCreator;
         }
 
+        public Level CreateEmptyLevel()
+        {
+            Level resultLevel = new Level(new Vector2(DEFAULT_LEVEL_SIZE, DEFAULT_LEVEL_SIZE), "DefaultLevel");
+            return resultLevel;
+        }
 
+#if ENGINE_EDITOR
+
+        public void CreateEditorDefaultLevel()
+        {
+            m_currentLevel = CreateEmptyLevel();
+            m_currentLevel.Camera = new FirstPersonCamera(new Vector3(0, 0, 1), new Vector3(0, 5, 0));
+        }
+#endif
         #region TEST
 
         private void SetLevelTestValues(Level level)
@@ -217,7 +232,9 @@ namespace MassiveGame.Core.GameCore
                 m_currentLevel = level;
 
                 level.Camera = new ThirdPersonCamera(new Vector3(0.5f, -0.8f, 0), 45);
+#if DEBUG
                 level.PlayerController = new PlayerController(level.Camera as ThirdPersonCamera);
+#endif
 
                 SetLevelTestValues(level);
 
@@ -231,7 +248,7 @@ namespace MassiveGame.Core.GameCore
             }
         }
 
-        #endregion
+#endregion
 
         public Level LoadLevel(string pathToLevel)
         {
@@ -243,7 +260,7 @@ namespace MassiveGame.Core.GameCore
 
         public void PostInit()
         {
-#if DEBUG || DESIGN_EDITOR
+#if DEBUG || ENGINE_EDITOR
             if (m_currentLevel != null && m_currentLevel.PointLightCollection.GetCount() > 0)
             {
                 m_currentLevel.PointLightDebugRenderer = new PointLightsDebugRenderer(ProjectFolders.TexturesPath + "/LightTextures/" + "light-bulb-icon (1).png",

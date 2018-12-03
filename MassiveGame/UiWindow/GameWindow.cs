@@ -11,11 +11,12 @@ using MassiveGame.API.ResourcePool;
 
 namespace MassiveGame.UI
 {
+#if DEBUG
     public partial class GameWindow : Form
     {
         private Action m_renderQueueFunction, m_cleanUpFunction;
 
-        #region Constructors
+    #region Constructors
 
         private GameWindow(Action preConstructorFunction, Action renderQueueFunction, Action cleanUpFunction)
         {
@@ -34,9 +35,9 @@ namespace MassiveGame.UI
             this.Height = height;
         }
 
-        #endregion
+    #endregion
 
-        #region FormLoad & GLControlPaint events
+    #region FormLoad & GLControlPaint events
 
         private void OnRender(object sender, PaintEventArgs e)
         {
@@ -48,9 +49,9 @@ namespace MassiveGame.UI
             GLControl.Invalidate();
         }
 
-#endregion
+    #endregion
 
-        #region Form Move&Resize events
+    #region Form Move&Resize events
 
         private void OnResize(object sender, EventArgs e)
         {
@@ -64,9 +65,9 @@ namespace MassiveGame.UI
             EngineStatics.SCREEN_POSITION_X = this.Left;
             EngineStatics.SCREEN_POSITION_Y = this.Top;
         }
-#endregion
+    #endregion
 
-        #region Mouse events
+    #region Mouse events
 
                 private void OnMouseMove(object sender, MouseEventArgs e)
                 {
@@ -141,7 +142,7 @@ namespace MassiveGame.UI
                         (GameWorld.GetWorldInstance().GetLevel().Camera as ThirdPersonCamera).MaxDistanceFromTargetToCamera -= 5;
                     }
                 }
-                #endregion
+    #endregion
 
         private void AdjustMouseCursor()
         {
@@ -155,7 +156,7 @@ namespace MassiveGame.UI
                 ? this.Location.Y + 8 : this.Location.Y;
         }
 
-        #region Key events
+    #region Key events
 
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData) // arrow keys event
         {
@@ -180,7 +181,7 @@ namespace MassiveGame.UI
         {
             switch (e.KeyCode)
             {
-                #region In-game settings
+    #region In-game settings
                 case Keys.R:
                     {
 
@@ -225,7 +226,7 @@ namespace MassiveGame.UI
                         }
                         break;
                     }
-                    #endregion
+    #endregion
             }
         }
 
@@ -241,9 +242,9 @@ namespace MassiveGame.UI
                 GameWorld.GetWorldInstance().GetLevel().PlayerController.GetKeyboardHandler().KeyRelease(args.KeyData);
         }
 
-        #endregion
+    #endregion
 
-        #region Closing events
+    #region Closing events
 
         private void OnClosing(object sender, FormClosingEventArgs e)
         {
@@ -253,7 +254,9 @@ namespace MassiveGame.UI
             Environment.Exit(0);
         }
 
-        #endregion
+    #endregion
 
     }
+#endif
 }
+
