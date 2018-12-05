@@ -30,7 +30,7 @@ namespace MassiveGame.UI
         private const float m_translationScale = 0.1f;
         private const float m_invertedTranslationScale = 10.0f;
 
-        public CollisionEditorWindow()
+        public CollisionEditorWindow(Int32 width, Int32 height)
         {
             Application.EnableVisualStyles();
             InitializeComponent();
@@ -39,6 +39,8 @@ namespace MassiveGame.UI
             timer.Change(0, 10);
             PrevCursorPosition = new Point(this.Width / 2, this.Height / 2);
             enabledKeys = new bool[4] { false, false, false, false };
+            Width = width;
+            Height = height;
 
             treeView1.NodeMouseClick += TreeView1_NodeMouseClick;
         }

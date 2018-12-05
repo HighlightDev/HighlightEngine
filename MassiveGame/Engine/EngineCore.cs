@@ -14,12 +14,11 @@ namespace MassiveGame.Engine
 {
     public class EngineCore
     {
-        private IOManager m_ioManager;
-
-        // here has to be created and held game or editor window
-        private Form m_UiWindow = null;
+        public EngineCore() { }
 
 #if !COLLISION_EDITOR
+        private IOManager m_ioManager;
+
         private bool bPostConstructor = true;
 
         private RenderThread m_renderThread;
@@ -27,35 +26,6 @@ namespace MassiveGame.Engine
         private GameThread m_gameThread;
 
         private Stopwatch m_renderTickTime;
-#endif
-
-        public EngineCore()
-        {
-#if !COLLISION_EDITOR
-            Point startScreenRezoluion = new Point(1400, 800);
-            Action preConstructorFunction = new Action(PreConstructor), renderQueueFunction = new Action(RenderQueue), cleanUpFunction = new Action(CleanEverythingUp);
-#endif
-
-#if ENGINE_EDITOR
-            m_UiWindow = new UI.EditorWindow(startScreenRezoluion.X, startScreenRezoluion.Y, preConstructorFunction, renderQueueFunction, cleanUpFunction);
-#elif COLLISION_EDITOR
-            m_UiWindow = new UI.CollisionEditorWindow();
-#else
-            m_UiWindow = new UI.GameWindow(startScreenRezoluion.X, startScreenRezoluion.Y, preConstructorFunction, renderQueueFunction, cleanUpFunction);
-#endif
-            m_UiWindow.Left = EngineStatics.SCREEN_POSITION_X;
-            m_UiWindow.Top = EngineStatics.SCREEN_POSITION_Y;
-        }
-
-        public void ShowUiWindow()
-        {
-            m_UiWindow.ShowDialog();
-        }
-
-        public void CloseUiWindow()
-        {
-            m_UiWindow.Close();
-        }
 
         public void ProcessIO()
         {
@@ -92,7 +62,6 @@ namespace MassiveGame.Engine
             }
         }
 
-#if !COLLISION_EDITOR
         private void SetProjectionMatrixToDefault()
         {
             // create projection matrix
@@ -114,7 +83,7 @@ namespace MassiveGame.Engine
         }
 #endif
 
-        private void PreConstructor() { }
+        public void PreConstructor() { }
 
         private void PostConstructor()
         {
@@ -145,7 +114,7 @@ namespace MassiveGame.Engine
             }
         }
 
-        private void RenderQueue()
+        public void RenderQueue()
         {
             PostConstructor();
             ProcessIO();
@@ -157,7 +126,7 @@ namespace MassiveGame.Engine
 
         #region Cleaning
 
-        private void CleanEverythingUp()
+        public void CleanEverythingUp()
         {
             GameWorld.GetWorldInstance().GetLevel().Water.GetData()?.CleanUp();
             GameWorld.GetWorldInstance().GetLevel().SunRenderer.GetData()?.cleanUp();
