@@ -54,3 +54,7 @@ D:\VisualStudioProjects\HighlightEngine\DLL\VBO\VBO\obj\Debug\VBO.csprojAssembly
 C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\DLL\VBO\VBO\obj\Debug\VBO.csprojAssemblyReference.cache
 C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\DLL\VBO\VBO\obj\Debug\VBO.csproj.CoreCompileInputs.cache
 C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\DLL\VBO\VBO\obj\Debug\VBO.csproj.CopyComplete
+C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\DLL\VBO\VBO\bin\Debug\OpenTK.dll
+C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\DLL\VBO\VBO\bin\Debug\OpenTK.pdb
+C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\DLL\VBO\VBO\bin\Debug\OpenTK.xml
+C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\DLL\VBO\VBO\bin\Debug\OpenTK.dll.config

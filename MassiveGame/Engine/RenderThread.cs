@@ -20,9 +20,6 @@ namespace MassiveGame.Engine
         public DefaultFrameBuffer DefaultFB { set; get; }
         public PostProcessStageRenderer PostProcessStage { set; get; }
 
-#if DEBUG || ENGINE_EDITOR
-        public bool IsSeparatedScreen { set; get; } = true;
-#endif
         //private ComputeShader cs;
 
         public RenderThread()
@@ -381,7 +378,7 @@ namespace MassiveGame.Engine
         {
             GameWorld.GetWorldInstance().GetUiFrameCreator().RenderFrames();
 #if DEBUG || ENGINE_EDITOR
-            if (IsSeparatedScreen)
+            if (EngineStatics.globalSettings.bSeparatedScreen)
             {
                 GameWorld.GetWorldInstance().GetUiFrameCreator().RenderSeparatedScreen(DefaultFB.GetColorTexture(), actualScreenRezoltuion);
             }

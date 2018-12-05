@@ -1,4 +1,6 @@
-﻿namespace MassiveGame
+﻿using System;
+
+namespace MassiveGame
 {
     internal class Program
     {

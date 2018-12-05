@@ -62,7 +62,7 @@ namespace MassiveGame.Settings
             EngineStatics.globalSettings.bSupported_LensFlare = GetIsLensFlaresSupported();
             EngineStatics.globalSettings.bSupported_MipMap = GetIsMipMapSupported();
             EngineStatics.globalSettings.AnisotropicFilterValue = GetAnisotropicFilteringValue();
-
+            EngineStatics.globalSettings.bSeparatedScreen = GetIsSeparatedScreen();
 
             CleanIniProperty();
         }
@@ -123,6 +123,13 @@ namespace MassiveGame.Settings
             IPropertyConverter convertToFloat = new PropertyToFloat();
             var anisotropicFilteringValue = (float)ReadProperty(convertToFloat, "anisotropic");
             return anisotropicFilteringValue;
+        }
+
+        public bool GetIsSeparatedScreen()
+        {
+            IPropertyConverter convertToBool = new PropertyToBool();
+            var bEnableSeparatedScreen = (bool)ReadProperty(convertToBool, "separateScreen");
+            return bEnableSeparatedScreen;
         }
 
         private void CleanIniProperty()

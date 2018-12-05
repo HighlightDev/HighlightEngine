@@ -129,13 +129,18 @@ namespace MassiveGame.Core.GameCore
 
             StaticEntityArguments staticMeshArg = new StaticEntityArguments(modelPath, texturePath, normalMapPath, specularMapPath,
               new Vector3(170, 13f + EngineStatics.MAP_HEIGHT, 170), new Vector3(0, 180, 0), new Vector3(20));
-            var house1 = EngineObjectCreator.CreateInstance<Building>(staticMeshArg);
-            level.StaticMeshCollection.AddToList(house1);
+            var house = EngineObjectCreator.CreateInstance<Building>(staticMeshArg);
+            level.StaticMeshCollection.AddToList(house);
+
+            staticMeshArg = new StaticEntityArguments(modelPath, texturePath, normalMapPath, specularMapPath,
+              new Vector3(170, 13f + EngineStatics.MAP_HEIGHT, 210), new Vector3(0, 180, 0), new Vector3(20));
+            house = EngineObjectCreator.CreateInstance<Building>(staticMeshArg);
+            level.StaticMeshCollection.AddToList(house);
 
             DeserializeWrapper deserializer = new DeserializeWrapper();
             foreach (var item in level.StaticMeshCollection)
             {
-                var inner_wrapper = deserializer.Deserialize<CollisionComponentsWrapper>("house.cl");
+                var inner_wrapper = deserializer.Deserialize<CollisionComponentsWrapper>("actualHome.cl");
                 item.SetComponents(inner_wrapper.SerializedComponents);
                 item.SetCollisionHeadUnit(CollisionHeadUnitObject);
 
@@ -152,7 +157,7 @@ namespace MassiveGame.Core.GameCore
             modelPath = ProjectFolders.ModelsPath + "model.dae";
             texturePath = ProjectFolders.MultitexturesPath + "diffuse.png";
 
-            level.SkeletalMesh = new MovableSkeletalMeshEntity(modelPath, texturePath, normalMapPath, specularMapPath, 0.5f, new Vector3(175, 60, 170), new Vector3(-90, 0, 0), new Vector3(1));
+            level.SkeletalMesh = new MovableSkeletalMeshEntity(modelPath, texturePath, normalMapPath, specularMapPath, 0.5f, new Vector3(175, 80, 170), new Vector3(-90, 0, 0), new Vector3(1));
 
             level.Player.AddToWrapper(EngineObjectCreator.CreateInstance<MovableMeshEntity>(movableMeshArg));
             level.Player.GetData().SetMistComponent(level.Mist);
@@ -225,8 +230,8 @@ namespace MassiveGame.Core.GameCore
 
         public void LoadTestLevel()
         {
-            bool bEnable = false;
-            if (bEnable)
+            bool bCreateLevel = true;
+            if (bCreateLevel)
             {
                 Level level = new Level(new Vector2(500, 500), "Test Level");
                 m_currentLevel = level;

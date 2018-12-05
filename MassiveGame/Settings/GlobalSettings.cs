@@ -22,6 +22,9 @@ namespace MassiveGame.Settings
         public bool bSupported_MipMap { set; get; } = false;
         public float AnisotropicFilterValue { set; get; } = 0.0f;
 
+        // Custom
+        public bool bSeparatedScreen { set; get; } = false;
+
         public GlobalSettings() { }
     }
 }
