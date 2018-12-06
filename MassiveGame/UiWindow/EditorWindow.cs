@@ -9,6 +9,8 @@ using MassiveGame.API.ResourcePool.PoolHandling;
 using MassiveGame.API.ResourcePool.Pools;
 using MassiveGame.API.ResourcePool;
 
+using WpfControlLibrary1;
+
 namespace MassiveGame.UI
 {
     public partial class EditorWindow : Form
@@ -232,6 +234,20 @@ namespace MassiveGame.UI
         private void minimizeBox1_Load(object sender, EventArgs e)
         {
 
+        }
+
+        private void elementHost1_ChildChanged(object sender, System.Windows.Forms.Integration.ChildChangedEventArgs e)
+        {
+            WpfControlLibrary1.Views.EngineObjectEntryView engineView = new WpfControlLibrary1.Views.EngineObjectEntryView();
+            engineView.TestCreateEntries();
+
+            userControl11.DataContext = engineView;
+            userControl11.MouseDownEventFire += new Action<string>(PressedShit);
+        }
+
+        private void PressedShit(string entity)
+        {
+            ;
         }
 
         #endregion

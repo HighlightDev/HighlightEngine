@@ -58,3 +58,5 @@ C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\MassiveGame
 C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\MassiveGame\obj\DesignEditor\HighlightEngine.csproj.CopyComplete
 C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\MassiveGame\bin\DesignEditor\UIControls.dll
 C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\MassiveGame\bin\DesignEditor\UIControls.pdb
+C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\MassiveGame\bin\DesignEditor\WpfControlLibrary1.dll
+C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\MassiveGame\bin\DesignEditor\WpfControlLibrary1.pdb

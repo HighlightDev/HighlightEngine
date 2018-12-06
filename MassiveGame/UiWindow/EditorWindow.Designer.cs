@@ -32,7 +32,10 @@
             this.GLControl = new OpenTK.GLControl();
             this.panel1 = new System.Windows.Forms.Panel();
             this.panel2 = new System.Windows.Forms.Panel();
+            this.elementHost1 = new System.Windows.Forms.Integration.ElementHost();
+            this.userControl11 = new WpfControlLibrary1.UserControl1();
             this.panel1.SuspendLayout();
+            this.panel2.SuspendLayout();
             this.SuspendLayout();
             // 
             // GLControl
@@ -65,11 +68,22 @@
             // 
             // panel2
             // 
+            this.panel2.Controls.Add(this.elementHost1);
             this.panel2.Dock = System.Windows.Forms.DockStyle.Right;
-            this.panel2.Location = new System.Drawing.Point(1105, 0);
+            this.panel2.Location = new System.Drawing.Point(751, 0);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(113, 729);
+            this.panel2.Size = new System.Drawing.Size(467, 729);
             this.panel2.TabIndex = 1;
+            // 
+            // elementHost1
+            // 
+            this.elementHost1.Location = new System.Drawing.Point(3, 3);
+            this.elementHost1.Name = "elementHost1";
+            this.elementHost1.Size = new System.Drawing.Size(461, 723);
+            this.elementHost1.TabIndex = 0;
+            this.elementHost1.Text = "elementHost1";
+            this.elementHost1.ChildChanged += new System.EventHandler<System.Windows.Forms.Integration.ChildChangedEventArgs>(this.elementHost1_ChildChanged);
+            this.elementHost1.Child = this.userControl11;
             // 
             // EditorWindow
             // 
@@ -85,6 +99,7 @@
             this.MouseDown += new System.Windows.Forms.MouseEventHandler(this.OnMouseDown);
             this.Move += new System.EventHandler(this.OnMove);
             this.panel1.ResumeLayout(false);
+            this.panel2.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -94,5 +109,7 @@
         private OpenTK.GLControl GLControl;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Panel panel2;
+        private System.Windows.Forms.Integration.ElementHost elementHost1;
+        private WpfControlLibrary1.UserControl1 userControl11;
     }
 }

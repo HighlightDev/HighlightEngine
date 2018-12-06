@@ -571,6 +571,10 @@
       <Project>{CBFDA7AF-C46F-4273-8FF5-C7D335E2B7B1}</Project>
       <Name>UIControls</Name>
     </ProjectReference>
+    <ProjectReference Include="..\WpfControlLibrary1\WpfControlLibrary1.csproj">
+      <Project>{24ec9c22-01a8-4416-9225-5ecbbb63c1f2}</Project>
+      <Name>WpfControlLibrary1</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
