@@ -16,7 +16,7 @@ namespace MassiveGame.UI
     {
         private Action m_renderQueueFunction, m_cleanUpFunction;
 
-    #region Constructors
+        #region Constructors
 
         private GameWindow(Action preConstructorFunction, Action renderQueueFunction, Action cleanUpFunction)
         {
@@ -28,16 +28,16 @@ namespace MassiveGame.UI
             preConstructorFunction();
         }
 
-        public GameWindow(Int32 width, Int32 height, Action preConstructorFunction, Action renderQueueFunction, Action cleanUpFunction) 
+        public GameWindow(Int32 width, Int32 height, Action preConstructorFunction, Action renderQueueFunction, Action cleanUpFunction)
             : this(preConstructorFunction, renderQueueFunction, cleanUpFunction)
         {
             this.Width = width;
             this.Height = height;
         }
 
-    #endregion
+        #endregion
 
-    #region FormLoad & GLControlPaint events
+        #region FormLoad & GLControlPaint events
 
         private void OnRender(object sender, PaintEventArgs e)
         {
@@ -49,9 +49,9 @@ namespace MassiveGame.UI
             GLControl.Invalidate();
         }
 
-    #endregion
+        #endregion
 
-    #region Form Move&Resize events
+        #region Form Move&Resize events
 
         private void OnResize(object sender, EventArgs e)
         {
@@ -65,84 +65,81 @@ namespace MassiveGame.UI
             EngineStatics.SCREEN_POSITION_X = this.Left;
             EngineStatics.SCREEN_POSITION_Y = this.Top;
         }
-    #endregion
+        #endregion
 
-    #region Mouse events
+        #region Mouse events
 
-                private void OnMouseMove(object sender, MouseEventArgs e)
+        private void OnMouseMove(object sender, MouseEventArgs e)
+        {
+            if (GameWorld.GetWorldInstance().GetLevel() != null && GameWorld.GetWorldInstance().GetLevel().Camera != null)
+                if (GameWorld.GetWorldInstance().GetLevel().Camera.SwitchCamera)
                 {
-                    if (GameWorld.GetWorldInstance().GetLevel() != null && GameWorld.GetWorldInstance().GetLevel().Camera != null)
-                    if (GameWorld.GetWorldInstance().GetLevel().Camera.SwitchCamera)
+                    if (EngineStatics.PrevCursorPosition != e.Location)
                     {
-                        GameWorld.GetWorldInstance().GetLevel().Camera.Rotate(e.X, e.Y, new Point(Width, GLControl.Height));
-                        Cursor.Hide();
-
-                        if ((EngineStatics.PrevCursorPosition.X != -1) && (EngineStatics.PrevCursorPosition.Y != -1)) // need to calculate delta of mouse position
-                        {
-                            Int32 xDelta = e.X - EngineStatics.PrevCursorPosition.X;
-                            Int32 yDelta = e.Y - EngineStatics.PrevCursorPosition.Y;
-                        }
-
                         EngineStatics.PrevCursorPosition = e.Location;
+                        Cursor.Hide();
+                        GameWorld.GetWorldInstance().GetLevel().Camera.Rotate(e.X, e.Y, new Point(this.Width, this.Height));
                     }
-                    else
-                    {
-                        Cursor.Show();
-                        Cursor.Draw(this.CreateGraphics(),
-                            new Rectangle(this.Location.X, this.Location.Y, this.Size.Width, this.Size.Height));
-                    }
-
-                    GLControl.Update(); // need to update frame after invalidation to redraw changes
                 }
-
-                private void OnMouseDown(object sender, MouseEventArgs e)
+                else
                 {
-                    switch (e.Button)
-                    {
-                        case MouseButtons.Left:
-                            {
-                                //mist.fade(this.RenderTime, 10000, FadeType.LINEARLY, 0.0f);
-                                //PlantUnit plant = new PlantUnit(TerrainIntersaction.getIntersactionPoint(EngineSingleton.Map, EngineSingleton.Picker.currentRay, EngineSingleton.Camera.getPosition()), new Vector3(), new Vector3(10), 0, null);
-                                //EngineSingleton.Grass.add(plant, EngineSingleton.Map);
-
-                                break;
-                            }
-                        case MouseButtons.Right:
-                            {
-                                //mist.aEngineSingleton.PostProcear(this.RenderTime, 10000, FadeType.LINEARLY, 0.016f);
-                                GameWorld.GetWorldInstance().GetLevel().Camera.SwitchCamera = !GameWorld.GetWorldInstance().GetLevel().Camera.SwitchCamera;
-                                break;
-                            }
-                    }
+                    Cursor.Show();
+                    Cursor.Draw(this.CreateGraphics(),
+                        new Rectangle(this.Location.X, this.Location.Y, this.Size.Width, this.Size.Height));
                 }
 
-                private void OnMouseWheel(object sender, MouseEventArgs e)
-                {
-                    //if (EngineStatics.DayCycle != null)
-                    //{
-                    //    if (e.Delta > 0)
-                    //    {
-                    //        EngineStatics.DayCycle.TimeFlow += 0.1f;
-                    //    }
-                    //    else if (e.Delta < 0 && EngineStatics.DayCycle.TimeFlow > 0)
-                    //    {
-                    //        EngineStatics.DayCycle.TimeFlow -= 0.1f;
-                    //    }
-                    //    else if (EngineStatics.DayCycle.TimeFlow < 0)
-                    //    {
-                    //        EngineStatics.DayCycle.TimeFlow = 0.0f;
-                    //    }
-                    //}
-                    if (e.Delta > 0)
+            GLControl.Update(); // need to update frame after invalidation to redraw changes
+        }
+
+        private void OnMouseDown(object sender, MouseEventArgs e)
+        {
+            switch (e.Button)
+            {
+                case MouseButtons.Left:
                     {
-                        (GameWorld.GetWorldInstance().GetLevel().Camera as ThirdPersonCamera).MaxDistanceFromTargetToCamera += 5;
+                        //mist.fade(this.RenderTime, 10000, FadeType.LINEARLY, 0.0f);
+                        //PlantUnit plant = new PlantUnit(TerrainIntersaction.getIntersactionPoint(EngineSingleton.Map, EngineSingleton.Picker.currentRay, EngineSingleton.Camera.getPosition()), new Vector3(), new Vector3(10), 0, null);
+                        //EngineSingleton.Grass.add(plant, EngineSingleton.Map);
+
+                        break;
                     }
-                    else if (e.Delta < 0)
+                case MouseButtons.Right:
                     {
-                        (GameWorld.GetWorldInstance().GetLevel().Camera as ThirdPersonCamera).MaxDistanceFromTargetToCamera -= 5;
+                        //mist.aEngineSingleton.PostProcear(this.RenderTime, 10000, FadeType.LINEARLY, 0.016f);
+                        GameWorld.GetWorldInstance().GetLevel().Camera.SwitchCamera = !GameWorld.GetWorldInstance().GetLevel().Camera.SwitchCamera;
+                        break;
                     }
-                }
-    #endregion
+            }
+        }
+
+        private void OnMouseWheel(object sender, MouseEventArgs e)
+        {
+            //if (EngineStatics.DayCycle != null)
+            //{
+            //    if (e.Delta > 0)
+            //    {
+            //        EngineStatics.DayCycle.TimeFlow += 0.1f;
+            //    }
+            //    else if (e.Delta < 0 && EngineStatics.DayCycle.TimeFlow > 0)
+            //    {
+            //        EngineStatics.DayCycle.TimeFlow -= 0.1f;
+            //    }
+            //    else if (EngineStatics.DayCycle.TimeFlow < 0)
+            //    {
+            //        EngineStatics.DayCycle.TimeFlow = 0.0f;
+            //    }
+            //}
+            if (e.Delta > 0)
+            {
+                (GameWorld.GetWorldInstance().GetLevel().Camera as ThirdPersonCamera).MaxDistanceFromTargetToCamera += 5;
+            }
+            else if (e.Delta < 0)
+            {
+                (GameWorld.GetWorldInstance().GetLevel().Camera as ThirdPersonCamera).MaxDistanceFromTargetToCamera -= 5;
+            }
+            GLControl.Update();
+        }
+        #endregion
 
         private void AdjustMouseCursor()
         {
@@ -156,7 +153,7 @@ namespace MassiveGame.UI
                 ? this.Location.Y + 8 : this.Location.Y;
         }
 
-    #region Key events
+        #region Key events
 
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData) // arrow keys event
         {
@@ -181,13 +178,13 @@ namespace MassiveGame.UI
         {
             switch (e.KeyCode)
             {
-    #region In-game settings
+                #region In-game settings
                 case Keys.R:
                     {
 
                         break;
                     }
-                case Keys.M:   
+                case Keys.M:
                     {
                         if (EngineStatics.Mode == PrimitiveType.Triangles)
                         {
@@ -226,7 +223,7 @@ namespace MassiveGame.UI
                         }
                         break;
                     }
-    #endregion
+                    #endregion
             }
         }
 
@@ -242,9 +239,9 @@ namespace MassiveGame.UI
                 GameWorld.GetWorldInstance().GetLevel().PlayerController.GetKeyboardHandler().KeyRelease(args.KeyData);
         }
 
-    #endregion
+        #endregion
 
-    #region Closing events
+        #region Closing events
 
         private void OnClosing(object sender, FormClosingEventArgs e)
         {
@@ -254,7 +251,7 @@ namespace MassiveGame.UI
             Environment.Exit(0);
         }
 
-    #endregion
+        #endregion
 
     }
 #endif

@@ -10,6 +10,12 @@ namespace MassiveGame.Core.ioCore
     public class IOManager
     {
         private static ConsoleCommandsManager m_consoleManager;
+        private static ConsoleCommandFactory consoleCommandFactory;
+
+        public void ProcessConsoleCommands()
+        {
+            consoleCommandFactory.ProceedConsoleCommands(this);
+        }
 
         public List<CONSOLE_COMMAND> GetConsoleUnhandledCommands()
         {
@@ -39,6 +45,10 @@ namespace MassiveGame.Core.ioCore
             if (m_consoleManager == null)
             {
                 m_consoleManager = new ConsoleCommandsManager();
+            }
+            if (consoleCommandFactory == null)
+            {
+                consoleCommandFactory = new ConsoleCommandFactory();
             }
         }
     }

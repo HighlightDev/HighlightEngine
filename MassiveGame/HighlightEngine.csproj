@@ -183,6 +183,7 @@
     <Compile Include="Core\GameCore\ObserverWrapper.cs" />
     <Compile Include="Core\GameCore\PlayerController.cs" />
     <Compile Include="Core\GameCore\GameWorld.cs" />
+    <Compile Include="Core\ioCore\ConsoleCommandFactory.cs" />
     <Compile Include="Core\ioCore\ConsoleCommandsManager.cs" />
     <Compile Include="Core\ioCore\DeserializeWrapper.cs" />
     <Compile Include="Core\ioCore\EngineObjectsSerializer.cs" />

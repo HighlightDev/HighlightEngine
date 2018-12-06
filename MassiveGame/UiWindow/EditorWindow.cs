@@ -34,7 +34,7 @@ namespace MassiveGame.UI
         {
             this.Width = width;
             this.Height = height;
-            ToggleFullscreenMode();
+            //ToggleFullscreenMode();
         }
 
         private void ToggleFullscreenMode()

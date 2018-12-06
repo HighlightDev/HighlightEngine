@@ -10,3 +10,16 @@ C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\WpfControlL
 C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\WpfControlLibrary1\obj\Debug\WpfControlLibrary1.csproj.CoreCompileInputs.cache
 C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\WpfControlLibrary1\obj\Debug\WpfControlLibrary1.dll
 C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\WpfControlLibrary1\obj\Debug\WpfControlLibrary1.pdb
+D:\VisualStudioProjects\HighlightEngine\WpfControlLibrary1\bin\Debug\WpfControlLibrary1.dll
+D:\VisualStudioProjects\HighlightEngine\WpfControlLibrary1\bin\Debug\WpfControlLibrary1.pdb
+D:\VisualStudioProjects\HighlightEngine\WpfControlLibrary1\obj\Debug\WpfControlLibrary1.csprojAssemblyReference.cache
+D:\VisualStudioProjects\HighlightEngine\WpfControlLibrary1\obj\Debug\UserControl1.g.cs
+D:\VisualStudioProjects\HighlightEngine\WpfControlLibrary1\obj\Debug\WpfControlLibrary1_MarkupCompile.cache
+D:\VisualStudioProjects\HighlightEngine\WpfControlLibrary1\obj\Debug\WpfControlLibrary1_MarkupCompile.lref
+D:\VisualStudioProjects\HighlightEngine\WpfControlLibrary1\obj\Debug\UserControl1.baml
+D:\VisualStudioProjects\HighlightEngine\WpfControlLibrary1\obj\Debug\WpfControlLibrary1.g.resources
+D:\VisualStudioProjects\HighlightEngine\WpfControlLibrary1\obj\Debug\WpfControlLibrary1.Properties.Resources.resources
+D:\VisualStudioProjects\HighlightEngine\WpfControlLibrary1\obj\Debug\WpfControlLibrary1.csproj.GenerateResource.cache
+D:\VisualStudioProjects\HighlightEngine\WpfControlLibrary1\obj\Debug\WpfControlLibrary1.csproj.CoreCompileInputs.cache
+D:\VisualStudioProjects\HighlightEngine\WpfControlLibrary1\obj\Debug\WpfControlLibrary1.dll
+D:\VisualStudioProjects\HighlightEngine\WpfControlLibrary1\obj\Debug\WpfControlLibrary1.pdb

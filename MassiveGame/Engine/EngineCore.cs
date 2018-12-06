@@ -29,37 +29,7 @@ namespace MassiveGame.Engine
 
         public void ProcessIO()
         {
-            // Console commands processing
-            var consoleCommands = m_ioManager.GetConsoleUnhandledCommands();
-            if (consoleCommands == null)
-                return;
-
-            foreach (var command in consoleCommands)
-            {
-                switch (command)
-                {
-                    case ConsoleCommands.SHADERS_RECOMPILE:
-                        {
-                            bool bSuccess = PoolCollector.GetInstance().s_ShaderPool.RecompileAllShaders();
-                            if (!bSuccess)
-                            {
-                                Debug.Log.AddToConsoleStreamLog("Shaders recompilation failed!");
-                                Debug.Log.AddToFileStreamLog("Shaders recompilation failed!");
-                            }
-                            break;
-                        }
-                    case ConsoleCommands.INFO:
-                        {
-                            Debug.Log.AddToConsoleStreamLog("Available console commands: ", m_ioManager.GetConsoleCommandsInfo());
-                            break;
-                        }
-                    case ConsoleCommands.UNDEFINED:
-                        {
-                            Debug.Log.AddToConsoleStreamLog("Unknown command, available console commands are: ", m_ioManager.GetConsoleCommandsInfo());
-                            break;
-                        }
-                }
-            }
+            m_ioManager.ProcessConsoleCommands();
         }
 
         private void SetProjectionMatrixToDefault()

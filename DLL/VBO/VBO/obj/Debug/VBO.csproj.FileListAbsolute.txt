@@ -58,3 +58,7 @@ C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\DLL\VBO\VBO
 C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\DLL\VBO\VBO\bin\Debug\OpenTK.pdb
 C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\DLL\VBO\VBO\bin\Debug\OpenTK.xml
 C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\DLL\VBO\VBO\bin\Debug\OpenTK.dll.config
+D:\VisualStudioProjects\HighlightEngine\DLL\VBO\VBO\bin\Debug\OpenTK.dll
+D:\VisualStudioProjects\HighlightEngine\DLL\VBO\VBO\bin\Debug\OpenTK.pdb
+D:\VisualStudioProjects\HighlightEngine\DLL\VBO\VBO\bin\Debug\OpenTK.xml
+D:\VisualStudioProjects\HighlightEngine\DLL\VBO\VBO\bin\Debug\OpenTK.dll.config

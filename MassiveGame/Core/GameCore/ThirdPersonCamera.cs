@@ -20,7 +20,12 @@ namespace MassiveGame.Core.GameCore
 
         private bool m_bThirdPersonTargetTransformationDirty = false;
 
-        public float MaxDistanceFromTargetToCamera { set; get; }
+        private float m_maxDistanceFromTargetToCamera;
+        public float MaxDistanceFromTargetToCamera
+        {
+            set { m_maxDistanceFromTargetToCamera = value; bTransformationDirty = true; }
+            get { return m_maxDistanceFromTargetToCamera; }
+        }
 
         public ThirdPersonCamera() : base()
         {
