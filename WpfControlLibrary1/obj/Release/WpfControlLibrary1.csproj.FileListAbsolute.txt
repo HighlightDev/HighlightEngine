@@ -22,3 +22,4 @@ D:\VisualStudioProjects\HighlightEngine\WpfControlLibrary1\obj\Release\WpfContro
 D:\VisualStudioProjects\HighlightEngine\WpfControlLibrary1\obj\Release\WpfControlLibrary1.csproj.CoreCompileInputs.cache
 D:\VisualStudioProjects\HighlightEngine\WpfControlLibrary1\obj\Release\WpfControlLibrary1.dll
 D:\VisualStudioProjects\HighlightEngine\WpfControlLibrary1\obj\Release\WpfControlLibrary1.pdb
+C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\WpfControlLibrary1\obj\Release\WpfControlLibrary1.csprojAssemblyReference.cache

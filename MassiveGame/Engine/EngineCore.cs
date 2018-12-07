@@ -65,9 +65,9 @@ namespace MassiveGame.Engine
                 // TODO -> test game level
                 GameWorld.GetWorldInstance().LoadTestLevel();
                 //
-                LoadIniSettings();
                 LoadKeyboardBindings();
 #endif
+                LoadIniSettings();
                 GameWorld.GetWorldInstance().PostInit();
                 SetProjectionMatrixToDefault();
                 EngineStatics.PrevCursorPosition = new Point(-1, -1);

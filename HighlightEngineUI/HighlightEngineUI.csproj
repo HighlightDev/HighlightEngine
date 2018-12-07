@@ -55,15 +55,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="UserControls\EngineObjectListBox.xaml.cs">
-      <DependentUpon>EngineObjectListBox.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Models\EngineObjectEntryModel.cs" />
-    <Compile Include="Views\EngineObjectEntryView.cs" />
-    <Page Include="UserControls\EngineObjectListBox.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -105,6 +96,15 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\icon1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\WpfControlLibrary1\WpfEngineControlsLibrary.csproj">
+      <Project>{24ec9c22-01a8-4416-9225-5ecbbb63c1f2}</Project>
+      <Name>WpfEngineControlsLibrary</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

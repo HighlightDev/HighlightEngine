@@ -33,7 +33,7 @@
             this.panel1 = new System.Windows.Forms.Panel();
             this.panel2 = new System.Windows.Forms.Panel();
             this.elementHost1 = new System.Windows.Forms.Integration.ElementHost();
-            this.userControl11 = new WpfControlLibrary1.UserControl1();
+            this.userControl11 = new WpfControlLibrary1.EngineEntityListBox();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             this.SuspendLayout();
@@ -53,6 +53,7 @@
             this.GLControl.KeyUp += new System.Windows.Forms.KeyEventHandler(this.OnKeyUp);
             this.GLControl.MouseDown += new System.Windows.Forms.MouseEventHandler(this.OnMouseDown);
             this.GLControl.MouseMove += new System.Windows.Forms.MouseEventHandler(this.OnMouseMove);
+            this.GLControl.MouseUp += new System.Windows.Forms.MouseEventHandler(this.GLControl_MouseUp);
             this.GLControl.MouseWheel += new System.Windows.Forms.MouseEventHandler(this.OnMouseWheel);
             this.GLControl.Resize += new System.EventHandler(this.OnResize);
             // 
@@ -77,9 +78,10 @@
             // 
             // elementHost1
             // 
-            this.elementHost1.Location = new System.Drawing.Point(3, 3);
+            this.elementHost1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.elementHost1.Location = new System.Drawing.Point(0, 0);
             this.elementHost1.Name = "elementHost1";
-            this.elementHost1.Size = new System.Drawing.Size(461, 723);
+            this.elementHost1.Size = new System.Drawing.Size(467, 729);
             this.elementHost1.TabIndex = 0;
             this.elementHost1.Text = "elementHost1";
             this.elementHost1.ChildChanged += new System.EventHandler<System.Windows.Forms.Integration.ChildChangedEventArgs>(this.elementHost1_ChildChanged);
@@ -110,6 +112,6 @@
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.Integration.ElementHost elementHost1;
-        private WpfControlLibrary1.UserControl1 userControl11;
+        private WpfControlLibrary1.EngineEntityListBox userControl11;
     }
 }

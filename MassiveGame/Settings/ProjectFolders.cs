@@ -55,6 +55,7 @@ namespace MassiveGame.Settings
         private static string _waterTexturePath = "\\Textures\\WaterTextures\\";
         private static string _sunTexturePath = "\\Textures\\SunTextures\\";
         private static string _lensFlareTexturePath = "\\Textures\\LensFlareTextures\\";
+        private static string _editorTexturePath = "\\Textures\\EditorTextures\\";
 
         public static string TexturesPath { get { return GetRootFolder() + _texturesPath; } }
         public static string ShadersPath { get { return GetRootFolder() + _shadersPath; } }
@@ -70,5 +71,6 @@ namespace MassiveGame.Settings
         public static string WaterTexturePath { get { return GetRootFolder() + _waterTexturePath; } }
         public static string SunTexturePath { get { return GetRootFolder() + _sunTexturePath; } }
         public static string LensFlareTexturePath { get { return GetRootFolder() + _lensFlareTexturePath; } }
+        public static string EditorTexturePath { get { return GetRootFolder() + _editorTexturePath; } }
     }
 }

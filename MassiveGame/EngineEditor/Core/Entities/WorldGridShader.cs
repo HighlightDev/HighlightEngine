@@ -1,6 +1,7 @@
 ﻿using MassiveGame.Core.RenderCore;
 using ShaderPattern;
 using OpenTK;
+using System;
 
 namespace MassiveGame.EngineEditor.Core.Entities
 {
@@ -8,7 +9,7 @@ namespace MassiveGame.EngineEditor.Core.Entities
     {
         private const float fadeOutRadius = 10;
 
-        private Uniform u_viewMatrix, u_projectionMatrix;
+        private Uniform u_viewMatrix, u_projectionMatrix, u_gridTexSampler;
 
         public WorldGridShader() : base() { }
 
@@ -24,7 +25,13 @@ namespace MassiveGame.EngineEditor.Core.Entities
             base.getAllUniformLocations();
             u_viewMatrix = GetUniform("viewMatrix");
             u_projectionMatrix = GetUniform("projectionMatrix");
+            u_gridTexSampler = GetUniform("gridSampler");
 
+        }
+
+        public void SetGridTexSampler(Int32 sampler)
+        {
+            u_gridTexSampler.LoadUniform(sampler);
         }
 
         public void SetTransformationMatrices(ref Matrix4 viewMatrix, ref Matrix4 projectionMatrix)

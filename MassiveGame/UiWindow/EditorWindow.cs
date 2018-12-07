@@ -10,12 +10,14 @@ using MassiveGame.API.ResourcePool.Pools;
 using MassiveGame.API.ResourcePool;
 
 using WpfControlLibrary1;
+using System.Threading;
 
 namespace MassiveGame.UI
 {
     public partial class EditorWindow : Form
     {
         private Action m_renderQueueFunction, m_cleanUpFunction;
+        private bool bOpenglControlMousePressed = false;
 
         #region Constructors
 
@@ -87,16 +89,16 @@ namespace MassiveGame.UI
 
         private void OnMouseMove(object sender, MouseEventArgs e)
         {
-            if (GameWorld.GetWorldInstance().GetLevel() != null)
+            if (bOpenglControlMousePressed)
             {
-                BaseCamera camera = GameWorld.GetWorldInstance().GetLevel().Camera;
-                if (camera == null)
-                    return;
 
-                if (camera.SwitchCamera)
+                if (GameWorld.GetWorldInstance().GetLevel() != null)
                 {
+                    BaseCamera camera = GameWorld.GetWorldInstance().GetLevel().Camera;
+                    if (camera == null)
+                        return;
+
                     camera.Rotate(e.X, e.Y, new Point(Width, GLControl.Height));
-                    Cursor.Hide();
 
                     if ((EngineStatics.PrevCursorPosition.X != -1) && (EngineStatics.PrevCursorPosition.Y != -1)) // need to calculate delta of mouse position
                     {
@@ -105,15 +107,9 @@ namespace MassiveGame.UI
                     }
 
                     EngineStatics.PrevCursorPosition = e.Location;
-                }
-                else
-                {
-                    Cursor.Show();
-                    Cursor.Draw(this.CreateGraphics(),
-                        new Rectangle(this.Location.X, this.Location.Y, this.Size.Width, this.Size.Height));
-                }
 
-                GLControl.Update(); // need to update frame after invalidation to redraw changes
+                    GLControl.Update(); // need to update frame after invalidation to redraw changes
+                }
             }
         }
 
@@ -123,13 +119,31 @@ namespace MassiveGame.UI
             {
                 case MouseButtons.Left:
                     {
-
+                        
                         break;
                     }
                 case MouseButtons.Right:
                     {
-                        //mist.aEngineSingleton.PostProcear(this.RenderTime, 10000, FadeType.LINEARLY, 0.016f);
-                        GameWorld.GetWorldInstance().GetLevel().Camera.SwitchCamera = !GameWorld.GetWorldInstance().GetLevel().Camera.SwitchCamera;
+                        bOpenglControlMousePressed = true;
+                        Cursor.Hide();
+                        break;
+                    }
+            }
+        }
+
+        private void GLControl_MouseUp(object sender, MouseEventArgs e)
+        {
+            switch (e.Button)
+            {
+                case MouseButtons.Left:
+                    {
+                       
+                        break;
+                    }
+                case MouseButtons.Right:
+                    {
+                        bOpenglControlMousePressed = false;
+                        Cursor.Show();
                         break;
                     }
             }
@@ -180,22 +194,13 @@ namespace MassiveGame.UI
                 #region In-game settings
                 case Keys.R:
                     {
-
                         break;
                     }
                 case Keys.M:
                     {
-                        if (EngineStatics.Mode == PrimitiveType.Triangles)
-                        {
-                            EngineStatics.Mode = PrimitiveType.Lines;
-                        }
-                        else
-                        {
-                            EngineStatics.Mode = PrimitiveType.Triangles;
-                        }
                         break;
                     }
-                case Keys.Escape: this.Close(); break;//Exit
+                case Keys.Escape: this.Close(); break;
                 case Keys.Add:
                     {
                         break;
@@ -231,21 +236,16 @@ namespace MassiveGame.UI
          
         }
 
-        private void minimizeBox1_Load(object sender, EventArgs e)
-        {
-
-        }
-
         private void elementHost1_ChildChanged(object sender, System.Windows.Forms.Integration.ChildChangedEventArgs e)
         {
             WpfControlLibrary1.Views.EngineObjectEntryView engineView = new WpfControlLibrary1.Views.EngineObjectEntryView();
             engineView.TestCreateEntries();
 
             userControl11.DataContext = engineView;
-            userControl11.MouseDownEventFire += new Action<string>(PressedShit);
+            userControl11.MouseDownEventFire += new Action<string>(MeshListBoxEventCatched);
         }
 
-        private void PressedShit(string entity)
+        private void MeshListBoxEventCatched(string entity)
         {
             ;
         }
@@ -259,7 +259,6 @@ namespace MassiveGame.UI
             base.OnClosing(e);
             m_cleanUpFunction();
             Debug.Log.AddToFileStreamLog(String.Format("\nTime elapsed : {0}", DateTime.Now - EngineStatics.ElapsedTime));
-            Environment.Exit(0);
         }
 
         #endregion

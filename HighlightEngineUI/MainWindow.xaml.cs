@@ -12,6 +12,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using WpfControlLibrary1.Views;
+using WpfControlLibrary1.Models;
 
 namespace HighlightEngineUI
 {
@@ -27,7 +29,7 @@ namespace HighlightEngineUI
 
         private void EngineObjectListBoxControl_Loaded(object sender, RoutedEventArgs e)
         {
-            Views.EngineObjectEntryView engineView = new Views.EngineObjectEntryView();
+            EngineObjectEntryView engineView = new EngineObjectEntryView();
             engineView.TestCreateEntries();
 
             EngineObjectListBoxControl.DataContext = engineView;

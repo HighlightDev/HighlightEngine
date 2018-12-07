@@ -23,7 +23,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VectorMath", "DLL\VectorMat
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HighlightEngineUI", "HighlightEngineUI\HighlightEngineUI.csproj", "{910F2CB4-C094-43FD-8C5C-607F0CAA0A7D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WpfControlLibrary1", "WpfControlLibrary1\WpfControlLibrary1.csproj", "{24EC9C22-01A8-4416-9225-5ECBBB63C1F2}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WpfEngineControlsLibrary", "WpfControlLibrary1\WpfEngineControlsLibrary.csproj", "{24EC9C22-01A8-4416-9225-5ECBBB63C1F2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -480,6 +480,7 @@
     <Content Include="Audio\material\actor\step\wav\new_wood3.wav" />
     <Content Include="Audio\material\actor\step\wav\new_wood4.wav" />
     <Content Include="Debug\ProjectLogs.txt" />
+    <Content Include="Textures\EditorTextures\grid.png" />
     <Content Include="Textures\GrassTextures\fern.png" />
     <Content Include="Textures\GrassTextures\grass%28mono%29.png" />
     <Content Include="Textures\GrassTextures\grass1%28mono%29.png" />
@@ -572,9 +573,9 @@
       <Project>{CBFDA7AF-C46F-4273-8FF5-C7D335E2B7B1}</Project>
       <Name>UIControls</Name>
     </ProjectReference>
-    <ProjectReference Include="..\WpfControlLibrary1\WpfControlLibrary1.csproj">
+    <ProjectReference Include="..\WpfControlLibrary1\WpfEngineControlsLibrary.csproj">
       <Project>{24ec9c22-01a8-4416-9225-5ecbbb63c1f2}</Project>
-      <Name>WpfControlLibrary1</Name>
+      <Name>WpfEngineControlsLibrary</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />
