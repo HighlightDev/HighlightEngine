@@ -7,8 +7,8 @@
              mc:Ignorable="d" 
              d:DesignHeight="50" d:DesignWidth="300">
     <Grid>
-        <ScrollViewer x:Name="svBtn" Grid.Row="1" HorizontalAlignment="Left" 
-                  VerticalScrollBarVisibility="Hidden" HorizontalScrollBarVisibility="Hidden" MouseEnter="svBtn_MouseEnter">
+        <ScrollViewer x:Name="scrollViewer" Grid.Row="1" HorizontalAlignment="Left" 
+                  VerticalScrollBarVisibility="Hidden" HorizontalScrollBarVisibility="Hidden" MouseEnter="ScrollViewer_MouseEnter">
             <StackPanel HorizontalAlignment = "Left">
 
                 <ItemsControl ItemsSource = "{Binding Path = EngineObjectEntries}">

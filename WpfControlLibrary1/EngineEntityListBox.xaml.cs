@@ -25,8 +25,30 @@ namespace WpfControlLibrary1
             InitializeComponent();
         }
 
+        #region User Control acquisition methods
+
+        // this 
         public event Action<string> MouseDownEventFire;
 
+        public Border GetEntryBorder()
+        {
+            return FindName("border") as Border;
+        }
+
+        public ScrollViewer GetScrollViewer()
+        {
+            return FindName("scrollViewer") as ScrollViewer;
+        }
+
+        public Image GetImage()
+        {
+            // for now
+            return null;
+        }
+
+        #endregion
+
+        
         private string GetLabelContentFromPanel(object stackPanel)
         {
             string labelContent = null;
@@ -42,9 +64,9 @@ namespace WpfControlLibrary1
             MouseDownEventFire?.Invoke(labelContent);
         }
 
-        private void svBtn_MouseEnter(object sender, MouseEventArgs e)
+        private void ScrollViewer_MouseEnter(object sender, MouseEventArgs e)
         {
-            svBtn.Focus();
+            scrollViewer.Focus();
         }
     }
 }

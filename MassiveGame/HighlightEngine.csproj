@@ -201,6 +201,8 @@
     <Compile Include="Core\MathCore\MathTypes\FSphere.cs" />
     <Compile Include="Core\MathCore\MathTypes\OBB.cs" />
     <Compile Include="Debug\UiPanel\UiFrameMaster.cs" />
+    <Compile Include="EngineEditor\Core\Entities\DefaultEntity.cs" />
+    <Compile Include="EngineEditor\Core\Entities\DefaultEntityShader.cs" />
     <Compile Include="EngineEditor\Core\Entities\WorldGrid.cs" />
     <Compile Include="EngineEditor\Core\Entities\WorldGridShader.cs" />
     <Compile Include="Engine\EngineCore.cs" />
@@ -568,10 +570,6 @@
     <ProjectReference Include="..\DLL\VectorMath\VectorMath\VectorMath.csproj">
       <Project>{2fafbe7a-4393-46c9-9463-04d211f3eab1}</Project>
       <Name>VectorMath</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\WFUIControls\UIControls.csproj">
-      <Project>{CBFDA7AF-C46F-4273-8FF5-C7D335E2B7B1}</Project>
-      <Name>UIControls</Name>
     </ProjectReference>
     <ProjectReference Include="..\WpfControlLibrary1\WpfEngineControlsLibrary.csproj">
       <Project>{24ec9c22-01a8-4416-9225-5ecbbb63c1f2}</Project>

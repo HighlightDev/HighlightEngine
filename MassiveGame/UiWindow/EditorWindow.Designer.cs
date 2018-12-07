@@ -30,12 +30,12 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(EditorWindow));
             this.GLControl = new OpenTK.GLControl();
-            this.panel1 = new System.Windows.Forms.Panel();
             this.panel2 = new System.Windows.Forms.Panel();
             this.elementHost1 = new System.Windows.Forms.Integration.ElementHost();
             this.userControl11 = new WpfControlLibrary1.EngineEntityListBox();
-            this.panel1.SuspendLayout();
+            this.panel1 = new System.Windows.Forms.Panel();
             this.panel2.SuspendLayout();
+            this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // GLControl
@@ -57,6 +57,26 @@
             this.GLControl.MouseWheel += new System.Windows.Forms.MouseEventHandler(this.OnMouseWheel);
             this.GLControl.Resize += new System.EventHandler(this.OnResize);
             // 
+            // panel2
+            // 
+            this.panel2.Controls.Add(this.elementHost1);
+            this.panel2.Dock = System.Windows.Forms.DockStyle.Right;
+            this.panel2.Location = new System.Drawing.Point(937, 0);
+            this.panel2.Name = "panel2";
+            this.panel2.Size = new System.Drawing.Size(281, 729);
+            this.panel2.TabIndex = 1;
+            // 
+            // elementHost1
+            // 
+            this.elementHost1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.elementHost1.Location = new System.Drawing.Point(0, 0);
+            this.elementHost1.Name = "elementHost1";
+            this.elementHost1.Size = new System.Drawing.Size(281, 729);
+            this.elementHost1.TabIndex = 0;
+            this.elementHost1.Text = "elementHost1";
+            this.elementHost1.ChildChanged += new System.EventHandler<System.Windows.Forms.Integration.ChildChangedEventArgs>(this.elementHost1_ChildChanged);
+            this.elementHost1.Child = this.userControl11;
+            // 
             // panel1
             // 
             this.panel1.Controls.Add(this.panel2);
@@ -66,26 +86,6 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(1218, 729);
             this.panel1.TabIndex = 1;
-            // 
-            // panel2
-            // 
-            this.panel2.Controls.Add(this.elementHost1);
-            this.panel2.Dock = System.Windows.Forms.DockStyle.Right;
-            this.panel2.Location = new System.Drawing.Point(751, 0);
-            this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(467, 729);
-            this.panel2.TabIndex = 1;
-            // 
-            // elementHost1
-            // 
-            this.elementHost1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.elementHost1.Location = new System.Drawing.Point(0, 0);
-            this.elementHost1.Name = "elementHost1";
-            this.elementHost1.Size = new System.Drawing.Size(467, 729);
-            this.elementHost1.TabIndex = 0;
-            this.elementHost1.Text = "elementHost1";
-            this.elementHost1.ChildChanged += new System.EventHandler<System.Windows.Forms.Integration.ChildChangedEventArgs>(this.elementHost1_ChildChanged);
-            this.elementHost1.Child = this.userControl11;
             // 
             // EditorWindow
             // 
@@ -100,8 +100,8 @@
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.OnClosing);
             this.MouseDown += new System.Windows.Forms.MouseEventHandler(this.OnMouseDown);
             this.Move += new System.EventHandler(this.OnMove);
-            this.panel1.ResumeLayout(false);
             this.panel2.ResumeLayout(false);
+            this.panel1.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -109,9 +109,9 @@
         #endregion
 
         private OpenTK.GLControl GLControl;
-        private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.Integration.ElementHost elementHost1;
         private WpfControlLibrary1.EngineEntityListBox userControl11;
+        private System.Windows.Forms.Panel panel1;
     }
 }
