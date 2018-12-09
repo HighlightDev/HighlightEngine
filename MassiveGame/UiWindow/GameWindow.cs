@@ -211,8 +211,8 @@ namespace MassiveGame.UI
                     }
                 case Keys.Insert:
                     {
-                        GameWorld.GetWorldInstance().GetUiFrameCreator().PushFrame((new ObtainRenderTargetPool().GetPool() as RenderTargetPool).GetRenderTargetAt(renderTargetIndex));
-                        Int32 count = PoolProxy.GetResourceCountInPool<ObtainRenderTargetPool>();
+                        GameWorld.GetWorldInstance().GetUiFrameCreator().PushFrame((new GetRenderTargetPool().GetPool() as RenderTargetPool).GetRenderTargetAt(renderTargetIndex));
+                        Int32 count = PoolProxy.GetResourceCountInPool<GetRenderTargetPool>();
                         if (renderTargetIndex + 1 >= count)
                         {
                             renderTargetIndex = 0;

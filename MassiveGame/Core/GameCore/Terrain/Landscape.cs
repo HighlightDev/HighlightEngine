@@ -75,7 +75,7 @@ namespace MassiveGame.Core.GameCore.Terrain
             if (bNormalR)
             {
                 string pathTexNormalMapR = info.GetString("pathTexNormalMapR");
-                _normalMapR = PoolProxy.GetResource<ObtainTexturePool, TextureAllocationPolicy, string, ITexture>(pathTexNormalMapR);
+                _normalMapR = PoolProxy.GetResource<GetTexturePool, TextureAllocationPolicy, string, ITexture>(pathTexNormalMapR);
             }
 
             // normal map green channel
@@ -83,7 +83,7 @@ namespace MassiveGame.Core.GameCore.Terrain
             if (bNormalG)
             {
                 string pathTexNormalMapG = info.GetString("pathTexNormalMapG");
-                _normalMapG = PoolProxy.GetResource<ObtainTexturePool, TextureAllocationPolicy, string, ITexture>(pathTexNormalMapG);
+                _normalMapG = PoolProxy.GetResource<GetTexturePool, TextureAllocationPolicy, string, ITexture>(pathTexNormalMapG);
             }
 
             // normal map blue channel
@@ -91,7 +91,7 @@ namespace MassiveGame.Core.GameCore.Terrain
             if (bNormalB)
             {
                 string pathTexNormalMapB = info.GetString("pathTexNormalMapB");
-                _normalMapB = PoolProxy.GetResource<ObtainTexturePool, TextureAllocationPolicy, string, ITexture>(pathTexNormalMapB);
+                _normalMapB = PoolProxy.GetResource<GetTexturePool, TextureAllocationPolicy, string, ITexture>(pathTexNormalMapB);
             }
 
             // normal map black channel
@@ -99,7 +99,7 @@ namespace MassiveGame.Core.GameCore.Terrain
             if (bNormalBlack)
             {
                 string pathTexNormalMapBlack = info.GetString("pathTexNormalMapBlack");
-                _normalMapBlack = PoolProxy.GetResource<ObtainTexturePool, TextureAllocationPolicy, string, ITexture>(pathTexNormalMapBlack);
+                _normalMapBlack = PoolProxy.GetResource<GetTexturePool, TextureAllocationPolicy, string, ITexture>(pathTexNormalMapBlack);
             }
         }
 
@@ -109,11 +109,11 @@ namespace MassiveGame.Core.GameCore.Terrain
             info.AddValue("_terrainMaterial", _terrainMaterial, typeof(MistComponent));
             info.AddValue("_terrainMaterial", _terrainMaterial, typeof(Material));
 
-            string pathTexR = PoolProxy.GetResourceKey<ObtainTexturePool, string, ITexture>(_textureR);
-            string pathTexG = PoolProxy.GetResourceKey<ObtainTexturePool, string, ITexture>(_textureR);
-            string pathTexB = PoolProxy.GetResourceKey<ObtainTexturePool, string, ITexture>(_textureR);
-            string pathTexBlack = PoolProxy.GetResourceKey<ObtainTexturePool, string, ITexture>(_textureR);
-            string pathTexBlendMap = PoolProxy.GetResourceKey<ObtainTexturePool, string, ITexture>(_textureR);
+            string pathTexR = PoolProxy.GetResourceKey<GetTexturePool, string, ITexture>(_textureR);
+            string pathTexG = PoolProxy.GetResourceKey<GetTexturePool, string, ITexture>(_textureR);
+            string pathTexB = PoolProxy.GetResourceKey<GetTexturePool, string, ITexture>(_textureR);
+            string pathTexBlack = PoolProxy.GetResourceKey<GetTexturePool, string, ITexture>(_textureR);
+            string pathTexBlendMap = PoolProxy.GetResourceKey<GetTexturePool, string, ITexture>(_textureR);
             info.AddValue("pathTexR", pathTexR);
             info.AddValue("pathTexG", pathTexG);
             info.AddValue("pathTexB", pathTexB);
@@ -128,7 +128,7 @@ namespace MassiveGame.Core.GameCore.Terrain
             info.AddValue("bNormalR", bNormalR);
             if (bNormalR)
             {
-                string pathTexNormalMapR = PoolProxy.GetResourceKey<ObtainTexturePool, string, ITexture>(_normalMapR);
+                string pathTexNormalMapR = PoolProxy.GetResourceKey<GetTexturePool, string, ITexture>(_normalMapR);
                 info.AddValue("pathTexNormalMapR", pathTexNormalMapR);
             }
             // normal map green channel
@@ -136,7 +136,7 @@ namespace MassiveGame.Core.GameCore.Terrain
             info.AddValue("bNormalG", bNormalG);
             if (bNormalG)
             {
-                string pathTexNormalMapG = PoolProxy.GetResourceKey<ObtainTexturePool, string, ITexture>(_normalMapG);
+                string pathTexNormalMapG = PoolProxy.GetResourceKey<GetTexturePool, string, ITexture>(_normalMapG);
                 info.AddValue("pathTexNormalMapG", pathTexNormalMapG);
             }
 
@@ -145,7 +145,7 @@ namespace MassiveGame.Core.GameCore.Terrain
             info.AddValue("bNormalB", bNormalB);
             if (bNormalB)
             {
-                string pathTexNormalMapB = PoolProxy.GetResourceKey<ObtainTexturePool, string, ITexture>(_normalMapB);
+                string pathTexNormalMapB = PoolProxy.GetResourceKey<GetTexturePool, string, ITexture>(_normalMapB);
                 info.AddValue("pathTexNormalMapB", pathTexNormalMapB);
             }
 
@@ -154,7 +154,7 @@ namespace MassiveGame.Core.GameCore.Terrain
             info.AddValue("bNormalBlack", bNormalBlack);
             if (bNormalBlack)
             {
-                string pathTexNormalMapBlack = PoolProxy.GetResourceKey<ObtainTexturePool, string, ITexture>(_normalMapBlack);
+                string pathTexNormalMapBlack = PoolProxy.GetResourceKey<GetTexturePool, string, ITexture>(_normalMapBlack);
                 info.AddValue("pathTexNormalMapBlack", pathTexNormalMapBlack);
             }
         }
@@ -170,11 +170,11 @@ namespace MassiveGame.Core.GameCore.Terrain
 
         private void InitTextures(string pathTexR, string pathTexG, string pathTexB, string pathTexBlack, string pathTexBlendMap)
         {
-            this._textureR = PoolProxy.GetResource<ObtainTexturePool, TextureAllocationPolicy, string, ITexture>(pathTexR);
-            this._textureG = PoolProxy.GetResource<ObtainTexturePool, TextureAllocationPolicy, string, ITexture>(pathTexG);
-            this._textureB = PoolProxy.GetResource<ObtainTexturePool, TextureAllocationPolicy, string, ITexture>(pathTexB);
-            this._textureBlack = PoolProxy.GetResource<ObtainTexturePool, TextureAllocationPolicy, string, ITexture>(pathTexBlack);
-            this._blendMap = PoolProxy.GetResource<ObtainTexturePool, TextureAllocationPolicy, string, ITexture>(pathTexBlendMap);
+            this._textureR = PoolProxy.GetResource<GetTexturePool, TextureAllocationPolicy, string, ITexture>(pathTexR);
+            this._textureG = PoolProxy.GetResource<GetTexturePool, TextureAllocationPolicy, string, ITexture>(pathTexG);
+            this._textureB = PoolProxy.GetResource<GetTexturePool, TextureAllocationPolicy, string, ITexture>(pathTexB);
+            this._textureBlack = PoolProxy.GetResource<GetTexturePool, TextureAllocationPolicy, string, ITexture>(pathTexBlack);
+            this._blendMap = PoolProxy.GetResource<GetTexturePool, TextureAllocationPolicy, string, ITexture>(pathTexBlendMap);
             
             try
             {
@@ -195,9 +195,9 @@ namespace MassiveGame.Core.GameCore.Terrain
         {
             if (this.m_bPostConstructor)
             {
-                _shader = PoolProxy.GetResource<ObtainShaderPool, ShaderAllocationPolicy<LandscapeShader>, string, LandscapeShader>(string.Format("{0}{1},{0}{2}", ProjectFolders.ShadersPath, "terrainVertexShader.glsl", "terrainFragmentShader.glsl"));
-                liteReflectionShader = PoolProxy.GetResource<ObtainShaderPool, ShaderAllocationPolicy<WaterReflectionTerrainShader>, string, WaterReflectionTerrainShader>(string.Format("{0}{1},{0}{2}", ProjectFolders.ShadersPath, "waterReflectionTerrainVS.glsl", "waterReflectionTerrainFS.glsl"));
-                liteRefractionShader = PoolProxy.GetResource<ObtainShaderPool, ShaderAllocationPolicy<WaterRefractionTerrainShader>, string, WaterRefractionTerrainShader>(string.Format("{0}{1},{0}{2}", ProjectFolders.ShadersPath, "waterRefractionTerrainVS.glsl" ,"waterRefractionTerrainFS.glsl"));
+                _shader = PoolProxy.GetResource<GetShaderPool, ShaderAllocationPolicy<LandscapeShader>, string, LandscapeShader>(string.Format("{0}{1},{0}{2}", ProjectFolders.ShadersPath, "terrainVertexShader.glsl", "terrainFragmentShader.glsl"));
+                liteReflectionShader = PoolProxy.GetResource<GetShaderPool, ShaderAllocationPolicy<WaterReflectionTerrainShader>, string, WaterReflectionTerrainShader>(string.Format("{0}{1},{0}{2}", ProjectFolders.ShadersPath, "waterReflectionTerrainVS.glsl", "waterReflectionTerrainFS.glsl"));
+                liteRefractionShader = PoolProxy.GetResource<GetShaderPool, ShaderAllocationPolicy<WaterRefractionTerrainShader>, string, WaterRefractionTerrainShader>(string.Format("{0}{1},{0}{2}", ProjectFolders.ShadersPath, "waterRefractionTerrainVS.glsl" ,"waterRefractionTerrainFS.glsl"));
 
                 _buffer = LandscapeBuilder.getTerrainAttributes(this.LandscapeMap, this._normalsSmoothLvl);
                 this.m_bPostConstructor = !this.m_bPostConstructor;
@@ -228,22 +228,22 @@ namespace MassiveGame.Core.GameCore.Terrain
 
         public void SetNormalMapR(string nm)
         {
-            this._normalMapR = PoolProxy.GetResource<ObtainTexturePool, TextureAllocationPolicy, string, ITexture>(nm);
+            this._normalMapR = PoolProxy.GetResource<GetTexturePool, TextureAllocationPolicy, string, ITexture>(nm);
         }
 
         public void SetNormalMapG(string nm)
         {
-            this._normalMapG = PoolProxy.GetResource<ObtainTexturePool, TextureAllocationPolicy, string, ITexture>(nm);
+            this._normalMapG = PoolProxy.GetResource<GetTexturePool, TextureAllocationPolicy, string, ITexture>(nm);
         }
 
         public void SetNormalMapB(string nm)
         {
-            this._normalMapB = PoolProxy.GetResource<ObtainTexturePool, TextureAllocationPolicy, string, ITexture>(nm);
+            this._normalMapB = PoolProxy.GetResource<GetTexturePool, TextureAllocationPolicy, string, ITexture>(nm);
         }
 
         public void SetNormalMapBlack(string nm)
         {
-            this._normalMapBlack = PoolProxy.GetResource<ObtainTexturePool, TextureAllocationPolicy, string, ITexture>(nm);
+            this._normalMapBlack = PoolProxy.GetResource<GetTexturePool, TextureAllocationPolicy, string, ITexture>(nm);
         }
 
         #endregion
@@ -441,19 +441,19 @@ namespace MassiveGame.Core.GameCore.Terrain
 
         public void cleanUp()
         {
-            PoolProxy.FreeResourceMemory<ObtainShaderPool, ShaderAllocationPolicy<LandscapeShader>, string, LandscapeShader>(_shader);
-            PoolProxy.FreeResourceMemory<ObtainShaderPool, ShaderAllocationPolicy<WaterReflectionTerrainShader>, string, WaterReflectionTerrainShader>(liteReflectionShader);
-            PoolProxy.FreeResourceMemory<ObtainShaderPool, ShaderAllocationPolicy<WaterRefractionTerrainShader>, string, WaterRefractionTerrainShader>(liteRefractionShader);
+            PoolProxy.FreeResourceMemory<GetShaderPool, ShaderAllocationPolicy<LandscapeShader>, string, LandscapeShader>(_shader);
+            PoolProxy.FreeResourceMemory<GetShaderPool, ShaderAllocationPolicy<WaterReflectionTerrainShader>, string, WaterReflectionTerrainShader>(liteReflectionShader);
+            PoolProxy.FreeResourceMemory<GetShaderPool, ShaderAllocationPolicy<WaterRefractionTerrainShader>, string, WaterRefractionTerrainShader>(liteRefractionShader);
             _buffer.CleanUp();
-            if (_normalMapR != null) PoolProxy.FreeResourceMemory<ObtainTexturePool, TextureAllocationPolicy, string, ITexture>(_normalMapR);
-            if (_normalMapG != null) PoolProxy.FreeResourceMemory<ObtainTexturePool, TextureAllocationPolicy, string, ITexture>(_normalMapG);
-            if (_normalMapB != null) PoolProxy.FreeResourceMemory<ObtainTexturePool, TextureAllocationPolicy, string, ITexture>(_normalMapB);
-            if (_normalMapBlack != null) PoolProxy.FreeResourceMemory<ObtainTexturePool, TextureAllocationPolicy, string, ITexture>(_normalMapBlack);
-            PoolProxy.FreeResourceMemory<ObtainTexturePool, TextureAllocationPolicy, string, ITexture>(_textureBlack);
-            PoolProxy.FreeResourceMemory<ObtainTexturePool, TextureAllocationPolicy, string, ITexture>(_textureR);
-            PoolProxy.FreeResourceMemory<ObtainTexturePool, TextureAllocationPolicy, string, ITexture>(_textureG);
-            PoolProxy.FreeResourceMemory<ObtainTexturePool, TextureAllocationPolicy, string, ITexture>(_textureB);
-            PoolProxy.FreeResourceMemory<ObtainTexturePool, TextureAllocationPolicy, string, ITexture>(_blendMap);
+            if (_normalMapR != null) PoolProxy.FreeResourceMemory<GetTexturePool, TextureAllocationPolicy, string, ITexture>(_normalMapR);
+            if (_normalMapG != null) PoolProxy.FreeResourceMemory<GetTexturePool, TextureAllocationPolicy, string, ITexture>(_normalMapG);
+            if (_normalMapB != null) PoolProxy.FreeResourceMemory<GetTexturePool, TextureAllocationPolicy, string, ITexture>(_normalMapB);
+            if (_normalMapBlack != null) PoolProxy.FreeResourceMemory<GetTexturePool, TextureAllocationPolicy, string, ITexture>(_normalMapBlack);
+            PoolProxy.FreeResourceMemory<GetTexturePool, TextureAllocationPolicy, string, ITexture>(_textureBlack);
+            PoolProxy.FreeResourceMemory<GetTexturePool, TextureAllocationPolicy, string, ITexture>(_textureR);
+            PoolProxy.FreeResourceMemory<GetTexturePool, TextureAllocationPolicy, string, ITexture>(_textureG);
+            PoolProxy.FreeResourceMemory<GetTexturePool, TextureAllocationPolicy, string, ITexture>(_textureB);
+            PoolProxy.FreeResourceMemory<GetTexturePool, TextureAllocationPolicy, string, ITexture>(_blendMap);
         }
 
         public ITexture GetDiffuseMap()

@@ -11,3 +11,16 @@ C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\WpfControlL
 C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\WpfControlLibrary1\obj\Release\EngineEntityListBox.g.cs
 C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\WpfControlLibrary1\obj\Release\EngineEntityListBox.baml
 C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\WpfControlLibrary1\obj\Release\WpfEngineControlsLibrary.csprojAssemblyReference.cache
+D:\VisualStudioProjects\HighlightEngine\WpfControlLibrary1\bin\Release\WpfControlLibrary1.dll
+D:\VisualStudioProjects\HighlightEngine\WpfControlLibrary1\bin\Release\WpfControlLibrary1.pdb
+D:\VisualStudioProjects\HighlightEngine\WpfControlLibrary1\obj\Release\WpfEngineControlsLibrary.csprojAssemblyReference.cache
+D:\VisualStudioProjects\HighlightEngine\WpfControlLibrary1\obj\Release\EngineEntityListBox.g.cs
+D:\VisualStudioProjects\HighlightEngine\WpfControlLibrary1\obj\Release\WpfControlLibrary1_MarkupCompile.cache
+D:\VisualStudioProjects\HighlightEngine\WpfControlLibrary1\obj\Release\WpfControlLibrary1_MarkupCompile.lref
+D:\VisualStudioProjects\HighlightEngine\WpfControlLibrary1\obj\Release\EngineEntityListBox.baml
+D:\VisualStudioProjects\HighlightEngine\WpfControlLibrary1\obj\Release\WpfControlLibrary1.g.resources
+D:\VisualStudioProjects\HighlightEngine\WpfControlLibrary1\obj\Release\WpfControlLibrary1.Properties.Resources.resources
+D:\VisualStudioProjects\HighlightEngine\WpfControlLibrary1\obj\Release\WpfEngineControlsLibrary.csproj.GenerateResource.cache
+D:\VisualStudioProjects\HighlightEngine\WpfControlLibrary1\obj\Release\WpfEngineControlsLibrary.csproj.CoreCompileInputs.cache
+D:\VisualStudioProjects\HighlightEngine\WpfControlLibrary1\obj\Release\WpfControlLibrary1.dll
+D:\VisualStudioProjects\HighlightEngine\WpfControlLibrary1\obj\Release\WpfControlLibrary1.pdb

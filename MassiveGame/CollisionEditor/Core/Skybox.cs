@@ -24,7 +24,7 @@ namespace CollisionEditor.Core
         {
             if (bPostConstructor)
             {
-                shader = PoolProxy.GetResource<ObtainShaderPool, ShaderAllocationPolicy<SkyboxShader>, string, SkyboxShader>(String.Format("{0}{1},{0}{2}", ProjectFolders.ShadersPath, "skyboxVS.glsl", "skyboxFS.glsl"));
+                shader = PoolProxy.GetResource<GetShaderPool, ShaderAllocationPolicy<SkyboxShader>, string, SkyboxShader>(String.Format("{0}{1},{0}{2}", ProjectFolders.ShadersPath, "skyboxVS.glsl", "skyboxFS.glsl"));
                 model = new RawModel(attribs);
                 cubemap = ProxyTextureLoader.LoadCubemap(new string[] {
                     ProjectFolders.SkyboxTexturesPath + "/Day/" + "right.bmp",

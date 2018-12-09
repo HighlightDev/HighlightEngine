@@ -27,18 +27,18 @@ namespace MassiveGame.Core.RenderCore.PostFX.LensFlare
              * Img 3 - texture with low rezolution for bright parts of sun;
              * Img 4 - lens flare result texture */
 
-            verticalBlurTexture = PoolProxy.GetResource<ObtainRenderTargetPool, RenderTargetAllocationPolicy, TextureParameters, ITexture>(new TextureParameters(TextureTarget.Texture2D, TextureMagFilter.Linear, TextureMinFilter.Linear,
+            verticalBlurTexture = PoolProxy.GetResource<GetRenderTargetPool, RenderTargetAllocationPolicy, TextureParameters, ITexture>(new TextureParameters(TextureTarget.Texture2D, TextureMagFilter.Linear, TextureMinFilter.Linear,
                0, PixelInternalFormat.Rgb, EngineStatics.globalSettings.DomainFramebufferRezolution.X / 10,
                EngineStatics.globalSettings.DomainFramebufferRezolution.Y / 10, PixelFormat.Rgb, PixelType.UnsignedByte, TextureWrapMode.Repeat));
 
-            horizontalBlurTexture = PoolProxy.GetResource<ObtainRenderTargetPool, RenderTargetAllocationPolicy, TextureParameters, ITexture>(new TextureParameters(TextureTarget.Texture2D, TextureMagFilter.Linear, TextureMinFilter.Linear,
+            horizontalBlurTexture = PoolProxy.GetResource<GetRenderTargetPool, RenderTargetAllocationPolicy, TextureParameters, ITexture>(new TextureParameters(TextureTarget.Texture2D, TextureMagFilter.Linear, TextureMinFilter.Linear,
                0, PixelInternalFormat.Rgb, EngineStatics.globalSettings.DomainFramebufferRezolution.X / 10,
                EngineStatics.globalSettings.DomainFramebufferRezolution.Y / 10, PixelFormat.Rgb, PixelType.UnsignedByte, TextureWrapMode.Repeat));
 
-            frameTextureLowRezolution = PoolProxy.GetResource<ObtainRenderTargetPool, RenderTargetAllocationPolicy, TextureParameters, ITexture>(new TextureParameters(TextureTarget.Texture2D, TextureMagFilter.Linear, TextureMinFilter.Linear, 0, PixelInternalFormat.Rgb,
+            frameTextureLowRezolution = PoolProxy.GetResource<GetRenderTargetPool, RenderTargetAllocationPolicy, TextureParameters, ITexture>(new TextureParameters(TextureTarget.Texture2D, TextureMagFilter.Linear, TextureMinFilter.Linear, 0, PixelInternalFormat.Rgb,
                EngineStatics.globalSettings.DomainFramebufferRezolution.X / 10, EngineStatics.globalSettings.DomainFramebufferRezolution.Y / 10, PixelFormat.Rgb, PixelType.UnsignedByte, TextureWrapMode.Repeat));
 
-            lensFlareResultTexture = PoolProxy.GetResource<ObtainRenderTargetPool, RenderTargetAllocationPolicy, TextureParameters, ITexture>(new TextureParameters(TextureTarget.Texture2D, TextureMagFilter.Nearest, TextureMinFilter.Nearest, 0, PixelInternalFormat.Rgb,
+            lensFlareResultTexture = PoolProxy.GetResource<GetRenderTargetPool, RenderTargetAllocationPolicy, TextureParameters, ITexture>(new TextureParameters(TextureTarget.Texture2D, TextureMagFilter.Nearest, TextureMinFilter.Nearest, 0, PixelInternalFormat.Rgb,
                EngineStatics.globalSettings.DomainFramebufferRezolution.X, EngineStatics.globalSettings.DomainFramebufferRezolution.Y, PixelFormat.Rgb, PixelType.UnsignedByte, TextureWrapMode.Repeat));
         }
 
@@ -83,10 +83,10 @@ namespace MassiveGame.Core.RenderCore.PostFX.LensFlare
 
         public override void cleanUp()
         {
-            PoolProxy.FreeResourceMemory<ObtainRenderTargetPool, RenderTargetAllocationPolicy, TextureParameters, ITexture>(verticalBlurTexture);
-            PoolProxy.FreeResourceMemory<ObtainRenderTargetPool, RenderTargetAllocationPolicy, TextureParameters, ITexture>(horizontalBlurTexture);
-            PoolProxy.FreeResourceMemory<ObtainRenderTargetPool, RenderTargetAllocationPolicy, TextureParameters, ITexture>(frameTextureLowRezolution);
-            PoolProxy.FreeResourceMemory<ObtainRenderTargetPool, RenderTargetAllocationPolicy, TextureParameters, ITexture>(lensFlareResultTexture);
+            PoolProxy.FreeResourceMemory<GetRenderTargetPool, RenderTargetAllocationPolicy, TextureParameters, ITexture>(verticalBlurTexture);
+            PoolProxy.FreeResourceMemory<GetRenderTargetPool, RenderTargetAllocationPolicy, TextureParameters, ITexture>(horizontalBlurTexture);
+            PoolProxy.FreeResourceMemory<GetRenderTargetPool, RenderTargetAllocationPolicy, TextureParameters, ITexture>(frameTextureLowRezolution);
+            PoolProxy.FreeResourceMemory<GetRenderTargetPool, RenderTargetAllocationPolicy, TextureParameters, ITexture>(lensFlareResultTexture);
             base.cleanUp();
         }
 

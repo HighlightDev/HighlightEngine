@@ -15,9 +15,9 @@ namespace MassiveGame.Core.RenderCore
 
         static TextureResolver()
         {
-            copyShader = PoolProxy.GetResource<ObtainShaderPool, ShaderAllocationPolicy<CopyTextureShader>, string, CopyTextureShader>(ProjectFolders.ShadersPath + "copyTextureVS.glsl" + "," + ProjectFolders.ShadersPath + "copyTextureFS.glsl");
+            copyShader = PoolProxy.GetResource<GetShaderPool, ShaderAllocationPolicy<CopyTextureShader>, string, CopyTextureShader>(ProjectFolders.ShadersPath + "copyTextureVS.glsl" + "," + ProjectFolders.ShadersPath + "copyTextureFS.glsl");
 
-            resolvePostProcessShader = PoolProxy.GetResource<ObtainShaderPool, ShaderAllocationPolicy<ResolvePostProcessResultToDefaultFramebufferShader>, string, ResolvePostProcessResultToDefaultFramebufferShader>(ProjectFolders.ShadersPath + "resolvePostProcessResultToDefaultFramebufferVS.glsl" + "," + ProjectFolders.ShadersPath + "resolvePostProcessResultToDefaultFramebufferFS.glsl");
+            resolvePostProcessShader = PoolProxy.GetResource<GetShaderPool, ShaderAllocationPolicy<ResolvePostProcessResultToDefaultFramebufferShader>, string, ResolvePostProcessResultToDefaultFramebufferShader>(ProjectFolders.ShadersPath + "resolvePostProcessResultToDefaultFramebufferVS.glsl" + "," + ProjectFolders.ShadersPath + "resolvePostProcessResultToDefaultFramebufferFS.glsl");
         }
 
         public static void ResolvePostProcessResultToDefaultFramebuffer(ITexture frameTexture, ITexture postProcessResultTexture, Point actualScreenRezolution)
@@ -40,7 +40,7 @@ namespace MassiveGame.Core.RenderCore
 
         public static ITexture CopyTexture(ITexture src)
         {
-            ITexture dst = PoolProxy.GetResource<ObtainRenderTargetPool, RenderTargetAllocationPolicy, TextureParameters, ITexture>(src.GetTextureParameters());
+            ITexture dst = PoolProxy.GetResource<GetRenderTargetPool, RenderTargetAllocationPolicy, TextureParameters, ITexture>(src.GetTextureParameters());
 
             var renderTarget = GL.GenFramebuffer();
 
@@ -66,8 +66,8 @@ namespace MassiveGame.Core.RenderCore
 
         public static void CleanUp()
         {
-            PoolProxy.FreeResourceMemory<ObtainShaderPool, ShaderAllocationPolicy<CopyTextureShader>, string, CopyTextureShader>(copyShader);
-            PoolProxy.FreeResourceMemory<ObtainShaderPool, ShaderAllocationPolicy<ResolvePostProcessResultToDefaultFramebufferShader>, string, ResolvePostProcessResultToDefaultFramebufferShader>(resolvePostProcessShader);
+            PoolProxy.FreeResourceMemory<GetShaderPool, ShaderAllocationPolicy<CopyTextureShader>, string, CopyTextureShader>(copyShader);
+            PoolProxy.FreeResourceMemory<GetShaderPool, ShaderAllocationPolicy<ResolvePostProcessResultToDefaultFramebufferShader>, string, ResolvePostProcessResultToDefaultFramebufferShader>(resolvePostProcessShader);
         }
     }
 }

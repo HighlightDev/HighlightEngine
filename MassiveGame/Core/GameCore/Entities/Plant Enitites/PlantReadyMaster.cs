@@ -197,7 +197,7 @@ namespace MassiveGame.Core.GameCore.Entities.StaticEntities
                 VAOManager.genVAO(_buffer);
                 VAOManager.setBufferData(BufferTarget.ArrayBuffer, _buffer);
 
-                _shader = PoolProxy.GetResource<ObtainShaderPool, ShaderAllocationPolicy<PlantShader>, string, PlantShader>(ProjectFolders.ShadersPath + "plantVertexShader.glsl" + "," + ProjectFolders.ShadersPath + "plantFragmentShader.glsl");
+                _shader = PoolProxy.GetResource<GetShaderPool, ShaderAllocationPolicy<PlantShader>, string, PlantShader>(ProjectFolders.ShadersPath + "plantVertexShader.glsl" + "," + ProjectFolders.ShadersPath + "plantFragmentShader.glsl");
                 this._postConstructor = !this._postConstructor;
             }
         }
@@ -210,7 +210,7 @@ namespace MassiveGame.Core.GameCore.Entities.StaticEntities
             _texture = new List<ITexture>();
             foreach (var item in textureSets)
             {
-                _texture.Add(PoolProxy.GetResource<ObtainTexturePool, TextureAllocationPolicy, string, ITexture>(item));
+                _texture.Add(PoolProxy.GetResource<GetTexturePool, TextureAllocationPolicy, string, ITexture>(item));
             }
             this.MAP_SIZE = MAP_SIZE;
             entityCount = entityCount > MAX_ENTITIES_COUNT ? MAX_ENTITIES_COUNT : entityCount;
@@ -235,7 +235,7 @@ namespace MassiveGame.Core.GameCore.Entities.StaticEntities
             this._texture = new List<ITexture>();
             foreach (var item in textureSets)
             {
-                _texture.Add(PoolProxy.GetResource<ObtainTexturePool, TextureAllocationPolicy, string, ITexture>(item));
+                _texture.Add(PoolProxy.GetResource<GetTexturePool, TextureAllocationPolicy, string, ITexture>(item));
             }
             this._attribs = modelAttribs;
             this._wind = component;
@@ -252,10 +252,10 @@ namespace MassiveGame.Core.GameCore.Entities.StaticEntities
         {
             _plants.Clear();
             VAOManager.cleanUp(_buffer);
-            PoolProxy.FreeResourceMemory<ObtainShaderPool, ShaderAllocationPolicy<PlantShader>, string, PlantShader>(_shader);
+            PoolProxy.FreeResourceMemory<GetShaderPool, ShaderAllocationPolicy<PlantShader>, string, PlantShader>(_shader);
             foreach (var item in _texture)
             {
-                PoolProxy.FreeResourceMemory<ObtainTexturePool, TextureAllocationPolicy, string, ITexture>(item);
+                PoolProxy.FreeResourceMemory<GetTexturePool, TextureAllocationPolicy, string, ITexture>(item);
             }
         }
 

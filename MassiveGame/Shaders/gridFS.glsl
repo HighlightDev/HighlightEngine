@@ -19,7 +19,7 @@ void main()
 	float dstFromCameraSqr = dot(vertexLocation, vertexLocation);
 	float aspectRatioDstToRadius = dstFromCameraSqr / alphaRadiusSqr;
 
-	alpha = clamp(0.8 - smoothstep(aspectRatioDstToRadius, 0, 0.5), 0, 1);
+	alpha = clamp(0.8 - smoothstep(aspectRatioDstToRadius, 0.0, 0.5), 0.0, 1.0);
 
 	FragColor = vec4(vec3(0.8), alpha);
 }

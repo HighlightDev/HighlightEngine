@@ -21,13 +21,13 @@ namespace MassiveGame.Core.GameCore.Entities.Skeleton
 
         public SkeletonDummy(string pathToAnimatedMesh)
         {
-            m_skeletonShader = PoolProxy.GetResource<ObtainShaderPool, ShaderAllocationPolicy<SkeletonShader>, string, SkeletonShader>
+            m_skeletonShader = PoolProxy.GetResource<GetShaderPool, ShaderAllocationPolicy<SkeletonShader>, string, SkeletonShader>
               (String.Format("{0}{1},{0}{2},{0}{3}", ProjectFolders.ShadersPath, "skeletonVS.glsl", "skeletonFS.glsl"));
 
             m_skeletonVAO = new VertexArrayObject();
             InitBonesVAO();
 
-            m_animations = PoolProxy.GetResource<ObtainAnimationPool, AnimationAllocationPolicy, string, List<AnimationSequence>>(pathToAnimatedMesh);
+            m_animations = PoolProxy.GetResource<GetAnimationPool, AnimationAllocationPolicy, string, List<AnimationSequence>>(pathToAnimatedMesh);
             m_animationHolder = new AnimationHolder(m_animations);
             m_animationHolder.SetAnimationByNameNoBlend(m_animations[0].GetName());
         }
@@ -67,8 +67,8 @@ namespace MassiveGame.Core.GameCore.Entities.Skeleton
 
         public void CleanUp()
         {
-            PoolProxy.FreeResourceMemory<ObtainShaderPool, ShaderAllocationPolicy<SkeletonShader>, string, SkeletonShader>(m_skeletonShader);
-            PoolProxy.FreeResourceMemory<ObtainAnimationPool, AnimationAllocationPolicy, string, List<AnimationSequence>>(m_animations);
+            PoolProxy.FreeResourceMemory<GetShaderPool, ShaderAllocationPolicy<SkeletonShader>, string, SkeletonShader>(m_skeletonShader);
+            PoolProxy.FreeResourceMemory<GetAnimationPool, AnimationAllocationPolicy, string, List<AnimationSequence>>(m_animations);
         }
     }
 }

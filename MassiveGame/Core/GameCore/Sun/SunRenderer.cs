@@ -51,8 +51,8 @@ namespace MassiveGame.Core.GameCore.Sun
 
         public void GetObjectData(SerializationInfo info, StreamingContext context)
         {
-            string pathToTexture1 = PoolProxy.GetResourceKey<ObtainTexturePool, string, ITexture>(m_texture1);
-            string pathToTexture2 = PoolProxy.GetResourceKey<ObtainTexturePool, string, ITexture>(m_texture2);
+            string pathToTexture1 = PoolProxy.GetResourceKey<GetTexturePool, string, ITexture>(m_texture1);
+            string pathToTexture2 = PoolProxy.GetResourceKey<GetTexturePool, string, ITexture>(m_texture2);
 
             info.AddValue("pathToTexture1", pathToTexture1);
             info.AddValue("pathToTexture2", pathToTexture2);
@@ -184,10 +184,10 @@ namespace MassiveGame.Core.GameCore.Sun
             m_buffer.AddVBO(verticesVBO, normalsVBO, texCoordsVBO);
             m_buffer.BindBuffersToVao();
 
-            m_shader = PoolProxy.GetResource<ObtainShaderPool, ShaderAllocationPolicy<SunShader>, string, SunShader>(ProjectFolders.ShadersPath + "sunVS.glsl" + "," + ProjectFolders.ShadersPath + "sunFS.glsl");
+            m_shader = PoolProxy.GetResource<GetShaderPool, ShaderAllocationPolicy<SunShader>, string, SunShader>(ProjectFolders.ShadersPath + "sunVS.glsl" + "," + ProjectFolders.ShadersPath + "sunFS.glsl");
 
-            m_texture1 = PoolProxy.GetResource<ObtainTexturePool, TextureAllocationPolicy, string, ITexture>(texture1);
-            m_texture2 = PoolProxy.GetResource<ObtainTexturePool, TextureAllocationPolicy, string, ITexture>(texture2);
+            m_texture1 = PoolProxy.GetResource<GetTexturePool, TextureAllocationPolicy, string, ITexture>(texture1);
+            m_texture2 = PoolProxy.GetResource<GetTexturePool, TextureAllocationPolicy, string, ITexture>(texture2);
 
             m_quadLBZ = new Vector4((-SUN_SIZE / 2), (-SUN_SIZE / 2), 0.0f, 1.0f);
             m_quadRTZ = new Vector4((SUN_SIZE / 2), (SUN_SIZE / 2), 0.0f, 1.0f);
@@ -217,9 +217,9 @@ namespace MassiveGame.Core.GameCore.Sun
 
         public void cleanUp()
         {
-            PoolProxy.FreeResourceMemory<ObtainTexturePool, TextureAllocationPolicy, string, ITexture>(m_texture1);
-            PoolProxy.FreeResourceMemory<ObtainTexturePool, TextureAllocationPolicy, string, ITexture>(m_texture2);
-            PoolProxy.FreeResourceMemory<ObtainShaderPool, ShaderAllocationPolicy<SunShader>, string, SunShader>(this.m_shader);
+            PoolProxy.FreeResourceMemory<GetTexturePool, TextureAllocationPolicy, string, ITexture>(m_texture1);
+            PoolProxy.FreeResourceMemory<GetTexturePool, TextureAllocationPolicy, string, ITexture>(m_texture2);
+            PoolProxy.FreeResourceMemory<GetShaderPool, ShaderAllocationPolicy<SunShader>, string, SunShader>(this.m_shader);
             m_buffer.CleanUp();
         }
 

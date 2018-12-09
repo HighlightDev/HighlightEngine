@@ -40,7 +40,7 @@ namespace MassiveGame.Core.RenderCore.Light_visualization
         {
             if (_postConstructor)
             {
-                this._shader = PoolProxy.GetResource<ObtainShaderPool, ShaderAllocationPolicy<PointLightDebugShader>, string, PointLightDebugShader>(ProjectFolders.ShadersPath + "lampVS.glsl" + "," + ProjectFolders.ShadersPath + "lampFS.glsl" + "," + ProjectFolders.ShadersPath + "lampGS.glsl");
+                this._shader = PoolProxy.GetResource<GetShaderPool, ShaderAllocationPolicy<PointLightDebugShader>, string, PointLightDebugShader>(ProjectFolders.ShadersPath + "lampVS.glsl" + "," + ProjectFolders.ShadersPath + "lampFS.glsl" + "," + ProjectFolders.ShadersPath + "lampGS.glsl");
 
                 float[,] vertices = new float[1, 3];
 
@@ -54,15 +54,15 @@ namespace MassiveGame.Core.RenderCore.Light_visualization
 
         public PointLightsDebugRenderer(string LampTexture, List<PointLight> lamps)
         {
-            this._texture = PoolProxy.GetResource<ObtainTexturePool, TextureAllocationPolicy, string, ITexture>(LampTexture);
+            this._texture = PoolProxy.GetResource<GetTexturePool, TextureAllocationPolicy, string, ITexture>(LampTexture);
             this._lamps = lamps;
             this._postConstructor = true;
         }
 
         public void cleanUp()
         {
-            PoolProxy.FreeResourceMemory<ObtainShaderPool, ShaderAllocationPolicy<PointLightDebugShader>, string, PointLightDebugShader>(_shader);
-            PoolProxy.FreeResourceMemory<ObtainTexturePool, TextureAllocationPolicy, string, ITexture>(_texture);
+            PoolProxy.FreeResourceMemory<GetShaderPool, ShaderAllocationPolicy<PointLightDebugShader>, string, PointLightDebugShader>(_shader);
+            PoolProxy.FreeResourceMemory<GetTexturePool, TextureAllocationPolicy, string, ITexture>(_texture);
             _buffer.CleanUp();
         }
     }

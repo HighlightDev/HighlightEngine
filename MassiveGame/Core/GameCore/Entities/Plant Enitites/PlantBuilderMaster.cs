@@ -200,7 +200,7 @@ namespace MassiveGame.Core.GameCore.Entities.StaticEntities
             {
                 if (_shader == null)
                 {
-                    _shader = PoolProxy.GetResource<ObtainShaderPool, ShaderAllocationPolicy<PlantShader>, string, PlantShader>(ProjectFolders.ShadersPath + "plantVertexShader.glsl" + "," + ProjectFolders.ShadersPath + "plantFragmentShader.glsl");
+                    _shader = PoolProxy.GetResource<GetShaderPool, ShaderAllocationPolicy<PlantShader>, string, PlantShader>(ProjectFolders.ShadersPath + "plantVertexShader.glsl" + "," + ProjectFolders.ShadersPath + "plantFragmentShader.glsl");
                 }
                 this._postConstructor = false;
             }
@@ -240,7 +240,7 @@ namespace MassiveGame.Core.GameCore.Entities.StaticEntities
             _texture = new List<ITexture>();
             foreach (var item in textureSets)
             {
-                _texture.Add(PoolProxy.GetResource<ObtainTexturePool, TextureAllocationPolicy, string, ITexture>(item));
+                _texture.Add(PoolProxy.GetResource<GetTexturePool, TextureAllocationPolicy, string, ITexture>(item));
             }
             this._buffer = AllocateVaoMemory(pathToModel);
             this._wind = component;
@@ -257,10 +257,10 @@ namespace MassiveGame.Core.GameCore.Entities.StaticEntities
         {
             _plants.Clear();
             //VAOManager.cleanUp(_buffer);
-            PoolProxy.FreeResourceMemory<ObtainShaderPool, ShaderAllocationPolicy<PlantShader>, string, PlantShader>(_shader);
+            PoolProxy.FreeResourceMemory<GetShaderPool, ShaderAllocationPolicy<PlantShader>, string, PlantShader>(_shader);
             foreach (var item in _texture)
             {
-                PoolProxy.FreeResourceMemory<ObtainTexturePool, TextureAllocationPolicy, string, ITexture>(item);
+                PoolProxy.FreeResourceMemory<GetTexturePool, TextureAllocationPolicy, string, ITexture>(item);
             }
         }
 
