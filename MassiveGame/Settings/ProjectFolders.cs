@@ -41,21 +41,21 @@ namespace MassiveGame.Settings
             }
         }
 
-        private static string _texturesPath = "\\Textures\\";
-        private static string _shadersPath = "\\Shaders\\";
-        private static string _grassTexturesPath = "\\Textures\\GrassTextures\\";
-        private static string _heightMapsTexturesPath = "\\Textures\\HeightMaps\\";
-        private static string _multitexturesPath = "\\Textures\\Multitextures\\";
-        private static string _simpleTexturesPath = "\\Textures\\SimpleTextures\\";
-        private static string _skyboxTexturesPath = "\\Textures\\Skybox\\";
-        private static string _modelsPath = "\\ModelFiles\\";
-        private static string _normalMapsPath = "\\Textures\\NormalMaps\\";
-        private static string _specularMapsPath = "\\Textures\\SpecularMaps\\";
-        private static string _textureAtlasPath = "\\Textures\\TextureAtlas\\";
-        private static string _waterTexturePath = "\\Textures\\WaterTextures\\";
-        private static string _sunTexturePath = "\\Textures\\SunTextures\\";
-        private static string _lensFlareTexturePath = "\\Textures\\LensFlareTextures\\";
-        private static string _editorTexturePath = "\\Textures\\EditorTextures\\";
+        private static string _texturesPath = "Textures\\";
+        private static string _shadersPath = "Shaders\\";
+        private static string _grassTexturesPath = "Textures\\GrassTextures\\";
+        private static string _heightMapsTexturesPath = "Textures\\HeightMaps\\";
+        private static string _multitexturesPath = "Textures\\Multitextures\\";
+        private static string _simpleTexturesPath = "Textures\\SimpleTextures\\";
+        private static string _skyboxTexturesPath = "Textures\\Skybox\\";
+        private static string _modelsPath = "ModelFiles\\";
+        private static string _normalMapsPath = "Textures\\NormalMaps\\";
+        private static string _specularMapsPath = "Textures\\SpecularMaps\\";
+        private static string _textureAtlasPath = "Textures\\TextureAtlas\\";
+        private static string _waterTexturePath = "Textures\\WaterTextures\\";
+        private static string _sunTexturePath = "Textures\\SunTextures\\";
+        private static string _lensFlareTexturePath = "Textures\\LensFlareTextures\\";
+        private static string _editorTexturePath = "Textures\\EditorTextures\\";
 
         public static string TexturesPath { get { return GetRootFolder() + _texturesPath; } }
         public static string ShadersPath { get { return GetRootFolder() + _shadersPath; } }

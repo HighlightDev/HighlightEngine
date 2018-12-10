@@ -34,3 +34,7 @@ D:\VisualStudioProjects\HighlightEngine\DLL\ShaderPattern\ShaderPattern\obj\Debu
 C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\DLL\ShaderPattern\ShaderPattern\obj\Debug\ShaderPattern.csproj.CoreCompileInputs.cache
 C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\DLL\ShaderPattern\ShaderPattern\obj\Debug\ShaderPattern.csproj.CopyComplete
 C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\DLL\ShaderPattern\ShaderPattern\obj\Debug\ShaderPattern.csprojAssemblyReference.cache
+D:\VisualStudioProjects\HighlightEngine\DLL\ShaderPattern\ShaderPattern\bin\Debug\OpenTK.dll
+D:\VisualStudioProjects\HighlightEngine\DLL\ShaderPattern\ShaderPattern\bin\Debug\OpenTK.pdb
+D:\VisualStudioProjects\HighlightEngine\DLL\ShaderPattern\ShaderPattern\bin\Debug\OpenTK.xml
+D:\VisualStudioProjects\HighlightEngine\DLL\ShaderPattern\ShaderPattern\bin\Debug\OpenTK.dll.config

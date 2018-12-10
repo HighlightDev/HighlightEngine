@@ -67,7 +67,7 @@ namespace MassiveGame.Core.RenderCore.PostFX.LensFlare
             if (bPostConstructor)
             {
                 renderTarget = new LensFlareFramebufferObject();
-                lensShader = PoolProxy.GetResource<ObtainShaderPool, ShaderAllocationPolicy<LensFlareShader<SubsequenceType>>, string, LensFlareShader<SubsequenceType>>(ProjectFolders.ShadersPath + "lensFlareVS.glsl" + "," + ProjectFolders.ShadersPath + "lensFlareFS.glsl");
+                lensShader = PoolProxy.GetResource<GetShaderPool, ShaderAllocationPolicy<LensFlareShader<SubsequenceType>>, string, LensFlareShader<SubsequenceType>>(ProjectFolders.ShadersPath + "lensFlareVS.glsl" + "," + ProjectFolders.ShadersPath + "lensFlareFS.glsl");
                 bPostConstructor = false;
             }
         }
@@ -204,7 +204,7 @@ namespace MassiveGame.Core.RenderCore.PostFX.LensFlare
         public override void CleanUp()
         {
             renderTarget.cleanUp();
-            PoolProxy.FreeResourceMemory<ObtainShaderPool, ShaderAllocationPolicy<LensFlareShader<SubsequenceType>>, string, LensFlareShader<SubsequenceType>>(lensShader);
+            PoolProxy.FreeResourceMemory<GetShaderPool, ShaderAllocationPolicy<LensFlareShader<SubsequenceType>>, string, LensFlareShader<SubsequenceType>>(lensShader);
         }
     }
 }

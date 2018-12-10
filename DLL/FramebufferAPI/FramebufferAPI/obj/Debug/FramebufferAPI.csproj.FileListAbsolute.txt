@@ -50,3 +50,7 @@ D:\VisualStudioProjects\HighlightEngine\DLL\FramebufferAPI\FramebufferAPI\obj\De
 C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\DLL\FramebufferAPI\FramebufferAPI\obj\Debug\FramebufferAPI.csproj.CoreCompileInputs.cache
 C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\DLL\FramebufferAPI\FramebufferAPI\obj\Debug\FramebufferAPI.csproj.CopyComplete
 C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\DLL\FramebufferAPI\FramebufferAPI\obj\Debug\FramebufferAPI.csprojAssemblyReference.cache
+D:\VisualStudioProjects\HighlightEngine\DLL\FramebufferAPI\FramebufferAPI\bin\Debug\OpenTK.dll
+D:\VisualStudioProjects\HighlightEngine\DLL\FramebufferAPI\FramebufferAPI\bin\Debug\OpenTK.pdb
+D:\VisualStudioProjects\HighlightEngine\DLL\FramebufferAPI\FramebufferAPI\bin\Debug\OpenTK.xml
+D:\VisualStudioProjects\HighlightEngine\DLL\FramebufferAPI\FramebufferAPI\bin\Debug\OpenTK.dll.config

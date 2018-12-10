@@ -59,7 +59,5 @@ C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\MassiveGame
 C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\MassiveGame\bin\Debug\HighlightEngineUI.exe
 C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\MassiveGame\bin\Debug\HighlightEngineUI.pdb
 C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\MassiveGame\bin\Debug\HighlightEngineUI.exe.config
-D:\VisualStudioProjects\HighlightEngine\MassiveGame\bin\Debug\UIControls.dll
 D:\VisualStudioProjects\HighlightEngine\MassiveGame\bin\Debug\WpfControlLibrary1.dll
-D:\VisualStudioProjects\HighlightEngine\MassiveGame\bin\Debug\UIControls.pdb
 D:\VisualStudioProjects\HighlightEngine\MassiveGame\bin\Debug\WpfControlLibrary1.pdb

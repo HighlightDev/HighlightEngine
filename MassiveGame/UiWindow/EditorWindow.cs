@@ -8,9 +8,7 @@ using MassiveGame.Core.GameCore;
 using MassiveGame.API.ResourcePool.PoolHandling;
 using MassiveGame.API.ResourcePool.Pools;
 using MassiveGame.API.ResourcePool;
-
-using WpfControlLibrary1;
-using System.Threading;
+using MassiveGame.EngineEditor.Core.UiContent;
 
 namespace MassiveGame.UI
 {
@@ -28,6 +26,9 @@ namespace MassiveGame.UI
 
             Application.EnableVisualStyles();
             InitializeComponent();
+
+            GLControl.MouseEnter += 
+                (sender, e) => { GLControl.Focus(); };
             preConstructorFunction();
         }
 
@@ -73,7 +74,7 @@ namespace MassiveGame.UI
 
         private void OnResize(object sender, EventArgs e)
         {
-            GL.Viewport(0, 0, this.Width, this.Height);
+            GL.Viewport(0, 0, GLControl.Width, GLControl.Height);
             EngineStatics.globalSettings.ActualScreenRezolution = new Point(this.Width, this.Height);
             GLControl.Invalidate();
         }
@@ -211,8 +212,8 @@ namespace MassiveGame.UI
                     }
                 case Keys.Insert:
                     {
-                        GameWorld.GetWorldInstance().GetUiFrameCreator().PushFrame((new ObtainRenderTargetPool().GetPool() as RenderTargetPool).GetRenderTargetAt(renderTargetIndex));
-                        Int32 count = PoolProxy.GetResourceCountInPool<ObtainRenderTargetPool>();
+                        GameWorld.GetWorldInstance().GetUiFrameCreator().PushFrame((new GetRenderTargetPool().GetPool() as RenderTargetPool).GetRenderTargetAt(renderTargetIndex));
+                        Int32 count = PoolProxy.GetResourceCountInPool<GetRenderTargetPool>();
                         if (renderTargetIndex + 1 >= count)
                         {
                             renderTargetIndex = 0;
@@ -238,7 +239,7 @@ namespace MassiveGame.UI
 
         private void elementHost1_ChildChanged(object sender, System.Windows.Forms.Integration.ChildChangedEventArgs e)
         {
-            WpfControlLibrary1.Views.EngineObjectEntryView engineView = new WpfControlLibrary1.Views.EngineObjectEntryView();
+            EngineObjectEntryView engineView = new EngineObjectEntryView();
             engineView.TestCreateEntries();
 
             userControl11.DataContext = engineView;

@@ -103,10 +103,10 @@ namespace MassiveGame.Core.GameCore.Entities
         {
             base.GetObjectData(info, context);
 
-            var texturePath = PoolProxy.GetResourceKey<ObtainTexturePool, string, ITexture>(m_texture);
-            var normalTexPath = PoolProxy.GetResourceKey<ObtainTexturePool, string, ITexture>(m_normalMap);
-            var specularTexPath = PoolProxy.GetResourceKey<ObtainTexturePool, string, ITexture>(m_specularMap);
-            var skinPath = PoolProxy.GetResourceKey<ObtainModelPool, string, Skin>(m_skin);
+            var texturePath = PoolProxy.GetResourceKey<GetTexturePool, string, ITexture>(m_texture);
+            var normalTexPath = PoolProxy.GetResourceKey<GetTexturePool, string, ITexture>(m_normalMap);
+            var specularTexPath = PoolProxy.GetResourceKey<GetTexturePool, string, ITexture>(m_specularMap);
+            var skinPath = PoolProxy.GetResourceKey<GetModelPool, string, Skin>(m_skin);
 
             info.AddValue("albedo", texturePath);
             info.AddValue("normalMap", normalTexPath);
@@ -126,10 +126,10 @@ namespace MassiveGame.Core.GameCore.Entities
         private void InitResources(string modelPath, string texturePath, string normalMapPath, string specularMapPath)
         {
             m_lightVisibilityMap = new BoolMap();
-            m_texture = PoolProxy.GetResource<ObtainTexturePool, TextureAllocationPolicy, string, ITexture>(texturePath);
-            m_normalMap = PoolProxy.GetResource<ObtainTexturePool, TextureAllocationPolicy, string, ITexture>(normalMapPath);
-            m_specularMap = PoolProxy.GetResource<ObtainTexturePool, TextureAllocationPolicy, string, ITexture>(specularMapPath);
-            m_skin = PoolProxy.GetResource<ObtainModelPool, ModelAllocationPolicy, string, Skin>(modelPath);
+            m_texture = PoolProxy.GetResource<GetTexturePool, TextureAllocationPolicy, string, ITexture>(texturePath);
+            m_normalMap = PoolProxy.GetResource<GetTexturePool, TextureAllocationPolicy, string, ITexture>(normalMapPath);
+            m_specularMap = PoolProxy.GetResource<GetTexturePool, TextureAllocationPolicy, string, ITexture>(specularMapPath);
+            m_skin = PoolProxy.GetResource<GetModelPool, ModelAllocationPolicy, string, Skin>(modelPath);
             InitShader();
         }
 
@@ -310,10 +310,10 @@ namespace MassiveGame.Core.GameCore.Entities
 
         public virtual void CleanUp()
         {
-            PoolProxy.FreeResourceMemory<ObtainTexturePool, TextureAllocationPolicy, string, ITexture>(m_texture);
-            PoolProxy.FreeResourceMemory<ObtainTexturePool, TextureAllocationPolicy, string, ITexture>(m_normalMap);
-            PoolProxy.FreeResourceMemory<ObtainTexturePool, TextureAllocationPolicy, string, ITexture>(m_specularMap);
-            PoolProxy.FreeResourceMemory<ObtainModelPool, ModelAllocationPolicy, string, Skin>(m_skin);
+            PoolProxy.FreeResourceMemory<GetTexturePool, TextureAllocationPolicy, string, ITexture>(m_texture);
+            PoolProxy.FreeResourceMemory<GetTexturePool, TextureAllocationPolicy, string, ITexture>(m_normalMap);
+            PoolProxy.FreeResourceMemory<GetTexturePool, TextureAllocationPolicy, string, ITexture>(m_specularMap);
+            PoolProxy.FreeResourceMemory<GetModelPool, ModelAllocationPolicy, string, Skin>(m_skin);
             FreeShader();
         }
 

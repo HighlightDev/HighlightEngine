@@ -31,7 +31,7 @@ namespace MassiveGame.Core.GameCore.Entities.Skeletal_Entities
             if (m_skin as AnimatedSkin == null)
                 throw new ArgumentException("Mesh that is loaded doesn't support animation.");
 
-            m_animations = PoolProxy.GetResource<ObtainAnimationPool, AnimationAllocationPolicy, string, List<AnimationSequence>>(modelPath);
+            m_animations = PoolProxy.GetResource<GetAnimationPool, AnimationAllocationPolicy, string, List<AnimationSequence>>(modelPath);
 
             return true;
         }
@@ -52,12 +52,12 @@ namespace MassiveGame.Core.GameCore.Entities.Skeletal_Entities
 
         protected override void FreeShader()
         {
-            PoolProxy.FreeResourceMemory<ObtainShaderPool, ShaderAllocationPolicy<SkeletalMeshEntityShader>, string, SkeletalMeshEntityShader>(GetShader());
+            PoolProxy.FreeResourceMemory<GetShaderPool, ShaderAllocationPolicy<SkeletalMeshEntityShader>, string, SkeletalMeshEntityShader>(GetShader());
         }
 
         protected override void InitShader()
         {
-            m_shader = PoolProxy.GetResource<ObtainShaderPool, ShaderAllocationPolicy<SkeletalMeshEntityShader>, string, SkeletalMeshEntityShader>(ProjectFolders.ShadersPath + "skeletalMeshVS.glsl" + "," + ProjectFolders.ShadersPath + "skeletalMeshFS.glsl");
+            m_shader = PoolProxy.GetResource<GetShaderPool, ShaderAllocationPolicy<SkeletalMeshEntityShader>, string, SkeletalMeshEntityShader>(ProjectFolders.ShadersPath + "skeletalMeshVS.glsl" + "," + ProjectFolders.ShadersPath + "skeletalMeshFS.glsl");
         }
 
         private void postConstructor()

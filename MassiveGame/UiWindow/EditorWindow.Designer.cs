@@ -43,8 +43,9 @@
             this.GLControl.BackColor = System.Drawing.Color.Black;
             this.GLControl.Dock = System.Windows.Forms.DockStyle.Fill;
             this.GLControl.Location = new System.Drawing.Point(0, 0);
+            this.GLControl.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
             this.GLControl.Name = "GLControl";
-            this.GLControl.Size = new System.Drawing.Size(1218, 729);
+            this.GLControl.Size = new System.Drawing.Size(1624, 897);
             this.GLControl.TabIndex = 0;
             this.GLControl.VSync = false;
             this.GLControl.Paint += new System.Windows.Forms.PaintEventHandler(this.OnRender);
@@ -61,17 +62,19 @@
             // 
             this.panel2.Controls.Add(this.elementHost1);
             this.panel2.Dock = System.Windows.Forms.DockStyle.Right;
-            this.panel2.Location = new System.Drawing.Point(937, 0);
+            this.panel2.Location = new System.Drawing.Point(1249, 0);
+            this.panel2.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(281, 729);
+            this.panel2.Size = new System.Drawing.Size(375, 897);
             this.panel2.TabIndex = 1;
             // 
             // elementHost1
             // 
             this.elementHost1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.elementHost1.Location = new System.Drawing.Point(0, 0);
+            this.elementHost1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.elementHost1.Name = "elementHost1";
-            this.elementHost1.Size = new System.Drawing.Size(281, 729);
+            this.elementHost1.Size = new System.Drawing.Size(375, 897);
             this.elementHost1.TabIndex = 0;
             this.elementHost1.Text = "elementHost1";
             this.elementHost1.ChildChanged += new System.EventHandler<System.Windows.Forms.Integration.ChildChangedEventArgs>(this.elementHost1_ChildChanged);
@@ -83,17 +86,19 @@
             this.panel1.Controls.Add(this.GLControl);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel1.Location = new System.Drawing.Point(0, 0);
+            this.panel1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(1218, 729);
+            this.panel1.Size = new System.Drawing.Size(1624, 897);
             this.panel1.TabIndex = 1;
             // 
             // EditorWindow
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1218, 729);
+            this.ClientSize = new System.Drawing.Size(1624, 897);
             this.Controls.Add(this.panel1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.Name = "EditorWindow";
             this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
             this.Text = "Highlight Engine";

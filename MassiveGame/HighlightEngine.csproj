@@ -136,11 +136,11 @@
     <Compile Include="API\ResourcePool\Policies\TextureAllocationPolicy.cs" />
     <Compile Include="API\ResourcePool\PoolCollector.cs" />
     <Compile Include="API\ResourcePool\PoolHandling\IPoolObtainable.cs" />
-    <Compile Include="API\ResourcePool\PoolHandling\ObtainAnimationPool.cs" />
-    <Compile Include="API\ResourcePool\PoolHandling\ObtainModelPool.cs" />
-    <Compile Include="API\ResourcePool\PoolHandling\ObtainRenderTargetPool.cs" />
-    <Compile Include="API\ResourcePool\PoolHandling\ObtainShaderPool.cs" />
-    <Compile Include="API\ResourcePool\PoolHandling\ObtainTexturePool.cs" />
+    <Compile Include="API\ResourcePool\PoolHandling\GetAnimationPool.cs" />
+    <Compile Include="API\ResourcePool\PoolHandling\GetModelPool.cs" />
+    <Compile Include="API\ResourcePool\PoolHandling\GetRenderTargetPool.cs" />
+    <Compile Include="API\ResourcePool\PoolHandling\GetShaderPool.cs" />
+    <Compile Include="API\ResourcePool\PoolHandling\GetTexturePool.cs" />
     <Compile Include="API\ResourcePool\PoolProxy.cs" />
     <Compile Include="API\ResourcePool\Pools\AnimationPool.cs" />
     <Compile Include="API\ResourcePool\Pools\ModelPool.cs" />
@@ -201,10 +201,11 @@
     <Compile Include="Core\MathCore\MathTypes\FSphere.cs" />
     <Compile Include="Core\MathCore\MathTypes\OBB.cs" />
     <Compile Include="Debug\UiPanel\UiFrameMaster.cs" />
-    <Compile Include="EngineEditor\Core\Entities\DefaultEntity.cs" />
-    <Compile Include="EngineEditor\Core\Entities\DefaultEntityShader.cs" />
+    <Compile Include="EngineEditor\Core\Entities\PreviewEntity.cs" />
+    <Compile Include="EngineEditor\Core\Entities\PreviewEntityShader.cs" />
     <Compile Include="EngineEditor\Core\Entities\WorldGrid.cs" />
     <Compile Include="EngineEditor\Core\Entities\WorldGridShader.cs" />
+    <Compile Include="EngineEditor\Core\UiContent\EngineObjectEntryView.cs" />
     <Compile Include="Engine\EngineCore.cs" />
     <Compile Include="Engine\GameThread.cs" />
     <Compile Include="Engine\RenderThread.cs" />
@@ -334,6 +335,8 @@
     <Compile Include="Core\GameCore\Water\WaterShader.cs" />
     <None Include="Shaders\gridFS.glsl" />
     <None Include="Shaders\gridVS.glsl" />
+    <None Include="Shaders\previewEntityFS.glsl" />
+    <None Include="Shaders\previewEntityVS.glsl" />
     <None Include="Shaders\skeletonFS.glsl" />
     <None Include="Shaders\skeletonVS.glsl" />
   </ItemGroup>
@@ -483,6 +486,7 @@
     <Content Include="Audio\material\actor\step\wav\new_wood4.wav" />
     <Content Include="Debug\ProjectLogs.txt" />
     <Content Include="Textures\EditorTextures\grid.png" />
+    <Content Include="Textures\EditorTextures\icon2.png" />
     <Content Include="Textures\GrassTextures\fern.png" />
     <Content Include="Textures\GrassTextures\grass%28mono%29.png" />
     <Content Include="Textures\GrassTextures\grass1%28mono%29.png" />

@@ -1,0 +1,13 @@
+D:\VisualStudioProjects\HighlightEngine\WpfControlLibrary1\bin\Debug\WpfControlLibrary1.dll
+D:\VisualStudioProjects\HighlightEngine\WpfControlLibrary1\bin\Debug\WpfControlLibrary1.pdb
+D:\VisualStudioProjects\HighlightEngine\WpfControlLibrary1\obj\Debug\WpfEngineControlsLibrary.csprojAssemblyReference.cache
+D:\VisualStudioProjects\HighlightEngine\WpfControlLibrary1\obj\Debug\EngineEntityListBox.g.cs
+D:\VisualStudioProjects\HighlightEngine\WpfControlLibrary1\obj\Debug\WpfControlLibrary1_MarkupCompile.cache
+D:\VisualStudioProjects\HighlightEngine\WpfControlLibrary1\obj\Debug\WpfControlLibrary1_MarkupCompile.lref
+D:\VisualStudioProjects\HighlightEngine\WpfControlLibrary1\obj\Debug\EngineEntityListBox.baml
+D:\VisualStudioProjects\HighlightEngine\WpfControlLibrary1\obj\Debug\WpfControlLibrary1.g.resources
+D:\VisualStudioProjects\HighlightEngine\WpfControlLibrary1\obj\Debug\WpfControlLibrary1.Properties.Resources.resources
+D:\VisualStudioProjects\HighlightEngine\WpfControlLibrary1\obj\Debug\WpfEngineControlsLibrary.csproj.GenerateResource.cache
+D:\VisualStudioProjects\HighlightEngine\WpfControlLibrary1\obj\Debug\WpfEngineControlsLibrary.csproj.CoreCompileInputs.cache
+D:\VisualStudioProjects\HighlightEngine\WpfControlLibrary1\obj\Debug\WpfControlLibrary1.dll
+D:\VisualStudioProjects\HighlightEngine\WpfControlLibrary1\obj\Debug\WpfControlLibrary1.pdb

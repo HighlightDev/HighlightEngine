@@ -76,9 +76,9 @@ namespace MassiveGame.Core.GameCore
         [NonSerialized]
         private PlantReadyMaster m_plant;
 
-#endregion
+        #endregion
 
-#region public_properties
+        #region public_properties
 
 #if DEBUG || ENGINE_EDITOR
         public PointLightsDebugRenderer PointLightDebugRenderer { set { m_pointLightDebugRenderer = value; } get { return m_pointLightDebugRenderer; } }
@@ -90,9 +90,9 @@ namespace MassiveGame.Core.GameCore
 
         public Vector2 LevelSize { set { LevelSize1 = value; } get { return LevelSize1; } }
 
-        public ObserverListWrapper<PointLight> PointLightCollection { set { PointLightCollection1 = value; }  get { return PointLightCollection1; } }
+        public ObserverListWrapper<PointLight> PointLightCollection { set { PointLightCollection1 = value; } get { return PointLightCollection1; } }
 
-        public ObserverWrapper<MovableMeshEntity> Player { set { m_player = value; }  get { return m_player; } }
+        public ObserverWrapper<MovableMeshEntity> Player { set { m_player = value; } get { return m_player; } }
 
         public ObserverListWrapper<MovableMeshEntity> Bots { set { m_bots = value; } get { return m_bots; } }
 
@@ -118,7 +118,7 @@ namespace MassiveGame.Core.GameCore
 
 #if ENGINE_EDITOR
         public MousePicker Picker { set; get; }
-        public WorldGrid EditorGrid { set { m_worldGrid = value ; } get { return m_worldGrid; } }
+        public WorldGrid EditorGrid { set { m_worldGrid = value; } get { return m_worldGrid; } }
 #endif
 
         // TODO -> not yet ready for serialization
@@ -130,9 +130,9 @@ namespace MassiveGame.Core.GameCore
         public Vector2 LevelSize2 { get => m_levelSize; set => m_levelSize = value; }
         public ObserverListWrapper<PointLight> PointLightCollection1 { get => m_pointLightCollection; set => m_pointLightCollection = value; }
 
-#endregion
+        #endregion
 
-#region Constructor
+        #region Constructor
 
         public Level(Vector2 levelSize, string levelName)
         {
@@ -150,9 +150,9 @@ namespace MassiveGame.Core.GameCore
 #endif
         }
 
-#endregion
+        #endregion
 
-#region Serialization
+        #region Serialization
 
         void IPostDeserializable.PostDeserializeInit()
         {
@@ -227,7 +227,7 @@ namespace MassiveGame.Core.GameCore
             PointLightCollection1 = info.GetValue("m_pointLightCollection", typeof(ObserverListWrapper<PointLight>)) as ObserverListWrapper<PointLight>;
             m_directionalLight = info.GetValue("m_directionalLight", typeof(DirectionalLight)) as DirectionalLight;
             m_camera = info.GetValue("m_camera", typeof(BaseCamera)) as BaseCamera;
-            m_dayLightCycle = info.GetValue ("m_dayLightCycle", typeof(DayLightCycle)) as DayLightCycle;
+            m_dayLightCycle = info.GetValue("m_dayLightCycle", typeof(DayLightCycle)) as DayLightCycle;
             m_mistComponent = info.GetValue("m_mistComponent", typeof(MistComponent)) as MistComponent;
             m_terrain = info.GetValue("m_terrain", typeof(ObserverWrapper<Landscape>)) as ObserverWrapper<Landscape>;
             m_staticMeshCollection = info.GetValue("m_staticMeshCollection", typeof(ObserverListWrapper<Building>)) as ObserverListWrapper<Building>;
@@ -235,9 +235,9 @@ namespace MassiveGame.Core.GameCore
             m_bots = info.GetValue("m_bots", typeof(ObserverListWrapper<MovableMeshEntity>)) as ObserverListWrapper<MovableMeshEntity>;
             m_skybox = info.GetValue("m_skybox", typeof(SkyboxEntity)) as SkyboxEntity;
             m_waterPlane = info.GetValue("m_waterPlane", typeof(ObserverWrapper<WaterPlane>)) as ObserverWrapper<WaterPlane>;
-            m_sunRenderer= info.GetValue("m_sunRenderer", typeof(ObserverWrapper<SunRenderer>)) as ObserverWrapper<SunRenderer>;
+            m_sunRenderer = info.GetValue("m_sunRenderer", typeof(ObserverWrapper<SunRenderer>)) as ObserverWrapper<SunRenderer>;
         }
 
-#endregion
+        #endregion
     }
 }

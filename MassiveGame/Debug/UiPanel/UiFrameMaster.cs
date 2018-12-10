@@ -122,7 +122,7 @@ namespace MassiveGame.Debug.UiPanel
             {
                 _buffer = ScreenQuad.GetScreenQuadBuffer();
 
-                _shader = PoolProxy.GetResource<ObtainShaderPool, ShaderAllocationPolicy<UiFrameShader>, string, UiFrameShader>(ProjectFolders.ShadersPath + "uiVS.glsl," + ProjectFolders.ShadersPath + "uiFS.glsl");
+                _shader = PoolProxy.GetResource<GetShaderPool, ShaderAllocationPolicy<UiFrameShader>, string, UiFrameShader>(ProjectFolders.ShadersPath + "uiVS.glsl," + ProjectFolders.ShadersPath + "uiFS.glsl");
                 _postConstructor = false;
 
             }
@@ -132,7 +132,7 @@ namespace MassiveGame.Debug.UiPanel
 
         public void CleanUp()
         {
-            PoolProxy.FreeResourceMemory<ObtainShaderPool, ShaderAllocationPolicy<UiFrameShader>, string, UiFrameShader>(_shader);
+            PoolProxy.FreeResourceMemory<GetShaderPool, ShaderAllocationPolicy<UiFrameShader>, string, UiFrameShader>(_shader);
         }
 
         #endregion

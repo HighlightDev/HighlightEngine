@@ -35,7 +35,7 @@ namespace MassiveGame.Core.RenderCore.PostFX.Bloom
             if (bPostConstructor)
             {
                 renderTarget = new BloomFramebufferObject();
-                bloomShader = PoolProxy.GetResource<ObtainShaderPool, ShaderAllocationPolicy<BloomShader<SubsequenceType>>, string, BloomShader<SubsequenceType>>(ProjectFolders.ShadersPath + "bloomVS.glsl" + "," + ProjectFolders.ShadersPath + "bloomFS.glsl");
+                bloomShader = PoolProxy.GetResource<GetShaderPool, ShaderAllocationPolicy<BloomShader<SubsequenceType>>, string, BloomShader<SubsequenceType>>(ProjectFolders.ShadersPath + "bloomVS.glsl" + "," + ProjectFolders.ShadersPath + "bloomFS.glsl");
                 bPostConstructor = false;
             }
         }
@@ -103,7 +103,7 @@ namespace MassiveGame.Core.RenderCore.PostFX.Bloom
         public override void CleanUp()
         {
             renderTarget.cleanUp();
-            PoolProxy.FreeResourceMemory<ObtainShaderPool, ShaderAllocationPolicy<BloomShader<SubsequenceType>>, string, BloomShader<SubsequenceType>>(bloomShader);
+            PoolProxy.FreeResourceMemory<GetShaderPool, ShaderAllocationPolicy<BloomShader<SubsequenceType>>, string, BloomShader<SubsequenceType>>(bloomShader);
         }
     }
 }
