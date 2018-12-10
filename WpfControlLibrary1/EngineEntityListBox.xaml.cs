@@ -28,7 +28,8 @@ namespace WpfControlLibrary1
         #region User Control acquisition methods
 
         // this 
-        public event Action<string> MouseDownEventFire;
+        public event Action<string> EntryStackPanelMouseDownEventFire;
+        public event Action<string> ModelLoadButtonMouseDownEventFire;
 
         public Border GetEntryBorder()
         {
@@ -48,20 +49,36 @@ namespace WpfControlLibrary1
 
         #endregion
 
-        
-        private string GetLabelContentFromPanel(object stackPanel)
+
+        private string GetLabelContentFromPanel(StackPanel stackPanel)
         {
             string labelContent = null;
-            StackPanel senderStackPanel = stackPanel as StackPanel;
-            Label innerLabel = senderStackPanel.Children[1] as Label;
+            Label innerLabel = stackPanel.Children[1] as Label;
             labelContent = innerLabel.Content as string;
             return labelContent;
         }
 
+        private void SelectModelButton_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            ModelLoadButtonMouseDownEventFire?.Invoke("");
+        }
+
         private void StackPanel_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            string labelContent = GetLabelContentFromPanel(sender);
-            MouseDownEventFire?.Invoke(labelContent);
+            StackPanel senderStackPanel = sender as StackPanel;
+            string labelContent = GetLabelContentFromPanel(senderStackPanel);
+            EntryStackPanelMouseDownEventFire?.Invoke(labelContent);
+
+            object prop = senderStackPanel.FindName("PropsStackPanel");
+            var propsStack = prop as StackPanel;
+            if (propsStack.Visibility == Visibility.Collapsed)
+            {
+                propsStack.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                propsStack.Visibility = Visibility.Collapsed;
+            }
         }
 
         private void ScrollViewer_MouseEnter(object sender, MouseEventArgs e)

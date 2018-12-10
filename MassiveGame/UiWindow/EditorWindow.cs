@@ -243,7 +243,7 @@ namespace MassiveGame.UI
             engineView.TestCreateEntries();
 
             userControl11.DataContext = engineView;
-            userControl11.MouseDownEventFire += new Action<string>(MeshListBoxEventCatched);
+            userControl11.EntryStackPanelMouseDownEventFire += new Action<string>(MeshListBoxEventCatched);
         }
 
         private void MeshListBoxEventCatched(string entity)

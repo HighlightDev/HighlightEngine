@@ -9,25 +9,78 @@
     <Grid>
         <ScrollViewer x:Name="scrollViewer" Grid.Row="1" HorizontalAlignment="Left" 
                   VerticalScrollBarVisibility="Hidden" HorizontalScrollBarVisibility="Hidden" MouseEnter="ScrollViewer_MouseEnter">
-            <StackPanel HorizontalAlignment = "Left">
+            
+            <!-- Whole list stack -->
+            <StackPanel Orientation="Vertical" HorizontalAlignment = "Left">
 
                 <ItemsControl ItemsSource = "{Binding Path = EngineObjectEntries}">
 
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
-                            <Border x:Name="border" BorderThickness="2">
-                                <StackPanel x:Name="ContentStackPanel" Orientation = "Horizontal" Background="Black" MouseDown="StackPanel_MouseDown" Width="500" Margin="0, 0, 0, 0">
-                                    <Image x:Name="entryImage"
+                            <Border x:Name="border" BorderThickness="2" >
+                                <Border.BorderBrush>
+                                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                                        <GradientStop Offset="0" Color="#FF3C2020"/>
+                                        <GradientStop Offset="1" Color="#FF830000"/>
+                                    </LinearGradientBrush>
+                                </Border.BorderBrush>
+                                <StackPanel>
+                                    
+                                    <!-- Entry content stack -->
+                                    <StackPanel x:Name="ContentStackPanel" Orientation = "Horizontal" Background="Black" MouseDown="StackPanel_MouseDown" Width="500" Margin="0, 0, 0, 0">
+                                        <Image x:Name="entryImage"
                                HorizontalAlignment="Left"
                                Margin="0, 0, 50, 0"
                                VerticalAlignment="Center"
                                Source="{Binding Path = IconURI, Mode = TwoWay}"/>
-                                    <Label x:Name="entryLabel" Content="{Binding Path = EntryLabel, Mode = TwoWay}"
-                            HorizontalAlignment="Left"
+
+                                        <Label x:Name="entryLabel" Content="{Binding Path = EntryLabel, Mode = TwoWay}"
+                               HorizontalAlignment="Left"
                                VerticalAlignment="Center" 
                                Foreground="#FF852929" 
                                FontSize="15" 
-                               Margin="50,0,10,0"/>
+                               Margin="0,0,10,0"/>
+                                        
+                                    </StackPanel>
+
+                                    <!-- Stack of properties of engine object -->
+                                    <StackPanel x:Name="PropsStackPanel" Orientation="Vertical" Visibility="Collapsed" Background="Black" Width="500" Height="300" Margin="0, 0, 0, 0">
+
+                                        <Border x:Name="propsBorder" BorderThickness="1" >
+                                            <Border.BorderBrush>
+                                                <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                                                    <GradientStop Offset="0" Color="#FF3C2020"/>
+                                                    <GradientStop Offset="1" Color="#FF830000"/>
+                                                </LinearGradientBrush>
+                                            </Border.BorderBrush>
+
+                                            <StackPanel x:Name="PropsListContent" Orientation="Vertical" Background="Black" Width="500" >
+
+                                                <StackPanel Orientation = "Horizontal" HorizontalAlignment="Stretch" Background="Black" Margin="0, 0, 0, 0">
+
+                                                    <Label x:Name="modelLabel" Content="{Binding Path = ModelLabel, Mode = TwoWay}"  
+                                                   HorizontalAlignment="Left"
+                                                   VerticalAlignment="Center" 
+                                                   Foreground="#FF852929" 
+                                                   FontSize="13"  />
+                                                    <Button x:Name="selectModelButton" Content="Select model" HorizontalAlignment="Right" MouseDown="SelectModelButton_MouseDown"/>
+
+                                                </StackPanel>
+
+                                                <StackPanel Orientation = "Horizontal" VerticalAlignment="Center" Background="Black" Width="500" Margin="0, 0, 0, 0">
+
+                                                    <Label x:Name="albedoTextureLabel" Content="{Binding Path = AlbedoTextureLabel, Mode =TwoWay}"
+                                                   HorizontalAlignment="Left"
+                                                   VerticalAlignment="Center" 
+                                                   Foreground="#FF852929" 
+                                                   FontSize="13"  />
+
+                                                </StackPanel>
+
+                                            </StackPanel>
+                                        </Border>
+                                    </StackPanel>
+
                                 </StackPanel>
                             </Border>
                         </DataTemplate>

@@ -4,7 +4,6 @@ C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\HighlightEn
 C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\HighlightEngineUI\obj\Release\MainWindow.g.cs
 C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\HighlightEngineUI\obj\Release\App.g.cs
 C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\HighlightEngineUI\obj\Release\HighlightEngineUI_MarkupCompile.cache
-C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\HighlightEngineUI\obj\Release\HighlightEngineUI_MarkupCompile.lref
 C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\HighlightEngineUI\obj\Release\HighlightEngineUI.g.resources
 C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\HighlightEngineUI\obj\Release\HighlightEngineUI.Properties.Resources.resources
 C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\HighlightEngineUI\obj\Release\HighlightEngineUI.csproj.GenerateResource.cache
