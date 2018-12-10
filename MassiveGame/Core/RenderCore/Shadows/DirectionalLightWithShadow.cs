@@ -138,13 +138,13 @@ namespace MassiveGame.Core.RenderCore.Shadows
 
         public void AllocateRenderTarget(TextureParameters shadowMapSettings)
         {
-            m_shadowMapTexture = PoolProxy.GetResource<GetRenderTargetPool, RenderTargetAllocationPolicy, TextureParameters, ITexture>(shadowMapSettings);
+            m_shadowMapTexture = PoolProxy.GetResource<ObtainRenderTargetPool, RenderTargetAllocationPolicy, TextureParameters, ITexture>(shadowMapSettings);
             m_framebufferHandler = GL.GenFramebuffer();
         }
 
         public void DeallocateRenderTarget()
         {
-            PoolProxy.FreeResourceMemory<GetRenderTargetPool, RenderTargetAllocationPolicy, TextureParameters, ITexture>(m_shadowMapTexture);
+            PoolProxy.FreeResourceMemory<ObtainRenderTargetPool, RenderTargetAllocationPolicy, TextureParameters, ITexture>(m_shadowMapTexture);
             GL.DeleteFramebuffer(m_framebufferHandler);
         }
 
@@ -173,7 +173,7 @@ namespace MassiveGame.Core.RenderCore.Shadows
 
         private void InitResources(TextureParameters ShadowMapSettings)
         {
-            m_shadowShader = PoolProxy.GetResource<GetShaderPool, ShaderAllocationPolicy<BasicShadowShader>, string, BasicShadowShader>(string.Format("{0}basicShadowVS.glsl,{0}basicShadowFS.glsl", ProjectFolders.ShadersPath));
+            m_shadowShader = PoolProxy.GetResource<ObtainShaderPool, ShaderAllocationPolicy<BasicShadowShader>, string, BasicShadowShader>(string.Format("{0}basicShadowVS.glsl,{0}basicShadowFS.glsl", ProjectFolders.ShadersPath));
             AllocateRenderTarget(ShadowMapSettings);
             PrepareRenderTarget();
         }

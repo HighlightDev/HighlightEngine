@@ -21,8 +21,8 @@ namespace MassiveGame.EngineEditor.Core.Entities
         public WorldGrid(float farPlaneDistance)
         {
             m_farPlaneDistance = farPlaneDistance;
-            m_shader = PoolProxy.GetResource<GetShaderPool, ShaderAllocationPolicy<WorldGridShader>, string, WorldGridShader>(string.Format("{0}gridVS.glsl,{0}gridFS.glsl", ProjectFolders.ShadersPath));
-            m_gridTexture = PoolProxy.GetResource<GetTexturePool, TextureAllocationPolicy, string, ITexture>(ProjectFolders.EditorTexturePath + "grid.png");
+            m_shader = PoolProxy.GetResource<ObtainShaderPool, ShaderAllocationPolicy<WorldGridShader>, string, WorldGridShader>(string.Format("{0}gridVS.glsl,{0}gridFS.glsl", ProjectFolders.ShadersPath));
+            m_gridTexture = PoolProxy.GetResource<ObtainTexturePool, TextureAllocationPolicy, string, ITexture>(ProjectFolders.EditorTexturePath + "grid.png");
 
             m_vao = new VertexArrayObject();
             GenQuadAttributes(ref m_vao);

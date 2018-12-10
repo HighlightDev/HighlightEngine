@@ -39,7 +39,7 @@ namespace MassiveGame.Core.GameCore.Skybox
         {
             if (m_bPostConstructor)
             {
-                m_shader = PoolProxy.GetResource<GetShaderPool, ShaderAllocationPolicy<SkyboxShader>, string, SkyboxShader>(ProjectFolders.ShadersPath + "skyboxVS.glsl" + "," +
+                m_shader = PoolProxy.GetResource<ObtainShaderPool, ShaderAllocationPolicy<SkyboxShader>, string, SkyboxShader>(ProjectFolders.ShadersPath + "skyboxVS.glsl" + "," +
                     ProjectFolders.ShadersPath + "skyboxFS.glsl");
 
                 float[,] vertices = new float[6 * 6, 3] { { -SKYBOX_SIZE, SKYBOX_SIZE, -SKYBOX_SIZE }, { -SKYBOX_SIZE, -SKYBOX_SIZE, -SKYBOX_SIZE }, { SKYBOX_SIZE, -SKYBOX_SIZE, -SKYBOX_SIZE },
@@ -71,9 +71,9 @@ namespace MassiveGame.Core.GameCore.Skybox
         private void Init(string[] dayTextures, string[] nightTextures)
         {
             m_moveFactor = 0.0f;
-            m_skyboxDayTexture = PoolProxy.GetResource<GetTexturePool, TextureAllocationPolicy, string, ITexture>(dayTextures[0] + "," + dayTextures[1] + "," + dayTextures[2] + "," +
+            m_skyboxDayTexture = PoolProxy.GetResource<ObtainTexturePool, TextureAllocationPolicy, string, ITexture>(dayTextures[0] + "," + dayTextures[1] + "," + dayTextures[2] + "," +
                dayTextures[3] + "," + dayTextures[4] + "," + dayTextures[5]);
-            m_skyboxNightTexture = PoolProxy.GetResource<GetTexturePool, TextureAllocationPolicy, string, ITexture>(nightTextures[0] + "," + nightTextures[1] + "," + nightTextures[2] + "," +
+            m_skyboxNightTexture = PoolProxy.GetResource<ObtainTexturePool, TextureAllocationPolicy, string, ITexture>(nightTextures[0] + "," + nightTextures[1] + "," + nightTextures[2] + "," +
                 nightTextures[3] + "," + nightTextures[4] + "," + nightTextures[5]);
             m_bPostConstructor = true;
         }
@@ -97,8 +97,8 @@ namespace MassiveGame.Core.GameCore.Skybox
 
         public void GetObjectData(SerializationInfo info, StreamingContext context)
         {
-            string dayTexturesPath = PoolProxy.GetResourceKey<GetTexturePool, string, ITexture>(m_skyboxDayTexture);
-            string nightTexturesPath = PoolProxy.GetResourceKey<GetTexturePool, string, ITexture>(m_skyboxNightTexture);
+            string dayTexturesPath = PoolProxy.GetResourceKey<ObtainTexturePool, string, ITexture>(m_skyboxDayTexture);
+            string nightTexturesPath = PoolProxy.GetResourceKey<ObtainTexturePool, string, ITexture>(m_skyboxNightTexture);
 
             info.AddValue("m_skyboxDayTexture", dayTexturesPath);
             info.AddValue("m_skyboxNightTexture", nightTexturesPath);
@@ -183,10 +183,10 @@ namespace MassiveGame.Core.GameCore.Skybox
 
         public void cleanUp()
         {
-            PoolProxy.FreeResourceMemory<GetShaderPool, ShaderAllocationPolicy<SkyboxShader>, string, SkyboxShader>(m_shader);
+            PoolProxy.FreeResourceMemory<ObtainShaderPool, ShaderAllocationPolicy<SkyboxShader>, string, SkyboxShader>(m_shader);
             m_buffer.CleanUp();
-            PoolProxy.FreeResourceMemory<GetTexturePool, TextureAllocationPolicy, string, ITexture>(m_skyboxDayTexture);
-            PoolProxy.FreeResourceMemory<GetTexturePool, TextureAllocationPolicy, string, ITexture>(m_skyboxNightTexture);
+            PoolProxy.FreeResourceMemory<ObtainTexturePool, TextureAllocationPolicy, string, ITexture>(m_skyboxDayTexture);
+            PoolProxy.FreeResourceMemory<ObtainTexturePool, TextureAllocationPolicy, string, ITexture>(m_skyboxNightTexture);
         }
 
         #endregion

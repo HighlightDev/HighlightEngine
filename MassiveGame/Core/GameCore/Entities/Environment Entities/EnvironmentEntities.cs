@@ -45,7 +45,7 @@ namespace MassiveGame.Core.GameCore.Entities.EnvironmentEntities
             Vector3 translation = new Vector3(), Vector3 rotation = new Vector3(), Vector3 scale = new Vector3())
             : base(modelPath, texturePath, normalMapPath, specularMapPath, translation, rotation, scale)
         { 
-            this.m_envMap = PoolProxy.GetResource<GetTexturePool, TextureAllocationPolicy, string, ITexture>(cubemapEnvMap[0] + "," + cubemapEnvMap[1] + "," + cubemapEnvMap[2] + "," +
+            this.m_envMap = PoolProxy.GetResource<ObtainTexturePool, TextureAllocationPolicy, string, ITexture>(cubemapEnvMap[0] + "," + cubemapEnvMap[1] + "," + cubemapEnvMap[2] + "," +
                 cubemapEnvMap[3] + "," + cubemapEnvMap[4] + "," + cubemapEnvMap[5]);
         }
 
@@ -61,18 +61,18 @@ namespace MassiveGame.Core.GameCore.Entities.EnvironmentEntities
         public override void CleanUp()
         {
             base.CleanUp();
-            PoolProxy.FreeResourceMemory<GetTexturePool, TextureAllocationPolicy, string, ITexture>(m_texture);
-            PoolProxy.FreeResourceMemory<GetTexturePool, TextureAllocationPolicy, string, ITexture>(m_envMap);
+            PoolProxy.FreeResourceMemory<ObtainTexturePool, TextureAllocationPolicy, string, ITexture>(m_texture);
+            PoolProxy.FreeResourceMemory<ObtainTexturePool, TextureAllocationPolicy, string, ITexture>(m_envMap);
         }
 
         protected override void InitShader()
         {
-            m_shader = PoolProxy.GetResource<GetShaderPool, ShaderAllocationPolicy<EnvironmentEntitiesShader>, string, EnvironmentEntitiesShader>(ProjectFolders.ShadersPath + "envVS.glsl" + "," + ProjectFolders.ShadersPath + "envFS.glsl");
+            m_shader = PoolProxy.GetResource<ObtainShaderPool, ShaderAllocationPolicy<EnvironmentEntitiesShader>, string, EnvironmentEntitiesShader>(ProjectFolders.ShadersPath + "envVS.glsl" + "," + ProjectFolders.ShadersPath + "envFS.glsl");
         }
 
         protected override void FreeShader()
         {
-            PoolProxy.FreeResourceMemory<GetShaderPool, ShaderAllocationPolicy<EnvironmentEntitiesShader>, string, EnvironmentEntitiesShader>(GetShader());
+            PoolProxy.FreeResourceMemory<ObtainShaderPool, ShaderAllocationPolicy<EnvironmentEntitiesShader>, string, EnvironmentEntitiesShader>(GetShader());
         }
 
         #endregion

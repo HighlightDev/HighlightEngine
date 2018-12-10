@@ -54,7 +54,7 @@ namespace MassiveGame.Core.RenderCore.PostFX.DepthOfField
             if (bPostConstructor)
             {
                 renderTarget = new DepthOfFieldFramebufferObject();
-                dofShader = PoolProxy.GetResource<GetShaderPool, ShaderAllocationPolicy<DepthOfFieldShader<SubsequenceType>>, string, DepthOfFieldShader<SubsequenceType>>(ProjectFolders.ShadersPath + "depthOfFieldVS.glsl" + "," + ProjectFolders.ShadersPath + "depthOfFieldFS.glsl");
+                dofShader = PoolProxy.GetResource<ObtainShaderPool, ShaderAllocationPolicy<DepthOfFieldShader<SubsequenceType>>, string, DepthOfFieldShader<SubsequenceType>>(ProjectFolders.ShadersPath + "depthOfFieldVS.glsl" + "," + ProjectFolders.ShadersPath + "depthOfFieldFS.glsl");
 
                 bPostConstructor = false;
             }
@@ -127,7 +127,7 @@ namespace MassiveGame.Core.RenderCore.PostFX.DepthOfField
 
         public override void CleanUp()
         {
-            PoolProxy.FreeResourceMemory<GetShaderPool, ShaderAllocationPolicy<DepthOfFieldShader<SubsequenceType>>, string, DepthOfFieldShader<SubsequenceType>>(dofShader);
+            PoolProxy.FreeResourceMemory<ObtainShaderPool, ShaderAllocationPolicy<DepthOfFieldShader<SubsequenceType>>, string, DepthOfFieldShader<SubsequenceType>>(dofShader);
             renderTarget.cleanUp();
         }
     }

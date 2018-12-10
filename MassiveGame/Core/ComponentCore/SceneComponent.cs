@@ -73,10 +73,10 @@ namespace MassiveGame.Core.ComponentCore
         {
             if (bPostConstructor)
             {
-                if ((new GetModelPool().GetPool() as ModelPool).GetModelReferenceCount("CollisionBound") == 0)
+                if ((new ObtainModelPool().GetPool() as ModelPool).GetModelReferenceCount("CollisionBound") == 0)
                     AddBoundModelToRoot();
                 else
-                    skin = PoolProxy.GetResource<GetModelPool, ModelAllocationPolicy, string, Skin>("CollisionBound");
+                    skin = PoolProxy.GetResource<ObtainModelPool, ModelAllocationPolicy, string, Skin>("CollisionBound");
                 bPostConstructor = false;
             }
         }

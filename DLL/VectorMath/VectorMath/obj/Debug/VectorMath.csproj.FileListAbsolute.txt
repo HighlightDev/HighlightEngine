@@ -27,4 +27,3 @@ C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\DLL\VectorM
 C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\DLL\VectorMath\VectorMath\obj\Debug\VectorMath.csprojAssemblyReference.cache
 C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\DLL\VectorMath\VectorMath\obj\Debug\VectorMath.csproj.CoreCompileInputs.cache
 C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\DLL\VectorMath\VectorMath\obj\Debug\VectorMath.csproj.CopyComplete
-D:\VisualStudioProjects\HighlightEngine\DLL\VectorMath\VectorMath\bin\Debug\OpenTK.dll

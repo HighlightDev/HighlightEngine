@@ -167,8 +167,8 @@ namespace MassiveGame.Core.GameCore.Water
                 m_buffer.AddVBO(verticesVBO, normalsVBO, texCoordsVBO, tangentsVBO, bitangentsVBO);
                 m_buffer.BindBuffersToVao();
 
-                m_shader = PoolProxy.GetResource<GetShaderPool, ShaderAllocationPolicy<WaterShader>, string, WaterShader>(ProjectFolders.ShadersPath + "waterVS.glsl" + "," + ProjectFolders.ShadersPath + "waterFS.glsl");
-                m_stencilPassShader = PoolProxy.GetResource<GetShaderPool, ShaderAllocationPolicy<StencilPassShader>, string, StencilPassShader>(ProjectFolders.ShadersPath + "stencilPassVS.glsl" + "," + ProjectFolders.ShadersPath + "stencilPassFS.glsl");
+                m_shader = PoolProxy.GetResource<ObtainShaderPool, ShaderAllocationPolicy<WaterShader>, string, WaterShader>(ProjectFolders.ShadersPath + "waterVS.glsl" + "," + ProjectFolders.ShadersPath + "waterFS.glsl");
+                m_stencilPassShader = PoolProxy.GetResource<ObtainShaderPool, ShaderAllocationPolicy<StencilPassShader>, string, StencilPassShader>(ProjectFolders.ShadersPath + "stencilPassVS.glsl" + "," + ProjectFolders.ShadersPath + "stencilPassFS.glsl");
 
                 this.m_fbo = new WaterFBO();
                 this.m_postConstructor = !this.m_postConstructor;
@@ -178,8 +178,8 @@ namespace MassiveGame.Core.GameCore.Water
         public WaterPlane(string distortionMap, string normalMap, Vector3 translation, Vector3 rotation, Vector3 scaling,
             WaterQuality quality, Int32 frustumSquares = 0)
         {
-            m_waterDistortionMap = PoolProxy.GetResource<GetTexturePool, TextureAllocationPolicy, string, ITexture>(distortionMap);
-            m_waterNormalMap = PoolProxy.GetResource<GetTexturePool, TextureAllocationPolicy, string, ITexture>(normalMap);
+            m_waterDistortionMap = PoolProxy.GetResource<ObtainTexturePool, TextureAllocationPolicy, string, ITexture>(distortionMap);
+            m_waterNormalMap = PoolProxy.GetResource<ObtainTexturePool, TextureAllocationPolicy, string, ITexture>(normalMap);
             m_frustumSquares = frustumSquares;
 
             m_translation = translation;
@@ -229,8 +229,8 @@ namespace MassiveGame.Core.GameCore.Water
             string distortionMapTexPath = info.GetString("m_waterDistortionMap");
             string normalMapTexPath = info.GetString("m_waterNormalMap");
 
-            m_waterDistortionMap = PoolProxy.GetResource<GetTexturePool, TextureAllocationPolicy, string, ITexture>(distortionMapTexPath);
-            m_waterNormalMap = PoolProxy.GetResource<GetTexturePool, TextureAllocationPolicy, string, ITexture>(normalMapTexPath);
+            m_waterDistortionMap = PoolProxy.GetResource<ObtainTexturePool, TextureAllocationPolicy, string, ITexture>(distortionMapTexPath);
+            m_waterNormalMap = PoolProxy.GetResource<ObtainTexturePool, TextureAllocationPolicy, string, ITexture>(normalMapTexPath);
 
             m_postConstructor = true;
             InitPhysics();
@@ -249,8 +249,8 @@ namespace MassiveGame.Core.GameCore.Water
             info.AddValue("Quality", Quality, typeof(WaterQuality));
             info.AddValue("m_frustumSquares", m_frustumSquares);
 
-            string distortionMapTexPath = PoolProxy.GetResourceKey<GetTexturePool, string, ITexture>(m_waterDistortionMap);
-            string normalMapTexPath = PoolProxy.GetResourceKey<GetTexturePool, string, ITexture>(m_waterNormalMap);
+            string distortionMapTexPath = PoolProxy.GetResourceKey<ObtainTexturePool, string, ITexture>(m_waterDistortionMap);
+            string normalMapTexPath = PoolProxy.GetResourceKey<ObtainTexturePool, string, ITexture>(m_waterNormalMap);
             info.AddValue("m_waterDistortionMap", distortionMapTexPath);
             info.AddValue("m_waterNormalMap", normalMapTexPath);
         }
@@ -363,10 +363,10 @@ namespace MassiveGame.Core.GameCore.Water
         public void CleanUp()
         {
             m_buffer?.CleanUp();
-            PoolProxy.FreeResourceMemory<GetTexturePool, TextureAllocationPolicy, string, ITexture>(m_waterDistortionMap);
-            PoolProxy.FreeResourceMemory<GetTexturePool, TextureAllocationPolicy, string, ITexture>(m_waterNormalMap);
-            PoolProxy.FreeResourceMemory<GetShaderPool, ShaderAllocationPolicy<WaterShader>, string, WaterShader>(m_shader);
-            PoolProxy.FreeResourceMemory<GetShaderPool, ShaderAllocationPolicy<StencilPassShader>, string, StencilPassShader>(m_stencilPassShader);
+            PoolProxy.FreeResourceMemory<ObtainTexturePool, TextureAllocationPolicy, string, ITexture>(m_waterDistortionMap);
+            PoolProxy.FreeResourceMemory<ObtainTexturePool, TextureAllocationPolicy, string, ITexture>(m_waterNormalMap);
+            PoolProxy.FreeResourceMemory<ObtainShaderPool, ShaderAllocationPolicy<WaterShader>, string, WaterShader>(m_shader);
+            PoolProxy.FreeResourceMemory<ObtainShaderPool, ShaderAllocationPolicy<StencilPassShader>, string, StencilPassShader>(m_stencilPassShader);
         }
 
         #endregion

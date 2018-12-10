@@ -57,6 +57,8 @@ C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\MassiveGame
 C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\MassiveGame\bin\DesignEditor\WpfControlLibrary1.dll
 C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\MassiveGame\bin\DesignEditor\WpfControlLibrary1.pdb
 D:\VisualStudioProjects\HighlightEngine\MassiveGame\bin\DesignEditor\AssimpNet.dll
+D:\VisualStudioProjects\HighlightEngine\MassiveGame\bin\DesignEditor\UIControls.dll
 D:\VisualStudioProjects\HighlightEngine\MassiveGame\bin\DesignEditor\WpfControlLibrary1.dll
+D:\VisualStudioProjects\HighlightEngine\MassiveGame\bin\DesignEditor\UIControls.pdb
 D:\VisualStudioProjects\HighlightEngine\MassiveGame\bin\DesignEditor\WpfControlLibrary1.pdb
 D:\VisualStudioProjects\HighlightEngine\MassiveGame\obj\DesignEditor\MassiveGame.UI.CollisionEditorWindow.resources
