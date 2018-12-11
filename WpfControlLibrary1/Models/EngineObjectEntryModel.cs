@@ -15,6 +15,8 @@ namespace WpfControlLibrary1.Models
         private string m_entryLabel;
         private string m_modelLabel;
         private string m_albedoTextureLabel;
+        private string m_normalMapLabel;
+        private string m_specularMapLabel;
         private string m_iconURI;
 
         public string EntryLabel
@@ -52,6 +54,32 @@ namespace WpfControlLibrary1.Models
                 {
                     m_albedoTextureLabel = value;
                     RaisePropertyChanged("AlbedoTextureLabel");
+                }
+            }
+        }
+
+        public string NormalMapLabel
+        {
+            get { return m_normalMapLabel; }
+            set
+            {
+                if (value != m_normalMapLabel)
+                {
+                    m_normalMapLabel = value;
+                    RaisePropertyChanged("NormalMapLabel");
+                }
+            }
+        }
+
+        public string SpecularMapLabel
+        {
+            get { return m_specularMapLabel; }
+            set
+            {
+                if (value != m_specularMapLabel)
+                {
+                    m_specularMapLabel = value;
+                    RaisePropertyChanged("SpecularMapLabel");
                 }
             }
         }
