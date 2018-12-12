@@ -48,7 +48,18 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="EngineButton.xaml.cs">
+      <DependentUpon>EngineButton.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\EngineObjectEntryView.cs" />
+    <Page Include="CommonResources.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="EngineButton.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="EngineEntityListBox.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

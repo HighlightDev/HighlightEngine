@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Input;
 
 namespace WpfControlLibrary1.Models
@@ -18,6 +19,63 @@ namespace WpfControlLibrary1.Models
         private string m_normalMapLabel;
         private string m_specularMapLabel;
         private string m_iconURI;
+
+        private Visibility m_modelVisible;
+        private Visibility m_albedoVisible;
+        private Visibility m_normalMapVisible;
+        private Visibility m_specularMapVisible;
+
+        public Visibility ModelVisible
+        {
+            get { return m_modelVisible; }
+            set
+            {
+                if (value != m_modelVisible)
+                {
+                    m_modelVisible = value;
+                    RaisePropertyChanged("ModelVisible");
+                }
+            }
+        }
+
+        public Visibility AlbedoVisible
+        {
+            get { return m_albedoVisible; }
+            set
+            {
+                if (value != m_albedoVisible)
+                {
+                    m_albedoVisible = value;
+                    RaisePropertyChanged("AlbedoVisible");
+                }
+            }
+        }
+
+        public Visibility NormalMapVisible
+        {
+            get { return m_normalMapVisible; }
+            set
+            {
+                if (value != m_normalMapVisible)
+                {
+                    m_normalMapVisible = value;
+                    RaisePropertyChanged("NormalMapVisible");
+                }
+            }
+        }
+
+        public Visibility SpecularMapVisible
+        {
+            get { return m_specularMapVisible; }
+            set
+            {
+                if (value != m_specularMapVisible)
+                {
+                    m_specularMapVisible = value;
+                    RaisePropertyChanged("SpecularMapVisible");
+                }
+            }
+        }
 
         public string EntryLabel
         {

@@ -3,7 +3,6 @@ MassiveGame/Debug/ProjectLogs.txt
 *.pdb
 *.suo
 *.cd
-*.config
 *.md
 *.ide
 *.lock

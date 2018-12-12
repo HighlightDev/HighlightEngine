@@ -54,10 +54,8 @@ D:\VisualStudioProjects\HighlightEngine\MassiveGame\obj\Debug\MassiveGame.UI.Col
 C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\MassiveGame\obj\Debug\HighlightEngine.csprojAssemblyReference.cache
 C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\MassiveGame\obj\Debug\HighlightEngine.csproj.CoreCompileInputs.cache
 C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\MassiveGame\obj\Debug\HighlightEngine.csproj.CopyComplete
-C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\MassiveGame\bin\Debug\UIControls.dll
-C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\MassiveGame\bin\Debug\UIControls.pdb
-C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\MassiveGame\bin\Debug\HighlightEngineUI.exe
-C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\MassiveGame\bin\Debug\HighlightEngineUI.pdb
-C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\MassiveGame\bin\Debug\HighlightEngineUI.exe.config
 D:\VisualStudioProjects\HighlightEngine\MassiveGame\bin\Debug\WpfControlLibrary1.dll
 D:\VisualStudioProjects\HighlightEngine\MassiveGame\bin\Debug\WpfControlLibrary1.pdb
+C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\MassiveGame\bin\Debug\WpfControlLibrary1.dll
+C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\MassiveGame\bin\Debug\WpfControlLibrary1.pdb
+C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\MassiveGame\bin\Debug\UiWindow\EditorWindow.resx

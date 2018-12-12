@@ -324,7 +324,9 @@
     <Compile Include="UiWindow\CollisionEditorWindow.Designer.cs">
       <DependentUpon>CollisionEditorWindow.cs</DependentUpon>
     </Compile>
-    <Compile Include="UiWindow\GameWindow.cs" />
+    <Compile Include="UiWindow\GameWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="UiWindow\GameWindow.Designer.cs">
       <DependentUpon>GameWindow.cs</DependentUpon>
     </Compile>
@@ -457,6 +459,7 @@
   <ItemGroup>
     <EmbeddedResource Include="UiWindow\EditorWindow.resx">
       <DependentUpon>EditorWindow.cs</DependentUpon>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="UiWindow\CollisionEditorWindow.resx">
       <DependentUpon>CollisionEditorWindow.cs</DependentUpon>
@@ -485,6 +488,7 @@
     <Content Include="Audio\material\actor\step\wav\new_wood3.wav" />
     <Content Include="Audio\material\actor\step\wav\new_wood4.wav" />
     <Content Include="Debug\ProjectLogs.txt" />
+    <None Include="Resources\%24this.Icon.ico" />
     <Content Include="Textures\EditorTextures\grid.png" />
     <Content Include="Textures\EditorTextures\icon2.png" />
     <Content Include="Textures\GrassTextures\fern.png" />

@@ -15,23 +15,56 @@ namespace WpfControlLibrary1.Views
 
         public void TestCreateEntries()
         {
+            string currentDir = Environment.CurrentDirectory;
+            Int32 index = currentDir.IndexOf("HighlightEngine");
+            string newPath = currentDir.Substring(0, index);
             var entries = new ObservableCollection<EngineObjectEntry>
             {
-                new EngineObjectEntry { EntryLabel = "Entry 1", NormalMapLabel = "Normal Map", SpecularMapLabel = "Specular Map", AlbedoTextureLabel = "Albedo texture", ModelLabel = "Model1", IconURI = "C:\\Users\\dzinovev\\Desktop\\Универчик\\project\\HighlightEngine\\HighlightEngineUI\\Images\\icon2.png" },
-                new EngineObjectEntry { EntryLabel = "Entry 2", NormalMapLabel = "Normal Map", SpecularMapLabel = "Specular Map", AlbedoTextureLabel = "Albedo texture",ModelLabel = "Model1",IconURI = "C:\\Users\\dzinovev\\Desktop\\Универчик\\project\\HighlightEngine\\HighlightEngineUI\\Images\\icon2.png" },
-                new EngineObjectEntry { EntryLabel = "Entry 3", NormalMapLabel = "Normal Map", SpecularMapLabel = "Specular Map", AlbedoTextureLabel = "Albedo texture",ModelLabel = "Model1",IconURI = "C:\\Users\\dzinovev\\Desktop\\Универчик\\project\\HighlightEngine\\HighlightEngineUI\\Images\\icon2.png" },
-                new EngineObjectEntry { EntryLabel = "Entry 4", NormalMapLabel = "Normal Map", SpecularMapLabel = "Specular Map", AlbedoTextureLabel = "Albedo texture",ModelLabel = "Model1",IconURI = "C:\\Users\\dzinovev\\Desktop\\Универчик\\project\\HighlightEngine\\HighlightEngineUI\\Images\\icon2.png" },
-                new EngineObjectEntry { EntryLabel = "Entry 5", NormalMapLabel = "Normal Map", SpecularMapLabel = "Specular Map", AlbedoTextureLabel = "Albedo texture",ModelLabel = "Model1",IconURI = "C:\\Users\\dzinovev\\Desktop\\Универчик\\project\\HighlightEngine\\HighlightEngineUI\\Images\\icon2.png" },
-                new EngineObjectEntry { EntryLabel = "Entry 6", NormalMapLabel = "Normal Map", SpecularMapLabel = "Specular Map", AlbedoTextureLabel = "Albedo texture",ModelLabel = "Model1",IconURI = "C:\\Users\\dzinovev\\Desktop\\Универчик\\project\\HighlightEngine\\HighlightEngineUI\\Images\\icon2.png" },
-                new EngineObjectEntry { EntryLabel = "Entry 7", NormalMapLabel = "Normal Map", SpecularMapLabel = "Specular Map", AlbedoTextureLabel = "Albedo texture",ModelLabel = "Model1",IconURI = "C:\\Users\\dzinovev\\Desktop\\Универчик\\project\\HighlightEngine\\HighlightEngineUI\\Images\\icon2.png" },
-                new EngineObjectEntry { EntryLabel = "Entry 8", NormalMapLabel = "Normal Map", SpecularMapLabel = "Specular Map", AlbedoTextureLabel = "Albedo texture",ModelLabel = "Model1",IconURI = "C:\\Users\\dzinovev\\Desktop\\Универчик\\project\\HighlightEngine\\HighlightEngineUI\\Images\\icon2.png" },
-                new EngineObjectEntry { EntryLabel = "Entry 9", NormalMapLabel = "Normal Map", SpecularMapLabel = "Specular Map", AlbedoTextureLabel = "Albedo texture",ModelLabel = "Model1",IconURI = "C:\\Users\\dzinovev\\Desktop\\Универчик\\project\\HighlightEngine\\HighlightEngineUI\\Images\\icon2.png" },
-                new EngineObjectEntry { EntryLabel = "Entry 10", NormalMapLabel = "Normal Map", SpecularMapLabel = "Specular Map", AlbedoTextureLabel = "Albedo texture", ModelLabel = "Model1", IconURI = "C:\\Users\\dzinovev\\Desktop\\Универчик\\project\\HighlightEngine\\HighlightEngineUI\\Images\\icon2.png" },
-                new EngineObjectEntry { EntryLabel = "Entry 11", NormalMapLabel = "Normal Map", SpecularMapLabel = "Specular Map", AlbedoTextureLabel = "Albedo texture", ModelLabel = "Model1", IconURI = "C:\\Users\\dzinovev\\Desktop\\Универчик\\project\\HighlightEngine\\HighlightEngineUI\\Images\\icon2.png" },
-                new EngineObjectEntry { EntryLabel = "Entry 12", NormalMapLabel = "Normal Map", SpecularMapLabel = "Specular Map", AlbedoTextureLabel = "Albedo texture", ModelLabel = "Model1", IconURI = "C:\\Users\\dzinovev\\Desktop\\Универчик\\project\\HighlightEngine\\HighlightEngineUI\\Images\\icon2.png" },
-                new EngineObjectEntry { EntryLabel = "Entry 13", NormalMapLabel = "Normal Map", SpecularMapLabel = "Specular Map", AlbedoTextureLabel = "Albedo texture", ModelLabel = "Model1", IconURI = "C:\\Users\\dzinovev\\Desktop\\Универчик\\project\\HighlightEngine\\HighlightEngineUI\\Images\\icon2.png" },
-                new EngineObjectEntry { EntryLabel = "Entry 14", NormalMapLabel = "Normal Map", SpecularMapLabel = "Specular Map", AlbedoTextureLabel = "Albedo texture", ModelLabel = "Model1", IconURI = "C:\\Users\\dzinovev\\Desktop\\Универчик\\project\\HighlightEngine\\HighlightEngineUI\\Images\\icon2.png" },
-                new EngineObjectEntry { EntryLabel = "Entry 15", NormalMapLabel = "Normal Map", SpecularMapLabel = "Specular Map", AlbedoTextureLabel = "Albedo texture", ModelLabel = "Model1", IconURI = "C:\\Users\\dzinovev\\Desktop\\Универчик\\project\\HighlightEngine\\HighlightEngineUI\\Images\\icon2.png" }
+                 new EngineObjectEntry {
+                    ModelVisible = System.Windows.Visibility.Visible,
+                    AlbedoVisible = System.Windows.Visibility.Visible,
+                    NormalMapVisible = System.Windows.Visibility.Visible,
+                    SpecularMapVisible = System.Windows.Visibility.Collapsed,
+                    EntryLabel = "Static Mesh", NormalMapLabel = "Normal Map",
+                    SpecularMapLabel = "Specular Map", AlbedoTextureLabel = "Albedo texture",
+                    ModelLabel = "Model",
+                    IconURI = newPath + "\\HighlightEngine\\MassiveGame\\Textures\\EditorTextures\\icon2.png" }
+                , new EngineObjectEntry {
+                     ModelVisible = System.Windows.Visibility.Visible,
+                     AlbedoVisible = System.Windows.Visibility.Collapsed,
+                     NormalMapVisible = System.Windows.Visibility.Visible,
+                     SpecularMapVisible = System.Windows.Visibility.Visible,
+                     EntryLabel = "Dynamic Mesh", NormalMapLabel = "Normal Map",
+                     SpecularMapLabel = "Specular Map", AlbedoTextureLabel = "Albedo texture",
+                     ModelLabel = "Model2",
+                     IconURI = newPath + "\\HighlightEngine\\MassiveGame\\Textures\\EditorTextures\\icon2.png" }
+                , new EngineObjectEntry {
+                     ModelVisible = System.Windows.Visibility.Visible,
+                     AlbedoVisible = System.Windows.Visibility.Visible,
+                     NormalMapVisible = System.Windows.Visibility.Collapsed,
+                     SpecularMapVisible = System.Windows.Visibility.Visible,
+                     EntryLabel = "Skeletal Mesh", NormalMapLabel = "Normal Map",
+                     SpecularMapLabel = "Specular Map", AlbedoTextureLabel = "Albedo texture",
+                     ModelLabel = "Model3",
+                     IconURI = newPath + "\\HighlightEngine\\MassiveGame\\Textures\\EditorTextures\\icon2.png" }
+                , new EngineObjectEntry {
+                     ModelVisible = System.Windows.Visibility.Visible,
+                     AlbedoVisible = System.Windows.Visibility.Collapsed,
+                     NormalMapVisible = System.Windows.Visibility.Collapsed,
+                     SpecularMapVisible = System.Windows.Visibility.Visible,
+                     EntryLabel = "Skybox", NormalMapLabel = "Normal Map",
+                     SpecularMapLabel = "Specular Map", AlbedoTextureLabel = "Albedo texture",
+                     ModelLabel = "Model4",
+                     IconURI = newPath + "\\HighlightEngine\\MassiveGame\\Textures\\EditorTextures\\icon2.png" }
+                , new EngineObjectEntry {
+                     ModelVisible = System.Windows.Visibility.Visible,
+                     AlbedoVisible = System.Windows.Visibility.Collapsed,
+                     NormalMapVisible = System.Windows.Visibility.Collapsed,
+                     SpecularMapVisible = System.Windows.Visibility.Collapsed,
+                     EntryLabel = "Light", NormalMapLabel = "Normal Map",
+                     SpecularMapLabel = "Specular Map", AlbedoTextureLabel = "Albedo texture",
+                     ModelLabel = "Model5",
+                     IconURI = newPath + "\\HighlightEngine\\MassiveGame\\Textures\\EditorTextures\\icon2.png" }
             };
             EngineObjectEntries = entries;
         }

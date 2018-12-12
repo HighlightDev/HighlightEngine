@@ -157,8 +157,6 @@ namespace MassiveGame.UI
 
         private void AdjustMouseCursor()
         {
-            EngineStatics.SCREEN_POSITION_X = this.Location.X + 8;
-            EngineStatics.SCREEN_POSITION_Y = this.Location.Y + 8;
             //для корректной работы камеры с учетом рамки
             //+ 8 из - за того, что при открытии на полный экран, смещение стартовой позиции окна = -8
             EngineStatics.SCREEN_POSITION_X = ((EngineStatics.WINDOW_BORDER != WindowBorder.Hidden) && (EngineStatics.WINDOW_STATE != OpenTK.WindowState.Fullscreen))
@@ -242,8 +240,8 @@ namespace MassiveGame.UI
             EngineObjectEntryView engineView = new EngineObjectEntryView();
             engineView.TestCreateEntries();
 
-            userControl11.DataContext = engineView;
-            userControl11.EntryStackPanelMouseDownEventFire += new Action<string>(MeshListBoxEventCatched);
+            engineEntityListBox.DataContext = engineView;
+            engineEntityListBox.EntryStackPanelMouseDownEventFire += new Action<string>(MeshListBoxEventCatched);
         }
 
         private void MeshListBoxEventCatched(string entity)

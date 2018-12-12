@@ -27,7 +27,6 @@ namespace WpfControlLibrary1
 
         #region User Control acquisition methods
 
-        // this 
         public event Action<string> EntryStackPanelMouseDownEventFire;
         public event Action<string> ModelLoadButtonMouseDownEventFire;
 
@@ -49,7 +48,6 @@ namespace WpfControlLibrary1
 
         #endregion
 
-
         private string GetLabelContentFromPanel(StackPanel stackPanel)
         {
             string labelContent = null;
@@ -58,9 +56,10 @@ namespace WpfControlLibrary1
             return labelContent;
         }
 
-        private void SelectModelButton_MouseDown(object sender, MouseButtonEventArgs e)
+        private void selectProperyButton_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            ModelLoadButtonMouseDownEventFire?.Invoke("");
+            string name = (sender as ContentControl).Name.ToString();
+            ModelLoadButtonMouseDownEventFire?.Invoke(name);
         }
 
         private void StackPanel_MouseDown(object sender, MouseButtonEventArgs e)

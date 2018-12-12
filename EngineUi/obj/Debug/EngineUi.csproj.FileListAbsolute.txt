@@ -1,0 +1,17 @@
+C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\EngineUi\bin\Debug\EngineUi.exe.config
+C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\EngineUi\bin\Debug\EngineUi.exe
+C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\EngineUi\bin\Debug\EngineUi.pdb
+C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\EngineUi\bin\Debug\WpfControlLibrary1.dll
+C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\EngineUi\bin\Debug\WpfControlLibrary1.pdb
+C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\EngineUi\obj\Debug\MainWindow.g.cs
+C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\EngineUi\obj\Debug\App.g.cs
+C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\EngineUi\obj\Debug\EngineUi_MarkupCompile.cache
+C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\EngineUi\obj\Debug\EngineUi_MarkupCompile.lref
+C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\EngineUi\obj\Debug\MainWindow.baml
+C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\EngineUi\obj\Debug\EngineUi.g.resources
+C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\EngineUi\obj\Debug\EngineUi.Properties.Resources.resources
+C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\EngineUi\obj\Debug\EngineUi.csproj.GenerateResource.cache
+C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\EngineUi\obj\Debug\EngineUi.csproj.CoreCompileInputs.cache
+C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\EngineUi\obj\Debug\EngineUi.csproj.CopyComplete
+C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\EngineUi\obj\Debug\EngineUi.exe
+C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\EngineUi\obj\Debug\EngineUi.pdb
