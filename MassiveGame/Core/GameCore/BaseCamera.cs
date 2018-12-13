@@ -135,7 +135,7 @@ namespace MassiveGame.Core.GameCore
             return new FSphere(GetEyeVector(), CameraCollisionSphereRadius);
         }
 
-        public void Rotate(Int32 x, Int32 y, Point screenRezolution)
+        private void Rotate(Int32 x, Int32 y, ref Point screenRezolution)
         {
             Int32 middleX = screenRezolution.X >> 1;
             Int32 middleY = screenRezolution.Y >> 1;
@@ -150,6 +150,16 @@ namespace MassiveGame.Core.GameCore
             Int32 deltaY = middleY - y;
 
             UpdateRotationMatrix(-deltaX, -deltaY);
+        }
+
+        public void RotateFacade(Int32 x, Int32 y, Point screenRezolution)
+        {
+            Rotate(x, y, ref screenRezolution);
+        }
+
+        public void RotateFacade(Point mousePosition, Point screenRezolution)
+        {
+            Rotate(mousePosition.X, mousePosition.Y, ref screenRezolution);
         }
 
         private void UpdateRotationMatrix(Int32 deltaX, Int32 deltaY)

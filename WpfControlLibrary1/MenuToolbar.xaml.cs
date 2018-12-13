@@ -12,27 +12,22 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using WpfControlLibrary1;
-using WpfControlLibrary1.Views;
 
-namespace EngineUi
+namespace WpfControlLibrary1
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Interaction logic for MenuToolbar.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class MenuToolbar : UserControl
     {
-        public MainWindow()
+        public MenuToolbar()
         {
             InitializeComponent();
         }
 
-        private void EngineObjectListBoxControl_Loaded(object sender, RoutedEventArgs e)
+        private void MenuItem_Click(object sender, RoutedEventArgs e)
         {
-            EngineObjectEntryView engineView = new EngineObjectEntryView();
-            engineView.TestCreateEntries();
-            (sender as EngineEntityListBox) .DataContext = engineView;
+
         }
     }
 }
-

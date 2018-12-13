@@ -9,5 +9,5 @@ in vec2 texCoords;
 void main(void)
 {
 	vec3 fragmentColor = texture(diffuseTexture, texCoords).rgb;
-	FragColor = vec4(fragmentColor, 0.5);
+	FragColor = vec4(fragmentColor, 1);
 }

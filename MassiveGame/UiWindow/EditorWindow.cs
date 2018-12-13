@@ -9,6 +9,11 @@ using MassiveGame.API.ResourcePool.PoolHandling;
 using MassiveGame.API.ResourcePool.Pools;
 using MassiveGame.API.ResourcePool;
 using MassiveGame.EngineEditor.Core.UiContent;
+using MassiveGame.UiWindow;
+using MassiveGame.EngineEditor.Core.Entities;
+using MassiveGame.API.MouseObjectDetector;
+using MassiveGame.Core.MathCore;
+using MassiveGame.Core.MathCore.MathTypes;
 
 namespace MassiveGame.UI
 {
@@ -63,7 +68,15 @@ namespace MassiveGame.UI
             // Maybe somehow I can remove this trick
             AdjustMouseCursor();
 
+           
+
             m_renderQueueFunction();
+
+            if (previewEntity != null && GameWorld.GetWorldInstance().GetLevel() != null && GameWorld.GetWorldInstance().GetLevel().Camera != null && previewEntity.IsOwnedByEntity())
+            {
+                previewEntity.Render(GameWorld.GetWorldInstance().GetLevel().Camera, ref EngineStatics.ProjectionMatrix);
+            }
+
             GLControl.SwapBuffers();
             GLControl.Invalidate();
         }
@@ -86,29 +99,45 @@ namespace MassiveGame.UI
         }
         #endregion
 
+
+
         #region Mouse events
+
+        PreviewEntity previewEntity;
+        MousePicker mousePicker;
+
+        public static Point MOUSE_POSITION;
 
         private void OnMouseMove(object sender, MouseEventArgs e)
         {
+            if (GameWorld.GetWorldInstance().GetLevel() == null)
+                return;
+
+            BaseCamera camera = GameWorld.GetWorldInstance().GetLevel().Camera;
+
+            if (mousePicker == null && camera != null)
+            {
+                mousePicker = new MousePicker(EngineStatics.ProjectionMatrix, camera);
+            }
+            if (mousePicker != null)
+            {
+                mousePicker.Tick(0);
+            }
+
+            if (previewEntity != null && camera != null)
+            {
+                Point location = e.Location;
+                MOUSE_POSITION = location;
+                FRay MouseRay = new FRay(camera.GetEyeVector(), mousePicker.currentRay);
+                var intersectionPosition = GeometryMath.GetIntersectionRayPlane(new FPlane(new Vector3(0, 0, 0), new Vector3(0, 1, 0)), MouseRay);
+                previewEntity.SetTranslation(ref intersectionPosition);
+            }
+
             if (bOpenglControlMousePressed)
             {
-
-                if (GameWorld.GetWorldInstance().GetLevel() != null)
+                if (GameWorld.GetWorldInstance().GetLevel() != null && GameWorld.GetWorldInstance().GetLevel().Camera != null)
                 {
-                    BaseCamera camera = GameWorld.GetWorldInstance().GetLevel().Camera;
-                    if (camera == null)
-                        return;
-
-                    camera.Rotate(e.X, e.Y, new Point(Width, GLControl.Height));
-
-                    if ((EngineStatics.PrevCursorPosition.X != -1) && (EngineStatics.PrevCursorPosition.Y != -1)) // need to calculate delta of mouse position
-                    {
-                        Int32 xDelta = e.X - EngineStatics.PrevCursorPosition.X;
-                        Int32 yDelta = e.Y - EngineStatics.PrevCursorPosition.Y;
-                    }
-
-                    EngineStatics.PrevCursorPosition = e.Location;
-
+                    UiMouseEventHandlerHalper.DoCorrectRotation(e, GameWorld.GetWorldInstance().GetLevel().Camera, GLControl, this);
                     GLControl.Update(); // need to update frame after invalidation to redraw changes
                 }
             }
@@ -246,7 +275,8 @@ namespace MassiveGame.UI
 
         private void MeshListBoxEventCatched(string entity)
         {
-            ;
+            if (previewEntity == null)
+                previewEntity = new PreviewEntity(true);
         }
 
         #endregion

@@ -27,6 +27,7 @@ namespace MassiveGame.EngineEditor.Core.Entities
 
         public PreviewEntity()
         {
+            m_scale = Vector3.One;
             m_shader = PoolProxy.GetResource<GetShaderPool, ShaderAllocationPolicy<PreviewEntityShader>, string, PreviewEntityShader>(
                 string.Format("{0}previewEntityVS.glsl,{0}previewEntityFS.glsl", ProjectFolders.ShadersPath));
         }
@@ -107,6 +108,8 @@ namespace MassiveGame.EngineEditor.Core.Entities
         #region TestVersion
         public PreviewEntity(bool TEST)
         {
+            m_scale = Vector3.One;
+            m_bOwnedByEntity = true;
             TestInitResources();
         }
 

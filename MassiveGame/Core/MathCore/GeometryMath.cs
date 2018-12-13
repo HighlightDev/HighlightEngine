@@ -902,7 +902,7 @@ namespace MassiveGame.Core.MathCore
         {
             Vector3 result;
             Vector3 planeNormal = new Vector3(plane.X, plane.Y, plane.Z);
-            float timeParam = (plane.D + (Vector3.Dot(planeNormal, ray.StartPosition))) / Vector3.Dot(planeNormal, ray.Direction);
+            float timeParam = plane.D - ((Vector3.Dot(planeNormal, ray.StartPosition))) / Vector3.Dot(planeNormal, ray.Direction);
             result = ray.StartPosition + ray.Direction * timeParam;
             return result;
         }

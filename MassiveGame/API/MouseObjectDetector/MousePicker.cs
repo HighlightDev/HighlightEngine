@@ -37,8 +37,9 @@ namespace MassiveGame.API.MouseObjectDetector
 
         private Vector3 calculateMouseRay()
         {
-            float mouseX = OpenTK.Input.Mouse.GetCursorState().X;
-            float mouseY = OpenTK.Input.Mouse.GetCursorState().Y;
+            // TEST
+            float mouseX = UI.EditorWindow.MOUSE_POSITION.X;
+            float mouseY = UI.EditorWindow.MOUSE_POSITION.Y;
             Vector2 normalizedCoords = getNormalizedDeviceCoords(mouseX, mouseY);
             Vector4 clipCoords = new Vector4(normalizedCoords.X, normalizedCoords.Y, -1f, 1f);
             Vector4 eyeCoords = toEyeCoords(clipCoords);

@@ -8,6 +8,7 @@ using MassiveGame.Core.GameCore;
 using MassiveGame.API.ResourcePool.PoolHandling;
 using MassiveGame.API.ResourcePool.Pools;
 using MassiveGame.API.ResourcePool;
+using MassiveGame.UiWindow;
 
 namespace MassiveGame.UI
 {
@@ -74,12 +75,8 @@ namespace MassiveGame.UI
             if (GameWorld.GetWorldInstance().GetLevel() != null && GameWorld.GetWorldInstance().GetLevel().Camera != null)
                 if (GameWorld.GetWorldInstance().GetLevel().Camera.SwitchCamera)
                 {
-                    if (EngineStatics.PrevCursorPosition != e.Location)
-                    {
-                        EngineStatics.PrevCursorPosition = e.Location;
-                        Cursor.Hide();
-                        GameWorld.GetWorldInstance().GetLevel().Camera.Rotate(e.X, e.Y, new Point(this.Width, this.Height));
-                    }
+                    UiMouseEventHandlerHalper.DoCorrectRotation(e, GameWorld.GetWorldInstance().GetLevel().Camera, GLControl, this);
+                    Cursor.Hide();
                 }
                 else
                 {

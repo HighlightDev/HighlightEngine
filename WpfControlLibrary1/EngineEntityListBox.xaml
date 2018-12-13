@@ -26,17 +26,17 @@
                                 <StackPanel>
 
                                     <!-- Entry content stack -->
-                                    <StackPanel x:Name="ContentStackPanel" HorizontalAlignment="Stretch" Orientation = "Horizontal" Style="{StaticResource EngineListBoxStackPanelBackground}" MouseDown="StackPanel_MouseDown" Width="500" Margin="1, 1, 1, 1">
+                                    <StackPanel x:Name="ContentStackPanel" HorizontalAlignment="Stretch" Orientation = "Horizontal" Style="{StaticResource EngineListBoxStackPanelBackground}" MouseDown="StackPanel_MouseDown" Width="250" Margin="1, 1, 1, 1">
                                         <Image x:Name="entryImage"
                                         HorizontalAlignment="Left"
-                                        Margin="0, 0, 150, 0"
+                                        Margin="0, 0, 50, 0"
                                         VerticalAlignment="Center"
                                         Source="{Binding Path = IconURI, Mode = TwoWay}"/>
 
                                         <Label x:Name="entryLabel" Content="{Binding Path = EntryLabel, Mode = TwoWay}"
                                         HorizontalAlignment="Center"
                                         VerticalAlignment="Center" 
-                                        Foreground="#FF852929" 
+                                        Foreground="#FFC1C1C1" 
                                         FontSize="19"
                                         FontFamily="Comic Sans MS, Verdana"
                                         Margin="0, 0, 0, 0"/>
@@ -44,24 +44,18 @@
                                     </StackPanel>
 
                                     <!-- Stack of properties of engine object -->
-                                    <StackPanel x:Name="PropsStackPanel" HorizontalAlignment="Stretch" Orientation="Vertical" Style="{StaticResource EngineListBoxStackPanelBackground}" Visibility="Collapsed" Width="500">
+                                    <StackPanel x:Name="PropsStackPanel" HorizontalAlignment="Stretch" Orientation="Vertical" Style="{StaticResource EngineListBoxStackPanelBackground}" Visibility="Collapsed" Width="250">
 
-                                        <Border x:Name="propsBorder" BorderThickness="1" >
-                                            <Border.BorderBrush>
-                                                <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
-                                                    <GradientStop Offset="0" Color="#FF3C2020"/>
-                                                    <GradientStop Offset="1" Color="#FF830000"/>
-                                                </LinearGradientBrush>
-                                            </Border.BorderBrush>
-
-                                            <StackPanel x:Name="PropsListContent" Orientation="Vertical" Width="500" >
+                                        <Border x:Name="propsBorder" Style="{StaticResource BorderBrush}" >
+                                           
+                                            <StackPanel x:Name="PropsListContent" Orientation="Vertical" Width="250" >
 
                                                 <DockPanel x:Name="modelPropsStackPanel" Visibility="{Binding Path=ModelVisible}" Margin="0, 1, 0, 0">
 
                                                    <Label x:Name="modelLabel" Content="{Binding Path = ModelLabel, Mode = TwoWay}"  
                                                    VerticalAlignment="Center"
                                                    HorizontalAlignment="Center"
-                                                   Foreground="#FF852929" 
+                                                   Foreground="#FFC1C1C1" 
                                                    FontFamily="Comic Sans MS, Verdana"
                                                    FontSize="15" 
                                                    Margin="10, 0, 0, 0" />
@@ -69,11 +63,11 @@
 
                                                 </DockPanel>
 
-                                                <DockPanel x:Name="albedoTexturePropsStackPanel" Visibility="{Binding Path=AlbedoVisible}" VerticalAlignment="Center" Width="500" Margin="0, 0, 0, 0">
+                                                <DockPanel x:Name="albedoTexturePropsStackPanel" Visibility="{Binding Path=AlbedoVisible}" VerticalAlignment="Center" Margin="0, 0, 0, 0">
 
                                                    <Label x:Name="albedoTextureLabel" Content="{Binding Path = AlbedoTextureLabel, Mode =TwoWay}"
                                                    VerticalAlignment="Center" 
-                                                   Foreground="#FF852929" 
+                                                   Foreground="#FFC1C1C1" 
                                                    FontFamily="Comic Sans MS, Verdana"
                                                    FontSize="15" 
                                                    Margin="10, 0, 0, 0"/>
@@ -81,11 +75,11 @@
 
                                                 </DockPanel>
 
-                                                <DockPanel x:Name="normalMapPropsStackPanel" Visibility="{Binding Path=NormalMapVisible}" VerticalAlignment="Center" Width="500" Margin="0, 0, 0, 0">
+                                                <DockPanel x:Name="normalMapPropsStackPanel" Visibility="{Binding Path=NormalMapVisible}" VerticalAlignment="Center" Margin="0, 0, 0, 0">
 
                                                     <Label x:Name="normalMapLabel" Content="{Binding Path = NormalMapLabel, Mode =TwoWay}"
                                                    VerticalAlignment="Center" 
-                                                   Foreground="#FF852929" 
+                                                   Foreground="#FFC1C1C1" 
                                                    FontFamily="Comic Sans MS, Verdana"
                                                    FontSize="15"  
                                                     Margin="10, 0, 0, 0"/>
@@ -93,11 +87,11 @@
 
                                                 </DockPanel>
 
-                                                <DockPanel x:Name="specularMapPropsStackPanel" Visibility="{Binding Path=SpecularMapVisible}" VerticalAlignment="Center" Width="500" Margin="0, 0, 0, 1">
+                                                <DockPanel x:Name="specularMapPropsStackPanel" Visibility="{Binding Path=SpecularMapVisible}" VerticalAlignment="Center" Margin="0, 0, 0, 1">
 
                                                     <Label x:Name="specularlMapLabel" Content="{Binding Path = SpecularMapLabel, Mode =TwoWay}"
                                                    VerticalAlignment="Center" 
-                                                   Foreground="#FF852929" 
+                                                   Foreground="#FFC1C1C1" 
                                                    FontFamily="Comic Sans MS, Verdana"
                                                    FontSize="15"  
                                                     Margin="10, 0, 0, 0"/>

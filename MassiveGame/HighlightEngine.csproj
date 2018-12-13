@@ -324,9 +324,7 @@
     <Compile Include="UiWindow\CollisionEditorWindow.Designer.cs">
       <DependentUpon>CollisionEditorWindow.cs</DependentUpon>
     </Compile>
-    <Compile Include="UiWindow\GameWindow.cs">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Include="UiWindow\GameWindow.cs" />
     <Compile Include="UiWindow\GameWindow.Designer.cs">
       <DependentUpon>GameWindow.cs</DependentUpon>
     </Compile>
@@ -335,6 +333,7 @@
     <Compile Include="Core\GameCore\Water\WaterRefractionTerrainShader.cs" />
     <Compile Include="Core\GameCore\Water\WaterReflectionTerrainShader.cs" />
     <Compile Include="Core\GameCore\Water\WaterShader.cs" />
+    <Compile Include="UiWindow\UiMouseEventHandlerHalper.cs" />
     <None Include="Shaders\gridFS.glsl" />
     <None Include="Shaders\gridVS.glsl" />
     <None Include="Shaders\previewEntityFS.glsl" />

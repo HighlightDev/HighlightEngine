@@ -51,6 +51,9 @@
     <Compile Include="EngineButton.xaml.cs">
       <DependentUpon>EngineButton.xaml</DependentUpon>
     </Compile>
+    <Compile Include="MenuToolbar.xaml.cs">
+      <DependentUpon>MenuToolbar.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\EngineObjectEntryView.cs" />
     <Page Include="CommonResources.xaml">
       <SubType>Designer</SubType>
@@ -69,6 +72,10 @@
       <DependentUpon>EngineEntityListBox.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="MenuToolbar.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">
