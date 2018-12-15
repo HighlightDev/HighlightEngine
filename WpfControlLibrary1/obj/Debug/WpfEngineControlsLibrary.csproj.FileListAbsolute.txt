@@ -13,7 +13,6 @@ D:\VisualStudioProjects\HighlightEngine\WpfControlLibrary1\obj\Debug\WpfControlL
 D:\VisualStudioProjects\HighlightEngine\WpfControlLibrary1\obj\Debug\WpfControlLibrary1.pdb
 C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\WpfControlLibrary1\bin\Debug\WpfControlLibrary1.dll
 C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\WpfControlLibrary1\bin\Debug\WpfControlLibrary1.pdb
-C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\WpfControlLibrary1\obj\Debug\WpfEngineControlsLibrary.csprojAssemblyReference.cache
 C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\WpfControlLibrary1\obj\Debug\CommonResources.baml
 C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\WpfControlLibrary1\obj\Debug\EngineButton.g.cs
 C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\WpfControlLibrary1\obj\Debug\EngineEntityListBox.g.cs
@@ -29,3 +28,9 @@ C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\WpfControlL
 C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\WpfControlLibrary1\obj\Debug\WpfControlLibrary1.pdb
 C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\WpfControlLibrary1\obj\Debug\MenuToolbar.g.cs
 C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\WpfControlLibrary1\obj\Debug\MenuToolbar.baml
+C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\WpfControlLibrary1\obj\Debug\EngineListCreateEntity.g.cs
+C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\WpfControlLibrary1\obj\Debug\EngineListCreateEntity.baml
+C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\WpfControlLibrary1\obj\Debug\GeneratedInternalTypeHelper.g.cs
+C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\WpfControlLibrary1\obj\Debug\EntityGroupsDataTemplateResources.baml
+C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\WpfControlLibrary1\obj\Debug\EntityGroupsDataTemplateResources.g.cs
+C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\WpfControlLibrary1\obj\Debug\WpfEngineControlsLibrary.csprojAssemblyReference.cache

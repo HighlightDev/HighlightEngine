@@ -9,6 +9,7 @@
         Title="MainWindow" Height="450" Width="800">
     <Grid>
         <!--<controls:EngineEntityListBox x:Name="engineEntityListBox" Loaded="EngineObjectListBoxControl_Loaded"/>-->
-        <controls:MenuToolbar></controls:MenuToolbar>
+        <!--<controls:MenuToolbar></controls:MenuToolbar>-->
+        <controls:EngineListCreateEntity x:Name="list_createEntity" Loaded="list_createEntity_Loaded"/>
     </Grid>
 </Window>

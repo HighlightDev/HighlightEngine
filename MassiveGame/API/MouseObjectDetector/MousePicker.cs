@@ -52,7 +52,7 @@ namespace MassiveGame.API.MouseObjectDetector
             Matrix4 inverseViewMatrix = Matrix4.Identity;
             try
             {
-                if (!float.IsNaN(viewMatrix.Determinant))
+                if (!float.IsNaN(viewMatrix.Determinant) && Math.Abs(viewMatrix.Determinant) > 0.005f)
                 {
                     inverseViewMatrix = this.viewMatrix.Inverted();
                 }

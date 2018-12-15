@@ -31,7 +31,14 @@ namespace EngineUi
         {
             EngineObjectEntryView engineView = new EngineObjectEntryView();
             engineView.TestCreateEntries();
-            (sender as EngineEntityListBox) .DataContext = engineView;
+            (sender as EngineEntityListBox).DataContext = engineView;
+        }
+
+        private void list_createEntity_Loaded(object sender, RoutedEventArgs e)
+        {
+            EntityGroupsView entityGroupsView = new EntityGroupsView();
+            entityGroupsView.FillEntityGroupsList();
+            (sender as EngineListCreateEntity).DataContext = entityGroupsView;
         }
     }
 }

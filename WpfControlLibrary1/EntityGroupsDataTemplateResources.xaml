@@ -1,0 +1,124 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    x:Class="WpfControlLibrary1.EntityGroupsDataTemplateResources"
+                    x:ClassModifier="public" >
+
+    <!-- Engine listbox background style -->
+    <Style x:Key="EngineListBoxStackPanelBackground" TargetType="StackPanel">
+        <Setter Property="Background">
+            <Setter.Value>
+                <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                    <GradientStop Offset="0" Color="#FF0E0E0E"/>
+                    <GradientStop Offset="0.5" Color="#FF252525"/>
+                    <GradientStop Offset="1" Color="#FF424242"/>
+                </LinearGradientBrush>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- Engine entities list -->
+    <DataTemplate x:Key="templateEntities">
+        <StackPanel x:Name="entities" 
+                    MouseDown="EntryStackPanel_MouseDown" HorizontalAlignment="Stretch"
+                    Orientation="Vertical" Style="{StaticResource EngineListBoxStackPanelBackground}"
+                    Width="250">
+
+            <StackPanel>
+                <Label x:Name="label_staticMesh" Content="Static Mesh"
+                       HorizontalAlignment="Center"
+                       VerticalAlignment="Top" 
+                       Foreground="#FFC1C1C1" 
+                       FontSize="15"
+                       FontFamily="Comic Sans MS, Verdana"
+                       Margin="0, 0, 0, 0"/>
+            </StackPanel>
+
+            <StackPanel>
+                <Label x:Name="label_SkeletalMesh" Content="Skeletal Mesh"
+                       HorizontalAlignment="Center"
+                       VerticalAlignment="Top" 
+                       Foreground="#FFC1C1C1" 
+                       FontSize="15"
+                       FontFamily="Comic Sans MS, Verdana"
+                       Margin="0, 0, 0, 0"/>
+            </StackPanel>
+
+            <StackPanel>
+                <Label x:Name="label_MovableMesh" Content="Movable Mesh"
+                       HorizontalAlignment="Center"
+                       VerticalAlignment="Top" 
+                       Foreground="#FFC1C1C1" 
+                       FontSize="15"
+                       FontFamily="Comic Sans MS, Verdana"
+                       Margin="0, 0, 0, 0"/>
+            </StackPanel>
+
+        </StackPanel>
+    </DataTemplate>
+
+    <!-- Engine terrain -->
+    <DataTemplate x:Key="templateTerrain">
+        <StackPanel x:Name="terrain" MouseDown="EntryStackPanel_MouseDown">
+
+        </StackPanel>
+    </DataTemplate>
+
+    <!-- Engine skybox -->
+    <DataTemplate x:Key="templateSkybox">
+        <StackPanel x:Name="skybox" MouseDown="EntryStackPanel_MouseDown">
+
+        </StackPanel>
+    </DataTemplate>
+
+    <!-- Engine water plane -->
+    <DataTemplate x:Key="templateWaterPlanes">
+        <StackPanel x:Name="waterPlanes" MouseDown="EntryStackPanel_MouseDown">
+
+        </StackPanel>
+    </DataTemplate>
+
+    <!-- Engine sun mesh -->
+    <DataTemplate x:Key="templateSunMesh">
+        <StackPanel x:Name="sunMesh" MouseDown="EntryStackPanel_MouseDown">
+
+        </StackPanel>
+    </DataTemplate>
+
+    <!-- Engine light sources list -->
+    <DataTemplate x:Key="templateLightSources">
+        <StackPanel x:Name="lightSources" MouseDown="EntryStackPanel_MouseDown" HorizontalAlignment="Stretch"
+                    Orientation="Vertical" Style="{StaticResource EngineListBoxStackPanelBackground}"
+                    Width="250">
+            <StackPanel>
+                <Label x:Name="label_directionalLight" Content="Directional Light"
+                   HorizontalAlignment="Center"
+                   VerticalAlignment="Top" 
+                   Foreground="#FFC1C1C1" 
+                   FontSize="15"
+                   FontFamily="Comic Sans MS, Verdana"
+                   Margin="0, 0, 0, 0"/>
+            </StackPanel>
+
+            <StackPanel>
+                <Label x:Name="label_pointLight" Content="Point Light"
+                   HorizontalAlignment="Center"
+                   VerticalAlignment="Top" 
+                   Foreground="#FFC1C1C1" 
+                   FontSize="15"
+                   FontFamily="Comic Sans MS, Verdana"
+                   Margin="0, 0, 0, 0"/>
+            </StackPanel>
+
+            <StackPanel>
+                <Label x:Name="label_spotLight" Content="Spot Light"
+                   HorizontalAlignment="Center"
+                   VerticalAlignment="Top" 
+                   Foreground="#FFC1C1C1" 
+                   FontSize="15"
+                   FontFamily="Comic Sans MS, Verdana"
+                   Margin="0, 0, 0, 0"/>
+            </StackPanel>
+        </StackPanel>
+    </DataTemplate>
+
+</ResourceDictionary>

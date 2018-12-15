@@ -48,13 +48,28 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DataTemplateSelectors\EntityGroupContentDataTemplateSelector.cs" />
     <Compile Include="EngineButton.xaml.cs">
       <DependentUpon>EngineButton.xaml</DependentUpon>
     </Compile>
+    <Compile Include="EngineListCreateEntity.xaml.cs">
+      <DependentUpon>EngineListCreateEntity.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="EntityGroupsDataTemplateResources.cs" />
+    <Compile Include="EventHandlerCore\EventData.cs" />
+    <Compile Include="EventHandlerCore\EventsListenerManager.cs" />
     <Compile Include="MenuToolbar.xaml.cs">
       <DependentUpon>MenuToolbar.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Models\EntityGroups\EntitiesGroupModel.cs" />
+    <Compile Include="Models\EntityGroups\IEntityGroupsModelBase.cs" />
+    <Compile Include="Models\EntityGroups\LightSourcesGroupModel.cs" />
+    <Compile Include="Models\EntityGroups\SkyboxGroupModel.cs" />
+    <Compile Include="Models\EntityGroups\SunMeshGroupModel.cs" />
+    <Compile Include="Models\EntityGroups\TerrainGroupModel.cs" />
+    <Compile Include="Models\EntityGroups\WaterPlanesGroupModel.cs" />
     <Compile Include="Views\EngineObjectEntryView.cs" />
+    <Compile Include="Views\EntityGroupsView.cs" />
     <Page Include="CommonResources.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -72,7 +87,15 @@
       <DependentUpon>EngineEntityListBox.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="EngineListCreateEntity.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MenuToolbar.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="EntityGroupsDataTemplateResources.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -103,5 +126,6 @@
   <ItemGroup>
     <Resource Include="Images\icon.png" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
