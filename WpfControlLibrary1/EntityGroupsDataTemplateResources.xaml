@@ -18,12 +18,11 @@
 
     <!-- Engine entities list -->
     <DataTemplate x:Key="templateEntities">
-        <StackPanel x:Name="entities" 
-                    MouseDown="EntryStackPanel_MouseDown" HorizontalAlignment="Stretch"
+        <StackPanel HorizontalAlignment="Stretch"
                     Orientation="Vertical" Style="{StaticResource EngineListBoxStackPanelBackground}"
                     Width="250">
 
-            <StackPanel>
+            <StackPanel x:Name="staticMesh" MouseDown="EntryStackPanel_MouseDown">
                 <Label x:Name="label_staticMesh" Content="Static Mesh"
                        HorizontalAlignment="Center"
                        VerticalAlignment="Top" 
@@ -33,8 +32,8 @@
                        Margin="0, 0, 0, 0"/>
             </StackPanel>
 
-            <StackPanel>
-                <Label x:Name="label_SkeletalMesh" Content="Skeletal Mesh"
+            <StackPanel x:Name="skeletalMesh" MouseDown="EntryStackPanel_MouseDown">
+                <Label x:Name="label_skeletalMesh" Content="Skeletal Mesh"
                        HorizontalAlignment="Center"
                        VerticalAlignment="Top" 
                        Foreground="#FFC1C1C1" 
@@ -43,8 +42,8 @@
                        Margin="0, 0, 0, 0"/>
             </StackPanel>
 
-            <StackPanel>
-                <Label x:Name="label_MovableMesh" Content="Movable Mesh"
+            <StackPanel x:Name="movableMesh" MouseDown="EntryStackPanel_MouseDown">
+                <Label x:Name="label_movableMesh" Content="Movable Mesh"
                        HorizontalAlignment="Center"
                        VerticalAlignment="Top" 
                        Foreground="#FFC1C1C1" 
@@ -86,10 +85,10 @@
 
     <!-- Engine light sources list -->
     <DataTemplate x:Key="templateLightSources">
-        <StackPanel x:Name="lightSources" MouseDown="EntryStackPanel_MouseDown" HorizontalAlignment="Stretch"
+        <StackPanel x:Name="lightSources" HorizontalAlignment="Stretch"
                     Orientation="Vertical" Style="{StaticResource EngineListBoxStackPanelBackground}"
                     Width="250">
-            <StackPanel>
+            <StackPanel x:Name="direcionalLight" MouseDown="EntryStackPanel_MouseDown">
                 <Label x:Name="label_directionalLight" Content="Directional Light"
                    HorizontalAlignment="Center"
                    VerticalAlignment="Top" 
@@ -99,7 +98,7 @@
                    Margin="0, 0, 0, 0"/>
             </StackPanel>
 
-            <StackPanel>
+            <StackPanel x:Name="pointLight" MouseDown="EntryStackPanel_MouseDown">
                 <Label x:Name="label_pointLight" Content="Point Light"
                    HorizontalAlignment="Center"
                    VerticalAlignment="Top" 
@@ -109,7 +108,7 @@
                    Margin="0, 0, 0, 0"/>
             </StackPanel>
 
-            <StackPanel>
+            <StackPanel x:Name="spotLight" MouseDown="EntryStackPanel_MouseDown">
                 <Label x:Name="label_spotLight" Content="Spot Light"
                    HorizontalAlignment="Center"
                    VerticalAlignment="Top" 

@@ -45,14 +45,14 @@ namespace WpfControlLibrary1
             StackPanel senderStackPanel = sender as StackPanel;
             object prop = senderStackPanel.FindName("stackpanel_templatedContent");
             var propsStack = prop as StackPanel;
-            if (propsStack.Visibility == Visibility.Collapsed)
-            {
-                propsStack.Visibility = Visibility.Visible;
-            }
-            else
-            {
-                propsStack.Visibility = Visibility.Collapsed;
-            }
+            propsStack.Visibility = propsStack.Visibility == Visibility.Collapsed ? Visibility.Visible : Visibility.Collapsed;
+        }
+
+        private void Image_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            object header = FindName("CustomItemsControl");
+            FrameworkElement headerElement = header as FrameworkElement;
+            headerElement.Visibility = headerElement.Visibility == Visibility.Collapsed ? Visibility.Visible : Visibility.Collapsed;
         }
     }
 }

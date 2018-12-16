@@ -68,6 +68,9 @@
     <Compile Include="Models\EntityGroups\SunMeshGroupModel.cs" />
     <Compile Include="Models\EntityGroups\TerrainGroupModel.cs" />
     <Compile Include="Models\EntityGroups\WaterPlanesGroupModel.cs" />
+    <Compile Include="PropertyWindow.xaml.cs">
+      <DependentUpon>PropertyWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\EngineObjectEntryView.cs" />
     <Compile Include="Views\EntityGroupsView.cs" />
     <Page Include="CommonResources.xaml">
@@ -99,6 +102,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="PropertyWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -126,6 +133,8 @@
   <ItemGroup>
     <Resource Include="Images\icon.png" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="Images\hide.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

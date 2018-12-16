@@ -14,6 +14,18 @@
         </Setter>
     </Style>
 
+    <Style x:Key="EngineListBoxDockPanelBackground" TargetType="DockPanel">
+        <Setter Property="Background">
+            <Setter.Value>
+                <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                    <GradientStop Offset="0" Color="#FF0E0E0E"/>
+                    <GradientStop Offset="0.5" Color="#FF252525"/>
+                    <GradientStop Offset="1" Color="#FF424242"/>
+                </LinearGradientBrush>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
     <!-- Engine entity listbox border property -->
     <Style x:Key="BorderBrush" TargetType="Border">
         <Setter Property="BorderBrush">
