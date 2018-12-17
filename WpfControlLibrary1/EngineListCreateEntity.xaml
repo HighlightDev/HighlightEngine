@@ -14,13 +14,13 @@
                 <ResourceDictionary Source="CommonResources.xaml" />
                 <ResourceDictionary Source="EntityGroupsDataTemplateResources.xaml"/>
             </ResourceDictionary.MergedDictionaries>
-            
+
             <selectors:EntityGroupContentDataTemplateSelector x:Key="myDataTemplateSelector"/>
             <views:EntityGroupsView x:Key="VIEWS"/>
         </ResourceDictionary>
     </UserControl.Resources>
     <Grid>
-        
+
         <ScrollViewer x:Name="scrollviewer_1" Grid.Row="1" HorizontalAlignment="Left" HorizontalContentAlignment="Center" 
                   VerticalScrollBarVisibility="Hidden" HorizontalScrollBarVisibility="Hidden" MouseEnter="scrollviewer_1_MouseEnter">
 
@@ -28,74 +28,76 @@
             <StackPanel  Width="250"
                          Orientation="Vertical" 
                          HorizontalAlignment = "Stretch">
-                <Border BorderThickness="2" BorderBrush="Black">
+                <Border BorderThickness="2"
+                        BorderBrush="Black">
+                    <StackPanel>
 
-                <DockPanel x:Name="header" Height="29" HorizontalAlignment = "Stretch" Style="{StaticResource EngineListBoxDockPanelBackground}">
-                    <Label x:Name="label_header" Content="Create New Object"
-                                        HorizontalAlignment="Left"
-                                        VerticalAlignment="Top"
-                                        Foreground="#FFC1C1C1" 
-                                        FontSize="14"
-                                        FontFamily="Comic Sans MS, Verdana"
-                                        Margin="0, 0, 0, 0"/>
-                    <Image VerticalAlignment="Center"
+                        <DockPanel x:Name="header" Height="29" HorizontalAlignment = "Stretch" Style="{StaticResource EngineDockPanelHeaderStyle}">
+                            <Label x:Name="label_header" 
+                           Style="{StaticResource ResourceKey=engineLabelStyle_header}"
+                           Content="Create New Object"
+                           HorizontalAlignment="Left"
+                           VerticalAlignment="Top"
+                           Margin="0, 0, 0, 0"/>
+                            <Image VerticalAlignment="Center"
                            HorizontalAlignment="Right" 
                            Source="C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\WpfControlLibrary1\Images\hide.png"
                            MouseDown="Image_MouseDown"/>
-                </DockPanel>
-                </Border>
+                        </DockPanel>
 
-                <ItemsControl x:Name="CustomItemsControl" ItemsSource = "{Binding Path = EntityGroups}">
+                        <ItemsControl x:Name="CustomItemsControl" ItemsSource = "{Binding Path = EntityGroups}">
 
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate>
-                            <Border x:Name="border_1" Style="{StaticResource BorderBrush}" >
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <Border x:Name="border_1"
+                                    Style="{StaticResource engineBorderHoverColor}"
+                                    BorderThickness ="1">
 
-                                <StackPanel>
+                                        <StackPanel>
 
-                                    <!-- Entry content stack -->
-                                    <StackPanel x:Name="stackpanel_mainContent"
+                                            <!-- Entry content stack -->
+                                            <StackPanel x:Name="stackpanel_mainContent"
                                                 HorizontalAlignment="Stretch"
                                                 Orientation = "Horizontal"
                                                 Style="{StaticResource EngineListBoxStackPanelBackground}"
                                                 MouseDown="stackpanel_mainContent_MouseDown"
                                                 Width="250" 
-                                                Margin="1, 1, 1, 1">
-                                        
-                                        <Image x:Name="image_main"
+                                                Margin="0 0 0 0">
+
+                                                <Image x:Name="image_main"
                                                HorizontalAlignment="Left"
                                                Margin="0, 0, 20, 0"
                                                VerticalAlignment="Center"
                                                Source="{Binding Path = IconMain, Mode = TwoWay}"/>
 
-                                        <Label x:Name="label_main" Content="{Binding Path = LabelMain, Mode = TwoWay}"
+                                                <Label x:Name="label_main" 
+                                               Style="{StaticResource ResourceKey=engineLabelStyle_Size1}"
+                                               Content="{Binding Path = LabelMain, Mode = TwoWay}"
                                                HorizontalAlignment="Center"
                                                VerticalAlignment="Center" 
-                                               Foreground="#FFC1C1C1" 
-                                               FontSize="19"
-                                               FontFamily="Comic Sans MS, Verdana"
                                                Margin="0, 0, 0, 0"/>
 
-                                        <!-- This is data template hint -->
-                                        <Label x:Name="label_hint"
+                                                <!-- This is data template hint -->
+                                                <Label x:Name="label_hint"
                                                Content="{Binding Path=TemplateType, Mode=OneWay}" 
                                                Visibility="Collapsed"/>
 
-                                    </StackPanel>
+                                            </StackPanel>
 
-                                    <StackPanel x:Name="stackpanel_templatedContent" Visibility="Collapsed">
-                                        <ContentControl Content="{Binding ElementName=label_hint, Path=Content}" ContentTemplateSelector="{StaticResource myDataTemplateSelector}"/>
-                                    </StackPanel>
+                                            <StackPanel x:Name="stackpanel_templatedContent" Visibility="Collapsed">
+                                                <ContentControl Content="{Binding ElementName=label_hint, Path=Content}" ContentTemplateSelector="{StaticResource myDataTemplateSelector}"/>
+                                            </StackPanel>
 
-                                </StackPanel>
-                            </Border>
+                                        </StackPanel>
+                                    </Border>
 
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
 
-                </ItemsControl>
-                                   
+                        </ItemsControl>
 
+                    </StackPanel>
+                </Border>
             </StackPanel>
         </ScrollViewer>
     </Grid>

@@ -10,6 +10,9 @@
     <Grid>
         <!--<controls:EngineEntityListBox x:Name="engineEntityListBox" Loaded="EngineObjectListBoxControl_Loaded"/>-->
         <!--<controls:MenuToolbar></controls:MenuToolbar>-->
+        <DockPanel>
         <controls:EngineListCreateEntity x:Name="list_createEntity" Loaded="list_createEntity_Loaded"/>
+        <controls:PropertyWindow x:Name="property"/>
+        </DockPanel>
     </Grid>
 </Window>

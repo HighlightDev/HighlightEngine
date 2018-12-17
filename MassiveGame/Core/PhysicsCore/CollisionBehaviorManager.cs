@@ -470,14 +470,32 @@ namespace MassiveGame.Core.PhysicsCore
                                 var rayCastResults = GetRayCastResultsFromMultipleRayCast(listOfRays, collidedBounds, characterEntity);
                                 var upperRayResult = GetClosestAndHighestRay(rayCastResults, characterBound);
 
-                                bool bCanElevateOnMesh = true;
+                                bool bCanElevateOnMesh = true, bCanAvoidObstacle = false;
 
                                 if (upperRayResult != null)
                                 {
                                     // check normal of collided plane
                                     BoundBase bound = outputData.collidedBound;
                                     Vector3 normalToCollidedPlane = bound.GetNormalToIntersectedPosition(outputData.intersectionPosition);
-                                    if (!REACHABLE_INCLINE(normalToCollidedPlane)) bCanElevateOnMesh = false;
+
+                                    if (!REACHABLE_INCLINE(normalToCollidedPlane))
+                                    {
+                                        bCanElevateOnMesh = false;
+
+                                        // THIS IS NOT TESTED FULLY FEATURE
+                                        if (true)
+                                        {
+                                            if (IS_OBSTACLE_AVOIDABLE(normalToCollidedPlane, characterEntity.Velocity))
+                                            {
+                                                bCanAvoidObstacle = true;
+                                                characterEntity.Velocity = GetAvoidingVelocity(normalToCollidedPlane, characterEntity.Velocity);
+                                                characterEntity.popPosition();
+                                                var newPosition = characterEntity.ComponentTranslation + characterEntity.Velocity * characterEntity.Speed;
+                                                characterEntity.SetPosition(newPosition);
+                                                characterEntity.pushPosition();
+                                            }
+                                        }
+                                    }
                                 }
 
                                 if (bCanElevateOnMesh)
@@ -487,10 +505,16 @@ namespace MassiveGame.Core.PhysicsCore
                                     characterEntity.SetPosition(NewCharacterPosition);
                                     characterEntity.pushPosition();
                                 }
-                                else
+                                else if (!bCanAvoidObstacle)
+                                {
                                     characterEntity.popPosition();
+                                }
 
-                                characterEntity.ActorState = BehaviorState.IDLE;
+                                // THIS IS NOT TESTED FULLY FEATURE
+                                if (bCanAvoidObstacle)
+                                    characterEntity.ActorState = BehaviorState.FREE_FALLING;
+                                else
+                                    characterEntity.ActorState = BehaviorState.IDLE;
                             }
                         }
                         /*  There was no intersection with ray, this could be one of these reasons :
@@ -505,6 +529,29 @@ namespace MassiveGame.Core.PhysicsCore
                         break;
                     }
             }
+        }
+
+        private Vector3 GetAvoidingVelocity(Vector3 normalToCollidedPlane, Vector3 velocity)
+        {
+            Vector3 binormalToCollidedPlane = Vector3.Cross(normalToCollidedPlane, GameWorld.GetWorldInstance().GetLevel().Camera.GetLocalSpaceUpVector());
+            float velocityProjectBinormal = GeometryMath.ProjectVectorOnNormalizedVector(binormalToCollidedPlane, velocity);
+            Vector3 avoidingVelocity = velocityProjectBinormal * binormalToCollidedPlane;
+            return avoidingVelocity;
+        }
+
+        private bool IS_OBSTACLE_AVOIDABLE(Vector3 normalToCollidedPlane, Vector3 velocity)
+        {
+            bool bAvoidable = false;
+
+            Vector3 normalizedVelocity = velocity.Normalized();
+            float normalDotVelocity = Vector3.Dot(normalToCollidedPlane, normalizedVelocity);
+
+            if (normalDotVelocity > -0.98) // minus is because velocity and normal should be opposite directed
+            {
+                bAvoidable = true;
+            }
+
+            return bAvoidable;
         }
 
         private void ProcessCollisionAtState_FreeFalling(MovableEntity character, Entity collidedEntity, List<BoundBase> collidedBounds)

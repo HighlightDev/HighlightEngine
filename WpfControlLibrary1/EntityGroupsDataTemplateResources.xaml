@@ -2,19 +2,9 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     x:Class="WpfControlLibrary1.EntityGroupsDataTemplateResources"
                     x:ClassModifier="public" >
-
-    <!-- Engine listbox background style -->
-    <Style x:Key="EngineListBoxStackPanelBackground" TargetType="StackPanel">
-        <Setter Property="Background">
-            <Setter.Value>
-                <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
-                    <GradientStop Offset="0" Color="#FF0E0E0E"/>
-                    <GradientStop Offset="0.5" Color="#FF252525"/>
-                    <GradientStop Offset="1" Color="#FF424242"/>
-                </LinearGradientBrush>
-            </Setter.Value>
-        </Setter>
-    </Style>
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="CommonResources.xaml"/>
+    </ResourceDictionary.MergedDictionaries>
 
     <!-- Engine entities list -->
     <DataTemplate x:Key="templateEntities">
@@ -23,32 +13,29 @@
                     Width="250">
 
             <StackPanel x:Name="staticMesh" MouseDown="EntryStackPanel_MouseDown">
-                <Label x:Name="label_staticMesh" Content="Static Mesh"
+                <Label x:Name="label_staticMesh"
+                       Style="{StaticResource ResourceKey=engineLabelStyle_Size2}"
+                       Content="Static Mesh"
                        HorizontalAlignment="Center"
                        VerticalAlignment="Top" 
-                       Foreground="#FFC1C1C1" 
-                       FontSize="15"
-                       FontFamily="Comic Sans MS, Verdana"
                        Margin="0, 0, 0, 0"/>
             </StackPanel>
 
             <StackPanel x:Name="skeletalMesh" MouseDown="EntryStackPanel_MouseDown">
-                <Label x:Name="label_skeletalMesh" Content="Skeletal Mesh"
+                <Label x:Name="label_skeletalMesh"
+                       Style="{StaticResource ResourceKey=engineLabelStyle_Size2}"
+                       Content="Skeletal Mesh"
                        HorizontalAlignment="Center"
                        VerticalAlignment="Top" 
-                       Foreground="#FFC1C1C1" 
-                       FontSize="15"
-                       FontFamily="Comic Sans MS, Verdana"
                        Margin="0, 0, 0, 0"/>
             </StackPanel>
 
             <StackPanel x:Name="movableMesh" MouseDown="EntryStackPanel_MouseDown">
-                <Label x:Name="label_movableMesh" Content="Movable Mesh"
+                <Label x:Name="label_movableMesh"
+                       Style="{StaticResource ResourceKey=engineLabelStyle_Size2}"
+                       Content="Movable Mesh"
                        HorizontalAlignment="Center"
                        VerticalAlignment="Top" 
-                       Foreground="#FFC1C1C1" 
-                       FontSize="15"
-                       FontFamily="Comic Sans MS, Verdana"
                        Margin="0, 0, 0, 0"/>
             </StackPanel>
 
@@ -89,33 +76,30 @@
                     Orientation="Vertical" Style="{StaticResource EngineListBoxStackPanelBackground}"
                     Width="250">
             <StackPanel x:Name="direcionalLight" MouseDown="EntryStackPanel_MouseDown">
-                <Label x:Name="label_directionalLight" Content="Directional Light"
-                   HorizontalAlignment="Center"
-                   VerticalAlignment="Top" 
-                   Foreground="#FFC1C1C1" 
-                   FontSize="15"
-                   FontFamily="Comic Sans MS, Verdana"
-                   Margin="0, 0, 0, 0"/>
+                <Label x:Name="label_directionalLight"
+                       Style="{StaticResource ResourceKey=engineLabelStyle_Size2}"
+                       Content="Directional Light"
+                       HorizontalAlignment="Center"
+                       VerticalAlignment="Top" 
+                       Margin="0, 0, 0, 0"/>
             </StackPanel>
 
             <StackPanel x:Name="pointLight" MouseDown="EntryStackPanel_MouseDown">
-                <Label x:Name="label_pointLight" Content="Point Light"
-                   HorizontalAlignment="Center"
-                   VerticalAlignment="Top" 
-                   Foreground="#FFC1C1C1" 
-                   FontSize="15"
-                   FontFamily="Comic Sans MS, Verdana"
-                   Margin="0, 0, 0, 0"/>
+                <Label x:Name="label_pointLight"
+                       Style="{StaticResource ResourceKey=engineLabelStyle_Size2}"
+                       Content="Point Light"
+                       HorizontalAlignment="Center"
+                       VerticalAlignment="Top" 
+                       Margin="0, 0, 0, 0"/>
             </StackPanel>
 
             <StackPanel x:Name="spotLight" MouseDown="EntryStackPanel_MouseDown">
-                <Label x:Name="label_spotLight" Content="Spot Light"
-                   HorizontalAlignment="Center"
-                   VerticalAlignment="Top" 
-                   Foreground="#FFC1C1C1" 
-                   FontSize="15"
-                   FontFamily="Comic Sans MS, Verdana"
-                   Margin="0, 0, 0, 0"/>
+                <Label x:Name="label_spotLight"
+                       Style="{StaticResource ResourceKey=engineLabelStyle_Size2}"
+                       Content="Spot Light"
+                       HorizontalAlignment="Center"
+                       VerticalAlignment="Top" 
+                       Margin="0, 0, 0, 0"/>
             </StackPanel>
         </StackPanel>
     </DataTemplate>

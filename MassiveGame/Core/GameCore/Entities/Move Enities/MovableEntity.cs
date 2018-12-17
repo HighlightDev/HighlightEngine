@@ -332,7 +332,7 @@ namespace MassiveGame.Core.GameCore.Entities.MoveEntities
                 return;
 
             ActorState = BehaviorState.MOVE;
-            Velocity = GameWorld.GetWorldInstance().GetLevel().Camera.GetEyeSpaceForwardVector() * new Vector3(1, 0, 1)/*truncate y-velocity*/;
+            Velocity = GameWorld.GetWorldInstance().GetLevel().Camera.GetEyeSpaceForwardVector() * new Vector3(1, 0, 1); // truncate y-velocity
 
             var newPosition = ComponentTranslation + Velocity * Speed;
             SetPosition(newPosition);

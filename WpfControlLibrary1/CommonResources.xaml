@@ -1,6 +1,69 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     
+    <!-- Border hover color -->
+    <Style x:Key="engineBorderHoverColor" TargetType="Border">
+        <Setter Property="BorderBrush" Value="Black"/>
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="BorderBrush" Value="#FF3E65A8"/>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+    
+    <!-- Engine header background style -->
+    <Style x:Key="EngineStackPanelHeaderStyle" TargetType="StackPanel">
+        <Setter Property="Background">
+            <Setter.Value>
+                <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                    <GradientStop Offset="0" Color="#FF0E0E0E"/>
+                    <GradientStop Offset="0.5" Color="#FF3A3939"/>
+                    <GradientStop Offset="1" Color="#FF535252"/>
+                </LinearGradientBrush>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="EngineDockPanelHeaderStyle" TargetType="DockPanel">
+        <Setter Property="Background">
+            <Setter.Value>
+                <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                    <GradientStop Offset="0" Color="#FF0E0E0E"/>
+                    <GradientStop Offset="0.5" Color="#FF3A3939"/>
+                    <GradientStop Offset="1" Color="#FF535252"/>
+                </LinearGradientBrush>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    
+    <!-- Engine label size 1 -->
+    <Style x:Key="engineLabelStyle_Size1" TargetType="Label">
+        <Setter Property="Foreground" Value="#FFC1C1C1"/>
+        <Setter Property="FontSize" Value="19" />
+        <Setter Property="FontFamily" Value="Comic Sans MS, Verdana"/>
+    </Style>
+
+    <!-- Engine label header -->
+    <Style x:Key="engineLabelStyle_header" TargetType="Label">
+        <Setter Property="Foreground" Value="#FFC1C1C1"/>
+        <Setter Property="FontSize" Value="14" />
+        <Setter Property="FontFamily" Value="Comic Sans MS, Verdana"/>
+    </Style>
+
+    <!-- Engine label size 2 -->
+    <Style x:Key="engineLabelStyle_Size2" TargetType="Label">
+        <Setter Property="Foreground" Value="#FFC1C1C1"/>
+        <Setter Property="FontSize" Value="15" />
+        <Setter Property="FontFamily" Value="Comic Sans MS, Verdana"/>
+    </Style>
+    
+    <!-- Engine textblock size 2 -->
+    <Style x:Key="engineTextBoxStyle_Size2" TargetType="TextBlock">
+        <Setter Property="Foreground" Value="#FFC1C1C1"/>
+        <Setter Property="FontSize" Value="15" />
+        <Setter Property="FontFamily" Value="Comic Sans MS, Verdana"/>
+    </Style>
+
     <!-- Engine listbox background style -->
     <Style x:Key="EngineListBoxStackPanelBackground" TargetType="StackPanel">
         <Setter Property="Background">
@@ -26,20 +89,19 @@
         </Setter>
     </Style>
 
-    <!-- Engine entity listbox border property -->
-    <Style x:Key="BorderBrush" TargetType="Border">
-        <Setter Property="BorderBrush">
-            <Setter.Value>
-                <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
-                    <GradientStop Offset="0" Color="#FF0E0E0E"/>
-                    <GradientStop Offset="1" Color="#FF424242"/>
-                </LinearGradientBrush>
-            </Setter.Value>
-        </Setter>
-
-        <Setter Property="BorderThickness" Value="2"/>
-    </Style>
-
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     <!-- Engine button -->
 
     <Style x:Key="ShadowStyle">
