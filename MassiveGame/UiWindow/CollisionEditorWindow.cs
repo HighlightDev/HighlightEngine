@@ -9,11 +9,14 @@ using OpenTK;
 using OpenTK.Graphics.OpenGL;
 using MassiveGame.Settings;
 using MassiveGame.CollisionEditor.Core.SerializeAPI;
+using System.Text.RegularExpressions;
+using System.Linq;
 
 namespace MassiveGame.UI
 {
     public partial class CollisionEditorWindow : Form
     {
+        private const string BINARY_FOLDER_NAME = "bin";
         private EditorCore Editor;
         private Point PrevCursorPosition;
         private System.Threading.Timer timer;
@@ -381,11 +384,25 @@ namespace MassiveGame.UI
             }
         }
 
+        private string BuildRootFolder()
+        {
+            string currentDirPath = System.Environment.CurrentDirectory;
+            string directoryToRoot = string.Empty;
+            Regex folderEx = new Regex(BINARY_FOLDER_NAME);
+            if (folderEx.IsMatch(currentDirPath))
+            {
+                Int32 indexOfRootEntrance = folderEx.Match(currentDirPath).Index - 1;
+                directoryToRoot = currentDirPath.Substring(0, indexOfRootEntrance + 1);
+            }
+
+            return directoryToRoot;
+        }
+
         private void createMesh_B_click(object sender, EventArgs e)
         {
             OpenFileDialog dlg = new OpenFileDialog();
-            dlg.InitialDirectory = ProjectFolders.ModelsPath;
-                //Environment.CurrentDirectory;
+            string meshDir = BuildRootFolder();
+            dlg.InitialDirectory = meshDir + "\\ModelFiles\\";
             
             var result = dlg.ShowDialog();
             if (result == DialogResult.OK)

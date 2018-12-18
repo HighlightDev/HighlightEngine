@@ -140,7 +140,7 @@ namespace MassiveGame.Core.GameCore
             DeserializeWrapper deserializer = new DeserializeWrapper();
             foreach (var item in level.StaticMeshCollection)
             {
-                var inner_wrapper = deserializer.Deserialize<CollisionComponentsWrapper>("actualHome.cl");
+                var inner_wrapper = deserializer.Deserialize<CollisionComponentsWrapper>("actualHome1.cl");
                 item.SetComponents(inner_wrapper.SerializedComponents);
                 item.SetCollisionHeadUnit(CollisionHeadUnitObject);
 
@@ -152,7 +152,7 @@ namespace MassiveGame.Core.GameCore
             normalMapPath = ProjectFolders.NormalMapsPath + "brick_nm_high.png";
             specularMapPath = ProjectFolders.SpecularMapsPath + "brick_sm.png";
 
-            MovableEntityArguments movableMeshArg = new MovableEntityArguments(modelPath, texturePath, normalMapPath, specularMapPath, new Vector3(175, 1200, 170), new Vector3(0, 0, 0), new Vector3(4f));
+            MovableEntityArguments movableMeshArg = new MovableEntityArguments(modelPath, texturePath, normalMapPath, specularMapPath, new Vector3(155, 1200, 170), new Vector3(0, 0, 0), new Vector3(4f));
 
             modelPath = ProjectFolders.ModelsPath + "model.dae";
             texturePath = ProjectFolders.MultitexturesPath + "diffuse.png";

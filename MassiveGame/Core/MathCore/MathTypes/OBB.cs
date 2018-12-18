@@ -14,19 +14,19 @@ namespace MassiveGame.Core.MathCore.MathTypes
             return ParentComponent.GetTotalScale();
         }
 
-        public override Vector3 GetTangetX()
+        public override Vector3 GetTangentX()
         {
-            return Vector3.TransformNormal(base.GetTangetX(), TransformationMatrix).Normalized();
+            return Vector3.TransformNormal(base.GetTangentX(), TransformationMatrix).Normalized();
         }
 
-        public override Vector3 GetTangetY()
+        public override Vector3 GetTangentY()
         {
-            return Vector3.TransformNormal(base.GetTangetY(), TransformationMatrix).Normalized();
+            return Vector3.TransformNormal(base.GetTangentY(), TransformationMatrix).Normalized();
         }
 
-        public override Vector3 GetTangetZ()
+        public override Vector3 GetTangentZ()
         {
-            return Vector3.TransformNormal(base.GetTangetZ(), TransformationMatrix).Normalized();
+            return Vector3.TransformNormal(base.GetTangentZ(), TransformationMatrix).Normalized();
         }
 
         public override BoundType GetBoundType()
@@ -90,9 +90,9 @@ namespace MassiveGame.Core.MathCore.MathTypes
 
             Vector3 localSpaceExtent = GetLocalSpaceExtent();
             Vector3 localSpacePosition = GetLocalSpaceOrigin();
-            Vector3 tangentX = GetTangetX();
-            Vector3 tangentY = GetTangetY();
-            Vector3 tangentZ = GetTangetZ();
+            Vector3 tangentX = GetTangentX();
+            Vector3 tangentY = GetTangentY();
+            Vector3 tangentZ = GetTangentZ();
 
             // find edge vertices for each plane of bounding box
             Vector3[] vertices = new Vector3[]

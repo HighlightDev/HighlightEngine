@@ -43,22 +43,22 @@ namespace MassiveGame.Core.MathCore.MathTypes
             return new AABB((min + max) * 0.5f, (max - min) * 0.5f, parentComponent);
         }
 
-        public override Vector3 GetTangetX()
+        public override Vector3 GetTangentX()
         {
             Vector3 scale = ParentComponent.GetTotalScale();
-            return (base.GetTangetX() * scale).Normalized();
+            return (base.GetTangentX() * scale).Normalized();
         }
 
-        public override Vector3 GetTangetY()
+        public override Vector3 GetTangentY()
         {
             Vector3 scale = ParentComponent.GetTotalScale();
-            return (base.GetTangetY() * scale).Normalized();
+            return (base.GetTangentY() * scale).Normalized();
         }
 
-        public override Vector3 GetTangetZ()
+        public override Vector3 GetTangentZ()
         {
             Vector3 scale = ScalePlusTranslation.ExtractScale();
-            return (base.GetTangetZ() * scale).Normalized();
+            return (base.GetTangentZ() * scale).Normalized();
         }
 
         public override BoundType GetBoundType()
@@ -95,9 +95,9 @@ namespace MassiveGame.Core.MathCore.MathTypes
 
             Vector3 tangentSpaceExtent = GetExtent();
             Vector3 tangentSpacePosition = GetOrigin();
-            Vector3 tangentX = GetTangetX();
-            Vector3 tangentY = GetTangetY();
-            Vector3 tangentZ = GetTangetZ();
+            Vector3 tangentX = GetTangentX();
+            Vector3 tangentY = GetTangentY();
+            Vector3 tangentZ = GetTangentZ();
 
             // find edge vertices for each plane of bounding box
             Vector3 edgeRight = tangentSpacePosition + (tangentX * tangentSpaceExtent.X);

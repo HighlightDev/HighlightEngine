@@ -79,17 +79,17 @@ namespace MassiveGame.Core.MathCore.MathTypes
 
         public abstract BoundType GetBoundType();
 
-        public virtual Vector3 GetTangetX()
+        public virtual Vector3 GetTangentX()
         {
             return new Vector3(1, 0, 0);
         }
 
-        public virtual Vector3 GetTangetY()
+        public virtual Vector3 GetTangentY()
         {
             return new Vector3(0, 1, 0);
         }
 
-        public virtual Vector3 GetTangetZ()
+        public virtual Vector3 GetTangentZ()
         {
             return new Vector3(0, 0, 1);
         }

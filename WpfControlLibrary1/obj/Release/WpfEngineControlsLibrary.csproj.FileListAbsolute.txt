@@ -29,3 +29,10 @@ C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\WpfControlL
 C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\WpfControlLibrary1\obj\Release\WpfEngineControlsLibrary.csprojAssemblyReference.cache
 C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\WpfControlLibrary1\obj\Release\MenuToolbar.g.cs
 C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\WpfControlLibrary1\obj\Release\MenuToolbar.baml
+C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\WpfControlLibrary1\obj\Release\EntityGroupsDataTemplateResources.baml
+C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\WpfControlLibrary1\obj\Release\EngineListCreateEntity.g.cs
+C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\WpfControlLibrary1\obj\Release\EntityGroupsDataTemplateResources.g.cs
+C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\WpfControlLibrary1\obj\Release\PropertyWindow.g.cs
+C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\WpfControlLibrary1\obj\Release\GeneratedInternalTypeHelper.g.cs
+C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\WpfControlLibrary1\obj\Release\EngineListCreateEntity.baml
+C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\WpfControlLibrary1\obj\Release\PropertyWindow.baml

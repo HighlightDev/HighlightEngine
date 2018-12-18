@@ -27,5 +27,6 @@ C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\MassiveGame
 C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\MassiveGame\obj\CollisionEditor\HighlightEngine.csprojAssemblyReference.cache
 C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\MassiveGame\obj\CollisionEditor\HighlightEngine.csproj.CoreCompileInputs.cache
 C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\MassiveGame\obj\CollisionEditor\HighlightEngine.csproj.CopyComplete
-C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\MassiveGame\bin\CollisionEditor\UIControls.dll
-C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\MassiveGame\bin\CollisionEditor\UIControls.pdb
+C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\MassiveGame\bin\CollisionEditor\UiWindow\EditorWindow.resx
+C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\MassiveGame\bin\CollisionEditor\WpfControlLibrary1.dll
+C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\MassiveGame\bin\CollisionEditor\WpfControlLibrary1.pdb

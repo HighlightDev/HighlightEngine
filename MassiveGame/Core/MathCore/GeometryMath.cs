@@ -85,12 +85,12 @@ namespace MassiveGame.Core.MathCore
         {
             Matrix3 RotationMatrix = new Matrix3(obb.TransformationMatrix);
             Vector3[] testAxes = new Vector3[15];
-            testAxes[0] = aabb.GetTangetX();
-            testAxes[1] = aabb.GetTangetY();
-            testAxes[2] = aabb.GetTangetZ();
-            testAxes[3] = obb.GetTangetX(); ;
-            testAxes[4] = obb.GetTangetY();
-            testAxes[5] = obb.GetTangetZ();
+            testAxes[0] = aabb.GetTangentX();
+            testAxes[1] = aabb.GetTangentY();
+            testAxes[2] = aabb.GetTangentZ();
+            testAxes[3] = obb.GetTangentX(); ;
+            testAxes[4] = obb.GetTangentY();
+            testAxes[5] = obb.GetTangentZ();
 
             for (Int32 i = 0; i < 3; i++)
             {
@@ -282,9 +282,9 @@ namespace MassiveGame.Core.MathCore
 
         public static float Intersection_RayOBB(FRay ray, OBB obb)
         {
-            Vector3 RotationX = obb.GetTangetX();
-            Vector3 RotationY = obb.GetTangetY();
-            Vector3 RotationZ = obb.GetTangetZ();
+            Vector3 RotationX = obb.GetTangentX();
+            Vector3 RotationY = obb.GetTangentY();
+            Vector3 RotationZ = obb.GetTangentZ();
 
             Vector3 p = obb.GetOrigin() - ray.StartPosition;
 
