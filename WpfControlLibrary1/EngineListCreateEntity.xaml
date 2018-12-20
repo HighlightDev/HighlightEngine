@@ -50,7 +50,7 @@
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate>
                                     <Border x:Name="border_1"
-                                    Style="{StaticResource engineBorderHoverColor}"
+                                    Style="{StaticResource engineBorderDefaultPlusHoverColor}"
                                     BorderThickness ="1">
 
                                         <StackPanel>

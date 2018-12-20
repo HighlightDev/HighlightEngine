@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using WpfControlLibrary1.Models.Property;
 
 namespace WpfControlLibrary1
 {
@@ -20,6 +21,8 @@ namespace WpfControlLibrary1
     /// </summary>
     public partial class PropertyWindow : UserControl
     {
+        public IPropertyModelBase PropertyTemplateType { set; get; }
+
         public PropertyWindow()
         {
             InitializeComponent();
@@ -27,7 +30,8 @@ namespace WpfControlLibrary1
 
         private void scrollviewer_1_MouseEnter(object sender, MouseEventArgs e)
         {
-
+            var scrollViewer = (sender as ScrollViewer);
+            scrollViewer?.Focus();
         }
 
         private void Image_MouseDown(object sender, MouseButtonEventArgs e)
@@ -35,6 +39,18 @@ namespace WpfControlLibrary1
             object header = FindName("CustomItemsControl");
             FrameworkElement headerElement = header as FrameworkElement;
             headerElement.Visibility = headerElement.Visibility == Visibility.Collapsed ? Visibility.Visible : Visibility.Collapsed;
+        }
+
+        private void stackPanel_TransformationHeader_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            object content = FindName("stackPanel_TransformationContent");
+            FrameworkElement contentElement = content as FrameworkElement;
+            contentElement.Visibility = contentElement.Visibility == Visibility.Collapsed ? Visibility.Visible : Visibility.Collapsed;
+        }
+
+        private void PropertyContent_Loaded(object sender, RoutedEventArgs e)
+        {
+            (sender as FrameworkElement).DataContext = PropertyTemplateType;
         }
     }
 }

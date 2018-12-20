@@ -1,0 +1,155 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="clr-namespace:WpfControlLibrary1"
+                    x:Class="WpfControlLibrary1.PropertyDataTemplate"
+                    x:ClassModifier="public">
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="CommonResources.xaml"/>
+    </ResourceDictionary.MergedDictionaries>
+
+    <DataTemplate x:Key="templateEntityProperty">
+        <StackPanel>
+
+            <StackPanel x:Name="stackPanel_EntityMesh" Orientation="Vertical" Style="{StaticResource EngineListBoxStackPanelBackground}">
+
+                <DockPanel x:Name="stackPanel_EntityMeshHeader" MouseDown="SubHeader_MouseDown">
+                    <Image Height="10"
+                                           Margin="5 0 10 0"
+                                        Source="C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\WpfControlLibrary1\Images\submenu_indicator.png" />
+                    <Label Style="{StaticResource ResourceKey=engineLabelStyle_Size2}"
+                                            Content="Mesh"
+                                            HorizontalAlignment="Left"/>
+                </DockPanel>
+
+                <StackPanel x:Name="stackPanel_EntityMeshContent" Orientation="Vertical" Style="{StaticResource EngineListBoxStackPanelBackground}">
+
+                    <Border BorderBrush="Gray" BorderThickness="0 1 0 1">
+                        <DockPanel x:Name="dockPanel_EntityMeshLoading">
+
+                            <StackPanel Margin="0, 10, 0, 0">
+                                <Border Style="{StaticResource engineBorderNoDefaultPlusHoverColor}"
+                                                BorderThickness="1">
+                                    <DockPanel>
+                                        <Label Style="{StaticResource engineLabelStyle_Size2}"
+                                                           Content="Entity Mesh"
+                                                           HorizontalAlignment="Left"
+                                                           Margin="0 0 10 0"/>
+                                        <Border BorderBrush="White" BorderThickness="1" VerticalAlignment="Center">
+                                            <TextBlock x:Name="textBlock_LoadMesh"
+                                                               Style="{StaticResource engineTextBlockResourceSelectorStyle}"
+                                                               Text="C:\\mesh\\mesh.dae"
+                                                               TextAlignment="Left"
+                                                               MouseDown="TextBlockSelector_MouseDown"
+                                                               TextTrimming="CharacterEllipsis"/>
+                                        </Border>
+                                    </DockPanel>
+                                </Border>
+                            </StackPanel>
+
+                        </DockPanel>
+                    </Border>
+
+                </StackPanel>
+
+            </StackPanel>
+
+            <StackPanel x:Name="stackPanel_EntityTextures" Orientation="Vertical" Style="{StaticResource EngineListBoxStackPanelBackground}">
+
+                <DockPanel x:Name="stackPanel_EntityTexturesHeader" MouseDown="SubHeader_MouseDown">
+                    <Image Height="10"
+                           Margin="5 0 10 0"
+                           Source="C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\WpfControlLibrary1\Images\submenu_indicator.png" />
+                    <Label Style="{StaticResource ResourceKey=engineLabelStyle_Size2}"
+                           Content="Textures"
+                           HorizontalAlignment="Left"/>
+                </DockPanel>
+
+                <StackPanel x:Name="stackPanel_EntityTexturesContent" Orientation="Vertical" Style="{StaticResource EngineListBoxStackPanelBackground}">
+
+                    <!-- Abledo -->
+                    <Border BorderBrush="Gray" BorderThickness="0 1 0 1">
+                        <StackPanel>
+                            <DockPanel x:Name="dockPanel_EntityAlbedoLoading">
+
+                                <StackPanel Margin="0, 10, 0, 0">
+                                    <Border Style="{StaticResource engineBorderNoDefaultPlusHoverColor}"
+                                                BorderThickness="1">
+                                        <DockPanel>
+                                            <Label Style="{StaticResource engineLabelStyle_Size2}"
+                                                           Content="Albedo texture"
+                                                           HorizontalAlignment="Left"
+                                                           Margin="0 0 10 0"/>
+                                            <Border BorderBrush="White" BorderThickness="1" VerticalAlignment="Center">
+                                                <TextBlock x:Name="textBlock_LoadAlbedo"
+                                                               Style="{StaticResource engineTextBlockResourceSelectorStyle}"
+                                                               Text="C:\\albedo\\albedo"
+                                                               TextAlignment="Left"
+                                                               MouseDown="TextBlockSelector_MouseDown"
+                                                               TextTrimming="CharacterEllipsis"/>
+                                            </Border>
+                                        </DockPanel>
+                                    </Border>
+                                </StackPanel>
+
+                            </DockPanel>
+
+                            <!-- Normal map -->
+                            <DockPanel x:Name="dockPanel_EntityNormalMapLoading">
+
+                                <StackPanel Margin="0, 10, 0, 0">
+                                    <Border Style="{StaticResource engineBorderNoDefaultPlusHoverColor}"
+                                                BorderThickness="1">
+                                        <DockPanel>
+                                            <Label Style="{StaticResource engineLabelStyle_Size2}"
+                                                           Content="Normal map"
+                                                           HorizontalAlignment="Left"
+                                                           Margin="0 0 10 0"/>
+                                            <Border BorderBrush="White" BorderThickness="1" VerticalAlignment="Center">
+                                                <TextBlock x:Name="textBlock_LoadNormalMap"
+                                                               Style="{StaticResource engineTextBlockResourceSelectorStyle}"
+                                                               Text="C:\\normalmap\\normal"
+                                                               TextAlignment="Left"
+                                                               MouseDown="TextBlockSelector_MouseDown"
+                                                               TextTrimming="CharacterEllipsis"/>
+                                            </Border>
+                                        </DockPanel>
+                                    </Border>
+                                </StackPanel>
+
+                            </DockPanel>
+
+                            <!-- Specular map -->
+                            <DockPanel x:Name="dockPanel_EntitySpecularMapLoading">
+
+                                <StackPanel Margin="0, 10, 0, 0">
+                                    <Border Style="{StaticResource engineBorderNoDefaultPlusHoverColor}"
+                                                BorderThickness="1">
+                                        <DockPanel>
+                                            <Label Style="{StaticResource engineLabelStyle_Size2}"
+                                                           Content="Specular map"
+                                                           HorizontalAlignment="Left"
+                                                           Margin="0 0 10 0"/>
+                                            <Border BorderBrush="White" BorderThickness="1" VerticalAlignment="Center">
+                                                <TextBlock x:Name="textBlock_LoadSpecularMap"
+                                                               Style="{StaticResource engineTextBlockResourceSelectorStyle}"
+                                                               Text="C:\\albedo\\specularMap\\specularMap"
+                                                               TextAlignment="Left"
+                                                               MouseDown="TextBlockSelector_MouseDown"
+                                                               TextTrimming="CharacterEllipsis"/>
+                                            </Border>
+                                        </DockPanel>
+                                    </Border>
+                                </StackPanel>
+
+                            </DockPanel>
+                        </StackPanel>
+                    </Border>
+
+                </StackPanel>
+
+            </StackPanel>
+
+        </StackPanel>
+    </DataTemplate>
+
+</ResourceDictionary>

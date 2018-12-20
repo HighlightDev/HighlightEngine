@@ -33,6 +33,7 @@ C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\WpfControlL
 C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\WpfControlLibrary1\obj\Debug\GeneratedInternalTypeHelper.g.cs
 C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\WpfControlLibrary1\obj\Debug\EntityGroupsDataTemplateResources.baml
 C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\WpfControlLibrary1\obj\Debug\EntityGroupsDataTemplateResources.g.cs
-C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\WpfControlLibrary1\obj\Debug\WpfEngineControlsLibrary.csprojAssemblyReference.cache
 C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\WpfControlLibrary1\obj\Debug\PropertyWindow.g.cs
 C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\WpfControlLibrary1\obj\Debug\PropertyWindow.baml
+C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\WpfControlLibrary1\obj\Debug\PropertyDataTemplate.baml
+C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\WpfControlLibrary1\obj\Debug\PropertyDataTemplate.g.cs

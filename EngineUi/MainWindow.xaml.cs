@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using WpfControlLibrary1;
+using WpfControlLibrary1.Models.Property;
 using WpfControlLibrary1.Views;
 
 namespace EngineUi
@@ -39,6 +40,11 @@ namespace EngineUi
             EntityGroupsView entityGroupsView = new EntityGroupsView();
             entityGroupsView.FillEntityGroupsList();
             (sender as EngineListCreateEntity).DataContext = entityGroupsView;
+        }
+
+        private void property_Loaded(object sender, RoutedEventArgs e)
+        {
+            (sender as PropertyWindow).PropertyTemplateType = new EntitiesPropertyModel();
         }
     }
 }

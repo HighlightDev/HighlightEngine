@@ -49,6 +49,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DataTemplateSelectors\EntityGroupContentDataTemplateSelector.cs" />
+    <Compile Include="DataTemplateSelectors\PropertyDataTemplateSelector.cs" />
     <Compile Include="EngineButton.xaml.cs">
       <DependentUpon>EngineButton.xaml</DependentUpon>
     </Compile>
@@ -68,11 +69,20 @@
     <Compile Include="Models\EntityGroups\SunMeshGroupModel.cs" />
     <Compile Include="Models\EntityGroups\TerrainGroupModel.cs" />
     <Compile Include="Models\EntityGroups\WaterPlanesGroupModel.cs" />
+    <Compile Include="Models\Property\EntitiesPropertyModel.cs" />
+    <Compile Include="Models\Property\IPropertyModelBase.cs" />
+    <Compile Include="Models\Property\LightPropertyModel.cs" />
+    <Compile Include="Models\Property\SkyboxPropertyModel.cs" />
+    <Compile Include="Models\Property\SunMeshPropertyModel.cs" />
+    <Compile Include="Models\Property\TerrainPropertyModel.cs" />
+    <Compile Include="Models\Property\WaterPlanesPropertyModel.cs" />
+    <Compile Include="PropertyDataTemplate.cs" />
     <Compile Include="PropertyWindow.xaml.cs">
       <DependentUpon>PropertyWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\EngineObjectEntryView.cs" />
     <Compile Include="Views\EntityGroupsView.cs" />
+    <Compile Include="Views\PropertyView.cs" />
     <Page Include="CommonResources.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -99,6 +109,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="EntityGroupsDataTemplateResources.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="PropertyDataTemplate.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -139,6 +153,9 @@
   <ItemGroup>
     <Resource Include="Images\arrow_left.png" />
     <Resource Include="Images\arrow_right.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\submenu_indicator.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

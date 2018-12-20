@@ -12,7 +12,7 @@
         <!--<controls:MenuToolbar></controls:MenuToolbar>-->
         <DockPanel>
         <controls:EngineListCreateEntity x:Name="list_createEntity" Loaded="list_createEntity_Loaded"/>
-        <controls:PropertyWindow x:Name="property"/>
+        <controls:PropertyWindow x:Name="property" Loaded="property_Loaded"/>
         </DockPanel>
     </Grid>
 </Window>
