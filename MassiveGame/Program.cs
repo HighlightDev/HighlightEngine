@@ -19,13 +19,12 @@ namespace MassiveGame
 #if COLLISION_EDITOR
             m_UiWindow = new UI.CollisionEditorWindow(startScreenRezoluion.X, startScreenRezoluion.Y);
 #elif ENGINE_EDITOR
-            m_UiWindow = new UI.EditorWindow(startScreenRezoluion.X, startScreenRezoluion.Y, core.PreConstructor, core.RenderQueue, core.CleanEverythingUp);
+            m_UiWindow = new UI.EditorWindow(startScreenRezoluion.X, startScreenRezoluion.Y, core);
 #elif DEBUG
-            m_UiWindow = new UI.GameWindow(startScreenRezoluion.X, startScreenRezoluion.Y, core.PreConstructor, core.RenderQueue, core.CleanEverythingUp);
+            m_UiWindow = new UI.GameWindow(startScreenRezoluion.X, startScreenRezoluion.Y, core);
 #endif
 
-            m_UiWindow.Left = EngineStatics.SCREEN_POSITION_X;
-            m_UiWindow.Top = EngineStatics.SCREEN_POSITION_Y;
+            m_UiWindow.Location = EngineStatics.ScreenLocation;
 
             m_UiWindow.ShowDialog();
         }

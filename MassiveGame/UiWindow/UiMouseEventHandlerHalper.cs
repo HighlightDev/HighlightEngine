@@ -30,18 +30,5 @@ namespace MassiveGame.UiWindow
 
             return parentLocationTotal;
         }
-
-        public static void DoCorrectRotation(MouseEventArgs mouseEvent, BaseCamera camera, Control childControl, Control windowControl)
-        {
-            Point childOffset = GetChildLocationOffsetAtWindow(childControl, windowControl);
-
-            childOffset.Offset(mouseEvent.Location);
-
-            if (EngineStatics.PrevCursorPosition != mouseEvent.Location)
-            {
-                EngineStatics.PrevCursorPosition = mouseEvent.Location;
-                camera.RotateFacade(childOffset, new Point(childControl.Width, childControl.Height));
-            }
-        }
     }
 }

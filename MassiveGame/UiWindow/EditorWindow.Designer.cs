@@ -30,7 +30,6 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(EditorWindow));
             this.engineEntityListBoxHost = new System.Windows.Forms.Integration.ElementHost();
-            this.engineEntityListBox = new WpfControlLibrary1.EngineEntityListBox();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.GLControl = new OpenTK.GLControl();
@@ -50,7 +49,7 @@
             this.engineEntityListBoxHost.TabIndex = 0;
             this.engineEntityListBoxHost.Text = "elementHost1";
             this.engineEntityListBoxHost.ChildChanged += new System.EventHandler<System.Windows.Forms.Integration.ChildChangedEventArgs>(this.elementHost1_ChildChanged);
-            this.engineEntityListBoxHost.Child = this.engineEntityListBox;
+            this.engineEntityListBoxHost.Child = null;
             // 
             // tableLayoutPanel1
             // 
@@ -134,7 +133,6 @@
 
         #endregion
         private System.Windows.Forms.Integration.ElementHost engineEntityListBoxHost;
-        private WpfControlLibrary1.EngineEntityListBox engineEntityListBox;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
         private OpenTK.GLControl GLControl;

@@ -14,31 +14,30 @@ using MassiveGame.EngineEditor.Core.Entities;
 using MassiveGame.API.MouseObjectDetector;
 using MassiveGame.Core.MathCore;
 using MassiveGame.Core.MathCore.MathTypes;
+using MassiveGame.Engine;
 
 namespace MassiveGame.UI
 {
     public partial class EditorWindow : Form
     {
-        private Action m_renderQueueFunction, m_cleanUpFunction;
+        private EngineCore m_engineCore = null;
         private bool bOpenglControlMousePressed = false;
 
         #region Constructors
 
-        private EditorWindow(Action preConstructorFunction, Action renderQueueFunction, Action cleanUpFunction)
+        private EditorWindow(EngineCore engineCore)
         {
-            m_renderQueueFunction = renderQueueFunction;
-            m_cleanUpFunction = cleanUpFunction;
-
+            m_engineCore = engineCore;
             Application.EnableVisualStyles();
             InitializeComponent();
 
             GLControl.MouseEnter += 
                 (sender, e) => { GLControl.Focus(); };
-            preConstructorFunction();
+            m_engineCore.PreConstructor();
         }
 
-        public EditorWindow(Int32 width, Int32 height, Action preConstructorFunction, Action renderQueueFunction, Action cleanUpFunction)
-            : this(preConstructorFunction, renderQueueFunction, cleanUpFunction)
+        public EditorWindow(Int32 width, Int32 height, EngineCore engineCore)
+            : this(engineCore)
         {
             this.Width = width;
             this.Height = height;
@@ -65,12 +64,7 @@ namespace MassiveGame.UI
 
         private void OnRender(object sender, PaintEventArgs e)
         {
-            // Maybe somehow I can remove this trick
-            AdjustMouseCursor();
-
-           
-
-            m_renderQueueFunction();
+            m_engineCore.EngineRender(this.Location);
 
             if (previewEntity != null && GameWorld.GetWorldInstance().GetLevel() != null && GameWorld.GetWorldInstance().GetLevel().Camera != null && previewEntity.IsOwnedByEntity())
             {
@@ -87,15 +81,15 @@ namespace MassiveGame.UI
 
         private void OnResize(object sender, EventArgs e)
         {
-            GL.Viewport(0, 0, GLControl.Width, GLControl.Height);
+            m_engineCore.EngineWindowResized(new Point(0, 0), GLControl.Size);
             EngineStatics.globalSettings.ActualScreenRezolution = new Point(this.Width, this.Height);
             GLControl.Invalidate();
         }
 
         private void OnMove(object sender, EventArgs e)
         {
-            EngineStatics.SCREEN_POSITION_X = this.Left;
-            EngineStatics.SCREEN_POSITION_Y = this.Top;
+            EngineStatics.ScreenLocation.X = this.Left;
+            EngineStatics.ScreenLocation.Y = this.Top;
         }
         #endregion
 
@@ -135,11 +129,11 @@ namespace MassiveGame.UI
 
             if (bOpenglControlMousePressed)
             {
-                if (GameWorld.GetWorldInstance().GetLevel() != null && GameWorld.GetWorldInstance().GetLevel().Camera != null)
-                {
-                    UiMouseEventHandlerHalper.DoCorrectRotation(e, GameWorld.GetWorldInstance().GetLevel().Camera, GLControl, this);
-                    GLControl.Update(); // need to update frame after invalidation to redraw changes
-                }
+                Point mouseLocation = UiMouseEventHandlerHalper.GetChildLocationOffsetAtWindow(GLControl, this);
+                mouseLocation.Offset(e.Location);
+                m_engineCore.EngineMouseMove(mouseLocation, GLControl.Size);
+
+                GLControl.Update(); // need to update frame after invalidation to redraw changes
             }
         }
 
@@ -174,6 +168,7 @@ namespace MassiveGame.UI
                     {
                         bOpenglControlMousePressed = false;
                         Cursor.Show();
+                        Cursor = Cursors.Arrow;
                         break;
                     }
             }
@@ -183,16 +178,6 @@ namespace MassiveGame.UI
         {
         }
         #endregion
-
-        private void AdjustMouseCursor()
-        {
-            //для корректной работы камеры с учетом рамки
-            //+ 8 из - за того, что при открытии на полный экран, смещение стартовой позиции окна = -8
-            EngineStatics.SCREEN_POSITION_X = ((EngineStatics.WINDOW_BORDER != WindowBorder.Hidden) && (EngineStatics.WINDOW_STATE != OpenTK.WindowState.Fullscreen))
-                ? this.Location.X + 8 : this.Location.X;
-            EngineStatics.SCREEN_POSITION_Y = ((EngineStatics.WINDOW_BORDER != WindowBorder.Hidden) && (EngineStatics.WINDOW_STATE != OpenTK.WindowState.Fullscreen))
-                ? this.Location.Y + 8 : this.Location.Y;
-        }
 
         #region Key events
 
@@ -269,8 +254,8 @@ namespace MassiveGame.UI
             EngineObjectEntryView engineView = new EngineObjectEntryView();
             engineView.TestCreateEntries();
 
-            engineEntityListBox.DataContext = engineView;
-            engineEntityListBox.EntryStackPanelMouseDownEventFire += new Action<string>(MeshListBoxEventCatched);
+            //engineEntityListBox.DataContext = engineView;
+            //engineEntityListBox.EntryStackPanelMouseDownEventFire += new Action<string>(MeshListBoxEventCatched);
         }
 
         private void MeshListBoxEventCatched(string entity)
@@ -286,7 +271,7 @@ namespace MassiveGame.UI
         private void OnClosing(object sender, FormClosingEventArgs e)
         {
             base.OnClosing(e);
-            m_cleanUpFunction();
+            m_engineCore.CleanEverythingUp();
             Debug.Log.AddToFileStreamLog(String.Format("\nTime elapsed : {0}", DateTime.Now - EngineStatics.ElapsedTime));
         }
 

@@ -135,16 +135,16 @@ namespace MassiveGame.Core.GameCore
             return new FSphere(GetEyeVector(), CameraCollisionSphereRadius);
         }
 
-        private void Rotate(Int32 x, Int32 y, ref Point screenRezolution)
+        private void Rotate(Int32 x, Int32 y, ref Size screenRezolution)
         {
-            Int32 middleX = screenRezolution.X >> 1;
-            Int32 middleY = screenRezolution.Y >> 1;
+            Int32 middleX = screenRezolution.Width >> 1;
+            Int32 middleY = screenRezolution.Height >> 1;
 
             Int32 captionHeight = ((EngineStatics.WINDOW_BORDER != WindowBorder.Hidden) && (EngineStatics.WINDOW_STATE != WindowState.Fullscreen)) ?
                 SystemInformation.CaptionHeight : 0;
 
-            Cursor.Position = new Point(EngineStatics.SCREEN_POSITION_X + middleX,
-                EngineStatics.SCREEN_POSITION_Y + middleY + captionHeight);
+            Cursor.Position = new Point(EngineStatics.ScreenLocation.X + middleX,
+                EngineStatics.ScreenLocation.Y + middleY + captionHeight);
 
             Int32 deltaX = middleX - x;
             Int32 deltaY = middleY - y;
@@ -152,12 +152,12 @@ namespace MassiveGame.Core.GameCore
             UpdateRotationMatrix(-deltaX, -deltaY);
         }
 
-        public void RotateFacade(Int32 x, Int32 y, Point screenRezolution)
+        public void RotateFacade(Int32 x, Int32 y, Size screenRezolution)
         {
             Rotate(x, y, ref screenRezolution);
         }
 
-        public void RotateFacade(Point mousePosition, Point screenRezolution)
+        public void RotateFacade(Point mousePosition, Size screenRezolution)
         {
             Rotate(mousePosition.X, mousePosition.Y, ref screenRezolution);
         }

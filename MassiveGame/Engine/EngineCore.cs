@@ -1,14 +1,13 @@
-﻿using MassiveGame.API.ResourcePool;
-using MassiveGame.Core.GameCore;
+﻿using MassiveGame.Core.GameCore;
 using MassiveGame.Core.GameCore.Entities.StaticEntities;
 using MassiveGame.Core.ioCore;
 using MassiveGame.Settings;
 using OpenTK;
+using OpenTK.Graphics.OpenGL;
 using System;
 using System.Diagnostics;
 using System.Drawing;
 using System.Windows.Forms;
-using ConsoleCommands = MassiveGame.Core.ioCore.ConsoleCommandsManager.ConsoleCommands;
 
 namespace MassiveGame.Engine
 {
@@ -84,7 +83,7 @@ namespace MassiveGame.Engine
             }
         }
 
-        public void RenderQueue()
+        private void RenderQueue()
         {
             PostConstructor();
             ProcessIO();
@@ -116,5 +115,80 @@ namespace MassiveGame.Engine
         #endregion
 
 #endif
+
+        private void AdjustMouseCursor(ref Point actualScreenLocation)
+        {
+            if ((EngineStatics.WINDOW_BORDER != WindowBorder.Hidden) && (EngineStatics.WINDOW_STATE != OpenTK.WindowState.Fullscreen))
+                EngineStatics.ScreenLocation = new Point(actualScreenLocation.X + 8, actualScreenLocation.Y + 8);
+            else
+                EngineStatics.ScreenLocation = actualScreenLocation;
+        }
+
+        #region Methods accessors for window class
+
+        public void EngineWindowResized(Point windowLocation, Size newWindowSize)
+        {
+            GL.Viewport(windowLocation, newWindowSize);
+            EngineStatics.globalSettings.ActualScreenRezolution = new Point(newWindowSize.Width, newWindowSize.Height);
+        }
+
+        public void EngineWindowLocationChanged(Point newLocation)
+        {
+
+        }
+
+        public void EngineRender(Point actualScreenLocation)
+        {
+            // Maybe somehow I can remove this trick
+            AdjustMouseCursor(ref actualScreenLocation);
+            RenderQueue();
+
+        }
+
+        public void EngineMouseDown()
+        {
+
+        }
+
+        public void EngineMouseUp()
+        {
+
+        }
+
+        public void EngineMouseMove(Point mouseLocation, Size glWindowSize)
+        {
+            if (GameWorld.GetWorldInstance().GetLevel() != null && GameWorld.GetWorldInstance().GetLevel().Camera != null)
+            {
+#if ENGINE_EDITOR
+                if (true)
+#else
+                if (GameWorld.GetWorldInstance().GetLevel().Camera.SwitchCamera)
+#endif
+                {
+                    if (EngineStatics.PrevCursorPosition != mouseLocation)
+                    {
+                        EngineStatics.PrevCursorPosition = mouseLocation;
+                        GameWorld.GetWorldInstance().GetLevel().Camera.RotateFacade(mouseLocation, glWindowSize);
+                    }
+                }
+            }
+        }
+
+        public void EngineMouseWheel()
+        {
+
+        }
+
+        public void EngineKeyboardKeyDown()
+        {
+
+        }
+
+        public void EngineCmdKeyboardKeyDown()
+        {
+
+        }
+
+#endregion
     }
 }
