@@ -94,14 +94,14 @@ namespace MassiveGame.Core.PhysicsCore
 
             FRay[] rays = new FRay[9] // all points of bound + center
            {
-               new FRay(new Vector3(prev_boundMax.X, prev_boundMax.Y, prev_boundMax.Z), char_velocity),
-               new FRay(new Vector3(prev_boundMax.X, prev_boundMax.Y, prev_boundMin.Z), char_velocity),
-               new FRay(new Vector3(prev_boundMax.X, prev_boundMin.Y, prev_boundMax.Z), char_velocity),
-               new FRay(new Vector3(prev_boundMax.X, prev_boundMin.Y, prev_boundMin.Z), char_velocity),
-               new FRay(new Vector3(prev_boundMin.X, prev_boundMax.Y, prev_boundMax.Z), char_velocity),
-               new FRay(new Vector3(prev_boundMin.X, prev_boundMax.Y, prev_boundMin.Z), char_velocity),
-               new FRay(new Vector3(prev_boundMin.X, prev_boundMin.Y, prev_boundMax.Z), char_velocity),
-               new FRay(new Vector3(prev_boundMin.X, prev_boundMin.Y, prev_boundMin.Z), char_velocity),
+               new FRay(new Vector3(prev_boundMax.X, prev_boundMax.Y, prev_boundMax.Z), currentVelocity),
+               new FRay(new Vector3(prev_boundMax.X, prev_boundMax.Y, prev_boundMin.Z), currentVelocity),
+               new FRay(new Vector3(prev_boundMax.X, prev_boundMin.Y, prev_boundMax.Z), currentVelocity),
+               new FRay(new Vector3(prev_boundMax.X, prev_boundMin.Y, prev_boundMin.Z), currentVelocity),
+               new FRay(new Vector3(prev_boundMin.X, prev_boundMax.Y, prev_boundMax.Z), currentVelocity),
+               new FRay(new Vector3(prev_boundMin.X, prev_boundMax.Y, prev_boundMin.Z), currentVelocity),
+               new FRay(new Vector3(prev_boundMin.X, prev_boundMin.Y, prev_boundMax.Z), currentVelocity),
+               new FRay(new Vector3(prev_boundMin.X, prev_boundMin.Y, prev_boundMin.Z), currentVelocity),
                new FRay(prev_boundOrigin, char_velocity)
            };
 
