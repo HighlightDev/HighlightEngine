@@ -10,7 +10,7 @@ namespace WpfControlLibrary1.Models.Property
     {
         public TerrainPropertyModel() : base()
         {
-            this.TemplateType = "templateTerrain";
+            this.TemplateType = "templateTerrainProperty";
         }
     }
 }

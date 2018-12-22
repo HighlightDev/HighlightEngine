@@ -124,11 +124,11 @@ namespace MassiveGame.Engine
                 EngineStatics.ScreenLocation = actualScreenLocation;
         }
 
-        #region Methods accessors for window class
+        #region Methods accessors for window
 
-        public void EngineWindowResized(Point windowLocation, Size newWindowSize)
+        public void EngineWindowResized(Point windowLocation, Size newGLWindowSize, Size newWindowSize)
         {
-            GL.Viewport(windowLocation, newWindowSize);
+            GL.Viewport(windowLocation, newGLWindowSize);
             EngineStatics.globalSettings.ActualScreenRezolution = new Point(newWindowSize.Width, newWindowSize.Height);
         }
 
@@ -142,15 +142,24 @@ namespace MassiveGame.Engine
             // Maybe somehow I can remove this trick
             AdjustMouseCursor(ref actualScreenLocation);
             RenderQueue();
-
         }
 
-        public void EngineMouseDown()
+        public void EngineMouseDown(MouseButtons mouseButton)
         {
-
+            switch (mouseButton)
+            {
+                case MouseButtons.Left:
+                    {
+                        break;
+                    }
+                case MouseButtons.Right:
+                    {
+                        break;
+                    }
+            }
         }
 
-        public void EngineMouseUp()
+        public void EngineMouseUp(MouseButtons mouseButton)
         {
 
         }
@@ -159,33 +168,102 @@ namespace MassiveGame.Engine
         {
             if (GameWorld.GetWorldInstance().GetLevel() != null && GameWorld.GetWorldInstance().GetLevel().Camera != null)
             {
-#if ENGINE_EDITOR
-                if (true)
-#else
-                if (GameWorld.GetWorldInstance().GetLevel().Camera.SwitchCamera)
-#endif
+                if (EngineStatics.PrevCursorPosition != mouseLocation)
                 {
-                    if (EngineStatics.PrevCursorPosition != mouseLocation)
-                    {
-                        EngineStatics.PrevCursorPosition = mouseLocation;
-                        GameWorld.GetWorldInstance().GetLevel().Camera.RotateFacade(mouseLocation, glWindowSize);
-                    }
+                    EngineStatics.PrevCursorPosition = mouseLocation;
+                    GameWorld.GetWorldInstance().GetLevel().Camera.RotateFacade(mouseLocation, glWindowSize);
                 }
             }
         }
 
-        public void EngineMouseWheel()
+        public void EngineMouseWheel(float wheelDelta)
         {
-
+#if DEBUG
+            if (wheelDelta > 0)
+            {
+                (GameWorld.GetWorldInstance().GetLevel().Camera as ThirdPersonCamera).MaxDistanceFromTargetToCamera += 5;
+            }
+            else if (wheelDelta < 0)
+            {
+                (GameWorld.GetWorldInstance().GetLevel().Camera as ThirdPersonCamera).MaxDistanceFromTargetToCamera -= 5;
+            }
+#endif
         }
 
-        public void EngineKeyboardKeyDown()
+        public void EngineKeyboardKeyDown(Keys code)
         {
+            switch (code)
+            {
+                case Keys.R:
+                    {
 
+                        break;
+                    }
+                case Keys.M:
+                    {
+                        if (EngineStatics.Mode == PrimitiveType.Triangles)
+                        {
+                            EngineStatics.Mode = PrimitiveType.Lines;
+                        }
+                        else
+                        {
+                            EngineStatics.Mode = PrimitiveType.Triangles;
+                        }
+                        break;
+                    }
+                case Keys.Add:
+                    {
+                        GameWorld.GetWorldInstance().GetLevel().Water.GetData().WaveSpeed += 0.1f;
+                        GameWorld.GetWorldInstance().GetLevel().Water.GetData().WaveStrength += 0.1f;
+                        break;
+                    }
+                case Keys.Subtract:
+                    {
+                        GameWorld.GetWorldInstance().GetLevel().Water.GetData().WaveSpeed -= 0.1f;
+                        GameWorld.GetWorldInstance().GetLevel().Water.GetData().WaveStrength -= 0.1f;
+                        break;
+                    }
+                case Keys.Insert:
+                    {
+#if DEBUG || ENGINE_EDITOR || COLLISION_EDITOR
+                        GameWorld.GetWorldInstance().GetUiFrameCreator().PushDebugRenderTarget();
+#endif
+                        break;
+                    }
+            }
         }
 
-        public void EngineCmdKeyboardKeyDown()
+        public void EngineCmdKeyboardKeyDown(Keys cmdKey)
         {
+#if ENGINE_EDITOR
+            FirstPersonCamera firstPersonCamera = GameWorld.GetWorldInstance().GetLevel().Camera as FirstPersonCamera;
+            if (firstPersonCamera != null)
+            {
+                switch (cmdKey)
+                {
+                    case Keys.Up: firstPersonCamera.moveCamera(CameraDirections.FORWARD); break;
+                    case Keys.Down: firstPersonCamera.moveCamera(CameraDirections.BACK); break;
+                    case Keys.Left: firstPersonCamera.moveCamera(CameraDirections.LEFT); break;
+                    case Keys.Right: firstPersonCamera.moveCamera(CameraDirections.RIGHT); break;
+                }
+            }
+#endif
+        }
+
+        public void EngineKeyboardKeyPress(char keyCharCode)
+        {
+            Keys key = (Keys)char.ToUpper(keyCharCode);
+#if DEBUG
+            GameWorld.GetWorldInstance().GetLevel().PlayerController.GetKeyboardHandler().KeyPress(key);
+#endif
+        }
+
+        public void EngineKeyboadKeyUp(Keys keyCode)
+        {
+#if DEBUG
+            if (GameWorld.GetWorldInstance() != null && GameWorld.GetWorldInstance().GetLevel() != null)
+                GameWorld.GetWorldInstance().GetLevel().PlayerController.GetKeyboardHandler().KeyRelease(keyCode);
+#endif
 
         }
 

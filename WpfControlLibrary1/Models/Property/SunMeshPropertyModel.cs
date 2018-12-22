@@ -10,7 +10,7 @@ namespace WpfControlLibrary1.Models.Property
     {
         public SunMeshPropertyModel() : base()
         {
-            this.TemplateType = "templateSunMesh";
+            this.TemplateType = "templateSunMeshProperty";
         }
     }
 }

@@ -12,9 +12,6 @@ namespace MassiveGame.Core.GameCore
     [Serializable]
     public abstract class BaseCamera : ISerializable
     {
-        // some unnecessary staff
-        public bool SwitchCamera { set; get; }
-
         protected Vector3 m_localSpaceRightVector;
         protected Vector3 m_localSpaceUpVector;
         protected Vector3 m_localSpaceForwardVector;
@@ -36,14 +33,12 @@ namespace MassiveGame.Core.GameCore
             m_localSpaceUpVector = new Vector3(0, 1, 0);
             m_localSpaceRightVector = m_eyeSpaceRightVector = new Vector3(1, 0, 0);
             m_rotationMatrix = Matrix3.Identity;
-            SwitchCamera = false;
         }
 
         #region Serialization
 
         public virtual void GetObjectData(SerializationInfo info, StreamingContext context)
         {
-            SwitchCamera = false;
             bTransformationDirty = false;
             info.AddValue("m_localSpaceRightVector", m_localSpaceRightVector, typeof(Vector3));
             info.AddValue("m_localSpaceUpVector", m_localSpaceUpVector, typeof(Vector3));

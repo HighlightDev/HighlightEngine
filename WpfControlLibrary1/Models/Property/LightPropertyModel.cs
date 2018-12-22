@@ -10,7 +10,7 @@ namespace WpfControlLibrary1.Models.Property
     {
         public LightPropertyModel() : base()
         {
-            this.TemplateType = "templateLightSources";
+            this.TemplateType = "templateLightSourcesProperty";
         }
     }
 }

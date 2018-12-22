@@ -34,15 +34,16 @@
 
                         <DockPanel x:Name="header" Height="29" HorizontalAlignment = "Stretch" Style="{StaticResource EngineDockPanelHeaderStyle}">
                             <Label x:Name="label_header" 
-                           Style="{StaticResource ResourceKey=engineLabelStyle_header}"
-                           Content="Create New Object"
-                           HorizontalAlignment="Left"
-                           VerticalAlignment="Top"
-                           Margin="0, 0, 0, 0"/>
-                            <Image VerticalAlignment="Center"
-                           HorizontalAlignment="Right" 
-                           Source="C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\WpfControlLibrary1\Images\hide.png"
-                           MouseDown="Image_MouseDown"/>
+                                   Style="{StaticResource ResourceKey=engineLabelStyle_header}"
+                                   Content="Create New Object"
+                                   HorizontalAlignment="Left"
+                                   VerticalAlignment="Top"
+                                   Margin="0, 0, 0, 0"/>
+                            <Image Height="20" Width="20"
+                                   VerticalAlignment="Center"
+                                   HorizontalAlignment="Right" 
+                                   Source="C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\WpfControlLibrary1\Images\hide.png"
+                                   MouseDown="Image_MouseDown"/>
                         </DockPanel>
 
                         <ItemsControl x:Name="CustomItemsControl" ItemsSource = "{Binding Path = EntityGroups}">

@@ -81,15 +81,13 @@ namespace MassiveGame.UI
 
         private void OnResize(object sender, EventArgs e)
         {
-            m_engineCore.EngineWindowResized(new Point(0, 0), GLControl.Size);
-            EngineStatics.globalSettings.ActualScreenRezolution = new Point(this.Width, this.Height);
+            m_engineCore.EngineWindowResized(new Point(0, 0), GLControl.Size, this.Size);
             GLControl.Invalidate();
         }
 
         private void OnMove(object sender, EventArgs e)
         {
-            EngineStatics.ScreenLocation.X = this.Left;
-            EngineStatics.ScreenLocation.Y = this.Top;
+            m_engineCore.EngineWindowLocationChanged(this.Location);
         }
         #endregion
 
@@ -153,6 +151,8 @@ namespace MassiveGame.UI
                         break;
                     }
             }
+
+            m_engineCore.EngineMouseDown(e.Button);
         }
 
         private void GLControl_MouseUp(object sender, MouseEventArgs e)
@@ -172,10 +172,13 @@ namespace MassiveGame.UI
                         break;
                     }
             }
+
+            m_engineCore.EngineMouseUp(e.Button);
         }
 
         private void OnMouseWheel(object sender, MouseEventArgs e)
         {
+            m_engineCore.EngineMouseWheel(e.Delta);
         }
         #endregion
 
@@ -183,70 +186,23 @@ namespace MassiveGame.UI
 
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData) // arrow keys event
         {
-            FirstPersonCamera firstPersonCamera = GameWorld.GetWorldInstance().GetLevel().Camera as FirstPersonCamera;
-            if (firstPersonCamera != null)
-            {
-                switch (keyData)
-                {
-                    case Keys.Up: firstPersonCamera.moveCamera(CameraDirections.FORWARD); return true;
-                    case Keys.Down: firstPersonCamera.moveCamera(CameraDirections.BACK); return true;
-                    case Keys.Left: firstPersonCamera.moveCamera(CameraDirections.LEFT); return true;
-                    case Keys.Right: firstPersonCamera.moveCamera(CameraDirections.RIGHT); return true;
-                }
-            }
-
+            m_engineCore.EngineCmdKeyboardKeyDown(keyData);  
             return base.ProcessCmdKey(ref msg, keyData);
         }
 
-        Int32 renderTargetIndex = 0;
-
         private void OnKeyDown(object sender, KeyEventArgs e)
         {
-            switch (e.KeyCode)
-            {
-                #region In-game settings
-                case Keys.R:
-                    {
-                        break;
-                    }
-                case Keys.M:
-                    {
-                        break;
-                    }
-                case Keys.Escape: this.Close(); break;
-                case Keys.Add:
-                    {
-                        break;
-                    }
-                case Keys.Subtract:
-                    {
-                        break;
-                    }
-                case Keys.Insert:
-                    {
-                        GameWorld.GetWorldInstance().GetUiFrameCreator().PushFrame((new GetRenderTargetPool().GetPool() as RenderTargetPool).GetRenderTargetAt(renderTargetIndex));
-                        Int32 count = PoolProxy.GetResourceCountInPool<GetRenderTargetPool>();
-                        if (renderTargetIndex + 1 >= count)
-                        {
-                            renderTargetIndex = 0;
-                        }
-                        else
-                        {
-                            ++renderTargetIndex;
-                        }
-                        break;
-                    }
-                    #endregion
-            }
+            m_engineCore.EngineKeyboardKeyDown(e.KeyCode);
         }
 
         private void OnKeyPress(object sender, System.Windows.Forms.KeyPressEventArgs args)
         {
+            m_engineCore.EngineKeyboardKeyPress(args.KeyChar);
         }
 
         private void OnKeyUp(object sender, KeyEventArgs args)
         {
-         
+            m_engineCore.EngineKeyboadKeyUp(args.KeyCode);
         }
 
         private void elementHost1_ChildChanged(object sender, System.Windows.Forms.Integration.ChildChangedEventArgs e)

@@ -10,7 +10,7 @@ namespace WpfControlLibrary1.Models.Property
     {
         public WaterPlanesPropertyModel() : base()
         {
-            this.TemplateType = "templateWaterPlanes";
+            this.TemplateType = "templateWaterPlanesProperty";
         }
     }
 }

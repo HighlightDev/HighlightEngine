@@ -1,15 +1,18 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:local="clr-namespace:WpfControlLibrary1"
+                    xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
                     x:Class="WpfControlLibrary1.PropertyDataTemplate"
                     x:ClassModifier="public">
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="CommonResources.xaml"/>
     </ResourceDictionary.MergedDictionaries>
 
+    <!-- Entities template -->
     <DataTemplate x:Key="templateEntityProperty">
         <StackPanel>
 
+            <!-- Mesh -->
             <StackPanel x:Name="stackPanel_EntityMesh" Orientation="Vertical" Style="{StaticResource EngineListBoxStackPanelBackground}">
 
                 <DockPanel x:Name="stackPanel_EntityMeshHeader" MouseDown="SubHeader_MouseDown">
@@ -53,6 +56,7 @@
 
             </StackPanel>
 
+            <!-- Textures -->
             <StackPanel x:Name="stackPanel_EntityTextures" Orientation="Vertical" Style="{StaticResource EngineListBoxStackPanelBackground}">
 
                 <DockPanel x:Name="stackPanel_EntityTexturesHeader" MouseDown="SubHeader_MouseDown">
@@ -66,7 +70,7 @@
 
                 <StackPanel x:Name="stackPanel_EntityTexturesContent" Orientation="Vertical" Style="{StaticResource EngineListBoxStackPanelBackground}">
 
-                    <!-- Abledo -->
+                    <!-- Albedo -->
                     <Border BorderBrush="Gray" BorderThickness="0 1 0 1">
                         <StackPanel>
                             <DockPanel x:Name="dockPanel_EntityAlbedoLoading">
@@ -147,6 +151,532 @@
 
                 </StackPanel>
 
+            </StackPanel>
+
+        </StackPanel>
+    </DataTemplate>
+
+    <!-- Skybox template -->
+    <DataTemplate x:Key="templateSkyboxProperty">
+        <StackPanel>
+
+            <StackPanel x:Name="stackPanel_SkyboxCubemap" Orientation="Vertical" Style="{StaticResource EngineListBoxStackPanelBackground}">
+
+                <DockPanel x:Name="stackPanel_SkyboxCubemapHeader" MouseDown="SubHeader_MouseDown">
+                    <Image Height="10"
+                                           Margin="5 0 10 0"
+                                        Source="C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\WpfControlLibrary1\Images\submenu_indicator.png" />
+                    <Label Style="{StaticResource ResourceKey=engineLabelStyle_Size2}"
+                                            Content="Cubemap"
+                                            HorizontalAlignment="Left"/>
+                </DockPanel>
+
+                <StackPanel x:Name="stackPanel_SkyboxCubemapContent" Orientation="Vertical" Style="{StaticResource EngineListBoxStackPanelBackground}">
+
+                    <Border BorderBrush="Gray" BorderThickness="0 1 0 1">
+                        <StackPanel>
+
+                            <!-- Positive-X -->
+                            <DockPanel x:Name="dockPanel_SkyboxPositiveXLoading">
+
+                                <StackPanel Margin="0, 10, 0, 0">
+                                    <Border Style="{StaticResource engineBorderNoDefaultPlusHoverColor}"
+                                                BorderThickness="1">
+                                        <DockPanel>
+                                            <Label Style="{StaticResource engineLabelStyle_Size2}"
+                                                           Content="Cubemap Positive-X"
+                                                           HorizontalAlignment="Left"
+                                                           Margin="0 0 10 0"/>
+                                            <Border BorderBrush="White" BorderThickness="1" VerticalAlignment="Center">
+                                                <TextBlock x:Name="textBlock_LoadPositiveX"
+                                                               Style="{StaticResource engineTextBlockResourceSelectorStyle}"
+                                                               Text="C:\\Positive-X\\Positive-X.png"
+                                                               TextAlignment="Left"
+                                                               MouseDown="TextBlockSelector_MouseDown"
+                                                               TextTrimming="CharacterEllipsis"/>
+                                            </Border>
+                                        </DockPanel>
+                                    </Border>
+                                </StackPanel>
+
+                            </DockPanel>
+
+                            <!-- Negative-X -->
+                            <DockPanel x:Name="dockPanel_SkyboxNegativeXLoading">
+
+                                <StackPanel Margin="0, 10, 0, 0">
+                                    <Border Style="{StaticResource engineBorderNoDefaultPlusHoverColor}"
+                                                BorderThickness="1">
+                                        <DockPanel>
+                                            <Label Style="{StaticResource engineLabelStyle_Size2}"
+                                                           Content="Cubemap Negative-X"
+                                                           HorizontalAlignment="Left"
+                                                           Margin="0 0 10 0"/>
+                                            <Border BorderBrush="White" BorderThickness="1" VerticalAlignment="Center">
+                                                <TextBlock x:Name="textBlock_LoadNegativeX"
+                                                               Style="{StaticResource engineTextBlockResourceSelectorStyle}"
+                                                               Text="C:\\Negative-X\\Negative-X.png"
+                                                               TextAlignment="Left"
+                                                               MouseDown="TextBlockSelector_MouseDown"
+                                                               TextTrimming="CharacterEllipsis"/>
+                                            </Border>
+                                        </DockPanel>
+                                    </Border>
+                                </StackPanel>
+
+                            </DockPanel>
+
+                            <!-- Positive-Y -->
+                            <DockPanel x:Name="dockPanel_SkyboxPositiveYLoading">
+
+                                <StackPanel Margin="0, 10, 0, 0">
+                                    <Border Style="{StaticResource engineBorderNoDefaultPlusHoverColor}"
+                                                BorderThickness="1">
+                                        <DockPanel>
+                                            <Label Style="{StaticResource engineLabelStyle_Size2}"
+                                                           Content="Cubemap Positive-Y"
+                                                           HorizontalAlignment="Left"
+                                                           Margin="0 0 10 0"/>
+                                            <Border BorderBrush="White" BorderThickness="1" VerticalAlignment="Center">
+                                                <TextBlock x:Name="textBlock_LoadPositiveY"
+                                                               Style="{StaticResource engineTextBlockResourceSelectorStyle}"
+                                                               Text="C:\\Positive-Y\\Positive-Y.png"
+                                                               TextAlignment="Left"
+                                                               MouseDown="TextBlockSelector_MouseDown"
+                                                               TextTrimming="CharacterEllipsis"/>
+                                            </Border>
+                                        </DockPanel>
+                                    </Border>
+                                </StackPanel>
+
+                            </DockPanel>
+
+                            <!-- Negative-Y -->
+                            <DockPanel x:Name="dockPanel_SkyboxNegativeYLoading">
+
+                                <StackPanel Margin="0, 10, 0, 0">
+                                    <Border Style="{StaticResource engineBorderNoDefaultPlusHoverColor}"
+                                                BorderThickness="1">
+                                        <DockPanel>
+                                            <Label Style="{StaticResource engineLabelStyle_Size2}"
+                                                           Content="Cubemap Negative-Y"
+                                                           HorizontalAlignment="Left"
+                                                           Margin="0 0 10 0"/>
+                                            <Border BorderBrush="White" BorderThickness="1" VerticalAlignment="Center">
+                                                <TextBlock x:Name="textBlock_LoadNegativeY"
+                                                               Style="{StaticResource engineTextBlockResourceSelectorStyle}"
+                                                               Text="C:\\Negative-Y\\Negative-Y.png"
+                                                               TextAlignment="Left"
+                                                               MouseDown="TextBlockSelector_MouseDown"
+                                                               TextTrimming="CharacterEllipsis"/>
+                                            </Border>
+                                        </DockPanel>
+                                    </Border>
+                                </StackPanel>
+
+                            </DockPanel>
+
+                            <!-- Positive-Z -->
+                            <DockPanel x:Name="dockPanel_SkyboxPositiveZLoading">
+
+                                <StackPanel Margin="0, 10, 0, 0">
+                                    <Border Style="{StaticResource engineBorderNoDefaultPlusHoverColor}"
+                                                BorderThickness="1">
+                                        <DockPanel>
+                                            <Label Style="{StaticResource engineLabelStyle_Size2}"
+                                                           Content="Cubemap Positive-Z"
+                                                           HorizontalAlignment="Left"
+                                                           Margin="0 0 10 0"/>
+                                            <Border BorderBrush="White" BorderThickness="1" VerticalAlignment="Center">
+                                                <TextBlock x:Name="textBlock_LoadPositiveZ"
+                                                               Style="{StaticResource engineTextBlockResourceSelectorStyle}"
+                                                               Text="C:\\Positive-Z\\Positive-Z.png"
+                                                               TextAlignment="Left"
+                                                               MouseDown="TextBlockSelector_MouseDown"
+                                                               TextTrimming="CharacterEllipsis"/>
+                                            </Border>
+                                        </DockPanel>
+                                    </Border>
+                                </StackPanel>
+
+                            </DockPanel>
+
+                            <!-- Negative-Z -->
+                            <DockPanel x:Name="dockPanel_SkyboxNegativeZLoading">
+
+                                <StackPanel Margin="0, 10, 0, 0">
+                                    <Border Style="{StaticResource engineBorderNoDefaultPlusHoverColor}"
+                                                BorderThickness="1">
+                                        <DockPanel>
+                                            <Label Style="{StaticResource engineLabelStyle_Size2}"
+                                                           Content="Cubemap Negative-Z"
+                                                           HorizontalAlignment="Left"
+                                                           Margin="0 0 10 0"/>
+                                            <Border BorderBrush="White" BorderThickness="1" VerticalAlignment="Center">
+                                                <TextBlock x:Name="textBlock_LoadNegativeZ"
+                                                               Style="{StaticResource engineTextBlockResourceSelectorStyle}"
+                                                               Text="C:\\Negative-Z\\Negative-Z.png"
+                                                               TextAlignment="Left"
+                                                               MouseDown="TextBlockSelector_MouseDown"
+                                                               TextTrimming="CharacterEllipsis"/>
+                                            </Border>
+                                        </DockPanel>
+                                    </Border>
+                                </StackPanel>
+
+                            </DockPanel>
+
+                        </StackPanel>
+                    </Border>
+                </StackPanel>
+
+            </StackPanel>
+
+        </StackPanel>
+    </DataTemplate>
+
+    <!-- Terrain template -->
+    <DataTemplate x:Key="templateTerrainProperty">
+        <StackPanel>
+
+            <!-- Heightmap -->
+            <StackPanel x:Name="stackPanel_TerrainHeightMap" Orientation="Vertical" Style="{StaticResource EngineListBoxStackPanelBackground}">
+
+                <DockPanel x:Name="stackPanel_TerrainHeightMapHeader" MouseDown="SubHeader_MouseDown">
+                    <Image Height="10"
+                           Margin="5 0 10 0"
+                           Source="C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\WpfControlLibrary1\Images\submenu_indicator.png" />
+                    <Label Style="{StaticResource ResourceKey=engineLabelStyle_Size2}"
+                           Content="Heightmap"
+                           HorizontalAlignment="Left"/>
+                </DockPanel>
+
+                <StackPanel x:Name="stackPanel_TerrainHeightMapContent" Orientation="Vertical" Style="{StaticResource EngineListBoxStackPanelBackground}">
+
+                    <Border BorderBrush="Gray" BorderThickness="0 1 0 1">
+                        <StackPanel>
+
+                            <!-- Heightmap -->
+                            <DockPanel x:Name="dockPanel_HeightmapLoading">
+
+                                <StackPanel Margin="0, 10, 0, 0">
+                                    <Border Style="{StaticResource engineBorderNoDefaultPlusHoverColor}"
+                                                BorderThickness="1">
+                                        <DockPanel>
+                                            <Label Style="{StaticResource engineLabelStyle_Size2}"
+                                                           Content="Heightmap"
+                                                           HorizontalAlignment="Left"
+                                                           Margin="0 0 10 0"/>
+                                            <Border BorderBrush="White" BorderThickness="1" VerticalAlignment="Center">
+                                                <TextBlock x:Name="textBlock_Heightmap"
+                                                               Style="{StaticResource engineTextBlockResourceSelectorStyle}"
+                                                               Text="C:\\Heightmap-X\\Heightmap.png"
+                                                               TextAlignment="Left"
+                                                               MouseDown="TextBlockSelector_MouseDown"
+                                                               TextTrimming="CharacterEllipsis"/>
+                                            </Border>
+                                        </DockPanel>
+                                    </Border>
+                                </StackPanel>
+
+                            </DockPanel>
+
+                        </StackPanel>
+                    </Border>
+
+                </StackPanel>
+            </StackPanel>
+
+            <!-- Multitexturing -->
+            <StackPanel x:Name="stackPanel_TerrainMultitexturing" Orientation="Vertical" Style="{StaticResource EngineListBoxStackPanelBackground}">
+
+                <DockPanel x:Name="stackPanel_TerrainMultitexturingHeader" MouseDown="SubHeader_MouseDown">
+                    <Image Height="10"
+                           Margin="5 0 10 0"
+                           Source="C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\WpfControlLibrary1\Images\submenu_indicator.png" />
+                    <Label Style="{StaticResource ResourceKey=engineLabelStyle_Size2}"
+                           Content="Multitexturing"
+                           HorizontalAlignment="Left"/>
+                </DockPanel>
+
+                <StackPanel x:Name="stackPanel_TerrainMultitexturingContent" Orientation="Vertical" Style="{StaticResource EngineListBoxStackPanelBackground}">
+
+                    <Border BorderBrush="Gray" BorderThickness="0 1 0 1">
+                        <StackPanel>
+
+                            <!-- Blendmap -->
+                            <DockPanel x:Name="dockPanel_BlendmapLoading">
+
+                                <StackPanel Margin="0, 10, 0, 0">
+                                    <Border Style="{StaticResource engineBorderNoDefaultPlusHoverColor}"
+                                                BorderThickness="1">
+                                        <DockPanel>
+                                            <Label Style="{StaticResource engineLabelStyle_Size2}"
+                                                           Content="Blendmap"
+                                                           HorizontalAlignment="Left"
+                                                           Margin="0 0 10 0"/>
+                                            <Border BorderBrush="White" BorderThickness="1" VerticalAlignment="Center">
+                                                <TextBlock x:Name="textBlock_Blendmap"
+                                                               Style="{StaticResource engineTextBlockResourceSelectorStyle}"
+                                                               Text="C:\\Blendmap-X\\Blendmap.png"
+                                                               TextAlignment="Left"
+                                                               MouseDown="TextBlockSelector_MouseDown"
+                                                               TextTrimming="CharacterEllipsis"/>
+                                            </Border>
+                                        </DockPanel>
+                                    </Border>
+                                </StackPanel>
+
+                            </DockPanel>
+
+                            <!-- Layer Zero -->
+                            <DockPanel x:Name="dockPanel_LayerZeroLoading">
+
+                                <StackPanel Margin="0, 10, 0, 0">
+                                    <Border Style="{StaticResource engineBorderNoDefaultPlusHoverColor}"
+                                                BorderThickness="1">
+                                        <DockPanel>
+                                            <Label Style="{StaticResource engineLabelStyle_Size2}"
+                                                   Content="Layer Zero"
+                                                   HorizontalAlignment="Left"
+                                                   Margin="0 0 10 0"/>
+                                            <Border BorderBrush="White" BorderThickness="1" VerticalAlignment="Center">
+                                                <TextBlock x:Name="textBlock_LayerZero"
+                                                           Style="{StaticResource engineTextBlockResourceSelectorStyle}"
+                                                           Text="C:\\ZeroLayer\\LayerZero.png"
+                                                           TextAlignment="Left"
+                                                           MouseDown="TextBlockSelector_MouseDown"
+                                                           TextTrimming="CharacterEllipsis"/>
+                                            </Border>
+                                        </DockPanel>
+                                    </Border>
+                                </StackPanel>
+
+                            </DockPanel>
+
+                            <!-- Layer One -->
+                            <DockPanel x:Name="dockPanel_LayerOneLoading">
+
+                                <StackPanel Margin="0, 10, 0, 0">
+                                    <Border Style="{StaticResource engineBorderNoDefaultPlusHoverColor}"
+                                            BorderThickness="1">
+                                        <DockPanel>
+                                            <Label Style="{StaticResource engineLabelStyle_Size2}"
+                                                   Content="Layer One"
+                                                   HorizontalAlignment="Left"
+                                                   Margin="0 0 10 0"/>
+                                            <Border BorderBrush="White" BorderThickness="1" VerticalAlignment="Center">
+                                                <TextBlock x:Name="textBlock_LayerOne"
+                                                           Style="{StaticResource engineTextBlockResourceSelectorStyle}"
+                                                           Text="C:\\LayerOne\\LayerOne.png"
+                                                           TextAlignment="Left"
+                                                           MouseDown="TextBlockSelector_MouseDown"
+                                                           TextTrimming="CharacterEllipsis"/>
+                                            </Border>
+                                        </DockPanel>
+                                    </Border>
+                                </StackPanel>
+
+                            </DockPanel>
+
+                            <!-- Layer Two -->
+                            <DockPanel x:Name="dockPanel_LayerTwoLoading">
+
+                                <StackPanel Margin="0, 10, 0, 0">
+                                    <Border Style="{StaticResource engineBorderNoDefaultPlusHoverColor}"
+                                            BorderThickness="1">
+                                        <DockPanel>
+                                            <Label Style="{StaticResource engineLabelStyle_Size2}"
+                                                   Content="Layer Two"
+                                                   HorizontalAlignment="Left"
+                                                   Margin="0 0 10 0"/>
+                                            <Border BorderBrush="White" BorderThickness="1" VerticalAlignment="Center">
+                                                <TextBlock x:Name="textBlock_LayerTwo"
+                                                           Style="{StaticResource engineTextBlockResourceSelectorStyle}"
+                                                           Text="C:\\LayerTwo\\LayerTwo.png"
+                                                           TextAlignment="Left"
+                                                           MouseDown="TextBlockSelector_MouseDown"
+                                                           TextTrimming="CharacterEllipsis"/>
+                                            </Border>
+                                        </DockPanel>
+                                    </Border>
+                                </StackPanel>
+
+                            </DockPanel>
+
+                            <!-- Layer Three -->
+                            <DockPanel x:Name="dockPanel_LayerThreeLoading">
+
+                                <StackPanel Margin="0, 10, 0, 0">
+                                    <Border Style="{StaticResource engineBorderNoDefaultPlusHoverColor}"
+                                            BorderThickness="1">
+                                        <DockPanel>
+                                            <Label Style="{StaticResource engineLabelStyle_Size2}"
+                                                   Content="Layer Three"
+                                                   HorizontalAlignment="Left"
+                                                   Margin="0 0 10 0"/>
+                                            <Border BorderBrush="White" BorderThickness="1" VerticalAlignment="Center">
+                                                <TextBlock x:Name="textBlock_LayerThree"
+                                                           Style="{StaticResource engineTextBlockResourceSelectorStyle}"
+                                                           Text="C:\\LayerThree\\LayerThree.png"
+                                                           TextAlignment="Left"
+                                                           MouseDown="TextBlockSelector_MouseDown"
+                                                           TextTrimming="CharacterEllipsis"/>
+                                            </Border>
+                                        </DockPanel>
+                                    </Border>
+                                </StackPanel>
+
+                            </DockPanel>
+
+                        </StackPanel>
+                    </Border>
+
+                </StackPanel>
+            </StackPanel>
+
+        </StackPanel>
+    </DataTemplate>
+
+    <!-- Light Sources template -->
+    <DataTemplate x:Key="templateLightSourcesProperty">
+        <StackPanel>
+
+            <!-- Color -->
+            <StackPanel x:Name="stackPanel_LightColor" Orientation="Vertical" Style="{StaticResource EngineListBoxStackPanelBackground}">
+
+                <DockPanel x:Name="stackPanel_LightColorHeader" MouseDown="SubHeader_MouseDown">
+                    <Image Height="10"
+                           Margin="5 0 10 0"
+                           Source="C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\WpfControlLibrary1\Images\submenu_indicator.png" />
+                    <Label Style="{StaticResource ResourceKey=engineLabelStyle_Size2}"
+                           Content="Color"
+                           HorizontalAlignment="Left"/>
+                </DockPanel>
+
+                <StackPanel x:Name="stackPanel_LightColorContent" Orientation="Vertical" Style="{StaticResource EngineListBoxStackPanelBackground}">
+
+                    <Border BorderBrush="Gray" BorderThickness="0 1 0 1">
+                        <StackPanel>
+
+                            <!-- Ambient Color -->
+                            <DockPanel x:Name="dockPanel_AmbientColor">
+
+                                <StackPanel Margin="0, 10, 0, 0">
+                                    <Border Style="{StaticResource engineBorderNoDefaultPlusHoverColor}"
+                                                BorderThickness="1">
+                                        <DockPanel>
+                                            <Label Style="{StaticResource engineLabelStyle_Size2}"
+                                                           Content="Ambient"
+                                                           HorizontalAlignment="Left"
+                                                           Margin="0 0 10 0"/>
+                                            <Border BorderBrush="White" 
+                                                    BorderThickness="1"
+                                                    VerticalAlignment="Center">
+                                                <xctk:ColorPicker x:Name="colorPicker_AmbientLight" />
+                                            </Border>
+                                        </DockPanel>
+                                    </Border>
+                                </StackPanel>
+
+                            </DockPanel>
+
+                            <!-- Diffuse Color -->
+                            <DockPanel x:Name="dockPanel_DiffuseColor">
+
+                                <StackPanel Margin="0, 10, 0, 0">
+                                    <Border Style="{StaticResource engineBorderNoDefaultPlusHoverColor}"
+                                                BorderThickness="1">
+                                        <DockPanel>
+                                            <Label Style="{StaticResource engineLabelStyle_Size2}"
+                                                           Content="Diffuse"
+                                                           HorizontalAlignment="Left"
+                                                           Margin="0 0 10 0"/>
+                                            <Border BorderBrush="White" 
+                                                    BorderThickness="1"
+                                                    VerticalAlignment="Center">
+                                                <xctk:ColorPicker x:Name="colorPicker_DiffuseLight" />
+                                            </Border>
+                                        </DockPanel>
+                                    </Border>
+                                </StackPanel>
+
+                            </DockPanel>
+
+                            <!-- Specular Color -->
+                            <DockPanel x:Name="dockPanel_SpecularColor">
+
+                                <StackPanel Margin="0, 10, 0, 0">
+                                    <Border Style="{StaticResource engineBorderNoDefaultPlusHoverColor}"
+                                                BorderThickness="1">
+                                        <DockPanel>
+                                            <Label Style="{StaticResource engineLabelStyle_Size2}"
+                                                           Content="Specular"
+                                                           HorizontalAlignment="Left"
+                                                           Margin="0 0 10 0"/>
+                                            <Border BorderBrush="White" 
+                                                    BorderThickness="1"
+                                                    VerticalAlignment="Center">
+                                                <xctk:ColorPicker x:Name="colorPicker_SpecularLight" />
+                                            </Border>
+                                        </DockPanel>
+                                    </Border>
+                                </StackPanel>
+
+                            </DockPanel>
+
+                        </StackPanel>
+                    </Border>
+
+                </StackPanel>
+            </StackPanel>
+
+            <!-- Multitexturing -->
+            <StackPanel x:Name="stackPanel_TerrainMultitexturing" Orientation="Vertical" Style="{StaticResource EngineListBoxStackPanelBackground}">
+
+                <DockPanel x:Name="stackPanel_TerrainMultitexturingHeader" MouseDown="SubHeader_MouseDown">
+                    <Image Height="10"
+                           Margin="5 0 10 0"
+                           Source="C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\WpfControlLibrary1\Images\submenu_indicator.png" />
+                    <Label Style="{StaticResource ResourceKey=engineLabelStyle_Size2}"
+                           Content="Multitexturing"
+                           HorizontalAlignment="Left"/>
+                </DockPanel>
+
+                <StackPanel x:Name="stackPanel_TerrainMultitexturingContent" Orientation="Vertical" Style="{StaticResource EngineListBoxStackPanelBackground}">
+
+                    <Border BorderBrush="Gray" BorderThickness="0 1 0 1">
+                        <StackPanel>
+
+                            <!-- Blendmap -->
+                            <DockPanel x:Name="dockPanel_BlendmapLoading">
+
+                                <StackPanel Margin="0, 10, 0, 0">
+                                    <Border Style="{StaticResource engineBorderNoDefaultPlusHoverColor}"
+                                                BorderThickness="1">
+                                        <DockPanel>
+                                            <Label Style="{StaticResource engineLabelStyle_Size2}"
+                                                           Content="Blendmap"
+                                                           HorizontalAlignment="Left"
+                                                           Margin="0 0 10 0"/>
+                                            <Border BorderBrush="White" BorderThickness="1" VerticalAlignment="Center">
+                                                <TextBlock x:Name="textBlock_Blendmap"
+                                                               Style="{StaticResource engineTextBlockResourceSelectorStyle}"
+                                                               Text="C:\\Blendmap-X\\Blendmap.png"
+                                                               TextAlignment="Left"
+                                                               MouseDown="TextBlockSelector_MouseDown"
+                                                               TextTrimming="CharacterEllipsis"/>
+                                            </Border>
+                                        </DockPanel>
+                                    </Border>
+                                </StackPanel>
+
+                            </DockPanel>
+
+                        </StackPanel>
+                    </Border>
+
+                </StackPanel>
             </StackPanel>
 
         </StackPanel>

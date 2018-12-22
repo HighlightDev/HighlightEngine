@@ -1,6 +1,5 @@
 ﻿namespace MassiveGame.UI
 {
-#if DEBUG
     partial class GameWindow
     {
         /// <summary>
@@ -72,5 +71,4 @@
 
         private OpenTK.GLControl GLControl;
     }
-#endif
 }

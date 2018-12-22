@@ -11,6 +11,8 @@ using System.Drawing;
 using System.Linq;
 using TextureLoader;
 using VBO;
+using MassiveGame.API.ResourcePool.Pools;
+using MassiveGame.Core.GameCore;
 
 namespace MassiveGame.Debug.UiPanel
 {
@@ -23,11 +25,26 @@ namespace MassiveGame.Debug.UiPanel
         public List<ITexture> frameTextures;
         public readonly Int32 MAX_FRAME_COUNT = 3;
 
+#if DEBUG || ENGINE_EDITOR || COLLISION_EDITOR
+        public Int32 DebugRenderTargetIndex = 0;
+#endif
+
         public UiFrameMaster()
         {
             frameTextures = new List<ITexture>(MAX_FRAME_COUNT);
             _postConstructor = true;
         }
+#if DEBUG || ENGINE_EDITOR || COLLISION_EDITOR
+        public void PushDebugRenderTarget()
+        {
+            Int32 totalCount = PoolProxy.GetResourceCountInPool<GetRenderTargetPool>();
+            DebugRenderTargetIndex = DebugRenderTargetIndex > (totalCount - 1) ? 0 : DebugRenderTargetIndex;
+
+            PushFrame((new GetRenderTargetPool().GetPool() as RenderTargetPool).GetRenderTargetAt(DebugRenderTargetIndex));
+
+            ++DebugRenderTargetIndex;
+        }
+#endif
 
         public void PushFrame(ITexture texture)
         {

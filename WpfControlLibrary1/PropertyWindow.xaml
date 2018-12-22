@@ -37,7 +37,8 @@
                                         FontSize="14"
                                         FontFamily="Comic Sans MS, Verdana"
                                         Margin="0, 0, 0, 0"/>
-                            <Image VerticalAlignment="Center"
+                            <Image Height="20" Width="20"
+                           VerticalAlignment="Center"
                            HorizontalAlignment="Right" 
                            Source="C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\WpfControlLibrary1\Images\hide.png"
                            MouseDown="Image_MouseDown"/>

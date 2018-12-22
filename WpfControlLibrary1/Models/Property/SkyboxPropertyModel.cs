@@ -10,7 +10,7 @@ namespace WpfControlLibrary1.Models.Property
     {
         public SkyboxPropertyModel() : base()
         {
-            this.TemplateType = "templateSkybox";
+            this.TemplateType = "templateSkyboxProperty";
         }
     }
 }

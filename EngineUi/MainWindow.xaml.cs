@@ -44,7 +44,7 @@ namespace EngineUi
 
         private void property_Loaded(object sender, RoutedEventArgs e)
         {
-            (sender as PropertyWindow).PropertyTemplateType = new EntitiesPropertyModel();
+            (sender as PropertyWindow).PropertyTemplateType = new LightPropertyModel();
         }
     }
 }

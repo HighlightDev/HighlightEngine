@@ -15,21 +15,41 @@ namespace WpfControlLibrary1
         private void SubHeaderCollapseFactory(FrameworkElement parent, string name)
         {
             FrameworkElement element = null;
+            string contentElement = string.Empty;
             switch (name)
             {
                 case "stackPanel_EntityMeshHeader": {
-                        object o = parent.FindName("stackPanel_EntityMeshContent") as FrameworkElement;
-                        element = o as FrameworkElement;
+                        contentElement = "stackPanel_EntityMeshContent";
                         break;
                     }
                 case "stackPanel_EntityTexturesHeader":
                     {
-                        object o = parent.FindName("stackPanel_EntityTexturesContent");
-                        element = o as FrameworkElement;
+                        contentElement = "stackPanel_EntityTexturesContent";
+                        break;
+                    }
+                case "stackPanel_SkyboxCubemapHeader":
+                    {
+                        contentElement = "stackPanel_SkyboxCubemapContent";
+                        break;
+                    }
+                case "stackPanel_TerrainHeightMapHeader":
+                    {
+                        contentElement = "stackPanel_TerrainHeightMapContent";
+                        break;
+                    }
+                case "stackPanel_TerrainMultitexturingHeader":
+                    {
+                        contentElement = "stackPanel_TerrainMultitexturingContent";
+                        break;
+                    }
+                case "stackPanel_LightColorHeader":
+                    {
+                        contentElement = "stackPanel_LightColorContent";
                         break;
                     }
             }
 
+            element = parent.FindName(contentElement) as FrameworkElement;
             if (element != null)
                 element.Visibility = element.Visibility == Visibility.Collapsed ? Visibility.Visible : Visibility.Collapsed;
         }
