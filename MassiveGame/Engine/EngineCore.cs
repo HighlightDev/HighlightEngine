@@ -1,7 +1,7 @@
 ﻿using MassiveGame.Core.GameCore;
 using MassiveGame.Core.GameCore.Entities.StaticEntities;
 using MassiveGame.Core.ioCore;
-using MassiveGame.Settings;
+using MassiveGame.Core.SettingsCore;
 using OpenTK;
 using OpenTK.Graphics.OpenGL;
 using System;
@@ -15,7 +15,6 @@ namespace MassiveGame.Engine
     {
         public EngineCore() { }
 
-#if !COLLISION_EDITOR
         private IOManager m_ioManager;
 
         private bool bPostConstructor = true;
@@ -113,8 +112,6 @@ namespace MassiveGame.Engine
         }
 
         #endregion
-
-#endif
 
         private void AdjustMouseCursor(ref Point actualScreenLocation)
         {

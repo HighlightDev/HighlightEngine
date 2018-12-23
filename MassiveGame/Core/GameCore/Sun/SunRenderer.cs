@@ -4,7 +4,7 @@ using System;
 using TextureLoader;
 using MassiveGame.Core.RenderCore.Visibility;
 using MassiveGame.Core.RenderCore.Lights;
-using MassiveGame.Settings;
+using MassiveGame.Core.SettingsCore;
 using MassiveGame.Core.GameCore.Water;
 using VBO;
 using MassiveGame.API.ResourcePool.PoolHandling;

@@ -3,8 +3,8 @@ using TextureLoader;
 using MassiveGame.Core.ComponentCore;
 using CollisionEditor.RenderCore;
 using CollisionEditor.IOCore;
-using MassiveGame.Settings;
 using MassiveGame.CollisionEditor.Core;
+using MassiveGame.Core.SettingsCore;
 
 namespace CollisionEditor.Core
 {
@@ -67,7 +67,7 @@ namespace CollisionEditor.Core
             if (PostConstructor)
             {
                 CollisionBoxModel = new RawModel(ProxyModelLoader.LoadModel(CollisionBoxPath));
-                DefaultTexture = ProxyTextureLoader.LoadSingleTexture(ProjectFolders.TextureAtlasPath + "\\default.jpg");
+                DefaultTexture = ProxyTextureLoader.LoadSingleTexture(ProjectFolders.EditorTexturePath + "\\default.jpg");
                 DefaultShader = new BasicShader(ProjectFolders.ShadersPath + "\\basicVS.glsl", ProjectFolders.ShadersPath + "\\basicFS.glsl");
                 PostConstructor = false;
             }

@@ -1,4 +1,5 @@
-﻿using MassiveGame.Core.GameCore.EntityComponents;
+﻿using MassiveGame.Core.DebugCore;
+using MassiveGame.Core.GameCore.EntityComponents;
 using MassiveGame.Core.RenderCore;
 using MassiveGame.Core.RenderCore.Lights;
 using OpenTK;
@@ -85,8 +86,8 @@ namespace MassiveGame.Core.GameCore.Entities.MoveEntities
             }
             catch (ArgumentNullException innerException)
             {
-                Debug.Log.AddToFileStreamLog(innerException.Message);
-                Debug.Log.AddToConsoleStreamLog(innerException.Message);
+                Log.AddToFileStreamLog(innerException.Message);
+                Log.AddToConsoleStreamLog(innerException.Message);
             }
         }
 

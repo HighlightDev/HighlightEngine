@@ -9,7 +9,7 @@ using MassiveGame.Core.AnimationCore;
 using MassiveGame.API.ResourcePool;
 using MassiveGame.API.ResourcePool.Policies;
 using MassiveGame.API.ResourcePool.PoolHandling;
-using MassiveGame.Settings;
+using MassiveGame.Core.SettingsCore;
 
 namespace MassiveGame.Core.GameCore.Entities.Skeletal_Entities
 {

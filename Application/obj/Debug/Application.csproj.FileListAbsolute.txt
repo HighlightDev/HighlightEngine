@@ -1,7 +1,0 @@
-C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\Application\obj\Debug\Application.csprojAssemblyReference.cache
-C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\Application\obj\Debug\MainWindow.g.cs
-C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\Application\obj\Debug\UserControl1.g.cs
-C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\Application\obj\Debug\App.g.cs
-C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\Application\obj\Debug\GeneratedInternalTypeHelper.g.cs
-C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\Application\obj\Debug\Application_MarkupCompile.cache
-C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\Application\obj\Debug\Application_MarkupCompile.lref

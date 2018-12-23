@@ -7,7 +7,7 @@ using System.Threading;
 using System.Windows.Forms;
 using OpenTK;
 using OpenTK.Graphics.OpenGL;
-using MassiveGame.Settings;
+using MassiveGame.Core.SettingsCore;
 using MassiveGame.CollisionEditor.Core.SerializeAPI;
 using System.Text.RegularExpressions;
 using System.Linq;
@@ -402,7 +402,7 @@ namespace MassiveGame.UI
         {
             OpenFileDialog dlg = new OpenFileDialog();
             string meshDir = BuildRootFolder();
-            dlg.InitialDirectory = meshDir + "\\ModelFiles\\";
+            //dlg.InitialDirectory = meshDir + "\\ModelFiles\\";
             
             var result = dlg.ShowDialog();
             if (result == DialogResult.OK)
@@ -417,7 +417,7 @@ namespace MassiveGame.UI
         private void setMeshTexture_B_click(object sender, EventArgs e)
         {
             OpenFileDialog dlg = new OpenFileDialog();
-            dlg.InitialDirectory = ProjectFolders.TextureAtlasPath;
+            //dlg.InitialDirectory = ProjectFolders.AlbedoTexturePath;
            
             var result = dlg.ShowDialog();
             if (result == DialogResult.OK)

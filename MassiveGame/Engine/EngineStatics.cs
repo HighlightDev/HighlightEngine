@@ -2,7 +2,7 @@
 using OpenTK;
 using OpenTK.Graphics.OpenGL;
 using System.Drawing;
-using MassiveGame.Settings;
+using MassiveGame.Core.SettingsCore;
 
 namespace MassiveGame
 {

@@ -5,6 +5,7 @@ using OpenTK;
 using System;
 using System.Collections.Generic;
 using ShaderPattern;
+using MassiveGame.Core.DebugCore;
 
 namespace MassiveGame.Core.GameCore.Entities.StaticEntities
 {
@@ -89,8 +90,8 @@ namespace MassiveGame.Core.GameCore.Entities.StaticEntities
             }
             catch (ArgumentNullException innerException)
             {
-                Debug.Log.AddToFileStreamLog(innerException.Message);
-                Debug.Log.AddToConsoleStreamLog(innerException.Message);
+                Log.AddToFileStreamLog(innerException.Message);
+                Log.AddToConsoleStreamLog(innerException.Message);
             }
         }
 
@@ -250,8 +251,8 @@ namespace MassiveGame.Core.GameCore.Entities.StaticEntities
             }
             catch (ArgumentNullException innerException)
             {
-                Debug.Log.AddToFileStreamLog(innerException.Message);
-                Debug.Log.AddToConsoleStreamLog(innerException.Message);
+                Log.AddToFileStreamLog(innerException.Message);
+                Log.AddToConsoleStreamLog(innerException.Message);
             }
         }
 

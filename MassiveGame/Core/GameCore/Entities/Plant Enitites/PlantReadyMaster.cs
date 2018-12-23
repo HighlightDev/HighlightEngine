@@ -8,7 +8,7 @@ using System;
 using MassiveGame.Core.RenderCore.Lights;
 using MassiveGame.Core.GameCore.EntityComponents;
 using MassiveGame.Core.GameCore.Terrain;
-using MassiveGame.Settings;
+using MassiveGame.Core.SettingsCore;
 using MassiveGame.API.ResourcePool.PoolHandling;
 using MassiveGame.API.ResourcePool.Policies;
 using MassiveGame.API.ResourcePool;

@@ -5,6 +5,7 @@ using MassiveGame.Core.RenderCore;
 using MassiveGame.Core.RenderCore.Lights;
 using MassiveGame.Core.GameCore.EntityComponents;
 using ShaderPattern;
+using MassiveGame.Core.DebugCore;
 
 namespace MassiveGame.Core.GameCore.Water
 {
@@ -171,8 +172,8 @@ namespace MassiveGame.Core.GameCore.Water
             }
             catch (ArgumentNullException innerException)
             {
-                Debug.Log.AddToFileStreamLog(innerException.Message);
-                Debug.Log.AddToConsoleStreamLog(innerException.Message);
+                Log.AddToFileStreamLog(innerException.Message);
+                Log.AddToConsoleStreamLog(innerException.Message);
             }
         }
 

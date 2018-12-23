@@ -1,4 +1,5 @@
-﻿using OpenTK;
+﻿using MassiveGame.Core.DebugCore;
+using OpenTK;
 using ShaderPattern;
 using System;
 
@@ -28,8 +29,8 @@ namespace MassiveGame.Core.RenderCore.Shadows
             }
             catch (ArgumentNullException innerException)
             {
-                Debug.Log.AddToFileStreamLog(innerException.Message);
-                Debug.Log.AddToConsoleStreamLog(innerException.Message);
+                Log.AddToFileStreamLog(innerException.Message);
+                Log.AddToConsoleStreamLog(innerException.Message);
             }
         }
 

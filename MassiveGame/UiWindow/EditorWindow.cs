@@ -15,6 +15,7 @@ using MassiveGame.API.MouseObjectDetector;
 using MassiveGame.Core.MathCore;
 using MassiveGame.Core.MathCore.MathTypes;
 using MassiveGame.Engine;
+using MassiveGame.Core.DebugCore;
 
 namespace MassiveGame.UI
 {
@@ -228,7 +229,7 @@ namespace MassiveGame.UI
         {
             base.OnClosing(e);
             m_engineCore.CleanEverythingUp();
-            Debug.Log.AddToFileStreamLog(String.Format("\nTime elapsed : {0}", DateTime.Now - EngineStatics.ElapsedTime));
+            Log.AddToFileStreamLog(String.Format("\nTime elapsed : {0}", DateTime.Now - EngineStatics.ElapsedTime));
         }
 
         #endregion

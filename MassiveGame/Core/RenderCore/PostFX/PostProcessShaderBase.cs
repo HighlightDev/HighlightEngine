@@ -1,4 +1,5 @@
-﻿using ShaderPattern;
+﻿using MassiveGame.Core.DebugCore;
+using ShaderPattern;
 using System;
 
 namespace MassiveGame.Core.RenderCore.PostFX
@@ -34,8 +35,8 @@ namespace MassiveGame.Core.RenderCore.PostFX
             }
             catch (ArgumentNullException innerException)
             {
-                Debug.Log.AddToFileStreamLog(innerException.Message);
-                Debug.Log.AddToConsoleStreamLog(innerException.Message);
+                Log.AddToFileStreamLog(innerException.Message);
+                Log.AddToConsoleStreamLog(innerException.Message);
             }
         }
 

@@ -6,7 +6,7 @@ using System;
 using TextureLoader;
 using MassiveGame.API.ResourcePool;
 using MassiveGame.API.ResourcePool.Policies;
-using MassiveGame.Settings;
+using MassiveGame.Core.SettingsCore;
 using MassiveGame.API.ResourcePool.PoolHandling;
 
 namespace CollisionEditor.Core
@@ -27,12 +27,12 @@ namespace CollisionEditor.Core
                 shader = PoolProxy.GetResource<GetShaderPool, ShaderAllocationPolicy<SkyboxShader>, string, SkyboxShader>(String.Format("{0}{1},{0}{2}", ProjectFolders.ShadersPath, "skyboxVS.glsl", "skyboxFS.glsl"));
                 model = new RawModel(attribs);
                 cubemap = ProxyTextureLoader.LoadCubemap(new string[] {
-                    ProjectFolders.SkyboxTexturesPath + "/Day/" + "right.bmp",
-                    ProjectFolders.SkyboxTexturesPath + "/Day/" + "left.bmp",
-                    ProjectFolders.SkyboxTexturesPath + "/Day/" + "top.bmp",
-                    ProjectFolders.SkyboxTexturesPath + "/Day/" + "bottom.bmp",
-                    ProjectFolders.SkyboxTexturesPath + "/Day/" + "back.bmp",
-                    ProjectFolders.SkyboxTexturesPath + "/Day/" + "front.bmp" });
+                    ProjectFolders.CubemapTexturePath + "/Day/" + "right.bmp",
+                    ProjectFolders.CubemapTexturePath + "/Day/" + "left.bmp",
+                    ProjectFolders.CubemapTexturePath + "/Day/" + "top.bmp",
+                    ProjectFolders.CubemapTexturePath + "/Day/" + "bottom.bmp",
+                    ProjectFolders.CubemapTexturePath + "/Day/" + "back.bmp",
+                    ProjectFolders.CubemapTexturePath + "/Day/" + "front.bmp" });
 
                
                 bPostConstructor = false;

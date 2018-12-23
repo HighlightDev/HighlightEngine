@@ -8,7 +8,7 @@ using MassiveGame.Core.GameCore.EntityComponents;
 using MassiveGame.Core.RenderCore.Lights;
 using MassiveGame.Core.RenderCore.Visibility;
 using MassiveGame.Core.RenderCore;
-using MassiveGame.Settings;
+using MassiveGame.Core.SettingsCore;
 using VBO;
 using MassiveGame.API.ResourcePool.PoolHandling;
 using MassiveGame.API.ResourcePool.Policies;

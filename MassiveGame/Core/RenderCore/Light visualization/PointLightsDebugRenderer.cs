@@ -5,7 +5,7 @@ using OpenTK.Graphics.OpenGL;
 using TextureLoader;
 using MassiveGame.Core.GameCore;
 using MassiveGame.Core.RenderCore.Lights;
-using MassiveGame.Settings;
+using MassiveGame.Core.SettingsCore;
 using VBO;
 using MassiveGame.API.ResourcePool.PoolHandling;
 using MassiveGame.API.ResourcePool.Policies;

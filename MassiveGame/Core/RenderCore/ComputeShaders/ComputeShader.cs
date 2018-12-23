@@ -4,7 +4,7 @@ using System.Text;
 using OpenTK;
 using OpenTK.Graphics.OpenGL;
 using System.IO;
-using MassiveGame.Settings;
+using MassiveGame.Core.SettingsCore;
 
 namespace MassiveGame.Core.RenderCore.ComputeShaders
 {

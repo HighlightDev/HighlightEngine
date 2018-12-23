@@ -200,12 +200,12 @@
     <Compile Include="Core\MathCore\MathTypes\FRay.cs" />
     <Compile Include="Core\MathCore\MathTypes\FSphere.cs" />
     <Compile Include="Core\MathCore\MathTypes\OBB.cs" />
-    <Compile Include="Debug\UiPanel\UiFrameMaster.cs" />
-    <Compile Include="EngineEditor\Core\Entities\PreviewEntity.cs" />
-    <Compile Include="EngineEditor\Core\Entities\PreviewEntityShader.cs" />
-    <Compile Include="EngineEditor\Core\Entities\WorldGrid.cs" />
-    <Compile Include="EngineEditor\Core\Entities\WorldGridShader.cs" />
-    <Compile Include="EngineEditor\Core\UiContent\EngineObjectEntryView.cs" />
+    <Compile Include="Core\DebugCore\UiPanel\UiFrameMaster.cs" />
+    <Compile Include="Editor\Core\Entities\PreviewEntity.cs" />
+    <Compile Include="Editor\Core\Entities\PreviewEntityShader.cs" />
+    <Compile Include="Editor\Core\Entities\WorldGrid.cs" />
+    <Compile Include="Editor\Core\Entities\WorldGridShader.cs" />
+    <Compile Include="Editor\Core\UiContent\EngineObjectEntryView.cs" />
     <Compile Include="Engine\EngineCore.cs" />
     <Compile Include="Engine\GameThread.cs" />
     <Compile Include="Engine\RenderThread.cs" />
@@ -237,7 +237,7 @@
     <Compile Include="Core\RenderCore\PostFX\LensFlare\LensFlarePostProcess.cs" />
     <Compile Include="Core\RenderCore\PostFX\LightShafts\LightShaftPostProcess.cs" />
     <Compile Include="Core\GameCore\IObservable.cs" />
-    <Compile Include="Settings\GlobalSettings.cs" />
+    <Compile Include="Core\SettingsCore\GlobalSettings.cs" />
     <Compile Include="Core\RenderCore\PostFX\PostProcessShaderBase.cs" />
     <Compile Include="Core\RenderCore\PostFX\PostProcessStageRenderer.cs" />
     <Compile Include="Core\RenderCore\ComputeShaders\ComputeShader.cs" />
@@ -250,15 +250,15 @@
     <Compile Include="Core\RenderCore\Lights\SpotLight.cs" />
     <Compile Include="Core\RenderCore\ResolvePostProcessResultToDefaultFramebufferShader.cs" />
     <Compile Include="Core\RenderCore\ShaderBase.cs" />
-    <Compile Include="Settings\KeyboardBindingsLoader.cs" />
-    <Compile Include="Settings\PropertyConverter.cs" />
-    <Compile Include="Settings\SettingsLoader.cs" />
+    <Compile Include="Core\SettingsCore\KeyboardBindingsLoader.cs" />
+    <Compile Include="Core\SettingsCore\PropertyConverter.cs" />
+    <Compile Include="Core\SettingsCore\SettingsLoader.cs" />
     <Compile Include="Core\GameCore\Water\WaterReflectionEntityShader.cs" />
     <Compile Include="Core\GameCore\Water\WaterRefractionEntityShader.cs" />
     <Compile Include="Core\RenderCore\TextureResolver.cs" />
     <Compile Include="Core\GameCore\BoolMap.cs" />
-    <Compile Include="Debug\Log.cs" />
-    <Compile Include="Debug\UiPanel\UiFrameShader.cs" />
+    <Compile Include="Core\DebugCore\Log.cs" />
+    <Compile Include="Core\DebugCore\UiPanel\UiFrameShader.cs" />
     <Compile Include="Engine\EngineStatics.cs" />
     <Compile Include="Core\GameCore\Entities\Environment Entities\EnvironmentEntities.cs" />
     <Compile Include="Core\GameCore\Entities\Environment Entities\EnvironmentEntitiesShader.cs" />
@@ -295,7 +295,7 @@
     <Compile Include="Core\RenderCore\Visibility\LightHitCheckApi.cs" />
     <Compile Include="Core\RenderCore\Visibility\VisibilityCheckApi.cs" />
     <Compile Include="Core\RenderCore\Visibility\ILightHit.cs" />
-    <Compile Include="Settings\ProjectFolders.cs" />
+    <Compile Include="Core\SettingsCore\ProjectFolders.cs" />
     <Compile Include="Core\GameCore\Sun\DayCycle\DayLightCycle.cs" />
     <Compile Include="Core\GameCore\Sun\DayCycle\DayPhases.cs" />
     <Compile Include="Core\GameCore\Sun\DayCycle\LightInterpolation.cs" />
@@ -334,12 +334,6 @@
     <Compile Include="Core\GameCore\Water\WaterReflectionTerrainShader.cs" />
     <Compile Include="Core\GameCore\Water\WaterShader.cs" />
     <Compile Include="UiWindow\UiMouseEventHandlerHalper.cs" />
-    <None Include="Shaders\gridFS.glsl" />
-    <None Include="Shaders\gridVS.glsl" />
-    <None Include="Shaders\previewEntityFS.glsl" />
-    <None Include="Shaders\previewEntityVS.glsl" />
-    <None Include="Shaders\skeletonFS.glsl" />
-    <None Include="Shaders\skeletonVS.glsl" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.0,Profile=Client">
@@ -365,95 +359,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
-    <None Include="Audio\ambient\howling_wind_u1.ogg" />
-    <None Include="Audio\ambient\wind_city_1.ogg" />
-    <None Include="Audio\material\actor\collide\clothes1.ogg" />
-    <None Include="Audio\material\actor\collide\clothes2.ogg" />
-    <None Include="Audio\material\actor\collide\clothes3.ogg" />
-    <None Include="Audio\material\actor\step\earth1.ogg" />
-    <None Include="Audio\material\actor\step\earth2.ogg" />
-    <None Include="Audio\material\actor\step\earth3.ogg" />
-    <None Include="Audio\material\actor\step\earth4.ogg" />
-    <None Include="Audio\material\actor\step\grass1.ogg" />
-    <None Include="Audio\material\actor\step\grass2.ogg" />
-    <None Include="Audio\material\actor\step\grass3.ogg" />
-    <None Include="Audio\material\actor\step\grass4.ogg" />
-    <None Include="Audio\material\actor\step\new_wood1.ogg" />
-    <None Include="Audio\material\actor\step\new_wood2.ogg" />
-    <None Include="Audio\material\actor\step\new_wood3.ogg" />
-    <None Include="Audio\material\actor\step\new_wood4.ogg" />
-    <None Include="ModelFiles\cathedra_HighPoly.obj" />
-    <None Include="ModelFiles\City_House_2_BI.obj" />
-    <None Include="ModelFiles\GothicLamp.obj" />
-    <None Include="ModelFiles\grassBillboard.obj" />
-    <None Include="ModelFiles\grassBillboard2.obj" />
-    <None Include="ModelFiles\hause2.obj" />
-    <None Include="ModelFiles\house3.obj" />
-    <None Include="ModelFiles\playerCube.obj" />
-    <None Include="ModelFiles\stall.obj" />
-    <None Include="ModelFiles\TAtestHouse.obj" />
-    <None Include="Settings\keybindings.ini" />
-    <None Include="Shaders\bloomFS.glsl" />
-    <None Include="Shaders\bloomVS.glsl" />
-    <None Include="Shaders\depthOfFieldFS.glsl" />
-    <None Include="Shaders\depthOfFieldVS.glsl" />
-    <None Include="Shaders\resolvePostProcessResultToDefaultFramebufferFS.glsl" />
-    <None Include="Shaders\resolvePostProcessResultToDefaultFramebufferVS.glsl" />
-    <None Include="Shaders\particleCS.glsl" />
-    <None Include="Shaders\particleFS.glsl" />
-    <None Include="Shaders\particleVS.glsl" />
-    <None Include="Settings\settings.ini" />
-    <None Include="Shaders\skeletalMeshFS.glsl" />
-    <None Include="Shaders\skeletalMeshVS.glsl" />
-    <None Include="Shaders\waterRefractionEntityFS.glsl" />
-    <None Include="Shaders\waterReflectionEntityFS.glsl" />
-    <None Include="Shaders\waterRefractionEntityVS.glsl" />
-    <None Include="Shaders\waterReflectionEntityVS.glsl" />
-    <None Include="Shaders\stencilPassFS.glsl" />
-    <None Include="Shaders\stencilPassVS.glsl" />
-    <None Include="Shaders\basicShadowFS.glsl" />
-    <None Include="Shaders\basicShadowVS.glsl" />
-    <None Include="Shaders\buildingFShader.glsl" />
-    <None Include="Shaders\buildingSpecialFShader.glsl" />
-    <None Include="Shaders\buildingSpecialGShader.glsl" />
-    <None Include="Shaders\buildingSpecialVShader.glsl" />
-    <None Include="Shaders\buildingVShader.glsl" />
-    <None Include="Shaders\envFS.glsl" />
-    <None Include="Shaders\envVS.glsl" />
-    <None Include="Shaders\lightShaftsFS.glsl" />
-    <None Include="Shaders\lightShaftsVS.glsl" />
-    <None Include="Shaders\grassFS.glsl" />
-    <None Include="Shaders\grassGS.glsl" />
-    <None Include="Shaders\grassVS.glsl" />
-    <None Include="Shaders\lampFS.glsl" />
-    <None Include="Shaders\lampGS.glsl" />
-    <None Include="Shaders\lampVS.glsl" />
-    <None Include="Shaders\lensFlareFS.glsl" />
-    <None Include="Shaders\lensFlareVS.glsl" />
-    <None Include="Shaders\plantFragmentShader.glsl" />
-    <None Include="Shaders\plantVertexShader.glsl" />
-    <None Include="Shaders\movableEntityFS.glsl" />
-    <None Include="Shaders\movableEntityVS.glsl" />
-    <None Include="Shaders\polyFS.glsl" />
-    <None Include="Shaders\polyGS.glsl" />
-    <None Include="Shaders\polyVS.glsl" />
-    <None Include="Shaders\copyTextureFS.glsl" />
-    <None Include="Shaders\copyTextureVS.glsl" />
-    <None Include="Shaders\skyboxFS.glsl" />
-    <None Include="Shaders\skyboxVS.glsl" />
-    <None Include="Shaders\sunFS.glsl" />
-    <None Include="Shaders\sunVS.glsl" />
-    <None Include="Shaders\terrainFragmentShader.glsl" />
-    <None Include="Shaders\terrainVertexShader.glsl" />
-    <None Include="Shaders\uiFS.glsl" />
-    <None Include="Shaders\uiVS.glsl" />
-    <None Include="Shaders\waterFS.glsl" />
-    <None Include="Shaders\waterRefractionTerrainFS.glsl" />
-    <None Include="Shaders\waterReflectionTerrainFS.glsl" />
-    <None Include="Shaders\waterRefractionTerrainVS.glsl" />
-    <None Include="Shaders\waterReflectionTerrainVS.glsl" />
-    <None Include="Shaders\waterVS.glsl" />
-    <None Include="Textures\SpecularMaps\specular1.dds" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="UiWindow\EditorWindow.resx">
@@ -466,88 +371,6 @@
     <EmbeddedResource Include="UiWindow\GameWindow.resx">
       <DependentUpon>GameWindow.cs</DependentUpon>
     </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Audio\ambient\wav\howling_wind_u1.wav" />
-    <Content Include="Audio\ambient\wav\wind_city_1.wav" />
-    <Content Include="Audio\bounce.wav" />
-    <Content Include="Audio\material\actor\collide\wav\clothes1.wav" />
-    <Content Include="Audio\material\actor\collide\wav\clothes2.wav" />
-    <Content Include="Audio\material\actor\collide\wav\clothes3.wav" />
-    <Content Include="Audio\material\actor\step\wav\earth1.wav" />
-    <Content Include="Audio\material\actor\step\wav\earth2.wav" />
-    <Content Include="Audio\material\actor\step\wav\earth3.wav" />
-    <Content Include="Audio\material\actor\step\wav\earth4.wav" />
-    <Content Include="Audio\material\actor\step\wav\grass1.wav" />
-    <Content Include="Audio\material\actor\step\wav\grass2.wav" />
-    <Content Include="Audio\material\actor\step\wav\grass3.wav" />
-    <Content Include="Audio\material\actor\step\wav\grass4.wav" />
-    <Content Include="Audio\material\actor\step\wav\new_wood1.wav" />
-    <Content Include="Audio\material\actor\step\wav\new_wood2.wav" />
-    <Content Include="Audio\material\actor\step\wav\new_wood3.wav" />
-    <Content Include="Audio\material\actor\step\wav\new_wood4.wav" />
-    <Content Include="Debug\ProjectLogs.txt" />
-    <None Include="Resources\%24this.Icon.ico" />
-    <Content Include="Textures\EditorTextures\grid.png" />
-    <Content Include="Textures\EditorTextures\icon2.png" />
-    <Content Include="Textures\GrassTextures\fern.png" />
-    <Content Include="Textures\GrassTextures\grass%28mono%29.png" />
-    <Content Include="Textures\GrassTextures\grass1%28mono%29.png" />
-    <Content Include="Textures\GrassTextures\grass1.png" />
-    <Content Include="Textures\GrassTextures\grass2.png" />
-    <Content Include="Textures\GrassTextures\grass3.png" />
-    <Content Include="Textures\GrassTextures\grass4.png" />
-    <Content Include="Textures\HeightMaps\00.bmp" />
-    <Content Include="Textures\HeightMaps\heightmap.png" />
-    <Content Include="Textures\HeightMaps\heightmap2.png" />
-    <Content Include="Textures\HeightMaps\heightmap3.png" />
-    <Content Include="Textures\LensFlareTextures\lenscolor.png" />
-    <Content Include="Textures\LensFlareTextures\lensdirt.png" />
-    <Content Include="Textures\LensFlareTextures\lensstar.png" />
-    <Content Include="Textures\Multitextures\b.png" />
-    <Content Include="Textures\Multitextures\blendMap.png" />
-    <Content Include="Textures\Multitextures\blendMap2.png" />
-    <Content Include="Textures\Multitextures\diffuse.png" />
-    <Content Include="Textures\Multitextures\grass.png" />
-    <Content Include="Textures\Multitextures\grassFlowers.png" />
-    <Content Include="Textures\Multitextures\heightmap.png" />
-    <Content Include="Textures\Multitextures\mud.png" />
-    <Content Include="Textures\Multitextures\NewLandscape\snow01.jpg" />
-    <Content Include="Textures\Multitextures\NewLandscape\snow01_n.png" />
-    <Content Include="Textures\Multitextures\NewLandscape\tundra02.jpg" />
-    <Content Include="Textures\Multitextures\NewLandscape\tundra02_n.png" />
-    <Content Include="Textures\Multitextures\NewLandscape\volcanictundrarocks01.jpg" />
-    <Content Include="Textures\Multitextures\NewLandscape\volcanictundrarocks01_n.png" />
-    <Content Include="Textures\Multitextures\path.png" />
-    <Content Include="Textures\Multitextures\wood.png" />
-    <Content Include="Textures\NormalMaps\BrickRound_BUMP.png" />
-    <Content Include="Textures\NormalMaps\BrickRound_Nor.png" />
-    <Content Include="Textures\NormalMaps\BrickRound_Nor_2.png" />
-    <Content Include="Textures\NormalMaps\BrickRound_Nor_3.png" />
-    <Content Include="Textures\NormalMaps\brick_nm_high.png" />
-    <Content Include="Textures\NormalMaps\brick_nm_mid.png" />
-    <Content Include="Textures\NormalMaps\city_house_2_Nor.jpg" />
-    <Content Include="Textures\NormalMaps\lamp1NM.png" />
-    <Content Include="Textures\NormalMaps\NM.png" />
-    <Content Include="Textures\NormalMaps\NM1.png" />
-    <Content Include="Textures\NormalMaps\NormalMap.png" />
-    <Content Include="Textures\Skybox\Day\Back.bmp" />
-    <Content Include="Textures\Skybox\Day\bottom.bmp" />
-    <Content Include="Textures\Skybox\Day\Front.bmp" />
-    <Content Include="Textures\Skybox\Day\Left.bmp" />
-    <Content Include="Textures\Skybox\Day\Right.bmp" />
-    <Content Include="Textures\Skybox\Day\top.bmp" />
-    <Content Include="Textures\Skybox\Night\back.png" />
-    <Content Include="Textures\Skybox\Night\bottom.png" />
-    <Content Include="Textures\Skybox\Night\front.png" />
-    <Content Include="Textures\Skybox\Night\left.png" />
-    <Content Include="Textures\Skybox\Night\right.png" />
-    <Content Include="Textures\Skybox\Night\top.png" />
-    <Content Include="Textures\SpecularMaps\BrickRound_SPEC.png" />
-    <Content Include="Textures\SpecularMaps\brick_sm.png" />
-    <Content Include="Textures\SpecularMaps\city_house_2_Spec.jpg" />
-    <Content Include="Textures\SpecularMaps\spec.bmp" />
-    <Content Include="Textures\SpecularMaps\specular1.png" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DLL\2DGameTable\2DGameTable\2DGameTable.csproj">
@@ -583,7 +406,6 @@
       <Name>WpfEngineControlsLibrary</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

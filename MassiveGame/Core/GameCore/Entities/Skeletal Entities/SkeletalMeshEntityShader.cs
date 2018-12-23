@@ -2,6 +2,7 @@
 using ShaderPattern;
 using OpenTK;
 using System;
+using MassiveGame.Core.DebugCore;
 
 namespace MassiveGame.Core.GameCore.Entities.Skeletal_Entities
 {
@@ -31,8 +32,8 @@ namespace MassiveGame.Core.GameCore.Entities.Skeletal_Entities
             }
             catch (ArgumentNullException innerException)
             {
-                Debug.Log.AddToFileStreamLog(innerException.Message);
-                Debug.Log.AddToConsoleStreamLog(innerException.Message);
+                Log.AddToFileStreamLog(innerException.Message);
+                Log.AddToConsoleStreamLog(innerException.Message);
             }
         }
 

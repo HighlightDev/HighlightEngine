@@ -10,6 +10,7 @@ using MassiveGame.API.ResourcePool.Pools;
 using MassiveGame.API.ResourcePool;
 using MassiveGame.UiWindow;
 using MassiveGame.Engine;
+using MassiveGame.Core.DebugCore;
 
 namespace MassiveGame.UI
 {
@@ -125,7 +126,7 @@ namespace MassiveGame.UI
         {
             base.OnClosing(e);
             m_engineCore.CleanEverythingUp();
-            Debug.Log.AddToFileStreamLog(String.Format("\nTime elapsed : {0}", DateTime.Now - EngineStatics.ElapsedTime));
+            Log.AddToFileStreamLog(String.Format("\nTime elapsed : {0}", DateTime.Now - EngineStatics.ElapsedTime));
             Environment.Exit(0);
         }
 

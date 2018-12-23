@@ -1,6 +1,7 @@
 ﻿using MassiveGame.API.ObjectFactory;
 using MassiveGame.API.ObjectFactory.ObjectArguments;
 using MassiveGame.CollisionEditor.Core.SerializeAPI;
+using MassiveGame.Core.DebugCore.UiPanel;
 using MassiveGame.Core.GameCore.Entities.MoveEntities;
 using MassiveGame.Core.GameCore.Entities.Skeletal_Entities;
 using MassiveGame.Core.GameCore.Entities.StaticEntities;
@@ -15,8 +16,7 @@ using MassiveGame.Core.RenderCore;
 using MassiveGame.Core.RenderCore.Light_visualization;
 using MassiveGame.Core.RenderCore.Shadows;
 using MassiveGame.Core.RenderCore.Visibility;
-using MassiveGame.Debug.UiPanel;
-using MassiveGame.Settings;
+using MassiveGame.Core.SettingsCore;
 using OpenTK;
 using OpenTK.Graphics.OpenGL;
 using System;
@@ -119,13 +119,13 @@ namespace MassiveGame.Core.GameCore
             //level.terrain.SetNormalMapR(ProjectFolders.MultitexturesPath + "NewLandscape/volcanictundrarocks01_n.png");
             //level.terrain.SetNormalMapG(ProjectFolders.MultitexturesPath + "NewLandscape/tundra02_n.png");
             ////level.Map.SetNormalMapBlack(ProjectFolders.MultitexturesPath + "NewLandscape/snow01_n.png");
-            //level.terrain.SetNormalMapB(ProjectFolders.NormalMapsPath + "brick_nm_high.png");
+            //level.terrain.SetNormalMapB(ProjectFolders.NormalMapsPath + "brick_nm_mid.png");
             //level.terrain.SetMist(level.Mist);
 
             string modelPath = ProjectFolders.ModelsPath + "house00.obj";
-            string texturePath = ProjectFolders.TextureAtlasPath + "houseDiffuse.jpg";
-            string normalMapPath = ProjectFolders.NormalMapsPath + "houseNormal.jpg";
-            string specularMapPath = ProjectFolders.SpecularMapsPath + "brick_sm.png";
+            string texturePath = ProjectFolders.AlbedoTexturePath + "houseDiffuse.jpg";
+            string normalMapPath = ProjectFolders.NormalMapPath + "houseNormal.jpg";
+            string specularMapPath = ProjectFolders.SpecularMapPath + "brick_sm.png";
 
             StaticEntityArguments staticMeshArg = new StaticEntityArguments(modelPath, texturePath, normalMapPath, specularMapPath,
               new Vector3(170, 13f + EngineStatics.MAP_HEIGHT, 170), new Vector3(0, 180, 0), new Vector3(20));
@@ -140,7 +140,7 @@ namespace MassiveGame.Core.GameCore
             DeserializeWrapper deserializer = new DeserializeWrapper();
             foreach (var item in level.StaticMeshCollection)
             {
-                var inner_wrapper = deserializer.Deserialize<CollisionComponentsWrapper>("actualHome1.cl");
+                var inner_wrapper = deserializer.Deserialize<CollisionComponentsWrapper>(ProjectFolders.CollisionPath + "actualHome1.cl");
                 item.SetComponents(inner_wrapper.SerializedComponents);
                 item.SetCollisionHeadUnit(CollisionHeadUnitObject);
 
@@ -148,60 +148,60 @@ namespace MassiveGame.Core.GameCore
             }
 
             modelPath = ProjectFolders.ModelsPath + "playerCube.obj";
-            texturePath = ProjectFolders.MultitexturesPath + "path.png";
-            normalMapPath = ProjectFolders.NormalMapsPath + "brick_nm_high.png";
-            specularMapPath = ProjectFolders.SpecularMapsPath + "brick_sm.png";
+            texturePath = ProjectFolders.LandscapeTexturePath + "path.png";
+            normalMapPath = ProjectFolders.NormalMapPath + "brick_nm_mid.png";
+            specularMapPath = ProjectFolders.SpecularMapPath + "brick_sm.png";
 
             MovableEntityArguments movableMeshArg = new MovableEntityArguments(modelPath, texturePath, normalMapPath, specularMapPath, new Vector3(155, 1200, 170), new Vector3(0, 0, 0), new Vector3(4f));
 
             modelPath = ProjectFolders.ModelsPath + "model.dae";
-            texturePath = ProjectFolders.MultitexturesPath + "diffuse.png";
+            texturePath = ProjectFolders.AlbedoTexturePath + "diffuse.png";
 
             level.SkeletalMesh = new MovableSkeletalMeshEntity(modelPath, texturePath, normalMapPath, specularMapPath, 0.5f, new Vector3(175, 80, 170), new Vector3(-90, 0, 0), new Vector3(1));
 
             level.Player.AddToWrapper(EngineObjectCreator.CreateInstance<MovableMeshEntity>(movableMeshArg));
             level.Player.GetData().SetMistComponent(level.Mist);
 
-            var wrapper = deserializer.Deserialize<CollisionComponentsWrapper>("2.cl");
+            var wrapper = deserializer.Deserialize<CollisionComponentsWrapper>(ProjectFolders.CollisionPath + "2.cl");
             level.Player.GetData().SetComponents(wrapper.SerializedComponents);
 
             level.Player.GetData().SetCollisionHeadUnit(CollisionHeadUnitObject);
             level.Player.GetData().Speed = 0.6f;
 
             modelPath = ProjectFolders.ModelsPath + "playerCube.obj";
-            texturePath = ProjectFolders.MultitexturesPath + "b.png";
+            texturePath = ProjectFolders.LandscapeTexturePath + "b.png";
 
             movableMeshArg = new MovableEntityArguments(modelPath, texturePath, normalMapPath, specularMapPath, new Vector3(180, 200, 220), new Vector3(0, 0, 0), new Vector3(10));
 
             var bot = EngineObjectCreator.CreateInstance<MovableMeshEntity>(movableMeshArg);
             bot.SetMistComponent(level.Mist);
 
-            wrapper = deserializer.Deserialize<CollisionComponentsWrapper>("2.cl");
+            wrapper = deserializer.Deserialize<CollisionComponentsWrapper>(ProjectFolders.CollisionPath + "2.cl");
             bot.SetComponents(wrapper.SerializedComponents);
             bot.SetCollisionHeadUnit(CollisionHeadUnitObject);
             level.Bots.AddToList(bot);
             movableMeshArg = null;
 
             level.Skybox = new SkyboxEntity(
-                    new string[] { ProjectFolders.SkyboxTexturesPath + "/Day/" + "right.bmp",
-                    ProjectFolders.SkyboxTexturesPath + "/Day/" + "left.bmp",
-                    ProjectFolders.SkyboxTexturesPath + "/Day/" + "top.bmp",
-                    ProjectFolders.SkyboxTexturesPath + "/Day/" + "bottom.bmp",
-                    ProjectFolders.SkyboxTexturesPath + "/Day/" + "back.bmp",
-                    ProjectFolders.SkyboxTexturesPath + "/Day/" + "front.bmp" },
-                    new string[] { ProjectFolders.SkyboxTexturesPath + "/Night/" + "right.png",
-                    ProjectFolders.SkyboxTexturesPath + "/Night/" + "left.png",
-                    ProjectFolders.SkyboxTexturesPath + "/Night/" + "top.png",
-                    ProjectFolders.SkyboxTexturesPath + "/Night/" + "bottom.png",
-                    ProjectFolders.SkyboxTexturesPath + "/Night/" + "back.png",
-                    ProjectFolders.SkyboxTexturesPath + "/Night/" + "front.png" });
+                    new string[] { ProjectFolders.CubemapTexturePath + "/Day/" + "right.bmp",
+                    ProjectFolders.CubemapTexturePath + "/Day/" + "left.bmp",
+                    ProjectFolders.CubemapTexturePath + "/Day/" + "top.bmp",
+                    ProjectFolders.CubemapTexturePath + "/Day/" + "bottom.bmp",
+                    ProjectFolders.CubemapTexturePath + "/Day/" + "back.bmp",
+                    ProjectFolders.CubemapTexturePath + "/Day/" + "front.bmp" },
+                    new string[] { ProjectFolders.CubemapTexturePath + "/Night/" + "right.png",
+                    ProjectFolders.CubemapTexturePath + "/Night/" + "left.png",
+                    ProjectFolders.CubemapTexturePath + "/Night/" + "top.png",
+                    ProjectFolders.CubemapTexturePath + "/Night/" + "bottom.png",
+                    ProjectFolders.CubemapTexturePath + "/Night/" + "back.png",
+                    ProjectFolders.CubemapTexturePath + "/Night/" + "front.png" });
             level.Skybox.setMistComponent(level.Mist);
 
-            level.Water.AddToWrapper(new WaterPlane(ProjectFolders.WaterTexturePath + "DUDV.png", ProjectFolders.WaterTexturePath + "normal.png",
+            level.Water.AddToWrapper(new WaterPlane(ProjectFolders.DistortionTexturePath + "water_dudv.png", ProjectFolders.NormalMapPath + "water_normal.png",
                 new Vector3(160, 29, 200), new Vector3(0, 0, 0), new Vector3(200, 1, 200), new WaterQuality(true, true, true), 10));
 
-            level.SunRenderer.AddToWrapper(new SunRenderer(level.DirectionalLight, ProjectFolders.SunTexturePath + "sunC.png",
-                    ProjectFolders.SunTexturePath + "sunB.png", 150, 130));
+            level.SunRenderer.AddToWrapper(new SunRenderer(level.DirectionalLight, ProjectFolders.PostprocessTexturePath + "sunC.png",
+                    ProjectFolders.PostprocessTexturePath + "sunB.png", 150, 130));
 
             // Set third person target
             ThirdPersonCamera thirdPersonCamera = (level.Camera as ThirdPersonCamera);
@@ -230,8 +230,7 @@ namespace MassiveGame.Core.GameCore
 
         public void LoadTestLevel()
         {
-            bool bCreateLevel = true;
-            if (bCreateLevel)
+#if true
             {
                 Level level = new Level(new Vector2(500, 500), "Test Level");
                 m_currentLevel = level;
@@ -247,10 +246,11 @@ namespace MassiveGame.Core.GameCore
 
                 SerializeCurrentLevel();
             }
-            else
+#else
             {
                 m_currentLevel = LoadLevel("testLevel.save");
             }
+#endif
         }
 
 #endregion

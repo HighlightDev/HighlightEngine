@@ -2,6 +2,7 @@
 using OpenTK;
 using MassiveGame.Core.RenderCore;
 using ShaderPattern;
+using MassiveGame.Core.DebugCore;
 
 namespace MassiveGame.Core.GameCore.Entities.EnvironmentEntities
 {
@@ -30,8 +31,8 @@ namespace MassiveGame.Core.GameCore.Entities.EnvironmentEntities
             }
             catch (ArgumentNullException innerException)
             {
-                Debug.Log.AddToFileStreamLog(innerException.Message);
-                Debug.Log.AddToConsoleStreamLog(innerException.Message);
+                Log.AddToFileStreamLog(innerException.Message);
+                Log.AddToConsoleStreamLog(innerException.Message);
             }
         }
 

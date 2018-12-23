@@ -10,7 +10,7 @@ using MassiveGame.API.ResourcePool.PoolHandling;
 using MassiveGame.API.ResourcePool;
 using System.Collections.Generic;
 using MassiveGame.API.ResourcePool.Policies;
-using MassiveGame.Settings;
+using MassiveGame.Core.SettingsCore;
 
 namespace MassiveGame.Core.RenderCore.Shadows
 {

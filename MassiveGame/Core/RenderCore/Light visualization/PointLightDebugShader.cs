@@ -1,4 +1,5 @@
 ﻿using System;
+using MassiveGame.Core.DebugCore;
 using OpenTK;
 using ShaderPattern;
 
@@ -37,8 +38,8 @@ namespace MassiveGame.Core.RenderCore.Light_visualization
             }
             catch (ArgumentNullException innerException)
             {
-                Debug.Log.AddToFileStreamLog(innerException.Message);
-                Debug.Log.AddToConsoleStreamLog(innerException.Message);
+                Log.AddToFileStreamLog(innerException.Message);
+                Log.AddToConsoleStreamLog(innerException.Message);
             }
         }
 

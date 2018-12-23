@@ -1,7 +1,7 @@
 ﻿using TextureLoader;
 using OpenTK.Graphics.OpenGL;
 using System.Drawing;
-using MassiveGame.Settings;
+using MassiveGame.Core.SettingsCore;
 using MassiveGame.API.ResourcePool.PoolHandling;
 using MassiveGame.API.ResourcePool.Policies;
 using MassiveGame.API.ResourcePool;

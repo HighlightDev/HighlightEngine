@@ -3,7 +3,7 @@ using TextureLoader;
 using OpenTK.Graphics.OpenGL;
 using System.Drawing;
 using MassiveGame.Core.GameCore;
-using MassiveGame.Settings;
+using MassiveGame.Core.SettingsCore;
 using MassiveGame.Core.GameCore.Entities.StaticEntities;
 using MassiveGame.API.ResourcePool.PoolHandling;
 using MassiveGame.API.ResourcePool.Policies;

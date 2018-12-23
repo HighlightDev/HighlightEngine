@@ -9,13 +9,14 @@ using MassiveGame.Core.GameCore.EntityComponents;
 using MassiveGame.Core.RenderCore.Lights;
 using MassiveGame.Core.RenderCore;
 using MassiveGame.Core.GameCore.Water;
-using MassiveGame.Settings;
+using MassiveGame.Core.SettingsCore;
 using VBO;
 using MassiveGame.API.ResourcePool.PoolHandling;
 using MassiveGame.API.ResourcePool.Policies;
 using MassiveGame.API.ResourcePool;
 using MassiveGame.Core.RenderCore.Shadows;
 using System.Runtime.Serialization;
+using MassiveGame.Core.DebugCore;
 
 namespace MassiveGame.Core.GameCore.Terrain
 {
@@ -186,8 +187,8 @@ namespace MassiveGame.Core.GameCore.Terrain
             }
             catch (ArgumentException ef)
             {
-                Debug.Log.AddToFileStreamLog("Terrain height map file load error : " + ef.Message);
-                System.Environment.Exit(0);
+                Log.AddToFileStreamLog("Terrain height map file load error : " + ef.Message);
+                Environment.Exit(0);
             }
         }
 
