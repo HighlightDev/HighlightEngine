@@ -12,6 +12,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using WpfControlLibrary1.Models.ImageResources;
+using WpfControlLibrary1.ResourceLoader;
 
 namespace WpfControlLibrary1
 {
@@ -53,6 +55,12 @@ namespace WpfControlLibrary1
             object header = FindName("CustomItemsControl");
             FrameworkElement headerElement = header as FrameworkElement;
             headerElement.Visibility = headerElement.Visibility == Visibility.Collapsed ? Visibility.Visible : Visibility.Collapsed;
+        }
+
+        private void image_header_Loaded(object sender, RoutedEventArgs e)
+        {
+            string headerImageSrc = ResourceIO.GetInstance().GetResPath() + "texture\\editor\\hide.png";
+            (sender as FrameworkElement).DataContext = new DefaultImageModel(headerImageSrc);
         }
     }
 }

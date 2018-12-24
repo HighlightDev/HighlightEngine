@@ -6,13 +6,17 @@
         xmlns:local="clr-namespace:EngineUi"
         xmlns:controls="clr-namespace:WpfControlLibrary1;assembly=WpfControlLibrary1"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="350" Width="1510">
     <Grid>
         <!--<controls:EngineEntityListBox x:Name="engineEntityListBox" Loaded="EngineObjectListBoxControl_Loaded"/>-->
         <!--<controls:MenuToolbar></controls:MenuToolbar>-->
         <DockPanel>
         <controls:EngineListCreateEntity x:Name="list_createEntity" Loaded="list_createEntity_Loaded"/>
-        <controls:PropertyWindow x:Name="property" Loaded="property_Loaded"/>
+            <controls:PropertyWindow x:Name="property1" Loaded="property_Loaded"/>
+            <controls:PropertyWindow x:Name="property2" Loaded="property_Loaded1"/>
+            <controls:PropertyWindow x:Name="propert3" Loaded="property_Loaded2"/>
+            <controls:PropertyWindow x:Name="property4" Loaded="property_Loaded3"/>
+            <controls:PropertyWindow x:Name="propert5" Loaded="property_Loaded4"/>
         </DockPanel>
     </Grid>
 </Window>

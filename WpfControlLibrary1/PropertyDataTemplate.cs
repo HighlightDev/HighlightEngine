@@ -1,12 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using WpfControlLibrary1.EventHandlerCore;
+using WpfControlLibrary1.Models.ImageResources;
+using WpfControlLibrary1.ResourceLoader;
 
 namespace WpfControlLibrary1
 {
@@ -47,6 +45,16 @@ namespace WpfControlLibrary1
                         contentElement = "stackPanel_LightColorContent";
                         break;
                     }
+                case "stackPanel_WaterNormalMapHeader":
+                    {
+                        contentElement = "stackPanel_WaterNormalMapContent";
+                        break;
+                    }
+                case "stackPanel_WaterDistortionHeader":
+                    {
+                        contentElement = "stackPanel_WaterDistortionContent";
+                        break;
+                    }
             }
 
             element = parent.FindName(contentElement) as FrameworkElement;
@@ -65,6 +73,12 @@ namespace WpfControlLibrary1
         private void TextBlockSelector_MouseDown(object sender, MouseButtonEventArgs e)
         {
             EventsListenerManager.GetInstance().AddEventToQueue(new EventData() { Sender = sender, Args = e });
+        }
+
+        private void subheaderImageLoaded(object sender, RoutedEventArgs e)
+        {
+            string subheaderImageSrc = ResourceIO.GetInstance().GetTexturePath() + "editor\\submenu_indicator.png";
+            (sender as FrameworkElement).DataContext = new DefaultImageModel(subheaderImageSrc);
         }
     }
 }

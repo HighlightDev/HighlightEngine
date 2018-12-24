@@ -12,7 +12,9 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using WpfControlLibrary1.Models.ImageResources;
 using WpfControlLibrary1.Models.Property;
+using WpfControlLibrary1.ResourceLoader;
 
 namespace WpfControlLibrary1
 {
@@ -51,6 +53,30 @@ namespace WpfControlLibrary1
         private void PropertyContent_Loaded(object sender, RoutedEventArgs e)
         {
             (sender as FrameworkElement).DataContext = PropertyTemplateType;
+        }
+
+        private void headerImageLoaded(object sender, RoutedEventArgs e)
+        {
+            string headerImageSrc = ResourceIO.GetInstance().GetTexturePath() + "editor\\hide.png";
+            (sender as FrameworkElement).DataContext = new DefaultImageModel(headerImageSrc);
+        }
+
+        private void subheaderImageLoaded(object sender, RoutedEventArgs e)
+        {
+            string subheaderImageSrc = ResourceIO.GetInstance().GetTexturePath() + "editor\\submenu_indicator.png";
+            (sender as FrameworkElement).DataContext = new DefaultImageModel(subheaderImageSrc);
+        }
+
+        private void ImageLeftArrowLoaded(object sender, RoutedEventArgs e)
+        {
+            string leftArrowImageSrc = ResourceIO.GetInstance().GetTexturePath() + "editor\\arrow_left.png";
+            (sender as FrameworkElement).DataContext = new DefaultImageModel(leftArrowImageSrc);
+        }
+
+        private void ImageRightArrowLoaded(object sender, RoutedEventArgs e)
+        {
+            string rightArrowImageSrc = ResourceIO.GetInstance().GetTexturePath() + "editor\\arrow_right.png";
+            (sender as FrameworkElement).DataContext = new DefaultImageModel(rightArrowImageSrc);
         }
     }
 }

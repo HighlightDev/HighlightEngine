@@ -6,6 +6,7 @@
              xmlns:local="clr-namespace:WpfControlLibrary1"
              xmlns:selectors="clr-namespace:WpfControlLibrary1.DataTemplateSelectors"
              xmlns:views="clr-namespace:WpfControlLibrary1.Views"
+             xmlns:res="clr-namespace:WpfControlLibrary1.ResourceLoader"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <UserControl.Resources>
@@ -39,10 +40,12 @@
                                    HorizontalAlignment="Left"
                                    VerticalAlignment="Top"
                                    Margin="0, 0, 0, 0"/>
-                            <Image Height="20" Width="20"
+                            <Image x:Name="image_header"
+                                   Height="20" Width="20"
                                    VerticalAlignment="Center"
                                    HorizontalAlignment="Right" 
-                                   Source="C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\WpfControlLibrary1\Images\hide.png"
+                                   Loaded="image_header_Loaded"
+                                   Source="{Binding ElementName=image_header, Path=DataContext.ImageSrc}"
                                    MouseDown="Image_MouseDown"/>
                         </DockPanel>
 

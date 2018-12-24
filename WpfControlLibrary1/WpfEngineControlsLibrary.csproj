@@ -87,6 +87,7 @@
     <Compile Include="Models\EntityGroups\SunMeshGroupModel.cs" />
     <Compile Include="Models\EntityGroups\TerrainGroupModel.cs" />
     <Compile Include="Models\EntityGroups\WaterPlanesGroupModel.cs" />
+    <Compile Include="Models\ImageResources\DefaultImageModel.cs" />
     <Compile Include="Models\Property\EntitiesPropertyModel.cs" />
     <Compile Include="Models\Property\IPropertyModelBase.cs" />
     <Compile Include="Models\Property\LightPropertyModel.cs" />
@@ -98,6 +99,7 @@
     <Compile Include="PropertyWindow.xaml.cs">
       <DependentUpon>PropertyWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ResourceLoader\ResourceIO.cs" />
     <Compile Include="Views\EngineObjectEntryView.cs" />
     <Compile Include="Views\EntityGroupsView.cs" />
     <Compile Include="Views\PropertyView.cs" />
@@ -162,19 +164,6 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Images\icon.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Images\hide.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Images\arrow_left.png" />
-    <Resource Include="Images\arrow_right.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Images\submenu_indicator.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

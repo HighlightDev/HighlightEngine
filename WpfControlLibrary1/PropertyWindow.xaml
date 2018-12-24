@@ -37,10 +37,12 @@
                                         FontSize="14"
                                         FontFamily="Comic Sans MS, Verdana"
                                         Margin="0, 0, 0, 0"/>
-                            <Image Height="20" Width="20"
+                           <Image x:Name="image_header"
+                           Height="20" Width="20"
                            VerticalAlignment="Center"
                            HorizontalAlignment="Right" 
-                           Source="C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\WpfControlLibrary1\Images\hide.png"
+                           Loaded="headerImageLoaded"
+                           Source="{Binding ElementName=image_header, Path=DataContext.ImageSrc}"
                            MouseDown="Image_MouseDown"/>
                         </DockPanel>
 
@@ -49,9 +51,11 @@
                             <StackPanel x:Name="stackPanel_Transformation" Orientation="Vertical" Style="{StaticResource EngineListBoxStackPanelBackground}">
 
                                 <DockPanel x:Name="stackPanel_TransformationHeader" MouseDown="stackPanel_TransformationHeader_MouseDown">
-                                    <Image Height="10"
+                                    <Image x:Name="image_transformationHeader"
+                                           Height="10"
                                            Margin="5 0 10 0"
-                                        Source="C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\WpfControlLibrary1\Images\submenu_indicator.png" />
+                                           Loaded="subheaderImageLoaded"
+                                           Source="{Binding ElementName=image_transformationHeader, Path=DataContext.ImageSrc}" />
                                     <Label Style="{StaticResource ResourceKey=engineLabelStyle_Size2}"
                                             Content="Transform"
                                             HorizontalAlignment="Left"/>
@@ -71,12 +75,14 @@
                                                 <Border Style="{StaticResource engineBorderDefaultPlusHoverColor}"
                                                 BorderThickness="1">
                                                     <DockPanel>
-                                                        <Image VerticalAlignment="Center"
-                                                   HorizontalAlignment="Left"
-                                                   Source="C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\WpfControlLibrary1\Images\arrow_left.png"
-                                                   Width="14"
-                                                   Height="14"
-                                                   Margin="10, 0, 0, 0"/>
+                                                        <Image x:Name="image_leftArrowTranslation"
+                                                            VerticalAlignment="Center"
+                                                            HorizontalAlignment="Left"
+                                                            Loaded="ImageLeftArrowLoaded"
+                                                            Source="{Binding ElementName=image_leftArrowTranslation, Path=DataContext.ImageSrc}"
+                                                            Width="14"
+                                                            Height="14"
+                                                            Margin="10, 0, 0, 0"/>
                                                         <TextBlock Style="{StaticResource ResourceKey=engineTextBlockStyle_Size2}"
                                                     Width="198"
                                                     TextAlignment="Center"
@@ -84,12 +90,14 @@
                                                     Text="0"
                                                     VerticalAlignment="Center" 
                                                     Margin="0, 0, 0, 0"/>
-                                                        <Image HorizontalAlignment="Right"
-                                                   Source="C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\WpfControlLibrary1\Images\arrow_right.png"
-                                                   Width="14"
-                                                   Height="14" 
-                                                   VerticalAlignment="Center"
-                                                    Margin="0, 0, 8, 0"/>
+                                                        <Image x:Name="image_rightArrowTranslation"
+                                                               HorizontalAlignment="Right"
+                                                               Loaded="ImageRightArrowLoaded"
+                                                               Width="14"
+                                                               Height="14" 
+                                                               Source="{Binding ElementName=image_rightArrowTranslation, Path=DataContext.ImageSrc}"
+                                                               VerticalAlignment="Center"
+                                                               Margin="0, 0, 8, 0"/>
                                                     </DockPanel>
                                                 </Border>
                                             </StackPanel>
@@ -106,12 +114,14 @@
                                                 <Border Style="{StaticResource engineBorderDefaultPlusHoverColor}"
                                                 BorderThickness="1">
                                                     <DockPanel>
-                                                        <Image VerticalAlignment="Center"
-                                                   HorizontalAlignment="Left"
-                                                   Source="C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\WpfControlLibrary1\Images\arrow_left.png"
-                                                   Width="14"
-                                                   Height="14"
-                                                   Margin="10, 0, 0, 0"/>
+                                                        <Image x:Name="image_leftArrowRotation"
+                                                            VerticalAlignment="Center"
+                                                            HorizontalAlignment="Left"
+                                                            Loaded="ImageLeftArrowLoaded"
+                                                            Source="{Binding ElementName=image_leftArrowRotation, Path=DataContext.ImageSrc}"
+                                                            Width="14"
+                                                            Height="14"
+                                                            Margin="10, 0, 0, 0"/>
                                                         <TextBlock Style="{StaticResource ResourceKey=engineTextBlockStyle_Size2}"
                                                     Width="198"
                                                     TextAlignment="Center"
@@ -119,12 +129,14 @@
                                                     Text="0"
                                                     VerticalAlignment="Center" 
                                                     Margin="0, 0, 0, 0"/>
-                                                        <Image HorizontalAlignment="Right"
-                                                   Source="C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\WpfControlLibrary1\Images\arrow_right.png"
-                                                   Width="14"
-                                                   Height="14" 
-                                                   VerticalAlignment="Center"
-                                                    Margin="0, 0, 8, 0"/>
+                                                        <Image x:Name="image_rightArrowRotation"
+                                                               HorizontalAlignment="Right"
+                                                               Loaded="ImageRightArrowLoaded"
+                                                               Width="14"
+                                                               Height="14" 
+                                                               Source="{Binding ElementName=image_rightArrowRotation, Path=DataContext.ImageSrc}"
+                                                               VerticalAlignment="Center"
+                                                               Margin="0, 0, 8, 0"/>
                                                     </DockPanel>
                                                 </Border>
                                             </StackPanel>
@@ -140,12 +152,14 @@
                                                 <Border Style="{StaticResource engineBorderDefaultPlusHoverColor}"
                                                 BorderThickness="1">
                                                     <DockPanel>
-                                                        <Image VerticalAlignment="Center"
-                                                   HorizontalAlignment="Left"
-                                                   Source="C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\WpfControlLibrary1\Images\arrow_left.png"
-                                                   Width="14"
-                                                   Height="14"
-                                                   Margin="10, 0, 0, 0"/>
+                                                        <Image x:Name="image_leftArrowScale"
+                                                            VerticalAlignment="Center"
+                                                            HorizontalAlignment="Left"
+                                                            Loaded="ImageLeftArrowLoaded"
+                                                            Source="{Binding ElementName=image_leftArrowScale, Path=DataContext.ImageSrc}"
+                                                            Width="14"
+                                                            Height="14"
+                                                            Margin="10, 0, 0, 0"/>
                                                         <TextBlock Style="{StaticResource ResourceKey=engineTextBlockStyle_Size2}"
                                                     Width="198"
                                                     TextAlignment="Center"
@@ -153,12 +167,14 @@
                                                     Text="1"
                                                     VerticalAlignment="Center" 
                                                     Margin="0, 0, 0, 0"/>
-                                                        <Image HorizontalAlignment="Right"
-                                                   Source="C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\WpfControlLibrary1\Images\arrow_right.png"
-                                                   Width="14"
-                                                   Height="14" 
-                                                   VerticalAlignment="Center"
-                                                    Margin="0, 0, 8, 0"/>
+                                                        <Image x:Name="image_rightArrowScale"
+                                                               HorizontalAlignment="Right"
+                                                               Loaded="ImageRightArrowLoaded"
+                                                               Width="14"
+                                                               Height="14" 
+                                                               Source="{Binding ElementName=image_rightArrowScale, Path=DataContext.ImageSrc}"
+                                                               VerticalAlignment="Center"
+                                                               Margin="0, 0, 8, 0"/>
                                                     </DockPanel>
                                                 </Border>
                                             </StackPanel>

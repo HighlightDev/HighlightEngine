@@ -44,8 +44,25 @@ namespace EngineUi
 
         private void property_Loaded(object sender, RoutedEventArgs e)
         {
+            (sender as PropertyWindow).PropertyTemplateType = new EntitiesPropertyModel();
+        }
+        private void property_Loaded1(object sender, RoutedEventArgs e)
+        {
+            (sender as PropertyWindow).PropertyTemplateType = new SkyboxPropertyModel();
+        }
+        private void property_Loaded2(object sender, RoutedEventArgs e)
+        {
+            (sender as PropertyWindow).PropertyTemplateType = new TerrainPropertyModel();
+        }
+        private void property_Loaded3(object sender, RoutedEventArgs e)
+        {
             (sender as PropertyWindow).PropertyTemplateType = new LightPropertyModel();
         }
+        private void property_Loaded4(object sender, RoutedEventArgs e)
+        {
+            (sender as PropertyWindow).PropertyTemplateType = new WaterPlanesPropertyModel();
+        }
+      
     }
 }
 
