@@ -45,17 +45,17 @@
         </Setter>
     </Style>
     
+    <!-- Engine label header -->
+    <Style x:Key="engineLabelStyle_header" TargetType="Label">
+        <Setter Property="Foreground" Value="#FFC1C1C1"/>
+        <Setter Property="FontSize" Value="13" />
+        <Setter Property="FontFamily" Value="Comic Sans MS, Verdana"/>
+    </Style>
+
     <!-- Engine label size 1 -->
     <Style x:Key="engineLabelStyle_Size1" TargetType="Label">
         <Setter Property="Foreground" Value="#FFC1C1C1"/>
         <Setter Property="FontSize" Value="19" />
-        <Setter Property="FontFamily" Value="Comic Sans MS, Verdana"/>
-    </Style>
-
-    <!-- Engine label header -->
-    <Style x:Key="engineLabelStyle_header" TargetType="Label">
-        <Setter Property="Foreground" Value="#FFC1C1C1"/>
-        <Setter Property="FontSize" Value="14" />
         <Setter Property="FontFamily" Value="Comic Sans MS, Verdana"/>
     </Style>
 
@@ -65,11 +65,25 @@
         <Setter Property="FontSize" Value="15" />
         <Setter Property="FontFamily" Value="Comic Sans MS, Verdana"/>
     </Style>
-    
+
+    <!-- Engine label size 3 -->
+    <Style x:Key="engineLabelStyle_Size3" TargetType="Label">
+        <Setter Property="Foreground" Value="#FFC1C1C1"/>
+        <Setter Property="FontSize" Value="13" />
+        <Setter Property="FontFamily" Value="Comic Sans MS, Verdana"/>
+    </Style>
+
     <!-- Engine textblock size 2 -->
     <Style x:Key="engineTextBlockStyle_Size2" TargetType="TextBlock">
         <Setter Property="Foreground" Value="#FFC1C1C1"/>
         <Setter Property="FontSize" Value="15" />
+        <Setter Property="FontFamily" Value="Comic Sans MS, Verdana"/>
+    </Style>
+
+    <!-- Engine textblock size 3 -->
+    <Style x:Key="engineTextBlockStyle_Size3" TargetType="TextBlock">
+        <Setter Property="Foreground" Value="#FFC1C1C1"/>
+        <Setter Property="FontSize" Value="13" />
         <Setter Property="FontFamily" Value="Comic Sans MS, Verdana"/>
     </Style>
 

@@ -38,10 +38,10 @@ namespace WpfControlLibrary1
         private void stackpanel_mainContent_MouseDown(object sender, MouseButtonEventArgs e)
         {
             StackPanel eventSender = sender as StackPanel;
+            string entryName = (eventSender.FindName("label_main") as Label)?.Content?.ToString();
             if (eventSender != null)
             {
-                string eventSenderName = eventSender.Name;
-                MainContent_mouseDownAction?.Invoke(eventSender, eventSenderName);
+                MainContent_mouseDownAction?.Invoke(eventSender, entryName);
             }
 
             StackPanel senderStackPanel = sender as StackPanel;

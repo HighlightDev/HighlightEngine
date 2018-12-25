@@ -55,6 +55,21 @@ namespace WpfControlLibrary1
                         contentElement = "stackPanel_WaterDistortionContent";
                         break;
                     }
+                case "stackPanel_SunCoreTextureHeader":
+                    {
+                        contentElement = "stackPanel_SunCoreTextureContent";
+                        break;
+                    }
+                case "stackPanel_SunShiningTextureHeader":
+                    {
+                        contentElement = "stackPanel_SunShiningTextureContent";
+                        break;
+                    }
+                case "stackPanel_TransformationHeader":
+                    {
+                        contentElement = "stackPanel_TransformationContent";
+                        break;
+                    }
             }
 
             element = parent.FindName(contentElement) as FrameworkElement;
@@ -79,6 +94,18 @@ namespace WpfControlLibrary1
         {
             string subheaderImageSrc = ResourceIO.GetInstance().GetTexturePath() + "editor\\submenu_indicator.png";
             (sender as FrameworkElement).DataContext = new DefaultImageModel(subheaderImageSrc);
+        }
+     
+        private void ImageLeftArrowLoaded(object sender, RoutedEventArgs e)
+        {
+            string leftArrowImageSrc = ResourceIO.GetInstance().GetTexturePath() + "editor\\arrow_left.png";
+            (sender as FrameworkElement).DataContext = new DefaultImageModel(leftArrowImageSrc);
+        }
+
+        private void ImageRightArrowLoaded(object sender, RoutedEventArgs e)
+        {
+            string rightArrowImageSrc = ResourceIO.GetInstance().GetTexturePath() + "editor\\arrow_right.png";
+            (sender as FrameworkElement).DataContext = new DefaultImageModel(rightArrowImageSrc);
         }
     }
 }

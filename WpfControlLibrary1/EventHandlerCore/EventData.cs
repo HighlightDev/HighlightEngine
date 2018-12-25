@@ -10,5 +10,6 @@ namespace WpfControlLibrary1.EventHandlerCore
     {
         public object Sender { set; get; }
         public EventArgs Args { set; get; }
+        public string AdditionalInfo { set; get; } = null;
     }
 }

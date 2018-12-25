@@ -3,12 +3,7 @@ using System.Drawing;
 using System.Windows.Forms;
 
 using OpenTK;
-using OpenTK.Graphics.OpenGL;
 using MassiveGame.Core.GameCore;
-using MassiveGame.API.ResourcePool.PoolHandling;
-using MassiveGame.API.ResourcePool.Pools;
-using MassiveGame.API.ResourcePool;
-using MassiveGame.EngineEditor.Core.UiContent;
 using MassiveGame.UiWindow;
 using MassiveGame.EngineEditor.Core.Entities;
 using MassiveGame.API.MouseObjectDetector;
@@ -16,6 +11,8 @@ using MassiveGame.Core.MathCore;
 using MassiveGame.Core.MathCore.MathTypes;
 using MassiveGame.Engine;
 using MassiveGame.Core.DebugCore;
+using WpfControlLibrary1.Models.Property;
+using WpfControlLibrary1;
 
 namespace MassiveGame.UI
 {
@@ -34,7 +31,7 @@ namespace MassiveGame.UI
 
             GLControl.MouseEnter += 
                 (sender, e) => { GLControl.Focus(); };
-            m_engineCore.PreConstructor();
+            m_engineCore.PreConstructor(); 
         }
 
         public EditorWindow(Int32 width, Int32 height, EngineCore engineCore)
@@ -208,17 +205,30 @@ namespace MassiveGame.UI
 
         private void elementHost1_ChildChanged(object sender, System.Windows.Forms.Integration.ChildChangedEventArgs e)
         {
-            EngineObjectEntryView engineView = new EngineObjectEntryView();
-            engineView.TestCreateEntries();
-
-            //engineEntityListBox.DataContext = engineView;
-            //engineEntityListBox.EntryStackPanelMouseDownEventFire += new Action<string>(MeshListBoxEventCatched);
+            engineToolbar_Right1.DelayedInitializeDone += () =>
+            {
+                engineToolbar_Right1.CreateEntityList.MainContent_mouseDownAction += this.MeshListBoxEventCatched;
+            };
         }
 
-        private void MeshListBoxEventCatched(string entity)
+        private void MeshListBoxEventCatched(object sender, string message)
         {
             if (previewEntity == null)
                 previewEntity = new PreviewEntity(true);
+
+            if (!string.IsNullOrEmpty(message))
+            {
+                var properties = engineToolbar_Right1.PropertyWindow;
+                switch (message)
+                {
+                    case "Entities": properties.PropertyTemplateType = new EntitiesPropertyModel(); break;
+                    case "Skybox": properties.PropertyTemplateType = new SkyboxPropertyModel(); break;
+                    case "Terrain": properties.PropertyTemplateType = new TerrainPropertyModel(); break;
+                    case "LightSources": properties.PropertyTemplateType = new LightPropertyModel(); break;
+                    case "Water Planes": properties.PropertyTemplateType = new WaterPlanesPropertyModel(); break;
+                    case "Sun Mesh": properties.PropertyTemplateType = new SunMeshPropertyModel(); break;
+                }
+            }
         }
 
         #endregion

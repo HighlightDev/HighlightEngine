@@ -1,8 +1,12 @@
 {
   "ExpandedNodes": [
     "",
+    "\\MassiveGame",
+    "\\res",
+    "\\res\\shaders",
+    "\\WpfControlLibrary1",
     "\\WpfControlLibrary1\\Views"
   ],
-  "SelectedNode": "\\WpfControlLibrary1",
+  "SelectedNode": "\\res\\shaders\\sunFS.glsl",
   "PreviewInSolutionExplorer": false
 }

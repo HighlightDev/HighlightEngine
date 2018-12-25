@@ -74,6 +74,9 @@
     <Compile Include="EngineListCreateEntity.xaml.cs">
       <DependentUpon>EngineListCreateEntity.xaml</DependentUpon>
     </Compile>
+    <Compile Include="EngineToolbar_Right.xaml.cs">
+      <DependentUpon>EngineToolbar_Right.xaml</DependentUpon>
+    </Compile>
     <Compile Include="EntityGroupsDataTemplateResources.cs" />
     <Compile Include="EventHandlerCore\EventData.cs" />
     <Compile Include="EventHandlerCore\EventsListenerManager.cs" />
@@ -88,6 +91,7 @@
     <Compile Include="Models\EntityGroups\TerrainGroupModel.cs" />
     <Compile Include="Models\EntityGroups\WaterPlanesGroupModel.cs" />
     <Compile Include="Models\ImageResources\DefaultImageModel.cs" />
+    <Compile Include="Models\Property\EmptyPropertyModel.cs" />
     <Compile Include="Models\Property\EntitiesPropertyModel.cs" />
     <Compile Include="Models\Property\IPropertyModelBase.cs" />
     <Compile Include="Models\Property\LightPropertyModel.cs" />
@@ -121,6 +125,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="EngineListCreateEntity.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="EngineToolbar_Right.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -17,6 +17,8 @@
             <controls:PropertyWindow x:Name="propert3" Loaded="property_Loaded2"/>
             <controls:PropertyWindow x:Name="property4" Loaded="property_Loaded3"/>
             <controls:PropertyWindow x:Name="propert5" Loaded="property_Loaded4"/>
+            <controls:PropertyWindow x:Name="propert6" Loaded="property_Loaded5"/>
+            <controls:EngineToolbar_Right/>
         </DockPanel>
     </Grid>
 </Window>

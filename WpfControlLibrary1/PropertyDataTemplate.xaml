@@ -12,16 +12,153 @@
     <DataTemplate x:Key="templateEntityProperty">
         <StackPanel>
 
+            <StackPanel x:Name="stackPanel_Transformation" Orientation="Vertical" Style="{StaticResource EngineListBoxStackPanelBackground}">
+
+                <DockPanel x:Name="stackPanel_TransformationHeader" MouseDown="SubHeader_MouseDown" Height="24">
+                    <Image x:Name="image_transformationHeader"
+                                           Height="10"
+                                           Margin="5 0 10 0"
+                                           Loaded="subheaderImageLoaded"
+                                           Source="{Binding ElementName=image_transformationHeader, Path=DataContext.ImageSrc}" />
+                    <Label Style="{StaticResource ResourceKey=engineLabelStyle_Size3}"
+                                            Content="Transform"
+                                            HorizontalAlignment="Left"/>
+                </DockPanel>
+
+                <Border BorderBrush="Gray" BorderThickness="0 1 0 1">
+                    <StackPanel x:Name="stackPanel_TransformationContent" Orientation="Vertical" Style="{StaticResource EngineListBoxStackPanelBackground}">
+
+                        <DockPanel x:Name="dockPanel_Translation">
+
+                            <StackPanel Margin="0, 10, 0, 0">
+                                <DockPanel Height="24">
+                                    <Label Style="{StaticResource ResourceKey=engineLabelStyle_Size3}"
+                                            Content="Translation"
+                                            HorizontalAlignment="Center"/>
+                                </DockPanel>
+                                <Border Style="{StaticResource engineBorderDefaultPlusHoverColor}"
+                                                BorderThickness="1">
+                                    <DockPanel>
+                                        <Image x:Name="image_leftArrowTranslation"
+                                                            VerticalAlignment="Center"
+                                                            HorizontalAlignment="Left"
+                                                            Loaded="ImageLeftArrowLoaded"
+                                                            Source="{Binding ElementName=image_leftArrowTranslation, Path=DataContext.ImageSrc}"
+                                                            Width="14"
+                                                            Height="14"
+                                                            Margin="10, 0, 0, 0"/>
+                                        <TextBlock Style="{StaticResource ResourceKey=engineTextBlockStyle_Size3}"
+                                                    Width="198"
+                                                    TextAlignment="Center"
+                                                    HorizontalAlignment="Center"
+                                                    Text="0"
+                                                    VerticalAlignment="Center" 
+                                                    Margin="0, 0, 0, 0"/>
+                                        <Image x:Name="image_rightArrowTranslation"
+                                                               HorizontalAlignment="Right"
+                                                               Loaded="ImageRightArrowLoaded"
+                                                               Width="14"
+                                                               Height="14" 
+                                                               Source="{Binding ElementName=image_rightArrowTranslation, Path=DataContext.ImageSrc}"
+                                                               VerticalAlignment="Center"
+                                                               Margin="0, 0, 8, 0"/>
+                                    </DockPanel>
+                                </Border>
+                            </StackPanel>
+
+                        </DockPanel>
+
+                        <DockPanel x:Name="dockPanel_Rotation">
+                            <StackPanel Margin="0, 10, 0, 0">
+                                <DockPanel Height="24">
+                                    <Label Style="{StaticResource ResourceKey=engineLabelStyle_Size3}"
+                                            Content="Rotation"
+                                            HorizontalAlignment="Center"/>
+                                </DockPanel>
+                                <Border Style="{StaticResource engineBorderDefaultPlusHoverColor}"
+                                                BorderThickness="1">
+                                    <DockPanel>
+                                        <Image x:Name="image_leftArrowRotation"
+                                                            VerticalAlignment="Center"
+                                                            HorizontalAlignment="Left"
+                                                            Loaded="ImageLeftArrowLoaded"
+                                                            Source="{Binding ElementName=image_leftArrowRotation, Path=DataContext.ImageSrc}"
+                                                            Width="14"
+                                                            Height="14"
+                                                            Margin="10, 0, 0, 0"/>
+                                        <TextBlock Style="{StaticResource ResourceKey=engineTextBlockStyle_Size3}"
+                                                    Width="198"
+                                                    TextAlignment="Center"
+                                                    HorizontalAlignment="Center"
+                                                    Text="0"
+                                                    VerticalAlignment="Center" 
+                                                    Margin="0, 0, 0, 0"/>
+                                        <Image x:Name="image_rightArrowRotation"
+                                                               HorizontalAlignment="Right"
+                                                               Loaded="ImageRightArrowLoaded"
+                                                               Width="14"
+                                                               Height="14" 
+                                                               Source="{Binding ElementName=image_rightArrowRotation, Path=DataContext.ImageSrc}"
+                                                               VerticalAlignment="Center"
+                                                               Margin="0, 0, 8, 0"/>
+                                    </DockPanel>
+                                </Border>
+                            </StackPanel>
+                        </DockPanel>
+
+                        <DockPanel x:Name="dockPanel_Scale">
+                            <StackPanel Margin="0, 10, 0, 0">
+                                <DockPanel Height="24">
+                                    <Label Style="{StaticResource ResourceKey=engineLabelStyle_Size3}"
+                                            Content="Scale"
+                                            HorizontalAlignment="Center"/>
+                                </DockPanel>
+                                <Border Style="{StaticResource engineBorderDefaultPlusHoverColor}"
+                                                BorderThickness="1">
+                                    <DockPanel>
+                                        <Image x:Name="image_leftArrowScale"
+                                                            VerticalAlignment="Center"
+                                                            HorizontalAlignment="Left"
+                                                            Loaded="ImageLeftArrowLoaded"
+                                                            Source="{Binding ElementName=image_leftArrowScale, Path=DataContext.ImageSrc}"
+                                                            Width="14"
+                                                            Height="14"
+                                                            Margin="10, 0, 0, 0"/>
+                                        <TextBlock Style="{StaticResource ResourceKey=engineTextBlockStyle_Size3}"
+                                                    Width="198"
+                                                    TextAlignment="Center"
+                                                    HorizontalAlignment="Center"
+                                                    Text="1"
+                                                    VerticalAlignment="Center" 
+                                                    Margin="0, 0, 0, 0"/>
+                                        <Image x:Name="image_rightArrowScale"
+                                                               HorizontalAlignment="Right"
+                                                               Loaded="ImageRightArrowLoaded"
+                                                               Width="14"
+                                                               Height="14" 
+                                                               Source="{Binding ElementName=image_rightArrowScale, Path=DataContext.ImageSrc}"
+                                                               VerticalAlignment="Center"
+                                                               Margin="0, 0, 8, 0"/>
+                                    </DockPanel>
+                                </Border>
+                            </StackPanel>
+                        </DockPanel>
+
+                    </StackPanel>
+                </Border>
+
+            </StackPanel>
+
             <!-- Mesh -->
             <StackPanel x:Name="stackPanel_EntityMesh" Orientation="Vertical" Style="{StaticResource EngineListBoxStackPanelBackground}">
 
-                <DockPanel x:Name="stackPanel_EntityMeshHeader" MouseDown="SubHeader_MouseDown">
+                <DockPanel x:Name="stackPanel_EntityMeshHeader" MouseDown="SubHeader_MouseDown" Height="25">
                     <Image x:Name="image_entityMeshHeader"
                            Loaded="subheaderImageLoaded"
                            Height="10"
                            Margin="5 0 10 0"
                            Source="{Binding ElementName=image_entityMeshHeader, Path=DataContext.ImageSrc}" />
-                    <Label Style="{StaticResource ResourceKey=engineLabelStyle_Size2}"
+                    <Label Style="{StaticResource ResourceKey=engineLabelStyle_Size3}"
                                             Content="Mesh"
                                             HorizontalAlignment="Left"/>
                 </DockPanel>
@@ -31,11 +168,11 @@
                     <Border BorderBrush="Gray" BorderThickness="0 1 0 1">
                         <DockPanel x:Name="dockPanel_EntityMeshLoading">
 
-                            <StackPanel Margin="0, 10, 0, 0">
+                            <StackPanel Margin="0, 10, 0, 0" Height="24">
                                 <Border Style="{StaticResource engineBorderNoDefaultPlusHoverColor}"
                                                 BorderThickness="1">
                                     <DockPanel>
-                                        <Label Style="{StaticResource engineLabelStyle_Size2}"
+                                        <Label Style="{StaticResource engineLabelStyle_Size3}"
                                                            Content="Entity Mesh"
                                                            HorizontalAlignment="Left"
                                                            Margin="0 0 10 0"/>
@@ -61,13 +198,13 @@
             <!-- Textures -->
             <StackPanel x:Name="stackPanel_EntityTextures" Orientation="Vertical" Style="{StaticResource EngineListBoxStackPanelBackground}">
 
-                <DockPanel x:Name="stackPanel_EntityTexturesHeader" MouseDown="SubHeader_MouseDown">
+                <DockPanel x:Name="stackPanel_EntityTexturesHeader" MouseDown="SubHeader_MouseDown" Height="25">
                     <Image x:Name="image_entityTexturesHeader"
                            Loaded="subheaderImageLoaded"
                            Height="10"
                            Margin="5 0 10 0"
                            Source="{Binding ElementName=image_entityTexturesHeader, Path=DataContext.ImageSrc}" />
-                    <Label Style="{StaticResource ResourceKey=engineLabelStyle_Size2}"
+                    <Label Style="{StaticResource ResourceKey=engineLabelStyle_Size3}"
                            Content="Textures"
                            HorizontalAlignment="Left"/>
                 </DockPanel>
@@ -79,11 +216,11 @@
                         <StackPanel>
                             <DockPanel x:Name="dockPanel_EntityAlbedoLoading">
 
-                                <StackPanel Margin="0, 10, 0, 0">
+                                <StackPanel Margin="0, 10, 0, 0" Height="24">
                                     <Border Style="{StaticResource engineBorderNoDefaultPlusHoverColor}"
                                                 BorderThickness="1">
                                         <DockPanel>
-                                            <Label Style="{StaticResource engineLabelStyle_Size2}"
+                                            <Label Style="{StaticResource engineLabelStyle_Size3}"
                                                            Content="Albedo texture"
                                                            HorizontalAlignment="Left"
                                                            Margin="0 0 10 0"/>
@@ -104,11 +241,11 @@
                             <!-- Normal map -->
                             <DockPanel x:Name="dockPanel_EntityNormalMapLoading">
 
-                                <StackPanel Margin="0, 10, 0, 0">
+                                <StackPanel Margin="0, 10, 0, 0" Height="24">
                                     <Border Style="{StaticResource engineBorderNoDefaultPlusHoverColor}"
                                                 BorderThickness="1">
                                         <DockPanel>
-                                            <Label Style="{StaticResource engineLabelStyle_Size2}"
+                                            <Label Style="{StaticResource engineLabelStyle_Size3}"
                                                            Content="Normal map"
                                                            HorizontalAlignment="Left"
                                                            Margin="0 0 10 0"/>
@@ -129,11 +266,11 @@
                             <!-- Specular map -->
                             <DockPanel x:Name="dockPanel_EntitySpecularMapLoading">
 
-                                <StackPanel Margin="0, 10, 0, 0">
+                                <StackPanel Margin="0, 10, 0, 0" Height="24">
                                     <Border Style="{StaticResource engineBorderNoDefaultPlusHoverColor}"
                                                 BorderThickness="1">
                                         <DockPanel>
-                                            <Label Style="{StaticResource engineLabelStyle_Size2}"
+                                            <Label Style="{StaticResource engineLabelStyle_Size3}"
                                                            Content="Specular map"
                                                            HorizontalAlignment="Left"
                                                            Margin="0 0 10 0"/>
@@ -163,16 +300,152 @@
     <!-- Skybox template -->
     <DataTemplate x:Key="templateSkyboxProperty">
         <StackPanel>
+            <StackPanel x:Name="stackPanel_Transformation" Orientation="Vertical" Style="{StaticResource EngineListBoxStackPanelBackground}">
+
+                <DockPanel x:Name="stackPanel_TransformationHeader" MouseDown="SubHeader_MouseDown" Height="24">
+                    <Image x:Name="image_transformationHeader"
+                                           Height="10"
+                                           Margin="5 0 10 0"
+                                           Loaded="subheaderImageLoaded"
+                                           Source="{Binding ElementName=image_transformationHeader, Path=DataContext.ImageSrc}" />
+                    <Label Style="{StaticResource ResourceKey=engineLabelStyle_Size3}"
+                                            Content="Transform"
+                                            HorizontalAlignment="Left"/>
+                </DockPanel>
+
+                <Border BorderBrush="Gray" BorderThickness="0 1 0 1">
+                    <StackPanel x:Name="stackPanel_TransformationContent" Orientation="Vertical" Style="{StaticResource EngineListBoxStackPanelBackground}">
+
+                        <DockPanel x:Name="dockPanel_Translation">
+
+                            <StackPanel Margin="0, 10, 0, 0">
+                                <DockPanel Height="24">
+                                    <Label Style="{StaticResource ResourceKey=engineLabelStyle_Size3}"
+                                            Content="Translation"
+                                            HorizontalAlignment="Center"/>
+                                </DockPanel>
+                                <Border Style="{StaticResource engineBorderDefaultPlusHoverColor}"
+                                                BorderThickness="1">
+                                    <DockPanel>
+                                        <Image x:Name="image_leftArrowTranslation"
+                                                            VerticalAlignment="Center"
+                                                            HorizontalAlignment="Left"
+                                                            Loaded="ImageLeftArrowLoaded"
+                                                            Source="{Binding ElementName=image_leftArrowTranslation, Path=DataContext.ImageSrc}"
+                                                            Width="14"
+                                                            Height="14"
+                                                            Margin="10, 0, 0, 0"/>
+                                        <TextBlock Style="{StaticResource ResourceKey=engineTextBlockStyle_Size3}"
+                                                    Width="198"
+                                                    TextAlignment="Center"
+                                                    HorizontalAlignment="Center"
+                                                    Text="0"
+                                                    VerticalAlignment="Center" 
+                                                    Margin="0, 0, 0, 0"/>
+                                        <Image x:Name="image_rightArrowTranslation"
+                                                               HorizontalAlignment="Right"
+                                                               Loaded="ImageRightArrowLoaded"
+                                                               Width="14"
+                                                               Height="14" 
+                                                               Source="{Binding ElementName=image_rightArrowTranslation, Path=DataContext.ImageSrc}"
+                                                               VerticalAlignment="Center"
+                                                               Margin="0, 0, 8, 0"/>
+                                    </DockPanel>
+                                </Border>
+                            </StackPanel>
+
+                        </DockPanel>
+
+                        <DockPanel x:Name="dockPanel_Rotation">
+                            <StackPanel Margin="0, 10, 0, 0">
+                                <DockPanel Height="24">
+                                    <Label Style="{StaticResource ResourceKey=engineLabelStyle_Size3}"
+                                            Content="Rotation"
+                                            HorizontalAlignment="Center"/>
+                                </DockPanel>
+                                <Border Style="{StaticResource engineBorderDefaultPlusHoverColor}"
+                                                BorderThickness="1">
+                                    <DockPanel>
+                                        <Image x:Name="image_leftArrowRotation"
+                                                            VerticalAlignment="Center"
+                                                            HorizontalAlignment="Left"
+                                                            Loaded="ImageLeftArrowLoaded"
+                                                            Source="{Binding ElementName=image_leftArrowRotation, Path=DataContext.ImageSrc}"
+                                                            Width="14"
+                                                            Height="14"
+                                                            Margin="10, 0, 0, 0"/>
+                                        <TextBlock Style="{StaticResource ResourceKey=engineTextBlockStyle_Size3}"
+                                                    Width="198"
+                                                    TextAlignment="Center"
+                                                    HorizontalAlignment="Center"
+                                                    Text="0"
+                                                    VerticalAlignment="Center" 
+                                                    Margin="0, 0, 0, 0"/>
+                                        <Image x:Name="image_rightArrowRotation"
+                                                               HorizontalAlignment="Right"
+                                                               Loaded="ImageRightArrowLoaded"
+                                                               Width="14"
+                                                               Height="14" 
+                                                               Source="{Binding ElementName=image_rightArrowRotation, Path=DataContext.ImageSrc}"
+                                                               VerticalAlignment="Center"
+                                                               Margin="0, 0, 8, 0"/>
+                                    </DockPanel>
+                                </Border>
+                            </StackPanel>
+                        </DockPanel>
+
+                        <DockPanel x:Name="dockPanel_Scale">
+                            <StackPanel Margin="0, 10, 0, 0">
+                                <DockPanel Height="24">
+                                    <Label Style="{StaticResource ResourceKey=engineLabelStyle_Size3}"
+                                            Content="Scale"
+                                            HorizontalAlignment="Center"/>
+                                </DockPanel>
+                                <Border Style="{StaticResource engineBorderDefaultPlusHoverColor}"
+                                                BorderThickness="1">
+                                    <DockPanel>
+                                        <Image x:Name="image_leftArrowScale"
+                                                            VerticalAlignment="Center"
+                                                            HorizontalAlignment="Left"
+                                                            Loaded="ImageLeftArrowLoaded"
+                                                            Source="{Binding ElementName=image_leftArrowScale, Path=DataContext.ImageSrc}"
+                                                            Width="14"
+                                                            Height="14"
+                                                            Margin="10, 0, 0, 0"/>
+                                        <TextBlock Style="{StaticResource ResourceKey=engineTextBlockStyle_Size3}"
+                                                    Width="198"
+                                                    TextAlignment="Center"
+                                                    HorizontalAlignment="Center"
+                                                    Text="1"
+                                                    VerticalAlignment="Center" 
+                                                    Margin="0, 0, 0, 0"/>
+                                        <Image x:Name="image_rightArrowScale"
+                                                               HorizontalAlignment="Right"
+                                                               Loaded="ImageRightArrowLoaded"
+                                                               Width="14"
+                                                               Height="14" 
+                                                               Source="{Binding ElementName=image_rightArrowScale, Path=DataContext.ImageSrc}"
+                                                               VerticalAlignment="Center"
+                                                               Margin="0, 0, 8, 0"/>
+                                    </DockPanel>
+                                </Border>
+                            </StackPanel>
+                        </DockPanel>
+
+                    </StackPanel>
+                </Border>
+
+            </StackPanel>
 
             <StackPanel x:Name="stackPanel_SkyboxCubemap" Orientation="Vertical" Style="{StaticResource EngineListBoxStackPanelBackground}">
 
-                <DockPanel x:Name="stackPanel_SkyboxCubemapHeader" MouseDown="SubHeader_MouseDown">
+                <DockPanel x:Name="stackPanel_SkyboxCubemapHeader" MouseDown="SubHeader_MouseDown" Height="25">
                     <Image x:Name="image_skyboxCubemapHeader"
                            Loaded="subheaderImageLoaded"
                            Height="10"
                            Margin="5 0 10 0"
                            Source="{Binding ElementName=image_skyboxCubemapHeader, Path=DataContext.ImageSrc}" />
-                    <Label Style="{StaticResource ResourceKey=engineLabelStyle_Size2}"
+                    <Label Style="{StaticResource ResourceKey=engineLabelStyle_Size3}"
                                             Content="Cubemap"
                                             HorizontalAlignment="Left"/>
                 </DockPanel>
@@ -185,11 +458,11 @@
                             <!-- Positive-X -->
                             <DockPanel x:Name="dockPanel_SkyboxPositiveXLoading">
 
-                                <StackPanel Margin="0, 10, 0, 0">
+                                <StackPanel Margin="0, 10, 0, 0" Height="24">
                                     <Border Style="{StaticResource engineBorderNoDefaultPlusHoverColor}"
                                                 BorderThickness="1">
                                         <DockPanel>
-                                            <Label Style="{StaticResource engineLabelStyle_Size2}"
+                                            <Label Style="{StaticResource engineLabelStyle_Size3}"
                                                            Content="Cubemap Positive-X"
                                                            HorizontalAlignment="Left"
                                                            Margin="0 0 10 0"/>
@@ -210,11 +483,11 @@
                             <!-- Negative-X -->
                             <DockPanel x:Name="dockPanel_SkyboxNegativeXLoading">
 
-                                <StackPanel Margin="0, 10, 0, 0">
+                                <StackPanel Margin="0, 10, 0, 0" Height="24">
                                     <Border Style="{StaticResource engineBorderNoDefaultPlusHoverColor}"
                                                 BorderThickness="1">
                                         <DockPanel>
-                                            <Label Style="{StaticResource engineLabelStyle_Size2}"
+                                            <Label Style="{StaticResource engineLabelStyle_Size3}"
                                                            Content="Cubemap Negative-X"
                                                            HorizontalAlignment="Left"
                                                            Margin="0 0 10 0"/>
@@ -235,11 +508,11 @@
                             <!-- Positive-Y -->
                             <DockPanel x:Name="dockPanel_SkyboxPositiveYLoading">
 
-                                <StackPanel Margin="0, 10, 0, 0">
+                                <StackPanel Margin="0, 10, 0, 0" Height="24">
                                     <Border Style="{StaticResource engineBorderNoDefaultPlusHoverColor}"
                                                 BorderThickness="1">
                                         <DockPanel>
-                                            <Label Style="{StaticResource engineLabelStyle_Size2}"
+                                            <Label Style="{StaticResource engineLabelStyle_Size3}"
                                                            Content="Cubemap Positive-Y"
                                                            HorizontalAlignment="Left"
                                                            Margin="0 0 10 0"/>
@@ -260,11 +533,11 @@
                             <!-- Negative-Y -->
                             <DockPanel x:Name="dockPanel_SkyboxNegativeYLoading">
 
-                                <StackPanel Margin="0, 10, 0, 0">
+                                <StackPanel Margin="0, 10, 0, 0" Height="24">
                                     <Border Style="{StaticResource engineBorderNoDefaultPlusHoverColor}"
                                                 BorderThickness="1">
                                         <DockPanel>
-                                            <Label Style="{StaticResource engineLabelStyle_Size2}"
+                                            <Label Style="{StaticResource engineLabelStyle_Size3}"
                                                            Content="Cubemap Negative-Y"
                                                            HorizontalAlignment="Left"
                                                            Margin="0 0 10 0"/>
@@ -285,11 +558,11 @@
                             <!-- Positive-Z -->
                             <DockPanel x:Name="dockPanel_SkyboxPositiveZLoading">
 
-                                <StackPanel Margin="0, 10, 0, 0">
+                                <StackPanel Margin="0, 10, 0, 0" Height="24">
                                     <Border Style="{StaticResource engineBorderNoDefaultPlusHoverColor}"
                                                 BorderThickness="1">
                                         <DockPanel>
-                                            <Label Style="{StaticResource engineLabelStyle_Size2}"
+                                            <Label Style="{StaticResource engineLabelStyle_Size3}"
                                                            Content="Cubemap Positive-Z"
                                                            HorizontalAlignment="Left"
                                                            Margin="0 0 10 0"/>
@@ -310,11 +583,11 @@
                             <!-- Negative-Z -->
                             <DockPanel x:Name="dockPanel_SkyboxNegativeZLoading">
 
-                                <StackPanel Margin="0, 10, 0, 0">
+                                <StackPanel Margin="0, 10, 0, 0" Height="24">
                                     <Border Style="{StaticResource engineBorderNoDefaultPlusHoverColor}"
                                                 BorderThickness="1">
                                         <DockPanel>
-                                            <Label Style="{StaticResource engineLabelStyle_Size2}"
+                                            <Label Style="{StaticResource engineLabelStyle_Size3}"
                                                            Content="Cubemap Negative-Z"
                                                            HorizontalAlignment="Left"
                                                            Margin="0 0 10 0"/>
@@ -345,16 +618,153 @@
     <DataTemplate x:Key="templateTerrainProperty">
         <StackPanel>
 
+            <StackPanel x:Name="stackPanel_Transformation" Orientation="Vertical" Style="{StaticResource EngineListBoxStackPanelBackground}">
+
+                <DockPanel x:Name="stackPanel_TransformationHeader" MouseDown="SubHeader_MouseDown" Height="24">
+                    <Image x:Name="image_transformationHeader"
+                                           Height="10"
+                                           Margin="5 0 10 0"
+                                           Loaded="subheaderImageLoaded"
+                                           Source="{Binding ElementName=image_transformationHeader, Path=DataContext.ImageSrc}" />
+                    <Label Style="{StaticResource ResourceKey=engineLabelStyle_Size3}"
+                                            Content="Transform"
+                                            HorizontalAlignment="Left"/>
+                </DockPanel>
+
+                <Border BorderBrush="Gray" BorderThickness="0 1 0 1">
+                    <StackPanel x:Name="stackPanel_TransformationContent" Orientation="Vertical" Style="{StaticResource EngineListBoxStackPanelBackground}">
+
+                        <DockPanel x:Name="dockPanel_Translation">
+
+                            <StackPanel Margin="0, 10, 0, 0">
+                                <DockPanel Height="24">
+                                    <Label Style="{StaticResource ResourceKey=engineLabelStyle_Size3}"
+                                            Content="Translation"
+                                            HorizontalAlignment="Center"/>
+                                </DockPanel>
+                                <Border Style="{StaticResource engineBorderDefaultPlusHoverColor}"
+                                                BorderThickness="1">
+                                    <DockPanel>
+                                        <Image x:Name="image_leftArrowTranslation"
+                                                            VerticalAlignment="Center"
+                                                            HorizontalAlignment="Left"
+                                                            Loaded="ImageLeftArrowLoaded"
+                                                            Source="{Binding ElementName=image_leftArrowTranslation, Path=DataContext.ImageSrc}"
+                                                            Width="14"
+                                                            Height="14"
+                                                            Margin="10, 0, 0, 0"/>
+                                        <TextBlock Style="{StaticResource ResourceKey=engineTextBlockStyle_Size3}"
+                                                    Width="198"
+                                                    TextAlignment="Center"
+                                                    HorizontalAlignment="Center"
+                                                    Text="0"
+                                                    VerticalAlignment="Center" 
+                                                    Margin="0, 0, 0, 0"/>
+                                        <Image x:Name="image_rightArrowTranslation"
+                                                               HorizontalAlignment="Right"
+                                                               Loaded="ImageRightArrowLoaded"
+                                                               Width="14"
+                                                               Height="14" 
+                                                               Source="{Binding ElementName=image_rightArrowTranslation, Path=DataContext.ImageSrc}"
+                                                               VerticalAlignment="Center"
+                                                               Margin="0, 0, 8, 0"/>
+                                    </DockPanel>
+                                </Border>
+                            </StackPanel>
+
+                        </DockPanel>
+
+                        <DockPanel x:Name="dockPanel_Rotation">
+                            <StackPanel Margin="0, 10, 0, 0">
+                                <DockPanel Height="24">
+                                    <Label Style="{StaticResource ResourceKey=engineLabelStyle_Size3}"
+                                            Content="Rotation"
+                                            HorizontalAlignment="Center"/>
+                                </DockPanel>
+                                <Border Style="{StaticResource engineBorderDefaultPlusHoverColor}"
+                                                BorderThickness="1">
+                                    <DockPanel>
+                                        <Image x:Name="image_leftArrowRotation"
+                                                            VerticalAlignment="Center"
+                                                            HorizontalAlignment="Left"
+                                                            Loaded="ImageLeftArrowLoaded"
+                                                            Source="{Binding ElementName=image_leftArrowRotation, Path=DataContext.ImageSrc}"
+                                                            Width="14"
+                                                            Height="14"
+                                                            Margin="10, 0, 0, 0"/>
+                                        <TextBlock Style="{StaticResource ResourceKey=engineTextBlockStyle_Size3}"
+                                                    Width="198"
+                                                    TextAlignment="Center"
+                                                    HorizontalAlignment="Center"
+                                                    Text="0"
+                                                    VerticalAlignment="Center" 
+                                                    Margin="0, 0, 0, 0"/>
+                                        <Image x:Name="image_rightArrowRotation"
+                                                               HorizontalAlignment="Right"
+                                                               Loaded="ImageRightArrowLoaded"
+                                                               Width="14"
+                                                               Height="14" 
+                                                               Source="{Binding ElementName=image_rightArrowRotation, Path=DataContext.ImageSrc}"
+                                                               VerticalAlignment="Center"
+                                                               Margin="0, 0, 8, 0"/>
+                                    </DockPanel>
+                                </Border>
+                            </StackPanel>
+                        </DockPanel>
+
+                        <DockPanel x:Name="dockPanel_Scale">
+                            <StackPanel Margin="0, 10, 0, 0">
+                                <DockPanel Height="24">
+                                    <Label Style="{StaticResource ResourceKey=engineLabelStyle_Size3}"
+                                            Content="Scale"
+                                            HorizontalAlignment="Center"/>
+                                </DockPanel>
+                                <Border Style="{StaticResource engineBorderDefaultPlusHoverColor}"
+                                                BorderThickness="1">
+                                    <DockPanel>
+                                        <Image x:Name="image_leftArrowScale"
+                                                            VerticalAlignment="Center"
+                                                            HorizontalAlignment="Left"
+                                                            Loaded="ImageLeftArrowLoaded"
+                                                            Source="{Binding ElementName=image_leftArrowScale, Path=DataContext.ImageSrc}"
+                                                            Width="14"
+                                                            Height="14"
+                                                            Margin="10, 0, 0, 0"/>
+                                        <TextBlock Style="{StaticResource ResourceKey=engineTextBlockStyle_Size3}"
+                                                    Width="198"
+                                                    TextAlignment="Center"
+                                                    HorizontalAlignment="Center"
+                                                    Text="1"
+                                                    VerticalAlignment="Center" 
+                                                    Margin="0, 0, 0, 0"/>
+                                        <Image x:Name="image_rightArrowScale"
+                                                               HorizontalAlignment="Right"
+                                                               Loaded="ImageRightArrowLoaded"
+                                                               Width="14"
+                                                               Height="14" 
+                                                               Source="{Binding ElementName=image_rightArrowScale, Path=DataContext.ImageSrc}"
+                                                               VerticalAlignment="Center"
+                                                               Margin="0, 0, 8, 0"/>
+                                    </DockPanel>
+                                </Border>
+                            </StackPanel>
+                        </DockPanel>
+
+                    </StackPanel>
+                </Border>
+
+            </StackPanel>
+
             <!-- Heightmap -->
             <StackPanel x:Name="stackPanel_TerrainHeightMap" Orientation="Vertical" Style="{StaticResource EngineListBoxStackPanelBackground}">
 
-                <DockPanel x:Name="stackPanel_TerrainHeightMapHeader" MouseDown="SubHeader_MouseDown">
+                <DockPanel x:Name="stackPanel_TerrainHeightMapHeader" MouseDown="SubHeader_MouseDown" Height="25">
                     <Image x:Name="image_terrainHeightMapHeader"
                            Loaded="subheaderImageLoaded"
                            Height="10"
                            Margin="5 0 10 0"
                            Source="{Binding ElementName=image_terrainHeightMapHeader, Path=DataContext.ImageSrc}" />
-                    <Label Style="{StaticResource ResourceKey=engineLabelStyle_Size2}"
+                    <Label Style="{StaticResource ResourceKey=engineLabelStyle_Size3}"
                            Content="Heightmap"
                            HorizontalAlignment="Left"/>
                 </DockPanel>
@@ -367,11 +777,11 @@
                             <!-- Heightmap -->
                             <DockPanel x:Name="dockPanel_HeightmapLoading">
 
-                                <StackPanel Margin="0, 10, 0, 0">
+                                <StackPanel Margin="0, 10, 0, 0" Height="24">
                                     <Border Style="{StaticResource engineBorderNoDefaultPlusHoverColor}"
                                                 BorderThickness="1">
                                         <DockPanel>
-                                            <Label Style="{StaticResource engineLabelStyle_Size2}"
+                                            <Label Style="{StaticResource engineLabelStyle_Size3}"
                                                            Content="Heightmap"
                                                            HorizontalAlignment="Left"
                                                            Margin="0 0 10 0"/>
@@ -398,13 +808,13 @@
             <!-- Multitexturing -->
             <StackPanel x:Name="stackPanel_TerrainMultitexturing" Orientation="Vertical" Style="{StaticResource EngineListBoxStackPanelBackground}">
 
-                <DockPanel x:Name="stackPanel_TerrainMultitexturingHeader" MouseDown="SubHeader_MouseDown">
+                <DockPanel x:Name="stackPanel_TerrainMultitexturingHeader" MouseDown="SubHeader_MouseDown" Height="25">
                     <Image x:Name="image_terrainMultitexturingHeader"
                            Loaded="subheaderImageLoaded"
                            Height="10"
                            Margin="5 0 10 0"
                            Source="{Binding ElementName=image_terrainMultitexturingHeader, Path=DataContext.ImageSrc}" />
-                    <Label Style="{StaticResource ResourceKey=engineLabelStyle_Size2}"
+                    <Label Style="{StaticResource ResourceKey=engineLabelStyle_Size3}"
                            Content="Multitexturing"
                            HorizontalAlignment="Left"/>
                 </DockPanel>
@@ -417,11 +827,11 @@
                             <!-- Blendmap -->
                             <DockPanel x:Name="dockPanel_BlendmapLoading">
 
-                                <StackPanel Margin="0, 10, 0, 0">
+                                <StackPanel Margin="0, 10, 0, 0" Height="24">
                                     <Border Style="{StaticResource engineBorderNoDefaultPlusHoverColor}"
                                                 BorderThickness="1">
                                         <DockPanel>
-                                            <Label Style="{StaticResource engineLabelStyle_Size2}"
+                                            <Label Style="{StaticResource engineLabelStyle_Size3}"
                                                            Content="Blendmap"
                                                            HorizontalAlignment="Left"
                                                            Margin="0 0 10 0"/>
@@ -442,11 +852,11 @@
                             <!-- Layer Zero -->
                             <DockPanel x:Name="dockPanel_LayerZeroLoading">
 
-                                <StackPanel Margin="0, 10, 0, 0">
+                                <StackPanel Margin="0, 10, 0, 0" Height="24">
                                     <Border Style="{StaticResource engineBorderNoDefaultPlusHoverColor}"
                                                 BorderThickness="1">
                                         <DockPanel>
-                                            <Label Style="{StaticResource engineLabelStyle_Size2}"
+                                            <Label Style="{StaticResource engineLabelStyle_Size3}"
                                                    Content="Layer Zero"
                                                    HorizontalAlignment="Left"
                                                    Margin="0 0 10 0"/>
@@ -467,11 +877,11 @@
                             <!-- Layer One -->
                             <DockPanel x:Name="dockPanel_LayerOneLoading">
 
-                                <StackPanel Margin="0, 10, 0, 0">
+                                <StackPanel Margin="0, 10, 0, 0" Height="24">
                                     <Border Style="{StaticResource engineBorderNoDefaultPlusHoverColor}"
                                             BorderThickness="1">
                                         <DockPanel>
-                                            <Label Style="{StaticResource engineLabelStyle_Size2}"
+                                            <Label Style="{StaticResource engineLabelStyle_Size3}"
                                                    Content="Layer One"
                                                    HorizontalAlignment="Left"
                                                    Margin="0 0 10 0"/>
@@ -492,11 +902,11 @@
                             <!-- Layer Two -->
                             <DockPanel x:Name="dockPanel_LayerTwoLoading">
 
-                                <StackPanel Margin="0, 10, 0, 0">
+                                <StackPanel Margin="0, 10, 0, 0" Height="24">
                                     <Border Style="{StaticResource engineBorderNoDefaultPlusHoverColor}"
                                             BorderThickness="1">
                                         <DockPanel>
-                                            <Label Style="{StaticResource engineLabelStyle_Size2}"
+                                            <Label Style="{StaticResource engineLabelStyle_Size3}"
                                                    Content="Layer Two"
                                                    HorizontalAlignment="Left"
                                                    Margin="0 0 10 0"/>
@@ -517,11 +927,11 @@
                             <!-- Layer Three -->
                             <DockPanel x:Name="dockPanel_LayerThreeLoading">
 
-                                <StackPanel Margin="0, 10, 0, 0">
+                                <StackPanel Margin="0, 10, 0, 0" Height="24">
                                     <Border Style="{StaticResource engineBorderNoDefaultPlusHoverColor}"
                                             BorderThickness="1">
                                         <DockPanel>
-                                            <Label Style="{StaticResource engineLabelStyle_Size2}"
+                                            <Label Style="{StaticResource engineLabelStyle_Size3}"
                                                    Content="Layer Three"
                                                    HorizontalAlignment="Left"
                                                    Margin="0 0 10 0"/>
@@ -552,16 +962,153 @@
     <DataTemplate x:Key="templateLightSourcesProperty">
         <StackPanel>
 
+            <StackPanel x:Name="stackPanel_Transformation" Orientation="Vertical" Style="{StaticResource EngineListBoxStackPanelBackground}">
+
+                <DockPanel x:Name="stackPanel_TransformationHeader" MouseDown="SubHeader_MouseDown" Height="24">
+                    <Image x:Name="image_transformationHeader"
+                                           Height="10"
+                                           Margin="5 0 10 0"
+                                           Loaded="subheaderImageLoaded"
+                                           Source="{Binding ElementName=image_transformationHeader, Path=DataContext.ImageSrc}" />
+                    <Label Style="{StaticResource ResourceKey=engineLabelStyle_Size3}"
+                                            Content="Transform"
+                                            HorizontalAlignment="Left"/>
+                </DockPanel>
+
+                <Border BorderBrush="Gray" BorderThickness="0 1 0 1">
+                    <StackPanel x:Name="stackPanel_TransformationContent" Orientation="Vertical" Style="{StaticResource EngineListBoxStackPanelBackground}">
+
+                        <DockPanel x:Name="dockPanel_Translation">
+
+                            <StackPanel Margin="0, 10, 0, 0">
+                                <DockPanel Height="24">
+                                    <Label Style="{StaticResource ResourceKey=engineLabelStyle_Size3}"
+                                            Content="Translation"
+                                            HorizontalAlignment="Center"/>
+                                </DockPanel>
+                                <Border Style="{StaticResource engineBorderDefaultPlusHoverColor}"
+                                                BorderThickness="1">
+                                    <DockPanel>
+                                        <Image x:Name="image_leftArrowTranslation"
+                                                            VerticalAlignment="Center"
+                                                            HorizontalAlignment="Left"
+                                                            Loaded="ImageLeftArrowLoaded"
+                                                            Source="{Binding ElementName=image_leftArrowTranslation, Path=DataContext.ImageSrc}"
+                                                            Width="14"
+                                                            Height="14"
+                                                            Margin="10, 0, 0, 0"/>
+                                        <TextBlock Style="{StaticResource ResourceKey=engineTextBlockStyle_Size3}"
+                                                    Width="198"
+                                                    TextAlignment="Center"
+                                                    HorizontalAlignment="Center"
+                                                    Text="0"
+                                                    VerticalAlignment="Center" 
+                                                    Margin="0, 0, 0, 0"/>
+                                        <Image x:Name="image_rightArrowTranslation"
+                                                               HorizontalAlignment="Right"
+                                                               Loaded="ImageRightArrowLoaded"
+                                                               Width="14"
+                                                               Height="14" 
+                                                               Source="{Binding ElementName=image_rightArrowTranslation, Path=DataContext.ImageSrc}"
+                                                               VerticalAlignment="Center"
+                                                               Margin="0, 0, 8, 0"/>
+                                    </DockPanel>
+                                </Border>
+                            </StackPanel>
+
+                        </DockPanel>
+
+                        <DockPanel x:Name="dockPanel_Rotation">
+                            <StackPanel Margin="0, 10, 0, 0">
+                                <DockPanel Height="24">
+                                    <Label Style="{StaticResource ResourceKey=engineLabelStyle_Size3}"
+                                            Content="Rotation"
+                                            HorizontalAlignment="Center"/>
+                                </DockPanel>
+                                <Border Style="{StaticResource engineBorderDefaultPlusHoverColor}"
+                                                BorderThickness="1">
+                                    <DockPanel>
+                                        <Image x:Name="image_leftArrowRotation"
+                                                            VerticalAlignment="Center"
+                                                            HorizontalAlignment="Left"
+                                                            Loaded="ImageLeftArrowLoaded"
+                                                            Source="{Binding ElementName=image_leftArrowRotation, Path=DataContext.ImageSrc}"
+                                                            Width="14"
+                                                            Height="14"
+                                                            Margin="10, 0, 0, 0"/>
+                                        <TextBlock Style="{StaticResource ResourceKey=engineTextBlockStyle_Size3}"
+                                                    Width="198"
+                                                    TextAlignment="Center"
+                                                    HorizontalAlignment="Center"
+                                                    Text="0"
+                                                    VerticalAlignment="Center" 
+                                                    Margin="0, 0, 0, 0"/>
+                                        <Image x:Name="image_rightArrowRotation"
+                                                               HorizontalAlignment="Right"
+                                                               Loaded="ImageRightArrowLoaded"
+                                                               Width="14"
+                                                               Height="14" 
+                                                               Source="{Binding ElementName=image_rightArrowRotation, Path=DataContext.ImageSrc}"
+                                                               VerticalAlignment="Center"
+                                                               Margin="0, 0, 8, 0"/>
+                                    </DockPanel>
+                                </Border>
+                            </StackPanel>
+                        </DockPanel>
+
+                        <DockPanel x:Name="dockPanel_Scale">
+                            <StackPanel Margin="0, 10, 0, 0">
+                                <DockPanel Height="24">
+                                    <Label Style="{StaticResource ResourceKey=engineLabelStyle_Size3}"
+                                            Content="Scale"
+                                            HorizontalAlignment="Center"/>
+                                </DockPanel>
+                                <Border Style="{StaticResource engineBorderDefaultPlusHoverColor}"
+                                                BorderThickness="1">
+                                    <DockPanel>
+                                        <Image x:Name="image_leftArrowScale"
+                                                            VerticalAlignment="Center"
+                                                            HorizontalAlignment="Left"
+                                                            Loaded="ImageLeftArrowLoaded"
+                                                            Source="{Binding ElementName=image_leftArrowScale, Path=DataContext.ImageSrc}"
+                                                            Width="14"
+                                                            Height="14"
+                                                            Margin="10, 0, 0, 0"/>
+                                        <TextBlock Style="{StaticResource ResourceKey=engineTextBlockStyle_Size3}"
+                                                    Width="198"
+                                                    TextAlignment="Center"
+                                                    HorizontalAlignment="Center"
+                                                    Text="1"
+                                                    VerticalAlignment="Center" 
+                                                    Margin="0, 0, 0, 0"/>
+                                        <Image x:Name="image_rightArrowScale"
+                                                               HorizontalAlignment="Right"
+                                                               Loaded="ImageRightArrowLoaded"
+                                                               Width="14"
+                                                               Height="14" 
+                                                               Source="{Binding ElementName=image_rightArrowScale, Path=DataContext.ImageSrc}"
+                                                               VerticalAlignment="Center"
+                                                               Margin="0, 0, 8, 0"/>
+                                    </DockPanel>
+                                </Border>
+                            </StackPanel>
+                        </DockPanel>
+
+                    </StackPanel>
+                </Border>
+
+            </StackPanel>
+
             <!-- Color -->
             <StackPanel x:Name="stackPanel_LightColor" Orientation="Vertical" Style="{StaticResource EngineListBoxStackPanelBackground}">
 
-                <DockPanel x:Name="stackPanel_LightColorHeader" MouseDown="SubHeader_MouseDown">
+                <DockPanel x:Name="stackPanel_LightColorHeader" MouseDown="SubHeader_MouseDown" Height="25">
                     <Image x:Name="image_lightColorHeader"
                            Loaded="subheaderImageLoaded"
                            Height="10"
                            Margin="5 0 10 0"
                            Source="{Binding ElementName=image_lightColorHeader, Path=DataContext.ImageSrc}" />
-                    <Label Style="{StaticResource ResourceKey=engineLabelStyle_Size2}"
+                    <Label Style="{StaticResource ResourceKey=engineLabelStyle_Size3}"
                            Content="Color"
                            HorizontalAlignment="Left"/>
                 </DockPanel>
@@ -574,11 +1121,11 @@
                             <!-- Ambient Color -->
                             <DockPanel x:Name="dockPanel_AmbientColor">
 
-                                <StackPanel Margin="0, 10, 0, 0">
+                                <StackPanel Margin="0, 10, 0, 0" Height="24">
                                     <Border Style="{StaticResource engineBorderNoDefaultPlusHoverColor}"
                                                 BorderThickness="1">
                                         <DockPanel>
-                                            <Label Style="{StaticResource engineLabelStyle_Size2}"
+                                            <Label Style="{StaticResource engineLabelStyle_Size3}"
                                                            Content="Ambient"
                                                            HorizontalAlignment="Left"
                                                            Margin="0 0 10 0"/>
@@ -596,11 +1143,11 @@
                             <!-- Diffuse Color -->
                             <DockPanel x:Name="dockPanel_DiffuseColor">
 
-                                <StackPanel Margin="0, 10, 0, 0">
+                                <StackPanel Margin="0, 10, 0, 0" Height="24">
                                     <Border Style="{StaticResource engineBorderNoDefaultPlusHoverColor}"
                                                 BorderThickness="1">
                                         <DockPanel>
-                                            <Label Style="{StaticResource engineLabelStyle_Size2}"
+                                            <Label Style="{StaticResource engineLabelStyle_Size3}"
                                                            Content="Diffuse"
                                                            HorizontalAlignment="Left"
                                                            Margin="0 0 10 0"/>
@@ -618,11 +1165,11 @@
                             <!-- Specular Color -->
                             <DockPanel x:Name="dockPanel_SpecularColor">
 
-                                <StackPanel Margin="0, 10, 0, 0">
+                                <StackPanel Margin="0, 10, 0, 0" Height="24">
                                     <Border Style="{StaticResource engineBorderNoDefaultPlusHoverColor}"
                                                 BorderThickness="1">
                                         <DockPanel>
-                                            <Label Style="{StaticResource engineLabelStyle_Size2}"
+                                            <Label Style="{StaticResource engineLabelStyle_Size3}"
                                                            Content="Specular"
                                                            HorizontalAlignment="Left"
                                                            Margin="0 0 10 0"/>
@@ -650,16 +1197,153 @@
     <DataTemplate x:Key="templateWaterProperty">
         <StackPanel>
 
+            <StackPanel x:Name="stackPanel_Transformation" Orientation="Vertical" Style="{StaticResource EngineListBoxStackPanelBackground}">
+
+                <DockPanel x:Name="stackPanel_TransformationHeader" MouseDown="SubHeader_MouseDown" Height="24">
+                    <Image x:Name="image_transformationHeader"
+                                           Height="10"
+                                           Margin="5 0 10 0"
+                                           Loaded="subheaderImageLoaded"
+                                           Source="{Binding ElementName=image_transformationHeader, Path=DataContext.ImageSrc}" />
+                    <Label Style="{StaticResource ResourceKey=engineLabelStyle_Size3}"
+                                            Content="Transform"
+                                            HorizontalAlignment="Left"/>
+                </DockPanel>
+
+                <Border BorderBrush="Gray" BorderThickness="0 1 0 1">
+                    <StackPanel x:Name="stackPanel_TransformationContent" Orientation="Vertical" Style="{StaticResource EngineListBoxStackPanelBackground}">
+
+                        <DockPanel x:Name="dockPanel_Translation">
+
+                            <StackPanel Margin="0, 10, 0, 0">
+                                <DockPanel Height="24">
+                                    <Label Style="{StaticResource ResourceKey=engineLabelStyle_Size3}"
+                                            Content="Translation"
+                                            HorizontalAlignment="Center"/>
+                                </DockPanel>
+                                <Border Style="{StaticResource engineBorderDefaultPlusHoverColor}"
+                                                BorderThickness="1">
+                                    <DockPanel>
+                                        <Image x:Name="image_leftArrowTranslation"
+                                                            VerticalAlignment="Center"
+                                                            HorizontalAlignment="Left"
+                                                            Loaded="ImageLeftArrowLoaded"
+                                                            Source="{Binding ElementName=image_leftArrowTranslation, Path=DataContext.ImageSrc}"
+                                                            Width="14"
+                                                            Height="14"
+                                                            Margin="10, 0, 0, 0"/>
+                                        <TextBlock Style="{StaticResource ResourceKey=engineTextBlockStyle_Size3}"
+                                                    Width="198"
+                                                    TextAlignment="Center"
+                                                    HorizontalAlignment="Center"
+                                                    Text="0"
+                                                    VerticalAlignment="Center" 
+                                                    Margin="0, 0, 0, 0"/>
+                                        <Image x:Name="image_rightArrowTranslation"
+                                                               HorizontalAlignment="Right"
+                                                               Loaded="ImageRightArrowLoaded"
+                                                               Width="14"
+                                                               Height="14" 
+                                                               Source="{Binding ElementName=image_rightArrowTranslation, Path=DataContext.ImageSrc}"
+                                                               VerticalAlignment="Center"
+                                                               Margin="0, 0, 8, 0"/>
+                                    </DockPanel>
+                                </Border>
+                            </StackPanel>
+
+                        </DockPanel>
+
+                        <DockPanel x:Name="dockPanel_Rotation">
+                            <StackPanel Margin="0, 10, 0, 0">
+                                <DockPanel Height="24">
+                                    <Label Style="{StaticResource ResourceKey=engineLabelStyle_Size3}"
+                                            Content="Rotation"
+                                            HorizontalAlignment="Center"/>
+                                </DockPanel>
+                                <Border Style="{StaticResource engineBorderDefaultPlusHoverColor}"
+                                                BorderThickness="1">
+                                    <DockPanel>
+                                        <Image x:Name="image_leftArrowRotation"
+                                                            VerticalAlignment="Center"
+                                                            HorizontalAlignment="Left"
+                                                            Loaded="ImageLeftArrowLoaded"
+                                                            Source="{Binding ElementName=image_leftArrowRotation, Path=DataContext.ImageSrc}"
+                                                            Width="14"
+                                                            Height="14"
+                                                            Margin="10, 0, 0, 0"/>
+                                        <TextBlock Style="{StaticResource ResourceKey=engineTextBlockStyle_Size3}"
+                                                    Width="198"
+                                                    TextAlignment="Center"
+                                                    HorizontalAlignment="Center"
+                                                    Text="0"
+                                                    VerticalAlignment="Center" 
+                                                    Margin="0, 0, 0, 0"/>
+                                        <Image x:Name="image_rightArrowRotation"
+                                                               HorizontalAlignment="Right"
+                                                               Loaded="ImageRightArrowLoaded"
+                                                               Width="14"
+                                                               Height="14" 
+                                                               Source="{Binding ElementName=image_rightArrowRotation, Path=DataContext.ImageSrc}"
+                                                               VerticalAlignment="Center"
+                                                               Margin="0, 0, 8, 0"/>
+                                    </DockPanel>
+                                </Border>
+                            </StackPanel>
+                        </DockPanel>
+
+                        <DockPanel x:Name="dockPanel_Scale">
+                            <StackPanel Margin="0, 10, 0, 0">
+                                <DockPanel Height="24">
+                                    <Label Style="{StaticResource ResourceKey=engineLabelStyle_Size3}"
+                                            Content="Scale"
+                                            HorizontalAlignment="Center"/>
+                                </DockPanel>
+                                <Border Style="{StaticResource engineBorderDefaultPlusHoverColor}"
+                                                BorderThickness="1">
+                                    <DockPanel>
+                                        <Image x:Name="image_leftArrowScale"
+                                                            VerticalAlignment="Center"
+                                                            HorizontalAlignment="Left"
+                                                            Loaded="ImageLeftArrowLoaded"
+                                                            Source="{Binding ElementName=image_leftArrowScale, Path=DataContext.ImageSrc}"
+                                                            Width="14"
+                                                            Height="14"
+                                                            Margin="10, 0, 0, 0"/>
+                                        <TextBlock Style="{StaticResource ResourceKey=engineTextBlockStyle_Size3}"
+                                                    Width="198"
+                                                    TextAlignment="Center"
+                                                    HorizontalAlignment="Center"
+                                                    Text="1"
+                                                    VerticalAlignment="Center" 
+                                                    Margin="0, 0, 0, 0"/>
+                                        <Image x:Name="image_rightArrowScale"
+                                                               HorizontalAlignment="Right"
+                                                               Loaded="ImageRightArrowLoaded"
+                                                               Width="14"
+                                                               Height="14" 
+                                                               Source="{Binding ElementName=image_rightArrowScale, Path=DataContext.ImageSrc}"
+                                                               VerticalAlignment="Center"
+                                                               Margin="0, 0, 8, 0"/>
+                                    </DockPanel>
+                                </Border>
+                            </StackPanel>
+                        </DockPanel>
+
+                    </StackPanel>
+                </Border>
+
+            </StackPanel>
+
             <!-- Distortion -->
             <StackPanel x:Name="stackPanel_WaterDistortion" Orientation="Vertical" Style="{StaticResource EngineListBoxStackPanelBackground}">
 
-                <DockPanel x:Name="stackPanel_WaterDistortionHeader" MouseDown="SubHeader_MouseDown">
+                <DockPanel x:Name="stackPanel_WaterDistortionHeader" MouseDown="SubHeader_MouseDown" Height="25">
                     <Image x:Name="image_waterDistortionHeader"
                            Loaded="subheaderImageLoaded"
                            Height="10"
                            Margin="5 0 10 0"
                            Source="{Binding ElementName=image_waterDistortionHeader, Path=DataContext.ImageSrc}" />
-                    <Label Style="{StaticResource ResourceKey=engineLabelStyle_Size2}"
+                    <Label Style="{StaticResource ResourceKey=engineLabelStyle_Size3}"
                            Content="Distortion"
                            HorizontalAlignment="Left"/>
                 </DockPanel>
@@ -672,11 +1356,11 @@
                             <!-- Distortion -->
                             <DockPanel x:Name="dockPanel_DistortionLoading">
 
-                                <StackPanel Margin="0, 10, 0, 0">
+                                <StackPanel Margin="0, 10, 0, 0" Height="24">
                                     <Border Style="{StaticResource engineBorderNoDefaultPlusHoverColor}"
                                                 BorderThickness="1">
                                         <DockPanel>
-                                            <Label Style="{StaticResource engineLabelStyle_Size2}"
+                                            <Label Style="{StaticResource engineLabelStyle_Size3}"
                                                            Content="Distortion Texture"
                                                            HorizontalAlignment="Left"
                                                            Margin="0 0 10 0"/>
@@ -703,13 +1387,13 @@
             <!-- Normal map -->
             <StackPanel x:Name="stackPanel_WaterNormalMap" Orientation="Vertical" Style="{StaticResource EngineListBoxStackPanelBackground}">
 
-                <DockPanel x:Name="stackPanel_WaterNormalMapHeader" MouseDown="SubHeader_MouseDown">
+                <DockPanel x:Name="stackPanel_WaterNormalMapHeader" MouseDown="SubHeader_MouseDown" Height="25">
                     <Image x:Name="image_waterNormalMapHeader"
                            Loaded="subheaderImageLoaded"
                            Height="10"
                            Margin="5 0 10 0"
                            Source="{Binding ElementName=image_waterNormalMapHeader, Path=DataContext.ImageSrc}" />
-                    <Label Style="{StaticResource ResourceKey=engineLabelStyle_Size2}"
+                    <Label Style="{StaticResource ResourceKey=engineLabelStyle_Size3}"
                            Content="Normal Map"
                            HorizontalAlignment="Left"/>
                 </DockPanel>
@@ -722,11 +1406,11 @@
                             <!-- Normal map -->
                             <DockPanel x:Name="dockPanel_NormalMapLoading">
 
-                                <StackPanel Margin="0, 10, 0, 0">
+                                <StackPanel Margin="0, 10, 0, 0" Height="24">
                                     <Border Style="{StaticResource engineBorderNoDefaultPlusHoverColor}"
                                                 BorderThickness="1">
                                         <DockPanel>
-                                            <Label Style="{StaticResource engineLabelStyle_Size2}"
+                                            <Label Style="{StaticResource engineLabelStyle_Size3}"
                                                            Content="Normal Map"
                                                            HorizontalAlignment="Left"
                                                            Margin="0 0 10 0"/>
@@ -751,6 +1435,118 @@
             </StackPanel>
 
         </StackPanel>
+    </DataTemplate>
+
+    <!-- Sun template -->
+    <DataTemplate x:Key="templateSunProperty">
+        <StackPanel>
+
+            <!-- Sun core texture -->
+            <StackPanel x:Name="stackPanel_SunCoreTexture" Orientation="Vertical" Style="{StaticResource EngineListBoxStackPanelBackground}">
+
+                <DockPanel x:Name="stackPanel_SunCoreTextureHeader" MouseDown="SubHeader_MouseDown" Height="25">
+                    <Image x:Name="image_sunCoreTextureHeader"
+                           Loaded="subheaderImageLoaded"
+                           Height="10"
+                           Margin="5 0 10 0"
+                           Source="{Binding ElementName=image_sunCoreTextureHeader, Path=DataContext.ImageSrc}" />
+                    <Label Style="{StaticResource ResourceKey=engineLabelStyle_Size3}"
+                           Content="Core Texture"
+                           HorizontalAlignment="Left"/>
+                </DockPanel>
+
+                <StackPanel x:Name="stackPanel_SunCoreTextureContent" Orientation="Vertical" Style="{StaticResource EngineListBoxStackPanelBackground}">
+
+                    <Border BorderBrush="Gray" BorderThickness="0 1 0 1">
+                        <StackPanel>
+
+                            <!-- Core tex -->
+                            <DockPanel x:Name="dockPanel_SunCoreLoading">
+
+                                <StackPanel Margin="0, 10, 0, 0" Height="24">
+                                    <Border Style="{StaticResource engineBorderNoDefaultPlusHoverColor}"
+                                                BorderThickness="1">
+                                        <DockPanel>
+                                            <Label Style="{StaticResource engineLabelStyle_Size3}"
+                                                           Content="Sun Core"
+                                                           HorizontalAlignment="Left"
+                                                           Margin="0 0 10 0"/>
+                                            <Border BorderBrush="White" BorderThickness="1" VerticalAlignment="Center">
+                                                <TextBlock x:Name="textBlock_SunCoreTexture"
+                                                           Style="{StaticResource engineTextBlockResourceSelectorStyle}"
+                                                           Text="C:\\SunCore\\SunCore.png"
+                                                           TextAlignment="Left"
+                                                           MouseDown="TextBlockSelector_MouseDown"
+                                                           TextTrimming="CharacterEllipsis"/>
+                                            </Border>
+                                        </DockPanel>
+                                    </Border>
+                                </StackPanel>
+
+                            </DockPanel>
+
+                        </StackPanel>
+                    </Border>
+
+                </StackPanel>
+            </StackPanel>
+
+            <!-- Sun shining texture -->
+            <StackPanel x:Name="stackPanel_SunShiningTexture" Orientation="Vertical" Style="{StaticResource EngineListBoxStackPanelBackground}">
+
+                <DockPanel x:Name="stackPanel_SunShiningTextureHeader" MouseDown="SubHeader_MouseDown" Height="25">
+                    <Image x:Name="image_sunShiningTextureHeader"
+                           Loaded="subheaderImageLoaded"
+                           Height="10"
+                           Margin="5 0 10 0"
+                           Source="{Binding ElementName=image_sunShiningTextureHeader, Path=DataContext.ImageSrc}" />
+                    <Label Style="{StaticResource ResourceKey=engineLabelStyle_Size3}"
+                           Content="Shining Texture"
+                           HorizontalAlignment="Left"/>
+                </DockPanel>
+
+                <StackPanel x:Name="stackPanel_SunShiningTextureContent" Orientation="Vertical" Style="{StaticResource EngineListBoxStackPanelBackground}">
+
+                    <Border BorderBrush="Gray" BorderThickness="0 1 0 1">
+                        <StackPanel>
+
+                            <!-- Shining texture -->
+                            <DockPanel x:Name="dockPanel_SunShiningTextureLoading">
+
+                                <StackPanel Margin="0, 10, 0, 0" Height="24">
+                                    <Border Style="{StaticResource engineBorderNoDefaultPlusHoverColor}"
+                                                BorderThickness="1">
+                                        <DockPanel>
+                                            <Label Style="{StaticResource engineLabelStyle_Size2}"
+                                                           Content="Sun Shining"
+                                                           HorizontalAlignment="Left"
+                                                           Margin="0 0 10 0"/>
+                                            <Border BorderBrush="White" BorderThickness="1" VerticalAlignment="Center">
+                                                <TextBlock x:Name="textBlock_SunShiningTexture"
+                                                               Style="{StaticResource engineTextBlockResourceSelectorStyle}"
+                                                               Text="C:\\ShiningTexture\\ShiningTexture.png"
+                                                               TextAlignment="Left"
+                                                               MouseDown="TextBlockSelector_MouseDown"
+                                                               TextTrimming="CharacterEllipsis"/>
+                                            </Border>
+                                        </DockPanel>
+                                    </Border>
+                                </StackPanel>
+
+                            </DockPanel>
+
+                        </StackPanel>
+                    </Border>
+
+                </StackPanel>
+            </StackPanel>
+
+        </StackPanel>
+    </DataTemplate>
+    
+    <!-- Empty template -->
+    <DataTemplate x:Key="emptyProperty">
+        
     </DataTemplate>
 
 </ResourceDictionary>

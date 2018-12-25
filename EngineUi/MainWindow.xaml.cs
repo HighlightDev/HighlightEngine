@@ -62,7 +62,10 @@ namespace EngineUi
         {
             (sender as PropertyWindow).PropertyTemplateType = new WaterPlanesPropertyModel();
         }
-      
+        private void property_Loaded5(object sender, RoutedEventArgs e)
+        {
+            (sender as PropertyWindow).PropertyTemplateType = new SunMeshPropertyModel();
+        }
     }
 }
 

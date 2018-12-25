@@ -54,4 +54,6 @@ C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\WpfControlL
 C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\WpfControlLibrary1\bin\Debug\sv\Xceed.Wpf.AvalonDock.resources.dll
 C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\WpfControlLibrary1\bin\Debug\zh-Hans\Xceed.Wpf.AvalonDock.resources.dll
 C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\WpfControlLibrary1\obj\Debug\WpfEngineControlsLibrary.csproj.CopyComplete
+C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\WpfControlLibrary1\obj\Debug\EngineToolbar_Right.g.cs
+C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\WpfControlLibrary1\obj\Debug\EngineToolbar_Right.baml
 C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\WpfControlLibrary1\obj\Debug\WpfEngineControlsLibrary.csprojAssemblyReference.cache

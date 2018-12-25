@@ -33,7 +33,7 @@
                         BorderBrush="Black">
                     <StackPanel>
 
-                        <DockPanel x:Name="header" Height="29" HorizontalAlignment = "Stretch" Style="{StaticResource EngineDockPanelHeaderStyle}">
+                        <DockPanel x:Name="header" Height="25" HorizontalAlignment = "Stretch" Style="{StaticResource EngineDockPanelHeaderStyle}">
                             <Label x:Name="label_header" 
                                    Style="{StaticResource ResourceKey=engineLabelStyle_header}"
                                    Content="Create New Object"
@@ -65,6 +65,7 @@
                                                 Orientation = "Horizontal"
                                                 Style="{StaticResource EngineListBoxStackPanelBackground}"
                                                 MouseDown="stackpanel_mainContent_MouseDown"
+                                                Height="24"
                                                 Width="250" 
                                                 Margin="0 0 0 0">
 
@@ -75,7 +76,7 @@
                                                Source="{Binding Path = IconMain, Mode = TwoWay}"/>
 
                                                 <Label x:Name="label_main" 
-                                               Style="{StaticResource ResourceKey=engineLabelStyle_Size1}"
+                                               Style="{StaticResource ResourceKey=engineLabelStyle_Size3}"
                                                Content="{Binding Path = LabelMain, Mode = TwoWay}"
                                                HorizontalAlignment="Center"
                                                VerticalAlignment="Center" 

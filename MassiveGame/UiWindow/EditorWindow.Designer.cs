@@ -30,6 +30,7 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(EditorWindow));
             this.engineEntityListBoxHost = new System.Windows.Forms.Integration.ElementHost();
+            this.engineToolbar_Right1 = new WpfControlLibrary1.EngineToolbar_Right();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.GLControl = new OpenTK.GLControl();
@@ -49,7 +50,7 @@
             this.engineEntityListBoxHost.TabIndex = 0;
             this.engineEntityListBoxHost.Text = "elementHost1";
             this.engineEntityListBoxHost.ChildChanged += new System.EventHandler<System.Windows.Forms.Integration.ChildChangedEventArgs>(this.elementHost1_ChildChanged);
-            this.engineEntityListBoxHost.Child = null;
+            this.engineEntityListBoxHost.Child = this.engineToolbar_Right1;
             // 
             // tableLayoutPanel1
             // 
@@ -138,5 +139,6 @@
         private OpenTK.GLControl GLControl;
         private System.Windows.Forms.Integration.ElementHost elementHost1;
         private WpfControlLibrary1.MenuToolbar menuToolbar1;
+        private WpfControlLibrary1.EngineToolbar_Right engineToolbar_Right1;
     }
 }
