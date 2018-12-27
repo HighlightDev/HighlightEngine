@@ -6,10 +6,19 @@ using System.Threading.Tasks;
 
 namespace WpfControlLibrary1.EventHandlerCore
 {
+    public enum InputUiType
+    {
+        TextBlock,
+        Button,
+        Undefined
+    }
+
     public class EventData
     {
         public object Sender { set; get; }
         public EventArgs Args { set; get; }
         public string AdditionalInfo { set; get; } = null;
+
+        public InputUiType SenderInputType { set; get; } = InputUiType.Undefined;
     }
 }

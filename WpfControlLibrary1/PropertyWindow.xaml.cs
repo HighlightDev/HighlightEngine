@@ -55,11 +55,6 @@ namespace WpfControlLibrary1
             headerElement.Visibility = headerElement.Visibility == Visibility.Collapsed ? Visibility.Visible : Visibility.Collapsed;
         }
 
-        private void PropertyContent_Loaded(object sender, RoutedEventArgs e)
-        {
-            //(sender as FrameworkElement).DataContext = PropertyTemplateType;
-        }
-
         private void headerImageLoaded(object sender, RoutedEventArgs e)
         {
             string headerImageSrc = ResourceIO.GetInstance().GetTexturePath() + "editor\\hide.png";

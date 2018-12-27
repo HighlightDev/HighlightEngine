@@ -6,7 +6,7 @@ namespace MassiveGame.Core.SettingsCore
 {
     static public class ProjectFolders
     {
-        private const string BINARY_FOLDER_NAME = "MassiveGame";
+        private const string BINARY_FOLDER_NAME = "bin";
 
         private static string m_rootFolder = String.Empty;
 

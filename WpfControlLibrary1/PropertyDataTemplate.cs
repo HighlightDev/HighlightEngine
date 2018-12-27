@@ -87,8 +87,11 @@ namespace WpfControlLibrary1
 
         private void TextBlockSelector_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            EventsListenerManager.GetInstance().AddEventToQueue(new EventData() { Sender = sender, Args = e });
+            string name = ((sender as FrameworkElement).Name).Replace("textBlock_", "");
+            EventsListenerManager.GetInstance().AddEventToQueue(new EventData() { Sender = sender, Args = e, AdditionalInfo = name, SenderInputType = InputUiType.TextBlock });
         }
+
+        // Predefined behavior
 
         private void subheaderImageLoaded(object sender, RoutedEventArgs e)
         {

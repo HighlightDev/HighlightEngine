@@ -26,7 +26,7 @@ namespace WpfControlLibrary1.ResourceLoader
             if (string.IsNullOrEmpty(m_resourceAbsolutePath))
             {
                 string currentDir = Environment.CurrentDirectory;
-                string pathToRes = currentDir.Substring(0, currentDir.IndexOf("HighlightEngine") + "HighlightEngine".Length) + "\\res\\";
+                string pathToRes = currentDir.Substring(0, currentDir.IndexOf("HighlightEngine") + "HighlightEngine".Length) + "\\MassiveGame\\res\\";
                 m_resourceAbsolutePath = pathToRes;
             }
 

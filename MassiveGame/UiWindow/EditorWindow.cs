@@ -13,12 +13,15 @@ using MassiveGame.Engine;
 using MassiveGame.Core.DebugCore;
 using WpfControlLibrary1.Models.Property;
 using WpfControlLibrary1;
+using WpfControlLibrary1.EventHandlerCore;
+using MassiveGame.Editor.Core.UiEventHandling;
 
 namespace MassiveGame.UI
 {
     public partial class EditorWindow : Form
     {
         private EngineCore m_engineCore = null;
+        private UiEventHandleFactory m_uiEventHandleFactory = null;
         private bool bOpenglControlMousePressed = false;
 
         #region Constructors
@@ -26,12 +29,15 @@ namespace MassiveGame.UI
         private EditorWindow(EngineCore engineCore)
         {
             m_engineCore = engineCore;
-            Application.EnableVisualStyles();
+            //Application.EnableVisualStyles();
             InitializeComponent();
 
             GLControl.MouseEnter += 
                 (sender, e) => { GLControl.Focus(); };
-            m_engineCore.PreConstructor(); 
+            m_engineCore.PreConstructor();
+
+            InitFields();
+            InitEventListener();
         }
 
         public EditorWindow(Int32 width, Int32 height, EngineCore engineCore)
@@ -190,6 +196,9 @@ namespace MassiveGame.UI
 
         private void OnKeyDown(object sender, KeyEventArgs e)
         {
+            if (e.KeyCode == Keys.Escape)
+                Close();
+
             m_engineCore.EngineKeyboardKeyDown(e.KeyCode);
         }
 
@@ -201,6 +210,41 @@ namespace MassiveGame.UI
         private void OnKeyUp(object sender, KeyEventArgs args)
         {
             m_engineCore.EngineKeyboadKeyUp(args.KeyCode);
+        }
+
+        #endregion
+
+        #region Closing events
+
+        private void OnClosing(object sender, FormClosingEventArgs e)
+        {
+            base.OnClosing(e);
+            m_engineCore.CleanEverythingUp();
+            Log.AddToFileStreamLog(String.Format("\nTime elapsed : {0}", DateTime.Now - EngineStatics.ElapsedTime));
+        }
+
+        #endregion
+
+
+        // Editor's UI event receivers
+
+        private void InitEventListener()
+        {
+            EventsListenerManager.GetInstance().NewEventAddedToQueue += new Action(ProcessUiNewEvent);
+        }
+
+        private void InitFields()
+        {
+            m_uiEventHandleFactory = new UiEventHandleFactory();
+        }
+
+        private void ProcessUiNewEvent()
+        {
+            EventData data = EventsListenerManager.GetInstance().DequeueElement();
+            if (data != null)
+            {
+                m_uiEventHandleFactory.DoProcessEvent(data);
+            }
         }
 
         private void elementHost1_ChildChanged(object sender, System.Windows.Forms.Integration.ChildChangedEventArgs e)
@@ -230,19 +274,6 @@ namespace MassiveGame.UI
                 }
             }
         }
-
-        #endregion
-
-        #region Closing events
-
-        private void OnClosing(object sender, FormClosingEventArgs e)
-        {
-            base.OnClosing(e);
-            m_engineCore.CleanEverythingUp();
-            Log.AddToFileStreamLog(String.Format("\nTime elapsed : {0}", DateTime.Now - EngineStatics.ElapsedTime));
-        }
-
-        #endregion
 
     }
 }

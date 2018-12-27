@@ -13,30 +13,42 @@
                     Width="250" >
 
             <StackPanel x:Name="staticMesh" MouseDown="EntryStackPanel_MouseDown" Height="20">
-                <Label x:Name="label_staticMesh"
+                <Border x:Name="border_1"
+                        Style="{StaticResource engineBorderDefaultPlusHoverColor}"
+                        BorderThickness ="1">
+                    <Label x:Name="label_staticMesh"
                        Style="{StaticResource ResourceKey=engineLabelStyle_Size3}"
                        Content="Static Mesh"
                        HorizontalAlignment="Center"
                        VerticalAlignment="Top" 
                        Margin="0, 0, 0, 0"/>
+                </Border>
             </StackPanel>
 
             <StackPanel x:Name="skeletalMesh" MouseDown="EntryStackPanel_MouseDown" Height="20">
-                <Label x:Name="label_skeletalMesh"
+                <Border x:Name="border_2"
+                        Style="{StaticResource engineBorderDefaultPlusHoverColor}"
+                        BorderThickness ="1">
+                    <Label x:Name="label_skeletalMesh"
                        Style="{StaticResource ResourceKey=engineLabelStyle_Size3}"
                        Content="Skeletal Mesh"
                        HorizontalAlignment="Center"
                        VerticalAlignment="Top" 
                        Margin="0, 0, 0, 0"/>
+                </Border>
             </StackPanel>
 
             <StackPanel x:Name="movableMesh" MouseDown="EntryStackPanel_MouseDown" Height="20">
-                <Label x:Name="label_movableMesh"
+                <Border x:Name="border_3"
+                        Style="{StaticResource engineBorderDefaultPlusHoverColor}"
+                        BorderThickness ="1">
+                    <Label x:Name="label_movableMesh"
                        Style="{StaticResource ResourceKey=engineLabelStyle_Size3}"
                        Content="Movable Mesh"
                        HorizontalAlignment="Center"
                        VerticalAlignment="Top" 
                        Margin="0, 0, 0, 0"/>
+                </Border>
             </StackPanel>
 
         </StackPanel>
@@ -76,30 +88,42 @@
                     Orientation="Vertical" Style="{StaticResource EngineListBoxStackPanelBackground}"
                     Width="250">
             <StackPanel x:Name="direcionalLight" MouseDown="EntryStackPanel_MouseDown" Height="25">
-                <Label x:Name="label_directionalLight"
+                <Border x:Name="border_1"
+                        Style="{StaticResource engineBorderDefaultPlusHoverColor}"
+                        BorderThickness ="1">
+                    <Label x:Name="label_directionalLight"
                        Style="{StaticResource ResourceKey=engineLabelStyle_Size3}"
                        Content="Directional Light"
                        HorizontalAlignment="Center"
                        VerticalAlignment="Top" 
                        Margin="0, 0, 0, 0"/>
+                </Border>
             </StackPanel>
 
             <StackPanel x:Name="pointLight" MouseDown="EntryStackPanel_MouseDown" Height="25">
-                <Label x:Name="label_pointLight"
+                <Border x:Name="border_2"
+                        Style="{StaticResource engineBorderDefaultPlusHoverColor}"
+                        BorderThickness ="1">
+                    <Label x:Name="label_pointLight"
                        Style="{StaticResource ResourceKey=engineLabelStyle_Size3}"
                        Content="Point Light"
                        HorizontalAlignment="Center"
                        VerticalAlignment="Top" 
                        Margin="0, 0, 0, 0"/>
+                    </Border>
             </StackPanel>
 
             <StackPanel x:Name="spotLight" MouseDown="EntryStackPanel_MouseDown" Height="25">
-                <Label x:Name="label_spotLight"
-                       Style="{StaticResource ResourceKey=engineLabelStyle_Size3}"
+                <Border x:Name="border_3"
+                        Style="{StaticResource engineBorderDefaultPlusHoverColor}"
+                        BorderThickness ="1">
+                    <Label x:Name="label_spotLight"
+                    Style="{StaticResource ResourceKey=engineLabelStyle_Size3}"
                        Content="Spot Light"
                        HorizontalAlignment="Center"
                        VerticalAlignment="Top" 
                        Margin="0, 0, 0, 0"/>
+                    </Border>
             </StackPanel>
         </StackPanel>
     </DataTemplate>

@@ -14,7 +14,7 @@
 
             <StackPanel x:Name="stackPanel_Transformation" Orientation="Vertical" Style="{StaticResource EngineListBoxStackPanelBackground}">
 
-                <DockPanel x:Name="stackPanel_TransformationHeader" MouseDown="SubHeader_MouseDown" Height="24">
+                <DockPanel x:Name="stackPanel_TransformationHeader" MouseDown="SubHeader_MouseDown" Height="25">
                     <Image x:Name="image_transformationHeader"
                                            Height="10"
                                            Margin="5 0 10 0"
@@ -620,7 +620,7 @@
 
             <StackPanel x:Name="stackPanel_Transformation" Orientation="Vertical" Style="{StaticResource EngineListBoxStackPanelBackground}">
 
-                <DockPanel x:Name="stackPanel_TransformationHeader" MouseDown="SubHeader_MouseDown" Height="24">
+                <DockPanel x:Name="stackPanel_TransformationHeader" MouseDown="SubHeader_MouseDown" Height="25">
                     <Image x:Name="image_transformationHeader"
                                            Height="10"
                                            Margin="5 0 10 0"
@@ -964,7 +964,7 @@
 
             <StackPanel x:Name="stackPanel_Transformation" Orientation="Vertical" Style="{StaticResource EngineListBoxStackPanelBackground}">
 
-                <DockPanel x:Name="stackPanel_TransformationHeader" MouseDown="SubHeader_MouseDown" Height="24">
+                <DockPanel x:Name="stackPanel_TransformationHeader" MouseDown="SubHeader_MouseDown" Height="25">
                     <Image x:Name="image_transformationHeader"
                                            Height="10"
                                            Margin="5 0 10 0"
@@ -1199,7 +1199,7 @@
 
             <StackPanel x:Name="stackPanel_Transformation" Orientation="Vertical" Style="{StaticResource EngineListBoxStackPanelBackground}">
 
-                <DockPanel x:Name="stackPanel_TransformationHeader" MouseDown="SubHeader_MouseDown" Height="24">
+                <DockPanel x:Name="stackPanel_TransformationHeader" MouseDown="SubHeader_MouseDown" Height="25">
                     <Image x:Name="image_transformationHeader"
                                            Height="10"
                                            Margin="5 0 10 0"

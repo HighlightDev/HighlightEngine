@@ -45,7 +45,7 @@ namespace WpfControlLibrary1.EventHandlerCore
                 result = m_eventsQueue.Dequeue();
                 if (result != null)
                 {
-                    EventWasRemovedFromQueue.Invoke();
+                    EventWasRemovedFromQueue?.Invoke();
                 }
 
                 return result;

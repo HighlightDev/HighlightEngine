@@ -199,7 +199,7 @@ namespace MassiveGame.Core.RenderCore.ComputeShaders
             unsafe { GL.GetProgramInfoLog(computeShaderProgram, Int32.MaxValue, null, info); }
             if (info.Length != 0)
             {
-                Console.WriteLine("Unsolved mistakes at : computeshader " + "\n" + info);
+                Console.WriteLine("Unsolved mistakes at : compute shader " + "\n" + info);
             }
         }
 

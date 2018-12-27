@@ -41,4 +41,3 @@ C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\DLL\ShaderP
 C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\DLL\ShaderPattern\ShaderPattern\bin\Debug\OpenTK.pdb
 C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\DLL\ShaderPattern\ShaderPattern\bin\Debug\OpenTK.xml
 C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\DLL\ShaderPattern\ShaderPattern\bin\Debug\OpenTK.dll.config
-C:\Users\dzinovev\Desktop\Универчик\project\HighlightEngine\DLL\ShaderPattern\ShaderPattern\obj\Debug\ShaderPattern.csprojAssemblyReference.cache

@@ -15,7 +15,9 @@ namespace MassiveGame.Engine
     {
         public EngineCore() { }
 
+#if DEBUG
         private IOManager m_ioManager;
+#endif
 
         private bool bPostConstructor = true;
 
@@ -27,7 +29,9 @@ namespace MassiveGame.Engine
 
         public void ProcessIO()
         {
+#if DEBUG
             m_ioManager.ProcessConsoleCommands();
+#endif
         }
 
         private void SetProjectionMatrixToDefault()
@@ -77,7 +81,9 @@ namespace MassiveGame.Engine
                 // Every frame capture time of draw call execution
                 m_renderTickTime.Start();
                 m_gameThread = new GameThread(100, 1);
+#if DEBUG
                 m_ioManager = new IOManager();
+#endif
 
             }
         }
@@ -85,14 +91,16 @@ namespace MassiveGame.Engine
         private void RenderQueue()
         {
             PostConstructor();
+#if DEBUG
             ProcessIO();
+#endif
             m_renderTickTime.Restart();
             m_renderThread.ThreadExecution(EngineStatics.globalSettings.ActualScreenRezolution, bPostConstructor);
             EngineStatics.RENDER_TIME = (float)m_renderTickTime.Elapsed.TotalSeconds;
             bPostConstructor = false;
         }
 
-        #region Cleaning
+#region Cleaning
 
         public void CleanEverythingUp()
         {
@@ -111,7 +119,7 @@ namespace MassiveGame.Engine
             if (GameWorld.GetWorldInstance().GetLevel().Skybox != null) GameWorld.GetWorldInstance().GetLevel().Skybox.cleanUp();
         }
 
-        #endregion
+#endregion
 
         private void AdjustMouseCursor(ref Point actualScreenLocation)
         {
@@ -121,7 +129,7 @@ namespace MassiveGame.Engine
                 EngineStatics.ScreenLocation = actualScreenLocation;
         }
 
-        #region Methods accessors for window
+#region Methods accessors for window
 
         public void EngineWindowResized(Point windowLocation, Size newGLWindowSize, Size newWindowSize)
         {

@@ -46,7 +46,7 @@
                            MouseDown="Image_MouseDown"/>
                         </DockPanel>
 
-                        <StackPanel x:Name="CustomItemsControl" Loaded="PropertyContent_Loaded">
+                        <StackPanel x:Name="CustomItemsControl">
 
                             <ContentControl Content="{Binding ElementName=CustomItemsControl, Path=DataContext.TemplateType}" ContentTemplateSelector="{StaticResource propertySelector}"/>
 
