@@ -219,8 +219,11 @@
     <Compile Include="Core\MathCore\MathTypes\FSphere.cs" />
     <Compile Include="Core\MathCore\MathTypes\OBB.cs" />
     <Compile Include="Core\DebugCore\UiPanel\UiFrameMaster.cs" />
+    <Compile Include="Editor\Core\Entities\PreviewTemplateParameters\ITemplateParameters.cs" />
     <Compile Include="Editor\Core\Entities\PreviewEntity.cs" />
     <Compile Include="Editor\Core\Entities\PreviewEntityShader.cs" />
+    <Compile Include="Editor\Core\Entities\PreviewEntityTemplate.cs" />
+    <Compile Include="Editor\Core\Entities\PreviewTemplateParameters\StaticMeshTemplateParameters.cs" />
     <Compile Include="Editor\Core\Entities\WorldGrid.cs" />
     <Compile Include="Editor\Core\Entities\WorldGridShader.cs" />
     <Compile Include="Editor\Core\UiContent\EngineObjectEntryView.cs" />

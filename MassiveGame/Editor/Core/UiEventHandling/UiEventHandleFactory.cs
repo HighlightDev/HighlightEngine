@@ -1,4 +1,6 @@
-﻿using System;
+﻿using MassiveGame.Editor.Core.Entities;
+using MassiveGame.Editor.Core.Entities.PreviewTemplateParameters;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,6 +15,8 @@ namespace MassiveGame.Editor.Core.UiEventHandling
     {
         UiLogic m_uiLogic = null;
 
+        private PreviewEntityTemplate m_previewTemplate = null;
+
         public UiEventHandleFactory()
         {
             m_uiLogic = new UiLogic();
@@ -25,9 +29,22 @@ namespace MassiveGame.Editor.Core.UiEventHandling
             if (actionType != null)
             {
                 ActionType resultActionType;
+                UiLogicResult logicResult = null;
                 switch (actionType)
                 {
                     case "LoadMesh":
+                        {
+                            resultActionType = ActionType.Load;
+                            logicResult = m_uiLogic.DoLogic(new EntityActionParameters(resultActionType));
+                            if (logicResult != null)
+                            {
+                                if (m_previewTemplate == null)
+                                    m_previewTemplate = new PreviewEntityTemplate(new StaticMeshTemplateParameters()); // For now it's static entity
+
+                                (m_previewTemplate.TemplateParameters as StaticMeshTemplateParameters).SetMesh(logicResult.CallbackResult);
+                            }
+                            break;
+                        }
                     case "LoadAlbedo":
                     case "LoadNormalMap":
                     case "LoadSpecularMap":
@@ -35,7 +52,6 @@ namespace MassiveGame.Editor.Core.UiEventHandling
                         resultActionType = ActionType.Load; break;
                 }
 
-                UiLogicResult logicResult = m_uiLogic.DoLogic(new EntityActionParameters(resultActionType));
                 if (logicResult != null)
                 {
                     SendBackToUiElement(logicResult, eventData);
